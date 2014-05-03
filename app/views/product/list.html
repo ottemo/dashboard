@@ -1,0 +1,7 @@
+<ul ng-class="{'product-list': activeView == 'list', 'product-tile': activeView == 'tile'}">
+    <li ng-repeat="product in products">
+        <a ng-click="selectProduct($index)" class="product-list-icon" title=""><img src="images/product/list-icon.png" width="32" height="32" alt=""></a>
+        <span class="product-list-text">{{product.name}}</span>
+    </li>
+</ul>
+

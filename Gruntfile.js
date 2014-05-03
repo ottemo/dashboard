@@ -27,17 +27,17 @@ module.exports = function (grunt) {
 
     // Watches files for changes and runs tasks based on the changed files
     watch: {
-      js: {
-        files: ['<%= yeoman.app %>/scripts/{,*/}*.js'],
-        tasks: ['newer:jshint:all'],
-        options: {
-          livereload: true
-        }
-      },
-      jsTest: {
-        files: ['test/spec/{,*/}*.js'],
-        tasks: ['newer:jshint:test', 'karma']
-      },
+//      js: {
+//        files: ['<%= yeoman.app %>/scripts/{,*/}*.js'],
+//        tasks: ['newer:jshint:all'],
+//        options: {
+//          livereload: true
+//        }
+//      },
+//      jsTest: {
+//        files: ['test/spec/{,*/}*.js'],
+//        tasks: ['newer:jshint:test', 'karma']
+//      },
       compass: {
         files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
         tasks: ['compass:server', 'autoprefixer']
@@ -91,23 +91,23 @@ module.exports = function (grunt) {
       }
     },
 
-    // Make sure code styles are up to par and there are no obvious mistakes
-    jshint: {
-      options: {
-        jshintrc: '.jshintrc',
-        reporter: require('jshint-stylish')
-      },
-      all: [
-        'Gruntfile.js',
-        '<%= yeoman.app %>/scripts/{,*/}*.js'
-      ],
-      test: {
-        options: {
-          jshintrc: 'test/.jshintrc'
-        },
-        src: ['test/spec/{,*/}*.js']
-      }
-    },
+//    // Make sure code styles are up to par and there are no obvious mistakes
+//    jshint: {
+//      options: {
+//        jshintrc: '.jshintrc',
+//        reporter: require('jshint-stylish')
+//      },
+//      all: [
+//        'Gruntfile.js',
+//        '<%= yeoman.app %>/scripts/{,*/}*.js'
+//      ],
+//      test: {
+//        options: {
+//          jshintrc: 'test/.jshintrc'
+//        },
+//        src: ['test/spec/{,*/}*.js']
+//      }
+//    },
 
     // Empties folders to start fresh
     clean: {
@@ -342,12 +342,12 @@ module.exports = function (grunt) {
     // },
 
     // Test settings
-    karma: {
-      unit: {
-        configFile: 'karma.conf.js',
-        singleRun: true
-      }
-    },
+//    karma: {
+//      unit: {
+//        configFile: 'karma.conf.js',
+//        singleRun: true
+//      }
+//    },
 
     // Settings for grunt-bower-requirejs
     bower: {
@@ -444,8 +444,8 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('default', [
-    'newer:jshint',
-    'test',
+    //'newer:jshint',
+    //'test',
     'build'
   ]);
 };

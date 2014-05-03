@@ -1,0 +1,10 @@
+<div class="TabHeaderContainer" id="browseTabHeader">
+    <ul class="tabs-header-list">
+        <li ng-repeat="tab in tabs" ng-class="{active: $index == activeTab, help: $last}">
+            <a ng-href="#{{tab.url}}" title="">
+                <img ng-src="{{tab.img}}" width="32" height="32" alt="" />
+                <span>{{tab.name}}</span>
+            </a>
+        </li>
+    </ul>
+</div>

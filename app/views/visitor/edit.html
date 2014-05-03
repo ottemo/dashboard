@@ -1,0 +1,46 @@
+    <div class="CustomerControlBar" id="editControlBar">
+        <ul>
+            <li><span>user type:</span></li>
+            <li class="use-type-select">
+                <a href="#" title="">{{visitor.role}}<span></span></a>
+            </li>
+        </ul>
+    </div>
+    <div class="CustomerProfileImage" id="editImage">
+        <img ng-src="{{visitor.image}}" width="150" height="150" alt="" />
+    </div>
+    <div class="CustomerProfileMainInfoWrapper">
+        <div class="CustomerProfileMainInfo">
+            <span>Name</span>
+            <label for="user-first-name">first name</label>
+            <input type="text" name="first_name" id="user-first-name" ng-model="visitor.first_name">
+            <label for="user-last-name">last name</label>
+            <input type="text" name="last_name" id="user-last-name" ng-model="visitor.last_name"/>
+            <label for="user-role">role (optional)</label>
+            <input type="text" name="role" id="user-role" ng-model="visitor.role"/>
+        </div>
+    </div>
+    <div class="CustomerSecondaryInfo" id="editBody">
+        <h3>Contact Information</h3>
+        <label>phone</label>
+        <input class="middle-size" name="phone" ng-model="visitor.phone"/>
+        <label>email</label>
+        <input class="middle-size" name="email" ng-model="visitor.email"/>
+        <h3>Shipping Address</h3>
+        <label>address line 1</label>
+        <input class="biggest-size" name="shipping_address1" ng-model="visitor.shipping_address1"/>
+        <label>address line 2 (optional)</label>
+        <input class="biggest-size" name="shipping_address2" ng-model="visitor.shipping_address2"/>
+        <div class="CustomerSecondaryInfoInputsBottom first">
+            <label>city</label>
+            <input class="small-size" name="city" ng-model="visitor.city"/>
+        </div>
+        <select-state></select-state>
+        <div class="CustomerSecondaryInfoInputsBottom">
+            <label>Zip code</label>
+            <input class="small-size" name="zip_code" ng-model="visitor.zip_code"/>
+        </div>
+        <button ng-click="cancel()" ng-disabled="isCancelDisabled()">Cancel</button>
+        <button ng:click="save()" ng-disabled="isSaveDisabled()">Save</button>
+        <div class="clear"></div>
+</div>

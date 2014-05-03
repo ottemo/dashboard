@@ -1,0 +1,19 @@
+<dashboard-header></dashboard-header>
+<div class="MainWrapper">
+    <div class="LeftContentContainer" id="browseContainer">
+        <browse-tab-header active-tab="products"></browse-tab-header>
+        <browse-controller></browse-controller>
+        <browse-body>
+            <div ng-controller="ProductListCtrl">
+                <product-list></product-list>
+            </div>
+        </browse-body>
+    </div>
+    <edit-container>
+        <form name="productForm" ng-controller="ProductFormEditCtrl">
+            <product-edit></product-edit>
+        </form>
+    </edit-container>
+    <div class="clear"></div>
+</div>
+<dashboard-footer></dashboard-footer>
