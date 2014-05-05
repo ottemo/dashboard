@@ -5,7 +5,7 @@ define(['angular'],
     /*                                                                          */
     /*                                                                          */
     /*                                                                          */
-    /*                            Visitor form edit ctrl                                  */
+    /*                            Visitor form edit ctrl                        */
     /*                                                                          */
     /*                                                                          */
     /*                                                                          */

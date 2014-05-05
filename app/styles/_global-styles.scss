@@ -1,0 +1,27 @@
+body{
+  padding: 0;
+  margin: 0;
+  font-size: 12px;
+  font-family: Arial;
+  overflow: hidden;
+}
+img {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+.clear {
+  height: 0;
+  width: 100%;
+  clear: both;
+}
+ul {
+  margin: 0px;
+  padding: 0;
+  list-style: none;
+}
+.MainWrapper {
+  background: $CustomerSecondaryInfoBack;
+}
+
+

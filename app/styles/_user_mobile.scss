@@ -1,0 +1,70 @@
+/*---------------------------- Styles for User Right Panel -----------------------------------------------------------*/
+
+@media only screen and (min-width : 320px) and (max-width : 640px) {
+  .RightContentContainer {
+    width: 100%;
+  }
+  .LeftContentContainer {
+    width: 100%;
+    display: none;
+  }
+}
+@media only screen and (min-width : 320px) and (max-width : 568px) {
+
+  .CustomerProfileImage {
+    width: 100%;
+  }
+  .CustomerProfileMainInfoWrapper {
+    width: 100%;
+    .CustomerProfileMainInfo {
+      padding: 15px 10% 15px 10%;
+      input {
+        width: 100%;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        margin: 0 0 3px 0;
+      }
+      label {
+        margin-left: 0;
+      }
+    }
+  }
+  .CustomerSecondaryInfo {
+    padding: 15px 10% 30px 10%;
+    input {
+      width: 100% !important;
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      margin: 0 0 3px 0;
+    }
+    label {
+      margin-left: 0;
+    }
+    .CustomerSecondaryInfoInputsBottom {
+      float: none;
+      margin-right: 0;
+      &.first {
+        margin-left: 0;
+      }
+      input {
+        width: 100% !important;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        margin: 0 0 3px 0;
+      }
+      select {
+          width: 100% !important;
+          -moz-box-sizing: border-box;
+          -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+          margin: 0 0 3px 0;
+      }
+    }
+  }
+
+/*---------------------------- End Styles for User Right Panel -------------------------------------------------------*/
+
+}
