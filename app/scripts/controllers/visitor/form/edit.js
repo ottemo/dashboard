@@ -17,7 +17,7 @@ define(['angular'],
         '$rootScope',
         'CustomerService',
         function ($scope, $rootScope, CustomerService) {
-          //$scope.visitor = CustomerService.query({'id': id});
+          var c = CustomerService.query({'id': 1});
           var getEmptyVisitorObject;
           getEmptyVisitorObject = function () {
             return {
@@ -55,6 +55,7 @@ define(['angular'],
            *
            */
           $scope.$on('visitor.selected.after', function (event, value) {
+            $scope.master = angular.copy(value);
             $scope.visitor = value;
             $scope.isEdit = true;
           });
@@ -63,17 +64,41 @@ define(['angular'],
            *
            */
           $scope.$on('add.new.entity', function () {
+            $scope.master = angular.copy(getEmptyVisitorObject());
+
             $scope.isEdit = true;
             $scope.visitor = getEmptyVisitorObject();
           });
 
+          /**
+           *
+           * @returns {boolean}
+           */
           $scope.isCancelDisabled = function() {
-            return true;
+            return angular.equals($scope.master, $scope.visitor);
           };
 
+          /**
+           *
+           * @returns {boolean}
+           */
           $scope.isSaveDisabled = function() {
-            return true;
+            return $scope.visitorForm.$invalid || angular.equals($scope.master, $scope.visitor);
           };
+
+          /**
+           *
+           */
+          $scope.cancel = function() {
+            $scope.visitor = angular.copy($scope.master);
+          };
+
+          /**
+           *
+           */
+          $scope.save = function() {
+            CustomerService.save($scope.visitor);
+          }
         }
       ]);
   });

@@ -3,7 +3,7 @@ define(['angular'], function (angular) {
 
   angular.module('dashboardApp.services.CustomerService', ['ngResource'])
 	.service('CustomerService', ['$resource', function CustomerService($resource) {
-      var customerServiceUrl = 'http://localhost:3000/api/v1/visitors/';
+      var customerServiceUrl = 'http://localhost:3000/visitor/';
       return $resource(customerServiceUrl, {}, {
           'getAll':  { method: 'GET',    url: customerServiceUrl},
           'save':    { method: 'POST',   url: customerServiceUrl},

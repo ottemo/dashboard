@@ -36,7 +36,7 @@ define(['angular'],
             return -1;
           };
 
-          //$scope.visitors = CustomerService.getAll()
+          var temp = CustomerService.getAll();
           $scope.visitors = [
             {
               'id'               : 0,

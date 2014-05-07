@@ -53,8 +53,7 @@ define(['angular',
     .config(function ($routeProvider) {
       $routeProvider
         .when('/', {
-          templateUrl: 'views/index.html',
-          controller : 'IndexCtrl'
+          redirectTo: '/dashboard/visitor'
         })
         .when('/dashboard/visitor', {
           templateUrl: 'views/visitor.html'
