@@ -17,22 +17,25 @@ define(['angular'],
         '$rootScope',
         'CustomerService',
         function ($scope, $rootScope, CustomerService) {
-          var c = CustomerService.query({'id': 1});
-          var getEmptyVisitorObject;
+          var addVisitorEvent,
+              updateVisitorEvent,
+              getEmptyVisitorObject;
           getEmptyVisitorObject = function () {
             return {
-              'id'               : '',
-              'first_name'       : '',
-              'last_name'        : '',
-              'role'             : '',
-              'phone'            : '',
-              'email'            : '',
-              'shipping_address1': '',
-              'shipping_address2': '',
-              'city'             : '',
-              'state'            : '',
-              'zip_code'         : '',
-              'image'            : 'images/yeoman.png'
+             // 'id'     : '',
+              'fname'  : '',
+              'lname'  : '',
+              'role'   : '',
+              'email'  : '',
+              'address': {
+                'street_line1': '',
+                'street_line2': '',
+                'city'        : '',
+                'state'       : '',
+                'zip_code'    : '',
+                'phone'       : ''
+              },
+              'image'  : 'images/yeoman.png'
             };
           };
           $scope.visitor = getEmptyVisitorObject();
@@ -40,14 +43,14 @@ define(['angular'],
           /**
            *
            */
-          $scope.addVisitorEvent = function () {
+          addVisitorEvent = function () {
             $rootScope.$broadcast('save.visitor.event', $scope.visitor);
           };
 
           /**
            *
            */
-          $scope.updateVisitorEvent = function () {
+          updateVisitorEvent = function () {
             $rootScope.$broadcast('update.visitor.event', $scope.visitor);
           };
 
@@ -74,7 +77,7 @@ define(['angular'],
            *
            * @returns {boolean}
            */
-          $scope.isCancelDisabled = function() {
+          $scope.isCancelDisabled = function () {
             return angular.equals($scope.master, $scope.visitor);
           };
 
@@ -82,14 +85,14 @@ define(['angular'],
            *
            * @returns {boolean}
            */
-          $scope.isSaveDisabled = function() {
+          $scope.isSaveDisabled = function () {
             return $scope.visitorForm.$invalid || angular.equals($scope.master, $scope.visitor);
           };
 
           /**
            *
            */
-          $scope.cancel = function() {
+          $scope.cancel = function () {
             $scope.visitor = angular.copy($scope.master);
           };
 
@@ -97,7 +100,49 @@ define(['angular'],
            *
            */
           $scope.save = function() {
-            CustomerService.save($scope.visitor);
+            var id,
+                jsonResponse,
+                handleSuccessSave,
+                handleSuccessUpdate,
+                handleError;
+            /**
+             *
+             * @param httpResponse {object}
+             */
+            handleError = function(httpResponse) {
+              console.log('something went wrong ' + httpResponse.status)
+            };
+
+            /**
+             *
+             * @param value {object}
+             * @param responseHeaders {function}
+             */
+            handleSuccessSave = function(value, responseHeaders) {
+              var visitor = CustomerService.query({'id': jsonResponse.id},
+                function success(value, responseHeader) {
+                  $scope.visitor = visitor;
+                  $scope.master = angular.copy($scope.visitor);
+                  addVisitorEvent();
+                }
+              );
+            };
+
+            /**
+             *
+             * @param value {object}
+             * @param responseHeaders {function}
+             */
+            handleSuccessUpdate = function(value, responseHeaders) {
+              updateVisitorEvent();
+            };
+            id = $scope.visitor.id || $scope.visitor._id;
+
+            if (!id) {
+              jsonResponse = CustomerService.save($scope.visitor, handleSuccessSave, handleError);
+            } else {
+              CustomerService.update($scope.visitor, handleSuccessUpdate, handleError);
+            }
           }
         }
       ]);

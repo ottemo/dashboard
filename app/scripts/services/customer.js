@@ -5,11 +5,11 @@ define(['angular'], function (angular) {
 	.service('CustomerService', ['$resource', function CustomerService($resource) {
       var customerServiceUrl = 'http://localhost:3000/visitor/';
       return $resource(customerServiceUrl, {}, {
-          'getAll':  { method: 'GET',    url: customerServiceUrl},
+          'getAll':  { method: 'GET',    url: customerServiceUrl, isArray:true},
           'save':    { method: 'POST',   url: customerServiceUrl},
-          'update':  { method: 'PUT',    params: { key: "@id" }, url: customerServiceUrl + "(:id)" },
-          'query':   { method: 'GET',    params: { key: "@id" }, url: customerServiceUrl + "(:id)" },
-          'remove':  { method: 'DELETE', params: { key: "@id" }, url: customerServiceUrl + "(:id)" }
+          'update':  { method: 'PUT',    params: { id: '@_id' }, url: customerServiceUrl + ':id' },
+          'query':   { method: 'GET',    params: { id: '@id' }, url: customerServiceUrl + ':id' },
+          'remove':  { method: 'DELETE', params: { id: '@id' }, url: customerServiceUrl + ':id' }
       });
 	}]);
 });

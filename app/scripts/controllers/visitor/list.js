@@ -36,41 +36,50 @@ define(['angular'],
             return -1;
           };
 
-          var temp = CustomerService.getAll();
-          $scope.visitors = [
-            {
-              'id'               : 0,
-              'first_name'       : 'Chuck',
-              'last_name'        : 'Norris',
-              'role'             : 'admin',
-              'phone'            : '123-123-1234',
-              'email'            : 'chuck@norris.com',
-              'shipping_address1': '9303, City 13',
-              'shipping_address2': '',
-              'city'             : 'Hill Valley',
-              'state'            : 'CA',
-              'zip_code'         : '12345',
-              'image'            : 'images/customer/Chuck-norris-002.jpg'
-            },
-            {
-              'id'               : 1,
-              'first_name'       : 'Jane',
-              'last_name'        : 'Doe',
-              'role'             : 'customer',
-              'phone'            : '555-555-5555',
-              'email'            : 'you@yourmailaddress.com',
-              'shipping_address1': '1234, Anywhere',
-              'shipping_address2': '',
-              'city'             : 'Hill Valley',
-              'state'            : 'NY',
-              'zip_code'         : '99999',
-              'image'            : 'images/customer/hayworth.jpg'
+          $scope.visitors = CustomerService.getAll({}, function() {
+            if (!$scope.visitors.length) {
+              $scope.visitors = $scope.visitors.concat([
+                {
+                  //'id'     : '',
+                  'fname'  : 'Chuck',
+                  'lname'  : 'Norris',
+                  'role'   : 'admin',
+                  'email'  : 'chuck@norris.com',
+                  'address': {
+                    'street_line1': '9303, City 13',
+                    'street_line2': '',
+                    'city'        : 'Hill Valley',
+                    'state'       : 'CA',
+                    'zip_code'    : '12345',
+                    'phone'       : '123-123-1234'
+                  },
+                  'image'  : 'images/customer/Chuck-norris-002.jpg'
+                },
+                {
+                  //'id'     : '',
+                  'fname'  : 'Jane',
+                  'lname'  : 'Doe',
+                  'role'   : 'visitor',
+                  'email'  : 'you@yourmailaddress.com',
+                  'address': {
+                    'street_line1': '1234, Anywhere',
+                    'street_line2': '',
+                    'city'        : 'New York',
+                    'state'       : 'NY',
+                    'zip_code'    : '12345',
+                    'phone'       : '555-555-5555'
+                  },
+                  'image'  : 'images/customer/hayworth.jpg'
+                }
+              ]);
             }
-          ];
+          });
+          console.log('scope.visitors ' + $scope.visitors);
+          console.log('hi');
 
           $scope.selectedVisitor = {};
 
-          $scope.selectVisitor = function (index) {
+          $scope.selectVisitor = function(index) {
             $scope.selectedVisitor = $scope.visitors[index];
             $rootScope.$broadcast('visitor.selected.after', $scope.selectedVisitor);
           };
@@ -79,7 +88,7 @@ define(['angular'],
             $scope.visitors.push(value);
           });
 
-          $scope.$on('update.visitor.event', function (event, value) {
+          $scope.$on('update.visitor.event', function(event, value) {
             var index;
             index = getVisitorIndexById(value.id);
             if (index != -1) {

@@ -5,11 +5,11 @@ define(['angular'], function (angular) {
     .service('ProductService', ['$resource', function ProductService($resource) {
       var productServiceUrl = 'http://localhost:3000/api/v1/products/';
       return $resource(productServiceUrl, {}, {
-        'getAll':  { method: 'GET',    url: productServiceUrl},
+        'getAll':  { method: 'GET',    url: productServiceUrl, isArray: true},
         'save':    { method: 'POST',   url: productServiceUrl},
-        'update':  { method: 'PUT',    params: { key: "@id" }, url: productServiceUrl + "(:id)" },
-        'query':   { method: 'GET',    params: { key: "@id" }, url: productServiceUrl + "(:id)" },
-        'remove':  { method: 'DELETE', params: { key: "@id" }, url: productServiceUrl + "(:id)" }
+        'update':  { method: 'PUT',    params: { id: "@id" }, url: productServiceUrl + ":id" },
+        'query':   { method: 'GET',    params: { id: "@id" }, url: productServiceUrl + ":id" },
+        'remove':  { method: 'DELETE', params: { id: "@id" }, url: productServiceUrl + ":id" }
       });
     }]);
 });
