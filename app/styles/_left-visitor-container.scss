@@ -110,28 +110,34 @@
       padding-top: 8px;
       &:first-child {
         padding-top: 0px;
-        .visitor-list-avatar {
+        .visitors-list-avatar {
           top: 0px;
         }
       }
-      .visitor-list-avatar {
+      .visitors-list-avatar {
         display: inline-block;
         position: absolute;
         top: 8px;
         left: 0;
         width: 32px;
         height: 32px;
+        overflow: hidden;
         img {
-          display: block;
+          max-width: 100%;
+          height: auto;
+          display: inline-block;
           vertical-align: top;
         }
+        .visitors-title-avatar {
+          display: none;
+        }
       }
-      .visitor-list-text {
+      .visitors-list-text {
         display: block;
         padding: 0 10px 0px 42px;
         height: 32px;
-        background: $LeftCustomerListBack;
-        color: $LeftCustomerListText;
+        background: $LeftVisitorListBack;
+        color: $LeftVisitorListText;
         width: 100%;
         -moz-box-sizing: border-box;
         -webkit-box-sizing: border-box;
@@ -139,6 +145,44 @@
         font-size: 14px;
         line-height: 32px;
         overflow: hidden;
+      }
+    }
+    &.tile {
+      li {
+        background: $LeftVisitorTileBack;
+        float: left;
+        width: 32%;
+        margin-left: 2%;
+        margin-bottom: 8px;
+        padding-top: 0;
+        &.visitor-first {
+          margin-left: 0%;
+        }
+        .visitors-list-avatar {
+          position: relative;
+          width: 100%;
+          height: 96px;
+          text-align: center;
+          line-height: 96px;
+          top: -1px;
+          display: block;
+          img {
+            vertical-align: middle;
+          }
+        }
+        .visitors-list-text {
+          padding: 0 5px;
+          text-align: center;
+          background: none;
+          line-height: 15px;
+          font-size: 12px;
+        }
+        &:hover {
+          background: $LeftVisitorTileBackHover;
+          .visitors-list-text {
+            color: $LeftVisitorTileBackHoverText;
+          }
+        }
       }
     }
   }

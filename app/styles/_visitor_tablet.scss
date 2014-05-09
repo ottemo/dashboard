@@ -1,7 +1,7 @@
 /*---------------------------- Styles for User Right Panel for Portrait View -----------------------------------------*/
 
 @media only screen and (min-device-width : 600px) and (max-device-width : 1000px) and (orientation : portrait) {
-  .CustomerSecondaryInfo {
+  .VisitorSecondaryInfo {
     input {
       width: 305px !important;
       -moz-box-sizing: border-box;
@@ -16,7 +16,7 @@
       box-sizing: border-box;
       margin: 0 0 3px 0;
     }
-    .CustomerSecondaryInfoInputsBottom {
+    .VisitorSecondaryInfoInputsBottom {
       float: none;
       margin-right: 0;
       &.first {
@@ -31,7 +31,7 @@
 /*---------------------------- Styles for User Right Panel for Landscape View ----------------------------------------*/
 
 @media only screen and (min-device-width : 600px) and (max-device-width : 1000px) and (orientation : landscape) {
-  .CustomerSecondaryInfo {
+  .VisitorSecondaryInfo {
     input {
       width: 305px !important;
       -moz-box-sizing: border-box;
@@ -46,7 +46,7 @@
       box-sizing: border-box;
       margin: 0 0 3px 0;
     }
-    .CustomerSecondaryInfoInputsBottom {
+    .VisitorSecondaryInfoInputsBottom {
       float: none;
       margin-right: 0;
       &.first {

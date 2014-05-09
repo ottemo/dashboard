@@ -14,18 +14,18 @@
     }
   }
 }
-.CustomerSettingWrapper {
+.VisitorSettingWrapper {
   width: 65%;
   float: right;
 }
-.CustomerSettingContainerGlobal {
-  background: $customerSetingBack;
+.VisitorSettingContainerGlobal {
+  background: $visitorSetingBack;
   min-width: 185px;
   width: 185px;
   height: 32px;
   position: relative;
   float: right;
-  .customer-name {
+  .visitor-name {
     position: relative;
     float: left;
     color: $mainLinksColor;
@@ -38,7 +38,7 @@
       left: 0;
     }
   }
-  .CustomerSettingContainer {
+  .VisitorSettingContainer {
     float: right;
     background: $globalHeaderBack;
     a {

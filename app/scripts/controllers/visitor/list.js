@@ -28,7 +28,7 @@ define(['angular'],
           getVisitorIndexById = function (id) {
             var i = $scope.visitors.length;
             while (i--) {
-              if ($scope.visitors[i].id == id) {
+              if ($scope.visitors[i].id == id || $scope.visitors[i]._id == id) {
                 return i;
               }
             }
@@ -74,8 +74,6 @@ define(['angular'],
               ]);
             }
           });
-          console.log('scope.visitors ' + $scope.visitors);
-          console.log('hi');
 
           $scope.selectedVisitor = {};
 

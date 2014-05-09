@@ -141,6 +141,7 @@ define(['angular'],
             if (!id) {
               jsonResponse = CustomerService.save($scope.visitor, handleSuccessSave, handleError);
             } else {
+              $scope.visitor.id = id;
               CustomerService.update($scope.visitor, handleSuccessUpdate, handleError);
             }
           }

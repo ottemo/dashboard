@@ -1,31 +1,40 @@
 /* Header Section Variables */
 $globalHeaderBack:                   #000000;
-$customerSetingBack:                 #242424;
+$visitorSetingBack:                 #242424;
 $mainLinksColor:                     #ffffff;
 
 /* LeftContainer Section Variables */
 $tabLinkColor:                       #ffffff;
 $browseControllerBack:               #00a3f5;
 $browseBody:                         #95d2ff;
-$LeftCustomerListBack:               #ffffff;
-$LeftCustomerListText:               #242424;
+$LeftVisitorListBack:               #ffffff;
+$LeftVisitorListText:               #242424;
+$LeftVisitorTileBack:               #ffffff;
+$LeftVisitorTileBackHover:          #19b2ff;
+$LeftVisitorTileBackHoverText:      #ffffff;
 
 /* RightContainer Section Variable */
-$CustomerControlBarBack:             #157ac1;
-$CustomerControlLink:                #ffffff;
-$CustomerControlBarActive:           #136096;
-$CustomerProfileImageBack:           #00a3f5;
-$CustomerProfileMainInfoWrapperBack: #19b2ff;
-$CustomerProfileMainInfoSpanColor:   #ffffff;
-$CustomerProfileMainInfoLabelColor:  #ffffff;
-$CustomerProfileMainInfoInputBorder: #1f292f;
-$CustomerSecondaryInfoBack:          #eeeeee;
-$CustomerSecondaryInfoFontColor:     #000000;
-$CustomerSecondaryInfoLabelColor:    #000000;
-$CustomerSecondaryInfoInputBorder:   #000000;
+$VisitorControlBarBack:             #157ac1;
+$VisitorControlLink:                #ffffff;
+$VisitorControlBarActive:           #136096;
+$VisitorProfileImageBack:           #00a3f5;
+$VisitorProfileMainInfoWrapperBack: #19b2ff;
+$VisitorProfileMainInfoSpanColor:   #ffffff;
+$VisitorProfileMainInfoLabelColor:  #ffffff;
+$VisitorProfileMainInfoInputBorder: #1f292f;
+$VisitorSecondaryInfoBack:          #eeeeee;
+$VisitorSecondaryInfoFontColor:     #000000;
+$VisitorSecondaryInfoLabelColor:    #000000;
+$VisitorSecondaryInfoInputBorder:   #000000;
 
 /* Footer Section Variable */
 $MainFooterBack:                     #000000;
+
+
+/* ProductRightTopContainer Section Varible */
+
+$ProductSecondaryImagesHoverBack:   #95d2ff;
+$ProductTopActionsBack:             #00a3f5;
 
 @mixin linear-gradient($fromColor, $toColor) {
   background-color: $toColor; /* Fallback Color */

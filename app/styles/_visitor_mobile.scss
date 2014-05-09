@@ -11,12 +11,12 @@
 }
 @media only screen and (min-width : 320px) and (max-width : 568px) {
 
-  .CustomerProfileImage {
+  .VisitorProfileImage {
     width: 100%;
   }
-  .CustomerProfileMainInfoWrapper {
+  .VisitorProfileMainInfoWrapper {
     width: 100%;
-    .CustomerProfileMainInfo {
+    .VisitorProfileMainInfo {
       padding: 15px 10% 15px 10%;
       input {
         width: 100%;
@@ -30,7 +30,7 @@
       }
     }
   }
-  .CustomerSecondaryInfo {
+  .VisitorSecondaryInfo {
     padding: 15px 10% 30px 10%;
     input {
       width: 100% !important;
@@ -42,7 +42,7 @@
     label {
       margin-left: 0;
     }
-    .CustomerSecondaryInfoInputsBottom {
+    .VisitorSecondaryInfoInputsBottom {
       float: none;
       margin-right: 0;
       &.first {

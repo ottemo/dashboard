@@ -3,7 +3,6 @@ body{
   margin: 0;
   font-size: 12px;
   font-family: Arial;
-  overflow: hidden;
 }
 img {
   border: 0;
@@ -21,7 +20,7 @@ ul {
   list-style: none;
 }
 .MainWrapper {
-  background: $CustomerSecondaryInfoBack;
+  background: $VisitorSecondaryInfoBack;
 }
 
 
