@@ -3,7 +3,7 @@ define(['angular'], function (angular) {
 
   angular.module('dashboardApp.services.ProductService', ['ngResource'])
     .service('ProductService', ['$resource', function ProductService($resource) {
-      var productServiceUrl = 'http://localhost:3000/api/v1/products/';
+      var productServiceUrl = 'http://localhost:3000/product/';
       return $resource(productServiceUrl, {}, {
         'getAll':  { method: 'GET',    url: productServiceUrl, isArray: true},
         'save':    { method: 'POST',   url: productServiceUrl},

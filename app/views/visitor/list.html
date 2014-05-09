@@ -1,6 +1,6 @@
 <ul ng-class="{'visitor-list': activeView == 'list', 'visitor-list tile': activeView == 'tile'}">
     <li ng-repeat="visitor in visitors" ng-class="{'visitor-first': $index % 3 == 0 || $index == 0}">
-        <a ng-click="selectVisitor($index)" class="visitor-list-avatar" title=""><img src="images/visitor/icon-visitor-new.jpg" width="32" height="32" alt=""></a>
-        <span class="visitor-list-text">{{visitor.fname}} {{visitor.lname}}</span>
+        <a ng-click="selectVisitor($index)" class="visitors-list-avatar" title=""><img src="images/visitor/icon-visitor-new.jpg" alt=""></a>
+        <span class="visitors-list-text">{{visitor.fname}} {{visitor.lname}}</span>
     </li>
 </ul>
