@@ -53,7 +53,7 @@ define(['angular'],
                     'zip_code'    : '12345',
                     'phone'       : '123-123-1234'
                   },
-                  'image'  : 'images/customer/Chuck-norris-002.jpg'
+                  'image'  : 'images/visitor/Chuck-norris-002.jpg'
                 },
                 {
                   //'id'     : '',
@@ -69,7 +69,7 @@ define(['angular'],
                     'zip_code'    : '12345',
                     'phone'       : '555-555-5555'
                   },
-                  'image'  : 'images/customer/hayworth.jpg'
+                  'image'  : 'images/visitor/hayworth.jpg'
                 }
               ]);
             }
@@ -90,7 +90,7 @@ define(['angular'],
             var index;
             index = getVisitorIndexById(value.id);
             if (index != -1) {
-              $scope.visitors[i] = value;
+              $scope.visitors[index] = value;
             }
           });
 

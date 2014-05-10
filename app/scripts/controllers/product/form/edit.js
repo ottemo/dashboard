@@ -5,7 +5,7 @@ define(['angular'],
     /*                                                                          */
     /*                                                                          */
     /*                                                                          */
-    /*                            Product form edit ctrl                                  */
+    /*                            Product form edit ctrl                        */
     /*                                                                          */
     /*                                                                          */
     /*                                                                          */
@@ -17,21 +17,26 @@ define(['angular'],
         '$rootScope',
         'ProductService',
         function ($scope, $rootScope, ProductService) {
-          //$scope.product = ProductService.query({'id': id});
           var getEmptyProductObject, addProductEvent, updateProductEvent;
           getEmptyProductObject = function () {
             return {
               'name'             : '',
               //'id'               : '',
-              'is_visible'       : '',
+              'is_visible'       : true,
               'sku'              : '',
               'mpn'              : '',
               'tags'             : [],
               'categories'       : [],
               'short_description': '',
               'description'      : '',
-              'media_gallery'    : [],
-              'img'              : ''
+              'media_gallery'    : [
+                'images/product/products-secondary-images.jpg',
+                'images/product/products-secondary-images.jpg',
+                'images/product/products-secondary-images.jpg',
+                'images/product/products-secondary-images.jpg',
+                'images/product/products-secondary-images.jpg'
+              ],
+              'image'              : 'images/product/product-main-image.jpg'
             };
           };
           $scope.product = getEmptyProductObject();
@@ -86,6 +91,13 @@ define(['angular'],
             return $scope.productForm.$invalid || angular.equals($scope.master, $scope.product);
           };
 
+          /**
+           *
+           */
+          $scope.cancel = function () {
+            $scope.visitor = angular.copy($scope.master);
+          };
+
           $scope.save = function() {
             var id,
                 jsonResponse,
@@ -121,6 +133,7 @@ define(['angular'],
              * @param responseHeaders {function}
              */
             handleSuccessUpdate = function(value, responseHeaders) {
+              $scope.master = angular.copy($scope.product);
               updateProductEvent();
             };
             id = $scope.product.id || $scope.product._id;
@@ -132,7 +145,6 @@ define(['angular'],
               ProductService.update($scope.product, handleSuccessUpdate, handleError);
             }
           }
-
         }
       ]);
   });

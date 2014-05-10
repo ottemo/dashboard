@@ -20,7 +20,6 @@ define(['angular',
   'directives/edit/container',
   'directives/browse/body',
   'directives/browse/tab/header'
-
 ]/*deps*/, function (angular, IndexCtrl) {
   'use strict';
 
@@ -44,7 +43,7 @@ define(['angular',
     'dashboardApp.directives.ProductEdit',
     'dashboardApp.directives.VisitorList',
     'dashboardApp.directives.ProductList',
-    /*angJSDeps*/
+/*angJSDeps*/
     'ngCookies',
     'ngResource',
     'ngSanitize',

@@ -134,6 +134,7 @@ define(['angular'],
              * @param responseHeaders {function}
              */
             handleSuccessUpdate = function(value, responseHeaders) {
+              $scope.master = angular.copy($scope.visitor);
               updateVisitorEvent();
             };
             id = $scope.visitor.id || $scope.visitor._id;
