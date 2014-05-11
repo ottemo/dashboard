@@ -17,7 +17,8 @@ define(['angular'],
         '$rootScope',
         'ProductService',
         function ($scope, $rootScope, ProductService) {
-          var getEmptyProductObject, addProductEvent, updateProductEvent;
+          var getEmptyProductObject, addProductEvent, updateProductEvent,
+          h = 'http://localhost:9000/';
           getEmptyProductObject = function () {
             return {
               'name'             : '',
@@ -30,13 +31,13 @@ define(['angular'],
               'short_description': '',
               'description'      : '',
               'media_gallery'    : [
-                'images/product/products-secondary-images.jpg',
-                'images/product/products-secondary-images.jpg',
-                'images/product/products-secondary-images.jpg',
-                'images/product/products-secondary-images.jpg',
-                'images/product/products-secondary-images.jpg'
+                h + 'images/product/products-secondary-images.jpg',
+                h + 'images/product/products-secondary-images.jpg',
+                h + 'images/product/products-secondary-images.jpg',
+                h + 'images/product/products-secondary-images.jpg',
+                h + 'images/product/products-secondary-images.jpg'
               ],
-              'image'              : 'images/product/product-main-image.jpg'
+              'image'              : h + 'images/product/product-main-image.jpg'
             };
           };
           $scope.product = getEmptyProductObject();
