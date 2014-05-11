@@ -7,7 +7,7 @@ define(['angular'], function (angular) {
       return $resource(customerServiceUrl, {}, {
           'getAll':  { method: 'GET',    url: customerServiceUrl, isArray:true},
           'save':    { method: 'POST',   url: customerServiceUrl},
-          'update':  { method: 'PUT',    params: { id: '@_id' }, url: customerServiceUrl + ':id' },
+          'update':  { method: 'PUT',    params: { id: '@id' }, url: customerServiceUrl + ':id' },
           'query':   { method: 'GET',    params: { id: '@id' }, url: customerServiceUrl + ':id' },
           'remove':  { method: 'DELETE', params: { id: '@id' }, url: customerServiceUrl + ':id' }
       });
