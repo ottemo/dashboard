@@ -1,4 +1,4 @@
-// Generated on 2014-04-24 using generator-angular-require 0.1.13
+// Generated on 2014-05-16 using generator-angular-require 0.1.13
 'use strict';
 
 // # Globbing
@@ -27,20 +27,20 @@ module.exports = function (grunt) {
 
     // Watches files for changes and runs tasks based on the changed files
     watch: {
-//      js: {
-//        files: ['<%= yeoman.app %>/scripts/{,*/}*.js'],
-//        tasks: ['newer:jshint:all'],
-//        options: {
-//          livereload: true
-//        }
-//      },
-//      jsTest: {
-//        files: ['test/spec/{,*/}*.js'],
-//        tasks: ['newer:jshint:test', 'karma']
-//      },
-      compass: {
-        files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
-        tasks: ['compass:server', 'autoprefixer']
+      js: {
+        files: ['<%= yeoman.app %>/scripts/{,*/}*.js'],
+        tasks: ['newer:jshint:all'],
+        options: {
+          livereload: true
+        }
+      },
+      jsTest: {
+        files: ['test/spec/{,*/}*.js'],
+        tasks: ['newer:jshint:test', 'karma']
+      },
+      styles: {
+        files: ['<%= yeoman.app %>/styles/{,*/}*.css'],
+        tasks: ['newer:copy:styles', 'autoprefixer']
       },
       gruntfile: {
         files: ['Gruntfile.js']
@@ -91,23 +91,23 @@ module.exports = function (grunt) {
       }
     },
 
-//    // Make sure code styles are up to par and there are no obvious mistakes
-//    jshint: {
-//      options: {
-//        jshintrc: '.jshintrc',
-//        reporter: require('jshint-stylish')
-//      },
-//      all: [
-//        'Gruntfile.js',
-//        '<%= yeoman.app %>/scripts/{,*/}*.js'
-//      ],
-//      test: {
-//        options: {
-//          jshintrc: 'test/.jshintrc'
-//        },
-//        src: ['test/spec/{,*/}*.js']
-//      }
-//    },
+    // Make sure code styles are up to par and there are no obvious mistakes
+    jshint: {
+      options: {
+        jshintrc: '.jshintrc',
+        reporter: require('jshint-stylish')
+      },
+      all: [
+        'Gruntfile.js',
+        '<%= yeoman.app %>/scripts/{,*/}*.js'
+      ],
+      test: {
+        options: {
+          jshintrc: 'test/.jshintrc'
+        },
+        src: ['test/spec/{,*/}*.js']
+      }
+    },
 
     // Empties folders to start fresh
     clean: {
@@ -148,34 +148,6 @@ module.exports = function (grunt) {
     },
 
 
-    // Compiles Sass to CSS and generates necessary files if requested
-    compass: {
-      options: {
-        sassDir: '<%= yeoman.app %>/styles',
-        cssDir: '.tmp/styles',
-        generatedImagesDir: '.tmp/images/generated',
-        imagesDir: '<%= yeoman.app %>/images',
-        javascriptsDir: '<%= yeoman.app %>/scripts',
-        fontsDir: '<%= yeoman.app %>/styles/fonts',
-        importPath: '<%= yeoman.app %>/bower_components',
-        httpImagesPath: '/images',
-        httpGeneratedImagesPath: '/images/generated',
-        httpFontsPath: '/styles/fonts',
-        relativeAssets: false,
-        assetCacheBuster: false,
-        raw: 'Sass::Script::Number.precision = 10\n'
-      },
-      dist: {
-        options: {
-          generatedImagesDir: '<%= yeoman.dist %>/images/generated'
-        }
-      },
-      server: {
-        options: {
-          debugInfo: true
-        }
-      }
-    },
 
     // Renames files for browser caching purposes
     rev: {
@@ -303,13 +275,13 @@ module.exports = function (grunt) {
     // Run some tasks in parallel to speed up the build process
     concurrent: {
       server: [
-        'compass:server'
+        'copy:styles'
       ],
       test: [
-        'compass'
+        'copy:styles'
       ],
       dist: [
-        'compass:dist',
+        'copy:styles',
         'imagemin',
         'svgmin'
       ]
@@ -342,12 +314,12 @@ module.exports = function (grunt) {
     // },
 
     // Test settings
-//    karma: {
-//      unit: {
-//        configFile: 'karma.conf.js',
-//        singleRun: true
-//      }
-//    },
+    karma: {
+      unit: {
+        configFile: 'karma.conf.js',
+        singleRun: true
+      }
+    },
 
     // Settings for grunt-bower-requirejs
     bower: {
@@ -376,7 +348,7 @@ module.exports = function (grunt) {
     requirejs: {
       dist: {
         options: {
-          dir: '<%= yeoman.dist %>/scripts/',
+          dir: "<%= yeoman.dist %>/scripts/",
           modules: [{
             name: 'main'
           }],
@@ -444,8 +416,8 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('default', [
-    //'newer:jshint',
-    //'test',
+    'newer:jshint',
+    'test',
     'build'
   ]);
 };
