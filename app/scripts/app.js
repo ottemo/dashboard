@@ -1,19 +1,67 @@
 /*jshint unused: vars */
-define(['angular', 'controllers/main']/*deps*/, function (angular, MainCtrl)/*invoke*/ {
+define(['angular',
+  'services/customer',
+  'services/product',
+  'controllers/index',
+  'controllers/visitor/form/edit',
+  'controllers/product/form/edit',
+  'controllers/visitor/list',
+  'controllers/product/list',
+  'directives/header',
+  'directives/footer',
+  'directives/visitor/list',
+  'directives/visitor/edit',
+  'directives/product/list',
+  'directives/product/edit',
+  'directives/form/select/state',
+  'directives/browse/body',
+  'directives/browse/controller',
+  'directives/browse/container',
+  'directives/edit/container',
+  'directives/browse/body',
+  'directives/browse/tab/header'
+]/*deps*/, function (angular, IndexCtrl) {
   'use strict';
 
-  return angular.module('dashboardApp', ['dashboardApp.controllers.MainCtrl',
+  return angular.module('dashboardApp', [
+    'dashboardApp.services.CustomerService',
+    'dashboardApp.services.ProductService',
+    'dashboardApp.controllers.IndexCtrl',
+    'dashboardApp.controllers.VisitorListCtrl',
+    'dashboardApp.controllers.VisitorFormEditCtrl',
+    'dashboardApp.controllers.ProductListCtrl',
+    'dashboardApp.controllers.ProductFormEditCtrl',
+    'dashboardApp.directives.DashboardHeader',
+    'dashboardApp.directives.DashboardFooter',
+    'dashboardApp.directives.FormSelectState',
+    'dashboardApp.directives.BrowseTabHeader',
+    'dashboardApp.directives.BrowseBody',
+    'dashboardApp.directives.BrowseContainer',
+    'dashboardApp.directives.BrowseController',
+    'dashboardApp.directives.EditContainer',
+    'dashboardApp.directives.VisitorEdit',
+    'dashboardApp.directives.ProductEdit',
+    'dashboardApp.directives.VisitorList',
+    'dashboardApp.directives.ProductList',
 /*angJSDeps*/
-  'ngCookies',
-  'ngResource',
-  'ngSanitize',
-  'ngRoute'
-])
+    'ngCookies',
+    'ngResource',
+    'ngSanitize',
+    'ngRoute'
+  ])
     .config(function ($routeProvider) {
       $routeProvider
         .when('/', {
-          templateUrl: 'views/main.html',
-          controller: 'MainCtrl'
+          redirectTo: '/dashboard/visitor'
+        })
+        .when('/dashboard/visitor', {
+          templateUrl: 'views/visitor.html'
+        })
+        .when('/dashboard/product', {
+          templateUrl: 'views/product.html'
+        })
+        .when('/dashboard/help', {
+          templateUrl: 'views/help.html'
         })
         .otherwise({
           redirectTo: '/'

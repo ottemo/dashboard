@@ -1,0 +1,19 @@
+<dashboard-header></dashboard-header>
+<div class="MainWrapper">
+    <div class="LeftContentContainer" id="browseContainer">
+        <browse-tab-header active-tab="visitors"></browse-tab-header>
+        <browse-controller></browse-controller>
+        <browse-body>
+            <div ng-controller="VisitorListCtrl">
+                <visitor-list></visitor-list>
+            </div>
+        </browse-body>
+    </div>
+    <edit-container>
+        <form name="visitorForm" ng-controller="VisitorFormEditCtrl">
+            <visitor-edit></visitor-edit>
+        </form>
+    </edit-container>
+    <div class="clear"></div>
+</div>
+<dashboard-footer></dashboard-footer>

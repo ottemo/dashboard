@@ -1,0 +1,7 @@
+<ul ng-class="{'product-list': activeView == 'list', 'product-list tile': activeView == 'tile'}">
+    <li ng-repeat="product in products" ng-class="{'product-first': $index % 3 == 0 || $index == 0}">
+        <a ng-click="selectProduct($index)" class="products-list-avatar" title=""><img ng-src="{{product.image}}" alt=""></a>
+        <span ng-click="selectProduct($index)" class="products-list-text">{{product.name}}</span>
+    </li>
+</ul>
+
