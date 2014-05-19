@@ -1,0 +1,109 @@
+.LoginWrapper {
+  width: 540px;
+  margin: 0 auto;
+  padding-top: 15px;
+  .LoginLogo {
+    width: 540px;
+    height: 110px;
+    background: image-url('login/desktop-logo.jpg') top left no-repeat;
+    margin-bottom: 30px;
+  }
+  .LoginContainer {
+    background: $LoginContainerBack;
+    padding: 64px;
+    width: 540px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    label {
+      display: block;
+      font-size: 24px;
+      color: $LoginContainerFontColor;
+      margin-bottom: 20px;
+      font-weight: normal;
+    }
+    input {
+      width: 100%;
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      padding: 0 5px;
+      height: 64px;
+      border: 0px;
+      margin-bottom: 40px;
+      font-size: 24px;
+    }
+    button {
+      height: 64px;
+      line-height: 64px;
+      width: 190px;
+      font-size: 36px;
+      line-height: 36px;
+      text-align: center;
+      background: $LoginContainerButtonBack;
+      color: $LoginContainerButtonFontColor;
+      border: 0;
+      float: right;
+      cursor: pointer;
+    }
+  }
+}
+@media only screen and (min-width : 600px) and (max-width : 1000px)  {
+  .LoginWrapper {
+    width: 410px;
+    .LoginLogo {
+      width: 350px;
+      height: 70px;
+      background: image-url('login/tablet-logo.jpg') top left no-repeat;
+      margin: 0 auto;
+      margin-bottom: 30px;
+      input {
+        height: 48px;
+      }
+      button {
+        height: 48px;
+        line-height: 48px;
+      }
+    }
+    .LoginContainer {
+      padding: 36px;
+      width: 410px;
+    }
+  }
+}
+@media only screen and (min-width : 320px) and (max-width : 600px)  {
+  .LoginWrapper {
+    width: 240px;
+    font-size: 18px;
+    .LoginLogo {
+      width: 220px;
+      height: 45px;
+      margin: 0 auto;
+      margin-bottom: 40px;
+      background: image-url('login/mobile-logo.jpg') top left no-repeat;
+    }
+    .LoginContainer {
+      padding: 30px;
+      width: 240px;
+      label {
+        font-size: 18px;
+        width: 158px;
+        margin: 0 auto;
+        text-align: center;
+        display: block;
+        margin-bottom: 10px;
+      }
+      input {
+        height: 36px;
+        margin-bottom: 20px;
+      }
+      button {
+        width: 100%;
+        height: 40px;
+        line-height: 40px;
+        font-size: 24px;
+      }
+    }
+  }
+
+}

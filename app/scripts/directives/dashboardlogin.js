@@ -16,7 +16,7 @@ define(['angular'], function (angular) {
                             $location.path('/dashboard/visitor');
                         }
                     $scope.login = function (){
-                        if($scope.credentials.username === 'admin' && $scope.credentials.password === 'qwer1234') {
+                        if($scope.credentials.username === 'admin' && $scope.credentials.password === 'admin') {
 
                             $cookieStore.put('logUsername', $scope.credentials.username );
                             $location.path('/dashboard/visitor');

@@ -31,10 +31,19 @@ $VisitorSecondaryInfoInputBorder:   #000000;
 $MainFooterBack:                     #000000;
 
 
-/* ProductRightTopContainer Section Varible */
+/* ProductRightTopContainer Section Variable */
 
 $ProductSecondaryImagesHoverBack:   #95d2ff;
 $ProductTopActionsBack:             #00a3f5;
+
+/* Login Page Variable */
+
+$LoginContainerBack:                #157ac1;
+$LoginContainerFontColor:           #ffffff;
+$LoginContainerButtonBack:          #95d2ff;
+$LoginContainerButtonFontColor:     #1a598f;
+
+
 
 @mixin linear-gradient($fromColor, $toColor) {
   background-color: $toColor; /* Fallback Color */
