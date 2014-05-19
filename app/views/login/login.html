@@ -1,0 +1,13 @@
+<div class="LoginWrapper">
+    <div class="LoginLogo"></div>
+    <div class="LoginContainer">
+        <form ng-submit="login()">
+            <label for="username">User Name or Email Address</label>
+            <input id="username" type="text" name="username" ng-model="credentials.username" required />
+            <label for="password">Password</label>
+            <input id="password" type="password" name="password" ng-model="credentials.password" required />
+            <button type="submit">Sign In</button>
+        </form>
+        <div class="clear"></div>
+    </div>
+</div>

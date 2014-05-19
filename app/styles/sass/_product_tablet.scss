@@ -1,0 +1,52 @@
+@media only screen and (min-device-width : 320px) and (max-device-width : 1000px) and (orientation : portrait) {
+  .ProductSecondaryInfo {
+    width: 80%;
+    padding: 15px 10%;
+    li {
+      float: none;
+      &:first-child {
+        margin-right: 0;
+      }
+    }
+    input {
+      width: 100% !important;
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      margin: 0 0 3px 0;
+    }
+    textarea {
+      width: 100% !important;
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      margin: 0 0 3px 0;
+    }
+  }
+}
+@media only screen and (min-device-width : 320px) and (max-device-width : 1000px) and (orientation : landscape) {
+  .ProductSecondaryInfo {
+    width: 80%;
+    padding: 15px 10%;
+    li {
+      float: none;
+      &:first-child {
+        margin-right: 0;
+      }
+    }
+    input {
+      width: 100% !important;
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      margin: 0 0 3px 0;
+    }
+    textarea {
+      width: 100% !important;
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      margin: 0 0 3px 0;
+    }
+  }
+}

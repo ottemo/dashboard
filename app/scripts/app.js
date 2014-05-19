@@ -19,8 +19,8 @@ define(['angular',
   'directives/browse/container',
   'directives/edit/container',
   'directives/browse/body',
-  'directives/browse/tab/header'
-]/*deps*/, function (angular, IndexCtrl) {
+  'directives/browse/tab/header',
+ 'directives/dashboardlogin']/*deps*/, function (angular, IndexCtrl) {
   'use strict';
 
   return angular.module('dashboardApp', [
@@ -43,6 +43,7 @@ define(['angular',
     'dashboardApp.directives.ProductEdit',
     'dashboardApp.directives.VisitorList',
     'dashboardApp.directives.ProductList',
+    'dashboardApp.directives.DashboardLogin',
 /*angJSDeps*/
     'ngCookies',
     'ngResource',
@@ -50,21 +51,24 @@ define(['angular',
     'ngRoute'
   ])
     .config(function ($routeProvider) {
-      $routeProvider
-        .when('/', {
-          redirectTo: '/dashboard/visitor'
-        })
-        .when('/dashboard/visitor', {
-          templateUrl: 'views/visitor.html'
-        })
-        .when('/dashboard/product', {
-          templateUrl: 'views/product.html'
-        })
-        .when('/dashboard/help', {
-          templateUrl: 'views/help.html'
-        })
-        .otherwise({
-          redirectTo: '/'
-        });
-    });
+          $routeProvider
+              .when('/', {
+                  redirectTo: '/dashboard/login'
+              })
+              .when('/dashboard/visitor', {
+                  templateUrl: 'views/visitor.html'
+              })
+              .when('/dashboard/product', {
+                  templateUrl: 'views/product.html'
+              })
+              .when('/dashboard/login', {
+                  templateUrl: 'views/login.html'
+              })
+              .when('/dashboard/help', {
+                  templateUrl: 'views/help.html'
+              })
+              .otherwise({
+                  redirectTo: '/'
+              });
+      });
 });

@@ -4,11 +4,12 @@
                                   height="32" alt=""></a>
     </div>
     <div class="VisitorSettingWrapper">
+        <a href="#" ng-click="loggedOut()">Log Out</a>
         <div class="VisitorSettingContainerGlobal">
             <a href="#" title="" class="visitor-name">
                 <img src="../../images/visitor/avatar.jpg" width="32"
                      height="32" alt=""/>
-                <span>User Name</span>
+                <span>{{logUsername}}</span>
             </a>
 
             <div class="VisitorSettingContainer">
