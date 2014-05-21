@@ -1,47 +1,30 @@
-    <div class="VisitorControlBar" id="editControlBar">
-        <ul>
-            <li><span>visitor type:</span></li>
-            <li class="use-type-select">
-                <a href="#" title="">{{visitor.role}}<span></span></a>
-            </li>
-        </ul>
-    </div>
-    <div class="VisitorProfileImage" id="editImage">
-        <img ng-src="{{visitor.image}}" width="150" height="150" alt="" />
-    </div>
-    <div class="VisitorProfileMainInfoWrapper">
-        <div class="VisitorProfileMainInfo">
-            <span>Name</span>
-            <label for="visitor-first-name">first name</label>
-            <input type="text" name="first_name" id="visitor-first-name" required ng-model="visitor.fname">
-            <label for="visitor-last-name">last name</label>
-            <input type="text" name="last_name" id="visitor-last-name" required ng-model="visitor.lname"/>
-            <label for="visitor-role">role (optional)</label>
-            <input type="text" name="role" id="visitor-role" required ng-model="visitor.role"/>
+<div class="VisitorControlBar" id="editControlBar">
+    <ul>
+        <li><span>visitor type:</span></li>
+        <li class="use-type-select">
+            <a href="#" title="">{{visitor.role}}<span></span></a>
+        </li>
+    </ul>
+</div>
+<div class="VisitorProfileImage" id="editImage">
+    <img ng-src="{{visitor.image}}" width="150" height="150" alt="" />
+</div>
+<div class="VisitorProfileMainInfoWrapper">
+</div>
+<div class="VisitorSecondaryInfo" id="editBody">
+    <div ng-repeat="section in formFields.sections">
+        <h3>{{section.sectionTitle}}</h3>
+        <div class="{{section.sectionClass}}" ng-repeat="formField in section.sectionFields" ng-class="{'second': $index == 1}">
+            <div ng-switch="formField.type">
+                <label for="{{formField.name}}">{{formField.label}}</label>
+                <input class="{{formField.class}}" ng-require="formField.required" id="{{formField.name}}" type="text" name="{{formField.name}}" ng-switch-when="text" ng-model="visitor[formField.name]" />
+                <input class="{{formField.class}}" ng-require="formField.required" id="{{formField.name}}" type="email" name="{{formField.name}}" ng-switch-when="email" ng-model="visitor[formField.name]" />
+                <input class="{{formField.class}}" ng-require="formField.required" id="{{formField.name}}" type="password" name="{{formField.name}}" ng-switch-when="password" ng-model="visitor[formField.name]" />
+            </div>
         </div>
     </div>
-    <div class="VisitorSecondaryInfo" id="editBody">
-        <h3>Contact Information</h3>
-        <label>phone</label>
-        <input class="middle-size" name="phone" ng-model="visitor.address.phone"/>
-        <label>email</label>
-        <input class="middle-size" type="email" name="email" required ng-model="visitor.email"/>
-        <h3>Shipping Address</h3>
-        <label>address line 1</label>
-        <input class="biggest-size" name="shipping_address1" ng-model="visitor.address.street_line1"/>
-        <label>address line 2 (optional)</label>
-        <input class="biggest-size" name="shipping_address2" ng-model="visitor.address.street_line2"/>
-        <div class="VisitorSecondaryInfoInputsBottom first">
-            <label>city</label>
-            <input class="small-size" name="city" ng-model="visitor.address.city"/>
-        </div>
-        <select-state></select-state>
-        <div class="VisitorSecondaryInfoInputsBottom">
-            <label>Zip code</label>
-            <input class="small-size" name="zip_code" ng-model="visitor.address.zip_code"/>
-        </div>
-
-        <div class="clear"></div>
-        <button ng-click="cancel()" ng-disabled="isCancelDisabled()">Cancel</button>
-        <button ng-click="save()" ng-disabled="isSaveDisabled()">Save</button>
+    <select-state></select-state>
+    <div class="clear"></div>
+    <button ng-click="cancel()" ng-disabled="isCancelDisabled()">Cancel</button>
+    <button ng-click="save()" ng-disabled="isSaveDisabled()">Save</button>
 </div>

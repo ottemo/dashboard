@@ -31,6 +31,8 @@
       a {
         padding-right: 14px;
         position: relative;
+        min-width: 10px;
+        height: 32px;
       }
       span {
         position: absolute;
@@ -107,14 +109,14 @@
     height: 25px;
     &.middle-size {
       width: 305px;
-     }
+    }
     &.biggest-size {
       width: 540px;
-     }
+    }
     &.small-size {
-     width: 160px;
-     }
-   }
+      width: 160px;
+    }
+  }
   .VisitorSecondaryInfoInputsBottom {
     float: left;
     margin-right: 19px;
@@ -123,16 +125,23 @@
     }
     input {
       margin-left: 0;
+      .biggest-size {
+        clear: left;
+      }
+    }
+    &.second {
+      float: none;
+      clear: left;
     }
     select {
       border: 1px solid $VisitorSecondaryInfoInputBorder;
       height: 27px;
       width: 170px;
-      }
+    }
     &.first {
       margin-left: 6px;
     }
   }
- }
+}
 
 /* ------------------------------------------ End VisitorTopProfile Styles ----------------------------------------- */
