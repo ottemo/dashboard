@@ -1,0 +1,23 @@
+<dashboard-header></dashboard-header>
+<div class="MainWrapper" ng-controller="DashboardConfigCtrl">
+    <div class="LeftContentContainer" id="browseContainer">
+        <browse-tab-header active-tab="config"></browse-tab-header>
+        <div class="LeftDashBoardConfig">
+            <ul>
+                <li ng-class="{'config-tab-active': activeTab === 'facebook'}" >
+                    <span ng-click="switchTabTo('facebook')">Facebook</span>
+                </li>
+                <li ng-class="{'config-tab-active': activeTab === 'google'}" >
+                    <span ng-click="switchTabTo('google')">Google</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="RightDashBoardConfig">
+        <div class="view-animate-container">
+            <div  ng-include="tabTemplates[activeTab]" class="well slide"></div>
+        </div>
+    </div>
+     <div class="clear"></div>
+</div>
+<dashboard-footer></dashboard-footer>

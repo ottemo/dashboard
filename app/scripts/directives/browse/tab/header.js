@@ -27,11 +27,17 @@ define(['angular'], function (angular) {
               img: 'images/icon-product.png',
               url: '/dashboard/product'
             },
+              {
+                  name: 'config',
+                  img: 'images/icon-product.png',
+                  url: '/dashboard/config'
+              },
             {
               name: 'help',
               img: 'images/icon-help.jpg',
               url: '/dashboard/help'
             }
+
           ]
         },
         restrict: 'E'

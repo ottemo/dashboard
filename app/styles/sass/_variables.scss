@@ -44,6 +44,13 @@ $LoginContainerButtonBack:          #95d2ff;
 $LoginContainerButtonFontColor:     #1a598f;
 
 
+/* Config Section Variables */
+$LeftDashBoardConfigItemBack:       #ffffff;
+$LeftDashBoardConfigItemHoverBack:  #00a3f5;
+$RightDashBoardConfigBack:          #19b2ff;
+$RightDashBoardConfigLabelColor:    #ffffff;
+$RightDashBoardConfigInputBorder:   #1f292f;
+
 
 @mixin linear-gradient($fromColor, $toColor) {
   background-color: $toColor; /* Fallback Color */

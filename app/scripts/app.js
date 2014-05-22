@@ -7,6 +7,7 @@ define(['angular',
   'controllers/product/form/edit',
   'controllers/visitor/list',
   'controllers/product/list',
+  'controllers/config/config',
   'directives/header',
   'directives/footer',
   'directives/visitor/list',
@@ -31,6 +32,7 @@ define(['angular',
     'dashboardApp.controllers.VisitorFormEditCtrl',
     'dashboardApp.controllers.ProductListCtrl',
     'dashboardApp.controllers.ProductFormEditCtrl',
+    'dashboardApp.controllers.DashboardConfigCtrl',
     'dashboardApp.directives.DashboardHeader',
     'dashboardApp.directives.DashboardFooter',
     'dashboardApp.directives.FormSelectState',
@@ -48,7 +50,9 @@ define(['angular',
     'ngCookies',
     'ngResource',
     'ngSanitize',
+    'ngAnimate',
     'ngRoute'
+
   ])
     .config(function ($routeProvider) {
           $routeProvider
@@ -66,6 +70,9 @@ define(['angular',
               })
               .when('/dashboard/help', {
                   templateUrl: 'views/help.html'
+              })
+              .when('/dashboard/config', {
+                  templateUrl: 'views/config.html'
               })
               .otherwise({
                   redirectTo: '/'

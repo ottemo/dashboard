@@ -1,0 +1,25 @@
+<div>
+    <form id="GoogleConfig">
+        <h3>Google Settings</h3>
+        <ul>
+            <li>
+                <label for="ClientID">ClientID</label>
+                <input type="text" name="ClientID" id="ClientID" ng-model="configFormField.GoogleOauthConfig.ClientID" />
+            </li>
+            <li>
+                <label for="ClientSecret">ClientSecret</label>
+                <input type="text" name="ClientSecret" id="ClientSecret" ng-model="configFormField.GoogleOauthConfig.ClientSecret" />
+            </li>
+            <li>
+                <label for="RedirectURL">RedirectURL</label>
+                <input type="text" name="RedirectURL" id="RedirectURL" ng-model="configFormField.GoogleOauthConfig.RedirectURL" />
+            </li>
+            <li>
+                <div ng-repeat="scopes in configFormField.GoogleOauthConfig.Scopes">
+                    <label for="link{{$index + 1}}">link{{$index + 1}}</label>
+                    <input type="text" name="link{{$index + 1}}" id="link{{$index + 1}}" ng-model="scopes.link" />
+                </div>
+            </li>
+        </ul>
+    </form>
+</div>
