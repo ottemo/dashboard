@@ -7,9 +7,7 @@ build:
     - npm-install
     # A step that executes `npm test` command
     - npm-test
-    - wercker/grunt@0.0.6
-    - grunt:
-        tasks: test
+
     # A custom script step, name value is used in the UI
     # and the code value contains the command that get executed
     - script:
