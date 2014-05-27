@@ -10,6 +10,7 @@
   height: 64px;
   background: image-url('adminTab-background.png') top left repeat-x;
   position: relative;
+  z-index: 100;
   .tabs-header-list {
     padding-right: 64px;
     li {

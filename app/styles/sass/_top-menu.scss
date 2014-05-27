@@ -1,0 +1,90 @@
+.browse-tab-header {
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    li {
+      margin: 0;
+      padding: 10px 20px;
+      position: relative;
+      height: 20px;
+      line-height: 20px;
+      background: image-url('menu-back.jpg') top left repeat-x;
+      > div {
+        > div {
+          > div {
+            > ul {
+              visibility: hidden;
+              width: 200px;
+              position: absolute;
+              top: 0px;
+              left: 199px;
+
+            }
+          }
+        }
+      }
+      &:hover {
+        > div {
+          > div {
+            > div {
+              > ul {
+                visibility: visible;
+                li {
+                  border: 1px solid $MenuLinkBorderColor;
+                  &:hover {
+                    background: image-url('menu-active-back.jpg') top left repeat-x;
+                    a {
+                      color: $MenuLinkColor;
+                      text-decoration: none;
+                    }
+                  }
+                  a {
+                    color: $MenuLinkColor;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  > ul {
+    > li {
+      float: left;
+      padding: 0;
+      height: 64px;
+      > a {
+        height: 44px;
+        line-height: 44px;
+        padding: 10px 20px;
+        display: block;
+        color: $MenuLinkColor;
+        text-decoration: none;
+        &.active {
+          background: image-url('menu-active-back.jpg') top left repeat-x;
+        }
+      }
+      > div {
+        > div {
+          > div {
+            > ul {
+              top: 64px;
+              left: 0;
+            }
+          }
+        }
+      }
+      &:hover {
+        background: image-url('menu-active-back.jpg') top left repeat-x;
+        > a {
+          text-decoration: none;
+          display: block;
+          color: $MenuLinkColor;
+        }
+      }
+    }
+  }
+}
+
