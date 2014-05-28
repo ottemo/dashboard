@@ -21,3 +21,8 @@ build:
     - script:
         name: echo nodejs information
         code: |
+  after-steps:
+    - wercker/hipchat-notify@1.0.3:
+        token: $HIPCHAT_TOKEN
+        room-id: 394852
+        from-name: Wercker

@@ -1,4 +1,4 @@
 Dashboard
 =========
 
-Administration for Ottemo
+Administration Tool for Ottemo
