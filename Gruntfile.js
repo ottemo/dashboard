@@ -348,7 +348,7 @@ module.exports = function (grunt) {
     requirejs: {
       dist: {
         options: {
-          dir: "<%= yeoman.dist %>/scripts/",
+          dir: '<%= yeoman.dist %>/scripts/',
           modules: [{
             name: 'main'
           }],

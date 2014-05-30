@@ -22,7 +22,7 @@
     'directives/edit/container',
     'directives/browse/body',
     'directives/browse/tab/header',
-    'directives/dashboardlogin']/*deps*/, function (angular, IndexCtrl) {
+    'directives/dashboardlogin']/*deps*/, function (angular) {
 
 
     return angular.module('dashboardApp', [
