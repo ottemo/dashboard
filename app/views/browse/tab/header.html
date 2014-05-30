@@ -1,10 +1,14 @@
-<div class="TabHeaderContainer" id="browseTabHeader">
-    <ul class="tabs-header-list">
-        <li ng-repeat="tab in tabs" ng-class="{active: $index == activeTab, help: $last}">
-            <a ng-href="#{{tab.url}}" title="">
-                <img ng-src="{{tab.img}}" width="32" height="32" alt="" />
-                <span>{{tab.name}}</span>
-            </a>
-        </li>
-    </ul>
-</div>
+<ul>
+    <li ng-repeat="link in submenu" ng-switch="link.linktype.externalink">
+        <a ng-switch-when="false" href="#{{link.linktype.href}}" ng-class="getClass('{{link.linktype.href}}')"><span ng-bind-html="link.content"></span><span class="link-title">{{link.title}}</span></a>
+        <a ng-switch-when="true" href="http://{{link.linktype.href}}"><span ng-bind-html="link.content"></span><span class="link-title">{{link.title}}</span></a>
+
+         <div ng-switch on="link.submenu.length > 0">
+            <div ng-switch-when="true" class="submenu">
+                <div ng-init="submenu = link.submenu;" ng-include="'views/browse/tab/header.html'"></div>
+            </div>
+        </div>
+    </li>
+</ul>
+
+

@@ -1,7 +1,9 @@
 <dashboard-header></dashboard-header>
 <div class="MainWrapper">
+    <div class="TabHeaderContainer" id="browseTabHeader">
+        <browse-tab-header class="browse-tab-header" ng-init="submenu = menuitems;"></browse-tab-header>
+    </div>
     <div class="LeftContentContainer" id="browseContainer">
-        <browse-tab-header active-tab="products"></browse-tab-header>
         <browse-controller></browse-controller>
         <browse-body>
             <div ng-controller="ProductListCtrl">

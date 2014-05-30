@@ -9,7 +9,7 @@ require.config({
     'angular-cookies': '../bower_components/angular-cookies/angular-cookies',
     angular: '../bower_components/angular/angular',
     'sass-bootstrap': '../bower_components/sass-bootstrap/dist/js/bootstrap',
-    jquery: '../bower_components/jquery/dist/jquery',
+    jquery: '../bower_components/jquery/jquery',
     'angular-animate': '../bower_components/angular-animate/angular-animate'
   },
   shim: {
@@ -28,9 +28,9 @@ require.config({
     'angular-resource': [
       'angular'
     ],
-    'angular-animate' : [
+    'angular-animate': [
       'angular'
-     ],
+    ],
     'angular-mocks': {
       deps: [
         'angular'

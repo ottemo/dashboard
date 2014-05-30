@@ -51,6 +51,12 @@ $RightDashBoardConfigBack:          #19b2ff;
 $RightDashBoardConfigLabelColor:    #ffffff;
 $RightDashBoardConfigInputBorder:   #1f292f;
 
+/* Menu Container Variables */
+$MenuLinkColor:                     #ffffff;
+$MenuLinkBorderColor:               #000000;
+
+
+
 
 @mixin linear-gradient($fromColor, $toColor) {
   background-color: $toColor; /* Fallback Color */
