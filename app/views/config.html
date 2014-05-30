@@ -1,9 +1,10 @@
 <dashboard-header></dashboard-header>
 <div class="MainWrapper" ng-controller="DashboardConfigCtrl">
+    <div class="TabHeaderContainer" id="browseTabHeader">
+        <browse-tab-header class="browse-tab-header" ng-init="submenu = menuitems;"></browse-tab-header>
+    </div>
     <div class="LeftContentContainer" id="browseContainer">
-        <div class="TabHeaderContainer" id="browseTabHeader">
-            <browse-tab-header class="browse-tab-header" ng-init="submenu = menuitems;"></browse-tab-header>
-        </div>
+
         <div class="LeftDashBoardConfig">
             <ul>
                 <li ng-class="{'config-tab-active': activeTab === 'facebook'}" >

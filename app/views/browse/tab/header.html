@@ -1,7 +1,7 @@
 <ul>
     <li ng-repeat="link in submenu" ng-switch="link.linktype.externalink">
-        <a ng-switch-when="false" href="#{{link.linktype.href}}" ng-class="getClass('{{link.linktype.href}}')">{{link.title}}<span>{{link.content}}</span></a>
-        <a ng-switch-when="true" href="http://{{link.linktype.href}}">{{link.title}} <span>{{link.content}}</span></a>
+        <a ng-switch-when="false" href="#{{link.linktype.href}}" ng-class="getClass('{{link.linktype.href}}')"><span ng-bind-html="link.content"></span><span class="link-title">{{link.title}}</span></a>
+        <a ng-switch-when="true" href="http://{{link.linktype.href}}"><span ng-bind-html="link.content"></span><span class="link-title">{{link.title}}</span></a>
 
          <div ng-switch on="link.submenu.length > 0">
             <div ng-switch-when="true" class="submenu">

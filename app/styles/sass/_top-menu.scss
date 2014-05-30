@@ -1,4 +1,13 @@
 .browse-tab-header {
+  span {
+
+    display: inline-block;
+    img {
+      position: relative;
+      top: 10px;
+      margin-right: 12px;
+    }
+  }
   ul {
     margin: 0;
     padding: 0;
@@ -16,9 +25,9 @@
             > ul {
               visibility: hidden;
               width: 200px;
-              position: absolute;
               top: 0px;
               left: 199px;
+              position: absolute;
 
             }
           }
@@ -52,7 +61,6 @@
   }
   > ul {
     > li {
-      float: left;
       padding: 0;
       height: 64px;
       > a {
@@ -70,8 +78,9 @@
         > div {
           > div {
             > ul {
-              top: 64px;
-              left: 0;
+              top: 0px;
+              position: absolute;
+              left: 100%;
             }
           }
         }

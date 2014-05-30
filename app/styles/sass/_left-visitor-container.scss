@@ -7,7 +7,8 @@
 /* ----------------------------------------- TabHeaderContainer Styles ---------------------------------------------- */
 
 .TabHeaderContainer {
-  height: 64px;
+  float: left;
+  width: 15%;
   background: image-url('adminTab-background.png') top left repeat-x;
   position: relative;
   z-index: 100;

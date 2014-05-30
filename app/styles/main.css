@@ -96,14 +96,15 @@ ul {
 /* ----------------------------------------- TabHeaderContainer Styles ---------------------------------------------- */
 /* line 9, sass/_left-visitor-container.scss */
 .TabHeaderContainer {
-  height: 64px;
+  float: left;
+  width: 15%;
   background: url('../images/adminTab-background.png?1400592719') top left repeat-x;
   position: relative;
   z-index: 100; }
-  /* line 14, sass/_left-visitor-container.scss */
+  /* line 15, sass/_left-visitor-container.scss */
   .TabHeaderContainer .tabs-header-list {
     padding-right: 64px; }
-    /* line 16, sass/_left-visitor-container.scss */
+    /* line 17, sass/_left-visitor-container.scss */
     .TabHeaderContainer .tabs-header-list li {
       float: left;
       padding: 6px;
@@ -111,21 +112,21 @@ ul {
       width: 52px;
       text-align: center;
       background: url('../images/adminTab-inactive.png?1400592719') top left repeat-x; }
-      /* line 23, sass/_left-visitor-container.scss */
+      /* line 24, sass/_left-visitor-container.scss */
       .TabHeaderContainer .tabs-header-list li.active {
         background: url('../images/adminTab-active.png?1400592719') top left repeat-x; }
-      /* line 26, sass/_left-visitor-container.scss */
+      /* line 27, sass/_left-visitor-container.scss */
       .TabHeaderContainer .tabs-header-list li a {
         text-decoration: none; }
-        /* line 28, sass/_left-visitor-container.scss */
+        /* line 29, sass/_left-visitor-container.scss */
         .TabHeaderContainer .tabs-header-list li a img {
           display: block;
           margin: 0 10px 6px 10px; }
-        /* line 32, sass/_left-visitor-container.scss */
+        /* line 33, sass/_left-visitor-container.scss */
         .TabHeaderContainer .tabs-header-list li a span {
           font-family: "sans serif";
           color: white; }
-  /* line 39, sass/_left-visitor-container.scss */
+  /* line 40, sass/_left-visitor-container.scss */
   .TabHeaderContainer .help {
     padding: 6px;
     height: 52px;
@@ -136,45 +137,45 @@ ul {
     top: 0;
     right: 0;
     text-decoration: none; }
-    /* line 49, sass/_left-visitor-container.scss */
+    /* line 50, sass/_left-visitor-container.scss */
     .TabHeaderContainer .help img {
       display: block;
       margin: 0 10px 6px 10px; }
-    /* line 53, sass/_left-visitor-container.scss */
+    /* line 54, sass/_left-visitor-container.scss */
     .TabHeaderContainer .help span {
       font-family: "sans serif";
       color: white; }
 
 /* ----------------------------------------- END TabHeaderContainer Styles ------------------------------------------ */
 /* -----------------------------------------  BrowseController Styles ----------------------------------------------- */
-/* line 63, sass/_left-visitor-container.scss */
+/* line 64, sass/_left-visitor-container.scss */
 .BrowseController {
   background: #00a3f5;
   padding: 8px;
   height: 32px; }
-  /* line 67, sass/_left-visitor-container.scss */
+  /* line 68, sass/_left-visitor-container.scss */
   .BrowseController .AddButtonContainer {
     float: left;
     width: 32px;
     height: 32px;
     margin-right: 8px; }
-  /* line 73, sass/_left-visitor-container.scss */
+  /* line 74, sass/_left-visitor-container.scss */
   .BrowseController .SwithViewContainer {
     float: right;
     width: 80px;
     height: 32px; }
-    /* line 77, sass/_left-visitor-container.scss */
+    /* line 78, sass/_left-visitor-container.scss */
     .BrowseController .SwithViewContainer a {
       float: left;
       margin-left: 8px; }
-  /* line 82, sass/_left-visitor-container.scss */
+  /* line 83, sass/_left-visitor-container.scss */
   .BrowseController .SearchContainer {
     height: 32px;
     width: auto;
     background: #ffffff;
     position: relative;
     margin: 0 80px 0 40px; }
-    /* line 88, sass/_left-visitor-container.scss */
+    /* line 89, sass/_left-visitor-container.scss */
     .BrowseController .SearchContainer input {
       width: 100%;
       height: 32px;
@@ -189,21 +190,21 @@ ul {
 
 /* ----------------------------------------- End BrowseController Styles -------------------------------------------- */
 /* ----------------------------------------- BrowseBody Styles ------------------------------------------------------ */
-/* line 105, sass/_left-visitor-container.scss */
+/* line 106, sass/_left-visitor-container.scss */
 .BrowseBody {
   background: #95d2ff;
   padding: 8px; }
-  /* line 109, sass/_left-visitor-container.scss */
+  /* line 110, sass/_left-visitor-container.scss */
   .BrowseBody .visitor-list li {
     position: relative;
     padding-top: 8px; }
-    /* line 112, sass/_left-visitor-container.scss */
+    /* line 113, sass/_left-visitor-container.scss */
     .BrowseBody .visitor-list li:first-child {
       padding-top: 0px; }
-      /* line 114, sass/_left-visitor-container.scss */
+      /* line 115, sass/_left-visitor-container.scss */
       .BrowseBody .visitor-list li:first-child .visitors-list-avatar {
         top: 0px; }
-    /* line 118, sass/_left-visitor-container.scss */
+    /* line 119, sass/_left-visitor-container.scss */
     .BrowseBody .visitor-list li .visitors-list-avatar {
       display: inline-block;
       position: absolute;
@@ -212,16 +213,16 @@ ul {
       width: 32px;
       height: 32px;
       overflow: hidden; }
-      /* line 126, sass/_left-visitor-container.scss */
+      /* line 127, sass/_left-visitor-container.scss */
       .BrowseBody .visitor-list li .visitors-list-avatar img {
         max-width: 100%;
         height: auto;
         display: inline-block;
         vertical-align: top; }
-      /* line 132, sass/_left-visitor-container.scss */
+      /* line 133, sass/_left-visitor-container.scss */
       .BrowseBody .visitor-list li .visitors-list-avatar .visitors-title-avatar {
         display: none; }
-    /* line 136, sass/_left-visitor-container.scss */
+    /* line 137, sass/_left-visitor-container.scss */
     .BrowseBody .visitor-list li .visitors-list-text {
       display: block;
       padding: 0 10px 0px 42px;
@@ -235,7 +236,7 @@ ul {
       font-size: 14px;
       line-height: 32px;
       overflow: hidden; }
-  /* line 152, sass/_left-visitor-container.scss */
+  /* line 153, sass/_left-visitor-container.scss */
   .BrowseBody .visitor-list.tile li {
     background: white;
     float: left;
@@ -243,10 +244,10 @@ ul {
     margin-left: 2%;
     margin-bottom: 8px;
     padding-top: 0; }
-    /* line 159, sass/_left-visitor-container.scss */
+    /* line 160, sass/_left-visitor-container.scss */
     .BrowseBody .visitor-list.tile li.visitor-first {
       margin-left: 0%; }
-    /* line 162, sass/_left-visitor-container.scss */
+    /* line 163, sass/_left-visitor-container.scss */
     .BrowseBody .visitor-list.tile li .visitors-list-avatar {
       position: relative;
       width: 100%;
@@ -255,20 +256,20 @@ ul {
       line-height: 96px;
       top: -1px;
       display: block; }
-      /* line 170, sass/_left-visitor-container.scss */
+      /* line 171, sass/_left-visitor-container.scss */
       .BrowseBody .visitor-list.tile li .visitors-list-avatar img {
         vertical-align: middle; }
-    /* line 174, sass/_left-visitor-container.scss */
+    /* line 175, sass/_left-visitor-container.scss */
     .BrowseBody .visitor-list.tile li .visitors-list-text {
       padding: 0 5px;
       text-align: center;
       background: none;
       line-height: 15px;
       font-size: 12px; }
-    /* line 181, sass/_left-visitor-container.scss */
+    /* line 182, sass/_left-visitor-container.scss */
     .BrowseBody .visitor-list.tile li:hover {
       background: #19b2ff; }
-      /* line 183, sass/_left-visitor-container.scss */
+      /* line 184, sass/_left-visitor-container.scss */
       .BrowseBody .visitor-list.tile li:hover .visitors-list-text {
         color: white; }
 
@@ -276,7 +277,7 @@ ul {
 /* line 1, sass/_right-visitor-container.scss */
 .RightContentContainer {
   float: left;
-  width: 65%;
+  width: 50%;
   background: #eeeeee; }
 
 /* ------------------------------------------ VisitorControlBar Styles --------------------------------------------- */
@@ -557,123 +558,22 @@ ul {
         margin: 0 0 3px 0; }
 
   /*---------------------------- End Styles for User Right Panel -------------------------------------------------------*/ }
-/* line 1, sass/_left-product-container.scss */
-.LeftContentContainer {
-  float: left;
-  width: 35%;
-  background: #95d2ff; }
-
-/* ----------------------------------------- TabHeaderContainer Styles ---------------------------------------------- */
-/* line 9, sass/_left-product-container.scss */
-.TabHeaderContainer {
-  height: 64px;
-  background: url('../images/adminTab-background.png?1400592719') top left repeat-x;
-  position: relative;
-  z-index: 100; }
-  /* line 14, sass/_left-product-container.scss */
-  .TabHeaderContainer .tabs-header-list {
-    padding-right: 64px; }
-    /* line 16, sass/_left-product-container.scss */
-    .TabHeaderContainer .tabs-header-list li {
-      float: left;
-      padding: 6px;
-      height: 52px;
-      width: 52px;
-      text-align: center;
-      background: url('../images/adminTab-inactive.png?1400592719') top left repeat-x; }
-      /* line 23, sass/_left-product-container.scss */
-      .TabHeaderContainer .tabs-header-list li.active {
-        background: url('../images/adminTab-active.png?1400592719') top left repeat-x; }
-      /* line 26, sass/_left-product-container.scss */
-      .TabHeaderContainer .tabs-header-list li a {
-        text-decoration: none; }
-        /* line 28, sass/_left-product-container.scss */
-        .TabHeaderContainer .tabs-header-list li a img {
-          display: block;
-          margin: 0 10px 6px 10px; }
-        /* line 32, sass/_left-product-container.scss */
-        .TabHeaderContainer .tabs-header-list li a span {
-          font-family: "sans serif";
-          color: white; }
-  /* line 39, sass/_left-product-container.scss */
-  .TabHeaderContainer .help {
-    padding: 6px;
-    height: 52px;
-    width: 52px;
-    text-align: center;
-    background: url('../images/adminTab-inactive.png?1400592719') top left repeat-x;
-    position: absolute;
-    top: 0;
-    right: 0;
-    text-decoration: none; }
-    /* line 49, sass/_left-product-container.scss */
-    .TabHeaderContainer .help img {
-      display: block;
-      margin: 0 10px 6px 10px; }
-    /* line 53, sass/_left-product-container.scss */
-    .TabHeaderContainer .help span {
-      font-family: "sans serif";
-      color: white; }
-
-/* ----------------------------------------- END TabHeaderContainer Styles ------------------------------------------ */
-/* -----------------------------------------  BrowseController Styles ----------------------------------------------- */
-/* line 63, sass/_left-product-container.scss */
-.BrowseController {
-  background: #00a3f5;
-  padding: 8px;
-  height: 32px; }
-  /* line 67, sass/_left-product-container.scss */
-  .BrowseController .AddButtonContainer {
-    float: left;
-    width: 32px;
-    height: 32px;
-    margin-right: 8px; }
-  /* line 73, sass/_left-product-container.scss */
-  .BrowseController .SwithViewContainer {
-    float: right;
-    width: 80px;
-    height: 32px; }
-    /* line 77, sass/_left-product-container.scss */
-    .BrowseController .SwithViewContainer a {
-      float: left;
-      margin-left: 8px; }
-  /* line 82, sass/_left-product-container.scss */
-  .BrowseController .SearchContainer {
-    height: 32px;
-    width: auto;
-    background: #ffffff;
-    position: relative;
-    margin: 0 80px 0 40px; }
-    /* line 88, sass/_left-product-container.scss */
-    .BrowseController .SearchContainer input {
-      width: 100%;
-      height: 32px;
-      margin: 0;
-      background: url('../images/icon-search.png?1400592719') top left no-repeat;
-      -moz-box-sizing: border-box;
-      -webkit-box-sizing: border-box;
-      box-sizing: border-box;
-      padding-left: 32px;
-      border: 0;
-      line-height: 32px; }
-
-/* ----------------------------------------- End BrowseController Styles -------------------------------------------- */
 /* ----------------------------------------- BrowseBody Styles ------------------------------------------------------ */
-/* line 105, sass/_left-product-container.scss */
+/* line 2, sass/_left-product-container.scss */
 .BrowseBody {
   background: #95d2ff;
   padding: 8px; }
-  /* line 109, sass/_left-product-container.scss */
+  /* line 6, sass/_left-product-container.scss */
   .BrowseBody .product-list li {
     position: relative;
     padding-top: 8px; }
-    /* line 112, sass/_left-product-container.scss */
+    /* line 9, sass/_left-product-container.scss */
     .BrowseBody .product-list li:first-child {
       padding-top: 0px; }
-      /* line 114, sass/_left-product-container.scss */
+      /* line 11, sass/_left-product-container.scss */
       .BrowseBody .product-list li:first-child .products-list-avatar {
         top: 0px; }
-    /* line 118, sass/_left-product-container.scss */
+    /* line 15, sass/_left-product-container.scss */
     .BrowseBody .product-list li .products-list-avatar {
       display: inline-block;
       position: absolute;
@@ -682,16 +582,16 @@ ul {
       width: 32px;
       height: 32px;
       overflow: hidden; }
-      /* line 126, sass/_left-product-container.scss */
+      /* line 23, sass/_left-product-container.scss */
       .BrowseBody .product-list li .products-list-avatar img {
         max-width: 100%;
         height: auto;
         display: inline-block;
         vertical-align: top; }
-      /* line 132, sass/_left-product-container.scss */
+      /* line 29, sass/_left-product-container.scss */
       .BrowseBody .product-list li .products-list-avatar .products-title-avatar {
         display: none; }
-    /* line 136, sass/_left-product-container.scss */
+    /* line 33, sass/_left-product-container.scss */
     .BrowseBody .product-list li .products-list-text {
       display: block;
       padding: 0 10px 0px 42px;
@@ -705,7 +605,7 @@ ul {
       font-size: 14px;
       line-height: 32px;
       overflow: hidden; }
-  /* line 152, sass/_left-product-container.scss */
+  /* line 49, sass/_left-product-container.scss */
   .BrowseBody .product-list.tile li {
     background: white;
     float: left;
@@ -713,10 +613,10 @@ ul {
     margin-left: 2%;
     margin-bottom: 8px;
     padding-top: 0; }
-    /* line 159, sass/_left-product-container.scss */
+    /* line 56, sass/_left-product-container.scss */
     .BrowseBody .product-list.tile li.product-first {
       margin-left: 0%; }
-    /* line 162, sass/_left-product-container.scss */
+    /* line 59, sass/_left-product-container.scss */
     .BrowseBody .product-list.tile li .products-list-avatar {
       position: relative;
       width: 100%;
@@ -725,20 +625,20 @@ ul {
       line-height: 96px;
       top: -1px;
       display: block; }
-      /* line 170, sass/_left-product-container.scss */
+      /* line 67, sass/_left-product-container.scss */
       .BrowseBody .product-list.tile li .products-list-avatar img {
         vertical-align: middle; }
-    /* line 174, sass/_left-product-container.scss */
+    /* line 71, sass/_left-product-container.scss */
     .BrowseBody .product-list.tile li .products-list-text {
       padding: 0 5px;
       text-align: center;
       background: none;
       line-height: 15px;
       font-size: 12px; }
-    /* line 181, sass/_left-product-container.scss */
+    /* line 78, sass/_left-product-container.scss */
     .BrowseBody .product-list.tile li:hover {
       background: #19b2ff; }
-      /* line 183, sass/_left-product-container.scss */
+      /* line 80, sass/_left-product-container.scss */
       .BrowseBody .product-list.tile li:hover .products-list-text {
         color: white; }
 
@@ -1041,7 +941,7 @@ ul {
 /* line 1, sass/_config.scss */
 .RightDashBoardConfig {
   float: left;
-  width: 65%;
+  width: 50%;
   padding: 32px;
   background: #19b2ff;
   moz-box-sizing: border-box;
@@ -1126,11 +1026,19 @@ ul {
   opacity: 0; }
 
 /* line 2, sass/_top-menu.scss */
+.browse-tab-header span {
+  display: inline-block; }
+  /* line 5, sass/_top-menu.scss */
+  .browse-tab-header span img {
+    position: relative;
+    top: 10px;
+    margin-right: 12px; }
+/* line 11, sass/_top-menu.scss */
 .browse-tab-header ul {
   margin: 0;
   padding: 0;
   list-style: none; }
-  /* line 6, sass/_top-menu.scss */
+  /* line 15, sass/_top-menu.scss */
   .browse-tab-header ul li {
     margin: 0;
     padding: 10px 20px;
@@ -1138,35 +1046,34 @@ ul {
     height: 20px;
     line-height: 20px;
     background: url('../images/menu-back.jpg?1401182202') top left repeat-x; }
-    /* line 16, sass/_top-menu.scss */
+    /* line 25, sass/_top-menu.scss */
     .browse-tab-header ul li > div > div > div > ul {
       visibility: hidden;
       width: 200px;
-      position: absolute;
       top: 0px;
-      left: 199px; }
-    /* line 31, sass/_top-menu.scss */
+      left: 199px;
+      position: absolute; }
+    /* line 40, sass/_top-menu.scss */
     .browse-tab-header ul li:hover > div > div > div > ul {
       visibility: visible; }
-      /* line 33, sass/_top-menu.scss */
+      /* line 42, sass/_top-menu.scss */
       .browse-tab-header ul li:hover > div > div > div > ul li {
         border: 1px solid black; }
-        /* line 35, sass/_top-menu.scss */
+        /* line 44, sass/_top-menu.scss */
         .browse-tab-header ul li:hover > div > div > div > ul li:hover {
           background: url('../images/menu-active-back.jpg?1401182202') top left repeat-x; }
-          /* line 37, sass/_top-menu.scss */
+          /* line 46, sass/_top-menu.scss */
           .browse-tab-header ul li:hover > div > div > div > ul li:hover a {
             color: white;
             text-decoration: none; }
-        /* line 42, sass/_top-menu.scss */
+        /* line 51, sass/_top-menu.scss */
         .browse-tab-header ul li:hover > div > div > div > ul li a {
           color: white; }
-/* line 54, sass/_top-menu.scss */
+/* line 63, sass/_top-menu.scss */
 .browse-tab-header > ul > li {
-  float: left;
   padding: 0;
   height: 64px; }
-  /* line 58, sass/_top-menu.scss */
+  /* line 66, sass/_top-menu.scss */
   .browse-tab-header > ul > li > a {
     height: 44px;
     line-height: 44px;
@@ -1174,17 +1081,18 @@ ul {
     display: block;
     color: white;
     text-decoration: none; }
-    /* line 65, sass/_top-menu.scss */
+    /* line 73, sass/_top-menu.scss */
     .browse-tab-header > ul > li > a.active {
       background: url('../images/menu-active-back.jpg?1401182202') top left repeat-x; }
-  /* line 72, sass/_top-menu.scss */
+  /* line 80, sass/_top-menu.scss */
   .browse-tab-header > ul > li > div > div > div > ul {
-    top: 64px;
-    left: 0; }
-  /* line 79, sass/_top-menu.scss */
+    top: 0px;
+    position: absolute;
+    left: 100%; }
+  /* line 88, sass/_top-menu.scss */
   .browse-tab-header > ul > li:hover {
     background: url('../images/menu-active-back.jpg?1401182202') top left repeat-x; }
-    /* line 81, sass/_top-menu.scss */
+    /* line 90, sass/_top-menu.scss */
     .browse-tab-header > ul > li:hover > a {
       text-decoration: none;
       display: block;

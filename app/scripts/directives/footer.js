@@ -1,11 +1,12 @@
-define(['angular'], function(angular) {
+(function (define) {
   'use strict';
-
-  angular.module('dashboardApp.directives.DashboardFooter', [])
-    .directive('dashboardFooter', function () {
-      return {
-        templateUrl: '../../views/footer/footer.html',
-        restrict: 'E'
-      };
-    });
-});
+  define(['angular'], function (angular) {
+    angular.module('dashboardApp.directives.DashboardFooter', [])
+      .directive('dashboardFooter', function () {
+        return {
+          templateUrl: '../../views/footer/footer.html',
+          restrict: 'E'
+        };
+      });
+  });
+})(window.define);

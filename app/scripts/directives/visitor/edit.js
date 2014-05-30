@@ -1,11 +1,12 @@
-define(['angular'], function (angular) {
+(function (define) {
   'use strict';
-
-  angular.module('dashboardApp.directives.VisitorEdit', [])
-  	.directive('visitorEdit', function () {
-      return {
-      	templateUrl: 'views/visitor/edit.html',
-      	restrict: 'E'
-      };
-  	});
-});
+  define(['angular'], function (angular) {
+    angular.module('dashboardApp.directives.VisitorEdit', [])
+      .directive('visitorEdit', function () {
+        return {
+          templateUrl: 'views/visitor/edit.html',
+          restrict: 'E'
+        };
+      });
+  });
+})(window.define);
