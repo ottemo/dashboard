@@ -23,7 +23,12 @@
     }
   }
 }
-
+.panel-collapse {
+  background: $VisitorProfileMainInfoWrapperBack;
+}
+.ProductAccordionInner {
+  padding: 10px 35px;
+}
 /* ------------------------------------------ End ProductControlBar Styles ------------------------------------------ */
 
 /* ------------------------------------------ ProductRightTopContainer Styles ----------------------------------------*/
@@ -51,7 +56,6 @@
     ul {
       margin: 0;
       padding: 0;
-      width: 180px;
       li {
         float: left;
         list-style: none;
@@ -110,6 +114,9 @@
       margin-right: 20px;
     }
    }
+  label {
+    color: $ProductLabelFontColor;
+  }
   input {
     display: block;
     width: 540px;
@@ -135,5 +142,45 @@
   .ProductSecondaryInfoSep {
     margin-bottom: 35px;
   }
+}
+.ProductSecondaryInputs {
+  input {
+    float: left;
+  }
+}
+
+.ProductMainImage {
+  float: left;
+  width: 15%;
+  float: left;
+  text-align: center;
+}
+.ProductSecondaryImages {
+  float: left;
+  width: 70%;
+  li {
+    float: left;
+    width: 25%;
+    padding-bottom: 15px;
+  }
+}
+.ProductProfileButtons {
+  float: left;
+  width: 15%;
+  padding-right: 33px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  button {
+    display: block;
+    width: 150px;
+    margin-bottom: 15px;
+  }
+}
+.ProductAbsoluteButtons {
+  position: absolute;
+  bottom: 0px;
+  right: 10px;
+  z-index: 100;
 }
 /* ----------------------------------- End ProductSecondaryInfoContainer Styles --------------------------------------*/

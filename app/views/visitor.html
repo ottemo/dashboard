@@ -1,21 +1,25 @@
 <dashboard-header></dashboard-header>
 <div class="MainWrapper">
-    <div class="TabHeaderContainer" id="browseTabHeader">
-        <browse-tab-header class="browse-tab-header" ng-init="submenu = menuitems;"></browse-tab-header>
-    </div>
-    <div class="LeftContentContainer" id="browseContainer">
+    <div class="LeftContentContainer" id="browseContainer" ng-hide="showStatus">
+
+        <div class="LeftContentInner">
+        <div class="TabHeaderContainer" id="browseTabHeader">
+            <browse-tab-header class="browse-tab-header" ng-init="submenu = menuitems;"></browse-tab-header>
+        </div>
         <browse-controller></browse-controller>
         <browse-body>
             <div ng-controller="VisitorListCtrl">
                 <visitor-list></visitor-list>
             </div>
         </browse-body>
+        </div>
     </div>
-    <edit-container>
+    <edit-container ng-show="showStatus">
         <form name="visitorForm" ng-controller="VisitorFormEditCtrl">
             <visitor-edit></visitor-edit>
         </form>
     </edit-container>
     <div class="clear"></div>
-</div>
+  </div>
+<button class="btn show-mobile" ng-click="showStatus=!showStatus">Change View</button>
 <dashboard-footer></dashboard-footer>

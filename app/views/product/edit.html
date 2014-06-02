@@ -1,11 +1,14 @@
 <div class="ProductControlBar" id="editControlBar">
     <p><input type="checkbox" ng-model="product.is_visible" name="visible" id="visible" /><label for="visible">Visible</label></p>
 </div>
-<div class="ProductMainTopContainer">
+<div class="ProductAccordionInner">
+
+<accordion close-others="oneAtATime">
+    <accordion-group heading="Picture" is-open="status.isFirstOpen" is-disabled="status.isFirstDisabled">
+    <div class="ProductMainTopContainer">
     <div class="ProductMainImage" id="editImage">
         <img ng-src="{{product.image}}" alt="" height="91px" width="auto"/>
     </div>
-    <div class="ProductSecondaryImagesWrapper">
         <div class="ProductSecondaryImages">
             <ul>
                 <li ng-repeat="image in product.media_gallery track by $index">
@@ -14,16 +17,15 @@
             </ul>
             <div class="clear"></div>
         </div>
-        <div class="ProductTopActions">
-            <ul>
-                <li><a href="#" title=""><img src="images/icon-add.png" alt=""></a></li>
-                <li><a href="#" title=""><img src="images/icon-del.jpg" alt=""></a></li>
-                <li><a href="#" title=""><img src="images/icon-browse.jpg" alt=""></a></li>
-            </ul>
+        <div class="ProductProfileButtons">
+            <button id="visitor-new-image">Add New</button>
+            <button id="visitor-remove-image">Remove</button>
+            <button id="visitor-default-image">Default</button>
         </div>
-    </div>
     <div class="clear"></div>
 </div>
+  </accordion-group>
+    <accordion-group heading="Name">
 <div class="ProductSecondaryInfo" id="editBody">
     <ul>
         <li>
@@ -45,6 +47,11 @@
             <input type="text" name="mpn" ng-model="product.mpn"/>
         </li>
     </ul>
+ </div>
+    </accordion-group>
+        <accordion-group heading="Description & Metadata">
+
+    <div class="ProductSecondaryInfo">
     <div class="clear"></div>
     <label>tags</label>
     <input type="text" ng-model="product.tags" ng-list/>
@@ -56,6 +63,12 @@
     <label>long description</label>
     <textarea rows="0" cols="0" name="description" ng-model="product.description"></textarea>
     <div class="clear"></div>
+
+</div>
+    </accordion-group>
+</accordion>
+    </div>
+<div class="ProductAbsoluteButtons">
     <button ng-click="cancel()" ng-disabled="isCancelDisabled()">Cancel</button>
     <button ng-click="save()" ng-disabled="isSaveDisabled()">Save</button>
 </div>

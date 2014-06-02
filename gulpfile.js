@@ -112,7 +112,7 @@
     gulp.task('sass', function () {
         gulp.src(sources.app + '/styles/sass/*.scss')
             .pipe(sass({
-                imagePath: '../../images'
+              imagePath: '../../images'
             }))
             .pipe(autoprefix('last 1 version'))
             .pipe(gulp.dest(sources.dist + '/styles/'))
