@@ -1,6 +1,6 @@
 /*---------------------------- Styles for User Right Panel for Portrait View -----------------------------------------*/
 
-@media only screen and (min-device-width : 600px) and (max-device-width : 1000px) and (orientation : portrait) {
+@media only screen and (min-width : 600px) and (max-width : 1000px) and (orientation : portrait) {
   .VisitorSecondaryInfo {
     input {
       width: 305px !important;
@@ -24,13 +24,25 @@
       }
     }
   }
+  .VisitorProfileMainImage {
+    width: 100%;
+    margin: 0;
+  }
+  .VisitorProfileButtons {
+    width: 100%;
+    text-align: center;
+    padding: 0;
+    button {
+      display: inline-block;
+    }
+  }
 }
 
 /*---------------------------- End Styles for User Right Panel for Portrait View -------------------------------------*/
 
 /*---------------------------- Styles for User Right Panel for Landscape View ----------------------------------------*/
 
-@media only screen and (min-device-width : 600px) and (max-device-width : 1000px) and (orientation : landscape) {
+@media only screen and (min-width : 600px) and (max-width : 1000px) and (orientation : landscape) {
   .VisitorSecondaryInfo {
     input {
       width: 305px !important;
@@ -52,6 +64,18 @@
       &.first {
         margin-left: 0;
       }
+    }
+  }
+  .VisitorProfileMainImage {
+    width: 100%;
+    margin: 0;
+  }
+  .VisitorProfileButtons {
+    width: 100%;
+    text-align: center;
+    padding: 0;
+    button {
+      display: inline-block;
     }
   }
 }

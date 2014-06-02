@@ -1,6 +1,6 @@
 .RightDashBoardConfig {
   float: left;
-  width: 50%;
+  width: 65%;
   padding: 32px;
   background: $RightDashBoardConfigBack;
   moz-box-sizing: border-box;
@@ -58,6 +58,9 @@
   position: relative;
   overflow: hidden;
   height:392px;
+  .well {
+    background: $RightDashBoardConfigBack;
+  }
 }
 
 .view-animate-container > .slide.ng-enter,

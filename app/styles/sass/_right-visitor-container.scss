@@ -1,7 +1,13 @@
 .RightContentContainer {
   float: left;
-  width: 50%;
+  width: 65%;
   background: $VisitorSecondaryInfoBack;
+  height: 100%;
+ }
+.RightContentInner {
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100%;
 }
 
 /* ------------------------------------------ VisitorControlBar Styles --------------------------------------------- */
@@ -47,13 +53,49 @@
 
 /* ------------------------------------------ VisitorTopProfile Styles ----------------------------------------------*/
 
-.VisitorProfileImage {
-  background: $VisitorProfileImageBack;
-  width: 30%;
-  text-align: center;
-  padding: 20px 0;
-  float: left;
-  min-height: 164px;
+
+  .VisitorProfileMainImage {
+    float: left;
+    width: 40%;
+    float: left;
+    margin-right: 10%;
+    text-align: center;
+  }
+  .VisitorProfileSecondaryImage {
+    float: left;
+    width: 70%;
+    li {
+      float: left;
+      width: 25%;
+      padding-bottom: 15px;
+    }
+   }
+  .VisitorProfileButtons {
+    float: left;
+    width: 50%;
+    padding-right: 33px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    button {
+      display: block;
+      width: 150px;
+      margin-bottom: 15px;
+    }
+  }
+
+.VisitorSectionTitle {
+  text-align: left;
+  background: $VisitorSectionTitleBack;
+  margin: 0 33px 10px 0;
+  h3 {
+    padding: 5px 0 5px 10px;
+    margin: 0;
+    color:  $VisitorSectionTitleFontColor;
+    font-weight: normal;
+    font-size: 18px;
+  }
+
 }
 .VisitorProfileMainInfoWrapper {
   width: 70%;
@@ -87,13 +129,9 @@
 }
 .VisitorSecondaryInfo {
   clear: both;
-  padding: 15px 0 30px 35px;
-  h3 {
-    padding: 15px 0 10px 0;
-    margin: 0;
-    color:  $VisitorSecondaryInfoFontColor;
-    font-weight: normal;
-    font-size: 18px;
+  padding: 15px 35px 30px 35px;
+  .panel-collapse {
+    background: $VisitorProfileMainInfoWrapperBack;
   }
   label {
     display: block;
@@ -141,6 +179,12 @@
     &.first {
       margin-left: 6px;
     }
+  }
+  .VisitorAbsoluteButtons {
+    position: absolute;
+    bottom: 0px;
+    right: 10px;
+    z-index: 100;
   }
 }
 

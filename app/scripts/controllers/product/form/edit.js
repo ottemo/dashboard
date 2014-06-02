@@ -41,6 +41,12 @@
                                 ]
                             };
                         };
+                      $scope.oneAtATime = true;
+
+                      $scope.status = {
+                        isFirstOpen: true,
+                        isFirstDisabled: false
+                      };
                         $scope.product = getEmptyProductObject();
                         $scope.isEdit = false;
 

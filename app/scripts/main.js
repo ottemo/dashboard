@@ -8,9 +8,10 @@ require.config({
         'angular-mocks': '../bower_components/angular-mocks/angular-mocks',
         'angular-cookies': '../bower_components/angular-cookies/angular-cookies',
         angular: '../bower_components/angular/angular',
-        'sass-bootstrap': '../bower_components/sass-bootstrap/dist/js/bootstrap',
         jquery: '../bower_components/jquery/jquery',
-        'angular-animate': '../bower_components/angular-animate/angular-animate'
+        'angular-animate': '../bower_components/angular-animate/angular-animate',
+        'bootstrap-sass': '../bower_components/bootstrap-sass/dist/js/bootstrap',
+        'angular-bootstrap': '../bower_components/angular-bootstrap/ui-bootstrap-tpls'
     },
     shim: {
         angular: {
@@ -36,11 +37,18 @@ require.config({
                 'angular'
             ],
             exports: 'angular.mock'
-        }
+        },
+        'angular-bootstrap': {
+            deps: [
+                'angular'
+            ],
+            exports: 'ui-bootstrap'
+        },
     },
-    priority: [
+    'priority': [
         'angular'
     ]
+
 });
 
 //http://code.angularjs.org/1.2.1/docs/guide/bootstrap#overview_deferred-bootstrap
@@ -53,8 +61,9 @@ require([
     'angular-cookies',
     'angular-sanitize',
     'angular-animate',
-    'angular-resource'
-], function (angular, app) {
+    'angular-resource',
+    'angular-bootstrap'
+], function (angular, app, ngRoutes, ngCookies, ngSanitize, ngResource) {
     'use strict';
     /* jshint ignore:start */
     var $html = angular.element(document.getElementsByTagName('html')[0]);

@@ -40,38 +40,43 @@
                             };
                         };
 
-                        $scope.visitor = getEmptyVisitorObject();
-                        $scope.formFields = {
-                            sections: [
-                                {
-                                    sectionTitle: 'Name',
-                                    sectionClass: '',
-                                    sectionFields: [
-                                        {name: 'fname', type: 'text', label: 'first name', required: 'true', 'class': 'middle-size'},
-                                        {name: 'lname', type: 'text', label: 'last name', required: 'true', 'class': 'middle-size' },
-                                        {name: 'role', type: 'text', label: 'role (optional)', required: '', 'class': 'middle-size'}
-                                    ]
-                                },
-                                {
-                                    sectionTitle: 'Contact Information',
-                                    sectionClass: '',
-                                    sectionFields: [
-                                        {name: 'address.phone', type: 'text', label: 'phone', required: '', 'class': 'middle-size'},
-                                        {name: 'email', type: 'email', label: 'email', required: 'true', 'class': 'middle-size' }
-                                    ]
-                                },
-                                {
-                                    sectionTitle: 'Shipping Address',
-                                    sectionClass: 'VisitorSecondaryInfoInputsBottom',
-                                    sectionFields: [
-                                        {name: 'address.street_line1', type: 'text', label: 'address line 1', required: '', 'class': 'biggest-size'},
-                                        {name: 'address.street_line2', type: 'text', label: 'address line 2 (optional)', required: '', 'class': 'biggest-size' },
-                                        {name: 'address.city', type: 'text', label: 'city', required: '', 'class': 'small-size'},
-                                        {name: 'address.zip_code', type: 'text', label: 'Zip code', required: '', 'class': 'small-size' }
-                                    ]
-                                }
-                            ]
-                        };
+            $scope.visitor = getEmptyVisitorObject();
+            $scope.formFields = {
+              sections: [
+                {
+                  sectionTitle: 'Name',
+                  sectionClass: '',
+                  sectionFields: [
+                    {name: 'fname', type: 'text', label: 'first name', required: 'true', class: 'middle-size'},
+                    {name: 'lname', type: 'text', label: 'last name', required: 'true', class: 'middle-size' },
+                    {name: 'role', type: 'text', label: 'role (optional)', required: '', class: 'middle-size'}
+                  ]
+                },
+                {
+                  sectionTitle: 'Contact Information',
+                  sectionClass: '',
+                  sectionFields: [
+                    {name: 'address.phone', type: 'text', label: 'phone', required: '', class: 'middle-size'},
+                    {name: 'email', type: 'email', label: 'email', required: 'true', class: 'middle-size' }
+                  ]
+                },
+                {
+                  sectionTitle: 'Shipping Address',
+                  sectionClass: 'VisitorSecondaryInfoInputsBottom',
+                  sectionFields: [
+                    {name: 'address.street_line1', type: 'text', label: 'address line 1', required: '', class: 'biggest-size'},
+                    {name: 'address.street_line2', type: 'text', label: 'address line 2 (optional)', required: '', class: 'biggest-size' },
+                    {name: 'address.city', type: 'text', label: 'city', required: '', class: 'small-size'},
+                    {name: 'address.zip_code', type: 'text', label: 'Zip code', required: '', class: 'small-size' }
+                  ]
+                }
+              ]
+            };
+            $scope.oneAtATime = true;
+            $scope.status = {
+              isFirstOpen: true,
+              isFirstDisabled: false
+            };
 
 
                         $scope.isEdit = false;
