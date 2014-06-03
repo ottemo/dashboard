@@ -16,6 +16,7 @@
               $location.path('/dashboard/visitor');
             }
             $scope.login = function () {
+                $scope.$broadcast("autofill:update");
               if ($scope.credentials.username === 'admin' && $scope.credentials.password === 'admin') {
 
                 $cookieStore.put('logUsername', $scope.credentials.username);

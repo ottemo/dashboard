@@ -9,6 +9,7 @@
     'controllers/visitor/list',
     'controllers/product/list',
     'controllers/config/config',
+    'directives/autofill',
     'directives/header',
     'directives/footer',
     'directives/visitor/list',
@@ -34,6 +35,7 @@
       'dashboardApp.controllers.ProductListCtrl',
       'dashboardApp.controllers.ProductFormEditCtrl',
       'dashboardApp.controllers.DashboardConfigCtrl',
+      'dashboardApp.directives.Autofill
       'dashboardApp.directives.DashboardHeader',
       'dashboardApp.directives.DashboardFooter',
       'dashboardApp.directives.FormSelectState',
