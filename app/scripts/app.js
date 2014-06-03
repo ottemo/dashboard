@@ -35,7 +35,7 @@
       'dashboardApp.controllers.ProductListCtrl',
       'dashboardApp.controllers.ProductFormEditCtrl',
       'dashboardApp.controllers.DashboardConfigCtrl',
-      'dashboardApp.directives.Autofill
+      'dashboardApp.directives.Autofill',
       'dashboardApp.directives.DashboardHeader',
       'dashboardApp.directives.DashboardFooter',
       'dashboardApp.directives.FormSelectState',
