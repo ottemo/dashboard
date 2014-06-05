@@ -1,14 +1,14 @@
 ## Developer Installation Instructions
 
-### Install NPM, Yo, Mocha, Grunt and Bower
+### Install NPM Gulp and Bower
 
 #### OSX
     brew install npm
     brew install git-flow
     brew install hub
     alias hub=git
-    npm install -g yo mocha grunt-cli bower
-    gem install compass
+    npm install -g gulp bower
+    npm install gulp --save-dev
 
 #### Debian based Linux
     sudo apt-get update
@@ -17,14 +17,14 @@
     sudo apt-get update
     sudo apt-get install nodejs
    
-    sudo gem install compass
     sudo apt-get install git-flow
     
     curl http://hub.github.com/standalone -sLo ~/bin/hub
     chmod +x ~/bin/hub
     alias git=hub  # add to your .bashrc or .bash_profile/.profile
 
-    npm install -g yo mocha grunt-cli bower
+    npm install -g bower gulp 
+    npm install gulp --save-dev
 
 ### Install Local Project Dependencies 
     cd <directory of your cloned repository>
@@ -39,11 +39,14 @@
 ### Start a Feature Branch
     git flow feature start <feature-name>
 
-### Build and Run Unit Tests
-    grunt
+### Build
+    gulp build
+    
+### Run Unit Tests
+    Not configured yet
 
 ### Run Client in Development Mode
-    grunt server
+    gulp serve
     
 ### Issue Pull Request on Github
     git push -u origin <feature-branch>
