@@ -28,7 +28,7 @@
                          */
                         getProductIndexById = function (id) {
                             var i = $scope.products.length;
-                            while (i--) {
+                            while ((i-=1) >= 0) {
                                 if ($scope.products[i].id === id || $scope.products[i]._id === id) {
                                     return i;
                                 }
@@ -48,9 +48,19 @@
                                             'mpn': 'B0097CZJEO',
                                             'tags': ['iphone', 'apple'],
                                             'categories': ['phones'],
-                                            'short_description': 'This Brand New iphone 5 16GB White phone comes in Original box from Apple',
-                                            'description': 'This Brand New iphone 5 16GB White phone comes in Original box from Apple with all Original accessories in the box. This iphone 5 16GB phone comes Factory Unlocked for any GSM and will work with any GSM SIM card in the world.',
-                                            'media_gallery': [h + 'images/product/21oN3v5g3kL._AA50_.jpg', h + 'images/product/31mBvTpQUBL._AA50_.jpg', h + 'images/product/31QfggQYl2L._AA50_.jpg', h + 'images/product/31r8au66QML._AA50_.jpg', h + 'images/product/iphone-5s-white.jpg'],
+                                            'short_description': 'This Brand New iphone 5 16GB White phone comes in ' +
+                                                'Original box from Apple',
+                                            'description': 'This Brand New iphone 5 16GB White phone comes in Original ' +
+                                                'box from Apple with all Original accessories in the box. This iphone ' +
+                                                '5 16GB phone comes Factory Unlocked for any GSM and will work with ' +
+                                                'any GSM SIM card in the world.',
+                                            'media_gallery': [
+                                                    h + 'images/product/21oN3v5g3kL._AA50_.jpg',
+                                                    h + 'images/product/31mBvTpQUBL._AA50_.jpg',
+                                                    h + 'images/product/31QfggQYl2L._AA50_.jpg',
+                                                    h + 'images/product/31r8au66QML._AA50_.jpg',
+                                                    h + 'images/product/iphone-5s-white.jpg'
+                                            ],
                                             'image': h + 'images/product/iphone-5s-white-big-image.jpg'
                                         },
                                         {
@@ -60,9 +70,19 @@
                                             'mpn': 'B0098CZJEO',
                                             'tags': ['iphone', 'apple'],
                                             'categories': ['phones'],
-                                            'short_description': 'This Brand New iphone 5 16GB White phone comes in Original box from Apple',
-                                            'description': 'This Brand New iphone 5 16GB White phone comes in Original box from Apple with all Original accessories in the box. This iphone 5 16GB phone comes Factory Unlocked for any GSM and will work with any GSM SIM card in the world.',
-                                            'media_gallery': [h + 'images/product/21oN3v5g3kL._AA50_.jpg', h + 'images/product/31mBvTpQUBL._AA50_.jpg', h + 'images/product/31QfggQYl2L._AA50_.jpg', h + 'images/product/31r8au66QML._AA50_.jpg', h + 'images/product/iphone-5s-white.jpg'],
+                                            'short_description': 'This Brand New iphone 5 16GB White phone comes in ' +
+                                                'Original box from Apple',
+                                            'description': 'This Brand New iphone 5 16GB White phone comes in Original ' +
+                                                'box from Apple with all Original accessories in the box. This iphone ' +
+                                                '5 16GB phone comes Factory Unlocked for any GSM and will work with ' +
+                                                'any GSM SIM card in the world.',
+                                            'media_gallery': [
+                                                    h + 'images/product/21oN3v5g3kL._AA50_.jpg',
+                                                    h + 'images/product/31mBvTpQUBL._AA50_.jpg',
+                                                    h + 'images/product/31QfggQYl2L._AA50_.jpg',
+                                                    h + 'images/product/31r8au66QML._AA50_.jpg',
+                                                    h + 'images/product/iphone-5s-white.jpg'
+                                            ],
                                             'image': h + 'images/product/iphone-5s-white-big-image.jpg'
                                         },
                                         {
@@ -72,9 +92,19 @@
                                             'mpn': 'B0099CZJEO',
                                             'tags': ['iphone', 'apple'],
                                             'categories': ['phones'],
-                                            'short_description': 'This Brand New iphone 5 16GB White phone comes in Original box from Apple',
-                                            'description': 'This Brand New iphone 5 16GB White phone comes in Original box from Apple with all Original accessories in the box. This iphone 5 16GB phone comes Factory Unlocked for any GSM and will work with any GSM SIM card in the world.',
-                                            'media_gallery': [h + 'images/product/21oN3v5g3kL._AA50_.jpg', h + 'images/product/31mBvTpQUBL._AA50_.jpg', h + 'images/product/31QfggQYl2L._AA50_.jpg', h + 'images/product/31r8au66QML._AA50_.jpg', h + 'images/product/iphone-5s-white.jpg'],
+                                            'short_description': 'This Brand New iphone 5 16GB White phone comes in ' +
+                                                'Original box from Apple',
+                                            'description': 'This Brand New iphone 5 16GB White phone comes in Original ' +
+                                                'box from Apple with all Original accessories in the box. This iphone ' +
+                                                '5 16GB phone comes Factory Unlocked for any GSM and will work with ' +
+                                                'any GSM SIM card in the world.',
+                                            'media_gallery': [
+                                                    h + 'images/product/21oN3v5g3kL._AA50_.jpg',
+                                                    h + 'images/product/31mBvTpQUBL._AA50_.jpg',
+                                                    h + 'images/product/31QfggQYl2L._AA50_.jpg',
+                                                    h + 'images/product/31r8au66QML._AA50_.jpg',
+                                                    h + 'images/product/iphone-5s-white.jpg'
+                                            ],
                                             'image': h + 'images/product/iphone-5s-white-big-image.jpg'
                                         },
                                         {
@@ -84,9 +114,19 @@
                                             'mpn': 'B0100CZJEO',
                                             'tags': ['iphone', 'apple'],
                                             'categories': ['phones'],
-                                            'short_description': 'This Brand New iphone 5 16GB White phone comes in Original box from Apple',
-                                            'description': 'This Brand New iphone 5 16GB White phone comes in Original box from Apple with all Original accessories in the box. This iphone 5 16GB phone comes Factory Unlocked for any GSM and will work with any GSM SIM card in the world.',
-                                            'media_gallery': [ h + 'images/product/21oN3v5g3kL._AA50_.jpg', h + 'images/product/31mBvTpQUBL._AA50_.jpg', h + 'images/product/31QfggQYl2L._AA50_.jpg', h + 'images/product/31r8au66QML._AA50_.jpg', h + 'images/product/iphone-5s-white.jpg'],
+                                            'short_description': 'This Brand New iphone 5 16GB White phone comes in ' +
+                                                'Original box from Apple',
+                                            'description': 'This Brand New iphone 5 16GB White phone comes in Original ' +
+                                                'box from Apple with all Original accessories in the box. This iphone ' +
+                                                '5 16GB phone comes Factory Unlocked for any GSM and will work with ' +
+                                                'any GSM SIM card in the world.',
+                                            'media_gallery': [
+                                                    h + 'images/product/21oN3v5g3kL._AA50_.jpg',
+                                                    h + 'images/product/31mBvTpQUBL._AA50_.jpg',
+                                                    h + 'images/product/31QfggQYl2L._AA50_.jpg',
+                                                    h + 'images/product/31r8au66QML._AA50_.jpg',
+                                                    h + 'images/product/iphone-5s-white.jpg'
+                                            ],
                                             'image': h + 'images/product/iphone-5s-white-big-image.jpg'
                                         },
                                         {
@@ -96,9 +136,19 @@
                                             'mpn': 'B0101CZJEO',
                                             'tags': ['iphone', 'apple'],
                                             'categories': ['phones'],
-                                            'short_description': 'This Brand New iphone 5 16GB White phone comes in Original box from Apple',
-                                            'description': 'This Brand New iphone 5 16GB White phone comes in Original box from Apple with all Original accessories in the box. This iphone 5 16GB phone comes Factory Unlocked for any GSM and will work with any GSM SIM card in the world.',
-                                            'media_gallery': [h + 'images/product/21oN3v5g3kL._AA50_.jpg', h + 'images/product/31mBvTpQUBL._AA50_.jpg', h + 'images/product/31QfggQYl2L._AA50_.jpg', h + 'images/product/31r8au66QML._AA50_.jpg', h + 'images/product/iphone-5s-white.jpg'],
+                                            'short_description': 'This Brand New iphone 5 16GB White phone comes in ' +
+                                                'Original box from Apple',
+                                            'description': 'This Brand New iphone 5 16GB White phone comes in Original ' +
+                                                'box from Apple with all Original accessories in the box. This iphone ' +
+                                                '5 16GB phone comes Factory Unlocked for any GSM and will work with ' +
+                                                'any GSM SIM card in the world.',
+                                            'media_gallery': [
+                                                    h + 'images/product/21oN3v5g3kL._AA50_.jpg',
+                                                    h + 'images/product/31mBvTpQUBL._AA50_.jpg',
+                                                    h + 'images/product/31QfggQYl2L._AA50_.jpg',
+                                                    h + 'images/product/31r8au66QML._AA50_.jpg',
+                                                    h + 'images/product/iphone-5s-white.jpg'
+                                            ],
                                             'image': h + 'images/product/iphone-5s-white-big-image.jpg'
                                         }
                                     ]);

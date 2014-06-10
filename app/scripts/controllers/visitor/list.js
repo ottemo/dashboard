@@ -28,7 +28,7 @@
                          */
                         getVisitorIndexById = function (id) {
                             var i = $scope.visitors.length;
-                            while (i--) {
+                            while ((i-=1) >= 1) {
                                 if ($scope.visitors[i].id === id || $scope.visitors[i]._id === id) {
                                     return i;
                                 }
