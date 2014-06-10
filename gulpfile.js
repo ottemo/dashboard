@@ -111,7 +111,9 @@
     // Compiling sass to css
     gulp.task('sass', function () {
         gulp.src(sources.app + '/styles/sass/*.scss')
-            .pipe(sass())
+            .pipe(sass({
+                imagePath: '../../images'
+            }))
             .pipe(autoprefix('last 1 version'))
             .pipe(gulp.dest(sources.dist + '/styles/'))
             .pipe(gulp.dest(sources.app + '/styles/'))

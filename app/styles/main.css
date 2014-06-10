@@ -6,59 +6,48 @@
 /* Login Page Variable */
 /* Config Section Variables */
 /* Menu Container Variables */
-/* line 1, sass/_global-styles.scss */
 body {
   padding: 0;
   margin: 0;
   font-size: 12px;
   font-family: Arial; }
 
-/* line 7, sass/_global-styles.scss */
 img {
   border: 0;
   margin: 0;
   padding: 0; }
 
-/* line 12, sass/_global-styles.scss */
 .clear {
   height: 0;
   width: 100%;
   clear: both; }
 
-/* line 17, sass/_global-styles.scss */
 ul {
   margin: 0px;
   padding: 0;
   list-style: none; }
 
-/* line 22, sass/_global-styles.scss */
 .MainWrapper {
   background: #eeeeee; }
 
-/* line 1, sass/_header.scss */
 .HeaderWrapper {
   with: 100%;
   height: 32px;
-  background: black; }
+  background: #000000; }
 
-/* line 6, sass/_header.scss */
 .LogoContainer {
   float: left;
   width: 35%;
   height: 32px; }
-  /* line 10, sass/_header.scss */
   .LogoContainer a {
     display: inline-block; }
-    /* line 12, sass/_header.scss */
     .LogoContainer a img {
       vertical-align: top; }
 
-/* line 17, sass/_header.scss */
 .VisitorSettingWrapper {
   width: 65%;
   float: right; }
 
-/* line 21, sass/_header.scss */
 .VisitorSettingContainerGlobal {
   background: #242424;
   min-width: 185px;
@@ -66,123 +55,100 @@ ul {
   height: 32px;
   position: relative;
   float: right; }
-  /* line 28, sass/_header.scss */
   .VisitorSettingContainerGlobal .visitor-name {
     position: relative;
     float: left;
-    color: white;
+    color: #ffffff;
     text-decoration: none;
     padding-left: 40px;
     line-height: 32px; }
-    /* line 35, sass/_header.scss */
     .VisitorSettingContainerGlobal .visitor-name img {
       position: absolute;
       top: 0;
       left: 0; }
-  /* line 41, sass/_header.scss */
   .VisitorSettingContainerGlobal .VisitorSettingContainer {
     float: right;
-    background: black; }
-    /* line 45, sass/_header.scss */
+    background: #000000; }
     .VisitorSettingContainerGlobal .VisitorSettingContainer a img {
       vertical-align: top; }
 
-/* line 1, sass/_left-visitor-container.scss */
 .LeftContentContainer {
   float: left;
   width: 35%;
   background: #95d2ff; }
 
 /* ----------------------------------------- TabHeaderContainer Styles ---------------------------------------------- */
-/* line 9, sass/_left-visitor-container.scss */
 .TabHeaderContainer {
   float: left;
   width: 15%;
-  background: url('../images/adminTab-background.png?1400592719') top left repeat-x;
+  background: url("../../images/adminTab-background.png") top left repeat-x;
   position: relative;
   z-index: 100; }
-  /* line 15, sass/_left-visitor-container.scss */
   .TabHeaderContainer .tabs-header-list {
     padding-right: 64px; }
-    /* line 17, sass/_left-visitor-container.scss */
     .TabHeaderContainer .tabs-header-list li {
       float: left;
       padding: 6px;
       height: 52px;
       width: 52px;
       text-align: center;
-      background: url('../images/adminTab-inactive.png?1400592719') top left repeat-x; }
-      /* line 24, sass/_left-visitor-container.scss */
+      background: url("../../images/adminTab-inactive.png") top left repeat-x; }
       .TabHeaderContainer .tabs-header-list li.active {
-        background: url('../images/adminTab-active.png?1400592719') top left repeat-x; }
-      /* line 27, sass/_left-visitor-container.scss */
+        background: url("../../images/adminTab-active.png") top left repeat-x; }
       .TabHeaderContainer .tabs-header-list li a {
         text-decoration: none; }
-        /* line 29, sass/_left-visitor-container.scss */
         .TabHeaderContainer .tabs-header-list li a img {
           display: block;
           margin: 0 10px 6px 10px; }
-        /* line 33, sass/_left-visitor-container.scss */
         .TabHeaderContainer .tabs-header-list li a span {
           font-family: "sans serif";
-          color: white; }
-  /* line 40, sass/_left-visitor-container.scss */
+          color: #ffffff; }
   .TabHeaderContainer .help {
     padding: 6px;
     height: 52px;
     width: 52px;
     text-align: center;
-    background: url('../images/adminTab-inactive.png?1400592719') top left repeat-x;
+    background: url("../../images/adminTab-inactive.png") top left repeat-x;
     position: absolute;
     top: 0;
     right: 0;
     text-decoration: none; }
-    /* line 50, sass/_left-visitor-container.scss */
     .TabHeaderContainer .help img {
       display: block;
       margin: 0 10px 6px 10px; }
-    /* line 54, sass/_left-visitor-container.scss */
     .TabHeaderContainer .help span {
       font-family: "sans serif";
-      color: white; }
+      color: #ffffff; }
 
 /* ----------------------------------------- END TabHeaderContainer Styles ------------------------------------------ */
 /* -----------------------------------------  BrowseController Styles ----------------------------------------------- */
-/* line 64, sass/_left-visitor-container.scss */
 .BrowseController {
   background: #00a3f5;
   padding: 8px;
   height: 32px; }
-  /* line 68, sass/_left-visitor-container.scss */
   .BrowseController .AddButtonContainer {
     float: left;
     width: 32px;
     height: 32px;
     margin-right: 8px; }
-  /* line 74, sass/_left-visitor-container.scss */
   .BrowseController .SwithViewContainer {
     float: right;
     width: 80px;
     height: 32px; }
-    /* line 78, sass/_left-visitor-container.scss */
     .BrowseController .SwithViewContainer a {
       float: left;
       margin-left: 8px; }
-  /* line 83, sass/_left-visitor-container.scss */
   .BrowseController .SearchContainer {
     height: 32px;
     width: auto;
     background: #ffffff;
     position: relative;
     margin: 0 80px 0 40px; }
-    /* line 89, sass/_left-visitor-container.scss */
     .BrowseController .SearchContainer input {
       width: 100%;
       height: 32px;
       margin: 0;
-      background: url('../images/icon-search.png?1400592719') top left no-repeat;
-      -moz-box-sizing: border-box;
-      -webkit-box-sizing: border-box;
+      background: url("../../images/icon-search.png") top left no-repeat;
       box-sizing: border-box;
       padding-left: 32px;
       border: 0;
@@ -190,21 +156,16 @@ ul {
 
 /* ----------------------------------------- End BrowseController Styles -------------------------------------------- */
 /* ----------------------------------------- BrowseBody Styles ------------------------------------------------------ */
-/* line 106, sass/_left-visitor-container.scss */
 .BrowseBody {
   background: #95d2ff;
   padding: 8px; }
-  /* line 110, sass/_left-visitor-container.scss */
   .BrowseBody .visitor-list li {
     position: relative;
     padding-top: 8px; }
-    /* line 113, sass/_left-visitor-container.scss */
     .BrowseBody .visitor-list li:first-child {
       padding-top: 0px; }
-      /* line 115, sass/_left-visitor-container.scss */
       .BrowseBody .visitor-list li:first-child .visitors-list-avatar {
         top: 0px; }
-    /* line 119, sass/_left-visitor-container.scss */
     .BrowseBody .visitor-list li .visitors-list-avatar {
       display: inline-block;
       position: absolute;
@@ -213,41 +174,33 @@ ul {
       width: 32px;
       height: 32px;
       overflow: hidden; }
-      /* line 127, sass/_left-visitor-container.scss */
       .BrowseBody .visitor-list li .visitors-list-avatar img {
         max-width: 100%;
         height: auto;
         display: inline-block;
         vertical-align: top; }
-      /* line 133, sass/_left-visitor-container.scss */
       .BrowseBody .visitor-list li .visitors-list-avatar .visitors-title-avatar {
         display: none; }
-    /* line 137, sass/_left-visitor-container.scss */
     .BrowseBody .visitor-list li .visitors-list-text {
       display: block;
       padding: 0 10px 0px 42px;
       height: 32px;
-      background: white;
+      background: #ffffff;
       color: #242424;
       width: 100%;
-      -moz-box-sizing: border-box;
-      -webkit-box-sizing: border-box;
       box-sizing: border-box;
       font-size: 14px;
       line-height: 32px;
       overflow: hidden; }
-  /* line 153, sass/_left-visitor-container.scss */
   .BrowseBody .visitor-list.tile li {
-    background: white;
+    background: #ffffff;
     float: left;
     width: 32%;
     margin-left: 2%;
     margin-bottom: 8px;
     padding-top: 0; }
-    /* line 160, sass/_left-visitor-container.scss */
     .BrowseBody .visitor-list.tile li.visitor-first {
       margin-left: 0%; }
-    /* line 163, sass/_left-visitor-container.scss */
     .BrowseBody .visitor-list.tile li .visitors-list-avatar {
       position: relative;
       width: 100%;
@@ -256,67 +209,54 @@ ul {
       line-height: 96px;
       top: -1px;
       display: block; }
-      /* line 171, sass/_left-visitor-container.scss */
       .BrowseBody .visitor-list.tile li .visitors-list-avatar img {
         vertical-align: middle; }
-    /* line 175, sass/_left-visitor-container.scss */
     .BrowseBody .visitor-list.tile li .visitors-list-text {
       padding: 0 5px;
       text-align: center;
       background: none;
       line-height: 15px;
       font-size: 12px; }
-    /* line 182, sass/_left-visitor-container.scss */
     .BrowseBody .visitor-list.tile li:hover {
       background: #19b2ff; }
-      /* line 184, sass/_left-visitor-container.scss */
       .BrowseBody .visitor-list.tile li:hover .visitors-list-text {
-        color: white; }
+        color: #ffffff; }
 
 /* ----------------------------------------- End BrowseBody Styles -------------------------------------------------  */
-/* line 1, sass/_right-visitor-container.scss */
 .RightContentContainer {
   float: left;
   width: 50%;
   background: #eeeeee; }
 
 /* ------------------------------------------ VisitorControlBar Styles --------------------------------------------- */
-/* line 9, sass/_right-visitor-container.scss */
 .VisitorControlBar {
   height: 32px;
   background: #157ac1; }
-  /* line 12, sass/_right-visitor-container.scss */
   .VisitorControlBar li {
     height: 32px;
     float: left;
     padding: 0 8px;
     line-height: 32px; }
-    /* line 17, sass/_right-visitor-container.scss */
     .VisitorControlBar li a {
-      color: white;
+      color: #ffffff;
       text-decoration: none;
       font-size: 14px;
       text-transform: uppercase;
       display: inline-block; }
-    /* line 25, sass/_right-visitor-container.scss */
     .VisitorControlBar li span {
-      color: white;
+      color: #ffffff;
       font-size: 14px; }
-    /* line 29, sass/_right-visitor-container.scss */
     .VisitorControlBar li.use-type-select {
       background: #136096; }
-      /* line 31, sass/_right-visitor-container.scss */
       .VisitorControlBar li.use-type-select a {
         padding-right: 14px;
         position: relative;
         min-width: 10px;
         height: 32px; }
-      /* line 37, sass/_right-visitor-container.scss */
       .VisitorControlBar li.use-type-select span {
         position: absolute;
         right: 4px;
         top: 14px; }
-        /* line 72, sass/_variables.scss */
         .VisitorControlBar li.use-type-select span:after {
           position: absolute;
           border: solid transparent;
@@ -329,7 +269,6 @@ ul {
           border-color: transparent;
           border-width: 5px;
           pointer-events: none; }
-        /* line 102, sass/_variables.scss */
         .VisitorControlBar li.use-type-select span:after {
           top: 100%;
           border-top-color: white;
@@ -338,7 +277,6 @@ ul {
 
 /* ------------------------------------------ End VisitorControlBar Styles ----------------------------------------- */
 /* ------------------------------------------ VisitorTopProfile Styles ----------------------------------------------*/
-/* line 50, sass/_right-visitor-container.scss */
 .VisitorProfileImage {
   background: #00a3f5;
   width: 30%;
@@ -347,28 +285,23 @@ ul {
   float: left;
   min-height: 164px; }
 
-/* line 58, sass/_right-visitor-container.scss */
 .VisitorProfileMainInfoWrapper {
   width: 70%;
   background: #19b2ff;
   float: left;
   min-height: 204px; }
-  /* line 63, sass/_right-visitor-container.scss */
   .VisitorProfileMainInfoWrapper .VisitorProfileMainInfo {
     padding: 15px 0 15px 48px; }
-    /* line 65, sass/_right-visitor-container.scss */
     .VisitorProfileMainInfoWrapper .VisitorProfileMainInfo span {
-      color: white;
+      color: #ffffff;
       font-size: 18px;
       display: block;
       margin-bottom: 8px; }
-    /* line 71, sass/_right-visitor-container.scss */
     .VisitorProfileMainInfoWrapper .VisitorProfileMainInfo label {
       display: block;
-      color: white;
+      color: #ffffff;
       font-size: 12px;
       margin: 0 0 3px 6px; }
-    /* line 77, sass/_right-visitor-container.scss */
     .VisitorProfileMainInfoWrapper .VisitorProfileMainInfo input {
       display: block;
       margin: 0 0 3px 5px;
@@ -377,203 +310,145 @@ ul {
       height: 25px;
       border: 1px solid #1f292f; }
 
-/* line 88, sass/_right-visitor-container.scss */
 .VisitorSecondaryInfo {
   clear: both;
   padding: 15px 0 30px 35px; }
-  /* line 91, sass/_right-visitor-container.scss */
   .VisitorSecondaryInfo h3 {
     padding: 15px 0 10px 0;
     margin: 0;
-    color: black;
+    color: #000000;
     font-weight: normal;
     font-size: 18px; }
-  /* line 98, sass/_right-visitor-container.scss */
   .VisitorSecondaryInfo label {
     display: block;
     margin: 0 0 3px 6px;
     font-size: 12px;
-    color: black; }
-  /* line 104, sass/_right-visitor-container.scss */
+    color: #000000; }
   .VisitorSecondaryInfo input {
     margin: 0 0 8px 6px;
-    border: 1px solid black;
+    border: 1px solid #000000;
     padding: 0 5px;
     display: block;
     height: 25px; }
-    /* line 110, sass/_right-visitor-container.scss */
     .VisitorSecondaryInfo input.middle-size {
       width: 305px; }
-    /* line 113, sass/_right-visitor-container.scss */
     .VisitorSecondaryInfo input.biggest-size {
       width: 540px; }
-    /* line 116, sass/_right-visitor-container.scss */
     .VisitorSecondaryInfo input.small-size {
       width: 160px; }
-  /* line 120, sass/_right-visitor-container.scss */
   .VisitorSecondaryInfo .VisitorSecondaryInfoInputsBottom {
     float: left;
     margin-right: 19px; }
-    /* line 123, sass/_right-visitor-container.scss */
     .VisitorSecondaryInfo .VisitorSecondaryInfoInputsBottom label {
       margin-left: 0; }
-    /* line 126, sass/_right-visitor-container.scss */
     .VisitorSecondaryInfo .VisitorSecondaryInfoInputsBottom input {
       margin-left: 0; }
-      /* line 128, sass/_right-visitor-container.scss */
       .VisitorSecondaryInfo .VisitorSecondaryInfoInputsBottom input .biggest-size {
         clear: left; }
-    /* line 132, sass/_right-visitor-container.scss */
     .VisitorSecondaryInfo .VisitorSecondaryInfoInputsBottom.second {
       float: none;
       clear: left; }
-    /* line 136, sass/_right-visitor-container.scss */
     .VisitorSecondaryInfo .VisitorSecondaryInfoInputsBottom select {
-      border: 1px solid black;
+      border: 1px solid #000000;
       height: 27px;
       width: 170px; }
-    /* line 141, sass/_right-visitor-container.scss */
     .VisitorSecondaryInfo .VisitorSecondaryInfoInputsBottom.first {
       margin-left: 6px; }
 
 /* ------------------------------------------ End VisitorTopProfile Styles ----------------------------------------- */
-/* line 1, sass/_footer.scss */
 .FooterWrapper {
   height: 32px;
-  background: black; }
+  background: #000000; }
 
 /*---------------------------- Styles for User Right Panel for Portrait View -----------------------------------------*/
 @media only screen and (min-device-width: 600px) and (max-device-width: 1000px) and (orientation: portrait) {
-  /* line 5, sass/_visitor_tablet.scss */
   .VisitorSecondaryInfo input {
     width: 305px !important;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     margin: 0 0 3px 0; }
-  /* line 12, sass/_visitor_tablet.scss */
   .VisitorSecondaryInfo select {
     width: 305px !important;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     margin: 0 0 3px 0; }
-  /* line 19, sass/_visitor_tablet.scss */
   .VisitorSecondaryInfo .VisitorSecondaryInfoInputsBottom {
     float: none;
     margin-right: 0; }
-    /* line 22, sass/_visitor_tablet.scss */
     .VisitorSecondaryInfo .VisitorSecondaryInfoInputsBottom.first {
       margin-left: 0; } }
+
 /*---------------------------- End Styles for User Right Panel for Portrait View -------------------------------------*/
 /*---------------------------- Styles for User Right Panel for Landscape View ----------------------------------------*/
 @media only screen and (min-device-width: 600px) and (max-device-width: 1000px) and (orientation: landscape) {
-  /* line 35, sass/_visitor_tablet.scss */
   .VisitorSecondaryInfo input {
     width: 305px !important;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     margin: 0 0 3px 0; }
-  /* line 42, sass/_visitor_tablet.scss */
   .VisitorSecondaryInfo select {
     width: 305px !important;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     margin: 0 0 3px 0; }
-  /* line 49, sass/_visitor_tablet.scss */
   .VisitorSecondaryInfo .VisitorSecondaryInfoInputsBottom {
     float: none;
     margin-right: 0; }
-    /* line 52, sass/_visitor_tablet.scss */
     .VisitorSecondaryInfo .VisitorSecondaryInfoInputsBottom.first {
       margin-left: 0; } }
+
 /*---------------------------- End Styles for User Right Panel for Landscape View ------------------------------------*/
 /*---------------------------- Styles for User Right Panel -----------------------------------------------------------*/
 @media only screen and (min-width: 320px) and (max-width: 640px) {
-  /* line 4, sass/_visitor_mobile.scss */
   .RightContentContainer {
     width: 100%; }
-
-  /* line 7, sass/_visitor_mobile.scss */
   .LeftContentContainer {
     width: 100%;
     display: none; } }
+
 @media only screen and (min-width: 320px) and (max-width: 568px) {
-  /* line 14, sass/_visitor_mobile.scss */
+  /*---------------------------- End Styles for User Right Panel -------------------------------------------------------*/
   .VisitorProfileImage {
     width: 100%; }
-
-  /* line 17, sass/_visitor_mobile.scss */
   .VisitorProfileMainInfoWrapper {
     width: 100%; }
-    /* line 19, sass/_visitor_mobile.scss */
     .VisitorProfileMainInfoWrapper .VisitorProfileMainInfo {
       padding: 15px 10% 15px 10%; }
-      /* line 21, sass/_visitor_mobile.scss */
       .VisitorProfileMainInfoWrapper .VisitorProfileMainInfo input {
         width: 100%;
-        -moz-box-sizing: border-box;
-        -webkit-box-sizing: border-box;
         box-sizing: border-box;
         margin: 0 0 3px 0; }
-      /* line 28, sass/_visitor_mobile.scss */
       .VisitorProfileMainInfoWrapper .VisitorProfileMainInfo label {
         margin-left: 0; }
-
-  /* line 33, sass/_visitor_mobile.scss */
   .VisitorSecondaryInfo {
     padding: 15px 10% 30px 10%; }
-    /* line 35, sass/_visitor_mobile.scss */
     .VisitorSecondaryInfo input {
       width: 100% !important;
-      -moz-box-sizing: border-box;
-      -webkit-box-sizing: border-box;
       box-sizing: border-box;
       margin: 0 0 3px 0; }
-    /* line 42, sass/_visitor_mobile.scss */
     .VisitorSecondaryInfo label {
       margin-left: 0; }
-    /* line 45, sass/_visitor_mobile.scss */
     .VisitorSecondaryInfo .VisitorSecondaryInfoInputsBottom {
       float: none;
       margin-right: 0; }
-      /* line 48, sass/_visitor_mobile.scss */
       .VisitorSecondaryInfo .VisitorSecondaryInfoInputsBottom.first {
         margin-left: 0; }
-      /* line 51, sass/_visitor_mobile.scss */
       .VisitorSecondaryInfo .VisitorSecondaryInfoInputsBottom input {
         width: 100% !important;
-        -moz-box-sizing: border-box;
-        -webkit-box-sizing: border-box;
         box-sizing: border-box;
         margin: 0 0 3px 0; }
-      /* line 58, sass/_visitor_mobile.scss */
       .VisitorSecondaryInfo .VisitorSecondaryInfoInputsBottom select {
         width: 100% !important;
-        -moz-box-sizing: border-box;
-        -webkit-box-sizing: border-box;
         box-sizing: border-box;
-        margin: 0 0 3px 0; }
+        margin: 0 0 3px 0; } }
 
-  /*---------------------------- End Styles for User Right Panel -------------------------------------------------------*/ }
 /* ----------------------------------------- BrowseBody Styles ------------------------------------------------------ */
-/* line 2, sass/_left-product-container.scss */
 .BrowseBody {
   background: #95d2ff;
   padding: 8px; }
-  /* line 6, sass/_left-product-container.scss */
   .BrowseBody .product-list li {
     position: relative;
     padding-top: 8px; }
-    /* line 9, sass/_left-product-container.scss */
     .BrowseBody .product-list li:first-child {
       padding-top: 0px; }
-      /* line 11, sass/_left-product-container.scss */
       .BrowseBody .product-list li:first-child .products-list-avatar {
         top: 0px; }
-    /* line 15, sass/_left-product-container.scss */
     .BrowseBody .product-list li .products-list-avatar {
       display: inline-block;
       position: absolute;
@@ -582,41 +457,33 @@ ul {
       width: 32px;
       height: 32px;
       overflow: hidden; }
-      /* line 23, sass/_left-product-container.scss */
       .BrowseBody .product-list li .products-list-avatar img {
         max-width: 100%;
         height: auto;
         display: inline-block;
         vertical-align: top; }
-      /* line 29, sass/_left-product-container.scss */
       .BrowseBody .product-list li .products-list-avatar .products-title-avatar {
         display: none; }
-    /* line 33, sass/_left-product-container.scss */
     .BrowseBody .product-list li .products-list-text {
       display: block;
       padding: 0 10px 0px 42px;
       height: 32px;
-      background: white;
+      background: #ffffff;
       color: #242424;
       width: 100%;
-      -moz-box-sizing: border-box;
-      -webkit-box-sizing: border-box;
       box-sizing: border-box;
       font-size: 14px;
       line-height: 32px;
       overflow: hidden; }
-  /* line 49, sass/_left-product-container.scss */
   .BrowseBody .product-list.tile li {
-    background: white;
+    background: #ffffff;
     float: left;
     width: 32%;
     margin-left: 2%;
     margin-bottom: 8px;
     padding-top: 0; }
-    /* line 56, sass/_left-product-container.scss */
     .BrowseBody .product-list.tile li.product-first {
       margin-left: 0%; }
-    /* line 59, sass/_left-product-container.scss */
     .BrowseBody .product-list.tile li .products-list-avatar {
       position: relative;
       width: 100%;
@@ -625,34 +492,27 @@ ul {
       line-height: 96px;
       top: -1px;
       display: block; }
-      /* line 67, sass/_left-product-container.scss */
       .BrowseBody .product-list.tile li .products-list-avatar img {
         vertical-align: middle; }
-    /* line 71, sass/_left-product-container.scss */
     .BrowseBody .product-list.tile li .products-list-text {
       padding: 0 5px;
       text-align: center;
       background: none;
       line-height: 15px;
       font-size: 12px; }
-    /* line 78, sass/_left-product-container.scss */
     .BrowseBody .product-list.tile li:hover {
       background: #19b2ff; }
-      /* line 80, sass/_left-product-container.scss */
       .BrowseBody .product-list.tile li:hover .products-list-text {
-        color: white; }
+        color: #ffffff; }
 
 /* ----------------------------------------- End BrowseBody Styles -------------------------------------------------  */
-/* line 1, sass/_right-product-container.scss */
 .ProductMainTopContainer {
   background: #00a3f5; }
 
 /* ------------------------------------------ ProductControlBar Styles --------------------------------------------- */
-/* line 6, sass/_right-product-container.scss */
 .ProductControlBar {
   height: 32px;
   background: #157ac1; }
-  /* line 9, sass/_right-product-container.scss */
   .ProductControlBar p {
     padding: 0 16px;
     line-height: 32px;
@@ -660,9 +520,8 @@ ul {
     height: 32px;
     background: #136096;
     float: left; }
-    /* line 16, sass/_right-product-container.scss */
     .ProductControlBar p label {
-      color: white;
+      color: #ffffff;
       font-size: 14px;
       text-transform: uppercase;
       position: relative;
@@ -671,7 +530,6 @@ ul {
 
 /* ------------------------------------------ End ProductControlBar Styles ------------------------------------------ */
 /* ------------------------------------------ ProductRightTopContainer Styles ----------------------------------------*/
-/* line 31, sass/_right-product-container.scss */
 .ProductMainImage {
   background: #00a3f5;
   width: 30%;
@@ -679,46 +537,37 @@ ul {
   padding: 8px 0;
   float: left;
   min-height: 112px; }
-  /* line 38, sass/_right-product-container.scss */
   .ProductMainImage img {
     display: inline-block;
     vertical-align: top; }
 
-/* line 43, sass/_right-product-container.scss */
 .ProductSecondaryImagesWrapper {
   width: 70%;
   background: #19b2ff;
   float: left;
   min-height: 120px;
   position: relative; }
-  /* line 49, sass/_right-product-container.scss */
   .ProductSecondaryImagesWrapper .ProductSecondaryImages {
     padding: 4px 12px; }
-    /* line 51, sass/_right-product-container.scss */
     .ProductSecondaryImagesWrapper .ProductSecondaryImages ul {
       margin: 0;
       padding: 0;
       width: 180px; }
-      /* line 55, sass/_right-product-container.scss */
       .ProductSecondaryImagesWrapper .ProductSecondaryImages ul li {
         float: left;
         list-style: none; }
-        /* line 58, sass/_right-product-container.scss */
         .ProductSecondaryImagesWrapper .ProductSecondaryImages ul li a {
           width: 52px;
           height: 52px;
           overflow: hidden;
           display: block;
           padding: 4px; }
-          /* line 64, sass/_right-product-container.scss */
           .ProductSecondaryImagesWrapper .ProductSecondaryImages ul li a img {
             max-width: 100%;
             height: auto;
             display: block; }
-          /* line 69, sass/_right-product-container.scss */
           .ProductSecondaryImagesWrapper .ProductSecondaryImages ul li a:hover {
             background: #95d2ff; }
-  /* line 76, sass/_right-product-container.scss */
   .ProductSecondaryImagesWrapper .ProductTopActions {
     width: 48px;
     position: absolute;
@@ -727,34 +576,26 @@ ul {
     height: 128px;
     text-align: center;
     background: #00a3f5; }
-    /* line 84, sass/_right-product-container.scss */
     .ProductSecondaryImagesWrapper .ProductTopActions li {
       width: 100%;
       display: block;
       margin-top: 8px; }
-      /* line 88, sass/_right-product-container.scss */
       .ProductSecondaryImagesWrapper .ProductTopActions li img {
         display: block;
         margin: 0 auto; }
 
 /* ---------------------------------------End ProductRightTopContainer Styles ----------------------------------------*/
 /* ---------------------------------------ProductSecondaryInfoContainer Styles ---------------------------------------*/
-/* line 99, sass/_right-product-container.scss */
 .ProductSecondaryInfo {
   padding: 15px 0 30px 35px; }
-  /* line 101, sass/_right-product-container.scss */
   .ProductSecondaryInfo ul {
     clear: left; }
-  /* line 104, sass/_right-product-container.scss */
   .ProductSecondaryInfo li {
     float: left; }
-    /* line 106, sass/_right-product-container.scss */
     .ProductSecondaryInfo li input {
       width: 260px; }
-    /* line 109, sass/_right-product-container.scss */
     .ProductSecondaryInfo li:first-child {
       margin-right: 20px; }
-  /* line 113, sass/_right-product-container.scss */
   .ProductSecondaryInfo input {
     display: block;
     width: 540px;
@@ -762,10 +603,7 @@ ul {
     height: 25px;
     margin-bottom: 10px;
     border: 1px solid #1f292f;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
     box-sizing: border-box; }
-  /* line 124, sass/_right-product-container.scss */
   .ProductSecondaryInfo textarea {
     display: block;
     width: 540px;
@@ -773,102 +611,73 @@ ul {
     height: 40px;
     margin-bottom: 10px;
     border: 1px solid #1f292f;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
     box-sizing: border-box; }
-  /* line 135, sass/_right-product-container.scss */
   .ProductSecondaryInfo .ProductSecondaryInfoSep {
     margin-bottom: 35px; }
 
 /* ----------------------------------- End ProductSecondaryInfoContainer Styles --------------------------------------*/
 @media only screen and (min-device-width: 320px) and (max-device-width: 1000px) and (orientation: portrait) {
-  /* line 2, sass/_product_tablet.scss */
   .ProductSecondaryInfo {
     width: 80%;
     padding: 15px 10%; }
-    /* line 5, sass/_product_tablet.scss */
     .ProductSecondaryInfo li {
       float: none; }
-      /* line 7, sass/_product_tablet.scss */
       .ProductSecondaryInfo li:first-child {
         margin-right: 0; }
-    /* line 11, sass/_product_tablet.scss */
     .ProductSecondaryInfo input {
       width: 100% !important;
-      -moz-box-sizing: border-box;
-      -webkit-box-sizing: border-box;
       box-sizing: border-box;
       margin: 0 0 3px 0; }
-    /* line 18, sass/_product_tablet.scss */
     .ProductSecondaryInfo textarea {
       width: 100% !important;
-      -moz-box-sizing: border-box;
-      -webkit-box-sizing: border-box;
       box-sizing: border-box;
       margin: 0 0 3px 0; } }
+
 @media only screen and (min-device-width: 320px) and (max-device-width: 1000px) and (orientation: landscape) {
-  /* line 28, sass/_product_tablet.scss */
   .ProductSecondaryInfo {
     width: 80%;
     padding: 15px 10%; }
-    /* line 31, sass/_product_tablet.scss */
     .ProductSecondaryInfo li {
       float: none; }
-      /* line 33, sass/_product_tablet.scss */
       .ProductSecondaryInfo li:first-child {
         margin-right: 0; }
-    /* line 37, sass/_product_tablet.scss */
     .ProductSecondaryInfo input {
       width: 100% !important;
-      -moz-box-sizing: border-box;
-      -webkit-box-sizing: border-box;
       box-sizing: border-box;
       margin: 0 0 3px 0; }
-    /* line 44, sass/_product_tablet.scss */
     .ProductSecondaryInfo textarea {
       width: 100% !important;
-      -moz-box-sizing: border-box;
-      -webkit-box-sizing: border-box;
       box-sizing: border-box;
       margin: 0 0 3px 0; } }
-/* line 1, sass/_login.scss */
+
 .LoginWrapper {
   width: 540px;
   margin: 0 auto;
   padding-top: 15px; }
-  /* line 5, sass/_login.scss */
   .LoginWrapper .LoginLogo {
     width: 540px;
     height: 110px;
-    background: url('../images/login/desktop-logo.jpg?1400592719') top left no-repeat;
+    background: url("../../images/login/desktop-logo.jpg") top left no-repeat;
     margin-bottom: 30px; }
-  /* line 11, sass/_login.scss */
   .LoginWrapper .LoginContainer {
     background: #157ac1;
     padding: 64px;
     width: 540px;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
     box-sizing: border-box; }
-    /* line 18, sass/_login.scss */
     .LoginWrapper .LoginContainer label {
       display: block;
       font-size: 24px;
-      color: white;
+      color: #ffffff;
       margin-bottom: 20px;
       font-weight: normal; }
-    /* line 25, sass/_login.scss */
     .LoginWrapper .LoginContainer input {
       width: 100%;
-      -moz-box-sizing: border-box;
-      -webkit-box-sizing: border-box;
       box-sizing: border-box;
       padding: 0 5px;
       height: 64px;
       border: 0px;
       margin-bottom: 40px;
       font-size: 24px; }
-    /* line 36, sass/_login.scss */
     .LoginWrapper .LoginContainer button {
       height: 64px;
       line-height: 64px;
@@ -883,44 +692,36 @@ ul {
       cursor: pointer; }
 
 @media only screen and (min-width: 600px) and (max-width: 1000px) {
-  /* line 52, sass/_login.scss */
   .LoginWrapper {
     width: 410px; }
-    /* line 54, sass/_login.scss */
     .LoginWrapper .LoginLogo {
       width: 350px;
       height: 70px;
-      background: url('../images/login/tablet-logo.png?1400837305') top left no-repeat;
+      background: url("../../images/login/tablet-logo.png") top left no-repeat;
       margin: 0 auto;
       margin-bottom: 30px; }
-      /* line 60, sass/_login.scss */
       .LoginWrapper .LoginLogo input {
         height: 48px; }
-      /* line 63, sass/_login.scss */
       .LoginWrapper .LoginLogo button {
         height: 48px;
         line-height: 48px; }
-    /* line 68, sass/_login.scss */
     .LoginWrapper .LoginContainer {
       padding: 36px;
       width: 410px; } }
+
 @media only screen and (min-width: 320px) and (max-width: 600px) {
-  /* line 75, sass/_login.scss */
   .LoginWrapper {
     width: 240px;
     font-size: 18px; }
-    /* line 78, sass/_login.scss */
     .LoginWrapper .LoginLogo {
       width: 220px;
       height: 45px;
       margin: 0 auto;
       margin-bottom: 40px;
-      background: url('../images/login/mobile-logo.jpg?1400592719') top left no-repeat; }
-    /* line 85, sass/_login.scss */
+      background: url("../../images/login/mobile-logo.jpg") top left no-repeat; }
     .LoginWrapper .LoginContainer {
       padding: 30px;
       width: 240px; }
-      /* line 88, sass/_login.scss */
       .LoginWrapper .LoginContainer label {
         font-size: 18px;
         width: 158px;
@@ -928,35 +729,29 @@ ul {
         text-align: center;
         display: block;
         margin-bottom: 10px; }
-      /* line 96, sass/_login.scss */
       .LoginWrapper .LoginContainer input {
         height: 36px;
         margin-bottom: 20px; }
-      /* line 100, sass/_login.scss */
       .LoginWrapper .LoginContainer button {
         width: 100%;
         height: 40px;
         line-height: 40px;
         font-size: 24px; } }
-/* line 1, sass/_config.scss */
+
 .RightDashBoardConfig {
   float: left;
   width: 50%;
   padding: 32px;
   background: #19b2ff;
   moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
   box-sizing: border-box; }
-  /* line 9, sass/_config.scss */
   .RightDashBoardConfig li {
     padding-bottom: 8px; }
-  /* line 12, sass/_config.scss */
   .RightDashBoardConfig label {
     display: block;
-    color: white;
+    color: #ffffff;
     font-size: 12px;
     margin: 0 0 3px 6px; }
-  /* line 18, sass/_config.scss */
   .RightDashBoardConfig input {
     display: block;
     margin: 0 0 3px 5px;
@@ -964,29 +759,23 @@ ul {
     padding: 0 5px;
     height: 25px;
     border: 1px solid #1f292f; }
-  /* line 27, sass/_config.scss */
   .RightDashBoardConfig h3 {
     padding: 15px 0 10px 0;
     margin: 0;
-    color: white;
+    color: #ffffff;
     font-weight: normal;
     font-size: 18px; }
 
-/* line 35, sass/_config.scss */
 .LeftDashBoardConfig {
   padding: 8px; }
-  /* line 37, sass/_config.scss */
   .LeftDashBoardConfig li {
     width: 100%;
     margin-top: 8px;
-    background: white; }
-    /* line 41, sass/_config.scss */
+    background: #ffffff; }
     .LeftDashBoardConfig li:hover {
       background: #00a3f5; }
-    /* line 44, sass/_config.scss */
     .LeftDashBoardConfig li.config-tab-active {
       background: #00a3f5; }
-    /* line 47, sass/_config.scss */
     .LeftDashBoardConfig li span {
       display: block;
       padding: 0 10px 0px 10px;
@@ -994,106 +783,81 @@ ul {
       line-height: 32px;
       cursor: pointer; }
 
-/* line 57, sass/_config.scss */
 .view-animate-container {
   position: relative;
   overflow: hidden;
   height: 392px; }
 
-/* line 64, sass/_config.scss */
-.view-animate-container > .slide.ng-enter,
-.view-animate-container > .slide.ng-leave {
-  -webkit-transition: all ease 0.5s;
-  -moz-transition: all ease 0.5s;
-  -o-transition: all ease 0.5s;
+.view-animate-container > .slide.ng-enter, .view-animate-container > .slide.ng-leave {
   transition: all ease 0.5s;
   width: 100%;
   position: absolute; }
 
-/* line 73, sass/_config.scss */
 .view-animate-container > .slide.ng-enter {
   left: 100%;
   opacity: 0; }
 
-/* line 77, sass/_config.scss */
 .view-animate-container > .slide.ng-enter.ng-enter-active {
   left: 0;
   opacity: 1; }
 
-/* line 81, sass/_config.scss */
 .view-animate-container > .slide.ng-leave.ng-leave-active {
   left: -100%;
   opacity: 0; }
 
-/* line 2, sass/_top-menu.scss */
 .browse-tab-header span {
   display: inline-block; }
-  /* line 5, sass/_top-menu.scss */
   .browse-tab-header span img {
     position: relative;
     top: 10px;
     margin-right: 12px; }
-/* line 11, sass/_top-menu.scss */
 .browse-tab-header ul {
   margin: 0;
   padding: 0;
   list-style: none; }
-  /* line 15, sass/_top-menu.scss */
   .browse-tab-header ul li {
     margin: 0;
     padding: 10px 20px;
     position: relative;
     height: 20px;
     line-height: 20px;
-    background: url('../images/menu-back.jpg?1401182202') top left repeat-x; }
-    /* line 25, sass/_top-menu.scss */
+    background: url("../../images/menu-back.jpg") top left repeat-x; }
     .browse-tab-header ul li > div > div > div > ul {
       visibility: hidden;
       width: 200px;
       top: 0px;
       left: 199px;
       position: absolute; }
-    /* line 40, sass/_top-menu.scss */
     .browse-tab-header ul li:hover > div > div > div > ul {
       visibility: visible; }
-      /* line 42, sass/_top-menu.scss */
       .browse-tab-header ul li:hover > div > div > div > ul li {
-        border: 1px solid black; }
-        /* line 44, sass/_top-menu.scss */
+        border: 1px solid #000000; }
         .browse-tab-header ul li:hover > div > div > div > ul li:hover {
-          background: url('../images/menu-active-back.jpg?1401182202') top left repeat-x; }
-          /* line 46, sass/_top-menu.scss */
+          background: url("../../images/menu-active-back.jpg") top left repeat-x; }
           .browse-tab-header ul li:hover > div > div > div > ul li:hover a {
-            color: white;
+            color: #ffffff;
             text-decoration: none; }
-        /* line 51, sass/_top-menu.scss */
         .browse-tab-header ul li:hover > div > div > div > ul li a {
-          color: white; }
-/* line 63, sass/_top-menu.scss */
+          color: #ffffff; }
 .browse-tab-header > ul > li {
   padding: 0;
   height: 64px; }
-  /* line 66, sass/_top-menu.scss */
   .browse-tab-header > ul > li > a {
     height: 44px;
     line-height: 44px;
     padding: 10px 20px;
     display: block;
-    color: white;
+    color: #ffffff;
     text-decoration: none; }
-    /* line 73, sass/_top-menu.scss */
     .browse-tab-header > ul > li > a.active {
-      background: url('../images/menu-active-back.jpg?1401182202') top left repeat-x; }
-  /* line 80, sass/_top-menu.scss */
+      background: url("../../images/menu-active-back.jpg") top left repeat-x; }
   .browse-tab-header > ul > li > div > div > div > ul {
     top: 0px;
     position: absolute;
     left: 100%; }
-  /* line 88, sass/_top-menu.scss */
   .browse-tab-header > ul > li:hover {
-    background: url('../images/menu-active-back.jpg?1401182202') top left repeat-x; }
-    /* line 90, sass/_top-menu.scss */
+    background: url("../../images/menu-active-back.jpg") top left repeat-x; }
     .browse-tab-header > ul > li:hover > a {
       text-decoration: none;
       display: block;
-      color: white; }
+      color: #ffffff; }
