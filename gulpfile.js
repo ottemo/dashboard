@@ -146,11 +146,11 @@
                     return console.log(err);
                 }
 
-                gulp.watch(sources.app + '/**/*.html', ['htmlpage']);
-                gulp.watch(sources.app + '/scripts/**/*.js', ['jshint', 'requirejs']);
-                gulp.watch(sources.app + '/images/**/*', ['imagemin']);
-                gulp.watch(sources.app + '/styles/*.css', ['autoprefixer']);
-                gulp.watch(sources.app + '/styles/sass/*.scss', ['sass']);
+                gulp.watch(sources.app + '/**/*.html', { maxListeners:0 }, ['htmlpage']);
+                gulp.watch(sources.app + '/scripts/**/*.js', { maxListeners:0 }, ['jshint', 'requirejs']);
+                gulp.watch(sources.app + '/images/**/*', { maxListeners:0  }, ['imagemin']);
+                gulp.watch(sources.app + '/styles/*.css', { maxListeners:0 }, ['autoprefixer']);
+                gulp.watch(sources.app + '/styles/sass/*.scss', {  maxListeners:0  }, ['sass']);
             });
         }
     );
