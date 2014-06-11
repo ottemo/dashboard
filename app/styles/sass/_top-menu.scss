@@ -1,13 +1,7 @@
 .browse-tab-header {
   span {
-
-    display: inline-block;
-    img {
-      position: relative;
-      top: 10px;
-      margin-right: 12px;
-    }
-  }
+    display: block;
+   }
   ul {
     margin: 0;
     padding: 0;
@@ -16,7 +10,7 @@
       margin: 0;
       padding: 10px 20px;
       position: relative;
-      height: 20px;
+      height: 40px;
       line-height: 20px;
       background: image-url('menu-back.jpg') top left repeat-x;
       > div {
@@ -63,16 +57,15 @@
     > li {
       padding: 0;
       height: 64px;
+      background: none;
       > a {
         height: 44px;
-        line-height: 44px;
-        padding: 10px 20px;
+        padding: 10px 0px;
+        text-align: center;
         display: block;
         color: $MenuLinkColor;
         text-decoration: none;
-        &.active {
-          background: image-url('menu-active-back.jpg') top left repeat-x;
-        }
+
       }
       > div {
         > div {
@@ -86,7 +79,6 @@
         }
       }
       &:hover {
-        background: image-url('menu-active-back.jpg') top left repeat-x;
         > a {
           text-decoration: none;
           display: block;

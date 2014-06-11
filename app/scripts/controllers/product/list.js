@@ -182,6 +182,9 @@
                             //$scope.products = ProductService.getAll()
                             //maybe need to create a SearchService
                         });
+                      $scope.showStatus = true;
+                      $scope.switchStatus = 0;
+
                     }
                 ]
             );

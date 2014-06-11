@@ -1,7 +1,7 @@
 <ul>
     <li ng-repeat="link in submenu" ng-switch="link.linktype.externalink">
-        <a ng-switch-when="false" href="#{{link.linktype.href}}" ng-class="getClass('{{link.linktype.href}}')"><span ng-bind-html="link.content"></span><span class="link-title">{{link.title}}</span></a>
-        <a ng-switch-when="true" href="http://{{link.linktype.href}}"><span ng-bind-html="link.content"></span><span class="link-title">{{link.title}}</span></a>
+        <a ng-switch-when="false" href="#{{link.linktype.href}}" ng-class="getClass('{{link.linktype.href}}')"><span class="{{link.class}}"></span><span class="link-title">{{link.title}}</span></a>
+        <a ng-switch-when="true" href="http://{{link.linktype.href}}"><span class="{{link.class}}"></span><span class="link-title">{{link.title}}</span></a>
 
          <div ng-switch on="link.submenu.length > 0">
             <div ng-switch-when="true" class="submenu">
@@ -10,5 +10,17 @@
         </div>
     </li>
 </ul>
+<script type="text/javascript">
+    $(function(){
+        $(document).ready(function(){ // On load
+            $('.MainWrapper').css({'height':(($(window).height()) - 72)+'px'});
+            $('.BrowseBody').css({'height':(($('.MainWrapper').height()) - 75)+'px'});
+        });
+        $(window).resize(function(){ // On resize
+            $('.MainWrapper').css({'height':(($(window).height()) - 72)+'px'});
+            $('.BrowseBody').css({'height':(($('.MainWrapper').height()) - 75)+'px'});
+        });
+    });
+</script>
 
 

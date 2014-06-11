@@ -1,4 +1,4 @@
-@media only screen and (min-device-width : 320px) and (max-device-width : 1000px) and (orientation : portrait) {
+@media only screen and (min-width : 320px) and (max-width : 1000px) and (orientation : portrait) {
   .ProductSecondaryInfo {
     width: 80%;
     padding: 15px 10%;
@@ -23,8 +23,27 @@
       margin: 0 0 3px 0;
     }
   }
+  .ProductMainImage {
+    width: 100%;
+    text-align: center;
+  }
+  .ProductSecondaryImages {
+    width: 100%;
+    text-align: center;
+   li {
+     float: none;
+     display: inline-block;
+   }
+  }
+  .ProductProfileButtons {
+    width: 100%;
+    text-align: center;
+    button {
+      display: inline-block;
+    }
+  }
 }
-@media only screen and (min-device-width : 320px) and (max-device-width : 1000px) and (orientation : landscape) {
+@media only screen and (min-width : 320px) and (max-width : 1000px) and (orientation : landscape) {
   .ProductSecondaryInfo {
     width: 80%;
     padding: 15px 10%;
@@ -47,6 +66,25 @@
       -webkit-box-sizing: border-box;
       box-sizing: border-box;
       margin: 0 0 3px 0;
+    }
+  }
+  .ProductMainImage {
+    width: 100%;
+    text-align: center;
+  }
+  .ProductSecondaryImages {
+    text-align: center;
+    li {
+      float: none;
+      display: inline-block;
+    }
+    width: 100%;
+  }
+  .ProductProfileButtons {
+    width: 100%;
+    text-align: center;
+    button {
+      display: inline-block;
     }
   }
 }

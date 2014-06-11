@@ -6,11 +6,15 @@
 /* Login Page Variable */
 /* Config Section Variables */
 /* Menu Container Variables */
+html {
+  height: 100%; }
+
 body {
   padding: 0;
   margin: 0;
   font-size: 12px;
-  font-family: Arial; }
+  font-family: Arial;
+  height: 100%; }
 
 img {
   border: 0;
@@ -28,7 +32,31 @@ ul {
   list-style: none; }
 
 .MainWrapper {
-  background: #eeeeee; }
+  background: #131010;
+  position: relative;
+  overflow: hidden; }
+
+.fa-plus-circle {
+  color: #ffffff !important; }
+
+.fa-th-large {
+  color: #ffffff !important; }
+
+.fa-align-justify {
+  color: #ffffff !important; }
+
+.container {
+  width: 100%;
+  padding: 0; }
+
+.ng-hide {
+  display: block !important; }
+
+.show-mobile {
+  display: none;
+  position: absolute;
+  bottom: 0px;
+  left: 5px; }
 
 .HeaderWrapper {
   with: 100%;
@@ -75,15 +103,22 @@ ul {
 .LeftContentContainer {
   float: left;
   width: 35%;
-  background: #95d2ff; }
+  background: #1a1919;
+  padding-left: 85px;
+  position: relative;
+  box-sizing: border-box;
+  height: 100%; }
 
 /* ----------------------------------------- TabHeaderContainer Styles ---------------------------------------------- */
 .TabHeaderContainer {
-  float: left;
-  width: 15%;
+  width: 85px;
   background: url("../../images/adminTab-background.png") top left repeat-x;
-  position: relative;
-  z-index: 100; }
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 100;
+  height: 100%;
+  background: #000000; }
   .TabHeaderContainer .tabs-header-list {
     padding-right: 64px; }
     .TabHeaderContainer .tabs-header-list li {
@@ -103,67 +138,71 @@ ul {
         .TabHeaderContainer .tabs-header-list li a span {
           font-family: "sans serif";
           color: #ffffff; }
-  .TabHeaderContainer .help {
-    padding: 6px;
-    height: 52px;
-    width: 52px;
-    text-align: center;
-    background: url("../../images/adminTab-inactive.png") top left repeat-x;
-    position: absolute;
-    top: 0;
-    right: 0;
-    text-decoration: none; }
-    .TabHeaderContainer .help img {
-      display: block;
-      margin: 0 10px 6px 10px; }
-    .TabHeaderContainer .help span {
-      font-family: "sans serif";
-      color: #ffffff; }
 
 /* ----------------------------------------- END TabHeaderContainer Styles ------------------------------------------ */
 /* -----------------------------------------  BrowseController Styles ----------------------------------------------- */
 .BrowseController {
-  background: #00a3f5;
+  background: #272525;
   padding: 8px;
-  height: 32px; }
+  height: 35px; }
   .BrowseController .AddButtonContainer {
     float: left;
     width: 32px;
-    height: 32px;
+    height: 35px;
     margin-right: 8px; }
   .BrowseController .SwithViewContainer {
     float: right;
-    width: 80px;
-    height: 32px; }
+    width: 44px;
+    height: 35px; }
+    .BrowseController .SwithViewContainer .list {
+      display: none; }
     .BrowseController .SwithViewContainer a {
       float: left;
-      margin-left: 8px; }
+      margin-left: 8px;
+      cursor: pointer;
+      top: 2px;
+      position: relative; }
+      .BrowseController .SwithViewContainer a:hover {
+        text-decoration: none; }
+    .BrowseController .SwithViewContainer.tile .tile {
+      display: none; }
+    .BrowseController .SwithViewContainer.tile .list {
+      display: block; }
+    .BrowseController .SwithViewContainer.list .list {
+      display: none; }
   .BrowseController .SearchContainer {
-    height: 32px;
+    height: 35px;
     width: auto;
     background: #ffffff;
     position: relative;
-    margin: 0 80px 0 40px; }
+    margin: 0 44px 0 40px; }
+    .BrowseController .SearchContainer div {
+      position: relative;
+      width: 100%; }
     .BrowseController .SearchContainer input {
       width: 100%;
-      height: 32px;
+      height: 35px;
       margin: 0;
-      background: url("../../images/icon-search.png") top left no-repeat;
       box-sizing: border-box;
-      padding-left: 32px;
       border: 0;
-      line-height: 32px; }
+      line-height: 32px;
+      padding-left: 35px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: none; }
 
 /* ----------------------------------------- End BrowseController Styles -------------------------------------------- */
 /* ----------------------------------------- BrowseBody Styles ------------------------------------------------------ */
 .BrowseBody {
-  background: #95d2ff;
-  padding: 8px; }
+  background: #1a1919;
+  padding: 8px;
+  height: 100%; }
   .BrowseBody .visitor-list li {
     position: relative;
     padding-top: 8px; }
     .BrowseBody .visitor-list li:first-child {
-      padding-top: 0px; }
+      padding-top: 8px; }
       .BrowseBody .visitor-list li:first-child .visitors-list-avatar {
         top: 0px; }
     .BrowseBody .visitor-list li .visitors-list-avatar {
@@ -186,7 +225,7 @@ ul {
       padding: 0 10px 0px 42px;
       height: 32px;
       background: #ffffff;
-      color: #242424;
+      color: #000000;
       width: 100%;
       box-sizing: border-box;
       font-size: 14px;
@@ -197,7 +236,7 @@ ul {
     float: left;
     width: 32%;
     margin-left: 2%;
-    margin-bottom: 8px;
+    margin-top: 8px;
     padding-top: 0; }
     .BrowseBody .visitor-list.tile li.visitor-first {
       margin-left: 0%; }
@@ -221,17 +260,26 @@ ul {
       background: #19b2ff; }
       .BrowseBody .visitor-list.tile li:hover .visitors-list-text {
         color: #ffffff; }
+  .BrowseBody .BrowseBodyInner {
+    overflow: auto;
+    height: 100%; }
 
 /* ----------------------------------------- End BrowseBody Styles -------------------------------------------------  */
 .RightContentContainer {
   float: left;
-  width: 50%;
-  background: #eeeeee; }
+  width: 65%;
+  background: #131010;
+  height: 100%; }
+
+.RightContentInner {
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100%; }
 
 /* ------------------------------------------ VisitorControlBar Styles --------------------------------------------- */
 .VisitorControlBar {
   height: 32px;
-  background: #157ac1; }
+  background: #131010; }
   .VisitorControlBar li {
     height: 32px;
     float: left;
@@ -247,7 +295,7 @@ ul {
       color: #ffffff;
       font-size: 14px; }
     .VisitorControlBar li.use-type-select {
-      background: #136096; }
+      background: #131010; }
       .VisitorControlBar li.use-type-select a {
         padding-right: 14px;
         position: relative;
@@ -277,17 +325,45 @@ ul {
 
 /* ------------------------------------------ End VisitorControlBar Styles ----------------------------------------- */
 /* ------------------------------------------ VisitorTopProfile Styles ----------------------------------------------*/
-.VisitorProfileImage {
-  background: #00a3f5;
-  width: 30%;
-  text-align: center;
-  padding: 20px 0;
+.VisitorProfileMainImage {
   float: left;
-  min-height: 164px; }
+  width: 40%;
+  float: left;
+  margin-right: 10%;
+  text-align: center; }
+
+.VisitorProfileSecondaryImage {
+  float: left;
+  width: 70%; }
+  .VisitorProfileSecondaryImage li {
+    float: left;
+    width: 25%;
+    padding-bottom: 15px; }
+
+.VisitorProfileButtons {
+  float: left;
+  width: 50%;
+  padding-right: 33px;
+  box-sizing: border-box; }
+  .VisitorProfileButtons button {
+    display: block;
+    width: 150px;
+    margin-bottom: 15px; }
+
+.VisitorSectionTitle {
+  text-align: left;
+  background: #ffffff;
+  margin: 0 33px 10px 0; }
+  .VisitorSectionTitle h3 {
+    padding: 5px 0 5px 10px;
+    margin: 0;
+    color: #000000;
+    font-weight: normal;
+    font-size: 18px; }
 
 .VisitorProfileMainInfoWrapper {
   width: 70%;
-  background: #19b2ff;
+  background: #131010;
   float: left;
   min-height: 204px; }
   .VisitorProfileMainInfoWrapper .VisitorProfileMainInfo {
@@ -308,25 +384,21 @@ ul {
       width: 257px;
       padding: 0 5px;
       height: 25px;
-      border: 1px solid #1f292f; }
+      border: 1px solid #ffffff; }
 
 .VisitorSecondaryInfo {
   clear: both;
-  padding: 15px 0 30px 35px; }
-  .VisitorSecondaryInfo h3 {
-    padding: 15px 0 10px 0;
-    margin: 0;
-    color: #000000;
-    font-weight: normal;
-    font-size: 18px; }
+  padding: 15px 35px 30px 35px; }
+  .VisitorSecondaryInfo .panel-collapse {
+    background: #131010; }
   .VisitorSecondaryInfo label {
     display: block;
     margin: 0 0 3px 6px;
     font-size: 12px;
-    color: #000000; }
+    color: #ffffff; }
   .VisitorSecondaryInfo input {
     margin: 0 0 8px 6px;
-    border: 1px solid #000000;
+    border: 1px solid #ffffff;
     padding: 0 5px;
     display: block;
     height: 25px; }
@@ -349,19 +421,25 @@ ul {
       float: none;
       clear: left; }
     .VisitorSecondaryInfo .VisitorSecondaryInfoInputsBottom select {
-      border: 1px solid #000000;
+      border: 1px solid #ffffff;
       height: 27px;
       width: 170px; }
     .VisitorSecondaryInfo .VisitorSecondaryInfoInputsBottom.first {
       margin-left: 6px; }
+  .VisitorSecondaryInfo .VisitorAbsoluteButtons {
+    position: absolute;
+    bottom: 0px;
+    right: 10px;
+    z-index: 100; }
 
 /* ------------------------------------------ End VisitorTopProfile Styles ----------------------------------------- */
 .FooterWrapper {
-  height: 32px;
-  background: #000000; }
+  height: 40px;
+  background: #000000;
+  width: 100%; }
 
 /*---------------------------- Styles for User Right Panel for Portrait View -----------------------------------------*/
-@media only screen and (min-device-width: 600px) and (max-device-width: 1000px) and (orientation: portrait) {
+@media only screen and (min-width: 600px) and (max-width: 1000px) and (orientation: portrait) {
   .VisitorSecondaryInfo input {
     width: 305px !important;
     box-sizing: border-box;
@@ -374,11 +452,20 @@ ul {
     float: none;
     margin-right: 0; }
     .VisitorSecondaryInfo .VisitorSecondaryInfoInputsBottom.first {
-      margin-left: 0; } }
+      margin-left: 0; }
+  .VisitorProfileMainImage {
+    width: 100%;
+    margin: 0; }
+  .VisitorProfileButtons {
+    width: 100%;
+    text-align: center;
+    padding: 0; }
+    .VisitorProfileButtons button {
+      display: inline-block; } }
 
 /*---------------------------- End Styles for User Right Panel for Portrait View -------------------------------------*/
 /*---------------------------- Styles for User Right Panel for Landscape View ----------------------------------------*/
-@media only screen and (min-device-width: 600px) and (max-device-width: 1000px) and (orientation: landscape) {
+@media only screen and (min-width: 600px) and (max-width: 1000px) and (orientation: landscape) {
   .VisitorSecondaryInfo input {
     width: 305px !important;
     box-sizing: border-box;
@@ -391,19 +478,39 @@ ul {
     float: none;
     margin-right: 0; }
     .VisitorSecondaryInfo .VisitorSecondaryInfoInputsBottom.first {
-      margin-left: 0; } }
+      margin-left: 0; }
+  .VisitorProfileMainImage {
+    width: 100%;
+    margin: 0; }
+  .VisitorProfileButtons {
+    width: 100%;
+    text-align: center;
+    padding: 0; }
+    .VisitorProfileButtons button {
+      display: inline-block; } }
 
 /*---------------------------- End Styles for User Right Panel for Landscape View ------------------------------------*/
 /*---------------------------- Styles for User Right Panel -----------------------------------------------------------*/
-@media only screen and (min-width: 320px) and (max-width: 640px) {
+@media only screen and (min-width: 320px) and (max-width: 670px) {
   .RightContentContainer {
     width: 100%; }
   .LeftContentContainer {
+    width: 100%; }
+  .VisitorProfileMainImage {
     width: 100%;
-    display: none; } }
+    margin: 0; }
+  .VisitorProfileButtons {
+    width: 100%;
+    text-align: center;
+    padding: 0; }
+    .VisitorProfileButtons button {
+      display: inline-block; }
+  .ng-hide {
+    display: none !important; }
+  .show-mobile {
+    display: block !important; } }
 
 @media only screen and (min-width: 320px) and (max-width: 568px) {
-  /*---------------------------- End Styles for User Right Panel -------------------------------------------------------*/
   .VisitorProfileImage {
     width: 100%; }
   .VisitorProfileMainInfoWrapper {
@@ -436,11 +543,16 @@ ul {
       .VisitorSecondaryInfo .VisitorSecondaryInfoInputsBottom select {
         width: 100% !important;
         box-sizing: border-box;
-        margin: 0 0 3px 0; } }
+        margin: 0 0 3px 0; }
+  .ng-hide {
+    display: none !important; }
+  .show-mobile {
+    display: block; } }
 
+/*---------------------------- End Styles for User Right Panel -------------------------------------------------------*/
 /* ----------------------------------------- BrowseBody Styles ------------------------------------------------------ */
 .BrowseBody {
-  background: #95d2ff;
+  background: #1a1919;
   padding: 8px; }
   .BrowseBody .product-list li {
     position: relative;
@@ -469,7 +581,7 @@ ul {
       padding: 0 10px 0px 42px;
       height: 32px;
       background: #ffffff;
-      color: #242424;
+      color: #000000;
       width: 100%;
       box-sizing: border-box;
       font-size: 14px;
@@ -507,18 +619,18 @@ ul {
 
 /* ----------------------------------------- End BrowseBody Styles -------------------------------------------------  */
 .ProductMainTopContainer {
-  background: #00a3f5; }
+  background: #131010; }
 
 /* ------------------------------------------ ProductControlBar Styles --------------------------------------------- */
 .ProductControlBar {
   height: 32px;
-  background: #157ac1; }
+  background: #131010; }
   .ProductControlBar p {
     padding: 0 16px;
     line-height: 32px;
     margin: 0;
     height: 32px;
-    background: #136096;
+    background: #131010;
     float: left; }
     .ProductControlBar p label {
       color: #ffffff;
@@ -528,10 +640,16 @@ ul {
       top: -2px;
       margin-left: 5px; }
 
+.panel-collapse {
+  background: #131010; }
+
+.ProductAccordionInner {
+  padding: 10px 35px; }
+
 /* ------------------------------------------ End ProductControlBar Styles ------------------------------------------ */
 /* ------------------------------------------ ProductRightTopContainer Styles ----------------------------------------*/
 .ProductMainImage {
-  background: #00a3f5;
+  background: #131010;
   width: 30%;
   text-align: center;
   padding: 8px 0;
@@ -543,7 +661,7 @@ ul {
 
 .ProductSecondaryImagesWrapper {
   width: 70%;
-  background: #19b2ff;
+  background: #131010;
   float: left;
   min-height: 120px;
   position: relative; }
@@ -551,8 +669,7 @@ ul {
     padding: 4px 12px; }
     .ProductSecondaryImagesWrapper .ProductSecondaryImages ul {
       margin: 0;
-      padding: 0;
-      width: 180px; }
+      padding: 0; }
       .ProductSecondaryImagesWrapper .ProductSecondaryImages ul li {
         float: left;
         list-style: none; }
@@ -575,7 +692,7 @@ ul {
     right: 0;
     height: 128px;
     text-align: center;
-    background: #00a3f5; }
+    background: #131010; }
     .ProductSecondaryImagesWrapper .ProductTopActions li {
       width: 100%;
       display: block;
@@ -596,13 +713,15 @@ ul {
       width: 260px; }
     .ProductSecondaryInfo li:first-child {
       margin-right: 20px; }
+  .ProductSecondaryInfo label {
+    color: #ffffff; }
   .ProductSecondaryInfo input {
     display: block;
     width: 540px;
     padding: 0 5px;
     height: 25px;
     margin-bottom: 10px;
-    border: 1px solid #1f292f;
+    border: 1px solid #ffffff;
     box-sizing: border-box; }
   .ProductSecondaryInfo textarea {
     display: block;
@@ -610,30 +729,46 @@ ul {
     padding: 0 5px;
     height: 40px;
     margin-bottom: 10px;
-    border: 1px solid #1f292f;
+    border: 1px solid #ffffff;
     box-sizing: border-box; }
   .ProductSecondaryInfo .ProductSecondaryInfoSep {
     margin-bottom: 35px; }
 
-/* ----------------------------------- End ProductSecondaryInfoContainer Styles --------------------------------------*/
-@media only screen and (min-device-width: 320px) and (max-device-width: 1000px) and (orientation: portrait) {
-  .ProductSecondaryInfo {
-    width: 80%;
-    padding: 15px 10%; }
-    .ProductSecondaryInfo li {
-      float: none; }
-      .ProductSecondaryInfo li:first-child {
-        margin-right: 0; }
-    .ProductSecondaryInfo input {
-      width: 100% !important;
-      box-sizing: border-box;
-      margin: 0 0 3px 0; }
-    .ProductSecondaryInfo textarea {
-      width: 100% !important;
-      box-sizing: border-box;
-      margin: 0 0 3px 0; } }
+.ProductSecondaryInputs input {
+  float: left; }
 
-@media only screen and (min-device-width: 320px) and (max-device-width: 1000px) and (orientation: landscape) {
+.ProductMainImage {
+  float: left;
+  width: 15%;
+  float: left;
+  text-align: center; }
+
+.ProductSecondaryImages {
+  float: left;
+  width: 70%; }
+  .ProductSecondaryImages li {
+    float: left;
+    width: 25%;
+    padding-bottom: 15px; }
+
+.ProductProfileButtons {
+  float: left;
+  width: 15%;
+  padding-right: 33px;
+  box-sizing: border-box; }
+  .ProductProfileButtons button {
+    display: block;
+    width: 150px;
+    margin-bottom: 15px; }
+
+.ProductAbsoluteButtons {
+  position: absolute;
+  bottom: 0px;
+  right: 10px;
+  z-index: 100; }
+
+/* ----------------------------------- End ProductSecondaryInfoContainer Styles --------------------------------------*/
+@media only screen and (min-width: 320px) and (max-width: 1000px) and (orientation: portrait) {
   .ProductSecondaryInfo {
     width: 80%;
     padding: 15px 10%; }
@@ -648,7 +783,52 @@ ul {
     .ProductSecondaryInfo textarea {
       width: 100% !important;
       box-sizing: border-box;
-      margin: 0 0 3px 0; } }
+      margin: 0 0 3px 0; }
+  .ProductMainImage {
+    width: 100%;
+    text-align: center; }
+  .ProductSecondaryImages {
+    width: 100%;
+    text-align: center; }
+    .ProductSecondaryImages li {
+      float: none;
+      display: inline-block; }
+  .ProductProfileButtons {
+    width: 100%;
+    text-align: center; }
+    .ProductProfileButtons button {
+      display: inline-block; } }
+
+@media only screen and (min-width: 320px) and (max-width: 1000px) and (orientation: landscape) {
+  .ProductSecondaryInfo {
+    width: 80%;
+    padding: 15px 10%; }
+    .ProductSecondaryInfo li {
+      float: none; }
+      .ProductSecondaryInfo li:first-child {
+        margin-right: 0; }
+    .ProductSecondaryInfo input {
+      width: 100% !important;
+      box-sizing: border-box;
+      margin: 0 0 3px 0; }
+    .ProductSecondaryInfo textarea {
+      width: 100% !important;
+      box-sizing: border-box;
+      margin: 0 0 3px 0; }
+  .ProductMainImage {
+    width: 100%;
+    text-align: center; }
+  .ProductSecondaryImages {
+    text-align: center;
+    width: 100%; }
+    .ProductSecondaryImages li {
+      float: none;
+      display: inline-block; }
+  .ProductProfileButtons {
+    width: 100%;
+    text-align: center; }
+    .ProductProfileButtons button {
+      display: inline-block; } }
 
 .LoginWrapper {
   width: 540px;
@@ -740,9 +920,9 @@ ul {
 
 .RightDashBoardConfig {
   float: left;
-  width: 50%;
+  width: 65%;
   padding: 32px;
-  background: #19b2ff;
+  background: #131010;
   moz-box-sizing: border-box;
   box-sizing: border-box; }
   .RightDashBoardConfig li {
@@ -758,7 +938,7 @@ ul {
     width: 257px;
     padding: 0 5px;
     height: 25px;
-    border: 1px solid #1f292f; }
+    border: 1px solid #ffffff; }
   .RightDashBoardConfig h3 {
     padding: 15px 0 10px 0;
     margin: 0;
@@ -787,6 +967,8 @@ ul {
   position: relative;
   overflow: hidden;
   height: 392px; }
+  .view-animate-container .well {
+    background: #131010; }
 
 .view-animate-container > .slide.ng-enter, .view-animate-container > .slide.ng-leave {
   transition: all ease 0.5s;
@@ -806,11 +988,7 @@ ul {
   opacity: 0; }
 
 .browse-tab-header span {
-  display: inline-block; }
-  .browse-tab-header span img {
-    position: relative;
-    top: 10px;
-    margin-right: 12px; }
+  display: block; }
 .browse-tab-header ul {
   margin: 0;
   padding: 0;
@@ -819,7 +997,7 @@ ul {
     margin: 0;
     padding: 10px 20px;
     position: relative;
-    height: 20px;
+    height: 40px;
     line-height: 20px;
     background: url("../../images/menu-back.jpg") top left repeat-x; }
     .browse-tab-header ul li > div > div > div > ul {
@@ -841,23 +1019,20 @@ ul {
           color: #ffffff; }
 .browse-tab-header > ul > li {
   padding: 0;
-  height: 64px; }
+  height: 64px;
+  background: none; }
   .browse-tab-header > ul > li > a {
     height: 44px;
-    line-height: 44px;
-    padding: 10px 20px;
+    padding: 10px 0px;
+    text-align: center;
     display: block;
     color: #ffffff;
     text-decoration: none; }
-    .browse-tab-header > ul > li > a.active {
-      background: url("../../images/menu-active-back.jpg") top left repeat-x; }
   .browse-tab-header > ul > li > div > div > div > ul {
     top: 0px;
     position: absolute;
     left: 100%; }
-  .browse-tab-header > ul > li:hover {
-    background: url("../../images/menu-active-back.jpg") top left repeat-x; }
-    .browse-tab-header > ul > li:hover > a {
-      text-decoration: none;
-      display: block;
-      color: #ffffff; }
+  .browse-tab-header > ul > li:hover > a {
+    text-decoration: none;
+    display: block;
+    color: #ffffff; }

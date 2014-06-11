@@ -2,16 +2,24 @@
   float: left;
   width: 35%;
   background: $browseBody;
-
-}
-/* ----------------------------------------- TabHeaderContainer Styles ---------------------------------------------- */
-
-.TabHeaderContainer {
-  float: left;
-  width: 15%;
-  background: image-url('adminTab-background.png') top left repeat-x;
+  padding-left: 85px;
   position: relative;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  height: 100%;
+  }
+
+/* ----------------------------------------- TabHeaderContainer Styles ---------------------------------------------- */
+.TabHeaderContainer {
+  width: 85px;
+  background: image-url('adminTab-background.png') top left repeat-x;
+  position: absolute;
+  left: 0;
+  top: 0;
   z-index: 100;
+  height: 100%;
+  background: $TabHeaderContainerBack;
   .tabs-header-list {
     padding-right: 64px;
     li {
@@ -37,26 +45,7 @@
       }
     }
   }
-  .help {
-    padding: 6px;
-    height: 52px;
-    width: 52px;
-    text-align: center;
-    background: image-url('adminTab-inactive.png') top left repeat-x;
-    position: absolute;
-    top: 0;
-    right: 0;
-    text-decoration: none;
-    img {
-      display: block;
-      margin: 0 10px 6px 10px;
-    }
-    span {
-      font-family: "sans serif";
-      color: $tabLinkColor;
-    }
   }
-}
 /* ----------------------------------------- END TabHeaderContainer Styles ------------------------------------------ */
 
 /* -----------------------------------------  BrowseController Styles ----------------------------------------------- */
@@ -64,39 +53,68 @@
 .BrowseController {
   background: $browseControllerBack;
   padding: 8px;
-  height: 32px;
+  height: 35px;
   .AddButtonContainer {
     float: left;
     width: 32px;
-    height: 32px;
+    height: 35px;
     margin-right: 8px;
   }
   .SwithViewContainer {
     float: right;
-    width: 80px;
-    height: 32px;
+    width: 44px;
+    height: 35px;
+    .list {
+      display: none;
+    }
     a {
       float: left;
       margin-left: 8px;
+      cursor: pointer;
+      top: 2px;
+      position: relative;
+      &:hover {
+        text-decoration: none;
+      }
+    }
+    &.tile {
+      .tile {
+        display: none;
+      }
+      .list {
+        display: block;
+      }
+    }
+    &.list {
+      .list {
+        display: none;
+      }
     }
   }
   .SearchContainer {
-    height: 32px;
+    height: 35px;
     width: auto;
     background: #ffffff;
     position: relative;
-    margin: 0 80px 0 40px;
+    margin: 0 44px 0 40px;
+    div {
+      position: relative;
+      width: 100%;
+    }
     input {
       width: 100%;
-      height: 32px;
+      height: 35px;
       margin: 0;
-      background: image-url('icon-search.png') top left no-repeat;
       -moz-box-sizing: border-box;
       -webkit-box-sizing: border-box;
       box-sizing: border-box;
-      padding-left: 32px;
       border: 0;
       line-height: 32px;
+      padding-left: 35px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: none;
       }
     }
   }
@@ -106,12 +124,13 @@
 .BrowseBody {
   background: $browseBody;
   padding: 8px;
+  height: 100%;
   .visitor-list {
     li {
       position: relative;
       padding-top: 8px;
       &:first-child {
-        padding-top: 0px;
+        padding-top: 8px;
         .visitors-list-avatar {
           top: 0px;
         }
@@ -155,7 +174,7 @@
         float: left;
         width: 32%;
         margin-left: 2%;
-        margin-bottom: 8px;
+        margin-top: 8px;
         padding-top: 0;
         &.visitor-first {
           margin-left: 0%;
@@ -187,6 +206,10 @@
         }
       }
     }
+  }
+  .BrowseBodyInner {
+    overflow: auto;
+    height: 100%;
   }
 }
 /* ----------------------------------------- End BrowseBody Styles -------------------------------------------------  */
