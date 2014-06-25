@@ -1,74 +1,50 @@
-/*jshint unused: vars */
+"use strict";
+
+window.name = "NG_DEFER_BOOTSTRAP!"; // http://code.angularjs.org/1.2.1/docs/guide/bootstrap#overview_deferred-bootstrap
+
 require.config({
-    paths: {
-        'angular-scenario': '../bower_components/angular-scenario/angular-scenario',
-        'angular-sanitize': '../bower_components/angular-sanitize/angular-sanitize',
-        'angular-route': '../bower_components/angular-route/angular-route',
-        'angular-resource': '../bower_components/angular-resource/angular-resource',
-        'angular-mocks': '../bower_components/angular-mocks/angular-mocks',
-        'angular-cookies': '../bower_components/angular-cookies/angular-cookies',
-        angular: '../bower_components/angular/angular',
-        jquery: '../bower_components/jquery/jquery',
-        'angular-animate': '../bower_components/angular-animate/angular-animate',
-        'bootstrap-sass': '../bower_components/bootstrap-sass/dist/js/bootstrap',
-        'angular-bootstrap': '../bower_components/angular-bootstrap/ui-bootstrap-tpls'
-    },
-    shim: {
-        angular: {
-            exports: 'angular'
-        },
-        'angular-route': [
-            'angular'
-        ],
-        'angular-cookies': [
-            'angular'
-        ],
-        'angular-sanitize': [
-            'angular'
-        ],
-        'angular-resource': [
-            'angular'
-        ],
-        'angular-animate': [
-            'angular'
-        ],
-        'angular-mocks': {
-            deps: [
-                'angular'
-            ],
-            exports: 'angular.mock'
-        },
-        'angular-bootstrap': {
-            deps: [
-                'angular'
-            ],
-            exports: 'ui-bootstrap'
-        },
-    },
-    'priority': [
-        'angular'
-    ]
+    "baseUrl": "scripts",
+    "paths": {
+        "angular": "../lib/angular/angular.min",
 
+        "angular-scenario": "../lib/angular/angular-scenario.min",
+        "angular-sanitize": "../lib/angular/angular-sanitize.min",
+        "angular-route": "../lib/angular/angular-route.min",
+        "angular-resource": "../lib/angular/angular-resource.min",
+        "angular-cookies": "../lib/angular/angular-cookies.min",
+        "angular-mocks": "../lib/angular/angular-mocks",
+
+        "angular-animate": "../lib/angular/angular-animate.min",
+        "angular-bootstrap": "../lib/angular/ui-bootstrap-tpls.min"
+    },
+    "shim": {
+        "angular": {exports: "angular"},
+
+        "angular-route": ["angular"],
+        "angular-cookies": ["angular"],
+        "angular-sanitize": ["angular"],
+        "angular-resource": ["angular"],
+        "angular-animate": ["angular"],
+
+        "angular-mocks": { deps: ["angular"], exports: "angular.mock"},
+        "angular-bootstrap": { deps: ["angular"], exports: "uiBootstrap"}
+    },
+    "priority": ["angular"]
 });
-
-//http://code.angularjs.org/1.2.1/docs/guide/bootstrap#overview_deferred-bootstrap
-window.name = 'NG_DEFER_BOOTSTRAP!';
 
 require([
-    'angular',
-    'app',
-    'angular-route',
-    'angular-cookies',
-    'angular-sanitize',
-    'angular-animate',
-    'angular-resource',
-    'angular-bootstrap'
-], function (angular, app, ngRoutes, ngCookies, ngSanitize, ngResource) {
-    'use strict';
-    /* jshint ignore:start */
-    var $html = angular.element(document.getElementsByTagName('html')[0]);
-    /* jshint ignore:end */
-    angular.element().ready(function () {
-        angular.resumeBootstrap([app.name]);
-    });
-});
+        "angular",
+        "angular-bootstrap",
+        "dashboard/module",
+        "login/module",
+        "design/module"
+    ],
+    function (angular, ngBootstrap, dashboard ) {
+        angular.element(document).ready(function () {
+
+            // var modules = Object.keys( angular.module );
+            // angular.resumeBootstrap( modules );
+            angular.resumeBootstrap( [dashboard.name] );
+        });
+    }
+);

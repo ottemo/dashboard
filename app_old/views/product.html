@@ -1,0 +1,22 @@
+<dashboard-header></dashboard-header>
+<div class="MainWrapper">
+    <div class="LeftContentContainer" id="browseContainer" ng-hide="showStatus">
+        <div class="TabHeaderContainer" id="browseTabHeader">
+            <browse-tab-header class="browse-tab-header" ng-init="submenu = menuitems;"></browse-tab-header>
+        </div>
+        <browse-controller></browse-controller>
+        <browse-body>
+            <div ng-controller="ProductListCtrl">
+                <product-list></product-list>
+            </div>
+        </browse-body>
+    </div>
+    <edit-container ng-show="showStatus">
+        <form name="productForm" ng-controller="ProductFormEditCtrl">
+            <product-edit></product-edit>
+        </form>
+    </edit-container>
+    <div class="clear"></div>
+</div>
+<button class="btn show-mobile" ng-click="showStatus=!showStatus">Change View</button>
+<dashboard-footer></dashboard-footer>

@@ -1,1 +1,17 @@
-<dashboard-login></dashboard-login>
+<div class="LoginWrapper">
+    <div class="LoginLogo"></div>
+    <div class="LoginContainer">
+
+        <form action="#" ng-submit="login()" ng-controller="loginController">
+            <label for="username">User Name or Email Address</label>
+            <input id="username" type="text" name="username" ng-model="username" required auto-fill-sync/>
+
+            <label for="password">Password</label>
+            <input id="password" type="password" name="password" ng-model="password" required auto-fill-sync/>
+
+            <button type="submit">Sign In</button>
+        </form>
+
+        <div class="clear"></div>
+    </div>
+</div>

@@ -1,15 +1,19 @@
-<dashboard-header></dashboard-header>
+<ng-include src="'views/dashboard/header.html'" ng-controller="headerController"></ng-include>
+
 <div class="MainWrapper">
+
     <div class="LeftContentContainer" id="browseContainer" ng-hide="showStatus">
         <div class="TabHeaderContainer" id="browseTabHeader">
-            <browse-tab-header class="browse-tab-header" ng-init="submenu = menuitems;"></browse-tab-header>
+            <ng-include src="'views/dashboard/browseTab.html'" ng-controller="browseTabController1"></ng-include>
         </div>
-        <browse-controller></browse-controller>
-        <browse-body>
-            <div ng-controller="ProductListCtrl">
-                <product-list></product-list>
-            </div>
-        </browse-body>
+
+        <ng-include src="'views/dashboard/browseTab2.html'" ng-controller="browseTabController2"></ng-include>
+
+        <ng-include src="'views/dashboard/browseBody.html'"></ng-include>
+
+        <div ng-controller="ProductListCtrl">
+            <ng-include src="'views/product/list.html'"></ng-include>
+        </div>
     </div>
     <edit-container ng-show="showStatus">
         <form name="productForm" ng-controller="ProductFormEditCtrl">
@@ -19,4 +23,5 @@
     <div class="clear"></div>
 </div>
 <button class="btn show-mobile" ng-click="showStatus=!showStatus">Change View</button>
-<dashboard-footer></dashboard-footer>
+
+<ng-include src="'views/dashboard/footer.html'" ng-controller="footerController"></ng-include>
