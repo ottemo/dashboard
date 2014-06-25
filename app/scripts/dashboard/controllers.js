@@ -9,6 +9,8 @@
              */
             .controller('pageHeaderController', ['$scope', '$pageHeaderService', function ($scope, $pageHeaderService) {
                 $scope.it = $pageHeaderService;
+                $scope.leftMenu= $pageHeaderService.getMenuLeft();
+                $scope.rightMenu = $pageHeaderService.getMenuRight();
             }])
 
             /*

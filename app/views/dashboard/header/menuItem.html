@@ -1,0 +1,6 @@
+<a href="#/{{item.link}}" ng-class="(item.items.length &gt 0) ? dropdown-toggle : ''" data-toggle="dropdown">
+    {{item.label}}<b class="caret" ng-if="item.items.length &gt; 0"></b>
+</a>
+<ul class="dropdown-menu" ng-if="item.items.length &gt 0">
+    <li ng-repeat="item in item.items;" ng-include="getTemplate('dashboard/header/menuItem.html')"></li>
+</ul>
