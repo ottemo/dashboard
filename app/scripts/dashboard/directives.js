@@ -1,8 +1,8 @@
 (function (define) {
-    'use strict';
+    "use strict";
 
     define([
-            'dashboard/init'
+            "dashboard/init"
         ],
         function (dashboardModule) {
 
@@ -10,9 +10,9 @@
                 /*
                  *  Directive to solve browser auto-fill issue on model
                  */
-                .directive('autoFillSync', ['$timeout', function ($timeout) {
+                .directive("autoFillSync", ["$timeout", function ($timeout) {
                     return {
-                        require: 'ngModel',
+                        require: "ngModel",
                         link: function (scope, elem, attrs, ngModel) {
                             var origVal = elem.val();
                             $timeout(function () {
@@ -28,10 +28,10 @@
                 /*
                  *  jQuery layout directive
                  */
-                .directive('jqLayout', function () {
+                .directive("jqLayout", function () {
                     return {
-                        restrict: 'A',
-                        link: function (scope, elem, attrs) {
+                        restrict: "A",
+                        link: function (scope, elem) {
                             jQuery(elem).layout({ applyDefaultStyles: true });
                         }
                     };

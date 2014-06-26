@@ -1,15 +1,15 @@
-<div class="LoginWrapper">
+<div class="LoginWrapper" ng-controller="loginController">
     <div class="LoginLogo"></div>
     <div class="LoginContainer">
 
-        <form action="#" ng-submit="login()" ng-controller="loginController">
+        <form role="form" name="loginForm">
             <label for="username">User Name or Email Address</label>
-            <input id="username" type="text" name="username" ng-model="username" required auto-fill-sync/>
+            <input id="username" type="text" ng-model="username" required auto-fill-sync/>
 
             <label for="password">Password</label>
-            <input id="password" type="password" name="password" ng-model="password" required auto-fill-sync/>
+            <input id="password" type="password" ng-model="password" required auto-fill-sync/>
 
-            <button type="submit">Sign In</button>
+            <button type="submit" ng-click="login()">Sign In</button>
         </form>
 
         <div class="clear"></div>

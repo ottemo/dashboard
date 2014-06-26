@@ -1,5 +1,8 @@
-<div id="leftSidebar" class="btn-toolbar">
-    <button class="btn btn-lg btn-default glyphicon glyphicon-user" href="#/visitor" />
-    <button class="btn btn-lg btn-default glyphicon glyphicon-gift" href="#/product" />
-    <button class="btn btn-lg btn-default glyphicon glyphicon-cog" href="#/config" />
+<div id="leftSidebar" class="btn-toolbar" ng-controller="pageSidebarController">
+    <a ng-repeat="item in items" href="#/{{item.link}}" title="{{item.title}}"
+       ng-switch="it.getType(item.icon)"
+       ng-class="it.getType(item.icon) == 'image' ? 'button btn btn-lg btn-default' : ''">
+        <button ng-switch-when="glyphicon" class="btn btn-lg btn-default {{item.icon}}"/>
+        <img ng-switch-when="image" src="{{item.icon}}" class="button-image"/>
+    </a>
 </div>

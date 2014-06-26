@@ -1,34 +1,34 @@
 (function (define) {
-    'use strict';
+    "use strict";
 
     /*
-     *  Angular 'dashboardModule' declaration
+     *  Angular "dashboardModule" declaration
      *  (module internal files refers to this instance)
      */
     define([
-            'angular',
-            'angular-route',
+            "angular",
+            "angular-route"
 
-            // 'login/module'
+            // "login/module"
         ],
         function (angular) {
             /*
-             *  Angular 'dashboardModule' declaration
+             *  Angular "dashboardModule" declaration
              */
-            angular.module.dashboardModule = angular.module('dashboardModule', ['ngRoute', 'loginModule', 'designModule'])
+            angular.module.dashboardModule = angular.module("dashboardModule", ["ngRoute", "loginModule", "designModule"])
 
                 /*
                  *  Basic routing configuration
                  */
-                .config(['$routeProvider', function ($routeProvider) {
+                .config(["$routeProvider", function ($routeProvider) {
                     $routeProvider
-                        .when('/', { templateUrl: 'views/dashboard/welcome.html' })
-                        .when('/help', { templateUrl: 'views/help.html'})
+                        .when("/", { templateUrl: "views/dashboard/welcome.html" })
+                        .when("/help", { templateUrl: "views/help.html"})
 
-                        .otherwise({ redirectTo: '/'});
+                        .otherwise({ redirectTo: "/"});
                 }])
 
-                .run(['$designService', '$route', function ($designService, $route) {
+                .run(["$designService", "$route", function ($designService, $route) {
                     // hack to allow browser page refresh work with routes
                     $route.reload();
                 }]);
