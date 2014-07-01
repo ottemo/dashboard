@@ -1,11 +1,11 @@
 (function (define) {
-    'use strict';
+    "use strict";
 
     /*
      *  HTML top page manipulation stuff
      */
     define([
-            'dashboard/init'
+            "dashboard/init"
         ],
         function (dashboardModule) {
 
@@ -13,7 +13,7 @@
                 /*
                  *  $pageService implementation
                  */
-                .service('$pageService', [function () {
+                .service("$pageService", [function () {
 
                     var it = { showHeader: true };
 
@@ -21,7 +21,7 @@
                         hideHeader: function() { it.showHeader = false; },
                         showHeader: function() { it.showHeader = true; },
                           isHeader: function() { return it.showHeader; }
-                    }
+                    };
                 }]);
 
             return dashboardModule;

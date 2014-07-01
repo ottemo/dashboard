@@ -36,15 +36,16 @@ require([
         "angular",
         "angular-bootstrap",
         "dashboard/module",
+        "product/module",
         "login/module",
         "design/module"
     ],
-    function (angular, ngBootstrap, dashboard ) {
+    function (angular) {
         angular.element(document).ready(function () {
 
-            // var modules = Object.keys( angular.module );
-            // angular.resumeBootstrap( modules );
-            angular.resumeBootstrap( [dashboard.name] );
+            var modules = Object.keys( angular.module );
+            angular.resumeBootstrap( modules );
+            //angular.resumeBootstrap( [dashboard.name] );
         });
     }
 );

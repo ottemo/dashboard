@@ -1,17 +1,17 @@
 (function (define) {
-    'use strict';
+    "use strict";
 
     /*
      *  HTML top page header manipulation stuff
      */
     define([
-            'dashboard/init'
+            "dashboard/init"
         ],
         function (dashboardModule) {
 
-            var getParentItem, parentItem, transformMenu;
+            var getParentItem, parentItem, transformMenu, i;
             getParentItem = function (data, field, value) {
-                for (var i in data) {
+                for (i = 0; i < data.length; i += 1) {
                     if (data[i][field] === value) {
                         parentItem = data[i];
                     }
@@ -32,20 +32,20 @@
              * @returns {Array}
              */
             transformMenu = function (menu) {
-                var i, item, parentPath, tmpMenu;
+                var item, parentPath, tmpMenu, i;
                 tmpMenu = [];
                 menu.sort(function (obj1, obj2) {
                     return obj2.path < obj1.path;
                 });
 
-                for (i in menu) {
+                for (i = 0; i < menu.length; i += 1) {
                     parentItem = undefined;
                     item = menu[i];
                     /**
                      * Item belongs to the upper level.
                      * He has only one level in path
                      */
-                    if (item.path.split('/').length <= 2) {
+                    if (item.path.split("/").length <= 2) {
                         tmpMenu.push(item);
                     } else {
                         /**
@@ -59,9 +59,9 @@
                          *
                          * @type {string}
                          */
-                        parentPath = item.path.substr(0, item.path.lastIndexOf('/'));
-                        if (getParentItem(menu, 'path', parentPath)) {
-                            if (typeof parentItem.items === 'undefined') {
+                        parentPath = item.path.substr(0, item.path.lastIndexOf("/"));
+                        if (getParentItem(menu, "path", parentPath)) {
+                            if (typeof parentItem.items === "undefined") {
                                 parentItem.items = [];
                             }
                             parentItem.items.push(item);
@@ -75,7 +75,7 @@
                 /*
                  *  $pageHeaderService implementation
                  */
-                .service('$pageHeaderService', ['$loginService', function ($loginService) {
+                .service("$pageHeaderService", ["$loginService", function ($loginService) {
 
                     var it = {
                         username: $loginService.getUsername(),
@@ -108,7 +108,7 @@
                             it.menuRight.push(item);
                         },
 
-                        getMenuRight: function() {
+                        getMenuRight: function () {
                             return transformMenu(it.menuRight);
                         },
 
