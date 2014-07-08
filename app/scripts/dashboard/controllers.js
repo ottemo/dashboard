@@ -1,25 +1,25 @@
 (function (define) {
-    'use strict';
+    "use strict";
 
-    define(['dashboard/init'], function (dashboardModule) {
+    define(["dashboard/init"], function (dashboardModule) {
 
         dashboardModule
             /*
              *  HTML top page header manipulator (direct service mapping)
              */
-            .controller('dashboardHeaderController', ['$scope', '$dashboardHeaderService', function ($scope, $dashboardHeaderService) {
+            .controller("dashboardHeaderController", ["$scope", "$dashboardHeaderService", function ($scope, $dashboardHeaderService) {
                 $scope.it = $dashboardHeaderService;
                 $scope.leftMenu= $dashboardHeaderService.getMenuLeft();
                 $scope.rightMenu = $dashboardHeaderService.getMenuRight();
             }])
 
-            .controller('dashboardSidebarController', ['$scope', '$dashboardSidebarService', function ($scope, $dashboardSidebarService) {
+            .controller("dashboardSidebarController", ["$scope", "$dashboardSidebarService", function ($scope, $dashboardSidebarService) {
                 $scope.it = $dashboardSidebarService;
                 $scope.items = $dashboardSidebarService.getItems();
             }])
 
-            .controller('dashboardController', ['$scope', '$loginService', function($scope) {
-                $scope.x = 'dashboardController';
+            .controller("dashboardController", ["$scope", "$loginService", function($scope) {
+                $scope.x = "dashboardController";
             }]);
 
         return dashboardModule;

@@ -26,26 +26,28 @@
                         }
 
                         // function to split array on rows by x-elements
-                        var splitBy = function (arr, x) {
+                        var splitBy = function (arr, x) {   // jshint ignore:line
                             var result = [], row = [], i = 0;
 
-                            if (typeof arr !== "array" && typeof x !== "integer") {
+                            if (typeof arr !== "array" && typeof x !== "integer") {         // jshint ignore:line
                                 for (var idx in arr) {
-                                    i += 1;
-                                    row.push(arr[idx]);
-                                    if (i % x === 0) {
-                                        result.push(row);
-                                        i = 0;
-                                        row = [];
+                                    if (arr.hasOwnProperty(idx)){
+                                        i += 1;
+                                        row.push(arr[idx]);
+                                        if (i % x === 0) {
+                                            result.push(row);
+                                            i = 0;
+                                            row = [];
+                                        }
                                     }
                                 }
-                                if (i != 0) {
+                                if (i !== 0) {
                                     result.push(row);
                                 }
                             }
 
                             return result;
-                        }
+                        };
 
                         $scope.$watch("images", function (newValue) {
                             $scope.splitedImages = splitBy(newValue, 4);
@@ -73,7 +75,7 @@
                             return "";
                         };
                     }
-                }
+                };
             }]);
 
         return designModule;
