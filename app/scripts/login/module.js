@@ -44,7 +44,7 @@
                         },
                         isLogined: function () {
                             var val = $cookieStore.get("logUsername");
-                            return val !== "undefined" && val !== "";
+                            return typeof val !== "undefined" && val !== "";
                         },
                         getUsername: function () {
                             return $cookieStore.get("logUsername");
@@ -54,13 +54,13 @@
 
                 .config(["$routeProvider", function ($routeProvider) {
                     $routeProvider
-                        .when("/logout", {template: " ", controller: "logoutController" });
+                        .when("/logout", {template: " ", controller: "logoutController"});
                 }])
                 /*
                  *  Login page redirect-or for not registered users
                  */
-                .run(["$loginService", "$rootScope", "$designService", "$pageHeaderService", "$route",
-                    function ($loginService, $rootScope, $designService, $pageHeaderService) {
+                .run(["$loginService", "$rootScope", "$designService", "$dashboardHeaderService", "$route",
+                    function ($loginService, $rootScope, $designService, $dashboardHeaderService) {
                         $rootScope.$on("$locationChangeStart", function () {
                             if (!$loginService.isLogined()) {
                                 $designService.setTopPage("login.html");
@@ -69,7 +69,7 @@
 
                         // NAVIGATION
                         // Adds item in the right top-menu
-                        $pageHeaderService.addMenuRightItem("/logout", "Log Out", "logout");
+                        $dashboardHeaderService.addMenuRightItem("/logout", "Log Out", "/logout");
                     }]);
             return angular.module.loginModule;
         });

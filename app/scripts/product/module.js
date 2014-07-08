@@ -1,12 +1,16 @@
 (function (define) {
     "use strict";
 
-    /*
-     *  requireJS module entry point
-     *  (to use that module you should include it to main.js)
+    /**
+     * The module "productModule" is designed to work with products
+     *
+     * This file it's start point modules. He includes all dependent files.
+     * (For adding this module to App, you should add this file to the require list)
      */
     define([
-            "product/controllers"
+            "product/service/api",
+            "product/controller/productAttribute",
+            "product/controller/productEdit"
         ],
         function (productModule) {
 

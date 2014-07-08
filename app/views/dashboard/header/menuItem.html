@@ -1,4 +1,4 @@
-<a href="#/{{item.link}}" ng-class="(item.items.length &gt 0) ? dropdown-toggle : ''" data-toggle="dropdown">
+<a href="{{item.link}}" target="{{item.link != null ? '' : '_self'}}" ng-class="(item.items.length &gt 0) ? dropdown-toggle : ''" data-toggle="dropdown" ng-d>
     {{item.label}}<b class="caret" ng-if="item.items.length &gt; 0"></b>
 </a>
 <ul class="dropdown-menu" ng-if="item.items.length &gt 0">

@@ -1,51 +1,51 @@
-"use strict";
+'use strict';
 
-window.name = "NG_DEFER_BOOTSTRAP!"; // http://code.angularjs.org/1.2.1/docs/guide/bootstrap#overview_deferred-bootstrap
+window.name = 'NG_DEFER_BOOTSTRAP!'; // http://code.angularjs.org/1.2.1/docs/guide/bootstrap#overview_deferred-bootstrap
 
 require.config({
-    "baseUrl": "scripts",
-    "paths": {
-        "angular": "../lib/angular/angular.min",
+    'baseUrl': 'scripts',
+    'paths': {
+        'angular': '../lib/angular/angular.min',
 
-        "angular-scenario": "../lib/angular/angular-scenario.min",
-        "angular-sanitize": "../lib/angular/angular-sanitize.min",
-        "angular-route": "../lib/angular/angular-route.min",
-        "angular-resource": "../lib/angular/angular-resource.min",
-        "angular-cookies": "../lib/angular/angular-cookies.min",
-        "angular-mocks": "../lib/angular/angular-mocks",
+        'angular-scenario': '../lib/angular/angular-scenario.min',
+        'angular-sanitize': '../lib/angular/angular-sanitize.min',
+        'angular-route': '../lib/angular/angular-route.min',
+        'angular-resource': '../lib/angular/angular-resource.min',
+        'angular-cookies': '../lib/angular/angular-cookies.min',
+        'angular-mocks': '../lib/angular/angular-mocks',
 
-        "angular-animate": "../lib/angular/angular-animate.min",
-        "angular-bootstrap": "../lib/angular/ui-bootstrap-tpls.min"
+        'angular-animate': '../lib/angular/angular-animate.min',
+        'angular-bootstrap': '../lib/angular/ui-bootstrap-tpls.min'
     },
-    "shim": {
-        "angular": {exports: "angular"},
+    'shim': {
+        'angular': {exports: 'angular'},
 
-        "angular-route": ["angular"],
-        "angular-cookies": ["angular"],
-        "angular-sanitize": ["angular"],
-        "angular-resource": ["angular"],
-        "angular-animate": ["angular"],
+        'angular-route': ['angular'],
+        'angular-cookies': ['angular'],
+        'angular-sanitize': ['angular'],
+        'angular-resource': ['angular'],
+        'angular-animate': ['angular'],
 
-        "angular-mocks": { deps: ["angular"], exports: "angular.mock"},
-        "angular-bootstrap": { deps: ["angular"], exports: "uiBootstrap"}
+        'angular-mocks': { deps: ['angular'], exports: 'angular.mock'},
+        'angular-bootstrap': { deps: ['angular'], exports: 'uiBootstrap'}
     },
-    "priority": ["angular"]
+    'priority': ['angular']
 });
 
 require([
-        "angular",
-        "angular-bootstrap",
-        "dashboard/module",
-        "product/module",
-        "login/module",
-        "design/module"
+        'angular',
+        'angular-bootstrap',
+        'design/module',
+        'dashboard/module',
+
+        'product/module',
+        'login/module'
     ],
     function (angular) {
         angular.element(document).ready(function () {
 
             var modules = Object.keys( angular.module );
             angular.resumeBootstrap( modules );
-            //angular.resumeBootstrap( [dashboard.name] );
         });
     }
 );

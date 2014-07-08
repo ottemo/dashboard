@@ -1,11 +1,11 @@
 (function (define) {
-    "use strict";
+    'use strict';
 
     /*
      *  HTML top page header manipulation stuff
      */
     define([
-            "dashboard/init"
+            'dashboard/init'
         ],
         function (dashboardModule) {
 
@@ -13,10 +13,10 @@
                 /*
                  *  $pageSidebarService implementation
                  */
-                .service("$pageSidebarService", [function () {
+                .service('$dashboardSidebarService', [function () {
                     var addItem, getItems, getType, items, isImagePathRegex;
                     items = [];
-                    isImagePathRegex = new RegExp(".gif|pnfg|jpg|ico$", "i");
+                    isImagePathRegex = new RegExp('.gif|png|jpg|ico$', 'i');
 
                     /**
                      * Adds item in the left sidebar
@@ -28,7 +28,7 @@
                      */
                     addItem = function (title, link, icon, sort) {
                         sort = ( sort || 0 );
-                        items.push({"title": title, "link": link, "icon": icon, "sort": sort});
+                        items.push({'title': title, 'link': link, 'icon': icon, 'sort': sort});
                     };
 
                     /**
@@ -51,11 +51,12 @@
                         var type;
 
                         if (isImagePathRegex.test(icon) === true) {
-                            type = "image";
+                            type = 'image';
                         }
-                        if (icon.indexOf("glyphicon") !== -1) {
-                            type = "glyphicon";
+                        if (icon.indexOf('glyphicon') !== -1) {
+                            type = 'glyphicon';
                         }
+
                         return type;
                     };
 

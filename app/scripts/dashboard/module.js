@@ -7,11 +7,9 @@
      */
     define([
             "dashboard/controllers",
-            "dashboard/directives",
 
-            "dashboard/services/page",
-            "dashboard/services/header",
-            "dashboard/services/sidebar"
+            "dashboard/service/header",
+            "dashboard/service/sidebar"
         ],
         function (dashboardModule) {
 

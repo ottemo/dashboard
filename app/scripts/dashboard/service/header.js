@@ -1,17 +1,17 @@
 (function (define) {
-    "use strict";
+    'use strict';
 
     /*
      *  HTML top page header manipulation stuff
      */
     define([
-            "dashboard/init"
+            'dashboard/init'
         ],
         function (dashboardModule) {
 
-            var getParentItem, parentItem, transformMenu, i;
+            var getParentItem, parentItem, transformMenu, prepareLink;
             getParentItem = function (data, field, value) {
-                for (i = 0; i < data.length; i += 1) {
+                for (var i in data) {
                     if (data[i][field] === value) {
                         parentItem = data[i];
                     }
@@ -32,20 +32,20 @@
              * @returns {Array}
              */
             transformMenu = function (menu) {
-                var item, parentPath, tmpMenu, i;
+                var i, item, parentPath, tmpMenu;
                 tmpMenu = [];
                 menu.sort(function (obj1, obj2) {
                     return obj2.path < obj1.path;
                 });
 
-                for (i = 0; i < menu.length; i += 1) {
+                for (i in menu) {
                     parentItem = undefined;
                     item = menu[i];
                     /**
                      * Item belongs to the upper level.
                      * He has only one level in path
                      */
-                    if (item.path.split("/").length <= 2) {
+                    if (item.path.split('/').length <= 2) {
                         tmpMenu.push(item);
                     } else {
                         /**
@@ -59,9 +59,9 @@
                          *
                          * @type {string}
                          */
-                        parentPath = item.path.substr(0, item.path.lastIndexOf("/"));
-                        if (getParentItem(menu, "path", parentPath)) {
-                            if (typeof parentItem.items === "undefined") {
+                        parentPath = item.path.substr(0, item.path.lastIndexOf('/'));
+                        if (getParentItem(menu, 'path', parentPath)) {
+                            if (typeof parentItem.items === 'undefined') {
                                 parentItem.items = [];
                             }
                             parentItem.items.push(item);
@@ -71,11 +71,24 @@
                 return tmpMenu;
             };
 
+            prepareLink = function (link) {
+                var fullUrlRegex, href;
+                fullUrlRegex = new RegExp('^http|https.','i');
+
+                if(fullUrlRegex.test(link)){
+                    href = link;
+                } else {
+                    href  = (link !== null ? '#' + link : null);
+                }
+
+                return href;
+            }
+
             dashboardModule
                 /*
                  *  $pageHeaderService implementation
                  */
-                .service("$pageHeaderService", ["$loginService", function ($loginService) {
+                .service('$dashboardHeaderService', ['$loginService', function ($loginService) {
 
                     var it = {
                         username: $loginService.getUsername(),
@@ -104,11 +117,11 @@
                          * @param {string} link
                          */
                         addMenuRightItem: function (path, label, link) {
-                            var item = {path: path, label: label, link: link};
+                            var item = {path: path, label: label, link: prepareLink(link)};
                             it.menuRight.push(item);
                         },
 
-                        getMenuRight: function () {
+                        getMenuRight: function() {
                             return transformMenu(it.menuRight);
                         },
 
@@ -120,7 +133,7 @@
                          * @param {string} link
                          */
                         addMenuItem: function (path, label, link) {
-                            var item = {path: path, label: label, link: link};
+                            var item = {path: path, label: label, link: prepareLink(link)};
                             it.menuLeft.push(item);
                         },
 

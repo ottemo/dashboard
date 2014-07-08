@@ -1,0 +1,60 @@
+<div id="productListPanel" class="panel panel-default">
+    <div class="panel-heading">
+
+        <div class="input-group">
+            <!-- Button for create new object -->
+            <div class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="parent.clearForm()"><span
+                        class="glyphicon glyphicon-plus"></span> New
+                </button>
+            </div>
+
+            <input type="text" class="form-control" placeholder="Search" ng-model="searchText"/>
+
+            <!-- Buttons for switching list type -->
+            <div class="input-group-btn" ng-if="hasImage()">
+                <button type="button" class="btn btn-default" ng-click="parent.switchListView('tile')">
+                    <span class="glyphicon glyphicon-th-large"></span>
+                </button>
+                <button type="button" class="btn btn-default" ng-click="parent.switchListView('list')">
+                    <span class="glyphicon glyphicon-th-list"></span>
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- For blocks with images -->
+    <div class="panel-body"  ng-if="hasImage()">
+        <ul class="media-list{{getListType()}}">
+            <!-- Items of the list -->
+            <li class="media" ng-repeat="item in items | filter:searchText">
+                <a class="pull-left" href="" target="_self" ng-click="parent.select(item[map.id])">
+                    <img class="media-object" ng-src="{{parent.getImage(item[map.image_path], item[map.default_image])}}"
+                         alt="{{item[map.name]}}" style="max-width: 75px; max-height: 75px;">
+                </a>
+
+                <div class="media-body  pull-left">
+                    <h4 class="media-heading" ng-model="item[map.name]" ng-bind="item[map.name]"></h4>
+                    {{item[map.shortDesc]}}
+                </div>
+                <div class="btn text-danger  pull-right vertical glyphicon glyphicon-remove"
+                     ng-click="parent.delete(item[map.id])"></div>
+            </li>
+
+        </ul>
+    </div>
+
+    <!-- For blocks without images -->
+    <div class="list-group"  ng-if="!hasImage()">
+        <!-- Items of the list -->
+        <a href="" target="_self" class="list-group-item"
+           ng-click="parent.select(item[map.id])"
+           ng-repeat="item in items | filter:searchText">
+            {{item[map.name]}}
+            <div class="btn text-danger pull-right vertical glyphicon glyphicon-remove"
+                 ng-click="parent.delete(item[map.id])"></div>
+        </a>
+
+    </div>
+</div>
