@@ -1,0 +1,26 @@
+<div class="panel panel-default panel-body">
+
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-3">
+            <a href="" class="thumbnail">
+                <img ng-src="{{ getImage(selected)}}" alt="selected image" class="img-thumbnail">
+            </a>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+
+    <div class="row" ng-repeat="row in splitedImages">
+        <div class="col-md-4"></div>
+        <div class="col-md-1" ng-repeat="image in row">
+            <a href="" class="thumbnail{{isDefault(image)}}" ng-click="selectImage(image)">
+                <img ng-src="{{ getImage(image) }}"/>
+            </a>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+
+    <div class="row col-md-12 text-center" ng-transclude>
+    </div>
+
+</div>

@@ -1,34 +1,45 @@
 (function (define) {
     "use strict";
 
+    /**
+     * The module "productModule" is designed to work with products
+     * He handles the action  with products (adding/editing/deletion).
+     *
+     * It's a basic file for initialization of module. He should be included first.
+     */
     define([
             "angular",
-            "angular-route"
+            "angular-route",
+            "angular-resource"
         ],
         function (angular) {
-            /*
-             *  Angular "productModule" declaration
+            /**
+             *  Angular "productModule" declaration.
+             *  Adds routes and items in navigation bar
              */
-            angular.module.productModule = angular.module("productModule", ["ngRoute", "designModule"])
+            angular.module.productModule = angular.module("productModule", ["ngRoute", "ngResource", "designModule"])
 
-                /*
+                /**
                  *  Basic routing configuration
                  */
                 .config(["$routeProvider", function ($routeProvider) {
                     $routeProvider
-                        .when("/product", { templateUrl: "views/product/edit.html" });
+                        .when("/product", { templateUrl: "views/product/edit.html" })
+                        .when("/product/attributes", { templateUrl: "views/product/attribute/edit.html" });
                 }])
 
-                .run(["$designService", "$route", "$pageSidebarService", "$pageHeaderService",
-                    function ($designService, $route, $pageSidebarService, $pageHeaderService) {
+                .run(["$designService", "$route", "$dashboardSidebarService", "$dashboardHeaderService",
+
+                    function ($designService, $route, $dashboardSidebarService, $dashboardHeaderService) {
 
                         // NAVIGATION
                         // Adds item in the right top-menu
-                        $pageHeaderService.addMenuItem("/product", "Product", "product");
+                        $dashboardHeaderService.addMenuItem("/product", "Products", null);
+                        $dashboardHeaderService.addMenuItem("/product/attributes", "Manage", "/product");
+                        $dashboardHeaderService.addMenuItem("/product/attributes", "Attributes", "/product/attributes");
+
                         // Adds item in the left sidebar
-                        $pageSidebarService.addItem("Product", "product", "https://cdn2.iconfinder.com/data/icons/picons-essentials/71/gift-512.png", 100);
-                        $pageSidebarService.addItem("Visitor", "visitor", "images/icon-browse.jpg", 90);
-                        $pageSidebarService.addItem("Settings", "settings", "glyphicon glyphicon-cog", 10);
+                        $dashboardSidebarService.addItem("Product manage", "product", "glyphicon glyphicon-barcode", 100);
                     }
                 ]);
 

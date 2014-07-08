@@ -17,6 +17,8 @@
              */
             angular.module.dashboardModule = angular.module("dashboardModule", ["ngRoute", "loginModule", "designModule"])
 
+                .constant("REST_SERVER_URI", "http://localhost:3000")
+
                 /*
                  *  Basic routing configuration
                  */

@@ -9,15 +9,17 @@
         ],
         function (dashboardModule) {
 
-            var getParentItem, parentItem, transformMenu, i;
+            var getParentItem, parentItem, transformMenu, prepareLink;
             getParentItem = function (data, field, value) {
-                for (i = 0; i < data.length; i += 1) {
-                    if (data[i][field] === value) {
-                        parentItem = data[i];
-                    }
-                    var $subList = data[i].items;
-                    if ($subList) {
-                        getParentItem($subList, field, value);
+                for (var i in data) {
+                    if (data.hasOwnProperty(i)) {
+                        if (data[i][field] === value) {
+                            parentItem = data[i];
+                        }
+                        var $subList = data[i].items;
+                        if ($subList) {
+                            getParentItem($subList, field, value);
+                        }
                     }
                 }
 
@@ -31,51 +33,66 @@
              * @param menu
              * @returns {Array}
              */
-            transformMenu = function (menu) {
-                var item, parentPath, tmpMenu, i;
+            transformMenu = function (menu) {                       // jshint ignore: line
+                var i, item, parentPath, tmpMenu;
                 tmpMenu = [];
                 menu.sort(function (obj1, obj2) {
                     return obj2.path < obj1.path;
                 });
 
-                for (i = 0; i < menu.length; i += 1) {
-                    parentItem = undefined;
-                    item = menu[i];
-                    /**
-                     * Item belongs to the upper level.
-                     * He has only one level in path
-                     */
-                    if (item.path.split("/").length <= 2) {
-                        tmpMenu.push(item);
-                    } else {
+                for (i in menu) {
+                    if (menu.hasOwnProperty(i)){
+                        parentItem = undefined;
+                        item = menu[i];
                         /**
-                         * Gets from path parent path
-                         * Exaample:
-                         * for this item with path
-                         * /item_1/sub_item_1/sub_item_1_1
-                         *
-                         * parent item should have path
-                         * /item_1/sub_item_1
-                         *
-                         * @type {string}
+                         * Item belongs to the upper level.
+                         * He has only one level in path
                          */
-                        parentPath = item.path.substr(0, item.path.lastIndexOf("/"));
-                        if (getParentItem(menu, "path", parentPath)) {
-                            if (typeof parentItem.items === "undefined") {
-                                parentItem.items = [];
+                        if (item.path.split("/").length <= 2) {
+                            tmpMenu.push(item);
+                        } else {
+                            /**
+                             * Gets from path parent path
+                             * Exaample:
+                             * for this item with path
+                             * /item_1/sub_item_1/sub_item_1_1
+                             *
+                             * parent item should have path
+                             * /item_1/sub_item_1
+                             *
+                             * @type {string}
+                             */
+                            parentPath = item.path.substr(0, item.path.lastIndexOf("/"));
+                            if (getParentItem(menu, "path", parentPath)) {
+                                if (typeof parentItem.items === "undefined") {
+                                    parentItem.items = [];
+                                }
+                                parentItem.items.push(item);
                             }
-                            parentItem.items.push(item);
                         }
                     }
                 }
                 return tmpMenu;
             };
 
+            prepareLink = function (link) {
+                var fullUrlRegex, href;
+                fullUrlRegex = new RegExp("^http|https.","i");
+
+                if(fullUrlRegex.test(link)){
+                    href = link;
+                } else {
+                    href  = (link !== null ? "#" + link : null);
+                }
+
+                return href;
+            };
+
             dashboardModule
                 /*
                  *  $pageHeaderService implementation
                  */
-                .service("$pageHeaderService", ["$loginService", function ($loginService) {
+                .service("$dashboardHeaderService", ["$loginService", function ($loginService) {
 
                     var it = {
                         username: $loginService.getUsername(),
@@ -104,11 +121,11 @@
                          * @param {string} link
                          */
                         addMenuRightItem: function (path, label, link) {
-                            var item = {path: path, label: label, link: link};
+                            var item = {path: path, label: label, link: prepareLink(link)};
                             it.menuRight.push(item);
                         },
 
-                        getMenuRight: function () {
+                        getMenuRight: function() {
                             return transformMenu(it.menuRight);
                         },
 
@@ -120,7 +137,7 @@
                          * @param {string} link
                          */
                         addMenuItem: function (path, label, link) {
-                            var item = {path: path, label: label, link: link};
+                            var item = {path: path, label: label, link: prepareLink(link)};
                             it.menuLeft.push(item);
                         },
 

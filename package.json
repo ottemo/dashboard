@@ -13,7 +13,7 @@
     "executable": "^0.1.2",
     "find-file": "^0.1.4",
     "gulp": "^3.8.1",
-    "gulp-autoprefixer": "1.0.7",
+    "gulp-autoprefixer": "^0.0.7",
     "gulp-bower-files": "^0.2.4",
     "gulp-changed": "^0.3.0",
     "gulp-clean": "^0.3.1",

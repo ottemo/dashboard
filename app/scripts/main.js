@@ -35,17 +35,17 @@ require.config({
 require([
         "angular",
         "angular-bootstrap",
+        "design/module",
         "dashboard/module",
+
         "product/module",
-        "login/module",
-        "design/module"
+        "login/module"
     ],
     function (angular) {
         angular.element(document).ready(function () {
 
             var modules = Object.keys( angular.module );
             angular.resumeBootstrap( modules );
-            //angular.resumeBootstrap( [dashboard.name] );
         });
     }
 );

@@ -1,0 +1,97 @@
+<div class="container-fluid" ng-controller="productAttributeController">
+    <div class="row" style="margin-top: 15px">
+
+        <div class="col-md-4">
+            <gui-list-manager items="attributesList" object="this"
+                              mapping="{'id': 'Attribute', 'name': 'Label', 'shortDesc': 'name'}"/>
+        </div>
+
+        <div class="col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-md-8 text-muted" style="padding-top: 6px; font-size: 130%; font-weight: bold">
+                            <span ng-if="attribute.Attribute"> {{attribute.Label}}</span>
+                            <span ng-if="!attribute.Attribute"> New Attribute </span>
+                        </div>
+                        <div class="col-md-4 text-right">
+                            <button class="btn btn-primary" ng-click="parent.save()">Save</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    <form role="form">
+                        <div class="panel-group" id="accordion">
+                            <div class="form-group">
+                                <div class="panel panel-default">
+
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseGeneral"
+                                               target="_self">
+                                                General
+                                            </a>
+                                        </h4>
+                                    </div>
+
+                                    <div id="collapseGeneral" class="panel-collapse collapse in">
+                                        <div class="panel-body">
+                                            <div ng-switch="attribute.Editors">
+                                                <input type="hidden" name="Model" value="product" required/>
+                                                <input type="hidden" name="Collection" value="product" required/>
+
+                                                <div>
+                                                    <label for="inpAttribute">Attribute</label>
+                                                    <input type="text" class="form-control" name="Attribute"
+                                                           value="{{attribute.Attribute}}" />
+                                                </div>
+                                                <div>
+                                                    <label for="inpType">Type</label>
+                                                    <select class="form-control" name="Type"
+                                                            data-ng-model="attribute.Type"
+                                                            data-ng-options="choice for choice in typesAttribute">
+                                                    </select>
+                                                </div>
+                                                <div>
+                                                    <label for="inpLabel">Label</label>
+                                                    <input type="text" class="form-control" name="Label"
+                                                           value="{{attribute.Label}}" />
+                                                </div>
+                                                <div>
+                                                    <label for="inpGroup">Group</label>
+                                                    <input type="text" class="form-control" name="Group"
+                                                           value="{{attribute.Group}}" />
+                                                </div>
+                                                <div>
+                                                    <label for="inpEditors">Editors</label>
+                                                    <select class="form-control" name="Editors"
+                                                            ng-init="attribute.Editors = editorsList[0]"
+                                                            data-ng-model="attribute.Editors"
+                                                            data-ng-options="choice for choice in editorsList">
+                                                    </select>
+                                                </div>
+                                                <div>
+                                                    <label for="inpOptions">Options</label>
+                                                    <input type="text" class="form-control" name="Options"
+                                                           value="{{attribute.Options}}"/>
+                                                </div>
+                                                <div>
+                                                    <label for="inpDefault">Default</label>
+                                                    <input type="text" class="form-control" name="Default"
+                                                           value="{{attribute.Default}}"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>

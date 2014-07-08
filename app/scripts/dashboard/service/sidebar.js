@@ -13,10 +13,10 @@
                 /*
                  *  $pageSidebarService implementation
                  */
-                .service("$pageSidebarService", [function () {
+                .service("$dashboardSidebarService", [function () {
                     var addItem, getItems, getType, items, isImagePathRegex;
                     items = [];
-                    isImagePathRegex = new RegExp(".gif|pnfg|jpg|ico$", "i");
+                    isImagePathRegex = new RegExp(".gif|png|jpg|ico$", "i");
 
                     /**
                      * Adds item in the left sidebar
@@ -56,6 +56,7 @@
                         if (icon.indexOf("glyphicon") !== -1) {
                             type = "glyphicon";
                         }
+
                         return type;
                     };
 
