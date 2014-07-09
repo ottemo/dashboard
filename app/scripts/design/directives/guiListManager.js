@@ -34,12 +34,13 @@
             };
 
             for (var field in mapping) {
-                if (mapping.hasOwnProperty(field)) {
-                    if (typeof defaultMapping[field] !== "undefined") {
-                        defaultMapping[field] = mapping[field];
-                    } else {
-                        unsupportedAttr.push("'" + field + "'");
-                    }
+                if (!mapping.hasOwnProperty(field)) {
+                    continue;
+                }
+                if (typeof defaultMapping[field] !== "undefined") {
+                    defaultMapping[field] = mapping[field];
+                } else {
+                    unsupportedAttr.push("'" + field + "'");
                 }
             }
             if (unsupportedAttr.length > 0) {
@@ -91,17 +92,19 @@
                          */
                         $scope.hasImage = function () {
                             var field, item;
-
-                            item = $scope.items[0];
-                            for (field in item) {
-                                if (item.hasOwnProperty(field)) {
+                            if (typeof $scope.items !== "undefined" && $scope.items.length > 0) {
+                                item = $scope.items[0];
+                                for (field in item) {
+                                    if (!item.hasOwnProperty(field)) {
+                                        continue;
+                                    }
                                     if (field === "default_image" || field === "image") {
                                         return true;
                                     }
                                 }
                             }
                             return false;
-                        };
+                        }
 
                         /**
                          * Returns the necessary class for list
@@ -114,6 +117,7 @@
                                 case "tile":
                                     _class = " product-list tile";
                                     break;
+                                case "list":
                                 default:
                                     _class = " product-list";
                             }
@@ -122,7 +126,7 @@
 
                     }
                 };
-            }]);
+            }])
 
         return designModule;
     });

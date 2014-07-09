@@ -11,8 +11,8 @@
                 return {
                     restrict: "E",
                     link: function (scope, elem, attrs) {
-                        var cssFile = attrs.href;
-                        if (cssFile !== "undefined" && cssFile !== "") {
+                        var cssFile = attrs["href"];
+                        if (cssFile != "undefined" && cssFile != "") {
                             $designService.addCss(cssFile);
                         }
                     }
@@ -43,7 +43,7 @@
             .directive("jqLayout", function () {
                 return {
                     restrict: "A",
-                    link: function (scope, elem, attrs) {                   // jshint ignore: line
+                    link: function (scope, elem, attrs) {
                         jQuery(elem).layout({ applyDefaultStyles: true });
                     }
                 };

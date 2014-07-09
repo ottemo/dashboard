@@ -12,14 +12,12 @@
             var getParentItem, parentItem, transformMenu, prepareLink;
             getParentItem = function (data, field, value) {
                 for (var i in data) {
-                    if (data.hasOwnProperty(i)) {
-                        if (data[i][field] === value) {
-                            parentItem = data[i];
-                        }
-                        var $subList = data[i].items;
-                        if ($subList) {
-                            getParentItem($subList, field, value);
-                        }
+                    if (data[i][field] === value) {
+                        parentItem = data[i];
+                    }
+                    var $subList = data[i].items;
+                    if ($subList) {
+                        getParentItem($subList, field, value);
                     }
                 }
 
@@ -33,7 +31,7 @@
              * @param menu
              * @returns {Array}
              */
-            transformMenu = function (menu) {                       // jshint ignore: line
+            transformMenu = function (menu) {
                 var i, item, parentPath, tmpMenu;
                 tmpMenu = [];
                 menu.sort(function (obj1, obj2) {
@@ -41,34 +39,32 @@
                 });
 
                 for (i in menu) {
-                    if (menu.hasOwnProperty(i)){
-                        parentItem = undefined;
-                        item = menu[i];
+                    parentItem = undefined;
+                    item = menu[i];
+                    /**
+                     * Item belongs to the upper level.
+                     * He has only one level in path
+                     */
+                    if (item.path.split("/").length <= 2) {
+                        tmpMenu.push(item);
+                    } else {
                         /**
-                         * Item belongs to the upper level.
-                         * He has only one level in path
+                         * Gets from path parent path
+                         * Exaample:
+                         * for this item with path
+                         * /item_1/sub_item_1/sub_item_1_1
+                         *
+                         * parent item should have path
+                         * /item_1/sub_item_1
+                         *
+                         * @type {string}
                          */
-                        if (item.path.split("/").length <= 2) {
-                            tmpMenu.push(item);
-                        } else {
-                            /**
-                             * Gets from path parent path
-                             * Exaample:
-                             * for this item with path
-                             * /item_1/sub_item_1/sub_item_1_1
-                             *
-                             * parent item should have path
-                             * /item_1/sub_item_1
-                             *
-                             * @type {string}
-                             */
-                            parentPath = item.path.substr(0, item.path.lastIndexOf("/"));
-                            if (getParentItem(menu, "path", parentPath)) {
-                                if (typeof parentItem.items === "undefined") {
-                                    parentItem.items = [];
-                                }
-                                parentItem.items.push(item);
+                        parentPath = item.path.substr(0, item.path.lastIndexOf("/"));
+                        if (getParentItem(menu, "path", parentPath)) {
+                            if (typeof parentItem.items === "undefined") {
+                                parentItem.items = [];
                             }
+                            parentItem.items.push(item);
                         }
                     }
                 }
@@ -86,7 +82,7 @@
                 }
 
                 return href;
-            };
+            }
 
             dashboardModule
                 /*

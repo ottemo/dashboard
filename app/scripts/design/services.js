@@ -50,7 +50,7 @@
                         for (var idx in data.cssList) {
                             if  (data.cssList.hasOwnProperty(idx)) {
                                 var cssFile = data.cssList[idx];
-                                html += "<link rel='stylesheet' href='" + cssFile + "' type='text/css' />" + "\n";
+                                html += "<link rel=\"stylesheet\" href=\"" + cssFile + "\" type=\"text/css\" />" + "\n";
                             }
                         }
                         return html;
