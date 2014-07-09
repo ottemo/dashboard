@@ -14,7 +14,7 @@
 
                     scope: {
                         "images": "=imagesList",
-                        "imagesPatch": "=?imagesPatch",
+                        "imagesPath": "=?imagesPath",
                         "placeholder": "=?placeholder",
                         "defaultImg": "=?defaultImg",
                         "selected": "=selected"
@@ -29,21 +29,19 @@
                         var splitBy = function (arr, x) {   // jshint ignore:line
                             var result = [], row = [], i = 0;
 
-                            if (typeof arr !== "array" && typeof x !== "integer") {         // jshint ignore:line
-                                for (var idx in arr) {
-                                    if (arr.hasOwnProperty(idx)){
-                                        i += 1;
-                                        row.push(arr[idx]);
-                                        if (i % x === 0) {
-                                            result.push(row);
-                                            i = 0;
-                                            row = [];
-                                        }
+                            for (var idx in arr) {
+                                if (arr.hasOwnProperty(idx)) {
+                                    i += 1;
+                                    row.push(arr[idx]);
+                                    if (i % x === 0) {
+                                        result.push(row);
+                                        i = 0;
+                                        row = [];
                                     }
                                 }
-                                if (i !== 0) {
-                                    result.push(row);
-                                }
+                            }
+                            if (i !== 0) {
+                                result.push(row);
                             }
 
                             return result;
@@ -53,11 +51,15 @@
                             $scope.splitedImages = splitBy(newValue, 4);
                         });
 
+                        $scope.$watch("defaultImg", function (newValue) {
+                            $scope.selected = newValue;
+                        });
+
                         $scope.getImage = function (filename) {
                             if (typeof filename === "undefined" || filename === "") {
                                 return $scope.placeholder;
                             } else {
-                                return $designImageService.getFullImagePath($scope.imagesPatch, filename);
+                                return $designImageService.getFullImagePath($scope.imagesPath, filename);
                             }
                         };
 

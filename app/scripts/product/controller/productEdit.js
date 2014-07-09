@@ -139,7 +139,7 @@
                         if (response.error === "") {
                             for (i = 0; i < $scope.products.length; i += 1) {
                                 if ($scope.products[i]._id === response.result._id) {
-                                    for(field in response.result){
+                                    for (field in response.result) {
                                         $scope.products[i][field] = response.result[field];
                                     }
                                 }
@@ -172,7 +172,7 @@
                         // taking media patch for new product
                         $productApiService.getImagePath({"productId": $scope.product._id}).$promise.then(
                             function (response) {
-                                $scope.imagesPatch = response.result || "";
+                                $scope.imagesPath = response.result || "";
                             });
 
                         // taking registered images for product

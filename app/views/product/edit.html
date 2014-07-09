@@ -21,7 +21,7 @@
 
                 <div class="panel-body">
 
-                    <gui-picture-manager images-patch="imagesPatch" images-list="productImages"
+                    <gui-picture-manager images-path="imagesPath" images-list="productImages"
                                          selected="selectedImage" default-img="product.default_image" ng-if="product._id">
                         <div class="btn btn-success">
                             <input type="file" id="uploadfile" name="uploadfile" ng-model="uploadfile" ng-change="imageAdd('uploadfile')" />
