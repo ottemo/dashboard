@@ -16,14 +16,27 @@
                     <div class="panel-body">
                         <div ng-repeat="attribute in items">
                             <div ng-switch="attribute.Editors">
+
                                 <div ng-switch-when="not_editable">
                                     <label for="inp{{attribute.Attribute}}">{{attribute.Label}}</label>
                                     <gui-not-editable editor-scope="attribute" item="item"></gui-not-editable>
                                 </div>
+
                                 <div ng-switch-when="multiline_text">
                                     <label for="inp{{attribute.Attribute}}">{{attribute.Label}}</label>
                                     <gui-multiline-text editor-scope="attribute" item="item"></gui-multiline-text>
                                 </div>
+
+                                <div ng-switch-when="model_selector">
+                                    <label for="inp{{attribute.Attribute}}">{{attribute.Label}}</label>
+                                    <gui-model-selector editor-scope="attribute" item="item"></gui-model-selector>
+                                </div>
+
+                                <div ng-switch-when="array_model_selector">
+                                    <label for="inp{{attribute.Attribute}}">{{attribute.Label}}</label>
+                                    <gui-array-model-selector editor-scope="attribute" item="item"></gui-array-model-selector>
+                                </div>
+
                                 <div ng-switch-default>
                                     <label for="inp{{attribute.Attribute}}">{{attribute.Label}}</label>
                                     <gui-text editor-scope="attribute" item="item"></gui-text>

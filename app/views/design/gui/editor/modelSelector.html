@@ -1,0 +1,5 @@
+<select class="form-control"
+        ng-init="attribute[attribute.Attribute] = attribute[attribute.Attribute] || options[0]"
+        data-ng-model="item[attribute.Attribute]"
+        data-ng-options="choice._id as choice.name for choice in options">
+</select>

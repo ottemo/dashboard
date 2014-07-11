@@ -1,0 +1,69 @@
+{{item.products}}
+<button class="btn btn-primary" ng-click="show(attribute.Attribute)" style="padding: 0px 10px;">Select</button>
+<div class="modal fade" id="{{attribute.Attribute}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+                {{attribute.Attribute}}
+            </div>
+
+            <div class="modal-body">
+                <div class="panel panel-default">
+                    <!-- Search block -->
+                    <div class="panel-heading">
+                        <!-- Button for create new object -->
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="parent.clearForm()"><span
+                                    class="glyphicon glyphicon-plus"></span> New
+                            </button>
+                        </div>
+
+                        <input type="text" class="form-control" placeholder="Search" ng-model="searchText"/>
+
+                        <!-- Buttons for switching list type -->
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="parent.switchListView('tile')">
+                                <span class="glyphicon glyphicon-th-large"></span>
+                            </button>
+                            <button type="button" class="btn btn-default" ng-click="parent.switchListView('list')">
+                                <span class="glyphicon glyphicon-th-list"></span>
+                            </button>
+                            <button type="button" class="btn btn-default" ng-click="parent.save('list')">
+                                Save
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- List block -->
+                    <div class="panel-body">
+                        <ul class="media-list{{getListType()}}">
+                            <!-- Items of the list -->
+                            <li class="media" ng-repeat="_item in items | filter:searchText" checkbox-group>
+
+                                <!--<a class="pull-left" href="" target="_self" ng-click="parent.select(_item._id)" ng-if="_item.image">-->
+                                    <!--<img class="media-object" ng-src="{{parent.getImage(_item.image_path, _item.image)}}"-->
+                                         <!--alt="{{_item.name}}" style="max-width: 75px; max-height: 75px;">-->
+                                <!--</a>-->
+                                <div class="media-body pull-left">
+                                    <input type="checkbox"
+                                           ng-checked="selection.indexOf(_item._id) > -1"
+                                           ng-click="toggleSelection(_item._id)" />
+                                </div>
+                                <div class="media-body  pull-left">
+                                    <h4 class="media-heading" ng-model="_item.name" ng-bind="_item.name"></h4>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>

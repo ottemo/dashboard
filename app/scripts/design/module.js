@@ -8,10 +8,13 @@
     define([
             "design/services",
             "design/service/image",
+            "design/service/api",
 
             "design/directives/design",
             "design/directives/guiAttributesEditorForm",
             "design/directives/guiPictureManager",
+            "design/directives/editor/guiModelSelector",
+            "design/directives/editor/guiArrayModelSelector",
             "design/directives/guiListManager",
 
             "design/directives/editor/guiNotEditable",

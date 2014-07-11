@@ -39,6 +39,7 @@ require([
         "dashboard/module",
 
         "product/module",
+        "category/module",
         "login/module"
     ],
     function (angular) {
