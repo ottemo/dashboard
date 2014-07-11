@@ -30,6 +30,18 @@
                 $scope.categories = [];
 
                 /**
+                 * Clears the form to create a new category
+                 */
+                $scope.clearForm = function () {
+                    $scope.category = {
+                        "name": "",
+                        "parent": "",
+                        "products": []
+                    };
+                };
+                $scope.clearForm();
+
+                /**
                  * Gets list all attributes of category
                  */
                 $categoryApiService.attributesInfo().$promise.then(
@@ -61,13 +73,6 @@
                             var result = response.result || {};
                             $scope.category = result;
                         });
-                };
-
-                /**
-                 * Clears the form to create a new category
-                 */
-                $scope.clearForm = function () {
-                    $scope.category = {};
                 };
 
                 /**
@@ -109,6 +114,7 @@
                     saveSuccess = function (response) {
                         if (response.error === "") {
                             $scope.categories.push(response.result);
+                            $scope.clearForm();
                         }
                     };
 
@@ -142,14 +148,14 @@
                     };
 
                     if (!id) {
-                        $categoryApiService.save($scope.category, saveSuccess, saveError);
+                        if ($scope.category.name !== "") {
+                            $categoryApiService.save($scope.category, saveSuccess, saveError);
+                        }
                     } else {
                         $scope.category.id = id;
                         $categoryApiService.update($scope.category, updateSuccess, updateError);
                     }
                 };
-
-
 
 
             }]);

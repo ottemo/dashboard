@@ -19,11 +19,27 @@
                     controller: function ($scope) {
                         $scope.selection = [];
                         $scope.selected = [];
+
                         $scope.toggleSelection = function toggleSelection(id, name) {
-                            if (typeof $scope.item[$scope.attribute.Attribute] !== "undefined") {
-                                var idx = $scope.item[$scope.attribute.Attribute].indexOf(id);
+                            var parentScope;
+                            parentScope = $scope.item[$scope.attribute.Attribute];
+
+                            if (typeof parentScope !== "undefined") {
+                                var idx, isExist;
+                                isExist = false;
+                                for(var i =0 ; i< parentScope.length; i+=1){
+                                    if(typeof parentScope[i] === "object" && parentScope[i]._id === id){
+                                        console.log(parentScope[i]._id)
+                                        isExist = true;
+                                        idx = i;
+                                    } else if(parentScope[i] === id) {
+                                        console.log(parentScope[i])
+                                        isExist = true;
+                                        idx = i;
+                                    }
+                                }
                             } else {
-                                $scope.item[$scope.attribute.Attribute] = [];
+                                parentScope = [];
                             }
 
                             if (typeof $scope.selected !== "undefined") {
@@ -32,10 +48,10 @@
                                 $scope.selected = [];
                             }
 
-                            if (idx > -1) {
-                                $scope.item[$scope.attribute.Attribute].splice(idx, 1);
+                            if (isExist) {
+                                parentScope.splice(idx, 1);
                             } else {
-                                $scope.item[$scope.attribute.Attribute].push(id);
+                                parentScope.push(id);
                             }
 
                             if (names > -1) {
@@ -52,15 +68,18 @@
                         $scope.$watch("item", function () {
                             $scope.selection = [];
                             $scope.selected = [];
-                            if (typeof $scope.item[$scope.attribute.Attribute] !== "undefined") {
+                            if (typeof $scope.item !== "undefined" &&
+                            typeof $scope.item[$scope.attribute.Attribute] !== "undefined") {
                                 for (var i = 0; i < $scope.item[$scope.attribute.Attribute].length; i += 1) {
                                     if (typeof $scope.item[$scope.attribute.Attribute] === "object") {
+
                                         $scope.selection.push($scope.item[$scope.attribute.Attribute][i]._id);
-                                        $scope.selected.push($scope.item[$scope.attribute.Attribute].name);
+                                        $scope.selected.push($scope.item[$scope.attribute.Attribute][i].name);
+
                                     }
                                 }
                             }
-                            console.log($scope.selection)
+console.log($scope.selected)
                             var options, parseOptions;
                             options = {};
 
