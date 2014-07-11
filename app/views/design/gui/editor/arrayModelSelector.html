@@ -1,4 +1,4 @@
-{{item.products}}
+- {{selected.length ? selected.length : 0}} items
 <button class="btn btn-primary" ng-click="show(attribute.Attribute)" style="padding: 0px 10px;">Select</button>
 <div class="modal fade" id="{{attribute.Attribute}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true">
@@ -50,7 +50,7 @@
                                 <div class="media-body pull-left">
                                     <input type="checkbox"
                                            ng-checked="selection.indexOf(_item._id) > -1"
-                                           ng-click="toggleSelection(_item._id)" />
+                                           ng-click="toggleSelection(_item._id, _item.name)" />
                                 </div>
                                 <div class="media-body  pull-left">
                                     <h4 class="media-heading" ng-model="_item.name" ng-bind="_item.name"></h4>

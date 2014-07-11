@@ -17,30 +17,50 @@
                     },
 
                     controller: function ($scope) {
-
-                        $scope.toggleSelection = function toggleSelection(fruitName) {
+                        $scope.selection = [];
+                        $scope.selected = [];
+                        $scope.toggleSelection = function toggleSelection(id, name) {
                             if (typeof $scope.item[$scope.attribute.Attribute] !== "undefined") {
-                                var idx = $scope.item[$scope.attribute.Attribute].indexOf(fruitName);
+                                var idx = $scope.item[$scope.attribute.Attribute].indexOf(id);
                             } else {
                                 $scope.item[$scope.attribute.Attribute] = [];
                             }
 
-                            // is currently selected
-                            if (idx > -1) {
-                                $scope.item[$scope.attribute.Attribute].splice(idx, 1);
+                            if (typeof $scope.selected !== "undefined") {
+                                var names = $scope.selected.indexOf(name);
+                            } else {
+                                $scope.selected = [];
                             }
 
-                            // is newly selected
-                            else {
-                                $scope.item[$scope.attribute.Attribute].push(fruitName);
+                            if (idx > -1) {
+                                $scope.item[$scope.attribute.Attribute].splice(idx, 1);
+                            } else {
+                                $scope.item[$scope.attribute.Attribute].push(id);
+                            }
+
+                            if (names > -1) {
+                                $scope.selected.splice(names, 1);
+                            } else {
+                                $scope.selected.push(name);
                             }
                         };
 
                         $scope.show = function (id) {
                             $("#" + id).modal("show");
                         };
-                        $scope.$watch("item", function () {
 
+                        $scope.$watch("item", function () {
+                            $scope.selection = [];
+                            $scope.selected = [];
+                            if (typeof $scope.item[$scope.attribute.Attribute] !== "undefined") {
+                                for (var i = 0; i < $scope.item[$scope.attribute.Attribute].length; i += 1) {
+                                    if (typeof $scope.item[$scope.attribute.Attribute] === "object") {
+                                        $scope.selection.push($scope.item[$scope.attribute.Attribute][i]._id);
+                                        $scope.selected.push($scope.item[$scope.attribute.Attribute].name);
+                                    }
+                                }
+                            }
+                            console.log($scope.selection)
                             var options, parseOptions;
                             options = {};
 
@@ -55,14 +75,11 @@
                                 return options;
                             };
                             parseOptions();
-//                            console.log(options)
-////
-//
+
                             $designApiService.attributesModel({"model": options.model}).$promise.then(
                                 function (response) {
                                     var result = response.result || [];
                                     $scope.items = result;
-                                    console.log($scope.items);
                                 });
                         });
 
