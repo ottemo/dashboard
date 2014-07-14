@@ -1,0 +1,36 @@
+    <div class="panel-group" id="accordion">
+        <div class="form-group" ng-repeat="(key, items) in attributeGroups">
+            <div class="panel panel-default">
+
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{key}}"
+                           target="_self">
+                            {{key}}
+                        </a>
+                    </h4>
+                </div>
+
+                <div id="collapse{{key}}" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <div ng-repeat="attribute in items">
+                            <div ng-switch="attribute.Editors">
+                                <div ng-switch-when="not_editable">
+                                    <label for="inp{{attribute.Attribute}}">{{attribute.Label}}</label>
+                                    <gui-not-editable editor-scope="attribute" item="item"></gui-not-editable>
+                                </div>
+                                <div ng-switch-when="multiline_text">
+                                    <label for="inp{{attribute.Attribute}}">{{attribute.Label}}</label>
+                                    <gui-multiline-text editor-scope="attribute" item="item"></gui-multiline-text>
+                                </div>
+                                <div ng-switch-default>
+                                    <label for="inp{{attribute.Attribute}}">{{attribute.Label}}</label>
+                                    <gui-text editor-scope="attribute" item="item"></gui-text>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

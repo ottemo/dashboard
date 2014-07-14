@@ -1,4 +1,4 @@
-(function (define, angular) {
+(function (define) {
     "use strict";
 
     /**
@@ -98,4 +98,4 @@
         return productModule;
     });
 
-})(window.define, window.angular);
+})(window.define);

@@ -1,0 +1,31 @@
+<div class="container-fluid" ng-controller="visitorEditController">
+    <div class="row" style="margin-top: 15px">
+
+        <div class="col-md-4">
+            <gui-list-manager items="visitors" object="this" mapping="{'id': '_id', 'name': 'first_name'}"></gui-list-manager>
+        </div>
+
+        <div class="col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-md-6 text-muted" style="padding-top: 6px; font-size: 130%; font-weight: bold">
+                            <span ng-if="visitor._id"> {{getFullName()}}</span>
+                            <span ng-if="!visitor._id"> New Visitor </span>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <button class="btn btn-warning" ng-click="addressForm()" ng-if="visitor._id">Addresses</button>
+                            <button class="btn btn-primary" ng-click="save()">Save</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    <gui-attributes-editor-form attributes-list="attributes" object="this" item="visitor"/>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>

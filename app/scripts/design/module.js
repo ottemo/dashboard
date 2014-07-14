@@ -12,6 +12,7 @@
 
             "design/directives/design",
             "design/directives/guiAttributesEditorForm",
+            "design/directives/guiAttributesEditorFormTest",
             "design/directives/guiPictureManager",
             "design/directives/editor/guiModelSelector",
             "design/directives/editor/guiArrayModelSelector",
