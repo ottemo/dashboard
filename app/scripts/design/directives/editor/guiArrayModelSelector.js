@@ -29,11 +29,9 @@
                                 isExist = false;
                                 for(var i =0 ; i< parentScope.length; i+=1){
                                     if(typeof parentScope[i] === "object" && parentScope[i]._id === id){
-                                        console.log(parentScope[i]._id)
                                         isExist = true;
                                         idx = i;
                                     } else if(parentScope[i] === id) {
-                                        console.log(parentScope[i])
                                         isExist = true;
                                         idx = i;
                                     }
@@ -79,7 +77,7 @@
                                     }
                                 }
                             }
-console.log($scope.selected)
+
                             var options, parseOptions;
                             options = {};
 

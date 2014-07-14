@@ -96,7 +96,6 @@
                                 item = $scope.items[i];
                                 for (field in item) {
                                     if (item.hasOwnProperty(field)) {
-                                        console.log(item[field])
                                         if (field === "Image" && item[field] !== "") {
                                             return true;
                                         }

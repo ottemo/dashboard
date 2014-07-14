@@ -15,13 +15,23 @@
 
                 modelBaseURL = REST_SERVER_URI;
 
-                return $resource(modelBaseURL, {}, {
+                var buildUrl = function (path) {
+                    modelBaseURL = REST_SERVER_URI + path;
+                    console.log("==> " + modelBaseURL);
+                    return modelBaseURL;
+                };
+
+                var resources = $resource(modelBaseURL, {}, {
                     "attributesModel": {
                         method: "GET",
-                        params: {model: "@model"},
-                        url: modelBaseURL + "/:model/list"
+                        params: {"params": "@params"},
+                        url: modelBaseURL + "/list/:params"
                     }
                 });
+                return {
+                    buildUrl: buildUrl,
+                    resources: resources
+                };
             }]);
 
         return productModule;

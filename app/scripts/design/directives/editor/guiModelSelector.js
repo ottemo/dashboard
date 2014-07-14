@@ -17,7 +17,22 @@
                     },
 
                     controller: function ($scope) {
+                        var getParams;
 
+                        getParams = function (model) {
+                            var params;
+                            params = {}
+                            switch (model) {
+                                case "VisitorAddress":
+                                    params = {
+                                        "visitorId": $scope.item._id
+                                    }
+                                    break;
+                                default:
+                                    params = {};
+                            }
+                            return params;
+                        }
 
                         $scope.$watch("item", function () {
                             var options, parseOptions;
@@ -35,7 +50,8 @@
 
                             parseOptions();
 
-                            $designApiService.attributesModel({"model": options.model}).$promise.then(
+                            $designApiService.buildUrl("/visitor/address");
+                            $designApiService.resources.attributesModel(getParams(options.model)).$promise.then(
                                 function (response) {
                                     var result = response.result || [];
                                     $scope.options = result;
