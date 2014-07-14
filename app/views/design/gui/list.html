@@ -30,7 +30,7 @@
             <!-- Items of the list -->
             <li class="media" ng-repeat="item in items | filter:searchText">
                 <a class="pull-left" href="" target="_self" ng-click="parent.select(item[map.id])">
-                    <img class="media-object" ng-src="{{parent.getImage(item[map.image_path], item[map.default_image])}}"
+                    <img class="media-object" ng-src="{{parent.getImage(item[map.image])}}"
                          alt="{{item[map.name]}}" style="max-width: 75px; max-height: 75px;">
                 </a>
 

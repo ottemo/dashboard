@@ -19,18 +19,17 @@
              *
              * @type {string[]}
              */
-            supportedAttr = ["id", "name", "default_image", "image_path", "shortDesc"];
+            supportedAttr = ["id", "name", "image", "shortDesc"];
 
             /**
              * Default mapping
              * @type {object}
              */
             defaultMapping = {
-                "id": "_id",
-                "name": "name",
-                "default_image": "default_image",
-                "image_path": "image_path",
-                "shortDesc": "shortDesc"
+                "id": "Id",
+                "name": "Name",
+                "image": "Image",
+                "shortDesc": "Desc"
             };
 
             for (var field in mapping) {
@@ -90,16 +89,20 @@
                          * @returns {boolean}
                          */
                         $scope.hasImage = function () {
-                            var field, item;
+                            var i, field, item;
 
-                            item = $scope.items[0];
-                            for (field in item) {
-                                if (item.hasOwnProperty(field)) {
-                                    if (field === "default_image" || field === "image") {
-                                        return true;
+                            for (i = 0; i < $scope.items.length; i += 1) {
+                                item = $scope.items[i];
+                                for (field in item) {
+                                    if (item.hasOwnProperty(field)) {
+                                        console.log(item[field])
+                                        if (field === "Image" && item[field] !== "") {
+                                            return true;
+                                        }
                                     }
                                 }
                             }
+
                             return false;
                         };
 
