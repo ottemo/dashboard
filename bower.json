@@ -11,7 +11,7 @@
     "angular-sanitize": "1.2.11",
     "angular-animate": "1.2.11",
     "angular-route": "1.2.11",
-    "jquery": "1.7.2",
+    "jquery": "2.1.1",
     "bootstrap-sass": "3.0.2",
     "angular-bootstrap": "0.11.0"
   },
