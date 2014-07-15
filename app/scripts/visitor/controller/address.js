@@ -34,10 +34,10 @@
                         });
 
                     $scope.getFullAddress = function(){
-                        return $scope.address.street +
-                            " " +$scope.address.city +
-                            " " + $scope.address.state +
-                            " " + $scope.address.zip_code;
+                        return $scope.address.zip_code +
+                            " " +$scope.address.state +
+                            ", " + $scope.address.city +
+                            ", " + $scope.address.street;
                     }
 
                     /**
@@ -50,14 +50,14 @@
                     /**
                      * Gets list of address
                      */
-//                    $visitorApiService.addressesList({"visitorId": $scope.visitorId}).$promise.then(
-//                        function (response) {
-//                            var result, i;
-//                            result = response.result || [];
-//                            for (i = 0; i < result.length; i += 1) {
-//                                $scope.addressesList.push(result[i]);
-//                            }
-//                        });
+                    $visitorApiService.addressesList({"visitorId": $scope.visitorId}).$promise.then(
+                        function (response) {
+                            var result, i;
+                            result = response.result || [];
+                            for (i = 0; i < result.length; i += 1) {
+                                $scope.addressesList.push(result[i]);
+                            }
+                        });
 
                     /**
                      * Handler event when selecting the address in the list

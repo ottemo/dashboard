@@ -2,6 +2,50 @@
     "use strict";
 
     define(["design/init"], function (designModule) {
+        var options, parseOptions, getParams;
+        options = {};
+
+        /**
+         * Transforms the options string into object
+         * Example:
+         *      in input - "model: Product; param_1: value_1"
+         *      in output: {
+         *          model: Product,
+         *          param_1: value_1
+         *      }
+         *
+         * @param {string} optionsStr
+         * @returns {object}
+         */
+        parseOptions = function (optionsStr) {
+            var i, optionsPairs, parts;
+            optionsPairs = optionsStr.split(/[,;]+/i) || [];
+            for (i = 0; i < optionsPairs.length; i += 1) {
+                parts = optionsPairs[i].split(/[:=]+/i);
+                options[parts[0].trim()] = parts[1].trim();
+            }
+            return options;
+        };
+
+        getParams = function (model, item) {
+            var params;
+            params = {}
+            switch (model) {
+                case "VisitorAddress":
+                    params = {
+                        "params": item._id,
+                        "uri_1": "visitor",
+                        "uri_2": "address"
+                    }
+                    break;
+                default:
+                    params = {
+                        "uri_1": model
+                    };
+            }
+            return params;
+        };
+
         designModule
         /**
          *  Directive used for automatic attribute editor creation
@@ -17,41 +61,16 @@
                     },
 
                     controller: function ($scope) {
-                        var getParams;
-
-                        getParams = function (model) {
-                            var params;
-                            params = {}
-                            switch (model) {
-                                case "VisitorAddress":
-                                    params = {
-                                        "visitorId": $scope.item._id
-                                    }
-                                    break;
-                                default:
-                                    params = {};
-                            }
-                            return params;
-                        }
 
                         $scope.$watch("item", function () {
-                            var options, parseOptions;
-                            options = {};
 
-                            parseOptions = function () {
-                                var i, optionsPairs, parts;
-                                optionsPairs = $scope.attribute.Options.split(/[,;]+/i) || [];
-                                for (i = 0; i < optionsPairs.length; i += 1) {
-                                    parts = optionsPairs[i].split(/[:=]+/i);
-                                    options[parts[0].trim()] = parts[1].trim();
-                                }
-                                return options;
-                            };
+                            if(!$scope.item._id){
+                                return true;
+                            }
 
-                            parseOptions();
+                            parseOptions($scope.attribute.Options);
 
-                            $designApiService.buildUrl("/visitor/address");
-                            $designApiService.resources.attributesModel(getParams(options.model)).$promise.then(
+                            $designApiService.attributesModel(getParams(options.model, $scope.item)).$promise.then(
                                 function (response) {
                                     var result = response.result || [];
                                     $scope.options = result;

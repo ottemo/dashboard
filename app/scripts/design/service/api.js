@@ -11,27 +11,18 @@
              */
             .service("$designApiService", ["$resource", "REST_SERVER_URI", function ($resource, REST_SERVER_URI) {
 
-                var modelBaseURL;
-
-                modelBaseURL = REST_SERVER_URI;
-
-                var buildUrl = function (path) {
-                    modelBaseURL = REST_SERVER_URI + path;
-                    console.log("==> " + modelBaseURL);
-                    return modelBaseURL;
-                };
-
-                var resources = $resource(modelBaseURL, {}, {
+                return $resource(REST_SERVER_URI, {}, {
                     "attributesModel": {
                         method: "GET",
-                        params: {"params": "@params"},
-                        url: modelBaseURL + "/list/:params"
+                        params: {
+                            "uri_1": "@uri_1",
+                            "uri_2": "@uri_2",
+                            "uri_3": "@uri_3",
+                            "params": "@params"
+                        },
+                        url: REST_SERVER_URI + "/:uri_1/:uri_2/:uri_3/list/:params"
                     }
                 });
-                return {
-                    buildUrl: buildUrl,
-                    resources: resources
-                };
             }]);
 
         return productModule;

@@ -2,11 +2,55 @@
     "use strict";
 
     define(["design/init"], function (designModule) {
+        var options, parseOptions, getParams;
+        options = {};
+
+        /**
+         * Transforms the options string into object
+         * Example:
+         *      in input - "model: Product; param_1: value_1"
+         *      in output: {
+         *          model: Product,
+         *          param_1: value_1
+         *      }
+         *
+         * @param {string} optionsStr
+         * @returns {object}
+         */
+        parseOptions = function (optionsStr) {
+            var i, optionsPairs, parts;
+            optionsPairs = optionsStr.split(/[,;]+/i) || [];
+            for (i = 0; i < optionsPairs.length; i += 1) {
+                parts = optionsPairs[i].split(/[:=]+/i);
+                options[parts[0].trim()] = parts[1].trim();
+            }
+            return options;
+        };
+
+        getParams = function (model, item) {
+            var params;
+            params = {}
+            switch (model) {
+                case "VisitorAddress":
+                    params = {
+                        "params": item._id,
+                        "uri_1": "visitor",
+                        "uri_2": "address"
+                    }
+                    break;
+                default:
+                    params = {
+                        "uri_1": model
+                    };
+            }
+            return params;
+        };
+
         designModule
         /**
          *  Directive used for automatic attribute editor creation
          */
-            .directive("guiArrayModelSelector", ["$designService", "$designApiService", function ($designService, $designApiService) {
+            .directive("guiArrayModelSelector", ["$designService", "$designApiService", "$designImageService", function ($designService, $designApiService, $designImageService) {
                 return {
                     restrict: "E",
                     templateUrl: $designService.getTemplate("design/gui/editor/arrayModelSelector.html"),
@@ -20,18 +64,18 @@
                         $scope.selection = [];
                         $scope.selected = [];
 
-                        $scope.toggleSelection = function toggleSelection(id, name) {
+                        $scope.toggleSelection = function (id, name) {
                             var parentScope;
                             parentScope = $scope.item[$scope.attribute.Attribute];
 
                             if (typeof parentScope !== "undefined") {
                                 var idx, isExist;
                                 isExist = false;
-                                for(var i =0 ; i< parentScope.length; i+=1){
-                                    if(typeof parentScope[i] === "object" && parentScope[i]._id === id){
+                                for (var i = 0; i < parentScope.length; i += 1) {
+                                    if (typeof parentScope[i] === "object" && parentScope[i]._id === id) {
                                         isExist = true;
                                         idx = i;
-                                    } else if(parentScope[i] === id) {
+                                    } else if (parentScope[i] === id) {
                                         isExist = true;
                                         idx = i;
                                     }
@@ -66,39 +110,40 @@
                         $scope.$watch("item", function () {
                             $scope.selection = [];
                             $scope.selected = [];
-                            if (typeof $scope.item !== "undefined" &&
-                            typeof $scope.item[$scope.attribute.Attribute] !== "undefined") {
-                                for (var i = 0; i < $scope.item[$scope.attribute.Attribute].length; i += 1) {
-                                    if (typeof $scope.item[$scope.attribute.Attribute] === "object") {
 
-                                        $scope.selection.push($scope.item[$scope.attribute.Attribute][i]._id);
-                                        $scope.selected.push($scope.item[$scope.attribute.Attribute][i].name);
+                            if (!$scope.item._id) {
+                                return true;
+                            }
 
-                                    }
+                            for (var i = 0; i < $scope.item[$scope.attribute.Attribute].length; i += 1) {
+                                if (typeof $scope.item[$scope.attribute.Attribute] === "object") {
+
+                                    $scope.selection.push($scope.item[$scope.attribute.Attribute][i]._id);
+                                    $scope.selected.push($scope.item[$scope.attribute.Attribute][i].name);
+
                                 }
                             }
 
-                            var options, parseOptions;
-                            options = {};
+                            parseOptions($scope.attribute.Options);
 
-                            parseOptions = function () {
-                                var i, optionsPairs, parts;
-                                optionsPairs = $scope.attribute.Options.split(/[,;]+/i) || [];
-
-                                for (i = 0; i < optionsPairs.length; i += 1) {
-                                    parts = optionsPairs[i].split(/[:=]+/i);
-                                    options[parts[0].trim()] = parts[1].trim();
-                                }
-                                return options;
-                            };
-                            parseOptions();
-
-                            $designApiService.attributesModel({"model": options.model}).$promise.then(
+                            $designApiService.attributesModel(getParams(options.model, $scope.item)).$promise.then(
                                 function (response) {
                                     var result = response.result || [];
                                     $scope.items = result;
                                 });
                         });
+
+                        /**
+                         * Returns full path to image
+                         *
+                         * @param {string} path     - the destination path to product folder
+                         * @param {string} image    - image name
+                         * @returns {string}        - full path to image
+                         */
+                        $scope.getImage = function (image) {
+                            console.log(image)
+                            return $designImageService.getFullImagePath("", image);
+                        };
 
                     }
                 };
