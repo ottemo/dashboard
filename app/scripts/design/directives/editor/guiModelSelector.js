@@ -64,7 +64,7 @@
 
                         $scope.$watch("item", function () {
 
-                            if(!$scope.item._id){
+                            if(typeof $scope.item === "undefined" || !$scope.item._id){
                                 return true;
                             }
 

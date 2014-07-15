@@ -42,7 +42,7 @@
                         url: productBaseURL + "/attribute/add"
                     },
                     "productList": {
-                        method: "GET",
+                        method: "POST",
                         url: productBaseURL + "/list"
                     },
                     "getProduct": {

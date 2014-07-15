@@ -18,13 +18,13 @@
                         method: "GET",
                         url: categoryBaseURL + "/attribute/list"
                     },
-                    "getCategroy": {
+                    "getCategory": {
                         method: "GET",
                         params: { id: "@id" },
                         url: categoryBaseURL + "/get/:id"
                     },
                     "categoryList": {
-                        method: "GET",
+                        method: "POST",
                         url: categoryBaseURL + "/list"
                     },
                     "save": {

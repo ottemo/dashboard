@@ -8,6 +8,9 @@
                 "$categoryApiService",
                 function ($scope, $categoryApiService) {
 
+                    $scope.page = 0;
+                    $scope.count = 1;
+
                     /**
                      * Type of list
                      *
@@ -56,7 +59,7 @@
                     /**
                      * Gets list of categories
                      */
-                    $categoryApiService.categoryList().$promise.then(
+                    $categoryApiService.categoryList({limit: [$scope.page,$scope.count].join(",")}).$promise.then(
                         function (response) {
                             var result, i;
                             result = response.result || [];
@@ -71,10 +74,11 @@
                      * @param id
                      */
                     $scope.select = function (id) {
-                        $categoryApiService.getCategroy({"id": id}).$promise.then(
+                        $categoryApiService.getCategory({"id": id}).$promise.then(
                             function (response) {
                                 var result = response.result || {};
                                 $scope.category = result;
+                                $scope.category.parent = $scope.category.parent_id;
                             });
                     };
 
@@ -90,7 +94,7 @@
                             $categoryApiService.delete({"id": id}, function (response) {
                                 if (response.result === "ok") {
                                     for (i = 0; i < $scope.categories.length; i += 1) {
-                                        if ($scope.categories[i]._id === id) {
+                                        if ($scope.categories[i].Id === id) {
                                             $scope.categories.splice(i, 1);
                                             $scope.category = $scope.defaultCategory;
                                         }
@@ -116,7 +120,10 @@
                          */
                         saveSuccess = function (response) {
                             if (response.error === "") {
-                                $scope.categories.push(response.result);
+                                $scope.categories.push({
+                                    "Id": response.result._id,
+                                    "Name": response.result.name
+                                });
                                 $scope.clearForm();
                             }
                         };
@@ -136,8 +143,11 @@
                             var i;
                             if (response.error === "") {
                                 for (i = 0; i < $scope.categories.length; i += 1) {
-                                    if ($scope.categories[i]._id === response.result._id) {
-                                        $scope.categories[i] = response.result;
+                                    if ($scope.categories[i].Id === response.result._id) {
+                                        $scope.categories[i] ={
+                                            "Id": response.result._id,
+                                            "Name": response.result.name
+                                        };
                                     }
                                 }
                             }

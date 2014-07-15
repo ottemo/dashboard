@@ -72,7 +72,7 @@
                                 var idx, isExist;
                                 isExist = false;
                                 for (var i = 0; i < parentScope.length; i += 1) {
-                                    if (typeof parentScope[i] === "object" && parentScope[i]._id === id) {
+                                    if (typeof parentScope[i] === "object" && parentScope[i].Id === id) {
                                         isExist = true;
                                         idx = i;
                                     } else if (parentScope[i] === id) {
@@ -111,17 +111,17 @@
                             $scope.selection = [];
                             $scope.selected = [];
 
-                            if (!$scope.item._id) {
-                                return true;
-                            }
+                            if(typeof $scope.item !== "undefined" || !$scope.item._id){
 
-                            for (var i = 0; i < $scope.item[$scope.attribute.Attribute].length; i += 1) {
-                                if (typeof $scope.item[$scope.attribute.Attribute] === "object") {
+                                for (var i = 0; i < $scope.item[$scope.attribute.Attribute].length; i += 1) {
+                                    if (typeof $scope.item[$scope.attribute.Attribute] === "object") {
 
-                                    $scope.selection.push($scope.item[$scope.attribute.Attribute][i]._id);
-                                    $scope.selected.push($scope.item[$scope.attribute.Attribute][i].name);
+                                        $scope.selection.push($scope.item[$scope.attribute.Attribute][i]._id);
+                                        $scope.selected.push($scope.item[$scope.attribute.Attribute][i].name);
 
+                                    }
                                 }
+
                             }
 
                             parseOptions($scope.attribute.Options);
@@ -141,7 +141,6 @@
                          * @returns {string}        - full path to image
                          */
                         $scope.getImage = function (image) {
-                            console.log(image)
                             return $designImageService.getFullImagePath("", image);
                         };
 

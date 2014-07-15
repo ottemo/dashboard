@@ -5,6 +5,9 @@
         productModule
             .controller("productEditController", ["$scope", "$productApiService", "$designImageService", function ($scope, $productApiService, $designImageService) {
 
+                $scope.page = 0;
+                $scope.count = 100;
+
                 /**
                  * Product by default
                  *
@@ -51,7 +54,7 @@
                 /**
                  * Gets list of products
                  */
-                $productApiService.productList().$promise.then(
+                $productApiService.productList({limit: [$scope.page,$scope.count].join(",")}).$promise.then(
                     function (response) {
                         var result, i;
                         result = response.result || [];
@@ -240,8 +243,8 @@
                 $scope.imageDefault = function (selected) {
                     $scope.product.default_image = selected;
                     for (var i = 0; i < $scope.products.length; i += 1) {
-                        if ($scope.products[i]._id === $scope.product._id) {
-                            $scope.products[i].default_image = $scope.product.default_image;
+                        if ($scope.products[i].Id === $scope.product._id) {
+                            $scope.products[i].Image = $scope.imagesPath + $scope.product.default_image;
                             $scope.save();
                         }
                     }
