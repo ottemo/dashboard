@@ -226,8 +226,8 @@
                                 $scope.reloadImages();
                                 $scope.product.default_image = "";
                                 for (var i = 0; i < $scope.products.length; i += 1) {
-                                    if ($scope.products[i]._id === $scope.product._id) {
-                                        $scope.products[i].default_image = $scope.product.default_image;
+                                    if ($scope.products[i].Id === $scope.product._id) {
+                                        $scope.products[i].Image = $scope.product.default_image;
                                     }
                                 }
                                 $scope.save();

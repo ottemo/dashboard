@@ -63,14 +63,14 @@
                     controller: function ($scope) {
 
                         $scope.$watch("item", function () {
+                            parseOptions($scope.attribute.Options);
+                            var params = getParams(options.model, $scope.item);
 
-                            if(typeof $scope.item === "undefined" || !$scope.item._id){
+                            if(params.hasOwnProperty("params") && typeof params.params === "undefined"){
                                 return true;
                             }
 
-                            parseOptions($scope.attribute.Options);
-
-                            $designApiService.attributesModel(getParams(options.model, $scope.item)).$promise.then(
+                            $designApiService.attributesModel(params).$promise.then(
                                 function (response) {
                                     var result = response.result || [];
                                     $scope.options = result;

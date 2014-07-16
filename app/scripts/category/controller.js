@@ -7,9 +7,12 @@
                 "$scope",
                 "$categoryApiService",
                 function ($scope, $categoryApiService) {
+                    var rememberProducts, oldProducts;
+                    oldProducts = [];
+
 
                     $scope.page = 0;
-                    $scope.count = 1;
+                    $scope.count = 100;
 
                     /**
                      * Type of list
@@ -19,33 +22,12 @@
                     $scope.activeView = "list";
 
                     /**
-                     * Changes type of list
-                     *
-                     * @param type
-                     */
-                    $scope.switchListView = function (type) {
-                        $scope.activeView = type;
-                    };
-
-                    /**
                      * Current selected category
                      *
                      * @type {Object}
                      */
                     $scope.category = {};
                     $scope.categories = [];
-
-                    /**
-                     * Clears the form to create a new category
-                     */
-                    $scope.clearForm = function () {
-                        $scope.category = {
-                            "name": "",
-                            "parent": "",
-                            "products": []
-                        };
-                    };
-                    $scope.clearForm();
 
                     /**
                      * Gets list all attributes of category
@@ -67,6 +49,30 @@
                                 $scope.categories.push(result[i]);
                             }
                         });
+
+                    /**
+                     * Clears the form to create a new category
+                     */
+                    $scope.clearForm = function () {
+                        $scope.category = {
+                            "name": "",
+                            "parent": "",
+                            "parent_id": "",
+                            "path": "/",
+                            "products": []
+                        };
+                    };
+
+                    $scope.clearForm();
+
+                    /**
+                     * Changes type of list
+                     *
+                     * @param type
+                     */
+                    $scope.switchListView = function (type) {
+                        $scope.activeView = type;
+                    };
 
                     /**
                      * Handler event when selecting the category in the list
@@ -104,12 +110,62 @@
                         }
                     };
 
+                    $scope.saveProducts = function(){
+                        var id, addProduct, removeProduct;
+
+                        if (typeof $scope.category !== "undefined") {
+                            id = $scope.category.id || $scope.category._id;
+                        }
+
+                        addProduct = function(){
+                            for(var i = 0; i < $scope.category.products.length; i+= 1){
+                                var prodId = $scope.category.products[i];
+                                if(typeof prodId === "object"){
+                                    prodId = prodId._id;
+                                }
+                                if(oldProducts.indexOf(prodId) === -1 ) {
+                                    $categoryApiService.addProduct({
+                                        categoryId: id,
+                                        productId: prodId
+                                    }).$promise.then();
+                                }
+                            }
+                        };
+
+                        removeProduct = function(){
+                            for(var i = 0; i <  oldProducts.length; i+= 1){
+                                var oldProdId = oldProducts[i];
+                                var isRemoved = true
+                                for(var j = 0; j < $scope.category.products.length; j+= 1){
+                                    var prodId = $scope.category.products[i];
+                                    if(typeof prodId === "object"){
+                                        prodId = prodId._id;
+                                    }
+                                    if(oldProdId === prodId) {
+                                        isRemoved = false;
+                                        break;
+                                    }
+                                }
+                                if(isRemoved){
+                                    $categoryApiService.removeProduct({
+                                        categoryId: id,
+                                        productId: oldProdId
+                                    }).$promise.then();
+                                }
+                            }
+                        };
+
+                        addProduct();
+                        removeProduct();
+                    }
+
                     /**
                      * Event handler to save the category data.
                      * Creates new category if ID in current category is empty OR updates current category if ID is set
                      */
                     $scope.save = function () {
                         var id, saveSuccess, saveError, updateSuccess, updateError;
+
                         if (typeof $scope.category !== "undefined") {
                             id = $scope.category.id || $scope.category._id;
                         }
@@ -148,6 +204,7 @@
                                             "Id": response.result._id,
                                             "Name": response.result.name
                                         };
+                                        $scope.category.products = response.result.products;
                                     }
                                 }
                             }
@@ -166,10 +223,22 @@
                             }
                         } else {
                             $scope.category.id = id;
+                            $scope.saveProducts();
+                            delete $scope.category.products
                             $categoryApiService.update($scope.category, updateSuccess, updateError);
                         }
                     };
 
+                    rememberProducts = function(){
+                        var i, prod;
+                        oldProducts = [];
+                        for ( i = 0; i < $scope.category.products.length; i += 1){
+                            prod = $scope.category.products[i];
+                            oldProducts.push(prod._id);
+                        }
+                    }
+
+                    $scope.$watch("category", rememberProducts);
                 }]);
         return categoryModule;
     });
