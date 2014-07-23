@@ -63,6 +63,8 @@
                     controller: function ($scope) {
 
                         $scope.$watch("item", function () {
+                            $scope.options = [];
+
                             parseOptions($scope.attribute.Options);
                             var params = getParams(options.model, $scope.item);
 
@@ -73,6 +75,7 @@
                             $designApiService.attributesModel(params).$promise.then(
                                 function (response) {
                                     var result = response.result || [];
+
                                     $scope.options = result;
                                 });
                         });

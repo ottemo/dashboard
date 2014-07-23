@@ -5,6 +5,57 @@
         productModule
             .controller("productEditController", ["$scope", "$productApiService", "$designImageService", function ($scope, $productApiService, $designImageService) {
 
+                var getDefaultProduct, mapFields, getProperty, setProduct, splitName;
+
+                getDefaultProduct = function () {
+                    return {};
+                };
+
+                splitName = function (string) {
+                    var parts;
+                    var regExp = /\[(.+)\](.+)/i;
+                    parts = string.match(regExp);
+
+                    return parts;
+                };
+
+                mapFields = {
+                    "Id": ["id", "_id", "ID", "Id"],
+                    "Name": ["name", "Name"],
+                    "Desc": ["short_description", "desc", "shortDescription"],
+                    "Image": ["image", "default_image", "Image"]
+                };
+
+                getProperty = function (field) {
+                    var res, i, f;
+                    for (res in mapFields) {
+                        if (mapFields.hasOwnProperty(res)) {
+                            for (i = 0; i < mapFields[res].length; i += 1) {
+                                f = mapFields[res][i];
+                                if (f === field) {
+                                    return res;
+                                }
+                            }
+                        }
+                    }
+
+                    return null;
+                };
+
+                setProduct = function (obj) {
+                    var field, prop;
+                    for (field in obj) {
+                        if (obj.hasOwnProperty(field)) {
+                            prop = getProperty(field);
+                            if (prop !== null) {
+                                $scope.product[prop] = obj[field];
+                            }
+                        }
+                    }
+                    return $scope.product;
+                };
+
+
                 $scope.page = 0;
                 $scope.count = 100;
 
@@ -13,7 +64,7 @@
                  *
                  * @type {object}
                  */
-                $scope.defaultProduct = {};
+                $scope.defaultProduct = getDefaultProduct();
                 /**
                  * Type of list
                  *
@@ -54,11 +105,15 @@
                 /**
                  * Gets list of products
                  */
-                $productApiService.productList({limit: [$scope.page,$scope.count].join(",")}).$promise.then(
+                $productApiService.productList({limit: [$scope.page, $scope.count].join(",")}).$promise.then(
                     function (response) {
-                        var result, i;
+                        var result, i, parts;
+
                         result = response.result || [];
                         for (i = 0; i < result.length; i += 1) {
+                            parts = splitName(result[i].Name);
+                            result[i].Name = parts[2];
+                            result[i].sku = parts[1];
                             $scope.products.push(result[i]);
                         }
                     });
@@ -81,7 +136,7 @@
                  * Clears the form to create a new product
                  */
                 $scope.clearForm = function () {
-                    $scope.product = $scope.defaultProduct;
+                    $scope.product = getDefaultProduct();
                 };
 
                 /**
@@ -96,7 +151,7 @@
                         $productApiService.delete({"id": id}, function (response) {
                             if (response.result === "ok") {
                                 for (i = 0; i < $scope.products.length; i += 1) {
-                                    if ($scope.products[i]._id === id) {
+                                    if ($scope.products[i].Id === id) {
                                         $scope.products.splice(i, 1);
                                         $scope.product = $scope.defaultProduct;
                                     }
@@ -122,7 +177,13 @@
                      */
                     saveSuccess = function (response) {
                         if (response.error === "") {
-                            $scope.products.push(response.result);
+                            $scope.products.push({
+                                "Id": response.result._id,
+                                "Name": response.result.name,
+                                "Desc": response.result.description
+                            });
+                            $scope.product._id = response.result._id;
+                            $scope.productImages = [];
                         }
                     };
 
@@ -138,13 +199,13 @@
                      * @param response
                      */
                     updateSuccess = function (response) {
-                        var i, field;
+                        var i, img;
                         if (response.error === "") {
                             for (i = 0; i < $scope.products.length; i += 1) {
-                                if ($scope.products[i]._id === response.result._id) {
-                                    for (field in response.result) {
-                                        $scope.products[i][field] = response.result[field];
-                                    }
+                                if ($scope.products[i].Id === response.result._id) {
+                                    img = $scope.products[i].Image;
+                                    $scope.products[i] = setProduct(response.result);
+                                    $scope.products[i].Image = img;
                                 }
                             }
                         }

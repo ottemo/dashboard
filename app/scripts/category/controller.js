@@ -41,7 +41,7 @@
                     /**
                      * Gets list of categories
                      */
-                    $categoryApiService.categoryList({limit: [$scope.page,$scope.count].join(",")}).$promise.then(
+                    $categoryApiService.categoryList({limit: [$scope.page, $scope.count].join(",")}).$promise.then(
                         function (response) {
                             var result, i;
                             result = response.result || [];
@@ -56,9 +56,7 @@
                     $scope.clearForm = function () {
                         $scope.category = {
                             "name": "",
-                            "parent": "",
                             "parent_id": "",
-                            "path": "/",
                             "products": []
                         };
                     };
@@ -110,20 +108,20 @@
                         }
                     };
 
-                    $scope.saveProducts = function(){
+                    $scope.saveProducts = function () {
                         var id, addProduct, removeProduct;
 
                         if (typeof $scope.category !== "undefined") {
                             id = $scope.category.id || $scope.category._id;
                         }
 
-                        addProduct = function(){
-                            for(var i = 0; i < $scope.category.products.length; i+= 1){
+                        addProduct = function () {
+                            for (var i = 0; i < $scope.category.products.length; i += 1) {
                                 var prodId = $scope.category.products[i];
-                                if(typeof prodId === "object"){
+                                if (typeof prodId === "object") {
                                     prodId = prodId._id;
                                 }
-                                if(oldProducts.indexOf(prodId) === -1 ) {
+                                if (oldProducts.indexOf(prodId) === -1) {
                                     $categoryApiService.addProduct({
                                         categoryId: id,
                                         productId: prodId
@@ -132,21 +130,21 @@
                             }
                         };
 
-                        removeProduct = function(){
-                            for(var i = 0; i <  oldProducts.length; i+= 1){
+                        removeProduct = function () {
+                            for (var i = 0; i < oldProducts.length; i += 1) {
                                 var oldProdId = oldProducts[i];
                                 var isRemoved = true
-                                for(var j = 0; j < $scope.category.products.length; j+= 1){
+                                for (var j = 0; j < $scope.category.products.length; j += 1) {
                                     var prodId = $scope.category.products[i];
-                                    if(typeof prodId === "object"){
+                                    if (typeof prodId === "object") {
                                         prodId = prodId._id;
                                     }
-                                    if(oldProdId === prodId) {
+                                    if (oldProdId === prodId) {
                                         isRemoved = false;
                                         break;
                                     }
                                 }
-                                if(isRemoved){
+                                if (isRemoved) {
                                     $categoryApiService.removeProduct({
                                         categoryId: id,
                                         productId: oldProdId
@@ -200,7 +198,7 @@
                             if (response.error === "") {
                                 for (i = 0; i < $scope.categories.length; i += 1) {
                                     if ($scope.categories[i].Id === response.result._id) {
-                                        $scope.categories[i] ={
+                                        $scope.categories[i] = {
                                             "Id": response.result._id,
                                             "Name": response.result.name
                                         };
@@ -219,22 +217,28 @@
 
                         if (!id) {
                             if ($scope.category.name !== "") {
+                                delete $scope.category.parent;
+                                delete $scope.category.path;
                                 $categoryApiService.save($scope.category, saveSuccess, saveError);
                             }
                         } else {
                             $scope.category.id = id;
                             $scope.saveProducts();
-                            delete $scope.category.products
+                            delete $scope.category.products;
+                            delete $scope.category.parent;
+                            delete $scope.category.path;
                             $categoryApiService.update($scope.category, updateSuccess, updateError);
                         }
                     };
 
-                    rememberProducts = function(){
+                    rememberProducts = function () {
                         var i, prod;
                         oldProducts = [];
-                        for ( i = 0; i < $scope.category.products.length; i += 1){
-                            prod = $scope.category.products[i];
-                            oldProducts.push(prod._id);
+                        if (typeof $scope.category !== "undefined" && $scope.category.products.length !== -1) {
+                            for (i = 0; i < $scope.category.products.length; i += 1) {
+                                prod = $scope.category.products[i];
+                                oldProducts.push(prod._id);
+                            }
                         }
                     }
 

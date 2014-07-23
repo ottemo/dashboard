@@ -72,6 +72,7 @@
                  */
                 $scope.save = function () {
                     var attribute, saveSuccess;
+
                     if (typeof $scope.attribute !== "undefined") {
                         attribute = $scope.attribute.Attribute;
                     }
@@ -85,8 +86,7 @@
                             $scope.attributesList.push(response.result);
                         }
                     };
-
-                    if (!attribute) {
+                    if (attribute) {
                         $productApiService.addAttribute($scope.attribute, saveSuccess);
                     }
                 };

@@ -15,7 +15,7 @@
                             <span ng-if="!attribute.Attribute"> New Attribute </span>
                         </div>
                         <div class="col-md-4 text-right">
-                            <button class="btn btn-primary" ng-click="parent.save()">Save</button>
+                            <button class="btn btn-primary" ng-click="save()">Save</button>
                         </div>
                     </div>
                 </div>
@@ -44,7 +44,7 @@
                                                 <div>
                                                     <label for="inpAttribute">Attribute</label>
                                                     <input type="text" class="form-control" name="Attribute"
-                                                           value="{{attribute.Attribute}}" />
+                                                           ng-model="attribute.Attribute" />
                                                 </div>
                                                 <div>
                                                     <label for="inpType">Type</label>
@@ -56,12 +56,12 @@
                                                 <div>
                                                     <label for="inpLabel">Label</label>
                                                     <input type="text" class="form-control" name="Label"
-                                                           value="{{attribute.Label}}" />
+                                                           ng-model="attribute.Label" />
                                                 </div>
                                                 <div>
                                                     <label for="inpGroup">Group</label>
                                                     <input type="text" class="form-control" name="Group"
-                                                           value="{{attribute.Group}}" />
+                                                           ng-model="attribute.Group" />
                                                 </div>
                                                 <div>
                                                     <label for="inpEditors">Editors</label>
@@ -74,12 +74,20 @@
                                                 <div>
                                                     <label for="inpOptions">Options</label>
                                                     <input type="text" class="form-control" name="Options"
-                                                           value="{{attribute.Options}}"/>
+                                                           ng-model="attribute.Options"/>
                                                 </div>
                                                 <div>
                                                     <label for="inpDefault">Default</label>
                                                     <input type="text" class="form-control" name="Default"
-                                                           value="{{attribute.Default}}"/>
+                                                           ng-model="attribute.Default"/>
+                                                </div>
+                                                <div>
+                                                    <label for="inpIsRequired">IsRequired</label>
+                                                    <select class="form-control" name="IsRequired"
+                                                            ng-init="attribute.IsRequired = true"
+                                                            data-ng-model="attribute.IsRequired"
+                                                            data-ng-options="choice for choice in [true, false]">
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>

@@ -5,13 +5,14 @@
 
         visitorModule
             .controller("visitorEditController", ["$scope", "$visitorApiService", "$location", function ($scope, $visitorApiService, $location) {
-
+var getDefaultVisitor;
+                getDefaultVisitor = function(){return {}};
                 /**
                  * Visitor by default
                  *
                  * @type {object}
                  */
-                $scope.defaultVisitor = {};
+                $scope.defaultVisitor = getDefaultVisitor();
                 /**
                  * Type of list
                  *
@@ -84,7 +85,7 @@
                  * Clears the form to create a new visitor
                  */
                 $scope.clearForm = function () {
-                    $scope.visitor = $scope.defaultVisitor;
+                    $scope.visitor = getDefaultVisitor();
                 };
 
                 /**
@@ -99,7 +100,7 @@
                         $visitorApiService.delete({"id": id}, function (response) {
                             if (response.result === "ok") {
                                 for (i = 0; i < $scope.visitors.length; i += 1) {
-                                    if ($scope.visitors[i]._id === id) {
+                                    if ($scope.visitors[i].Id === id) {
                                         $scope.visitors.splice(i, 1);
                                         $scope.visitor = $scope.defaultVisitor;
                                     }

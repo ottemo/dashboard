@@ -19,7 +19,7 @@
              *
              * @type {string[]}
              */
-            supportedAttr = ["id", "name", "image", "shortDesc"];
+            supportedAttr = ["id", "name", "image", "shortDesc", "additionalName"];
 
             /**
              * Default mapping
@@ -29,17 +29,17 @@
                 "id": "Id",
                 "name": "Name",
                 "image": "Image",
-                "shortDesc": "Desc"
+                "shortDesc": "Desc",
+                "additionalName": "additional"
             };
 
             for (var field in mapping) {
-                if (!mapping.hasOwnProperty(field)) {
-                    continue;
-                }
-                if (typeof defaultMapping[field] !== "undefined") {
-                    defaultMapping[field] = mapping[field];
-                } else {
-                    unsupportedAttr.push("'" + field + "'");
+                if (mapping.hasOwnProperty(field)) {
+                    if (typeof defaultMapping[field] !== "undefined") {
+                        defaultMapping[field] = mapping[field];
+                    } else {
+                        unsupportedAttr.push("'" + field + "'");
+                    }
                 }
             }
             if (unsupportedAttr.length > 0) {
@@ -83,7 +83,6 @@
                     controller: function ($scope) {
 
                         $scope.map = assignMapping($scope.mapping);
-
                         /**
                          * Returns an indication the list has images or not
                          *
@@ -104,7 +103,7 @@
                             }
 
                             return false;
-                        }
+                        };
 
                         /**
                          * Returns the necessary class for list

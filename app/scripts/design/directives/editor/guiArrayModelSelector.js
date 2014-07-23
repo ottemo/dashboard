@@ -36,14 +36,14 @@
          */
         getParams = function (model, item) {
             var params;
-            params = {}
+            params = {};
             switch (model) {
                 case "VisitorAddress":
                     params = {
                         "params": item._id,
                         "uri_1": "visitor",
                         "uri_2": "address"
-                    }
+                    };
                     break;
                 default:
                     params = {
@@ -117,10 +117,14 @@
                             /**
                              * Gets count items
                              *
-                             * @returns {string}
+                             * @returns {number}
                              */
                             $scope.getCountItems = function () {
-                                return $scope.item[$scope.attribute.Attribute].length;
+                                var len = 0;
+                                if (typeof $scope.item !== "undefined" && $scope.item[$scope.attribute.Attribute].length) {
+                                    len = $scope.item[$scope.attribute.Attribute].length;
+                                }
+                                return len;
                             };
 
                             $scope.show = function (id) {
@@ -135,7 +139,7 @@
                                 $scope.selection = [];
                                 $scope.selected = [];
 
-                                if (typeof $scope.item !== "undefined" || !$scope.item._id) {
+                                if (typeof $scope.item !== "undefined" && $scope.item._id) {
 
                                     for (var i = 0; i < $scope.item[$scope.attribute.Attribute].length; i += 1) {
                                         if (typeof $scope.item[$scope.attribute.Attribute] === "object") {
