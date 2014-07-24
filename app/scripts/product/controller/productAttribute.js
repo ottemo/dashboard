@@ -5,6 +5,17 @@
         productModule
 
             .controller("productAttributeController", ["$scope", "$productApiService", function ($scope, $productApiService) {
+var formDisable, formEnable;
+
+                formDisable = function(){
+                    jQuery("#accordion").find("input").attr("readonly", true);
+                    jQuery("#accordion").find("select").attr("disabled", true);
+                };
+
+                formEnable = function() {
+                    $("#accordion").find("input").attr("readonly", false);
+                    jQuery("#accordion").find("select").attr("disabled", false);
+                };
 
                 $scope.attributesList = [];
                 $scope.attribute = {};
@@ -27,6 +38,7 @@
                  */
                 $scope.clearForm = function () {
                     $scope.attribute = {};
+                    formEnable();
                 }
 
                 /**
@@ -39,6 +51,8 @@
                     for (i = 0; i < $scope.attributesList.length; i += 1) {
                         if ($scope.attributesList[i].Attribute === attr) {
                             $scope.attribute = $scope.attributesList[i];
+                            formDisable();
+
                             return true;
                         }
                     }
@@ -62,6 +76,7 @@
                                     }
                                 }
                             }
+                            formEnable();
                         });
                     }
                 };

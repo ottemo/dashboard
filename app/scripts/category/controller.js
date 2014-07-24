@@ -7,9 +7,16 @@
                 "$scope",
                 "$categoryApiService",
                 function ($scope, $categoryApiService) {
-                    var rememberProducts, oldProducts;
+                    var rememberProducts, oldProducts, getDefaultCategory;
                     oldProducts = [];
 
+                    getDefaultCategory = function () {
+                        return {
+                            name: "",
+                            "parent_id": "",
+                            "products": []
+                        }
+                    }
 
                     $scope.page = 0;
                     $scope.count = 100;
@@ -100,7 +107,7 @@
                                     for (i = 0; i < $scope.categories.length; i += 1) {
                                         if ($scope.categories[i].Id === id) {
                                             $scope.categories.splice(i, 1);
-                                            $scope.category = $scope.defaultCategory;
+                                            $scope.category = getDefaultCategory();
                                         }
                                     }
                                 }
