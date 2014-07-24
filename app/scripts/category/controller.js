@@ -215,18 +215,17 @@
                         updateError = function (response) {
                         };
 
+                        delete $scope.category.parent;
+                        delete $scope.category.path;
+
                         if (!id) {
                             if ($scope.category.name !== "") {
-                                delete $scope.category.parent;
-                                delete $scope.category.path;
                                 $categoryApiService.save($scope.category, saveSuccess, saveError);
                             }
                         } else {
                             $scope.category.id = id;
                             $scope.saveProducts();
                             delete $scope.category.products;
-                            delete $scope.category.parent;
-                            delete $scope.category.path;
                             $categoryApiService.update($scope.category, updateSuccess, updateError);
                         }
                     };

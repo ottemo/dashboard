@@ -76,8 +76,12 @@ var getDefaultVisitor;
                         function (response) {
                             var result = response.result || {};
                             $scope.visitor = result;
-                            $scope.visitor.shipping_address_id = $scope.visitor.shipping_address._id;
-                            $scope.visitor.billing_address_id = $scope.visitor.billing_address._id;
+                            if($scope.visitor.shipping_address !== null){
+                                $scope.visitor.shipping_address_id = $scope.visitor.shipping_address._id;
+                            }
+                            if($scope.visitor.billing_address !== null) {
+                                $scope.visitor.billing_address_id = $scope.visitor.billing_address._id;
+                            }
                         });
                 };
 

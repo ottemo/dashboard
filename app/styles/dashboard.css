@@ -86,3 +86,6 @@
 .asterisk {
     color: red;
 }
+.glyphicon-remove{
+    display: table;
+}

@@ -33,11 +33,22 @@
                             $scope.attributes = result;
                         });
 
-                    $scope.getFullAddress = function(){
-                        return $scope.address.zip_code +
-                            " " +$scope.address.state +
-                            ", " + $scope.address.city +
-                            ", " + $scope.address.street;
+                    $scope.getFullAddress = function (obj) {
+                        var name;
+
+                        if (typeof obj === "undefined") {
+                            name = $scope.address.zip_code +
+                                " " + $scope.address.state +
+                                ", " + $scope.address.city +
+                                ", " + $scope.address.street;
+                        } else {
+                            name = obj.zip_code +
+                                " " + obj.state +
+                                ", " + obj.city +
+                                ", " + obj.street;
+                        }
+
+                        return name;
                     }
 
                     /**
@@ -84,7 +95,7 @@
                             $visitorApiService.deleteAddress({"id": id}, function (response) {
                                 if (response.result === "ok") {
                                     for (i = 0; i < $scope.addressesList.length; i += 1) {
-                                        if ($scope.addressesList[i]._id === id) {
+                                        if ($scope.addressesList[i].Id === id) {
                                             $scope.addressesList.splice(i, 1);
                                             $scope.clearForm();
                                         }
@@ -110,7 +121,10 @@
                          */
                         saveSuccess = function (response) {
                             if (response.error === "") {
-                                $scope.addressesList.push(response.result);
+                                $scope.addressesList.push({
+                                    "Id": response.result._id,
+                                    "Name": $scope.getFullAddress(response.result)
+                                });
                                 $scope.clearForm();
                             }
                         };
@@ -130,8 +144,8 @@
                             var i;
                             if (response.error === "") {
                                 for (i = 0; i < $scope.addressesList.length; i += 1) {
-                                    if ($scope.addressesList[i]._id === response.result._id) {
-                                        $scope.addressesList[i] = response.result;
+                                    if ($scope.addressesList[i].Id === response.result._id) {
+                                        $scope.addressesList[i].Name = $scope.getFullAddress(response.result);
                                     }
                                 }
                             }

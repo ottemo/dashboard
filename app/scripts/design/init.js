@@ -20,7 +20,7 @@
          */
         angular.module.designModule = angular.module("designModule",[])
 
-            .constant("MEDIA_BASE_PATH", "images/")
+            .constant("MEDIA_BASE_PATH", "media/")
             .constant("PRODUCT_DEFAULT_IMG", "images/placeholder.png")
 
             /*
