@@ -20,6 +20,7 @@
 
             "design/directives/editor/guiNotEditable",
             "design/directives/editor/guiMultilineText",
+            "design/directives/editor/guiPassword",
             "design/directives/editor/guiText"
         ],
         function (designModule) {

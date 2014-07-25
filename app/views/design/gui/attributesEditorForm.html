@@ -37,6 +37,11 @@
                                     <gui-array-model-selector editor-scope="attribute" item="item"></gui-array-model-selector>
                                 </div>
 
+                                <div ng-switch-when="password">
+                                    <label for="inp{{attribute.Attribute}}">{{attribute.Label}} <span class="asterisk" ng-show="attribute.IsRequired">*</span></label>
+                                    <gui-password editor-scope="attribute" item="item"></gui-password>
+                                </div>
+
                                 <div ng-switch-default>
                                     <label for="inp{{attribute.Attribute}}">{{attribute.Label}} <span class="asterisk" ng-show="attribute.IsRequired">*</span></label>
                                     <gui-text editor-scope="attribute" item="item"></gui-text>
