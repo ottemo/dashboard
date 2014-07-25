@@ -83,8 +83,9 @@
                                         Image: "",
                                         Name: ""
                                     });
-                                    $scope.item[$scope.attribute.Attribute] = result[0].Id;
                                     
+                                    $scope.item[$scope.attribute.Attribute] = $scope.item[$scope.attribute.Attribute] || result[0].Id;
+
                                     $scope.options = result;
                                 });
                         });

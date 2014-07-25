@@ -134,7 +134,10 @@ var getDefaultVisitor;
                      */
                     saveSuccess = function (response) {
                         if (response.error === "") {
-                            $scope.visitors.push(response.result);
+                            $scope.visitors.push({
+                                "Id": response.result._id,
+                                "Name": response.result.first_name + " " + response.result.last_name
+                            });
                         }
                     };
 
@@ -153,8 +156,8 @@ var getDefaultVisitor;
                         var i;
                         if (response.error === "") {
                             for (i = 0; i < $scope.visitors.length; i += 1) {
-                                if ($scope.visitors[i]._id === response.result._id) {
-                                    $scope.visitors[i] = response.result;
+                                if ($scope.visitors[i].Id === response.result._id) {
+                                    $scope.visitors[i].Name = response.result.first_name + " " + response.result.last_name
                                 }
                             }
                         }
@@ -177,6 +180,12 @@ var getDefaultVisitor;
                         $visitorApiService.save($scope.visitor, saveSuccess, saveError);
                     } else {
                         $scope.visitor.id = id;
+                        if($scope.visitor.shipping_address_id === ""){
+                            delete $scope.visitor.shipping_address_id;
+                        }
+                        if($scope.visitor.billing_address_id === ""){
+                            delete $scope.visitor.billing_address_id;
+                        }
                         $visitorApiService.update($scope.visitor, updateSuccess, updateError);
                     }
                 };
