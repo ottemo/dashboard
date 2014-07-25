@@ -29,13 +29,13 @@
 
         getParams = function (model, item) {
             var params;
-            params = {}
+            params = {};
             switch (model) {
                 case "VisitorAddress":
                     params = {
                         "params": item._id,
                         "uri_1": "visitor",
-                        "uri_2": "address"
+                        "uri_2": "address",
                     }
                     break;
                 default:
@@ -68,7 +68,7 @@
                             parseOptions($scope.attribute.Options);
                             var params = getParams(options.model, $scope.item);
 
-                            if(params.hasOwnProperty("params") && typeof params.params === "undefined"){
+                            if (params.hasOwnProperty("params") && typeof params.params === "undefined") {
                                 return true;
                             }
 
@@ -76,6 +76,15 @@
                                 function (response) {
                                     var result = response.result || [];
 
+                                    result.unshift({
+                                        Desc: "",
+                                        Extra: null,
+                                        Id: "",
+                                        Image: "",
+                                        Name: ""
+                                    });
+                                    $scope.item[$scope.attribute.Attribute] = result[0].Id;
+                                    
                                     $scope.options = result;
                                 });
                         });
