@@ -1,6 +1,8 @@
 Dashboard
 =========
 
+[![wercker status](https://app.wercker.com/status/0d1dbce7b17a8fc14016760e30709afc/m "wercker status")](https://app.wercker.com/project/bykey/0d1dbce7b17a8fc14016760e30709afc)
+
 
 ## Workflow with gulp
 
