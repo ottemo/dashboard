@@ -38,6 +38,7 @@ require([
 
         "design/module",
         "dashboard/module",
+        "config/module",
 
         "product/module",
         "category/module",

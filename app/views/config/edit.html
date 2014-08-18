@@ -1,0 +1,47 @@
+<div class="container-fluid" ng-controller="configEditController" ng-init="init()">
+    <div class="row" style="margin-top: 15px">
+
+        <div class="col-md-4">
+            <gui-list-manager items="configGroups" object="this"></gui-list-manager>
+        </div>
+
+        <div class="col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-md-6 text-muted" style="padding-top: 6px; font-size: 130%; font-weight: bold">
+                            <span> {{GroupName}} </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+
+                    <form role="form">
+                        <div class="panel-group" id="accordion">
+                            <div class="form-group" ng-repeat="section in sections">
+                                <div class="panel panel-default">
+
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{section.Code}}"
+                                               target="_self" ng-click="load(section.Path)">
+                                                {{section.Name}}
+                                            </a>
+                                        </h4>
+                                    </div>
+
+                                    <div id="collapse{{section.Code}}" class="panel-collapse collapse" >
+                                        <gui-attributes-editor-form attributes-list="attributes" object="this" item="attributes"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
