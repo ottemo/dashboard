@@ -7,12 +7,12 @@ build:
     - npm-install
     - script:
         name: install bower
-        code: sudo npm install -g bower gulp
+        code: sudo npm cache clean && sudo npm install -g bower gulp
     - script:
         name: run bower install
         code: bower install
     - script:
-        name: gulp build 
+        name: gulp build
         code: gulp build
 
     # A custom script step, name value is used in the UI
