@@ -45,7 +45,7 @@
                 };
 
                 $scope.getFullName = function () {
-                    return $scope.visitor.first_name + " " + $scope.visitor.last_name;
+                    return $scope.visitor.first_name + " " + $scope.visitor.last_name;                  // jshint ignore:line
                 };
 
                 /**
@@ -79,11 +79,11 @@
                         function (response) {
                             var result = response.result || {};
                             $scope.visitor = result;
-                            if ($scope.visitor.shipping_address !== null) {
-                                $scope.visitor.shipping_address_id = $scope.visitor.shipping_address._id;
+                            if ($scope.visitor.shipping_address !== null) {                                 // jshint ignore:line
+                                $scope.visitor.shipping_address_id = $scope.visitor.shipping_address._id;   // jshint ignore:line
                             }
-                            if ($scope.visitor.billing_address !== null) {
-                                $scope.visitor.billing_address_id = $scope.visitor.billing_address._id;
+                            if ($scope.visitor.billing_address !== null) {                                  // jshint ignore:line
+                                $scope.visitor.billing_address_id = $scope.visitor.billing_address._id;     // jshint ignore:line
                             }
                         });
                 };
@@ -139,7 +139,7 @@
                         if (response.error === "") {
                             $scope.visitors.push({
                                 "Id": response.result._id,
-                                "Name": response.result.first_name + " " + response.result.last_name
+                                "Name": response.result.first_name + " " + response.result.last_name         // jshint ignore:line
                             });
                         }
                     };
@@ -159,7 +159,7 @@
                         if (response.error === "") {
                             for (i = 0; i < $scope.visitors.length; i += 1) {
                                 if ($scope.visitors[i].Id === response.result._id) {
-                                    $scope.visitors[i].Name = response.result.first_name + " " + response.result.last_name;
+                                    $scope.visitors[i].Name = response.result.first_name + " " + response.result.last_name;     // jshint ignore:line
                                 }
                             }
                         }
@@ -174,18 +174,18 @@
                     /**
                      * @todo: review this approach with 'delete'
                      */
-                    delete $scope.visitor.billing_address;
-                    delete $scope.visitor.shipping_address;
+                    delete $scope.visitor.billing_address;                                              // jshint ignore:line
+                    delete $scope.visitor.shipping_address;                                             // jshint ignore:line
 
                     if (!id) {
                         $visitorApiService.save($scope.visitor, saveSuccess, saveError);
                     } else {
                         $scope.visitor.id = id;
-                        if ($scope.visitor.shipping_address_id === "") {
-                            delete $scope.visitor.shipping_address_id;
+                        if ($scope.visitor.shipping_address_id === "") {                                // jshint ignore:line
+                            delete $scope.visitor.shipping_address_id;                                  // jshint ignore:line
                         }
-                        if ($scope.visitor.billing_address_id === "") {
-                            delete $scope.visitor.billing_address_id;
+                        if ($scope.visitor.billing_address_id === "") {                                 // jshint ignore:line
+                            delete $scope.visitor.billing_address_id;                                   // jshint ignore:line
                         }
                         $visitorApiService.update($scope.visitor, updateSuccess, updateError);
                     }
