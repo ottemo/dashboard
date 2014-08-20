@@ -4,9 +4,9 @@ build:
   # The steps that will be executed on build
   steps:
     # A step that executes `npm install` command
-    - npm-install
+    #- npm-install
     - script:
-        name: install bower
+        name: npm install
         code: sudo npm cache clear && sudo npm install -g bower gulp
     - script:
         name: run bower install
