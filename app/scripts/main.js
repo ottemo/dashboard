@@ -35,10 +35,14 @@ require.config({
 require([
         "angular",
         "angular-bootstrap",
+
         "design/module",
         "dashboard/module",
+        "config/module",
 
         "product/module",
+        "category/module",
+        "visitor/module",
         "login/module"
     ],
     function (angular) {

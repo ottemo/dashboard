@@ -33,7 +33,7 @@
              * @param menu
              * @returns {Array}
              */
-            transformMenu = function (menu) {                       // jshint ignore: line
+            transformMenu = function (menu) {// jshint ignore:line
                 var i, item, parentPath, tmpMenu;
                 tmpMenu = [];
                 menu.sort(function (obj1, obj2) {
@@ -41,7 +41,7 @@
                 });
 
                 for (i in menu) {
-                    if (menu.hasOwnProperty(i)){
+                    if (menu.hasOwnProperty(i)) {
                         parentItem = undefined;
                         item = menu[i];
                         /**
@@ -77,12 +77,12 @@
 
             prepareLink = function (link) {
                 var fullUrlRegex, href;
-                fullUrlRegex = new RegExp("^http|https.","i");
+                fullUrlRegex = new RegExp("^http|https.", "i");
 
-                if(fullUrlRegex.test(link)){
+                if (fullUrlRegex.test(link)) {
                     href = link;
                 } else {
-                    href  = (link !== null ? "#" + link : null);
+                    href = (link !== null ? "#" + link : null);
                 }
 
                 return href;
@@ -125,7 +125,7 @@
                             it.menuRight.push(item);
                         },
 
-                        getMenuRight: function() {
+                        getMenuRight: function () {
                             return transformMenu(it.menuRight);
                         },
 

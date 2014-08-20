@@ -5,7 +5,7 @@
      * The module "productModule" is designed to work with products
      * He handles the action  with products (adding/editing/deletion).
      *
-     * It's a basic file for initialization of module. He should be included first.
+     * It"s a basic file for initialization of module. He should be included first.
      */
     define([
             "angular",

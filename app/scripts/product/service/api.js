@@ -1,4 +1,4 @@
-(function (define, angular) {
+(function (define) {
     "use strict";
 
     /**
@@ -42,7 +42,7 @@
                         url: productBaseURL + "/attribute/add"
                     },
                     "productList": {
-                        method: "GET",
+                        method: "POST",
                         url: productBaseURL + "/list"
                     },
                     "getProduct": {
@@ -59,7 +59,7 @@
                         method: "POST",
                         url: productBaseURL + "/create"
                     },
-                    "delete": {
+                    "remove": {
                         method: "DELETE",
                         params: { id: "@id" },
                         url: productBaseURL + "/delete/:id"
@@ -90,7 +90,7 @@
                         url: productBaseURL + "/media/add/:productId/image/:mediaName",
 
                         headers: {"Content-Type": undefined },
-                        transformRequest: angular.identity
+                        transformRequest: angular.identity // jshint ignore:line
                     }
                 });
             }]);
@@ -98,4 +98,4 @@
         return productModule;
     });
 
-})(window.define, window.angular);
+})(window.define);

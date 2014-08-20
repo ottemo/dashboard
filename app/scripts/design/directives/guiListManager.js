@@ -19,18 +19,18 @@
              *
              * @type {string[]}
              */
-            supportedAttr = ["id", "name", "default_image", "image_path", "shortDesc"];
+            supportedAttr = ["id", "name", "image", "shortDesc", "additionalName"];
 
             /**
              * Default mapping
              * @type {object}
              */
             defaultMapping = {
-                "id": "_id",
-                "name": "name",
-                "default_image": "default_image",
-                "image_path": "image_path",
-                "shortDesc": "shortDesc"
+                "id": "Id",
+                "name": "Name",
+                "image": "Image",
+                "shortDesc": "Desc",
+                "additionalName": "additional"
             };
 
             for (var field in mapping) {
@@ -77,6 +77,7 @@
                     scope: {
                         "parent": "=object",
                         "items": "=items",
+                        "addNewDisable": "=addNewDisable",
                         "mapping": "=mapping"
                     },
                     templateUrl: $designService.getTemplate("design/gui/list.html"),
@@ -84,22 +85,29 @@
 
                         $scope.map = assignMapping($scope.mapping);
 
+                        $scope.canAddNew = function () {
+                            return $scope.addNewDisable;
+                        };
+
                         /**
                          * Returns an indication the list has images or not
                          *
                          * @returns {boolean}
                          */
                         $scope.hasImage = function () {
-                            var field, item;
+                            var i, field, item;
 
-                            item = $scope.items[0];
-                            for (field in item) {
-                                if (item.hasOwnProperty(field)) {
-                                    if (field === "default_image" || field === "image") {
-                                        return true;
+                            for (i = 0; i < $scope.items.length; i += 1) {
+                                item = $scope.items[i];
+                                for (field in item) {
+                                    if (item.hasOwnProperty(field)) {
+                                        if (field === "Image" && item[field] !== "") {
+                                            return true;
+                                        }
                                     }
                                 }
                             }
+
                             return false;
                         };
 
@@ -114,6 +122,9 @@
                                 case "tile":
                                     _class = " product-list tile";
                                     break;
+                                case "list":
+                                    _class = " product-list";
+                                    break;
                                 default:
                                     _class = " product-list";
                             }
@@ -122,7 +133,8 @@
 
                     }
                 };
-            }]);
+            }]
+        );
 
         return designModule;
     });

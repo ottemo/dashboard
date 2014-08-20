@@ -5,6 +5,17 @@
         productModule
 
             .controller("productAttributeController", ["$scope", "$productApiService", function ($scope, $productApiService) {
+                var formDisable, formEnable;
+
+                formDisable = function () {
+                    jQuery("#accordion").find("input").attr("readonly", true);
+                    jQuery("#accordion").find("select").attr("disabled", true);
+                };
+
+                formEnable = function () {
+                    $("#accordion").find("input").attr("readonly", false);
+                    jQuery("#accordion").find("select").attr("disabled", false);
+                };
 
                 $scope.attributesList = [];
                 $scope.attribute = {};
@@ -27,7 +38,8 @@
                  */
                 $scope.clearForm = function () {
                     $scope.attribute = {};
-                }
+                    formEnable();
+                };
 
                 /**
                  * Handler event when selecting the attribute in the list
@@ -39,6 +51,8 @@
                     for (i = 0; i < $scope.attributesList.length; i += 1) {
                         if ($scope.attributesList[i].Attribute === attr) {
                             $scope.attribute = $scope.attributesList[i];
+                            formDisable();
+
                             return true;
                         }
                     }
@@ -49,7 +63,7 @@
                  *
                  * @param {string} attr
                  */
-                $scope.delete = function (attr) {
+                $scope.remove = function (attr) {
                     var i, answer;
                     answer = window.confirm("You really want to remove this attribute");
                     if (answer) {
@@ -62,6 +76,7 @@
                                     }
                                 }
                             }
+                            formEnable();
                         });
                     }
                 };
@@ -72,6 +87,7 @@
                  */
                 $scope.save = function () {
                     var attribute, saveSuccess;
+
                     if (typeof $scope.attribute !== "undefined") {
                         attribute = $scope.attribute.Attribute;
                     }
@@ -85,8 +101,7 @@
                             $scope.attributesList.push(response.result);
                         }
                     };
-
-                    if (!attribute) {
+                    if (attribute) {
                         $productApiService.addAttribute($scope.attribute, saveSuccess);
                     }
                 };

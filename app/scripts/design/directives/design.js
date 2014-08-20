@@ -43,7 +43,7 @@
             .directive("jqLayout", function () {
                 return {
                     restrict: "A",
-                    link: function (scope, elem, attrs) {                   // jshint ignore: line
+                    link: function (scope, elem) {
                         jQuery(elem).layout({ applyDefaultStyles: true });
                     }
                 };

@@ -1,22 +1,21 @@
 (function (define) {
-    'use strict';
+    "use strict";
 
-    define(['design/init'], function (designModule) {
+    define(["design/init"], function (designModule) {
         designModule
             /**
              *  Directive used for automatic attribute editor creation
              */
-            .directive('guiText', ['$designService', function ($designService) {
+            .directive("guiText", ["$designService", function ($designService) {
                 return {
-                    restrict: 'E',
+                    restrict: "E",
                     scope: {
-                        'attribute': '=editorScope',
-                        'item': '=item'
+                        "attribute": "=editorScope",
+                        "item": "=item"
                     },
-                    templateUrl: $designService.getTemplate('design/gui/editor/text.html'),
+                    templateUrl: $designService.getTemplate("design/gui/editor/text.html"),
 
-                    controller: ['$scope', function($scope) {
-
+                    controller: ["$scope", function() {
                     }]
                 };
             }]);

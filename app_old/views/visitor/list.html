@@ -1,9 +1,0 @@
-<ul ng-class="{'visitor-list': activeView == 'list', 'visitor-list tile': activeView == 'tile'}">
-    <li ng-repeat="visitor in visitors" ng-class="{'visitor-first': $index % 3 == 0 || $index == 0}">
-        <a ng-click="selectVisitor($index)" class="visitors-list-avatar" title="">
-            <img ng-src="{{visitor.image}}" alt="">
-        </a>
-        <span ng-click="selectVisitor($index)" class="visitors-list-text">{{visitor.fname}} {{visitor.lname}}</span>
-    </li>
-</ul>
-

@@ -53,7 +53,7 @@ ul {
   padding: 0; }
 
 .ng-hide {
-  display: block !important; }
+  display: none !important; }
 
 .show-mobile {
   display: none;
