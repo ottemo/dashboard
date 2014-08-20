@@ -153,7 +153,7 @@
                                                 defer.resolve(true);
                                             }
                                         }
-                                    );
+                                    ); // jshint ignore:line
                                 }
                             }
                         }

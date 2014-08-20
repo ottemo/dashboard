@@ -89,7 +89,7 @@
                             function (response) {
                                 var result = response.result || {};
                                 $scope.category = result;
-                                $scope.category.parent = $scope.category.parent_id;
+                                $scope.category.parent = $scope.category.parent_id;  // jshint ignore:line
                             });
                     };
 
@@ -247,7 +247,7 @@
                     };
 
                     $scope.$watch("category", rememberProducts);
-                }]);
+                }]); // jshint ignore:line
         return categoryModule;
     });
 })(window.define);
