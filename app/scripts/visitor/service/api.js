@@ -35,7 +35,7 @@
                         params: { id: "@id" },
                         url: visitorBaseURL + "/update/:id"
                     },
-                    "delete": {
+                    "remove": {
                         method: "DELETE",
                         params: { id: "@id" },
                         url: visitorBaseURL + "/delete/:id"
@@ -69,7 +69,7 @@
                         method: "DELETE",
                         params: { id: "@id" },
                         url: visitorBaseURL + "/address/delete/:id"
-                    },
+                    }
                 });
             }]);
 

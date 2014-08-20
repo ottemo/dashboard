@@ -1,13 +1,13 @@
 (function (define) {
     "use strict";
 
-    define(["design/init"], function (designModule) {
+    define(["design/init", "config/init"], function (designModule) {
         designModule
 
         /**
          *  Directive used for automatic attributes editor form creation
          */
-            .directive("guiAttributesEditorFormTest", ["$designService", function ($designService) {
+            .directive("guiConfigEditorForm", ["$designService", function ($designService) {
                 return {
                     restrict: "E",
                     scope: {
@@ -15,7 +15,7 @@
                         "item": "=item",
                         "attributes": "=attributesList"
                     },
-                    templateUrl: $designService.getTemplate("design/gui/attributesEditorFormTest.html"),
+                    templateUrl: $designService.getTemplate("config/gui/configEditorForm.html"),
                     controller: function ($scope) {
                         var updateAttributes;
                         updateAttributes = function () {                        // jshint ignore: line

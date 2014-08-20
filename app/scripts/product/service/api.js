@@ -59,7 +59,7 @@
                         method: "POST",
                         url: productBaseURL + "/create"
                     },
-                    "delete": {
+                    "remove": {
                         method: "DELETE",
                         params: { id: "@id" },
                         url: productBaseURL + "/delete/:id"
@@ -90,7 +90,7 @@
                         url: productBaseURL + "/media/add/:productId/image/:mediaName",
 
                         headers: {"Content-Type": undefined },
-                        transformRequest: angular.identity
+                        transformRequest: angular.identity // jshint ignore:line
                     }
                 });
             }]);

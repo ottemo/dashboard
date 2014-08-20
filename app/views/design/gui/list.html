@@ -3,8 +3,8 @@
 
         <div class="input-group">
             <!-- Button for create new object -->
-            <div class="input-group-btn">
-                <button type="button" class="btn btn-default" ng-click="parent.clearForm()"><span
+            <div class="input-group-btn" ng-="false">
+                <button type="button" ng-disabled="canAddNew()" class="btn btn-default" ng-click="parent.clearForm()"><span
                         class="glyphicon glyphicon-plus"></span> New
                 </button>
             </div>
@@ -41,7 +41,7 @@
                     {{item[map.shortDesc]}}
                 </div>
                 <div class="btn text-danger  pull-right vertical glyphicon glyphicon-remove"
-                     ng-click="parent.delete(item[map.id])" ng-hide="item.isStatic"></div>
+                     ng-click="parent.remove(item[map.id])" ng-hide="item.isStatic"></div>
             </li>
 
         </ul>
@@ -55,7 +55,7 @@
            ng-repeat="item in items | filter:searchText">
             {{item[map.name]}}
             <div ng-hide="{{item.IsStatic}}" class="btn text-danger pull-right vertical glyphicon glyphicon-remove"
-                 ng-click="parent.delete(item[map.id])" ></div>
+                 ng-click="parent.remove(item[map.id])" ></div>
         </a>
 
     </div>

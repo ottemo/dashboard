@@ -77,12 +77,18 @@
                     scope: {
                         "parent": "=object",
                         "items": "=items",
+                        "addNewDisable": "=addNewDisable",
                         "mapping": "=mapping"
                     },
                     templateUrl: $designService.getTemplate("design/gui/list.html"),
                     controller: function ($scope) {
 
                         $scope.map = assignMapping($scope.mapping);
+
+                        $scope.canAddNew = function () {
+                            return $scope.addNewDisable;
+                        };
+
                         /**
                          * Returns an indication the list has images or not
                          *
@@ -117,6 +123,8 @@
                                     _class = " product-list tile";
                                     break;
                                 case "list":
+                                    _class = " product-list";
+                                    break;
                                 default:
                                     _class = " product-list";
                             }
@@ -125,7 +133,8 @@
 
                     }
                 };
-            }])
+            }]
+        );
 
         return designModule;
     });

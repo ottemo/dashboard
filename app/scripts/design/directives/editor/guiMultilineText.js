@@ -15,7 +15,7 @@
                     },
                     templateUrl: $designService.getTemplate("design/gui/editor/multilineText.html"),
 
-                    controller: ["$scope", function($scope) {
+                    controller: ["$scope", function() {
 
                     }]
                 };

@@ -10,6 +10,7 @@
     define([
             "config/service/api",
             "config/service/config",
+            "config/directives/guiConfigEditorForm",
             "config/controller/configEdit"
         ],
         function (configModule) {

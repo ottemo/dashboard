@@ -35,8 +35,8 @@
                     params = {
                         "params": item._id,
                         "uri_1": "visitor",
-                        "uri_2": "address",
-                    }
+                        "uri_2": "address"
+                    };
                     break;
                 default:
                     params = {

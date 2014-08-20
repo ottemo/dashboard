@@ -75,12 +75,11 @@
                             $scope.selection = [];
                             $scope.selected = [];
 
-                            $scope.toggleSelection = function (id, name) {
-                                var parentScope, names;
+                            $scope.toggleSelection = function (id, name) {// jshint ignore:line
+                                var parentScope, names, idx, isExist;
                                 parentScope = $scope.item[$scope.attribute.Attribute];
 
                                 if (typeof parentScope !== "undefined") {
-                                    var idx, isExist;
                                     isExist = false;
                                     for (var i = 0; i < parentScope.length; i += 1) {
                                         if (typeof parentScope[i] === "object" && parentScope[i]._id === id) {

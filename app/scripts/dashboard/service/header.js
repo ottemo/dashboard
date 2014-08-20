@@ -12,12 +12,14 @@
             var getParentItem, parentItem, transformMenu, prepareLink;
             getParentItem = function (data, field, value) {
                 for (var i in data) {
-                    if (data[i][field] === value) {
-                        parentItem = data[i];
-                    }
-                    var $subList = data[i].items;
-                    if ($subList) {
-                        getParentItem($subList, field, value);
+                    if (data.hasOwnProperty(i)) {
+                        if (data[i][field] === value) {
+                            parentItem = data[i];
+                        }
+                        var $subList = data[i].items;
+                        if ($subList) {
+                            getParentItem($subList, field, value);
+                        }
                     }
                 }
 
@@ -31,7 +33,7 @@
              * @param menu
              * @returns {Array}
              */
-            transformMenu = function (menu) {
+            transformMenu = function (menu) {// jshint ignore:line
                 var i, item, parentPath, tmpMenu;
                 tmpMenu = [];
                 menu.sort(function (obj1, obj2) {
@@ -39,32 +41,34 @@
                 });
 
                 for (i in menu) {
-                    parentItem = undefined;
-                    item = menu[i];
-                    /**
-                     * Item belongs to the upper level.
-                     * He has only one level in path
-                     */
-                    if (item.path.split("/").length <= 2) {
-                        tmpMenu.push(item);
-                    } else {
+                    if (menu.hasOwnProperty(i)) {
+                        parentItem = undefined;
+                        item = menu[i];
                         /**
-                         * Gets from path parent path
-                         * Exaample:
-                         * for this item with path
-                         * /item_1/sub_item_1/sub_item_1_1
-                         *
-                         * parent item should have path
-                         * /item_1/sub_item_1
-                         *
-                         * @type {string}
+                         * Item belongs to the upper level.
+                         * He has only one level in path
                          */
-                        parentPath = item.path.substr(0, item.path.lastIndexOf("/"));
-                        if (getParentItem(menu, "path", parentPath)) {
-                            if (typeof parentItem.items === "undefined") {
-                                parentItem.items = [];
+                        if (item.path.split("/").length <= 2) {
+                            tmpMenu.push(item);
+                        } else {
+                            /**
+                             * Gets from path parent path
+                             * Exaample:
+                             * for this item with path
+                             * /item_1/sub_item_1/sub_item_1_1
+                             *
+                             * parent item should have path
+                             * /item_1/sub_item_1
+                             *
+                             * @type {string}
+                             */
+                            parentPath = item.path.substr(0, item.path.lastIndexOf("/"));
+                            if (getParentItem(menu, "path", parentPath)) {
+                                if (typeof parentItem.items === "undefined") {
+                                    parentItem.items = [];
+                                }
+                                parentItem.items.push(item);
                             }
-                            parentItem.items.push(item);
                         }
                     }
                 }
@@ -73,16 +77,16 @@
 
             prepareLink = function (link) {
                 var fullUrlRegex, href;
-                fullUrlRegex = new RegExp("^http|https.","i");
+                fullUrlRegex = new RegExp("^http|https.", "i");
 
-                if(fullUrlRegex.test(link)){
+                if (fullUrlRegex.test(link)) {
                     href = link;
                 } else {
-                    href  = (link !== null ? "#" + link : null);
+                    href = (link !== null ? "#" + link : null);
                 }
 
                 return href;
-            }
+            };
 
             dashboardModule
                 /*
@@ -121,7 +125,7 @@
                             it.menuRight.push(item);
                         },
 
-                        getMenuRight: function() {
+                        getMenuRight: function () {
                             return transformMenu(it.menuRight);
                         },
 

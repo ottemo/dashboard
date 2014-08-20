@@ -5,8 +5,11 @@
 
         visitorModule
             .controller("visitorEditController", ["$scope", "$visitorApiService", "$location", function ($scope, $visitorApiService, $location) {
-var getDefaultVisitor;
-                getDefaultVisitor = function(){return {}};
+                var getDefaultVisitor;
+
+                getDefaultVisitor = function () {
+                    return {};
+                };
                 /**
                  * Visitor by default
                  *
@@ -37,13 +40,13 @@ var getDefaultVisitor;
                 $scope.visitor = $scope.defaultVisitor;
                 $scope.visitors = [];
 
-                $scope.addressForm = function(){
+                $scope.addressForm = function () {
                     $location.path("/visitor/address/" + $scope.visitor._id);
                 };
 
-                $scope.getFullName = function() {
+                $scope.getFullName = function () {
                     return $scope.visitor.first_name + " " + $scope.visitor.last_name;
-                }
+                };
 
                 /**
                  * Gets list all attributes of visitor
@@ -76,10 +79,10 @@ var getDefaultVisitor;
                         function (response) {
                             var result = response.result || {};
                             $scope.visitor = result;
-                            if($scope.visitor.shipping_address !== null){
+                            if ($scope.visitor.shipping_address !== null) {
                                 $scope.visitor.shipping_address_id = $scope.visitor.shipping_address._id;
                             }
-                            if($scope.visitor.billing_address !== null) {
+                            if ($scope.visitor.billing_address !== null) {
                                 $scope.visitor.billing_address_id = $scope.visitor.billing_address._id;
                             }
                         });
@@ -97,11 +100,11 @@ var getDefaultVisitor;
                  *
                  * @param {string} id
                  */
-                $scope.delete = function (id) {
+                $scope.remove = function (id) {
                     var i, answer;
                     answer = window.confirm("You really want to remove this visitor");
                     if (answer) {
-                        $visitorApiService.delete({"id": id}, function (response) {
+                        $visitorApiService.remove({"id": id}, function (response) {
                             if (response.result === "ok") {
                                 for (i = 0; i < $scope.visitors.length; i += 1) {
                                     if ($scope.visitors[i].Id === id) {
@@ -114,15 +117,15 @@ var getDefaultVisitor;
                     }
                 };
 
-                $scope.getName = function(){
-                    return 'first_name';
-                }
+                $scope.getName = function () {
+                    return "first_name";
+                };
 
                 /**
                  * Event handler to save the visitor data.
                  * Creates new visitor if ID in current visitor is empty OR updates current visitor if ID is set
                  */
-                $scope.save = function () {
+                $scope.save = function () { // jshint ignore:line
                     var id, saveSuccess, saveError, updateSuccess, updateError;
                     if (typeof $scope.visitor !== "undefined") {
                         id = $scope.visitor.id || $scope.visitor._id;
@@ -145,8 +148,7 @@ var getDefaultVisitor;
                      *
                      * @param response
                      */
-                    saveError = function (response) {
-                    };
+                    saveError = function () {};
 
                     /**
                      *
@@ -157,7 +159,7 @@ var getDefaultVisitor;
                         if (response.error === "") {
                             for (i = 0; i < $scope.visitors.length; i += 1) {
                                 if ($scope.visitors[i].Id === response.result._id) {
-                                    $scope.visitors[i].Name = response.result.first_name + " " + response.result.last_name
+                                    $scope.visitors[i].Name = response.result.first_name + " " + response.result.last_name;
                                 }
                             }
                         }
@@ -167,8 +169,7 @@ var getDefaultVisitor;
                      *
                      * @param response
                      */
-                    updateError = function (response) {
-                    };
+                    updateError = function () {};
 
                     /**
                      * @todo: review this approach with 'delete'
@@ -180,10 +181,10 @@ var getDefaultVisitor;
                         $visitorApiService.save($scope.visitor, saveSuccess, saveError);
                     } else {
                         $scope.visitor.id = id;
-                        if($scope.visitor.shipping_address_id === ""){
+                        if ($scope.visitor.shipping_address_id === "") {
                             delete $scope.visitor.shipping_address_id;
                         }
-                        if($scope.visitor.billing_address_id === ""){
+                        if ($scope.visitor.billing_address_id === "") {
                             delete $scope.visitor.billing_address_id;
                         }
                         $visitorApiService.update($scope.visitor, updateSuccess, updateError);

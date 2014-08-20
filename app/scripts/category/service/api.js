@@ -31,7 +31,7 @@
                         method: "POST",
                         url: categoryBaseURL + "/create"
                     },
-                    "delete": {
+                    "remove": {
                         method: "DELETE",
                         params: { id: "@id" },
                         url: categoryBaseURL + "/delete/:id"

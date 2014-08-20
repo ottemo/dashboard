@@ -15,8 +15,7 @@
                     },
                     templateUrl: $designService.getTemplate("design/gui/editor/text.html"),
 
-                    controller: ["$scope", function($scope) {
-
+                    controller: ["$scope", function() {
                     }]
                 };
             }]);

@@ -89,3 +89,10 @@
 .glyphicon-remove{
     display: table;
 }
+.panel-group {
+    padding: 10px;
+}
+
+.btn-actions{
+    margin-top: 20px;
+}

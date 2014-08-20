@@ -10,56 +10,47 @@
                 function ($scope, $configApiService, $configService) {
 
                     $scope.config = $configService;
+                    $scope.currentGroup = null;
 
-                    $scope.configGroups = [];
-                    $scope.configSection = {};
+                    $scope.attributes = [];
+                    $scope.items = {};
 
                     $scope.init = function () {
-                        $configApiService.getGroups().$promise.then(
-                            function (response) {
-                                var configGroups = response.result || [];
-
-                                if (configGroups.length > 0) {
-                                    var regExp = new RegExp("(\\w+)\\.(\\w+).+", "i");
-                                    for (var i = 0; i < configGroups.length; i += 1) {
-                                        var parts = configGroups[i].Path.match(regExp);
-                                        var group = parts[1];
-
-                                        $scope.configGroups.push({
-                                            "Name": group,
-                                            "Id": group,
-                                            "Static": true
-                                        });
-                                        if (typeof $scope.configSection[group] === 'undefined') {
-                                            $scope.configSection[group] = [];
-                                        }
-                                        $scope.configSection[group].push({
-                                            "Name": configGroups[i].Label,
-                                            "Code": parts[2],
-                                            "Path": configGroups[i].Path
-                                        });
-
-                                    }
-                                }
-                            }
-                        );
-
+                        $scope.config.init();
                     };
 
                     $scope.select = function (item) {
-                        $scope.sections = $scope.configSection[item];
-                    }
+                        $scope.sections = $scope.config.getConfigSection(item);
+                        $scope.currentGroup = item;
+                    };
 
-                    $scope.load = function (code) {
-                        console.log(code);
+                    $scope.load = function (path) {
+                        $scope.config.load(path);
+                    };
 
-                        $configApiService.getInfo({"path":code}).$promise.then(
-                            function (response) {
-                                $scope.attributes = response.result || [];
-                                console.log(response);
+                    $scope.save = function (code) {
+                        $scope.config.save(code).then(
+                            function(){
+                                window.alert("Save operation is successful");
+                                $scope.config.load(code, true);
                             }
                         );
-                    }
+                    };
+
+                    $scope.getGroupName = function () {
+                        return $scope.currentGroup !== null ?
+                            $scope.currentGroup.charAt(0).toUpperCase() + $scope.currentGroup.slice(1) :
+                            "Configuration";
+                    };
+
+                    $scope.getGroupPath = function (attributes) {
+                        var path, parts;
+                        if (attributes instanceof Array) {
+                            path = attributes[0].Path;
+                            parts = path.split(".");
+                            return parts[0] + "." + parts[1];
+                        }
+                    };
                 }
             ]
         );

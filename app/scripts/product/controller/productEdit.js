@@ -144,11 +144,11 @@
                  *
                  * @param {string} id
                  */
-                $scope.delete = function (id) {
+                $scope.remove = function (id) {
                     var i, answer;
                     answer = window.confirm("You really want to remove this product");
                     if (answer) {
-                        $productApiService.delete({"id": id}, function (response) {
+                        $productApiService.remove({"id": id}, function (response) {
                             if (response.result === "ok") {
                                 for (i = 0; i < $scope.products.length; i += 1) {
                                     if ($scope.products[i].Id === id) {
@@ -266,7 +266,7 @@
 
                     if (pid !== undefined) {
                         $productApiService.addImage({"productId": pid, "mediaName": mediaName}, postData)
-                            .$promise.then(function (response) {
+                            .$promise.then(function () {
                                 $scope.reloadImages();
                             });
                     }
@@ -282,7 +282,7 @@
 
                     if (pid !== undefined && selected !== undefined) {
                         $productApiService.removeImage({"productId": pid, "mediaName": mediaName})
-                            .$promise.then(function (response) {
+                            .$promise.then(function () {
                                 $scope.selectedImage = undefined;
                                 $scope.reloadImages();
                                 $scope.product.default_image = "";
@@ -322,7 +322,7 @@
                     return $designImageService.getFullImagePath("", image);
                 };
             }
-            ])
+            ]);
 
         return productModule;
     });

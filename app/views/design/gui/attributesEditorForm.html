@@ -42,6 +42,21 @@
                                     <gui-password editor-scope="attribute" item="item"></gui-password>
                                 </div>
 
+                                <div ng-switch-when="boolean">
+                                    <label for="inp{{attribute.Attribute}}">{{attribute.Label}} <span class="asterisk" ng-show="attribute.IsRequired">*</span></label>
+                                    <gui-boolean editor-scope="attribute" item="item"></gui-boolean>
+                                </div>
+
+                                <div ng-switch-when="select">
+                                    <label for="inp{{attribute.Attribute}}">{{attribute.Label}} <span class="asterisk" ng-show="attribute.IsRequired">*</span></label>
+                                    <gui-select editor-scope="attribute" item="item"></gui-select>
+                                </div>
+
+                                <div ng-switch-when="multi_select">
+                                    <label for="inp{{attribute.Attribute}}">{{attribute.Label}} <span class="asterisk" ng-show="attribute.IsRequired">*</span></label>
+                                    <gui-multi-select editor-scope="attribute" item="item"></gui-multi-select>
+                                </div>
+
                                 <div ng-switch-default>
                                     <label for="inp{{attribute.Attribute}}">{{attribute.Label}} <span class="asterisk" ng-show="attribute.IsRequired">*</span></label>
                                     <gui-text editor-scope="attribute" item="item"></gui-text>

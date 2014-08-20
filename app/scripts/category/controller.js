@@ -15,8 +15,8 @@
                             name: "",
                             "parent_id": "",
                             "products": []
-                        }
-                    }
+                        };
+                    };
 
                     $scope.page = 0;
                     $scope.count = 100;
@@ -98,11 +98,11 @@
                      *
                      * @param {string} id
                      */
-                    $scope.delete = function (id) {
+                    $scope.remove = function (id) {
                         var i, answer;
                         answer = window.confirm("You really want to remove this category");
                         if (answer) {
-                            $categoryApiService.delete({"id": id}, function (response) {
+                            $categoryApiService.remove({"id": id}, function (response) {
                                 if (response.result === "ok") {
                                     for (i = 0; i < $scope.categories.length; i += 1) {
                                         if ($scope.categories[i].Id === id) {
@@ -137,10 +137,10 @@
                             }
                         };
 
-                        removeProduct = function () {
+                        removeProduct = function () { // jshint ignore:line
                             for (var i = 0; i < oldProducts.length; i += 1) {
                                 var oldProdId = oldProducts[i];
-                                var isRemoved = true
+                                var isRemoved = true;
                                 for (var j = 0; j < $scope.category.products.length; j += 1) {
                                     var prodId = $scope.category.products[i];
                                     if (typeof prodId === "object") {
@@ -162,7 +162,7 @@
 
                         addProduct();
                         removeProduct();
-                    }
+                    };
 
                     /**
                      * Event handler to save the category data.
@@ -193,8 +193,7 @@
                          *
                          * @param response
                          */
-                        saveError = function (response) {
-                        };
+                        saveError = function () {};
 
                         /**
                          *
@@ -219,8 +218,7 @@
                          *
                          * @param response
                          */
-                        updateError = function (response) {
-                        };
+                        updateError = function () {};
 
                         delete $scope.category.parent;
                         delete $scope.category.path;
@@ -246,7 +244,7 @@
                                 oldProducts.push(prod._id);
                             }
                         }
-                    }
+                    };
 
                     $scope.$watch("category", rememberProducts);
                 }]);

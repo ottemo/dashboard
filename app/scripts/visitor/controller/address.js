@@ -49,7 +49,7 @@
                         }
 
                         return name;
-                    }
+                    };
 
                     /**
                      * Clears the form to create a new address
@@ -88,7 +88,7 @@
                      *
                      * @param {string} id
                      */
-                    $scope.delete = function (id) {
+                    $scope.remove = function (id) {
                         var i, answer;
                         answer = window.confirm("You really want to remove this address");
                         if (answer) {
@@ -133,8 +133,7 @@
                          *
                          * @param response
                          */
-                        saveError = function (response) {
-                        };
+                        saveError = function () {};
 
                         /**
                          *
@@ -155,8 +154,7 @@
                          *
                          * @param response
                          */
-                        updateError = function (response) {
-                        };
+                        updateError = function () {};
 
                         if (!id) {
                             $visitorApiService.saveAddress($scope.address, saveSuccess, saveError);
