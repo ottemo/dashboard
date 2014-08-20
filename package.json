@@ -8,7 +8,7 @@
   },
   "devDependencies": {
     "bin-check": "*",
-    "connect": "^3.1.1",
+    "connect": "^2.25.7",
     "connect-livereload": "*",
     "executable": "*",
     "find-file": "*",
@@ -45,7 +45,7 @@
   },
   "dependencies": {
     "bin-check": "^1.0.0",
-    "connect": "^3.1.1",
+    "connect": "^2.25.7",
     "executable": "^1.0.0",
     "gulp": "^3.8.7",
     "gulp-autoprefixer": "0.0.8",
