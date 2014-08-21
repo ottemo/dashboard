@@ -8,32 +8,31 @@
         minifyHTML = require("gulp-minify-html"),
         concat = require("gulp-concat"),
         stripDebug = require("gulp-strip-debug"),
-        // uglify = require("gulp-uglify"),
+        uglify = require("gulp-uglify"),
         jshint = require("gulp-jshint"),
         changed = require("gulp-changed"),
         imagemin = require("gulp-imagemin"),
         autoprefix = require("gulp-autoprefixer"),
         sass = require("gulp-sass"),
-        clean = require("gulp-clean"),
         rjs = require("gulp-requirejs"),
         minifyCSS = require("gulp-minify-css"),
-        /** test */
         protractor = require("gulp-protractor"),
         jasmine = require("gulp-jasmine"),
+        rimraf = require("rimraf"),
         server = lr();
 
     //File sources
     var sources = {
         app: require("./bower.json").appPath || "./app",
+        js: ["./app/scripts/*.js", "./app/scripts/**/*.js"],
         dist: "./dist",
-        serverPort: 9000,
+        port: 9000,
         liveReloadPort: 35729
     };
 
     // Empties folders to start fresh
     gulp.task("clean", function () {
-        return gulp.src(sources.dist + "/*")
-            .pipe(clean());
+        rimraf.sync(sources.dist + "/*");
     });
 
     gulp.task("copy", function () {
@@ -41,34 +40,56 @@
                 sources.app + "/*.{ico,png,txt}",
                 sources.app + "/.htaccess"
             ]).pipe(gulp.dest(sources.dist));
-        gulp.src(sources.app + "/lib/**/*").pipe(gulp.dest(sources.dist + "/lib/"));
     });
 
-    // JS hint task
+    // Compiling sass to css
+    gulp.task("sass", function () {
+        return gulp.src(sources.app + "/styles/sass/*.scss")
+            .pipe(sass({
+            imagePath: "../../images"
+        }))
+            .pipe(autoprefix("last 1 version"))
+            .pipe(gulp.dest(sources.dist + "/styles/"))
+            .pipe(gulp.dest(sources.app + "/styles/"));
+    });
+
+    // concatentates all js into one file and vendor files into lib
+    gulp.task("js", function() {
+        gulp.src(sources.js)
+        .pipe(concat("main.js"))
+        .pipe(uglify({mangle: false}))
+        .pipe(gulp.dest(sources.dist + "/scripts/"));
+        gulp.src(sources.app + "/lib/**/*")
+        .pipe(gulp.dest(sources.dist + "/lib/"));
+    });
+
+    // JSHint task
     gulp.task("jshint", function () {
         gulp.src(sources.app + "/scripts/**/**/*.js")
             .pipe(jshint())
             .pipe(jshint.reporter(require("jshint-stylish")));
     });
 
-    gulp.task("server", function () {
+    // Serve
+    gulp.task("serve", function () {
         connect()
             .use(require("connect-livereload")())
-            .use(connect.static(sources.app))
-            .listen(sources.serverPort);
+            .use(connect.static(sources.app))                           // jshint ignore:line
+            .listen(sources.port);
         server.setMaxListeners(100);
 
-        console.log("Server listening on http://localhost:" + sources.serverPort);
+        console.log("Server listening on http://localhost:" + sources.port);
     });
 
+    // serve site from dist folder for testing production
     gulp.task("dist-test", function () {
         connect()
             .use(require("connect-livereload")())
-            .use(connect.static(sources.dist))
-            .listen(sources.serverPort);
+            .use(connect.static(sources.dist))                          // jshint ignore:line
+            .listen(sources.port);
         server.setMaxListeners(0);
 
-        console.log("Server listening on http://localhost:" + sources.serverPort);
+        console.log("Server listening on http://localhost:" + sources.port);
     });
 
     // minify new images
@@ -107,8 +128,7 @@
             .pipe(concat("main.css"))
             .pipe(autoprefix("last 2 version", "safari 5", "ie 8", "ie 9", "opera 12.1", "ios 6", "android 4"))
             .pipe(minifyCSS())
-            .pipe(gulp.dest(sources.dist + "/styles/"))
-            .pipe(livereload(server));
+            .pipe(gulp.dest(sources.dist + "/styles/"));
         gulp.src([sources.app + "/styles/font-awesome/*"])
             .pipe(concat("font-awesome.css"))
             .pipe(autoprefix("last 2 version", "safari 5", "ie 8", "ie 9", "opera 12.1", "ios 6", "android 4"))
@@ -116,16 +136,6 @@
             .pipe(gulp.dest(sources.dist + "/styles/font-awesome/"));
     });
 
-    // Compiling sass to css
-    gulp.task("sass", function () {
-        return gulp.src(sources.app + "/styles/sass/*.scss")
-            .pipe(sass({
-            imagePath: "../../images"
-        }))
-            .pipe(autoprefix("last 1 version"))
-            .pipe(gulp.dest(sources.dist + "/styles/"))
-            .pipe(gulp.dest(sources.app + "/styles/"));
-    });
 
     gulp.task("requirejs", ["jshint"], function () {
         rjs({
@@ -137,12 +147,12 @@
             mainConfigFile: sources.app + "/scripts/main.js"
         })
             .pipe(stripDebug())
-//            .pipe(uglify())
+            .pipe(uglify({mangle: false}))
             .pipe(gulp.dest(sources.dist + "/scripts/"));
     });
 
     // Watch Files For Changes
-    gulp.task("watch", ["server"], function () {
+    gulp.task("watch", function () {
             server.listen(sources.liveReloadPort, function (err) {
                 if (err) {
                     return console.log(err);
@@ -154,12 +164,6 @@
                 gulp.watch(sources.app + "/styles/*.css", { maxListeners:0 }, ["autoprefixer"]);
                 gulp.watch(sources.app + "/styles/sass/*.scss", {  maxListeners:0  }, ["sass"]);
             });
-        }
-    );
-
-    gulp.task("serve", function () {
-            gulp.run("sass");
-            gulp.run("watch");
         }
     );
 
@@ -181,19 +185,7 @@
 
     gulp.task("test", ["protractor", "jasmine"], function () {});
 
-    // gulp.task("minify", function () {
-    //     gulp.src("")
-    // });
+    gulp.task("build", ["clean", "copy", "htmlpage","autoprefixer", "requirejs", "imagemin"]);
 
-    gulp.task("default",["clean", "test"], function(){
-        gulp.run("build");
-    });
-
-    gulp.task("build", ["clean"], function () {
-            gulp.run("copy");
-            gulp.run("htmlpage");
-            gulp.run("autoprefixer");
-            gulp.run("requirejs");
-            gulp.run("imagemin");
-        });
+    gulp.task("default",["build"]);
 })();

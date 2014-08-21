@@ -41,7 +41,8 @@
     "imagemin-optipng": "*",
     "imagemin-pngquant": "*",
     "jshint-stylish": "*",
-    "tiny-lr": "*"
+    "tiny-lr": "*",
+    "rimraf": "*"
   },
   "dependencies": {
     "bin-check": "^1.0.0",
