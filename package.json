@@ -6,6 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+      "type": "git",
+      "url": "git://github.com/ottemo/dashboard.git"
+  },
   "devDependencies": {
     "bin-check": "*",
     "connect": "^2.25.7",
