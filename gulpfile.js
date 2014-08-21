@@ -3,7 +3,6 @@
 
     var gulp = require("gulp"),
         lr = require("tiny-lr"),
-        livereload = require("gulp-livereload"),
         connect = require("connect"),
         minifyHTML = require("gulp-minify-html"),
         concat = require("gulp-concat"),
@@ -19,7 +18,9 @@
         protractor = require("gulp-protractor"),
         jasmine = require("gulp-jasmine"),
         rimraf = require("rimraf"),
-        server = lr();
+        server = lr(),
+        browserSync = require("browser-sync"),
+        reload = browserSync.reload;
 
     //File sources
     var sources = {
@@ -30,27 +31,22 @@
         liveReloadPort: 35729
     };
 
-    // Empties folders to start fresh
-    gulp.task("clean", function () {
-        rimraf.sync(sources.dist + "/*");
+    // Run JSHint 
+    gulp.task("jshint", function () {
+        gulp.src(sources.app + "/scripts/**/**/*.js")
+            .pipe(jshint())
+            .pipe(jshint.reporter(require("jshint-stylish")));
     });
 
-    gulp.task("copy", function () {
-        gulp.src([
-                sources.app + "/*.{ico,png,txt}",
-                sources.app + "/.htaccess"
-            ]).pipe(gulp.dest(sources.dist));
-    });
-
-    // Compiling sass to css
+    // Sass task, will run when any SCSS files change & BrowserSync
+    // will auto-update browsers
     gulp.task("sass", function () {
-        return gulp.src(sources.app + "/styles/sass/*.scss")
-            .pipe(sass({
-            imagePath: "../../images"
-        }))
-            .pipe(autoprefix("last 1 version"))
-            .pipe(gulp.dest(sources.dist + "/styles/"))
-            .pipe(gulp.dest(sources.app + "/styles/"));
+        return gulp.src(sources.app + "/styles/sass/**/*.scss")
+        .pipe(sass({imagePath: "../../images"}))
+        .pipe(autoprefix("last 1 version"))
+        .pipe(gulp.dest(sources.dist + "/styles/"))
+        .pipe(gulp.dest(sources.app + "/styles/"))
+        .pipe(reload({stream:true}));
     });
 
     // concatentates all js into one file and vendor files into lib
@@ -59,37 +55,9 @@
         .pipe(concat("main.js"))
         .pipe(uglify({mangle: false}))
         .pipe(gulp.dest(sources.dist + "/scripts/"));
-        gulp.src(sources.app + "/lib/**/*")
-        .pipe(gulp.dest(sources.dist + "/lib/"));
-    });
-
-    // JSHint task
-    gulp.task("jshint", function () {
-        gulp.src(sources.app + "/scripts/**/**/*.js")
-            .pipe(jshint())
-            .pipe(jshint.reporter(require("jshint-stylish")));
-    });
-
-    // Serve
-    gulp.task("serve", function () {
-        connect()
-            .use(require("connect-livereload")())
-            .use(connect.static(sources.app))                           // jshint ignore:line
-            .listen(sources.port);
-        server.setMaxListeners(100);
-
-        console.log("Server listening on http://localhost:" + sources.port);
-    });
-
-    // serve site from dist folder for testing production
-    gulp.task("dist-test", function () {
-        connect()
-            .use(require("connect-livereload")())
-            .use(connect.static(sources.dist))                          // jshint ignore:line
-            .listen(sources.port);
-        server.setMaxListeners(0);
-
-        console.log("Server listening on http://localhost:" + sources.port);
+        return gulp.src(sources.app + "/lib/**/*")
+        .pipe(gulp.dest(sources.dist + "/lib/"))
+        .pipe(reload({stream:true}));
     });
 
     // minify new images
@@ -97,10 +65,11 @@
         var imgSrc = sources.app + "/images/**/*",
             imgDst = sources.dist + "/images";
 
-        gulp.src(imgSrc)
+        return gulp.src(imgSrc)
             .pipe(changed(imgDst))
-            // .pipe(imagemin())
-            .pipe(gulp.dest(imgDst));
+            .pipe(imagemin())
+            .pipe(gulp.dest(imgDst))
+            .pipe(reload({stream:true}));
     });
 
     // minify new or changed HTML pages
@@ -108,7 +77,7 @@
         var htmlSrc = sources.app + "/**/*.html",
             htmlDst = sources.dist;
 
-        gulp.src(htmlSrc)
+        return gulp.src(htmlSrc)
             .pipe(changed(htmlDst))
             .pipe(minifyHTML({
                 collapseWhitespace: true,
@@ -120,6 +89,7 @@
                 empty: true
             }))
             .pipe(gulp.dest(htmlDst));
+            // .pipe(reload({stream:true}));
     });
 
     // CSS concat, auto-prefix and minify
@@ -129,11 +99,12 @@
             .pipe(autoprefix("last 2 version", "safari 5", "ie 8", "ie 9", "opera 12.1", "ios 6", "android 4"))
             .pipe(minifyCSS())
             .pipe(gulp.dest(sources.dist + "/styles/"));
-        gulp.src([sources.app + "/styles/font-awesome/*"])
+        return gulp.src([sources.app + "/styles/font-awesome/*"])
             .pipe(concat("font-awesome.css"))
             .pipe(autoprefix("last 2 version", "safari 5", "ie 8", "ie 9", "opera 12.1", "ios 6", "android 4"))
             .pipe(minifyCSS())
-            .pipe(gulp.dest(sources.dist + "/styles/font-awesome/"));
+            .pipe(gulp.dest(sources.dist + "/styles/font-awesome/"))
+            .pipe(reload({stream:true}));
     });
 
 
@@ -151,23 +122,7 @@
             .pipe(gulp.dest(sources.dist + "/scripts/"));
     });
 
-    // Watch Files For Changes
-    gulp.task("watch", function () {
-            server.listen(sources.liveReloadPort, function (err) {
-                if (err) {
-                    return console.log(err);
-                }
-
-                gulp.watch(sources.app + "/**/*.html", { maxListeners:0 }, ["htmlpage"]);
-                gulp.watch(sources.app + "/scripts/**/*.js", { maxListeners:0 }, ["jshint"]);
-                gulp.watch(sources.app + "/images/**/*", { maxListeners:0  }, ["imagemin"]);
-                gulp.watch(sources.app + "/styles/*.css", { maxListeners:0 }, ["autoprefixer"]);
-                gulp.watch(sources.app + "/styles/sass/*.scss", {  maxListeners:0  }, ["sass"]);
-            });
-        }
-    );
-
-    // Protractor test
+    // Protractor tests
     gulp.task("protractorUpdate", protractor.webdriverUpdate);
     gulp.task("protractor", ["protractorUpdate"], function (cb) {
         gulp.src(["tests/e2e/**/*.js"]).pipe(protractor.protractor({
@@ -184,6 +139,47 @@
     });
 
     gulp.task("test", ["protractor", "jasmine"], function () {});
+
+    // serve site from dist folder for testing production
+    gulp.task("dist-test", function () {
+        connect()
+            .use(require("connect-livereload")())
+            .use(connect.static(sources.dist))                          // jshint ignore:line
+            .listen(sources.port);
+        server.setMaxListeners(0);
+
+        console.log("Server listening on http://localhost:" + sources.port);
+    });
+
+    // Empties folders to start fresh
+    gulp.task("clean", function () {
+        rimraf.sync(sources.dist + "/*");
+    });
+
+    gulp.task("copy", function () {
+        gulp.src([
+                sources.app + "/*.{ico,png,txt}",
+                sources.app + "/.htaccess"
+            ]).pipe(gulp.dest(sources.dist));
+    });
+
+    // watch files for changes and reload
+    gulp.task("browser-sync", function() {
+        browserSync({
+            server: {
+                baseDir: "./dist"
+            },
+            port: 9000
+        });
+
+    });
+
+    gulp.task("serve", ["browser-sync"], function() {
+
+        gulp.watch("*.{html,ico,txt}", "views/**/*.html", ["htmlpage", "copy", "imagemin", browserSync.reload]);
+        gulp.watch("styles/**/*.css", "styles/**/*.scss", ["autoprefixer", browserSync.reload]);
+        gulp.watch("scripts/**/*.js", ["requirejs", browserSync.reload]);
+    });
 
     gulp.task("build", ["clean", "copy", "htmlpage","autoprefixer", "requirejs", "imagemin"]);
 
