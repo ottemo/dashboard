@@ -37,12 +37,12 @@
                         var name;
 
                         if (typeof obj === "undefined") {
-                            name = $scope.address.zip_code +
+                            name = $scope.address.zip_code +        // jshint ignore:line
                                 " " + $scope.address.state +
                                 ", " + $scope.address.city +
                                 ", " + $scope.address.street;
                         } else {
-                            name = obj.zip_code +
+                            name = obj.zip_code +                   // jshint ignore:line
                                 " " + obj.state +
                                 ", " + obj.city +
                                 ", " + obj.street;

@@ -128,7 +128,7 @@
                         function (response) {
                             var result = response.result || {};
                             $scope.product = result;
-                            $scope.selectedImage = result.default_image;
+                            $scope.selectedImage = result.default_image; // jshint ignore:line
                         });
                 };
 
@@ -285,10 +285,10 @@
                             .$promise.then(function () {
                                 $scope.selectedImage = undefined;
                                 $scope.reloadImages();
-                                $scope.product.default_image = "";
+                                $scope.product.default_image = "";  // jshint ignore:line
                                 for (var i = 0; i < $scope.products.length; i += 1) {
                                     if ($scope.products[i].Id === $scope.product._id) {
-                                        $scope.products[i].Image = $scope.product.default_image;
+                                        $scope.products[i].Image = $scope.product.default_image;  // jshint ignore:line
                                     }
                                 }
                                 $scope.save();
@@ -302,10 +302,10 @@
                  * @param {string} selected - image name
                  */
                 $scope.imageDefault = function (selected) {
-                    $scope.product.default_image = selected;
+                    $scope.product.default_image = selected;  // jshint ignore:line
                     for (var i = 0; i < $scope.products.length; i += 1) {
                         if ($scope.products[i].Id === $scope.product._id) {
-                            $scope.products[i].Image = $scope.imagesPath + $scope.product.default_image;
+                            $scope.products[i].Image = $scope.imagesPath + $scope.product.default_image;  // jshint ignore:line
                             $scope.save();
                         }
                     }
