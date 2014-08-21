@@ -99,7 +99,7 @@
 
         gulp.src(imgSrc)
             .pipe(changed(imgDst))
-            .pipe(imagemin())
+            // .pipe(imagemin())
             .pipe(gulp.dest(imgDst));
     });
 
