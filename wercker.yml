@@ -1,4 +1,6 @@
-box: wercker/nodejs
+box: bryantebeek/ubuntu14.04-nodejs@1.0.1
+#box: wercker/nodejs
+
 # Build definition
 build:
   # The steps that will be executed on build

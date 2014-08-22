@@ -104,7 +104,7 @@
     gulp.task("imagemin", ["clean"], function () {
         return gulp.src(paths.images)
             .pipe(changed(paths.dist + "/images"))
-            // .pipe(imagemin())
+            .pipe(imagemin())
             .pipe(gulp.dest(paths.dist + "/images"));
     });
 
