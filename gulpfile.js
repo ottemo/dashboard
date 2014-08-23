@@ -2,8 +2,6 @@
     'use strict';
 
     var gulp = require('gulp'),
-        // connect = require('connect'),
-        // lr = require('tiny-lr'),
         minifyHTML = require('gulp-minify-html'),
         concat = require('gulp-concat'),
         stripDebug = require('gulp-strip-debug'),
@@ -19,7 +17,6 @@
         // jasmine = require('gulp-jasmine'),
         browserSync = require('browser-sync'),
         del = require('del');
-        // server = lr();
 
     var paths = {
         app: require('./bower.json').appPath || 'app',
@@ -143,26 +140,6 @@
     // });
     //
     // gulp.task('test', ['protractor', 'jasmine'], function () {});
-    //
-    // // serve site from dist folder for testing production
-    // gulp.task('express', function () {
-    //     connect()
-    //         .use(require('connect-livereload')())
-    //         .use(connect.static(paths.dist))                          // jshint ignore:line
-    //         .listen(host.port);
-    //     server.setMaxListeners(100);
-    //
-    //     console.log('Server listening on http://localhost:' + host.port);
-    // });
-    //
-    // gulp.task('livereload', function () {
-    //     server.listen(host.lrPort);
-    // });
-    //
-    // function notifyLiveReload(event) {
-    //     gulp.src(event.path, {read: false})
-    //     .pipe(require('gulp-livereload')(lr));
-    // }
 
     // browser-sync task for starting server
     gulp.task('browser-sync', function() {
