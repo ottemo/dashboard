@@ -14,7 +14,9 @@ Builds project and moves files on the destination folder. Makes concat and minif
 ### Run Client in Development Mode
 Moves images, bower-files into destination folder. Compiling sass. Adds watcher on a changes in css, scss, js, html and images. After a change these files browser automatically will be update  content
 
-    gulp serve
+    gulp build && gulp dev
+    or
+    gulp build && gulp serve
     
 ### Run Unit Tests
 Not configured yet. Will be realized in the near future
@@ -24,7 +26,5 @@ Not configured yet. Will be realized in the near future
 ### Also useful are the following commands
     gulp jshint // check js on errors
     gulp sass   // Makes compilation sass to css
-    gulp clean  // Makes cleaning the destination folder
+    gulp clean  // Removes the _dist_ folder
     
-
-Administration Tool for Ottemo

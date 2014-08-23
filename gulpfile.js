@@ -164,6 +164,8 @@
         gulp.watch('app/scripts/**/*.js', ['vendor', 'requirejs', browserSync.reload]);
     });
 
+    gulp.task('serve', ['dev']);
+
     gulp.task('build', ['requirejs', 'vendor', 'misc', 'html', 'autoprefixer', 'imagemin']);
 
     gulp.task('default',['build']);
