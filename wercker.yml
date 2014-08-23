@@ -1,5 +1,4 @@
-box: bryantebeek/ubuntu14.04-nodejs@1.0.1
-#box: wercker/nodejs
+box: wercker/nodejs
 
 # Build definition
 build:
