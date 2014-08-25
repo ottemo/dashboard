@@ -1,4 +1,5 @@
 box: wercker/nodejs
+
 # Build definition
 build:
   # The steps that will be executed on build
@@ -6,20 +7,14 @@ build:
     # A step that executes `npm install` command
     #- npm-install
     - script:
-        name: npm install
+        name: NPM Install
         code: sudo npm cache clear && sudo npm install -g bower gulp && sudo npm install
     - script:
-        name: run bower install
+        name: Run Bower Install
         code: bower install
     - script:
-        name: gulp build
+        name: Build & Minify Dashboard
         code: gulp build
-
-    # A custom script step, name value is used in the UI
-    # and the code value contains the command that get executed
-    - script:
-        name: echo nodejs information
-        code: |
   after-steps:
     - wercker/hipchat-notify@1.0.3:
         token: $HIPCHAT_TOKEN

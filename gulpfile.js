@@ -1,115 +1,101 @@
 (function () {
-    "use strict";
+    'use strict';
 
-    var gulp = require("gulp"),
-        lr = require("tiny-lr"),
-        livereload = require("gulp-livereload"),
-        connect = require("connect"),
-        minifyHTML = require("gulp-minify-html"),
-        concat = require("gulp-concat"),
-        stripDebug = require("gulp-strip-debug"),
-        uglify = require("gulp-uglify"),
-        jshint = require("gulp-jshint"),
-        changed = require("gulp-changed"),
-        imagemin = require("gulp-imagemin"),
-        autoprefix = require("gulp-autoprefixer"),
-        sass = require("gulp-sass"),
-        rjs = require("gulp-requirejs"),
-        minifyCSS = require("gulp-minify-css"),
-        protractor = require("gulp-protractor"),
-        jasmine = require("gulp-jasmine"),
-        rimraf = require("rimraf"),
-        server = lr();
+    var gulp = require('gulp'),
+        minifyHTML = require('gulp-minify-html'),
+        concat = require('gulp-concat'),
+        stripDebug = require('gulp-strip-debug'),
+        uglify = require('gulp-uglify'),
+        jshint = require('gulp-jshint'),
+        changed = require('gulp-changed'),
+        imagemin = require('gulp-imagemin'),
+        autoprefix = require('gulp-autoprefixer'),
+        sass = require('gulp-sass'),
+        rjs = require('gulp-requirejs'),
+        minifyCSS = require('gulp-minify-css'),
+        // protractor = require('gulp-protractor'),
+        // jasmine = require('gulp-jasmine'),
+        browserSync = require('browser-sync'),
+        del = require('del');
 
-    //File sources
-    var sources = {
-        app: require("./bower.json").appPath || "./app",
-        js: ["./app/scripts/*.js", "./app/scripts/**/*.js"],
-        dist: "./dist",
-        port: 9000,
-        liveReloadPort: 35729
+    var paths = {
+        app: require('./bower.json').appPath || 'app',
+        dist: 'dist',
+        js: ['app/scripts/*.js', 'app/scripts/**/*.js'],
+        vendor: 'app/lib/**/*.js',
+        sass: 'app/styles/sass/**/*.scss',
+        css: 'app/styles/*.css',
+        images: 'app/images/**/*',
+        html: 'app/**/*.html',
+        misc: 'app/*.{txt,htaccess,ico}'
+
+    };
+
+    var host = {
+        port: '9000',
+        lrPort: '35729'
     };
 
     // Empties folders to start fresh
-    gulp.task("clean", function () {
-        rimraf.sync(sources.dist + "/*");
+    gulp.task('clean', function (cb) {
+        del(['dist'], cb);
     });
 
-    gulp.task("copy", function () {
-        gulp.src([
-                sources.app + "/*.{ico,png,txt}",
-                sources.app + "/.htaccess"
-            ]).pipe(gulp.dest(sources.dist));
+    // copy vendor js 
+    gulp.task('vendor', ['clean'], function() {
+        return gulp.src(paths.vendor)
+            .pipe(gulp.dest(paths.dist + '/lib'));
     });
 
-    // Compiling sass to css
-    gulp.task("sass", function () {
-        return gulp.src(sources.app + "/styles/sass/*.scss")
-            .pipe(sass({
-            imagePath: "../../images"
-        }))
-            .pipe(autoprefix("last 1 version"))
-            .pipe(gulp.dest(sources.dist + "/styles/"))
-            .pipe(gulp.dest(sources.app + "/styles/"));
+    // copy misc assets
+    gulp.task('misc', ['clean'], function() {
+        return gulp.src(paths.misc)
+            .pipe(gulp.dest(paths.dist));
     });
 
-    // concatentates all js into one file and vendor files into lib
-    gulp.task("js", function() {
-        gulp.src(sources.js)
-        .pipe(concat("main.js"))
-        .pipe(uglify({mangle: false}))
-        .pipe(gulp.dest(sources.dist + "/scripts/"));
-        gulp.src(sources.app + "/lib/**/*")
-        .pipe(gulp.dest(sources.dist + "/lib/"));
-    });
-
-    // JSHint task
-    gulp.task("jshint", function () {
-        gulp.src(sources.app + "/scripts/**/**/*.js")
+    // Run JSHint 
+    gulp.task('jshint', function () {
+        gulp.src(paths.js)
             .pipe(jshint())
-            .pipe(jshint.reporter(require("jshint-stylish")));
+            .pipe(jshint.reporter(require('jshint-stylish')));
     });
 
-    // Serve
-    gulp.task("serve", function () {
-        connect()
-            .use(require("connect-livereload")())
-            .use(connect.static(sources.app))                           // jshint ignore:line
-            .listen(sources.port);
-        server.setMaxListeners(100);
-
-        console.log("Server listening on http://localhost:" + sources.port);
+    gulp.task('requirejs', ['clean', 'jshint'], function () {
+        rjs({
+            out: 'main.js',
+            name: 'main',
+            preserveLicenseComments: false, // remove all comments
+            removeCombined: true,
+            baseUrl: paths.app + '/scripts',
+            mainConfigFile: 'app/scripts/main.js'
+        })
+            .pipe(stripDebug())
+            .pipe(uglify({mangle: false}))
+            .pipe(gulp.dest(paths.dist + '/scripts/'));
     });
 
-    // serve site from dist folder for testing production
-    gulp.task("dist-test", function () {
-        connect()
-            .use(require("connect-livereload")())
-            .use(connect.static(sources.dist))                          // jshint ignore:line
-            .listen(sources.port);
-        server.setMaxListeners(0);
-
-        console.log("Server listening on http://localhost:" + sources.port);
+    // Sass task, will run when any SCSS files change & BrowserSync
+    // will auto-update browsers
+    gulp.task('sass', function () {
+        return gulp.src(paths.sass)
+        .pipe(sass({imagePath: '../../images'}))
+        .pipe(autoprefix('last 1 version'))
+        .pipe(gulp.dest(paths.dist + '/styles'))
+        .pipe(gulp.dest(paths.app + '/styles'));
     });
 
     // minify new images
-    gulp.task("imagemin", function () {
-        var imgSrc = sources.app + "/images/**/*",
-            imgDst = sources.dist + "/images";
-
-        gulp.src(imgSrc)
-            .pipe(changed(imgDst))
-            // .pipe(imagemin())
-            .pipe(gulp.dest(imgDst));
+    gulp.task('imagemin', ['clean'], function () {
+        return gulp.src(paths.images)
+            .pipe(changed(paths.dist + '/images'))
+            .pipe(imagemin())
+            .pipe(gulp.dest(paths.dist + '/images'));
     });
 
     // minify new or changed HTML pages
-    gulp.task("htmlpage", function () {
-        var htmlSrc = sources.app + "/**/*.html",
-            htmlDst = sources.dist;
-
-        gulp.src(htmlSrc)
-            .pipe(changed(htmlDst))
+    gulp.task('html', ['clean'], function () {
+        return gulp.src(paths.html)
+            .pipe(changed(paths.dist))
             .pipe(minifyHTML({
                 collapseWhitespace: true,
                 collapseBooleanAttributes: true,
@@ -119,73 +105,68 @@
                 quotes: true,
                 empty: true
             }))
-            .pipe(gulp.dest(htmlDst));
+            .pipe(gulp.dest(paths.dist));
     });
 
     // CSS concat, auto-prefix and minify
-    gulp.task("autoprefixer", ["sass"], function () {
-        gulp.src([sources.app + "/styles/*.css"])
-            .pipe(concat("main.css"))
-            .pipe(autoprefix("last 2 version", "safari 5", "ie 8", "ie 9", "opera 12.1", "ios 6", "android 4"))
+    gulp.task('autoprefixer', ['clean', 'sass'], function () {
+        gulp.src(paths.css)
+            .pipe(concat('main.css'))
+            .pipe(autoprefix('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
             .pipe(minifyCSS())
-            .pipe(gulp.dest(sources.dist + "/styles/"));
-        gulp.src([sources.app + "/styles/font-awesome/*"])
-            .pipe(concat("font-awesome.css"))
-            .pipe(autoprefix("last 2 version", "safari 5", "ie 8", "ie 9", "opera 12.1", "ios 6", "android 4"))
+            .pipe(gulp.dest(paths.dist + '/styles'));
+        return gulp.src(paths.app + '/styles/font-awesome/*')
+            .pipe(concat('font-awesome.css'))
+            .pipe(autoprefix('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
             .pipe(minifyCSS())
-            .pipe(gulp.dest(sources.dist + "/styles/font-awesome/"));
+            .pipe(gulp.dest(paths.dist + '/styles/font-awesome/'));
     });
 
 
-    gulp.task("requirejs", ["jshint"], function () {
-        rjs({
-            out: "main.js",
-            name: "main",
-            preserveLicenseComments: false, // remove all comments
-            removeCombined: true,
-            baseUrl: sources.app + "/scripts",
-            mainConfigFile: sources.app + "/scripts/main.js"
-        })
-            .pipe(stripDebug())
-            .pipe(uglify({mangle: false}))
-            .pipe(gulp.dest(sources.dist + "/scripts/"));
+    // Protractor tests
+    // gulp.task('protractorUpdate', protractor.webdriverUpdate);
+    // gulp.task('protractor', ['protractorUpdate'], function (cb) {
+    //     gulp.src(['tests/e2e/**/*.js']).pipe(protractor.protractor({
+    //         configFile: 'protractor.conf.js'
+    //     })).on('error', function (e) {
+    //         console.log(e);
+    //     }).on('end', cb);
+    // });
+    //
+    // // Jasmine test
+    // gulp.task('jasmine', function() {
+    //     gulp.src('spec/**/*.js')
+    //         .pipe(jasmine({verbose:true, includeStackTrace: true}));
+    // });
+    //
+    // gulp.task('test', ['protractor', 'jasmine'], function () {});
+
+    // browser-sync task for starting server
+    gulp.task('browser-sync', function() {
+        browserSync({
+            server: {
+                baseDir: './app' 
+            },
+            port: host.port
+        });
     });
 
-    // Watch Files For Changes
-    gulp.task("watch", function () {
-            server.listen(sources.liveReloadPort, function (err) {
-                if (err) {
-                    return console.log(err);
-                }
-
-                gulp.watch(sources.app + "/**/*.html", { maxListeners:0 }, ["htmlpage"]);
-                gulp.watch(sources.app + "/scripts/**/*.js", { maxListeners:0 }, ["jshint"]);
-                gulp.watch(sources.app + "/images/**/*", { maxListeners:0  }, ["imagemin"]);
-                gulp.watch(sources.app + "/styles/*.css", { maxListeners:0 }, ["autoprefixer"]);
-                gulp.watch(sources.app + "/styles/sass/*.scss", {  maxListeners:0  }, ["sass"]);
-            });
-        }
-    );
-
-    // Protractor test
-    gulp.task("protractorUpdate", protractor.webdriverUpdate);
-    gulp.task("protractor", ["protractorUpdate"], function (cb) {
-        gulp.src(["tests/e2e/**/*.js"]).pipe(protractor.protractor({
-            configFile: "protractor.conf.js"
-        })).on("error", function (e) {
-            console.log(e);
-        }).on("end", cb);
+    gulp.task('bs-reload', function() {
+        browserSync.reload();
     });
 
-    // Jasmine test
-    gulp.task("jasmine", function() {
-        gulp.src("spec/**/*.js")
-            .pipe(jasmine({verbose:true, includeStackTrace: true}));
+    // run in development mode with easy browser reloading
+    gulp.task('dev', ['browser-sync'], function() {
+
+        gulp.watch('app/views/**/*.html', [browserSync.reload]);
+        gulp.watch('app/styles/**/*.css', [browserSync.reload]);
+        gulp.watch('app/styles/**/*.scss', ['sass', browserSync.reload]);
+        gulp.watch('app/scripts/**/*.js', ['vendor', 'requirejs', browserSync.reload]);
     });
 
-    gulp.task("test", ["protractor", "jasmine"], function () {});
+    gulp.task('serve', ['dev']);
 
-    gulp.task("build", ["clean", "copy", "htmlpage","autoprefixer", "requirejs", "imagemin"]);
+    gulp.task('build', ['requirejs', 'vendor', 'misc', 'html', 'autoprefixer', 'imagemin']);
 
-    gulp.task("default",["build"]);
+    gulp.task('default',['build']);
 })();

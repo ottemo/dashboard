@@ -3,12 +3,11 @@
 ### Install NPM Gulp and Bower
 
 #### OSX
-    brew install npm
+    brew install nvm
+    nvm install v0.10.31
+    nvm alias default v0.10.31
     brew install git-flow
-    brew install hub
-    alias hub=git
     npm install -g gulp bower
-    npm install gulp --save-dev
 
 #### Debian based Linux
     sudo apt-get update
@@ -19,12 +18,7 @@
    
     sudo apt-get install git-flow
     
-    curl http://hub.github.com/standalone -sLo ~/bin/hub
-    chmod +x ~/bin/hub
-    alias git=hub  # add to your .bashrc or .bash_profile/.profile
-
     npm install -g bower gulp 
-    npm install gulp --save-dev
 
 ### Install Local Project Dependencies 
     cd <directory of your cloned repository>
@@ -46,8 +40,7 @@
     Not configured yet
 
 ### Run Client in Development Mode
-    gulp serve
+    gulp build && gulp dev
     
 ### Issue Pull Request on Github
     git push -u origin <feature-branch>
-    git pull-request -b develop
