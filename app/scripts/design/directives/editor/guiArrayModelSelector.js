@@ -120,7 +120,9 @@
                              */
                             $scope.getCountItems = function () {
                                 var len = 0;
-                                if (typeof $scope.item !== "undefined" && $scope.item[$scope.attribute.Attribute].length) {
+                                if (typeof $scope.item !== "undefined" &&
+                                    typeof $scope.item[$scope.attribute.Attribute] !== "undefined" &&
+                                    $scope.item[$scope.attribute.Attribute].length) {
                                     len = $scope.item[$scope.attribute.Attribute].length;
                                 }
                                 return len;

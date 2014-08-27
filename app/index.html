@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js lt-ie9 lt-ie8" id="ng-app">
+<html class="no-js lt-ie9 lt-ie8" id="ng-app" ng-app="dashboardModule">
     <head>
 
         <base href="/" />
@@ -14,16 +14,15 @@
 
         <meta name="viewport" content="width=device-width initial-scale=1">
 
-        <link rel="stylesheet" href="styles/main.css">
-
-        <link rel="stylesheet" href="styles/dashboard.css" />
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css" />
+
+        <link ng-repeat="stylesheet in getCss()" ng-href="{{stylesheet}}" type="text/css" rel="stylesheet"/>
 
         <link rel="shortcut icon" href="favicon.ico"  type="image/x-icon" />
     </head>
 
-    <body class="metro" ng-app="dashboardModule" ng-controller="dashboardController">
+    <body class="metro" ng-controller="dashboardController">
         <!--[if lt IE 7]>
         <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->

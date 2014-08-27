@@ -115,7 +115,7 @@ ul {
 /* ----------------------------------------- TabHeaderContainer Styles ---------------------------------------------- */
 .TabHeaderContainer {
   width: 85px;
-  background: url("../../images/adminTab-background.png") top left repeat-x;
+  background: url("../images/adminTab-background.png") top left repeat-x;
   position: absolute;
   left: 0;
   top: 0;
@@ -130,9 +130,9 @@ ul {
       height: 52px;
       width: 52px;
       text-align: center;
-      background: url("../../images/adminTab-inactive.png") top left repeat-x; }
+      background: url("../images/adminTab-inactive.png") top left repeat-x; }
       .TabHeaderContainer .tabs-header-list li.active {
-        background: url("../../images/adminTab-active.png") top left repeat-x; }
+        background: url("../images/adminTab-active.png") top left repeat-x; }
       .TabHeaderContainer .tabs-header-list li a {
         text-decoration: none; }
         .TabHeaderContainer .tabs-header-list li a img {
@@ -838,7 +838,7 @@ ul {
   .LoginWrapper .LoginLogo {
     width: 540px;
     height: 110px;
-    background: url("../../images/login/desktop-logo.jpg") top left no-repeat;
+    background: url("../images/login/desktop-logo.jpg") top left no-repeat;
     margin-bottom: 30px; }
   .LoginWrapper .LoginContainer {
     background: #157ac1;
@@ -878,7 +878,7 @@ ul {
     .LoginWrapper .LoginLogo {
       width: 350px;
       height: 70px;
-      background: url("../../images/login/tablet-logo.png") top left no-repeat;
+      background: url("../images/login/tablet-logo.png") top left no-repeat;
       margin: 0 auto;
       margin-bottom: 30px; }
       .LoginWrapper .LoginLogo input {
@@ -899,7 +899,7 @@ ul {
       height: 45px;
       margin: 0 auto;
       margin-bottom: 40px;
-      background: url("../../images/login/mobile-logo.jpg") top left no-repeat; }
+      background: url("../images/login/mobile-logo.jpg") top left no-repeat; }
     .LoginWrapper .LoginContainer {
       padding: 30px;
       width: 240px; }
@@ -1000,7 +1000,7 @@ ul {
     position: relative;
     height: 40px;
     line-height: 20px;
-    background: url("../../images/menu-back.jpg") top left repeat-x; }
+    background: url("../images/menu-back.jpg") top left repeat-x; }
     .browse-tab-header ul li > div > div > div > ul {
       visibility: hidden;
       width: 200px;
@@ -1012,7 +1012,7 @@ ul {
       .browse-tab-header ul li:hover > div > div > div > ul li {
         border: 1px solid #000000; }
         .browse-tab-header ul li:hover > div > div > div > ul li:hover {
-          background: url("../../images/menu-active-back.jpg") top left repeat-x; }
+          background: url("../images/menu-active-back.jpg") top left repeat-x; }
           .browse-tab-header ul li:hover > div > div > div > ul li:hover a {
             color: #ffffff;
             text-decoration: none; }

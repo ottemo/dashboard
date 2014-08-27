@@ -238,7 +238,9 @@
                     rememberProducts = function () {
                         var i, prod;
                         oldProducts = [];
-                        if (typeof $scope.category !== "undefined" && $scope.category.products.length !== -1) {
+                        if (typeof $scope.category !== "undefined" &&
+                            typeof $scope.category.products !== "undefined" &&
+                            $scope.category.products.length !== -1) {
                             for (i = 0; i < $scope.category.products.length; i += 1) {
                                 prod = $scope.category.products[i];
                                 oldProducts.push(prod._id);

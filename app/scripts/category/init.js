@@ -17,7 +17,7 @@
                  */
                 .config(["$routeProvider", function ($routeProvider) {
                     $routeProvider
-                        .when("/category", { templateUrl: "views/category/edit.html" });
+                        .when("/category", { templateUrl: angular.getTheme("category/edit.html") });
                 }])
 
                 .run(["$designService", "$route", "$dashboardSidebarService", "$dashboardHeaderService",
