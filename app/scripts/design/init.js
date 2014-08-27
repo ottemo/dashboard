@@ -12,13 +12,15 @@
 
         angular.activeTheme = "default";
 
-        angular.isExistFile = function (path) {
+        // TODO: modify this check when we support multiple themes
+        angular.isExistFile = false;
+        // angular.isExistFile = function (path) {
 //            if (files[angular.activeTheme].indexOf(path) !== -1) {
 //                return true;
 //            }
-
-            return false;
-        };
+        //
+        //     return false;
+        // };
 
         angular.getTheme = function (path) {
 
@@ -26,7 +28,7 @@
                 var template, tpl;
                 tpl = "/views/" + path;
 
-                if (angular.isExistFile(tpl)) {
+                if (angular.isExistFile) {
                     template = "themes/" + angular.activeTheme + tpl;
                 } else {
                     template = "themes/default" + tpl;
