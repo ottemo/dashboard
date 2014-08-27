@@ -24,8 +24,8 @@
                  */
                 .config(["$routeProvider", function ($routeProvider) {
                     $routeProvider
-                        .when("/product", { templateUrl: "views/product/edit.html" })
-                        .when("/product/attributes", { templateUrl: "views/product/attribute/edit.html" });
+                        .when("/product", { templateUrl: angular.getTheme("product/edit.html") })
+                        .when("/product/attributes", { templateUrl: angular.getTheme("product/attribute/edit.html") });
                 }])
 
                 .run(["$designService", "$route", "$dashboardSidebarService", "$dashboardHeaderService",

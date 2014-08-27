@@ -20,7 +20,7 @@
              */
                 .config(["$routeProvider", function ($routeProvider) {
                     $routeProvider
-                        .when("/config", { templateUrl: "views/config/edit.html" });
+                        .when("/config", { templateUrl: angular.getTheme("config/edit.html") });
                 }])
 
                 .run([

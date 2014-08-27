@@ -24,8 +24,8 @@
                  */
                 .config(["$routeProvider", function ($routeProvider) {
                     $routeProvider
-                        .when("/", { templateUrl: "views/dashboard/welcome.html" })
-                        .when("/help", { templateUrl: "views/help.html"})
+                        .when("/", { templateUrl: angular.getTheme("dashboard/welcome.html") })
+                        .when("/help", { templateUrl: angular.getTheme("help.html")})
 
                         .otherwise({ redirectTo: "/"});
                 }])

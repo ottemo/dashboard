@@ -17,8 +17,8 @@
                  */
                 .config(["$routeProvider", function ($routeProvider) {
                     $routeProvider
-                        .when("/visitor", { templateUrl: "views/visitor/edit.html" })
-                        .when("/visitor/address/:id", { templateUrl: "views/visitor/address/edit.html", controller: "visitorAddressController"});
+                        .when("/visitor", { templateUrl: angular.getTheme("visitor/edit.html") })
+                        .when("/visitor/address/:id", { templateUrl: angular.getTheme("visitor/address/edit.html"), controller: "visitorAddressController"});
                 }])
 
                 .run(["$designService", "$route", "$dashboardSidebarService", "$dashboardHeaderService",

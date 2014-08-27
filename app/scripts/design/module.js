@@ -9,6 +9,7 @@
             "design/services",
             "design/service/image",
             "design/service/api",
+            "design/service/design",
 
             "design/directives/design",
             "design/directives/guiAttributesEditorForm",
