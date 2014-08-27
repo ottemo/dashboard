@@ -17,7 +17,7 @@
              */
             angular.module.dashboardModule = angular.module("dashboardModule", ["ngRoute", "loginModule", "designModule"])
 
-                .constant("REST_SERVER_URI", "http://dev.ottemo.com:3000")
+                .constant("REST_SERVER_URI", "http://dev.ottemo.io:3000")
 
                 /*
                  *  Basic routing configuration
