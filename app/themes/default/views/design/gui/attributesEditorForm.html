@@ -27,6 +27,11 @@
                                     <gui-multiline-text editor-scope="attribute" item="item"></gui-multiline-text>
                                 </div>
 
+                                <div ng-switch-when="text">
+                                    <label for="inp{{attribute.Attribute}}">{{attribute.Label}} <span class="asterisk" ng-show="attribute.IsRequired">*</span></label>
+                                    <gui-multiline-text editor-scope="attribute" item="item"></gui-multiline-text>
+                                </div>
+
                                 <div ng-switch-when="model_selector">
                                     <label for="inp{{attribute.Attribute}}">{{attribute.Label}} <span class="asterisk" ng-show="attribute.IsRequired">*</span></label>
                                     <gui-model-selector editor-scope="attribute" item="item"></gui-model-selector>

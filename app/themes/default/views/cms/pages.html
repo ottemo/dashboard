@@ -1,0 +1,30 @@
+<div class="container-fluid" ng-controller="cmsPageController">
+    <div class="row" style="margin-top: 15px">
+
+        <div class="col-md-4">
+            <gui-list-manager items="pages" object="this"></gui-list-manager>
+        </div>
+
+        <div class="col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-md-8 text-muted" style="padding-top: 6px; font-size: 130%; font-weight: bold">
+                            <span ng-if="page._id"> {{page.identifier}}</span>
+                            <span ng-if="!page._id"> New page </span>
+                        </div>
+                        <div class="col-md-4 text-right">
+                            <button class="btn btn-primary" ng-click="save()">Save</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    <gui-attributes-editor-form attributes-list="attributes" object="this" item="page"/>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -43,7 +43,8 @@ require([
         "product/module",
         "category/module",
         "visitor/module",
-        "login/module"
+        "login/module",
+        "cms/module"
     ],
     function (angular) {
         angular.element(document).ready(function () {

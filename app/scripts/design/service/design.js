@@ -51,7 +51,7 @@
                         if (isFullPathRegex.test(cssName) === false && isCssRegex.test(cssName) === true) {
                             fileName = "/styles/" + cssName;
 
-                            if (angular.isExistFile(fileName)) {
+                            if (angular.isExistFile) {
                                 cssName = (themesDir + data.theme + fileName).replace(/\/+/, "/");
                             } else {
                                 cssName = (themesDir + "default" + fileName).replace(/\/+/, "/");
@@ -69,7 +69,7 @@
                     getImage: function (img) {
                         var image;
 
-                        if (angular.isExistFile(img)) {
+                        if (angular.isExistFile) {
                             image = themesDir + data.theme + "/images/" + img;
                         } else {
                             image = themesDir + "default/images/" + img;
