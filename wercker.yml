@@ -34,3 +34,8 @@ deploy:
         - script:
             name: Fig Up
             code: ssh root@$REMOTE_HOST "cd /tmp/dashboard; fig kill; fig up -d"
+    after-steps:
+        - wercker/hipchat-notify@1.0.3:
+            token: $HIPCHAT_TOKEN
+            room-id: 394852
+            from-name: Wercker
