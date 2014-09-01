@@ -1,28 +1,15 @@
 <add-css src="dashboard.css"></add-css>
 <add-css src="main.css"></add-css>
         
-<table id="pageTable" cellpadding="0" cellspacing="0"z>
-    <tr>
-        <td id="cellPageHeader" colspan="3">
-            <ng-include src="getTemplate('dashboard/header.html')"></ng-include>
-        </td>
-    </tr>
-    <tr>
-        <td id="cellPageLeftBar">
-            <ng-include src="getTemplate('dashboard/sidebar.html')"></ng-include>
-        </td>
+<ng-include src="getTemplate('dashboard/header.html')"></ng-include>
 
-        <td id="cellPageContent">
-            <ng-view></ng-view>
-        </td>
+<ng-include src="getTemplate('dashboard/sidebar.html')"></ng-include>
 
-        <td id="cellPageRightBar">
-            <ng-include src="getTemplate('dashboard/rightBar.html')" ng-if="false"></ng-include>
-        </td>
-    </tr>
-    <tr>
-        <td id="cellPageFooter" colspan="3">
-            <ng-include src="getTemplate('dashboard/footer.html')" ng-if="false"></ng-include>
-        </td>
-    </tr>
-</table>
+<ng-view></ng-view>
+
+<!--<ng-include src="getTemplate('dashboard/rightBar.html')" ng-if="false"></ng-include>-->
+
+<ng-include src="getTemplate('dashboard/footer.html')" ng-if="false"></ng-include>
+
+
+
