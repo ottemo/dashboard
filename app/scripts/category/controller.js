@@ -8,6 +8,12 @@
                 "$categoryApiService",
                 function ($scope, $categoryApiService) {
                     var rememberProducts, oldProducts, getDefaultCategory;
+
+                    // Initialize SEO
+                    if(typeof $scope.initSeo === "function"){
+                        $scope.initSeo("category");
+                    }
+
                     oldProducts = [];
 
                     getDefaultCategory = function () {

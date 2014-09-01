@@ -6,7 +6,6 @@
      *  (make sure module present in main.js requireJS list)
      */
     define([
-            "design/services",
             "design/service/image",
             "design/service/api",
             "design/service/design",

@@ -45,6 +45,7 @@ require([
         "visitor/module",
         "login/module",
         "cms/module"
+        "seo/module"
     ],
     function (angular) {
         angular.element(document).ready(function () {
