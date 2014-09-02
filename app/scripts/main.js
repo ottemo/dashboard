@@ -44,7 +44,7 @@ require([
         "category/module",
         "visitor/module",
         "login/module",
-        "cms/module"
+        "cms/module",
         "seo/module"
     ],
     function (angular) {
