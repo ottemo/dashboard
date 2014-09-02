@@ -1,11 +1,12 @@
-/* Header Section Variables */
-/* LeftContainer Section Variables */
-/* RightContainer Section Variable */
-/* Footer Section Variable */
-/* ProductRightTopContainer Section Variable */
-/* Login Page Variable */
-/* Config Section Variables */
-/* Menu Container Variables */
+@font-face {
+    font-family: 'roboto_ltregular';
+    src: url('fonts/roboto/roboto-light.eot');
+    src: url('fonts/roboto/roboto-light.eot?#iefix') format('embedded-opentype'),
+         url('fonts/roboto/roboto-light.woff') format('woff'),
+         url('fonts/roboto/roboto-light.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
 
 html {
   height: 100%;
@@ -1037,3 +1038,87 @@ ul {
     text-decoration: none;
     display: block;
     color: #ffffff; }
+ 
+/*/////////////////////////////////////////////////////////// start left menu */
+
+.custom-nav li .fa {
+    font-size: 28px;
+    margin: -4px 14px 0 5px;
+    width: 27px;
+}
+.custom-nav > li.nav-active > a {
+    color: #23212C;
+}
+.custom-nav > li.menu-list > a:hover {
+    background-color: #A0CAEB;
+    background-image: inherit;
+}
+.custom-nav > li.menu-list > a {
+    background: none;
+    border-bottom: 1px solid #343438;
+}
+.custom-nav > li > a {
+    background: none;
+    font: 18px 'roboto_ltregular',sans-serif;
+    padding: 23px 20px 22px;
+}
+.custom-nav > li.nav-active > a {
+    background: none;
+    background-color: #A0CAEB;
+    color: #23212C;
+}
+.custom-nav > li > a:hover,
+.custom-nav > li > a:active {
+    background-color: #A0CAEB;
+    color: #23212C;;
+}
+.custom-nav > li.nav-active > a:hover {
+    background-image: inherit;
+}
+.left-side {
+    background-color: #23212c;
+    width: 282px;
+}
+.main-content {
+    margin-left: 282px;
+}
+.custom-nav .sub-menu-list > li > a {
+    background-color: #292b3d;
+    border-bottom: 1px solid #343438;
+    color: #5a5a5a;
+    font: 18px 'roboto_ltregular',sans-serif;
+    padding: 26px 5px 26px 71px;
+}
+.custom-nav .sub-menu-list > li.active > a {
+    color: #cccccc;
+}
+.custom-nav .sub-menu-list > li > a:hover,
+.custom-nav .sub-menu-list > li > a:active,
+.custom-nav .sub-menu-list > li > a:focus {
+    color: #cccccc;
+}
+.toggle-btn {
+    border-right: none;
+    padding: 27px;
+    width: 72px;
+    height: 72px;
+}
+
+/*///////////////////////////////////////////////////////////// end left menu */
+
+.h-logo {
+    display: block;
+    height: 13px;
+    width: 33px;
+    margin: 0 auto;
+    padding: 20px 0 0;
+}
+.h-logo a:hover {
+    opacity: 0.8;
+}
+.menu-right {
+    margin: -25px 15px 0;
+}
+.notification-menu .dropdown-toggle {
+    padding: 27px 10px 25px;
+}

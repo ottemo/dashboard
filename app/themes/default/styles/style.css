@@ -195,10 +195,6 @@ hr {
     z-index: 100;
 }
 
-.sticky-left-side .custom-nav {
-    margin-top: 50px;
-}
-
 .left-side-collapsed .sticky-left-side {
     overflow-y: visible;
 }

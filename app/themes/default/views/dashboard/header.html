@@ -7,15 +7,19 @@
         <!--toggle button start-->
         <a class="toggle-btn"><i class="fa fa-bars"></i></a>
         <!--toggle button end-->
+        
+        <a class="h-logo" href="#">
+            <img ng-src="{{getImg('logo.png')}}" alt=""/>
+        </a>
 
         <!--notification menu start -->
         <div class="menu-right">
             <ul class="notification-menu">
                 <li>
                     <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                        <img ng-src="{{getImg('photos/user-avatar.png')}}" alt="" />
-                        John Doe
+                        John Smith
                         <span class="caret"></span>
+                        <img ng-src="{{getImg('photos/user-avatar.png')}}" alt="" />
                     </a>
                     <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
                         <li><a href="#"><i class="fa fa-user"></i>  Profile</a></li>

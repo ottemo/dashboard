@@ -1,0 +1,287 @@
+
+@font-face {
+    font-family: 'roboto_bkbold';
+    src: url('roboto-black.eot');
+    src: url('roboto-black.eot?#iefix') format('embedded-opentype'),
+         url('roboto-black.woff') format('woff'),
+         url('roboto-black.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'roboto_bkbold_italic';
+    src: url('roboto-blackitalic.eot');
+    src: url('roboto-blackitalic.eot?#iefix') format('embedded-opentype'),
+         url('roboto-blackitalic.woff') format('woff'),
+         url('roboto-blackitalic.ttf') format('truetype');
+    font-weight: bold;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'robotobold';
+    src: url('roboto-bold.eot');
+    src: url('roboto-bold.eot?#iefix') format('embedded-opentype'),
+         url('roboto-bold.woff') format('woff'),
+         url('roboto-bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'roboto_cnbold';
+    src: url('roboto-boldcondensed.eot');
+    src: url('roboto-boldcondensed.eot?#iefix') format('embedded-opentype'),
+         url('roboto-boldcondensed.woff') format('woff'),
+         url('roboto-boldcondensed.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'roboto_cnbold_italic';
+    src: url('roboto-boldcondenseditalic.eot');
+    src: url('roboto-boldcondenseditalic.eot?#iefix') format('embedded-opentype'),
+         url('roboto-boldcondenseditalic.woff') format('woff'),
+         url('roboto-boldcondenseditalic.ttf') format('truetype');
+    font-weight: bold;
+
+}
+
+
+@font-face {
+    font-family: 'roboto_condensedlight';
+    src: url('robotocondensed-light.eot');
+    src: url('robotocondensed-light.eot?#iefix') format('embedded-opentype'),
+         url('robotocondensed-light.woff') format('woff'),
+         url('robotocondensed-light.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'roboto_condensedlight_italic';
+    src: url('robotocondensed-lightitalic.eot');
+    src: url('robotocondensed-lightitalic.eot?#iefix') format('embedded-opentype'),
+         url('robotocondensed-lightitalic.woff') format('woff'),
+         url('robotocondensed-lightitalic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+@font-face {
+    font-family: 'robotobold_italic';
+    src: url('roboto-bolditalic.eot');
+    src: url('roboto-bolditalic.eot?#iefix') format('embedded-opentype'),
+         url('roboto-bolditalic.woff') format('woff'),
+         url('roboto-bolditalic.ttf') format('truetype');
+    font-weight: bold;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'roboto_cnregular';
+    src: url('roboto-condensed.eot');
+    src: url('roboto-condensed.eot?#iefix') format('embedded-opentype'),
+         url('roboto-condensed.woff') format('woff'),
+         url('roboto-condensed.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'roboto_cnitalic';
+    src: url('roboto-condenseditalic.eot');
+    src: url('roboto-condenseditalic.eot?#iefix') format('embedded-opentype'),
+         url('roboto-condenseditalic.woff') format('woff'),
+         url('roboto-condenseditalic.ttf') format('truetype');
+    font-weight: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'robotoitalic';
+    src: url('roboto-italic.eot');
+    src: url('roboto-italic.eot?#iefix') format('embedded-opentype'),
+         url('roboto-italic.woff') format('woff'),
+         url('roboto-italic.ttf') format('truetype');
+    font-weight: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'roboto_ltregular';
+    src: url('roboto-light.eot');
+    src: url('roboto-light.eot?#iefix') format('embedded-opentype'),
+         url('roboto-light.woff') format('woff'),
+         url('roboto-light.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'roboto_ltitalic';
+    src: url('roboto-lightitalic.eot');
+    src: url('roboto-lightitalic.eot?#iefix') format('embedded-opentype'),
+         url('roboto-lightitalic.woff') format('woff'),
+         url('roboto-lightitalic.ttf') format('truetype');
+    font-weight: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'roboto_medium';
+    src: url('roboto-medium.eot');
+    src: url('roboto-medium.eot?#iefix') format('embedded-opentype'),
+         url('roboto-medium.woff') format('woff'),
+         url('roboto-medium.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'roboto_ltbold_italic';
+    src: url('roboto-mediumitalic.eot');
+    src: url('roboto-mediumitalic.eot?#iefix') format('embedded-opentype'),
+         url('roboto-mediumitalic.woff') format('woff'),
+         url('roboto-mediumitalic.ttf') format('truetype');
+    font-weight: bold;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'robotoregular';
+    src: url('roboto-regular.eot');
+    src: url('roboto-regular.eot?#iefix') format('embedded-opentype'),
+         url('roboto-regular.woff') format('woff'),
+         url('roboto-regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'roboto_thregular';
+    src: url('roboto-thin.eot');
+    src: url('roboto-thin.eot?#iefix') format('embedded-opentype'),
+         url('roboto-thin.woff') format('woff'),
+         url('roboto-thin.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'roboto_thitalic';
+    src: url('roboto-thinitalic.eot');
+    src: url('roboto-thinitalic.eot?#iefix') format('embedded-opentype'),
+         url('roboto-thinitalic.woff') format('woff'),
+         url('roboto-thinitalic.ttf') format('truetype');
+    font-weight: normal;
+
+}
+
+@font-face {
+    font-family: 'roboto_slabbold';
+    src: url('robotoslab-bold.eot');
+    src: url('robotoslab-bold.eot?#iefix') format('embedded-opentype'),
+         url('robotoslab-bold.woff') format('woff'),
+         url('robotoslab-bold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'roboto_slablight';
+    src: url('robotoslab-light.eot');
+    src: url('robotoslab-light.eot?#iefix') format('embedded-opentype'),
+         url('robotoslab-light.woff') format('woff'),
+         url('robotoslab-light.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'roboto_slabregular';
+    src: url('robotoslab-regular.eot');
+    src: url('robotoslab-regular.eot?#iefix') format('embedded-opentype'),
+         url('robotoslab-regular.woff') format('woff'),
+         url('robotoslab-regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'roboto_slabthin';
+    src: url('robotoslab-thin.eot');
+    src: url('robotoslab-thin.eot?#iefix') format('embedded-opentype'),
+         url('robotoslab-thin.woff') format('woff'),
+         url('robotoslab-thin.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+
+}
