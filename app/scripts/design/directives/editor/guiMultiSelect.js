@@ -51,6 +51,8 @@
                                         });
                                     }
                                 }
+                                
+                                $scope.item[$scope.attribute.Attribute] = $scope.item[$scope.attribute.Attribute].split(",");
                             });
                         });
 
