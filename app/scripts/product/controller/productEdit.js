@@ -7,6 +7,11 @@
 
                 var getDefaultProduct, mapFields, getProperty, setProduct, splitName;
 
+                // Initialize SEO
+                if(typeof $scope.initSeo === "function"){
+                    $scope.initSeo("product");
+                }
+
                 getDefaultProduct = function () {
                     return {};
                 };

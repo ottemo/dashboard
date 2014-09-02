@@ -61,13 +61,35 @@
 
                     init = function () {
 
+                        var isExist, createGroup;
+
                         configSection = {};
                         configGroups = [];
 
+                        isExist = function (group) {
+                            var i;
+                            for (i = 0; i < configGroups.length; i += 1) {
+                                if (configGroups[i].Name === group) {
+                                    return true;
+                                }
+                            }
+
+                            return false;
+                        };
+
+                        createGroup = function(group){
+                            if (!isExist(group)) {
+                                configGroups.push({
+                                    "Name": group,
+                                    "Id": group,
+                                    "IsStatic": true
+                                });
+                            }
+                        };
+
                         $configApiService.getGroups().$promise.then(
-                            function (response) {// jshint ignore:line
-                                var i, j, parts, group, regExp, isExist, result;
-                                isExist = false;
+                            function (response) {
+                                var i, parts, group, regExp, result;
                                 result = response.result || [];
 
                                 if (result.length > 0) {
@@ -76,19 +98,7 @@
                                         parts = result[i].Path.match(regExp);
                                         group = parts[1];
 
-                                        for (j = 0; j < configGroups.length; j += 1) {
-                                            isExist = false;
-                                            if (configGroups[j].Name === group) {
-                                                isExist = true;
-                                            }
-                                        }
-                                        if (!isExist) {
-                                            configGroups.push({
-                                                "Name": group,
-                                                "Id": group,
-                                                "IsStatic": true
-                                            });
-                                        }
+                                        createGroup(group);
 
                                         if (typeof configSection[group] === "undefined") {
                                             configSection[group] = [];
@@ -99,7 +109,6 @@
                                             "Path": result[i].Path
                                         });
                                     }
-                                    console.warn(configSection);
                                 }
                             }
                         );
@@ -121,8 +130,8 @@
                                         if (response.result[i].Type !== "group") {
                                             response.result[i].Attribute = response.result[i].Path;
                                             attributes[path].push(response.result[i]);
-                                            items[path][response.result[i].Path] = response.result[i].Value;
-                                            itemsOld[path][response.result[i].Path] = response.result[i].Value;
+                                            items[path][response.result[i].Path] = response.result[i].Value.toString();
+                                            itemsOld[path][response.result[i].Path] = response.result[i].Value.toString();
                                         }
                                     }
                                 }

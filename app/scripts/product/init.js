@@ -28,8 +28,11 @@
                         .when("/product/attributes", { templateUrl: angular.getTheme("product/attribute/edit.html") });
                 }])
 
-                .run(["$designService", "$route", "$dashboardSidebarService", "$dashboardHeaderService",
-
+                .run([
+                    "$designService",
+                    "$route",
+                    "$dashboardSidebarService",
+                    "$dashboardHeaderService",
                     function ($designService, $route, $dashboardSidebarService, $dashboardHeaderService) {
 
                         // NAVIGATION
