@@ -8,7 +8,7 @@
                 "$seoService",
                 function ($scope, $seoService) {
 
-                    var seo, seoFields, itemName, urlRewrite, hasAttribute, save, remove, isModifySave, isInitUrlRewrite,
+                    var isInit, seo, seoFields, itemName, urlRewrite, hasAttribute, save, remove, isModifySave, isInitUrlRewrite,
                         modifyRemoveMethod, isModifyRemove, modifySaveMethod, addAttributes, addAttributesValue, getDefaultSeo;
 
                     $seoService.init();
@@ -24,12 +24,13 @@
                         };
                     };
 
-//                    seoFields = ["url", "rewrite", "title", "type", "meta_keywords", "meta_description"];
-                    seoFields = ["url"];
+                    seoFields = ["url", "title", "meta_keywords", "meta_description"];
+//                    seoFields = ["url"];
                     urlRewrite = "url";
                     isModifySave = false;
                     isModifyRemove = false;
                     isInitUrlRewrite = false;
+                    isInit = false;
 
                     /**
                      * Checks on the existing attribute
@@ -131,6 +132,7 @@
                         isModifySave = false;
                         isModifyRemove = false;
                         isInitUrlRewrite = false;
+                        isInit = true;
                         seo = getDefaultSeo();
                     };
 
@@ -181,9 +183,15 @@
                      * Watches for the attributes
                      */
                     $scope.$watch(function () {
+                        if (!isInit) {
+                            return false;
+                        }
+
                         return $scope.attributes;
                     }, function () {
-
+                        if (!isInit) {
+                            return false;
+                        }
                         addAttributes();
 
                         addAttributesValue();
@@ -197,8 +205,15 @@
                      * Watches for the selected item in child scope
                      */
                     $scope.$watch(function () {
+                        if (!isInit) {
+                            return false;
+                        }
+
                         return $scope[itemName]._id;
                     }, function () {
+                        if (!isInit) {
+                            return false;
+                        }
 
                         isInitUrlRewrite = false;
 
