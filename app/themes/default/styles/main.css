@@ -7,6 +7,26 @@
     font-weight: normal;
     font-style: normal;
 }
+@font-face {
+    font-family: 'robotobold';
+    src: url('fonts/roboto/roboto-bold.eot');
+    src: url('fonts/roboto/roboto-bold.eot?#iefix') format('embedded-opentype'),
+         url('fonts/roboto/roboto-bold.woff') format('woff'),
+         url('fonts/roboto/roboto-bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+
+}
+@font-face {
+    font-family: 'robotoregular';
+    src: url('fonts/roboto/roboto-regular.eot');
+    src: url('fonts/roboto/roboto-regular.eot?#iefix') format('embedded-opentype'),
+         url('fonts/roboto/roboto-regular.woff') format('woff'),
+         url('fonts/roboto/roboto-regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+
+}
 
 html {
   height: 100%;
@@ -1079,9 +1099,6 @@ ul {
     background-color: #23212c;
     width: 282px;
 }
-.main-content {
-    margin-left: 282px;
-}
 .custom-nav .sub-menu-list > li > a {
     background-color: #292b3d;
     border-bottom: 1px solid #343438;
@@ -1101,7 +1118,7 @@ ul {
     border-right: none;
     padding: 27px;
     width: 72px;
-    height: 72px;
+    height: 70px;
 }
 
 /*///////////////////////////////////////////////////////////// end left menu */
@@ -1120,5 +1137,223 @@ ul {
     margin: -25px 15px 0;
 }
 .notification-menu .dropdown-toggle {
-    padding: 27px 10px 25px;
+    padding: 22px 30px 18px 10px;
+}
+.notification-menu .dropdown-toggle:hover, .notification-menu .dropdown-toggle:focus, .notification-menu .dropdown-toggle:active, .notification-menu .dropdown-toggle.active, .notification-menu .open .dropdown-toggle.dropdown-toggle {
+    background: none repeat scroll 0 0 #e6e8eb;
+    font: 14px 'roboto_ltregular',sans-serif;
+    color: #34374a;
+}
+.notification-menu .dropdown-toggle img {
+    border-radius: 25px;
+    width: 35px;
+}
+.notification-menu .dropdown-menu-usermenu {
+    background: none repeat scroll 0 0 #ffffff;
+    min-width: 171px;
+}
+.notification-menu .dropdown-menu {
+    border-radius: 0;
+    box-shadow: none;
+    padding: 5px;
+    -webkit-box-shadow: -2px 2px 3px rgba(25, 25, 25, 0.31);
+    -moz-box-shadow: -2px 2px 3px rgba(25, 25, 25, 0.31);
+    box-shadow: -2px 2px 3px rgba(25, 25, 25, 0.31);
+}
+.notification-menu .dropdown-menu li a {
+    color: #24222c;
+    font: 14px 'roboto_ltregular',sans-serif;
+}
+.notification-menu .dropdown-menu:after {
+    border-bottom: none;
+}
+.top {
+  height: 44px;
+  width: 100%;
+  border-top: 1px solid #C1C1C1;
+  border-bottom: 1px solid #C1C1C1;
+  background-color: #9BCBEA;
+}
+.top i {
+  float: left;
+  color: #34374a;
+  font-size: 40px;
+  margin-left: 17px;
+}
+.top h6 {
+  float: left;
+  margin: 8px 0 0 14px;
+  color: #34374a;
+  font: 18px 'roboto_ltregular',sans-serif;
+}
+.d-progressbar .panel {
+  border: 1px solid #E4E4E4;
+  height: 130px;
+  border-radius: 0;
+}
+.dashboard {
+  padding: 14px 15px;
+  background-color: #ffffff;
+}
+.d-progressbar .num {
+    color: #555555;
+    display: block;
+    font: 45px/32px 'roboto_ltregular',sans-serif;
+    margin: 0 0 7px;
+    width: 120px;
+}
+.d-progressbar .text {
+  color: #555555;
+  font: 16px 'roboto_ltregular',sans-serif;
+}
+.d-progressbar .perc {
+    color: #555555;
+    float: right;
+    font: 28px/25px 'roboto_ltregular',sans-serif;
+    margin-left: 4px;
+}
+.d-progressbar .perc + .text {
+  color: #555555;
+  display: block;
+  font: 11px 'roboto_ltregular',sans-serif;
+  text-align: right;
+  width: 60px;
+}
+.d-progressbar .pointer i {
+  color: #1A598F;
+  font-size: 22px;
+}
+.d-progressbar .pointer {
+    border: 1px solid #1a598f;
+    border-radius: 50%;
+    height: 26px;
+    padding: 0 0 0 2px;
+    width: 26px;
+    float: right;
+}
+.d-progressbar .extra-pad {
+    padding: 28px 0;
+}
+.d-progressbar .clear + .text {
+    float: right;
+    font-size: 11px;
+    margin-top: 2px;
+    text-align: right;
+    width: 61px;
+}
+.d-progressbar .progress {
+    background: none repeat scroll 0 0 #DDDDDD;
+    border-radius: 0;
+    box-shadow: none;
+    height: 7px;
+    margin: 0 15px;
+}
+.d-progressbar .progress-bar {
+    background-color: #1a598f;
+}
+.d-progress-middle .progress-bar {
+   background-color: #70BE06;
+}
+.d-progress-middle .pointer i {
+  color: #70BE06;
+}
+.d-progress-middle .pointer {
+    border: 1px solid #70BE06;
+}
+.d-progress-last .col-sm-4 .progress {
+    margin: 0;
+}
+.d-progress-last .progress-bar {
+    background-color: #FC9918;
+}
+.d-progress-last p {
+    color: #555555;
+    display: block;
+    font: 18px 'roboto_ltregular',sans-serif;
+    margin: -22px 0 7px;
+    text-align: center;
+}
+.d-progress-last .progress-xs + span {
+    font-size: 11px;
+    text-align: center;
+    display: block;
+}
+.dashboard .panel-info > .panel-heading {
+    background-color: #00a3f5;
+}
+.dashboard .panel-heading {
+    border-radius: 0;
+}
+.dashboard .panel-info {
+     border: 1px solid #e4e4e4;
+     border-radius: 0;
+}
+.dashboard .panel-title {
+    color: #ffffff;
+    font: 16px 'roboto_ltregular',sans-serif;
+    text-align: center;
+    text-transform: capitalize;
+}
+.dashboard .col-md-2 {
+    float: right;
+}
+.dashboard .col-md-2 .panel-info h4 {
+  color: #555555;
+  font: 24px/27px 'roboto_ltregular',sans-serif;
+  text-align: center;
+  margin-top: 7px;
+}
+.dashboard .col-md-2 .panel-body i {
+  color: #ffffff;
+  background-color: #00A3F5;
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  font-size: 60px;
+  padding: 20px;
+  display: block;
+  margin: 0 auto;
+}
+.dashboard .col-md-2 p {
+    color: #555555;
+    display: block;
+    font: 14px/17px 'robotoregular',sans-serif;
+    margin-bottom: 0;
+    margin-top: 3px;
+    text-align: center;
+}
+.dashboard .col-md-2 span {
+  color: #555555;
+  font: 24px 'robotobold',sans-serif;
+  display: block;
+  text-align: center;
+  margin-bottom: 10px;
+}
+.dashboard .col-md-2 span.small {
+  font-size: 14px;
+  display: inline;
+}
+.dashboard .col-md-2 .panel-body {
+    padding: 0;
+}
+.dashboard .col-md-2 .panel-body .fa-dollar {
+    padding-left: 32px;
+}
+.dashboard table {
+  width: 100%;
+}
+.dashboard table tr {
+  background-color: #F4F5F7;
+  height: 30px;
+  color: #656565;
+  font: 12px 'roboto_ltregular',sans-serif;
+}
+.dashboard table tr td:first-child {
+  width: 90%;
+}
+.dashboard table tr td:last-child {
+  width: 10%;
+}
+.dashboard table tr td {
+  padding: 4px 0 0 15px;
 }
