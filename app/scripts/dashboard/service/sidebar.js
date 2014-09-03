@@ -49,6 +49,7 @@
                      */
                     getType = function (icon) {
                         var type;
+                        type = "class";
 
                         if (isImagePathRegex.test(icon) === true) {
                             type = "image";

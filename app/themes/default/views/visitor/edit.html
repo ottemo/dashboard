@@ -1,31 +1,217 @@
-<div class="container-fluid" ng-controller="visitorEditController">
-    <div class="row" style="margin-top: 15px">
-
-        <div class="col-md-4">
-            <gui-list-manager items="visitors" object="this"></gui-list-manager>
-        </div>
-
-        <div class="col-md-8">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-md-6 text-muted" style="padding-top: 6px; font-size: 130%; font-weight: bold">
-                            <span ng-if="visitor._id"> {{getFullName()}}</span>
-                            <span ng-if="!visitor._id"> New Visitor </span>
-                        </div>
-                        <div class="col-md-6 text-right">
-                            <button class="btn btn-warning" ng-click="addressForm()" ng-if="visitor._id">Addresses</button>
-                            <button class="btn btn-primary" ng-click="save()">Save</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="panel-body">
-                    <gui-attributes-editor-form attributes-list="attributes" object="this" item="visitor"/>
-                </div>
-
-            </div>
-        </div>
-
-    </div>
+<!--<h1>Welcome to the Dashboard</h1>-->
+<div class="top top-custom">
+    <i class="fa fa-users"></i>
+    <h6>Customers</h6>
 </div>
+<section class="customers">
+    <form class="col-md-12">
+        <table>
+            <tr>
+                <th>
+                    <div class="checkboxes">
+                        <label class="myCheckbox">
+                            <input type="checkbox" checked>
+                            <span></span>
+                        </label>
+                    </div>
+                </th>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Email Address
+                </th>
+                <th>
+                    Location
+                </th>
+                <th>
+                    Orders
+                </th>
+                <th>
+                    Last Order
+                </th>
+                <th>
+                    Total
+                </th>
+            </tr>
+            <!-- for table design-->
+            <tr></tr>
+            <tr>
+                <td>
+                    <div class="checkboxes">
+                        <label class="myCheckbox">
+                            <input type="checkbox">
+                            <span></span>
+                        </label>
+                    </div>
+                </td>
+                <td>
+                    John Smith
+                </td>
+                <td>
+                    johnsmith@gmail.com
+                </td>
+                <td>
+                    Seattle, WA
+                </td>
+                <td>
+                    0
+                </td>
+                <td>
+
+                </td>
+                <td>
+                    $ 0.00
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="checkboxes">
+                        <label class="myCheckbox">
+                            <input type="checkbox" checked>
+                            <span></span>
+                        </label>
+                    </div>
+                </td>
+                <td>
+                    John Smith
+                </td>
+                <td>
+                    johnsmith@gmail.com
+                </td>
+                <td>
+                    Seattle, WA
+                </td>
+                <td>
+                    0
+                </td>
+                <td>
+
+                </td>
+                <td>
+                    $ 0.00
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="checkboxes">
+                        <label class="myCheckbox">
+                            <input type="checkbox" checked>
+                            <span></span>
+                        </label>
+                    </div>
+                </td>
+                <td>
+                    John Smith
+                </td>
+                <td>
+                    johnsmith@gmail.com
+                </td>
+                <td>
+                    Seattle, WA
+                </td>
+                <td>
+                    0
+                </td>
+                <td>
+
+                </td>
+                <td>
+                    $ 0.00
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="checkboxes">
+                        <label class="myCheckbox">
+                            <input type="checkbox">
+                            <span></span>
+                        </label>
+                    </div>
+                </td>
+                <td>
+                    John Smith
+                </td>
+                <td>
+                    johnsmith@gmail.com
+                </td>
+                <td>
+                    Seattle, WA
+                </td>
+                <td>
+                    0
+                </td>
+                <td>
+
+                </td>
+                <td>
+                    $ 0.00
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="checkboxes">
+                        <label class="myCheckbox">
+                            <input type="checkbox">
+                            <span></span>
+                        </label>
+                    </div>
+                </td>
+                <td>
+                    John Smith
+                </td>
+                <td>
+                    johnsmith@gmail.com
+                </td>
+                <td>
+                    Seattle, WA
+                </td>
+                <td>
+                    0
+                </td>
+                <td>
+
+                </td>
+                <td>
+                    $ 0.00
+                </td>
+            </tr>
+            <!-- for table design-->
+            <tr></tr>
+        </table>
+        <div class="btn-black">Delete</div>
+        <div class="btn-black">New Customer</div>
+    </form>
+</section>
+    <!-- block Today Visits -->
+<!--<div class="container-fluid" ng-controller="visitorEditController">-->
+    <!--<div class="row" style="margin-top: 15px">-->
+
+        <!--<div class="col-md-4">-->
+            <!--<gui-list-manager items="visitors" object="this"></gui-list-manager>-->
+        <!--</div>-->
+
+        <!--<div class="col-md-8">-->
+            <!--<div class="panel panel-default">-->
+                <!--<div class="panel-heading">-->
+                    <!--<div class="row">-->
+                        <!--<div class="col-md-6 text-muted" style="padding-top: 6px; font-size: 130%; font-weight: bold">-->
+                            <!--<span ng-if="visitor._id"> {{getFullName()}}</span>-->
+                            <!--<span ng-if="!visitor._id"> New Visitor </span>-->
+                        <!--</div>-->
+                        <!--<div class="col-md-6 text-right">-->
+                            <!--<button class="btn btn-warning" ng-click="addressForm()" ng-if="visitor._id">Addresses</button>-->
+                            <!--<button class="btn btn-primary" ng-click="save()">Save</button>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+                <!--<div class="panel-body">-->
+                    <!--<gui-attributes-editor-form attributes-list="attributes" object="this" item="visitor"/>-->
+                <!--</div>-->
+
+            <!--</div>-->
+        <!--</div>-->
+
+    <!--</div>-->
+<!--</div>-->

@@ -42,7 +42,7 @@
                         $dashboardHeaderService.addMenuItem("/product/attributes", "Attributes", "/product/attributes");
 
                         // Adds item in the left sidebar
-                        $dashboardSidebarService.addItem("Product manage", "product", "glyphicon glyphicon-barcode", 100);
+                        $dashboardSidebarService.addItem("Products", "product", "fa fa-tags", 8);
                     }
                 ]);
 

@@ -30,7 +30,7 @@
                         $dashboardHeaderService.addMenuItem("/visitor", "Visitor", "/visitor");
 
                         // Adds item in the left sidebar
-                        $dashboardSidebarService.addItem("Visitor manage", "visitor", "glyphicon glyphicon-user", 90);
+                        $dashboardSidebarService.addItem("Customers", "visitor", "fa fa-users", 10);
                     }
                 ]);
 

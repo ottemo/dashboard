@@ -29,7 +29,7 @@
                         $dashboardHeaderService.addMenuItem("/category", "Category", "/category");
 
                         // Adds item in the left sidebar
-                        $dashboardSidebarService.addItem("Category manage", "category", "glyphicon glyphicon-tags", 80);
+                        $dashboardSidebarService.addItem("Categories", "category", "fa fa-th-list", 6);
                     }
                 ]);
 

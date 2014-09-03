@@ -30,7 +30,7 @@
                     function ($designService, $route, $dashboardSidebarService) {
 
                         // Adds item in the left sidebar
-                        $dashboardSidebarService.addItem("Config managment", "config", "glyphicon glyphicon-cog", 20);
+                        $dashboardSidebarService.addItem("Settings", "config", "fa fa-cogs", 2);
                     }
                 ]);
 

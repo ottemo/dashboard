@@ -414,7 +414,7 @@ hr {
 
 .left-side-collapsed .left-side {
     width: 52px;
-    top: 52px;
+    top: 0;
 }
 
 .left-side-collapsed .left-side-inner {

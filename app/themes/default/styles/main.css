@@ -1059,12 +1059,15 @@ ul {
     display: block;
     color: #ffffff; }
  
-/*/////////////////////////////////////////////////////////// start left menu */
+/*/////////////////////////////////////////////////////////////////////////////////////////////////// start left menu */
 
 .custom-nav li .fa {
-    font-size: 28px;
+    font-size: 22px;
     margin: -4px 14px 0 5px;
     width: 27px;
+}
+.left-side-inner ul.custom-nav li:first-child .fa {
+    font-size: 28px;
 }
 .custom-nav > li.nav-active > a {
     color: #23212C;
@@ -1121,7 +1124,11 @@ ul {
     height: 70px;
 }
 
-/*///////////////////////////////////////////////////////////// end left menu */
+/*///////////////////////////////////////////////////////////////////////////////////////////////////// end left menu */
+
+/*/////////////////////////////////////////////////////////////////////////////////////////////////// start dashboard */
+
+
 
 .h-logo {
     display: block;
@@ -1302,6 +1309,7 @@ ul {
   font: 24px/27px 'roboto_ltregular',sans-serif;
   text-align: center;
   margin-top: 7px;
+  padding: 0 15px;
 }
 .dashboard .col-md-2 .panel-body i {
   color: #ffffff;
@@ -1341,6 +1349,7 @@ ul {
 }
 .dashboard .col-md-2 .panel-body a:hover {
     text-decoration: none;
+    opacity: 0.8;
 }
 .dashboard table {
   width: 100%;
@@ -1384,8 +1393,162 @@ ul {
     margin: 1px 0 2px;
 }
 .d-sellers table tr td:first-child {
-    width: 15%;
+    width: 10%;
 }
 .d-sellers table tr td:last-child {
-    width: 85%;
+    width: 90%;
 }
+.btns {
+    background-color: #34374a;
+    border-radius: 3px;
+    color: #ffffff;
+    display: table-cell;
+    font: 11px 'roboto_ltregular',sans-serif;
+    height: 42px;
+    margin: 10px 3px 0;
+    text-align: center;
+    text-transform: uppercase;
+    vertical-align: middle;
+    width: 18.6%;
+}
+.btns:hover {
+    cursor: pointer;
+    opacity: 0.8;
+}
+.d-visitors .col-md-12,
+.d-sales .col-md-12 {
+    display: table;
+    padding: 0;
+    width: 100%;
+}
+.btns-pad {
+    display: table-cell;
+    padding: 0 3px;
+    width: 20%;
+}
+.btns.active {
+    background-color: #9BCBEA;
+}
+#visitors-chart .legend,
+#visitors-chart2 .legend{
+    display: none;
+}
+.dashboard .d-visitors .panel-heading,
+.dashboard .d-sales .panel-heading,
+.d-table .panel-heading {
+    padding: 8px;
+}
+.dashboard .d-visitors .panel-body,
+.dashboard .d-sales .panel-body,
+.d-table .panel-body {
+    padding: 11px 15px 15px;
+}
+.main-content {
+    background-color: #ffffff;
+}
+
+/*///////////////////////////////////////////////////////////////////////////////////////////////////// end dashboard */
+
+/*/////////////////////////////////////////////////////////////////////////////////////////////////// start customers */
+
+.top-custom i {
+    font-size: 25px;
+    margin-top: 8px;
+}
+.customers table {
+  width: 100%;
+}
+.customers table td,
+.customers table th {
+    color: #555555;
+    font: 18px 'roboto_ltregular',sans-serif;
+   padding: 12px 0;
+}
+.customers table tr {
+    border-bottom: 1px solid #BBBBBB;
+}
+.customers table tr {
+    background-color: #F6F6F6;
+}
+.customers table tr:nth-child(2) {
+    border: none;
+}
+.customers table tr:last-child,
+.customers table tr:first-child {
+    background-color: inherit;
+}
+.customers table tr:first-child th {
+    padding: 8px 0;
+}
+.customers table tr:last-child,
+.customers table tr:nth-child(2) {
+    background-color: inherit;
+    height: 14px;
+}
+.customers table tr:nth-child(2) {
+    height: 10px;
+}
+.customers table tr th:first-child,
+.customers table tr td:first-child {
+    width: 5%;
+    padding: 13px 0 3px 10px;
+}
+.customers table tr th:nth-child(2) ,
+.customers table tr td:nth-child(2) {
+    width: 20%;
+}
+.customers table tr th:nth-child(3) ,
+.customers table tr td:nth-child(3) {
+    width: 20%;
+}
+.customers table tr th:nth-child(4) ,
+.customers table tr td:nth-child(4) {
+    width: 20%;
+}
+.customers table tr th:nth-child(5) ,
+.customers table tr td:nth-child(5) {
+    width: 10%;
+    text-align: center;
+}
+.customers table tr th:nth-child(6) ,
+.customers table tr td:nth-child(6) {
+    width: 10%;
+    text-align: center;
+}
+.customers table tr th:nth-child(7) ,
+.customers table tr td:nth-child(7) {
+    width: 15%;
+    text-align: center;
+}
+.myCheckbox input {
+    display: none;
+}
+.myCheckbox span {
+    width: 22px;
+    height: 22px;
+    display: block;
+    background: url(../images/checkbox.jpg) no-repeat;
+    text-align: center;
+    display: table-cell;
+}
+.myCheckbox input:checked + span {
+    background: url(../images/checkbox2.jpg) no-repeat;
+}
+.btn-black {
+  float: right;
+  background-color: #23212C;
+  color: #ffffff;
+  width: 215px;
+  height: 40px;
+  text-align: center;
+  font: 18px 'roboto_ltregular',sans-serif;
+  margin: 26px 12px 0 0;
+  padding-top: 5px;
+}
+.customers {
+    padding: 0 15px;
+}
+
+
+/*///////////////////////////////////////////////////////////////////////////////////////////////////// end customers */
+
