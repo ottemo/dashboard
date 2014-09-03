@@ -1339,8 +1339,14 @@ ul {
 .dashboard .col-md-2 .panel-body .fa-dollar {
     padding-left: 32px;
 }
+.dashboard .col-md-2 .panel-body a:hover {
+    text-decoration: none;
+}
 .dashboard table {
   width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 2px;
+  margin-bottom: 25px;
 }
 .dashboard table tr {
   background-color: #F4F5F7;
@@ -1355,5 +1361,31 @@ ul {
   width: 10%;
 }
 .dashboard table tr td {
-  padding: 4px 0 0 15px;
+  padding: 1px 10px 0 13px;
+}
+.dashboard .d-table .panel-body {
+    padding: 1px 3px;
+     min-height: 272px;
+     position: relative;
+}
+.dashboard .d-table .panel-body a {
+    bottom: 7px;
+    color: #3838eb;
+    display: block;
+    font: 10px 'roboto_ltregular',sans-serif;
+    position: absolute;
+    right: 16px;
+    text-decoration: underline;
+}
+.d-sellers img {
+    height: 40px;
+    border: 1px solid #555555;
+    border-radius: 3px;
+    margin: 1px 0 2px;
+}
+.d-sellers table tr td:first-child {
+    width: 15%;
+}
+.d-sellers table tr td:last-child {
+    width: 85%;
 }
