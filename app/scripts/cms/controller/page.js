@@ -40,6 +40,11 @@
                     $scope.page = getDefaultPage();
                     $scope.pages = [];
 
+                    // Initialize SEO
+                    if(typeof $scope.initSeo === "function"){
+                        $scope.initSeo("page");
+                    }
+
                     /**
                      * Gets list all attributes of cms
                      */
