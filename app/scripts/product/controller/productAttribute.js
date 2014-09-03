@@ -20,7 +20,15 @@
                 $scope.attributesList = [];
                 $scope.attribute = {};
                 $scope.typesAttribute = ["integer", "real", "text", "blob", "numeric"];
-                $scope.editorsList = ["text", "multiline_text", "not_editable"];
+                $scope.editorsList = [
+                    "text",
+                    "multiline_text",
+                    "not_editable",
+                    "password",
+                    "boolean",
+                    "select",
+                    "multi_select"
+                ];
                 /**
                  * Gets list all attributes of product
                  */

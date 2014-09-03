@@ -80,8 +80,8 @@
                         createGroup = function(group){
                             if (!isExist(group)) {
                                 configGroups.push({
-                                    "Name": group,
-                                    "Id": group,
+                                    "Name": group.Label,
+                                    "Id": group.Path,
                                     "IsStatic": true
                                 });
                             }
@@ -91,15 +91,23 @@
                             function (response) {
                                 var i, parts, group, regExp, result;
                                 result = response.result || [];
-
+                                result.sort(function(a,b){
+                                    return a.Path.indexOf(".") !== -1;
+                                })
+//                                console.log(result)
                                 if (result.length > 0) {
                                     regExp = new RegExp("(\\w+)\\.(\\w+).+", "i");
                                     for (i = 0; i < result.length; i += 1) {
                                         parts = result[i].Path.match(regExp);
+
+                                        if(parts === null){
+                                            createGroup(result[i]);
+                                            continue;
+                                        }
                                         group = parts[1];
 
-                                        createGroup(group);
-
+//                                        createGroup(group);
+//console.log(configGroups)
                                         if (typeof configSection[group] === "undefined") {
                                             configSection[group] = [];
                                         }
