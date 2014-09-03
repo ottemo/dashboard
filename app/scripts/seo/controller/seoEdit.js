@@ -9,7 +9,8 @@
                 function ($scope, $seoService) {
 
                     var isInit, seo, seoFields, itemName, urlRewrite, hasAttribute, save, remove, isModifySave, isInitUrlRewrite,
-                        modifyRemoveMethod, isModifyRemove, modifySaveMethod, addAttributes, addAttributesValue, getDefaultSeo;
+                        modifyRemoveMethod, isModifyRemove, modifySaveMethod, addAttributes, addAttributesValue, getDefaultSeo,
+                        removeAttributes;
 
                     $seoService.init();
 
@@ -44,7 +45,7 @@
                         if (typeof $scope.attributes !== "undefined") {
 
                             for (i = 0; i < $scope.attributes.length; i += 1) {
-                                if ($scope.attributes[i].Attribute === attr) {
+                                if ($scope.attributes[i].Attribute === attr && $scope.attributes[i].Group === "SEO") {
                                     flag = true;
                                     break;
                                 }
@@ -162,6 +163,18 @@
                         }
                     };
 
+                    removeAttributes = function () {
+                        if (typeof $scope.attributes !== "undefined") {
+                            console.log($scope.attributes);
+                            for (var i = 0; i < $scope.attributes.length; i += 1) {
+                                if (seoFields.indexOf($scope.attributes[i].Attribute) !== -1) {
+                                    $scope.attributes.splice(i, 1);
+                                }
+                            }
+                            console.log($scope.attributes);
+                        }
+                    };
+
                     /**
                      * Filling attributes for seo
                      */
@@ -192,13 +205,16 @@
                         if (!isInit) {
                             return false;
                         }
-                        addAttributes();
+                        if (typeof $scope[itemName]._id !== "undefined") {
+                            addAttributes();
 
-                        addAttributesValue();
+                            addAttributesValue();
 
-                        modifySaveMethod();
-                        modifyRemoveMethod();
-
+                            modifySaveMethod();
+                            modifyRemoveMethod();
+                        } else {
+                            removeAttributes();
+                        }
                     }, true);
 
                     /**

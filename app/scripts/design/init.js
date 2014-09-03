@@ -49,7 +49,7 @@
          */
         angular.module.designModule = angular.module("designModule",[])
 
-            .constant("MEDIA_BASE_PATH", "http://dev.ottemo.io/media/")
+            .constant("MEDIA_BASE_PATH", "media/")
             .constant("PRODUCT_DEFAULT_IMG", "placeholder.png")
 
             /*

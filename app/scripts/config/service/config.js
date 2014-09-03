@@ -91,10 +91,10 @@
                             function (response) {
                                 var i, parts, group, regExp, result;
                                 result = response.result || [];
-                                result.sort(function(a,b){
+                                result.sort(function(a){
                                     return a.Path.indexOf(".") !== -1;
-                                })
-//                                console.log(result)
+                                });
+
                                 if (result.length > 0) {
                                     regExp = new RegExp("(\\w+)\\.(\\w+).+", "i");
                                     for (i = 0; i < result.length; i += 1) {
@@ -106,8 +106,6 @@
                                         }
                                         group = parts[1];
 
-//                                        createGroup(group);
-//console.log(configGroups)
                                         if (typeof configSection[group] === "undefined") {
                                             configSection[group] = [];
                                         }
