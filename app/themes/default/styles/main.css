@@ -1543,7 +1543,11 @@ ul {
   text-align: center;
   font: 18px 'roboto_ltregular',sans-serif;
   margin: 26px 12px 0 0;
-  padding-top: 5px;
+  padding-top: 6px;
+}
+.btn-black:hover {
+    opacity: 0.8;
+    cursor: pointer;
 }
 .customers {
     padding: 0 15px;
