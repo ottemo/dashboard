@@ -56,11 +56,7 @@
                         });
 
                         $scope.getImage = function (filename) {
-                            if (typeof filename === "undefined" || filename === "") {
-                                return $scope.placeholder;
-                            } else {
                                 return $designImageService.getFullImagePath($scope.imagesPath, filename);
-                            }
                         };
 
                         $scope.selectImage = function (filename) {

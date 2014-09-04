@@ -2,7 +2,6 @@ $(document).ready(function(){
 
     var str = $(location).attr('hash');
     str = str.substring(2);
-    console.log(str);
 
     if(str === '')
         $('.left-side-inner > ul > li:first-child').addClass('nav-active');

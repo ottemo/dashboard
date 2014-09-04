@@ -19,13 +19,23 @@
              */
             angular.module.productModule = angular.module("productModule", ["ngRoute", "ngResource", "designModule"])
 
-                /**
-                 *  Basic routing configuration
-                 */
+            /**
+             *  Basic routing configuration
+             */
                 .config(["$routeProvider", function ($routeProvider) {
                     $routeProvider
-                        .when("/product", { templateUrl: angular.getTheme("product/edit.html") })
-                        .when("/product/attributes", { templateUrl: angular.getTheme("product/attribute/edit.html") });
+                        .when("/products", {
+                            templateUrl: angular.getTheme("product/list.html"),
+                            controller: "productListController"
+                        })
+                        .when("/product/:id", {
+                            templateUrl: angular.getTheme("product/edit.html"),
+                            controller: "productEditController"
+                        })
+                        .when("/product/attributes", {
+                            templateUrl: angular.getTheme("product/attribute/edit.html"),
+                            controller: "productAttributeController"
+                        });
                 }])
 
                 .run([
@@ -37,12 +47,12 @@
 
                         // NAVIGATION
                         // Adds item in the right top-menu
-                        $dashboardHeaderService.addMenuItem("/product", "Products", null);
-                        $dashboardHeaderService.addMenuItem("/product/attributes", "Manage", "/product");
-                        $dashboardHeaderService.addMenuItem("/product/attributes", "Attributes", "/product/attributes");
+//                        $dashboardHeaderService.addMenuItem("/product", "Products", null);
+//                        $dashboardHeaderService.addMenuItem("/product/list", "Manage", "/product");
+//                        $dashboardHeaderService.addMenuItem("/product/attributes", "Attributes", "/product/attributes");
 
                         // Adds item in the left sidebar
-                        $dashboardSidebarService.addItem("Products", "product", "fa fa-tags", 8);
+                        $dashboardSidebarService.addItem("Products", "products", "fa fa-tags", 8);
                     }
                 ]);
 

@@ -66,8 +66,9 @@
                             $scope.save = function () {
                                 for (var i = 0; i < seoFields.length; i += 1) {
                                     seo[seoFields[i]] = $scope[itemName][seoFields[i]];
+                                    delete $scope[itemName][seoFields[i]];
                                 }
-                                delete $scope[itemName][urlRewrite];
+
 
                                 save();
 
@@ -75,22 +76,25 @@
                                     seo = $seoService.update(seo).then(
                                         function (response) {
                                             seo = response || null;
-                                            $scope[itemName][urlRewrite] = seo !== null ? seo.url : getDefaultSeo();
+                                            for (var i = 0; i < seoFields.length; i += 1) {
+                                                $scope[itemName][seoFields[i]] = seo[seoFields[i]];
+                                            }
                                             isInitUrlRewrite = true;
                                         }
                                     );
 
                                 } else {
-                                    seo.type = itemName;
-                                    seo = $seoService.save(seo).then(
+//                                    seo.type = itemName;
+                                    $seoService.save(seo).then(
                                         function (response) {
                                             seo = response || null;
-                                            $scope[itemName][urlRewrite] = seo !== null ? seo.url : getDefaultSeo();
+                                            for (var i = 0; i < seoFields.length; i += 1) {
+                                                $scope[itemName][seoFields[i]] = seo[seoFields[i]];
+                                            }
                                             isInitUrlRewrite = true;
                                         }
                                     );
 
-                                    $scope[itemName][urlRewrite] = seo !== null ? seo.url : getDefaultSeo();
                                     isInitUrlRewrite = true;
                                 }
                             };
@@ -165,13 +169,13 @@
 
                     removeAttributes = function () {
                         if (typeof $scope.attributes !== "undefined") {
-                            console.log($scope.attributes);
+
                             for (var i = 0; i < $scope.attributes.length; i += 1) {
                                 if (seoFields.indexOf($scope.attributes[i].Attribute) !== -1) {
                                     $scope.attributes.splice(i, 1);
                                 }
                             }
-                            console.log($scope.attributes);
+
                         }
                     };
 

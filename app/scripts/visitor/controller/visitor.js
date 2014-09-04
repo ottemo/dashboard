@@ -32,6 +32,20 @@
                     $scope.activeView = type;
                 };
 
+                $scope.fields = [
+                    {
+                        "attribute": "Name",
+                        "type": "string",
+                        "label" : "Name"
+                    },
+                    {
+                        "attribute": "email",
+                        "type": "string",
+                        "label" : "Email Address"
+                    }
+
+                ];
+
                 /**
                  * Current selected visitor
                  *
@@ -60,7 +74,7 @@
                 /**
                  * Gets list of visitors
                  */
-                $visitorApiService.visitorList().$promise.then(
+                $visitorApiService.visitorList({"extra" : "email"}).$promise.then(
                     function (response) {
                         var result, i;
                         result = response.result || [];

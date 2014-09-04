@@ -9,8 +9,9 @@
      */
     define([
             "product/service/api",
-            "product/controller/productAttribute",
-            "product/controller/productEdit"
+            "product/controller/attribute",
+            "product/controller/list",
+            "product/controller/edit"
         ],
         function (productModule) {
 

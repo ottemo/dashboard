@@ -19,7 +19,7 @@
                         url: visitorBaseURL + "/attribute/list"
                     },
                     "visitorList": {
-                        method: "GET",
+                        method: "POST",
                         url: visitorBaseURL + "/list"
                     },
                     "save": {
