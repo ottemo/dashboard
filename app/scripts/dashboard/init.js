@@ -34,7 +34,7 @@
                     function ($designService, $route, $dashboardSidebarService) {
                     // hack to allow browser page refresh work with routes
 
-                    $dashboardSidebarService.addItem("Dashboard", "", "fa fa-home", 100);
+                    $dashboardSidebarService.addItem("/dashboard", "Dashboard", "", "fa fa-home", 100);
 
                     $route.reload();
                 }]);

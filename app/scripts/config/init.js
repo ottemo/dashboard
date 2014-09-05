@@ -30,7 +30,10 @@
                     function ($designService, $route, $dashboardSidebarService) {
 
                         // Adds item in the left sidebar
-                        $dashboardSidebarService.addItem("Settings", "config", "fa fa-cogs", 2);
+                        $dashboardSidebarService.addItem("/settings", "Settings", null, "fa fa-cogs", 2);
+                        $dashboardSidebarService.addItem("/settings/sipping", "Sipping", null, "", 2);
+                        $dashboardSidebarService.addItem("/settings/payment", "Payment", null, "", 3);
+                        $dashboardSidebarService.addItem("/settings/themes", "Themes", null, "", 1);
                     }
                 ]);
 

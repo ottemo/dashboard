@@ -1,120 +1,81 @@
-    <!-- header section start-->
-    <div class="header-section">
+<!-- header section start-->
+<div class="header-section" ng-controller="dashboardHeaderController">
 
-        <!--toggle button start-->
-        <a class="toggle-btn"><i class="fa fa-bars"></i></a>
-        <!--toggle button end-->
-        
-        <a class="h-logo" href="#">
-            <img ng-src="{{getImg('logo.png')}}" alt=""/>
-        </a>
+    <!--toggle button start-->
+    <a class="toggle-btn"><i class="fa fa-bars"></i></a>
+    <!--toggle button end-->
 
-        <!--notification menu start -->
-        <div class="menu-right">
-            <ul class="notification-menu">
-                <li>
-                    <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                        John Smith
-                        <span class="caret"></span>
-                        <img ng-src="{{getImg('photos/user-avatar.png')}}" alt="" />
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
-                        <li><a href="#"> Profile</a></li>
-                        <li><a href="#"> Settings</a></li>
-                        <li><a href="#"> Log Out</a></li>
-                    </ul>
-                </li>
+    <a class="h-logo" href="#">
+        <img ng-src="{{getImg('logo.png')}}" alt=""/>
+    </a>
 
-            </ul>
-        </div>
-        <!--notification menu end -->
+    <!--notification menu start -->
+    <div class="menu-right">
+        <ul class="notification-menu">
+            <li>
+                <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" target="_self">
+                    {{it.getUsername()}}
+                    <span class="caret"></span>
+                    <img ng-src="{{getImg('photos/user-avatar.png')}}" alt="" />
+                </a>
+                <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
+                    <li ng-repeat="item in rightMenu" ng-include="getTemplate('dashboard/header/menuItem.html')"></li>
+                </ul>
+            </li>
 
+        </ul>
     </div>
-    <!-- header section end-->
+    <!--notification menu end -->
 
-    <script>
+</div>
+<!-- header section end-->
 
-(function() {
-    "use strict";
+<script>
 
-   // Menu Toggle
-   jQuery('.toggle-btn').click(function(){
-       $(".left-side").getNiceScroll().hide();
+    (function () {
+        "use strict";
 
-       if ($('body').hasClass('left-side-collapsed')) {
-           $(".left-side").getNiceScroll().hide();
-       }
-      var body = jQuery('body');
-      var bodyposition = body.css('position');
+        // Menu Toggle
+        jQuery('.toggle-btn').click(function () {
+            $(".left-side").getNiceScroll().hide();
 
-      if(bodyposition != 'relative') {
+            if ($('body').hasClass('left-side-collapsed')) {
+                $(".left-side").getNiceScroll().hide();
+            }
+            var body = jQuery('body');
+            var bodyposition = body.css('position');
 
-         if(!body.hasClass('left-side-collapsed')) {
-            body.addClass('left-side-collapsed');
-            jQuery('.custom-nav ul').attr('style','');
+            if (bodyposition != 'relative') {
 
-            jQuery(this).addClass('menu-collapsed');
+                if (!body.hasClass('left-side-collapsed')) {
+                    body.addClass('left-side-collapsed');
+                    jQuery('.custom-nav ul').attr('style', '');
 
-         } else {
-            body.removeClass('left-side-collapsed chat-view');
-            jQuery('.custom-nav li.active ul').css({display: 'block'});
+                    jQuery(this).addClass('menu-collapsed');
 
-            jQuery(this).removeClass('menu-collapsed');
+                } else {
+                    body.removeClass('left-side-collapsed chat-view');
+                    jQuery('.custom-nav li.active ul').css({display: 'block'});
 
-         }
-      } else {
+                    jQuery(this).removeClass('menu-collapsed');
 
-         if(body.hasClass('left-side-show'))
-            body.removeClass('left-side-show');
-         else
-            body.addClass('left-side-show');
+                }
+            } else {
 
-         mainContentHeightAdjust();
-      }
+                if (body.hasClass('left-side-show'))
+                    body.removeClass('left-side-show');
+                else
+                    body.addClass('left-side-show');
 
-   });
+                mainContentHeightAdjust();
+            }
 
+        });
 
-})(jQuery);
+    })(jQuery);
 </script>
 
 
 
 
-<!--<div id="pageHeader" class="navbar navbar-default" ng-controller="dashboardHeaderController">-->
-    <!--<div class="navbar-header">-->
-        <!--<span class="navbar-brand" href="#">-->
-            <!--<img ng-src="{{getImg('logo.png')}}" width="24" height="24" alt=""/> Ottemo-->
-        <!--</span>-->
-    <!--</div>-->
-
-    <!--<div class="navbar-header">-->
-        <!--<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">-->
-            <!--<span class="sr-only">Toggle navigation</span>-->
-            <!--<span class="icon-bar"></span>-->
-            <!--<span class="icon-bar"></span>-->
-            <!--<span class="icon-bar"></span>-->
-        <!--</button>-->
-    <!--</div>-->
-    <!--<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">-->
-
-        <!--&lt;!&ndash;Left menu&ndash;&gt;-->
-        <!--<ul class="nav navbar-nav navbar-left">-->
-            <!--<li ng-repeat="item in leftMenu;" ng-include="getTemplate('dashboard/header/menuItem.html')"></li>-->
-        <!--</ul>-->
-
-        <!--&lt;!&ndash;Rigth menu&ndash;&gt;-->
-        <!--<ul class="nav navbar-nav navbar-right">-->
-            <!--<li class="dropdown" ng-if="it.isLogined()">-->
-                <!--<a href="" class="dropdown-toggle" data-toggle="dropdown">-->
-                    <!--<i class="glyphicon  glyphicon-user" ng-bind="it.getUsername()"></i>-->
-                <!--</a>-->
-                <!--<ul class="dropdown-menu pull-right">-->
-                    <!--<li ng-repeat="item in rightMenu;" ng-include="getTemplate('dashboard/header/menuItem.html')"></li>-->
-                <!--</ul>-->
-            <!--</li>-->
-        <!--</ul>-->
-    <!--</div>-->
-
-<!--</div>-->
 

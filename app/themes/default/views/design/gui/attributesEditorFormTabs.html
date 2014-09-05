@@ -3,7 +3,7 @@
                 <header class="panel-heading custom-tab">
                     <ul class="nav nav-tabs" >
                         <li ng-class='{active:$first}' ng-repeat="(key, items) in attributeGroups">
-                            <a href="#collapse{{key}}">
+                            <a href="#collapse{{key}}" target="_self">
                                 {{key}}
                             </a>
                         </li>
@@ -62,6 +62,22 @@
                                     <gui-multi-select editor-scope="attribute" item="item"></gui-multi-select>
                                 </div>
 
+                                <div ng-switch-when="picture_manager">
+                                    <gui-picture-manager images-path="parent.imagesPath" images-list="parent.productImages"
+                                                         selected="selectedImage" default-img="item.default_image" ng-if="item._id">
+
+                                        <!-- Upload button -->
+                                        <div class="btn btn-success">
+                                            <input type="file" id="uploadfile" name="uploadfile" ng-model="parent.uploadfile"
+                                                   ng-change="parent.imageAdd('uploadfile')"/>
+                                        </div>
+                                        <!-- Remove button -->
+                                        <button class="btn btn-danger" ng-click="parent.imageRemove(selectedImage)">Remove</button>
+                                        <!-- Default button -->
+                                        <button class="btn btn-primary" ng-click="parent.imageDefault(selectedImage)">Mark as Default</button>
+                                    </gui-picture-manager>
+                                </div>
+
                                 <div ng-switch-default>
                                     <label for="inp{{attribute.Attribute}}">{{attribute.Label}} <span class="asterisk" ng-show="attribute.IsRequired">*</span></label>
                                     <gui-text editor-scope="attribute" item="item"></gui-text>
@@ -79,12 +95,16 @@
 <div class="btn-black" ng-click="parent.back()">Back</div>
 
 <script>
-$('ul.nav-tabs li a').click(function(event){
-  event.preventDefault();
-  $(this).parent().siblings().removeClass('active');
-  $(this).parent().addClass('active');
-  var href = $(this).attr('href');
-  $('.tab-content div').removeClass('active');
-  $(href).addClass('active');
-});
+    (function($){
+            $(document).on("click", 'ul.nav-tabs li a', function(event){
+                event.preventDefault();
+
+                $(this).parent().siblings().removeClass('active');
+                $(this).parent().addClass('active');
+                var href = $(this).attr('href');
+                $('.tab-content div').removeClass('active');
+                $(href).addClass('active');
+            });
+    })(jQuery)
+
 </script>

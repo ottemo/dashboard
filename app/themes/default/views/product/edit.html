@@ -4,22 +4,6 @@
 </div>
 <div class="panel-body">
 
-
-    <gui-picture-manager images-path="imagesPath" images-list="productImages"
-                         selected="selectedImage" default-img="product.default_image" ng-if="product._id">
-
-        <!-- Upload button -->
-        <div class="btn btn-success">
-            <input type="file" id="uploadfile" name="uploadfile" ng-model="uploadfile"
-                   ng-change="imageAdd('uploadfile')"/>
-        </div>
-        <!-- Remove button -->
-        <button class="btn btn-danger" ng-click="imageRemove(selectedImage)">Remove</button>
-        <!-- Default button -->
-        <button class="btn btn-primary" ng-click="imageDefault(selectedImage)">Mark as Default</button>
-    </gui-picture-manager>
-
     <gui-attributes-editor-form-tabs attributes-list="attributes" object="this" item="product"></gui-attributes-editor-form-tabs>
-
 
 </div>

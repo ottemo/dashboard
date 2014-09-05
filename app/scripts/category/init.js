@@ -17,7 +17,14 @@
                  */
                 .config(["$routeProvider", function ($routeProvider) {
                     $routeProvider
-                        .when("/category", { templateUrl: angular.getTheme("category/edit.html") });
+                        .when("/categories", {
+                            templateUrl: angular.getTheme("category/list.html"),
+                            controller: "categoryListController"
+                        })
+                        .when("/category/:id", {
+                            templateUrl: angular.getTheme("category/edit.html"),
+                            controller: "categoryEditController"
+                        });
                 }])
 
                 .run(["$designService", "$route", "$dashboardSidebarService", "$dashboardHeaderService",
@@ -26,10 +33,10 @@
 
                         // NAVIGATION
                         // Adds item in the left top-menu
-                        $dashboardHeaderService.addMenuItem("/category", "Category", "/category");
+//                        $dashboardHeaderService.addMenuItem("/category", "Category", "/category");
 
                         // Adds item in the left sidebar
-                        $dashboardSidebarService.addItem("Categories", "category", "fa fa-th-list", 6);
+                        $dashboardSidebarService.addItem("/categories", "Categories", "/categories", "fa fa-th-list", 6);
                     }
                 ]);
 

@@ -115,7 +115,6 @@
                         answer = window.confirm("You really want to remove this product");
 
                         if (answer) {
-                            console.log($scope.removeIds)
                             for (id in $scope.removeIds) {
 
                                 if ($scope.removeIds.hasOwnProperty(id) && true === $scope.removeIds[id]) {

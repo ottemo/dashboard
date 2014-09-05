@@ -1,0 +1,8 @@
+<div class="top top-custom">
+    <i class="fa fa-newspaper-o"></i>
+    <h6 ng-if="page._id"> {{page.name}}</h6>
+    <h6 ng-if="!page._id"> New page </h6>
+</div>
+<div class="panel-body">
+    <gui-attributes-editor-form-tabs attributes-list="attributes" object="this" item="page"></gui-attributes-editor-form-tabs>
+</div>

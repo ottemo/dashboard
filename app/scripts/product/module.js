@@ -9,7 +9,8 @@
      */
     define([
             "product/service/api",
-            "product/controller/attribute",
+            "product/controller/attributeEdit",
+            "product/controller/attributeList",
             "product/controller/list",
             "product/controller/edit"
         ],

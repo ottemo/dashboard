@@ -33,10 +33,10 @@
 
                         // NAVIGATION
                         // Adds item in the left top-menu
-                        $dashboardHeaderService.addMenuItem("/visitor", "Visitor", "/visitor");
+//                        $dashboardHeaderService.addMenuItem("/visitor", "Visitor", "/visitor");
 
                         // Adds item in the left sidebar
-                        $dashboardSidebarService.addItem("Customers", "visitor", "fa fa-users", 10);
+                        $dashboardSidebarService.addItem("/customers", "Customers", "visitor", "fa fa-users", 10);
                     }
                 ]);
 

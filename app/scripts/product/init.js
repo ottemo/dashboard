@@ -32,9 +32,13 @@
                             templateUrl: angular.getTheme("product/edit.html"),
                             controller: "productEditController"
                         })
-                        .when("/product/attributes", {
+                        .when("/attributes", {
+                            templateUrl: angular.getTheme("product/attribute/list.html"),
+                            controller: "productAttributeListController"
+                        })
+                        .when("/attribute/:attr", {
                             templateUrl: angular.getTheme("product/attribute/edit.html"),
-                            controller: "productAttributeController"
+                            controller: "productAttributeEditController"
                         });
                 }])
 
@@ -48,11 +52,13 @@
                         // NAVIGATION
                         // Adds item in the right top-menu
 //                        $dashboardHeaderService.addMenuItem("/product", "Products", null);
-//                        $dashboardHeaderService.addMenuItem("/product/list", "Manage", "/product");
+//                        $dashboardHeaderService.addMenuItem("/product/list", "Manage", "/products");
 //                        $dashboardHeaderService.addMenuItem("/product/attributes", "Attributes", "/product/attributes");
 
                         // Adds item in the left sidebar
-                        $dashboardSidebarService.addItem("Products", "products", "fa fa-tags", 8);
+                        $dashboardSidebarService.addItem("/product", "Product", null, "fa fa-tags", 8);
+                        $dashboardSidebarService.addItem("/product/products", "Products", "/products", "", 2);
+                        $dashboardSidebarService.addItem("/product/attributes", "Attributes", "/attributes", "", 1);
                     }
                 ]);
 

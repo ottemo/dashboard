@@ -11,7 +11,7 @@
                 "$designImageService",
                 function ($scope, $routeParams, $location, $productApiService, $designImageService) {
 
-                    var productId, getDefaultProduct;
+                    var productId, getDefaultProduct, addImageManagerAttribute;
 
                     productId = $routeParams.id;
 
@@ -27,6 +27,22 @@
                     if (typeof $scope.initSeo === "function") {
                         $scope.initSeo("product");
                     }
+
+                    addImageManagerAttribute = function() {
+                        $scope.attributes.unshift({
+                            Attribute: "default_image",
+                            Collection: "product",
+                            Default: "",
+                            Editors: "picture_manager",
+                            Group: "Pictures",
+                            IsRequired: false,
+                            IsStatic: false,
+                            Label: "Image",
+                            Model: "Product",
+                            Options: "",
+                            Type: "text"
+                        })
+                    };
 
                     getDefaultProduct = function () {
                         return {
@@ -67,6 +83,8 @@
                                 var result = response.result || {};
                                 $scope.product = result;
                                 $scope.selectedImage = result.default_image; // jshint ignore:line
+
+                                addImageManagerAttribute();
                             }
                         );
                     }
@@ -95,6 +113,8 @@
                             if (response.error === "") {
                                 $scope.product._id = response.result._id;
                                 $scope.productImages = [];
+
+                                addImageManagerAttribute();
                             }
                         };
 
