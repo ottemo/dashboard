@@ -1,19 +1,19 @@
-<form role="form">
-    <div class="panel-group" id="accordion">
-        <div class="form-group" ng-repeat="(key, items) in attributeGroups">
-            <div class="panel panel-default">
+<form role="form" class="product-tabs">
 
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{key}}"
-                           target="_self">
-                            {{key}}
-                        </a>
-                    </h4>
-                </div>
+                <header class="panel-heading custom-tab">
+                    <ul class="nav nav-tabs" >
+                        <li ng-class='{active:$first}' ng-repeat="(key, items) in attributeGroups">
+                            <a href="#collapse{{key}}">
+                                {{key}}
+                            </a>
+                        </li>
+                    </ul>
+                </header>
 
-                <div id="collapse{{key}}" class="panel-collapse collapse in">
-                    <div class="panel-body">
+                <div class="panel-body">
+                    <div class="tab-content">
+
+                <div ng-class='{active:$first}' id="collapse{{key}}" class="tab-pane" ng-repeat="(key, items) in attributeGroups">
                         <div ng-repeat="attribute in items">
                             <div ng-switch="attribute.Editors">
 
@@ -68,13 +68,23 @@
                                 </div>
 
                             </div>
-                        </div>
+
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
+                    </div>
+                </div>
 </form>
 
 <div class="btn-black" ng-click="parent.save()">Save</div>
 <div class="btn-black" ng-click="parent.back()">Back</div>
+
+<script>
+$('ul.nav-tabs li a').click(function(event){
+  event.preventDefault();
+  $(this).parent().siblings().removeClass('active');
+  $(this).parent().addClass('active');
+  var href = $(this).attr('href');
+  $('.tab-content div').removeClass('active');
+  $(href).addClass('active');
+});
+</script>
