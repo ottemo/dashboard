@@ -7,7 +7,8 @@
      */
     define([
             "angular",
-            "angular-route"
+            "angular-route",
+            "angular-sanitize"
 
             // "login/module"
         ],
@@ -15,7 +16,7 @@
             /*
              *  Angular "dashboardModule" declaration
              */
-            angular.module.dashboardModule = angular.module("dashboardModule", ["ngRoute", "loginModule", "designModule"])
+            angular.module.dashboardModule = angular.module("dashboardModule", ["ngRoute", "loginModule", "ngSanitize", "designModule"])
 
                 .constant("REST_SERVER_URI", "http://dev.ottemo.io:3000") 
 

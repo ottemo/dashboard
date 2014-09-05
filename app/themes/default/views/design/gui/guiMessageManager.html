@@ -1,0 +1,33 @@
+<div ng-switch="type" ng-if="msg" class="msg" name="info-msg" id="info-msg">
+
+    <div class="alert alert-success alert-dismissible" role="alert" ng-switch-when="success">
+        <button ng-bind-html-unsafe class="close" ng-click="close()"><span>&times;</span></button>
+        <div ng-bind-html="msg"></div>
+    </div>
+
+    <div class="alert alert-info alert-dismissible" role="alert" ng-switch-when="info">
+        <button class="close" ng-click="close()"><span>&times;</span></button>
+        <div ng-bind-html="msg"></div>
+    </div>
+
+    <div class="alert alert-warning alert-dismissible" role="alert" ng-switch-when="warning">
+        <button class="close" ng-click="close()"><span>&times;</span></button>
+        <div ng-bind-html="msg"></div>
+    </div>
+
+    <div class="alert alert-danger alert-dismissible" role="alert" ng-switch-when="danger">
+        <button class="close" ng-click="close()"><span>&times;</span></button>
+        <div ng-bind-html="msg"></div>
+    </div>
+
+    <div class="alert alert-success alert-dismissible" role="alert" ng-switch-default>
+        <button class="close" ng-click="close()"><span>&times;</span></button>
+        11
+    </div>
+</div>
+
+<style>
+    .msg{
+        margin-bottom: 20px;
+    }
+</style>

@@ -126,6 +126,10 @@
                                                         $scope.products.splice(i, 1);
                                                     }
                                                 }
+                                                $scope.message = {
+                                                    'type': 'success',
+                                                    'message': 'Product(s) was removed successfuly'
+                                                };
                                             }
                                         }
                                     )

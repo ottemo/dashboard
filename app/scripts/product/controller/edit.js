@@ -64,7 +64,6 @@
                      */
                     $scope.product = getDefaultProduct();
 
-
                     /**
                      * Gets list all attributes of product
                      */
@@ -113,7 +112,10 @@
                             if (response.error === "") {
                                 $scope.product._id = response.result._id;
                                 $scope.productImages = [];
-
+                                $scope.message = {
+                                    'type': 'success',
+                                    'message': 'Product was created successfuly'
+                                };
                                 addImageManagerAttribute();
                             }
                         };
@@ -123,13 +125,23 @@
                          * @param response
                          */
                         saveError = function () {
+                            $scope.message = {
+                                'type': 'danger',
+                                'message': 'Something went wrong'
+                            };
                         };
 
                         /**
                          *
                          * @param response
                          */
-                        updateSuccess = function () {
+                        updateSuccess = function (response) {
+                            if (response.error === "") {
+                                $scope.message = {
+                                    'type': 'success',
+                                    'message': 'Product was updated successfuly'
+                                };
+                            }
                         };
 
                         /**
@@ -137,7 +149,12 @@
                          * @param response
                          */
                         updateError = function () {
+                            $scope.message = {
+                                'type': 'danger',
+                                'message': 'Something went wrong'
+                            };
                         };
+
                         if (!id) {
                             $productApiService.save($scope.product, saveSuccess, saveError);
                         } else {

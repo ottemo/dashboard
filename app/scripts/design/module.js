@@ -18,6 +18,7 @@
             "design/directives/editor/guiArrayModelSelector",
             "design/directives/guiListManager",
             "design/directives/guiTableManager",
+            "design/directives/guiMessageManager",
 
             "design/directives/editor/guiNotEditable",
             "design/directives/editor/guiMultilineText",
