@@ -18,6 +18,15 @@
                     templateUrl: $designService.getTemplate("design/gui/attributesEditorFormTabs.html"),
                     controller: function ($scope) {
                         var updateAttributes;
+
+                        $scope.click = function (id) {
+                            if (typeof $scope.parent.selectTab === "function") {
+                                $scope.parent.selectTab(id);
+                            } else {
+                                return false;
+                            }
+                        };
+
                         updateAttributes = function () {                        // jshint ignore: line
                             var i, groups;
                             groups = {};

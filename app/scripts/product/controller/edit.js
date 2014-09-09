@@ -114,7 +114,7 @@
                                 $scope.productImages = [];
                                 $scope.message = {
                                     'type': 'success',
-                                    'message': 'Product was created successfuly'
+                                    'message': 'Product was created successfully'
                                 };
                                 addImageManagerAttribute();
                             }
@@ -139,7 +139,7 @@
                             if (response.error === "") {
                                 $scope.message = {
                                     'type': 'success',
-                                    'message': 'Product was updated successfuly'
+                                    'message': 'Product was updated successfully'
                                 };
                             }
                         };

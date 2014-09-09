@@ -5,34 +5,40 @@
         configModule
             .controller("configEditController", [
                 "$scope",
+                "$routeParams",
                 "$configApiService",
                 "$configService",
-                function ($scope, $configApiService, $configService) {
+                function ($scope, $routeParams, $configApiService, $configService) {
 
                     $scope.config = $configService;
                     $scope.currentGroup = null;
-
-                    $scope.attributes = [];
                     $scope.items = {};
+
+                    $scope.currentGroup = $routeParams.group;
+                    $scope.sections = $scope.config.getConfigTabs($scope.currentGroup);
+                    $scope.currentPath = "";
 
                     $scope.init = function () {
                         $scope.config.init();
+                        var regExp = new RegExp("(\\w+)\\.(\\w+).*", "i");
+                        var parts = $scope.sections[0].Path.match(regExp);
+                        $scope.currentPath = parts[2];
+                        $scope.config.load($scope.currentPath);
                     };
 
-                    $scope.select = function (item) {
-                        $scope.sections = $scope.config.getConfigSection(item);
-                        $scope.currentGroup = item;
-                    };
-
-                    $scope.load = function (path) {
+                    $scope.selectTab = function(path){
+                        $scope.currentPath = path;
                         $scope.config.load(path);
                     };
 
-                    $scope.save = function (code) {
-                        $scope.config.save(code).then(
-                            function(){
-                                window.alert("Save operation is successful");
-                                $scope.config.load(code, true);
+                    $scope.save = function () {
+                        $scope.config.save($scope.currentPath).then(
+                            function () {
+                                $scope.message = {
+                                    'type': 'success',
+                                    'message': 'config was saved successfully'
+                                };
+                                $scope.config.load($scope.currentPath, true);
                             }
                         );
                     };
