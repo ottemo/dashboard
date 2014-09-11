@@ -26,9 +26,13 @@
                 <label>Sort</label>
                 <input type="text" ng-model="option.order"/>
             </div>
+            <div class="left">
+                <label>&nbsp;</label>
+                <button type="button" ng-click="removeOption(option.label)">Remove option</button>
+            </div>
         </div>
 
-        <div>
+        <div class="option-values">
 
             <div id="field_options" ng-if="option.type === 'field'">
                 <div class="left">
@@ -80,6 +84,10 @@
                         <label>Sort Order</label>
                         <input type="text" ng-model="row.order"/>
                     </div>
+                    <div class="left">
+                        <label>&nbsp;</label>
+                        <button type="button" ng-click="removeRow(option.label, row.label)">Remove row</button>
+                    </div>
                 </div>
                 <div>
                     <button type="button" ng-click="addRow(option.label)">Add new row</button>
@@ -98,5 +106,10 @@
 
     .left label {
         width: 100%;
+    }
+    .option-values{
+        background-color: #ededed;
+        padding: 15px;
+        margin-top: 10px;
     }
 </style>

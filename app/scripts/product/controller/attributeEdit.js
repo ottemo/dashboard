@@ -41,7 +41,8 @@
                         "password",
                         "boolean",
                         "select",
-                        "multi_select"
+                        "multi_select",
+                        "product_options"
                     ];
                     /**
                      * Gets list all attributes of product

@@ -131,6 +131,54 @@
                             };
                         };
 
+
+                        $scope.removeOption = function (key) {
+                            if (typeof key === "undefined") {
+                                delete $scope.optionsData[""];
+
+                                return true;
+                            }
+
+                            var option;
+
+                            for (option in $scope.optionsData) {
+                                if ($scope.optionsData.hasOwnProperty(option)) {
+                                    if(option === key){
+                                        delete $scope.optionsData[option];
+                                        return true;
+                                    }
+                                }
+                            }
+
+                            return false;
+                        };
+
+                        $scope.removeRow = function (option, key) {
+                            console.log(option)
+                            console.log(key)
+                            console.log($scope.optionsData[option])
+                            if (typeof key === "undefined") {
+                                delete $scope.optionsData[option].options[""];
+
+                                return true;
+                            }
+
+                            var row, options;
+                            options = $scope.optionsData[option].options;
+
+                            for (row in options) {
+                                if (options.hasOwnProperty(row)) {
+                                    if(row === key){
+                                        delete options[row];
+                                        return true;
+                                    }
+                                }
+                            }
+
+                            return false;
+
+                        };
+
                         $scope.addNewOption = function () {
                             $scope.optionsData[""] = {};
                         };
