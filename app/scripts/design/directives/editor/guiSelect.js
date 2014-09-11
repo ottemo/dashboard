@@ -37,7 +37,13 @@
                         $scope.$watch("item", function () {
                             var options, field;
 
+                            if (typeof $scope.item === "undefined"){
+                                return false;
+                            }
+
+                            $scope.options = [];
                             options = getOptions($scope.attribute.Options);
+
                             for (field in options) {
                                 if (options.hasOwnProperty(field)) {
                                     $scope.options.push({

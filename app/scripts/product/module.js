@@ -9,6 +9,9 @@
      */
     define([
             "product/service/api",
+
+            "product/directive/guiCustomOptionsManager",
+
             "product/controller/attributeEdit",
             "product/controller/attributeList",
             "product/controller/list",

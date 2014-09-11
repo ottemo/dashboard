@@ -11,7 +11,7 @@
                 "$designImageService",
                 function ($scope, $routeParams, $location, $productApiService, $designImageService) {
 
-                    var productId, getDefaultProduct, addImageManagerAttribute;
+                    var productId, getDefaultProduct, addImageManagerAttribute, addCustomOptionsAttribute;
 
                     productId = $routeParams.id;
 
@@ -28,7 +28,7 @@
                         $scope.initSeo("product");
                     }
 
-                    addImageManagerAttribute = function() {
+                    addImageManagerAttribute = function () {
                         $scope.attributes.unshift({
                             Attribute: "default_image",
                             Collection: "product",
@@ -41,7 +41,23 @@
                             Model: "Product",
                             Options: "",
                             Type: "text"
-                        })
+                        });
+                    };
+
+                    addCustomOptionsAttribute = function () {
+                        $scope.attributes.unshift({
+                            Attribute: "options",
+                            Collection: "product",
+                            Default: "",
+                            Editors: "custom_options_manager",
+                            Group: "Options",
+                            IsRequired: false,
+                            IsStatic: false,
+                            Label: "Options",
+                            Model: "Product",
+                            Options: "",
+                            Type: "text"
+                        });
                     };
 
                     getDefaultProduct = function () {
@@ -83,7 +99,12 @@
                                 $scope.product = result;
                                 $scope.selectedImage = result.default_image; // jshint ignore:line
 
+                                if (typeof $scope.product.options === "undefined") {
+                                    $scope.product.options = {};
+                                }
+                                
                                 addImageManagerAttribute();
+                                addCustomOptionsAttribute();
                             }
                         );
                     }

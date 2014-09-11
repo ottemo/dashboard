@@ -51,12 +51,14 @@
                         }
                     );
 
-                    $cmsApiService.blockGet({"id": blockId}).$promise.then(
-                        function (response) {
-                            var result = response.result || {};
-                            $scope.block = result;
-                        }
-                    );
+                    if (null !== blockId) {
+                        $cmsApiService.blockGet({"id": blockId}).$promise.then(
+                            function (response) {
+                                var result = response.result || {};
+                                $scope.block = result;
+                            }
+                        );
+                    }
 
                     $scope.back = function () {
                         $location.path("/cms/blocks");

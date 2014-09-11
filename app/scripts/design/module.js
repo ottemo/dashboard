@@ -26,7 +26,9 @@
             "design/directives/editor/guiBoolean",
             "design/directives/editor/guiSelect",
             "design/directives/editor/guiMultiSelect",
-            "design/directives/editor/guiText"
+            "design/directives/editor/guiText",
+            "design/directives/editor/guiJsonEditor"
+
         ],
         function (designModule) {
 

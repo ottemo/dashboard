@@ -60,12 +60,14 @@
                         }
                     );
 
-                    $cmsApiService.pageGet({"id": pageId}).$promise.then(
-                        function (response) {
-                            var result = response.result || {};
-                            $scope.page = result;
-                        }
-                    );
+                    if (null !== pageId) {
+                        $cmsApiService.pageGet({"id": pageId}).$promise.then(
+                            function (response) {
+                                var result = response.result || {};
+                                $scope.page = result;
+                            }
+                        );
+                    }
 
                     $scope.back = function () {
                         $location.path("/cms/pages");
