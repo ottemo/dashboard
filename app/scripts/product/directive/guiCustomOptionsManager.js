@@ -50,7 +50,7 @@
 
                             if (typeof $scope.item === "string") {
                                 options = JSON.parse(opt.replace(/'/g, "\""));
-                            } else if (typeof opt === "undefined") {
+                            } else if (typeof opt === "undefined" || opt === null) {
                                 options = {};
                             } else {
                                 options = opt;
@@ -59,7 +59,7 @@
                             return options;
                         };
 
-                        $scope.optionsData = getOptions($scope.item[$scope.attribute.Attribute]);
+                        $scope.optionsData = $scope.item[$scope.attribute.Attribute] = getOptions($scope.item[$scope.attribute.Attribute]);
                         normalizeJSON();
 
                         $scope.$watch("optionsData",
@@ -100,7 +100,7 @@
                         );
 
 
-                        var cloneRow = function(list) {
+                        var cloneRow = function (list) {
                             var opt;
 
                             for (opt in list) {
@@ -119,7 +119,7 @@
 
                         $scope.addRow = function (option) {
 
-                            if(typeof $scope.optionsData[option] === "undefined"){
+                            if (typeof $scope.optionsData[option] === "undefined") {
                                 return false;
                             }
                             if (typeof $scope.optionsData[option].options === "undefined") {

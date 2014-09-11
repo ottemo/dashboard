@@ -44,22 +44,6 @@
                         });
                     };
 
-                    addCustomOptionsAttribute = function () {
-                        $scope.attributes.unshift({
-                            Attribute: "options",
-                            Collection: "product",
-                            Default: "",
-                            Editors: "custom_options_manager",
-                            Group: "Options",
-                            IsRequired: false,
-                            IsStatic: false,
-                            Label: "Options",
-                            Model: "Product",
-                            Options: "",
-                            Type: "text"
-                        });
-                    };
-
                     getDefaultProduct = function () {
                         return {
                             "_id": undefined,
@@ -104,7 +88,6 @@
                                 }
 
                                 addImageManagerAttribute();
-                                addCustomOptionsAttribute();
                             }
                         );
                     }
