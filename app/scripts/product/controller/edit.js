@@ -102,7 +102,7 @@
                                 if (typeof $scope.product.options === "undefined") {
                                     $scope.product.options = {};
                                 }
-                                
+
                                 addImageManagerAttribute();
                                 addCustomOptionsAttribute();
                             }

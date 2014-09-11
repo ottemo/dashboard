@@ -15,57 +15,11 @@
                     },
                     templateUrl: $designService.getTemplate("product/gui/custom_options_manager.html"),
                     controller: function ($scope) {
-                        var normilizeJSON, getOptions;
+                        var normalizeJSON, getOptions;
                         $scope.priceTypes = ["fixed", "percent"];
                         $scope.types = ["field", "select", "multi_select"];
-//                        $scope.optionsData = {
-//                            "Color": {
-//                                "label": "Color",
-//                                "type": "select",
-//                                "required": true,
-//                                "order": 10,
-//                                "sku_delim": ".",
-//                                "options": {
-//                                    "Blue": {
-//                                        "label": "Blue",
-//                                        "price": 10.0,
-//                                        "price_type": "%",
-//                                        "sku": "x1",
-//                                        "order": 1
-//                                    },
-//                                    "Red": {
-//                                        "label": "Red",
-//                                        "sku": "RED"
-//                                    },
-//                                    "Black": {
-//                                        "label": "Black"
-//                                    }
-//                                }
-//                            },
-//                            "Size": {
-//                                "label": "Size",
-//                                "type": "multi_select",
-//                                "options": {
-//                                    "XXL": {
-//                                    },
-//                                    "XL": {
-//                                    },
-//                                    "X": {
-//                                        "label": "X",
-//                                        "price": 25
-//                                    }
-//                                }
-//                            },
-//                            "Some": {
-//                                "price": 10.0,
-//                                "sku": "CUST",
-//                                "type": "field"
-//                            }
-//                        };
 
-                        $scope.optionsData = {};
-
-                        normilizeJSON = function () {
+                        normalizeJSON = function () {
                             var prepareOptions = function (list) {
                                 if (typeof list !== "undefined") {
                                     for (var opt in list) {
@@ -105,28 +59,12 @@
                             return options;
                         };
 
+                        $scope.optionsData = getOptions($scope.item[$scope.attribute.Attribute]);
+                        normalizeJSON();
 
                         $scope.$watch("optionsData",
                             function () {
-                                var prepareOptions, option, list;
-                                prepareOptions = function (list) {
-                                    var opt;
-                                    if (typeof list !== "undefined") {
-                                        for (opt in list) {
-                                            if (list.hasOwnProperty(opt) && (typeof list[opt].label === "undefined" || list[opt].label !== opt)) {
-                                                {
-                                                    if (typeof list[opt] !== "undefined" &&
-                                                        typeof list[opt].label !== "undefined" &&
-                                                        list[opt] !== "") {
-                                                        list[list[opt].label] = list[opt];
-                                                        delete list[opt];
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                    console.log(1)
-                                };
+                                var option, list;
 
                                 for (option in $scope.optionsData) {
 
@@ -136,20 +74,22 @@
                                         if (typeof $scope.optionsData[option] !== "undefined" &&
                                             typeof $scope.optionsData[option].options !== "undefined") {
                                             list = $scope.optionsData[option].options;
-                                            prepareOptions(list);
+                                            cloneRow(list);
                                         }
 
                                     }
 
-                                    if ($scope.optionsData.hasOwnProperty(option) && (typeof $scope.optionsData[option].label === "undefined" || $scope.optionsData[option].label !== option)) {
+                                    if ($scope.optionsData.hasOwnProperty(option) &&
+                                        (typeof $scope.optionsData[option].label === "undefined" || $scope.optionsData[option].label !== option)) {
 
                                         if (typeof $scope.optionsData[option] !== "undefined" &&
                                             typeof $scope.optionsData[option].label !== "undefined" &&
                                             $scope.optionsData[option].label !== "" &&
                                             $scope.optionsData[option] !== "") {
                                             list = $scope.optionsData[option].options;
-                                            prepareOptions(list);
-                                            console.log(2)
+
+                                            cloneRow(list);
+
                                             $scope.optionsData[$scope.optionsData[option].label] = $scope.optionsData[option];
                                             delete $scope.optionsData[option];
                                         }
@@ -159,24 +99,41 @@
                             }, true
                         );
 
-                        $scope.addOption = function (opt) {
-                            if (typeof $scope.optionsData[opt].options === "undefined") {
-                                $scope.optionsData[opt].options = {};
+
+                        var cloneRow = function(list) {
+                            var opt;
+
+                            for (opt in list) {
+                                if (list.hasOwnProperty(opt) && (typeof list[opt].label === "undefined" || list[opt].label !== opt)) {
+                                    {
+                                        if (typeof list[opt] !== "undefined" &&
+                                            typeof list[opt].label !== "undefined" &&
+                                            list[opt] !== "") {
+                                            list[list[opt].label] = list[opt];
+                                            delete list[opt];
+                                        }
+                                    }
+                                }
                             }
-                            $scope.optionsData[opt].options[""] = {};
+                        };
+
+                        $scope.addRow = function (option) {
+
+                            if(typeof $scope.optionsData[option] === "undefined"){
+                                return false;
+                            }
+                            if (typeof $scope.optionsData[option].options === "undefined") {
+                                $scope.optionsData[option].options = {};
+                            }
+
+                            $scope.optionsData[option].options[""] = {
+                                "order": (typeof $scope.optionsData[option].options === "undefined" ? 0 : $scope.optionsData[option].options.length + 1)
+                            };
                         };
 
                         $scope.addNewOption = function () {
                             $scope.optionsData[""] = {};
                         };
-
-                        $scope.$watch("item", function () {
-                            if (typeof $scope.item === "undefined") {
-                                return false;
-                            }
-                            $scope.optionsData = getOptions($scope.item[$scope.attribute.Attribute]);
-                            normilizeJSON();
-                        }, true);
                     }
                 };
             }]
