@@ -7,12 +7,13 @@
                 "$scope",
                 "$routeParams",
                 "$location",
+                "$q",
                 "$cmsApiService",
-                function ($scope, $routeParams, $location, $cmsApiService) {
+                function ($scope, $routeParams, $location, $q, $cmsApiService) {
                     var pageId, getDefaultPage;
 
                     // Initialize SEO
-                    if(typeof $scope.initSeo === "function"){
+                    if (typeof $scope.initSeo === "function") {
                         $scope.initSeo("page");
                     }
 
@@ -78,8 +79,8 @@
                      * Creates new cms if ID in current cms is empty OR updates current cms if ID is set
                      */
                     $scope.save = function () {
-                        var id, saveSuccess, saveError, updateSuccess, updateError;
-
+                        var id, defer, saveSuccess, saveError, updateSuccess, updateError;
+                        defer = $q.defer();
                         if (typeof $scope.page !== "undefined") {
                             id = $scope.page.id || $scope.page._id;
                         }
@@ -90,7 +91,12 @@
                          */
                         saveSuccess = function (response) {
                             if (response.error === "") {
-                               window.alert("Page was saved");
+                                var result = response.result || getDefaultPage();
+                                $scope.message = {
+                                    'type': 'success',
+                                    'message': 'Page was created successfully'
+                                };
+                                defer.resolve(result);
                             }
                         };
 
@@ -99,6 +105,7 @@
                          * @param response
                          */
                         saveError = function () {
+                            defer.resolve(false);
                         };
 
                         /**
@@ -106,9 +113,13 @@
                          * @param response
                          */
                         updateSuccess = function (response) {
-                            var i;
                             if (response.error === "") {
-                                window.alert("Page was updated");
+                                var result = response.result || getDefaultPage();
+                                $scope.message = {
+                                    'type': 'success',
+                                    'message': 'Page was updated successfully'
+                                };
+                                defer.resolve(result);
                             }
                         };
 
@@ -117,6 +128,7 @@
                          * @param response
                          */
                         updateError = function () {
+                            defer.resolve(false);
                         };
 
 
@@ -126,6 +138,8 @@
                             $scope.page.id = id;
                             $cmsApiService.pageUpdate($scope.page, updateSuccess, updateError);
                         }
+
+                        return defer.promise;
                     };
 
                 }]); // jshint ignore:line

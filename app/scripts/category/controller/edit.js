@@ -7,8 +7,9 @@
                 "$scope",
                 "$routeParams",
                 "$location",
+                "$q",
                 "$categoryApiService",
-                function ($scope, $routeParams, $location, $categoryApiService) {
+                function ($scope, $routeParams, $location, $q, $categoryApiService) {
                     var categoryId, rememberProducts, oldProducts, getDefaultCategory;
 
                     // Initialize SEO
@@ -119,7 +120,8 @@
                      * Creates new category if ID in current category is empty OR updates current category if ID is set
                      */
                     $scope.save = function () {
-                        var id, saveSuccess, saveError, updateSuccess, updateError;
+                        var id, defer, saveSuccess, saveError, updateSuccess, updateError;
+                        defer = $q.defer();
 
                         if (typeof $scope.category !== "undefined") {
                             id = $scope.category.id || $scope.category._id;
@@ -131,7 +133,12 @@
                          */
                         saveSuccess = function (response) {
                             if (response.error === "") {
-                                window.alert("Product was added");
+                                $scope.category = response.result || getDefaultCategory();
+                                $scope.message = {
+                                    'type': 'success',
+                                    'message': 'Category was created successfully'
+                                };
+                                defer.resolve(true);
                             }
                         };
 
@@ -139,7 +146,9 @@
                          *
                          * @param response
                          */
-                        saveError = function () {};
+                        saveError = function () {
+                            defer.resolve(false);
+                        };
 
                         /**
                          *
@@ -147,7 +156,12 @@
                          */
                         updateSuccess = function (response) {
                             if (response.error === "") {
-                                window.alert("Product was updated");
+                                $scope.category = response.result || getDefaultCategory();
+                                $scope.message = {
+                                    'type': 'success',
+                                    'message': 'Product was updated successfully'
+                                };
+                                defer.resolve(true);
                             }
                         };
 
@@ -155,7 +169,9 @@
                          *
                          * @param response
                          */
-                        updateError = function () {};
+                        updateError = function () {
+                            defer.resolve(false);
+                        };
 
                         delete $scope.category.parent;
                         delete $scope.category.path;
@@ -170,6 +186,8 @@
                             delete $scope.category.products;
                             $categoryApiService.update($scope.category, updateSuccess, updateError);
                         }
+
+                        return defer.promise;
                     };
 
                     rememberProducts = function () {

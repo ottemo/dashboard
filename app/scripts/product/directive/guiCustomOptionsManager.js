@@ -69,22 +69,19 @@
                             return options;
                         };
 
-//                        $scope.optionsData = $scope.item[$scope.attribute.Attribute] = getOptions($scope.item[$scope.attribute.Attribute]);
-//                        normalizeJSON();
-
                         $scope.$watch("optionsData",
                             function () {
                                 var option, list;
-
+if(typeof $scope.item[$scope.attribute.Attribute] === "undefined"){
+    return false;
+}
                                 if (!isInit) {
                                     $scope.optionsData = $scope.item[$scope.attribute.Attribute] = getOptions($scope.item[$scope.attribute.Attribute]);
                                     normalizeJSON();
                                     isInit = true;
                                 }
-                                
+
                                 for (option in $scope.optionsData) {
-
-
                                     if ($scope.optionsData.hasOwnProperty(option)) {
 
                                         if (typeof $scope.optionsData[option] !== "undefined" &&
@@ -93,26 +90,25 @@
                                             cloneRow(list);
                                         }
 
-                                    }
+                                        if (typeof $scope.optionsData[option].label === "undefined" || $scope.optionsData[option].label !== option) {
 
-                                    if ($scope.optionsData.hasOwnProperty(option) &&
-                                        (typeof $scope.optionsData[option].label === "undefined" || $scope.optionsData[option].label !== option)) {
+                                            if (typeof $scope.optionsData[option] !== "undefined" &&
+                                                typeof $scope.optionsData[option].label !== "undefined" &&
+                                                $scope.optionsData[option].label !== "" &&
+                                                $scope.optionsData[option] !== "") {
+                                                list = $scope.optionsData[option].options;
 
-                                        if (typeof $scope.optionsData[option] !== "undefined" &&
-                                            typeof $scope.optionsData[option].label !== "undefined" &&
-                                            $scope.optionsData[option].label !== "" &&
-                                            $scope.optionsData[option] !== "") {
-                                            list = $scope.optionsData[option].options;
+                                                cloneRow(list);
 
-                                            cloneRow(list);
+                                                $scope.optionsData[$scope.optionsData[option].label] = $scope.optionsData[option];
+                                                delete $scope.optionsData[option];
+                                            }
 
-                                            $scope.optionsData[$scope.optionsData[option].label] = $scope.optionsData[option];
-                                            delete $scope.optionsData[option];
                                         }
-
                                     }
                                 }
-                            }, true
+                            },
+                            true
                         );
 
 
@@ -170,9 +166,6 @@
                         };
 
                         $scope.removeRow = function (option, key) {
-                            console.log(option)
-                            console.log(key)
-                            console.log($scope.optionsData[option])
                             if (typeof key === "undefined") {
                                 delete $scope.optionsData[option].options[""];
 

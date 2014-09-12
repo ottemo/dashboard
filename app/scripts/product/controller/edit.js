@@ -7,11 +7,12 @@
                 "$scope",
                 "$routeParams",
                 "$location",
+                "$q",
                 "$productApiService",
                 "$designImageService",
-                function ($scope, $routeParams, $location, $productApiService, $designImageService) {
+                function ($scope, $routeParams, $location, $q, $productApiService, $designImageService) {
 
-                    var productId, getDefaultProduct, addImageManagerAttribute, addCustomOptionsAttribute;
+                    var productId, getDefaultProduct, addImageManagerAttribute;
 
                     productId = $routeParams.id;
 
@@ -103,7 +104,9 @@
                      * Creates new product if ID in current product is empty OR updates current product if ID is set
                      */
                     $scope.save = function () {
-                        var id, saveSuccess, saveError, updateSuccess, updateError;
+                        var id, defer, saveSuccess, saveError, updateSuccess, updateError;
+                        defer = $q.defer();
+
                         if (typeof $scope.product !== "undefined") {
                             id = $scope.product.id || $scope.product._id;
                         }
@@ -121,6 +124,7 @@
                                     'message': 'Product was created successfully'
                                 };
                                 addImageManagerAttribute();
+                                defer.resolve($scope.product);
                             }
                         };
 
@@ -133,6 +137,7 @@
                                 'type': 'danger',
                                 'message': 'Something went wrong'
                             };
+                            defer.resolve(false);
                         };
 
                         /**
@@ -141,10 +146,12 @@
                          */
                         updateSuccess = function (response) {
                             if (response.error === "") {
+                                var result = response.result || getDefaultProduct();
                                 $scope.message = {
                                     'type': 'success',
                                     'message': 'Product was updated successfully'
                                 };
+                                defer.resolve(result);
                             }
                         };
 
@@ -157,6 +164,7 @@
                                 'type': 'danger',
                                 'message': 'Something went wrong'
                             };
+                            defer.resolve(false);
                         };
 
                         if (!id) {
@@ -165,6 +173,8 @@
                             $scope.product.id = id;
                             $productApiService.update($scope.product, updateSuccess, updateError);
                         }
+
+                        return defer.promise;
                     };
 
                     $scope.back = function () {

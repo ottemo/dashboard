@@ -7,8 +7,9 @@
                 "$scope",
                 "$routeParams",
                 "$location",
+                "$q",
                 "$cmsApiService",
-                function ($scope, $routeParams, $location, $cmsApiService) {
+                function ($scope, $routeParams, $location, $q, $cmsApiService) {
                     var blockId, getDefaultBlock;
 
                     blockId = $routeParams.id;
@@ -69,7 +70,8 @@
                      * Creates new cms if ID in current cms is empty OR updates current cms if ID is set
                      */
                     $scope.save = function () {
-                        var id, saveSuccess, saveError, updateSuccess, updateError;
+                        var id, defer, saveSuccess, saveError, updateSuccess, updateError;
+                        defer = $q.defer();
 
                         if (typeof $scope.block !== "undefined") {
                             id = $scope.block.id || $scope.block._id;
@@ -81,7 +83,12 @@
                          */
                         saveSuccess = function (response) {
                             if (response.error === "") {
-                                window.alert("Block was saved");
+                                var result = response.result || getDefaultBlock();
+                                $scope.message = {
+                                    'type': 'success',
+                                    'message': 'Block was saved successfully'
+                                };
+                                defer.resolve(result);
                             }
                         };
 
@@ -90,6 +97,7 @@
                          * @param response
                          */
                         saveError = function () {
+                            defer.resolve(false);
                         };
 
                         /**
@@ -98,7 +106,12 @@
                          */
                         updateSuccess = function (response) {
                             if (response.error === "") {
-                                window.alert("Block was saved");
+                                var result = response.result || getDefaultBlock();
+                                $scope.message = {
+                                    'type': 'success',
+                                    'message': 'Block was updated successfully'
+                                };
+                                defer.resolve(result);
                             }
                         };
 
@@ -107,6 +120,7 @@
                          * @param response
                          */
                         updateError = function () {
+                            defer.resolve(false);
                         };
 
 
@@ -116,6 +130,8 @@
                             $scope.block.id = id;
                             $cmsApiService.blockUpdate($scope.block, updateSuccess, updateError);
                         }
+
+                        return defer.promise;
                     };
 
                 }]); // jshint ignore:line

@@ -8,9 +8,9 @@
                 "$seoService",
                 function ($scope, $seoService) {
 
-                    var isInit, seo, seoFields, itemName, urlRewrite, hasAttribute, save, remove, isModifySave, isInitUrlRewrite,
+                    var isInit, seo, seoFields, itemName, hasAttribute, save, remove, isModifySave, isInitUrlRewrite,
                         modifyRemoveMethod, isModifyRemove, modifySaveMethod, addAttributes, addAttributesValue, getDefaultSeo,
-                        removeAttributes;
+                        removeAttributes, saveSeo;
 
                     $seoService.init();
 
@@ -26,8 +26,6 @@
                     };
 
                     seoFields = ["url", "title", "meta_keywords", "meta_description"];
-//                    seoFields = ["url"];
-                    urlRewrite = "url";
                     isModifySave = false;
                     isModifyRemove = false;
                     isInitUrlRewrite = false;
@@ -54,6 +52,35 @@
                         return flag;
                     };
 
+                    saveSeo = function () {
+                        if (typeof seo._id !== "undefined") {
+                            seo = $seoService.update(seo).then(
+                                function (response) {
+                                    seo = response || null;
+                                    for (var i = 0; i < seoFields.length; i += 1) {
+
+                                        $scope[itemName][seoFields[i]] = seo[seoFields[i]];
+                                    }
+                                    isInitUrlRewrite = true;
+                                }
+                            );
+
+                        } else {
+                            $seoService.save(seo).then(
+                                function (response) {
+                                    seo = response || null;
+                                    for (var i = 0; i < seoFields.length; i += 1) {
+
+                                        $scope[itemName][seoFields[i]] = seo[seoFields[i]];
+                                    }
+                                    isInitUrlRewrite = true;
+                                }
+                            );
+
+                            isInitUrlRewrite = true;
+                        }
+                    };
+
                     /**
                      * Overrides the method save
                      */
@@ -66,37 +93,16 @@
                             $scope.save = function () {
                                 for (var i = 0; i < seoFields.length; i += 1) {
                                     seo[seoFields[i]] = $scope[itemName][seoFields[i]];
+
                                     delete $scope[itemName][seoFields[i]];
                                 }
 
+                                save().then(
+                                    function () {
+                                        saveSeo();
+                                    }
+                                );
 
-                                save();
-
-                                if (typeof seo._id !== "undefined") {
-                                    seo = $seoService.update(seo).then(
-                                        function (response) {
-                                            seo = response || null;
-                                            for (var i = 0; i < seoFields.length; i += 1) {
-                                                $scope[itemName][seoFields[i]] = seo[seoFields[i]];
-                                            }
-                                            isInitUrlRewrite = true;
-                                        }
-                                    );
-
-                                } else {
-//                                    seo.type = itemName;
-                                    $seoService.save(seo).then(
-                                        function (response) {
-                                            seo = response || null;
-                                            for (var i = 0; i < seoFields.length; i += 1) {
-                                                $scope[itemName][seoFields[i]] = seo[seoFields[i]];
-                                            }
-                                            isInitUrlRewrite = true;
-                                        }
-                                    );
-
-                                    isInitUrlRewrite = true;
-                                }
                             };
 
                             isInitUrlRewrite = false;
