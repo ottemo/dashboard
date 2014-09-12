@@ -15,9 +15,19 @@
                     },
                     templateUrl: $designService.getTemplate("product/gui/custom_options_manager.html"),
                     controller: function ($scope) {
-                        var normalizeJSON, getOptions;
-                        $scope.priceTypes = ["fixed", "percent"];
-                        $scope.types = ["field", "select", "multi_select"];
+                        var isInit, normalizeJSON, getOptions;
+
+                        isInit = false;
+
+                        $scope.priceTypes = [
+                            "fixed",
+                            "percent"
+                        ];
+                        $scope.types = [
+                            "field",
+                            "select",
+                            "multi_select"
+                        ];
 
                         normalizeJSON = function () {
                             var prepareOptions = function (list) {
@@ -59,13 +69,19 @@
                             return options;
                         };
 
-                        $scope.optionsData = $scope.item[$scope.attribute.Attribute] = getOptions($scope.item[$scope.attribute.Attribute]);
-                        normalizeJSON();
+//                        $scope.optionsData = $scope.item[$scope.attribute.Attribute] = getOptions($scope.item[$scope.attribute.Attribute]);
+//                        normalizeJSON();
 
                         $scope.$watch("optionsData",
                             function () {
                                 var option, list;
 
+                                if (!isInit) {
+                                    $scope.optionsData = $scope.item[$scope.attribute.Attribute] = getOptions($scope.item[$scope.attribute.Attribute]);
+                                    normalizeJSON();
+                                    isInit = true;
+                                }
+                                
                                 for (option in $scope.optionsData) {
 
 
@@ -143,7 +159,7 @@
 
                             for (option in $scope.optionsData) {
                                 if ($scope.optionsData.hasOwnProperty(option)) {
-                                    if(option === key){
+                                    if (option === key) {
                                         delete $scope.optionsData[option];
                                         return true;
                                     }
@@ -168,7 +184,7 @@
 
                             for (row in options) {
                                 if (options.hasOwnProperty(row)) {
-                                    if(row === key){
+                                    if (row === key) {
                                         delete options[row];
                                         return true;
                                     }
