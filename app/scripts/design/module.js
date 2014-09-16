@@ -1,7 +1,7 @@
 (function (define) {
     "use strict";
 
-    /*
+    /**
      *  Module contains general purpose directives and services used to render HTML page
      *  (make sure module present in main.js requireJS list)
      */
@@ -14,12 +14,12 @@
             "design/directives/guiAttributesEditorForm",
             "design/directives/guiAttributesEditorFormTabs",
             "design/directives/guiPictureManager",
-            "design/directives/editor/guiModelSelector",
-            "design/directives/editor/guiArrayModelSelector",
             "design/directives/guiListManager",
             "design/directives/guiTableManager",
             "design/directives/guiMessageManager",
 
+            "design/directives/editor/guiModelSelector",
+            "design/directives/editor/guiArrayModelSelector",
             "design/directives/editor/guiNotEditable",
             "design/directives/editor/guiMultilineText",
             "design/directives/editor/guiPassword",
@@ -27,8 +27,8 @@
             "design/directives/editor/guiSelect",
             "design/directives/editor/guiMultiSelect",
             "design/directives/editor/guiText",
-            "design/directives/editor/guiJsonEditor"
-
+            "design/directives/editor/guiJsonEditor",
+            "design/directives/editor/guiThemesManager"
         ],
         function (designModule) {
 

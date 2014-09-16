@@ -46,7 +46,7 @@
                         method: "GET",
                         url: visitorBaseURL + "/address/attribute/list"
                     },
-                    "addressesList": {
+                    "addresses": {
                         method: "GET",
                         params: {visitorId: "@visitorId"},
                         url: visitorBaseURL + "/address/list/:visitorId"

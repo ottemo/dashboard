@@ -7,8 +7,10 @@
      */
     define([
             "visitor/service/api",
-            "visitor/controller/visitor",
-            "visitor/controller/address"
+            "visitor/controller/visitorList",
+            "visitor/controller/visitorEdit",
+            "visitor/controller/addressList",
+            "visitor/controller/addressEdit"
         ],
         function (visitorModule) {
 

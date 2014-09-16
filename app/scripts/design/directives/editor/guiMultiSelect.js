@@ -40,7 +40,7 @@
                                 var options, field;
 
                                 options = getOptions($scope.attribute.Options);
-                                console.log(options)
+
                                 for (field in options) {
                                     if (options.hasOwnProperty(field)) {
                                         $scope.options.push({

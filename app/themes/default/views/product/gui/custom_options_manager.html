@@ -1,6 +1,6 @@
 <div>
     <button ng-click="addNewOption()">Add new option</button>
-    <div ng-repeat="option in optionsData track by $index">
+    <div ng-repeat="option in optionsData | getOrdered">
         <div>
             <div class="left">
                 <label>Label</label>
@@ -59,7 +59,7 @@
             </div>
 
             <div id="select_options" ng-if="option.type === 'select' || option.type === 'multi_select'">
-                <div class="option_row" ng-repeat="(key, row) in option.options track by $index | orderBy:row.order">
+                <div class="option_row" ng-repeat="(key, row) in option.options | getOrdered">
                     <div class="left">
                         <label>Label</label>
                         <input type="text" ng-model="row.label"/>

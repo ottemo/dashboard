@@ -70,6 +70,12 @@
                             <gui-multi-select editor-scope="attribute" item="item"></gui-multi-select>
                         </div>
 
+                        <div ng-switch-when="themes_manager">
+                            <!--<label>{{attribute.Label}} <span class="asterisk"-->
+                                                             <!--ng-show="attribute.IsRequired">*</span></label>-->
+                            <gui-themes-manager editor-scope="attribute" item="item"></gui-themes-manager>
+                        </div>
+
                         <div ng-switch-when="picture_manager">
                             <gui-picture-manager images-path="parent.imagesPath" images-list="parent.productImages"
                                                  selected="selectedImage" default-img="item.default_image"

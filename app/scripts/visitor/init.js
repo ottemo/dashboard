@@ -17,13 +17,21 @@
                  */
                 .config(["$routeProvider", function ($routeProvider) {
                     $routeProvider
-                        .when("/visitor", {
+                        .when("/visitors", {
+                            templateUrl: angular.getTheme("visitor/list.html"),
+                            controller: "visitorListController"
+                        })
+                        .when("/visitor/:id", {
                             templateUrl: angular.getTheme("visitor/edit.html"),
                             controller: "visitorEditController"
                         })
-                        .when("/visitor/address/:id", {
+                        .when("/visitor/:visitorId/addresses", {
+                            templateUrl: angular.getTheme("visitor/address/list.html"),
+                            controller: "visitorAddressListController"
+                        })
+                        .when("/visitor/:visitorId/address/:id", {
                             templateUrl: angular.getTheme("visitor/address/edit.html"),
-                            controller: "visitorAddressController"
+                            controller: "visitorAddressEditController"
                         });
                 }])
 
@@ -36,7 +44,7 @@
 //                        $dashboardHeaderService.addMenuItem("/visitor", "Visitor", "/visitor");
 
                         // Adds item in the left sidebar
-                        $dashboardSidebarService.addItem("/customers", "Customers", "visitor", "fa fa-users", 10);
+                        $dashboardSidebarService.addItem("/visitors", "Customers", "visitors", "fa fa-users", 10);
                     }
                 ]);
 

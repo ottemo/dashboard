@@ -15,7 +15,7 @@
                     },
                     templateUrl: $designService.getTemplate("product/gui/custom_options_manager.html"),
                     controller: function ($scope) {
-                        var isInit, normalizeJSON, getOptions;
+                        var isInit, initData, modifyData, normalizeJSON, getOptions, getOptionLength, cloneRow;
 
                         isInit = false;
 
@@ -23,11 +23,26 @@
                             "fixed",
                             "percent"
                         ];
+
                         $scope.types = [
                             "field",
                             "select",
                             "multi_select"
                         ];
+
+                        getOptionLength = function (obj) {
+                            var count = 0;
+
+                            if (typeof obj !== "undefined") {
+                                for (var key in obj) {
+                                    if (obj.hasOwnProperty(key)) {
+                                        count += 1;
+                                    }
+                                }
+                            }
+
+                            return count;
+                        };
 
                         normalizeJSON = function () {
                             var prepareOptions = function (list) {
@@ -69,50 +84,52 @@
                             return options;
                         };
 
-                        $scope.$watch("optionsData",
-                            function () {
-                                var option, list;
-if(typeof $scope.item[$scope.attribute.Attribute] === "undefined"){
-    return false;
-}
-                                if (!isInit) {
-                                    $scope.optionsData = $scope.item[$scope.attribute.Attribute] = getOptions($scope.item[$scope.attribute.Attribute]);
-                                    normalizeJSON();
-                                    isInit = true;
-                                }
+                        initData = function () {
+                            if (!isInit) {
+                                $scope.optionsData = $scope.item[$scope.attribute.Attribute] = getOptions($scope.item[$scope.attribute.Attribute]);
+                                normalizeJSON();
+                                isInit = true;
+                            }
+                        };
 
-                                for (option in $scope.optionsData) {
-                                    if ($scope.optionsData.hasOwnProperty(option)) {
+                        modifyData = function () {
+                            var option, list;
+                            for (option in $scope.optionsData) {
+                                if ($scope.optionsData.hasOwnProperty(option) && typeof $scope.optionsData[option] !== "undefined") {
 
-                                        if (typeof $scope.optionsData[option] !== "undefined" &&
-                                            typeof $scope.optionsData[option].options !== "undefined") {
-                                            list = $scope.optionsData[option].options;
-                                            cloneRow(list);
-                                        }
-
-                                        if (typeof $scope.optionsData[option].label === "undefined" || $scope.optionsData[option].label !== option) {
-
-                                            if (typeof $scope.optionsData[option] !== "undefined" &&
-                                                typeof $scope.optionsData[option].label !== "undefined" &&
-                                                $scope.optionsData[option].label !== "" &&
-                                                $scope.optionsData[option] !== "") {
-                                                list = $scope.optionsData[option].options;
-
-                                                cloneRow(list);
-
-                                                $scope.optionsData[$scope.optionsData[option].label] = $scope.optionsData[option];
-                                                delete $scope.optionsData[option];
-                                            }
-
-                                        }
+                                    if (typeof $scope.optionsData[option].options !== "undefined") {
+                                        list = $scope.optionsData[option].options;
+                                        cloneRow(list);
                                     }
+
+                                    if (typeof $scope.optionsData[option].label !== "undefined" &&
+                                        $scope.optionsData[option].label !== "" &&
+                                        $scope.optionsData[option].label !== option &&
+                                        $scope.optionsData[option] !== "") {
+
+                                        list = $scope.optionsData[option].options;
+                                        cloneRow(list);
+                                        $scope.optionsData[$scope.optionsData[option].label] = $scope.optionsData[option];
+
+                                        delete $scope.optionsData[option];
+                                    }
+
                                 }
+                            }
+                        };
+
+                        $scope.$watch("item",
+                            function () {
+                                if (typeof $scope.item[$scope.attribute.Attribute] === "undefined") {
+                                    return false;
+                                }
+                                initData();
+                                modifyData();
                             },
                             true
                         );
 
-
-                        var cloneRow = function (list) {
+                        cloneRow = function (list) {
                             var opt;
 
                             for (opt in list) {
@@ -139,10 +156,9 @@ if(typeof $scope.item[$scope.attribute.Attribute] === "undefined"){
                             }
 
                             $scope.optionsData[option].options[""] = {
-                                "order": (typeof $scope.optionsData[option].options === "undefined" ? 0 : $scope.optionsData[option].options.length + 1)
+                                "order": (typeof $scope.optionsData[option].options === "undefined" ? 0 : getOptionLength($scope.optionsData[option].options) + 1)
                             };
                         };
-
 
                         $scope.removeOption = function (key) {
                             if (typeof key === "undefined") {
@@ -189,12 +205,26 @@ if(typeof $scope.item[$scope.attribute.Attribute] === "undefined"){
                         };
 
                         $scope.addNewOption = function () {
-                            $scope.optionsData[""] = {};
+                            $scope.optionsData[""] = {
+                                "order": (typeof $scope.optionsData === "undefined" ? 0 : getOptionLength($scope.optionsData) + 1)
+                            };
                         };
                     }
                 };
             }]
-        );
+        )
+            .filter('getOrdered', function () {
+                return function (input) {
+                    var ordered = {};
+                    for (var key in input) {
+                        if (input.hasOwnProperty(key)) {
+                            ordered[input[key].order] = input[key];
+                        }
+                    }
+
+                    return ordered;
+                };
+            });
 
         return productModule;
     });

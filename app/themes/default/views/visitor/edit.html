@@ -1,6 +1,13 @@
 <div class="top top-custom">
-    <i class="fa fa-users"></i>
-    <h6>Customers</h6>
+    <i class="fa fa-newspaper-o"></i>
+    <h6 ng-if="visitor._id"> {{visitor.name}}</h6>
+    <h6 ng-if="!visitor._id"> New visitor </h6>
 </div>
 
-<gui-table-manager items="visitors" object="this"></gui-table-manager>
+<div class="panel-body">
+
+    <gui-message-manager item="message"></gui-message-manager>
+    <gui-attributes-editor-form-tabs attributes-list="attributes" object="this" item="visitor"></gui-attributes-editor-form-tabs>
+    <div class="btn-black" ng-click="addressForm()">Addresses</div>
+
+</div>
