@@ -23,21 +23,29 @@
                         $scope.options = [];
 
                         getOptions = function (opt) {
-                            var options;
+                            var options = {};
 
                             if (typeof $scope.attribute.Options === "string") {
-                                options = JSON.parse(opt.replace(/'/g, "\""));
+                                try {
+                                    options = JSON.parse(opt.replace(/'/g, "\""));
+                                }
+                                catch (e) {
+                                    var parts = $scope.attribute.Options.split(",");
+                                    for (var i = 0; i < parts.length; i += 1) {
+                                        options[parts[i]] = parts[i];
+                                    }
+                                }
                             } else {
                                 options = opt;
                             }
-
+                            console.log(options)
                             return options;
                         };
 
                         $scope.$watch("item", function () {
                             var options, field;
 
-                            if (typeof $scope.item === "undefined"){
+                            if (typeof $scope.item === "undefined") {
                                 return false;
                             }
 

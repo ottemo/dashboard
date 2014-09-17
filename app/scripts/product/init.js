@@ -56,7 +56,7 @@
 //                        $dashboardHeaderService.addMenuItem("/product/attributes", "Attributes", "/product/attributes");
 
                         // Adds item in the left sidebar
-                        $dashboardSidebarService.addItem("/product", "Product", null, "fa fa-tags", 8);
+                        $dashboardSidebarService.addItem("/product", "Products", null, "fa fa-tags", 8);
                         $dashboardSidebarService.addItem("/product/products", "Products", "/products", "", 2);
                         $dashboardSidebarService.addItem("/product/attributes", "Attributes", "/attributes", "", 1);
                     }

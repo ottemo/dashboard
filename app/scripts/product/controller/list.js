@@ -27,16 +27,25 @@
                         {
                             "attribute": "Name",
                             "type": "select-link",
+                            "filter": "text",
                             "label": "Name"
                         },
                         {
                             "attribute": "price",
                             "type": "price",
+                            "filter": "range",
                             "label": "Price"
                         },
                         {
                             "attribute": "sku",
                             "type": "string",
+                            "filter": "text",
+                            "label": "Sku"
+                        },
+                        {
+                            "attribute": "test",
+                            "type": "string",
+                            "filter": "select{true:true,false:false}",
                             "label": "Sku"
                         }
                     ];

@@ -1,6 +1,7 @@
 <section class="customers">
     <form class="col-md-12">
         <table>
+            <!-- Labels -->
             <tr>
                 <th>
                     <div class="checkboxes">
@@ -12,6 +13,25 @@
                 </th>
                 <th ng-repeat="field in parent.fields">
                     {{field.label}}
+                </th>
+            </tr>
+            <!-- Filters -->
+            <tr>
+                <th>&nbsp;</th>
+                <th ng-repeat="filter in filters" ng-switch="filter.type">
+                    <div ng-switch-when="text">
+                        <input type="text"/>
+                    </div>
+                    <div ng-switch-when="range">
+                        <input type="text"/>
+                        <input type="text"/>
+                    </div>
+                    <div ng-switch-when="select">
+                        <select name="" id="">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                        </select>
+                    </div>
                 </th>
             </tr>
             <!-- for table design-->

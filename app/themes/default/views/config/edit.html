@@ -1,5 +1,5 @@
 <div class="top top-custom">
-    <i class="fa fa-tags"></i>
+    <i class="fa fa-cogs"></i>
     <h6>{{getGroupName()}}</h6>
 </div>
 <div class="panel-body" ng-init="init()">
@@ -7,6 +7,9 @@
     <gui-message-manager item="message"></gui-message-manager>
 
     <!--<gui-attributes-editor-form-tabs attributes-list="sections" object="this" item="config.getItems(currentPath)"></gui-attributes-editor-form-tabs>-->
-    <gui-config-editor-form attributes-list="sections" object="this" item="config.getItems(currentPath)"></gui-config-editor-form>
+
+    <gui-config-editor-form attributes-list="sections" object="this" item="config.getItems(currentPath)" ng-if="!isThemeManager()"></gui-config-editor-form>
+
+    <gui-themes-manager ng-if="isThemeManager()"></gui-themes-manager>
 
 </div>

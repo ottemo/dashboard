@@ -5,21 +5,7 @@
         var assignMapping;
 
         assignMapping = function (mapping) {
-            var unsupportedAttr, supportedAttr, defaultMapping;
-
-            /**
-             * Unsupported attributes
-             *
-             * @type {string[]}
-             */
-            unsupportedAttr = [];
-
-            /**
-             * supported attributes
-             *
-             * @type {string[]}
-             */
-            supportedAttr = ["id", "name", "image", "shortDesc", "additionalName"];
+            var defaultMapping;
 
             /**
              * Default mapping
@@ -37,14 +23,8 @@
                 if (mapping.hasOwnProperty(field)) {
                     if (typeof defaultMapping[field] !== "undefined") {
                         defaultMapping[field] = mapping[field];
-                    } else {
-                        unsupportedAttr.push("'" + field + "'");
                     }
                 }
-            }
-            if (unsupportedAttr.length > 0) {
-                console.warn("\nUnsupported attributes for list:\n   " + unsupportedAttr.join("\n   ") +
-                    "\n" + "List of available attributes for setting:\n   " + supportedAttr.join("\n   "));
             }
 
             return defaultMapping;

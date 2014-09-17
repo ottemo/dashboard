@@ -1,0 +1,75 @@
+<div class="top top-custom">
+    <i class="fa fa-newspaper-o"></i>
+    <h6 ng-if="order._id"> {{order.increment_id}}</h6>
+    <h6 ng-if="!order._id"> New order </h6>
+</div>
+
+<div class="panel-body">
+
+    <div class="page-title"></div>
+
+    <div ng-init="init()">
+        <div class="account-left">
+            <ng-include src="getTemplate('visitor/account/menu.html')"></ng-include>
+        </div>
+
+        <div class="account-right order-detail">
+            <p>Order # is: <span class="blue">{{order.increment_id}}</span></p>
+            <p>Date: <strong>{{getDate();}}</strong></p>
+            <hr>
+            <div class="od-blocks">
+                <div class="od-block">
+                    <h6>Billing & Shipping</h6>
+                </div>
+                <div class="od-block">
+                    <h6>Bill to:</h6>
+                    <p>{{order.billing_address.company}}
+                    <p>{{order.billing_address.last_name}} {{order.billing_address.first_name}}</p>
+                    <p>11832 W.Pico Blvd, Los Angeles,</p>
+                    <p>90064, California, United States</p>
+                    <p>T: {{order.billing_address.phone}}</p>
+                </div>
+
+                <div class="od-block">
+                    <h6>Ship to:</h6>
+                    <p>{{order.billing_address.company}}
+                    <p>{{order.billing_address.last_name}} {{order.billing_address.first_name}}</p>
+                    <p>11832 W.Pico Blvd, Los Angeles,</p>
+                    <p>90064, California, United States</p>
+                    <p>T: {{order.billing_address.phone}}</p>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <hr>
+            <table  class="od-product">
+                <tr>
+                    <th>Product Name</th>
+                    <th>Qty</th>
+                    <th>Total Price</th>
+                </tr>
+                <tr ng-repeat="product in order.items">
+                    <td>{{product.Name}}</td>
+                    <td>{{product.Qty}}</td>
+                    <td>{{product.Price | currency}}</td>
+                </tr>
+            </table>
+            <table class="od-total">
+                <tr>
+                    <td>Subtotal:</td>
+                    <td>{{order.subtotal | currency}}</td>
+                </tr>
+                <tr>
+                    <td>Tax:</td>
+                    <td>{{order.tax_amount | currency}}</td>
+                </tr>
+                <tr>
+                    <td>Order Total:</td>
+                    <td>{{order.grand_total | currency}}</td>
+                </tr>
+            </table>
+            <a class="btns">Back to Orders</a>
+        </div>
+    </div>
+
+
+</div>

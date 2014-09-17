@@ -66,6 +66,12 @@
                             <gui-select editor-scope="attribute" item="item"></gui-select>
                         </div>
 
+                        <div ng-switch-when="selector">
+                            <label>{{attribute.Label}} <span class="asterisk"
+                                                             ng-show="attribute.IsRequired">*</span></label>
+                            <gui-select editor-scope="attribute" item="item"></gui-select>
+                        </div>
+
                         <div ng-switch-when="multi_select">
                             <label>{{attribute.Label}} <span class="asterisk"
                                                              ng-show="attribute.IsRequired">*</span></label>

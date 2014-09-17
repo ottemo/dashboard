@@ -35,7 +35,7 @@
 
                             if (typeof obj !== "undefined") {
                                 for (var key in obj) {
-                                    if (obj.hasOwnProperty(key)) {
+                                    if (obj.hasOwnProperty(key) && typeof obj[key].label !== "undefined") {
                                         count += 1;
                                     }
                                 }
@@ -146,6 +146,17 @@
                             }
                         };
 
+                        $scope.cleanOption = function(label){
+                            var optionsFields = ["label", "type", "required", "order"];
+                            var options = $scope.item.options[label];
+                            for (var field in options){
+                                if(options.hasOwnProperty(field) && -1 === optionsFields.indexOf(field)){
+                                    delete options[field];
+                                }
+                            }
+                            console.warn($scope.item.options[label])
+                        };
+
                         $scope.addRow = function (option) {
 
                             if (typeof $scope.optionsData[option] === "undefined") {
@@ -156,6 +167,7 @@
                             }
 
                             $scope.optionsData[option].options[""] = {
+                                "price_type": $scope.priceTypes[0],
                                 "order": (typeof $scope.optionsData[option].options === "undefined" ? 0 : getOptionLength($scope.optionsData[option].options) + 1)
                             };
                         };
@@ -206,6 +218,8 @@
 
                         $scope.addNewOption = function () {
                             $scope.optionsData[""] = {
+                                "type": $scope.types[0],
+                                "required": false,
                                 "order": (typeof $scope.optionsData === "undefined" ? 0 : getOptionLength($scope.optionsData) + 1)
                             };
                         };

@@ -26,7 +26,7 @@
                         $scope.config.load($scope.currentPath);
                     };
 
-                    $scope.selectTab = function(path){
+                    $scope.selectTab = function (path) {
                         $scope.currentPath = path;
                         $scope.config.load(path);
                     };
@@ -56,6 +56,14 @@
                             parts = path.split(".");
                             return parts[0] + "." + parts[1];
                         }
+                    };
+
+                    $scope.isThemeManager = function () {
+                        if ("themes" === $scope.currentGroup && "themes_manager" === $scope.sections[0].Editor) {
+                            return true;
+                        }
+
+                        return false;
                     };
                 }
             ]

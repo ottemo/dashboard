@@ -40,14 +40,16 @@
             switch (model) {
                 case "VisitorAddress":
                     params = {
-                        "params": item._id,
+                        "uri_4": item._id,
+                        "uri_3": "list",
                         "uri_1": "visitor",
                         "uri_2": "address"
                     };
                     break;
                 default:
                     params = {
-                        "uri_1": model
+                        "uri_1": model,
+                        "uri_2": "list"
                     };
             }
             return params;

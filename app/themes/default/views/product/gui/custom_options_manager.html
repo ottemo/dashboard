@@ -9,6 +9,7 @@
             <div class="left">
                 <label>Type</label>
                 <select class="form-control"
+                        ng-change="cleanOption(option.label)"
                         ng-init="option.type = option.type || types[0]"
                         data-ng-model="option.type"
                         data-ng-options="o as o for o in types">

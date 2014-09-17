@@ -6,45 +6,64 @@
         /**
          *  Directive used for automatic attribute editor creation
          */
-            .directive("guiThemesManager", ["$designService", function ($designService) {
-                return {
-                    restrict: "E",
-                    scope: {
-                        "attribute": "=editorScope",
-                        "item": "=item"
-                    },
-                    templateUrl: $designService.getTemplate("design/gui/editor/themesManager.html"),
+            .directive("guiThemesManager", [
+                "$designService",
+                "$configApiService",
+                function ($designService, $configApiService) {
+                    return {
+                        restrict: "E",
+                        scope: {
+                            "attribute": "=editorScope",
+                            "item": "=item"
+                        },
+                        templateUrl: $designService.getTemplate("design/gui/editor/themesManager.html"),
 
-                    controller: ["$scope", function ($scope) {
-                        var getOptions;
-                        $scope.items = [];
-                        $scope.activeTheme = $scope.item['themes.list.active'];
+                        controller: [
+                            "$scope",
+                            "$routeParams",
+                            "$configService",
+                            function ($scope, $routeParams, $configService) {
+                                var  storefrontUrl;
 
-                        getOptions = function (opt) {
-                            var options;
 
-                            if (typeof $scope.attribute.Options === "string") {
-                                options = JSON.parse(opt.replace(/'/g, "\""));
-                            } else {
-                                options = opt;
+                                $scope.config = $configService;
+                                $scope.currentPath = "themes.list.active";
+
+                                $scope.init = function () {
+                                    $configApiService.getInfo({"path": "general.app.storefront_url"}).$promise.then(
+                                        function (response) {
+                                            storefrontUrl = response.result[0].Value;
+                                        }
+                                    );
+                                    $configApiService.getInfo({"path": $scope.currentPath}).$promise.then(
+                                        function(response){
+                                            $scope.themes = JSON.parse(response.result[0].Options.replace(/'/g, "\""));
+                                            $scope.activeTheme = response.result[0].Value;
+                                        }
+                                    );
+                                };
+
+                                $scope.getPreview = function (theme) {
+                                    if (typeof storefrontUrl === "undefined") {
+                                        return "";
+                                    }
+                                    return storefrontUrl + "/themes/" + theme + "/preview.png";
+                                };
+
+                                $scope.setActive = function(theme){
+                                    $configApiService.setPath({
+                                        "path": $scope.currentPath,
+                                        "value": theme
+                                    }).$promise.then(
+                                        function (response) {
+                                            $scope.activeTheme = theme;
+                                        }
+                                    );
+                                }
                             }
-
-                            return options;
-                        };
-
-                        $scope.$watch("attribute", function () {
-                            var options;
-
-                            if (typeof $scope.attribute === "undefined") {
-                                return false;
-                            }
-
-                            options = getOptions($scope.attribute.Options);
-                            $scope.themes = options;
-                        }, true);
-                    }]
-                };
-            }]);
+                        ]
+                    };
+                }]);
 
         return designModule;
     });

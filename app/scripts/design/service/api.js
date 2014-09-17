@@ -18,9 +18,10 @@
                             "uri_1": "@uri_1",
                             "uri_2": "@uri_2",
                             "uri_3": "@uri_3",
-                            "params": "@params"
+                            "uri_4": "@uri_4",
+                            "uri_5": "@uri_5"
                         },
-                        url: REST_SERVER_URI + "/:uri_1/:uri_2/:uri_3/list/:params"
+                        url: REST_SERVER_URI + "/:uri_1/:uri_2/:uri_3/:uri_4/:uri_5"
                     }
                 });
             }]);
