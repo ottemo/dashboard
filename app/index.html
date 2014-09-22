@@ -16,16 +16,14 @@
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css" />
 
-        <link href="themes/default/styles/style.css" rel="stylesheet">
-        <link href="themes/default/styles/style-responsive.css" rel="stylesheet">
         <!--end bootstrap styles-->
         <link ng-repeat="stylesheet in getCss()" ng-href="{{stylesheet}}" type="text/css" rel="stylesheet"/>
 
         <link rel="shortcut icon" href="favicon.ico"  type="image/x-icon" />
 
         <!--[if lt IE 9]>
-        <script src="themes/default/scripts/html5shiv.js"></script>
-        <script src="themes/default/scripts/respond.min.js"></script>
+        <script src="lib/html5shiv.js"></script>
+        <script src="lib/respond.min.js"></script>
         <![endif]-->
     </head>
 
@@ -64,9 +62,6 @@
 
         <!--common bootstrap scripts for all pages-->
         <script src="themes/default/scripts/scripts.js"></script>
-
-        <!-- the main scripts for all pages-->
-        <script src="themes/default/scripts/main.js"></script>
 
     </body>
 </html>

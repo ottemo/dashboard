@@ -8,10 +8,7 @@
 
     <div class="page-title"></div>
 
-    <div ng-init="init()">
-        <div class="account-left">
-            <ng-include src="getTemplate('visitor/account/menu.html')"></ng-include>
-        </div>
+    <div>
 
         <div class="account-right order-detail">
             <p>Order # is: <span class="blue">{{order.increment_id}}</span></p>
@@ -67,7 +64,7 @@
                     <td>{{order.grand_total | currency}}</td>
                 </tr>
             </table>
-            <a class="btns">Back to Orders</a>
+            <a class="btns" href="#/orders/">Back to Orders</a>
         </div>
     </div>
 

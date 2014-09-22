@@ -6,27 +6,45 @@
 
             .controller("productAttributeListController", [
                 "$scope",
+                "$routeParams",
                 "$q",
                 "$productApiService",
                 "$location",
-                function ($scope, $q, $productApiService, $location) {
+                function ($scope, $routeParams, $q, $productApiService, $location) {
                     $scope.fields = [
                         {
                             "attribute": "Label",
                             "type": "select-link",
-                            "label": "Name"
+                            "label": "Name",
+                            "visible": true,
+                            "notDisable": true
                         }
                     ];
 
-                    $scope.attributesList = [];
+                    if (JSON.stringify({}) === JSON.stringify($location.search())) {
+                        $location.search("limit", "0,5");
+                    }
+
+                    var getFields = function () {
+                        var arr, i;
+                        arr = [];
+
+                        for (i = 0; i < $scope.fields.length; i += 1) {
+                            arr.push($scope.fields[i].attribute);
+                        }
+                        return arr.join(",");
+                    };
+
+
                     $scope.removeIds = {};
 
                     /**
                      * Gets list all attributes of product
                      */
-                    $productApiService.attributesInfo().$promise.then(
+                    $productApiService.attributesInfo($location.search(), {"extra": getFields()}).$promise.then(
                         function (response) {
                             var result, i;
+                            $scope.attributesList = [];
                             result = response.result || [];
                             for (i = 0; i < result.length; i += 1) {
                                 $scope.attributesList.push(result[i]);

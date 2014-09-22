@@ -6,9 +6,10 @@
             .controller("cmsPageListController", [
                 "$scope",
                 "$location",
+                "$routeParams",
                 "$q",
                 "$cmsApiService",
-                function ($scope, $location, $q, $cmsApiService) {
+                function ($scope, $location, $routeParams, $q, $cmsApiService) {
                     /**
                      * List fields which will shows in table
                      *
@@ -16,31 +17,55 @@
                      */
                     $scope.fields = [
                         {
-                            "attribute": "Name",
+                            "attribute": "identifier",
                             "type": "select-link",
-                            "label": "Name"
+                            "label": "Name",
+                            "visible": true,
+                            "notDisable": true,
+                            "filter": "text",
+                            "filterValue": $routeParams.identifier
                         }
                     ];
 
-                    $scope.count = 100;
+                    if (JSON.stringify({}) === JSON.stringify($location.search())) {
+                        $location.search("limit", "0,5");
+                    }
 
-                    /**
-                     * Current selected cms
-                     *
-                     * @type {Object}
-                     */
-                    $scope.pages = [];
+                    var getFields = function () {
+                        var arr, i;
+                        arr = [];
+
+                        for (i = 0; i < $scope.fields.length; i += 1) {
+                            arr.push($scope.fields[i].attribute);
+                        }
+                        return arr.join(",");
+                    };
+
                     $scope.removeIds = {};
 
                     /**
-                     * Gets list of categories
+                     * Gets list of pages
                      */
-                    $cmsApiService.pageListP({"extra" : "content"}).$promise.then(
+                    $cmsApiService.pageListP($location.search(), {"extra": getFields()}).$promise.then(
                         function (response) {
                             var result, i;
+                            $scope.pages = [];
                             result = response.result || [];
                             for (i = 0; i < result.length; i += 1) {
                                 $scope.pages.push(result[i]);
+                            }
+                        }
+                    );
+
+                    /**
+                     * Gets list of pages
+                     */
+                    $cmsApiService.getCountP($location.search(), {}).$promise.then(
+                        function (response) {
+                            if (response.error === "") {
+                                $scope.count = response.result;
+                            } else {
+                                $scope.count = 0;
                             }
                         }
                     );

@@ -21,15 +21,20 @@
                         {
                             "attribute": "Name",
                             "type": "select-link",
-                            "label": "Name"
+                            "label": "Name",
+                            "visible": true,
+                            "notDisable": true
                         }
                     ];
 
                     $scope.visitorId = $routeParams.visitorId;
 
-                    $scope.addresses = [];
                     $scope.removeIds = {};
 
+                    $location.search("visitor_id", $scope.visitorId);
+                    if (JSON.stringify({}) === JSON.stringify($location.search())) {
+                        $location.search("limit", "0,5");
+                    }
 
                     $scope.getFullAddress = function (obj) {
                         var name;
@@ -55,12 +60,25 @@
                     $visitorApiService.addresses({"visitorId": $scope.visitorId}).$promise.then(
                         function (response) {
                             var result, i;
+                            $scope.addresses = [];
                             result = response.result || [];
                             for (i = 0; i < result.length; i += 1) {
                                 $scope.addresses.push(result[i]);
                             }
                         });
 
+                    /**
+                     * Gets list of addresses
+                     */
+                    $visitorApiService.getCountAddresses($location.search(), {}).$promise.then(
+                        function (response) {
+                            if (response.error === "") {
+                                $scope.count = response.result;
+                            } else {
+                                $scope.count = 0;
+                            }
+                        }
+                    );
                     /**
                      * Handler event when selecting the address in the list
                      *

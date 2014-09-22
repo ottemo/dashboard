@@ -6,9 +6,10 @@
             .controller("cmsBlockListController", [
                 "$scope",
                 "$location",
+                "$routeParams",
                 "$q",
                 "$cmsApiService",
-                function ($scope, $location, $q, $cmsApiService) {
+                function ($scope, $location, $routeParams, $q, $cmsApiService) {
                     /**
                      * List fields which will shows in table
                      *
@@ -16,22 +17,39 @@
                      */
                     $scope.fields = [
                         {
-                            "attribute": "Name",
+                            "attribute": "identifier",
                             "type": "select-link",
-                            "label": "Name"
+                            "label": "Name",
+                            "visible": true,
+                            "notDisable": true,
+                            "filter": "text",
+                            "filterValue": $routeParams.identifier
                         }
                     ];
-                    $scope.count = 100;
 
-                    $scope.blocks = [];
+                    if (JSON.stringify({}) === JSON.stringify($location.search())) {
+                        $location.search("limit", "0,5");
+                    }
+
+                    var getFields = function () {
+                        var arr, i;
+                        arr = [];
+
+                        for (i = 0; i < $scope.fields.length; i += 1) {
+                            arr.push($scope.fields[i].attribute);
+                        }
+                        return arr.join(",");
+                    };
+
                     $scope.removeIds = {};
 
                     /**
-                     * Gets list of categories
+                     * Gets list of blocks
                      */
-                    $cmsApiService.blockListG().$promise.then(
+                    $cmsApiService.blockListP($location.search(), {"extra": getFields()}).$promise.then(
                         function (response) {
                             var result, i;
+                            $scope.blocks = [];
                             result = response.result || [];
                             for (i = 0; i < result.length; i += 1) {
                                 $scope.blocks.push(result[i]);
@@ -39,6 +57,18 @@
                         }
                     );
 
+                    /**
+                     * Gets list of blocks
+                     */
+                    $cmsApiService.getCountB($location.search(), {}).$promise.then(
+                        function (response) {
+                            if (response.error === "") {
+                                $scope.count = response.result;
+                            } else {
+                                $scope.count = 0;
+                            }
+                        }
+                    );
 
                     /**
                      * Handler event when selecting the cms in the list

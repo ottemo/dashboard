@@ -6,9 +6,10 @@
             .controller("categoryListController", [
                 "$scope",
                 "$location",
+                "$routeParams",
                 "$q",
                 "$categoryApiService",
-                function ($scope, $location, $q, $categoryApiService) {
+                function ($scope, $location, $routeParams, $q, $categoryApiService) {
 
                     /**
                      * List fields which will shows in table
@@ -19,24 +20,38 @@
                         {
                             "attribute": "Name",
                             "type": "select-link",
-                            "label": "Name"
-                        },
-                        {
-                            "attribute": "parent_id",
-                            "type": "string",
-                            "label": "Parent ID"
+                            "label": "Name",
+                            "visible": true,
+                            "notDisable": true,
+                            "filter": "text",
+                            "filterValue": $routeParams.name
                         }
                     ];
 
-                    $scope.categories = [];
+                    if (JSON.stringify({}) === JSON.stringify($location.search())) {
+                        $location.search("limit", "0,5");
+                    }
+
+                    var getFields = function () {
+                        var arr, i;
+                        arr = [];
+
+                        for (i = 0; i < $scope.fields.length; i += 1) {
+                            arr.push($scope.fields[i].attribute);
+                        }
+                        return arr.join(",");
+                    };
+
+
                     $scope.removeIds = {};
 
                     /**
                      * Gets list of categories
                      */
-                    $categoryApiService.categoryList({limit: [0, -1].join(",")}).$promise.then(
+                    $categoryApiService.categoryList($location.search(), {}).$promise.then(
                         function (response) {
                             var result, i;
+                            $scope.categories = [];
                             result = response.result || [];
                             for (i = 0; i < result.length; i += 1) {
                                 $scope.categories.push(result[i]);
@@ -44,6 +59,19 @@
                         }
                     );
 
+                    /**
+                     * Gets count of categories
+                     */
+//                    $categoryApiService.getCount($location.search(), {}).$promise.then(
+//                        function (response) {
+//                            if (response.error === "") {
+//                                $scope.count = response.result;
+//                            } else {
+//                                $scope.count = 0;
+//                            }
+//                        }
+//                    );
+                    $scope.count = 3;
                     /**
                      * Handler event when selecting the category in the list
                      *

@@ -6,9 +6,10 @@
             .controller("orderListController", [
                 "$scope",
                 "$location",
+                "$routeParams",
                 "$q",
                 "$orderApiService",
-                function ($scope, $location, $q, $orderApiService) {
+                function ($scope, $location, $routeParams, $q, $orderApiService) {
                     /**
                      * List fields which will shows in table
                      *
@@ -16,36 +17,88 @@
                      */
                     $scope.fields = [
                         {
-                            "attribute": "Name",
+                            "attribute": "increment_id",
                             "type": "select-link",
-                            "label": "Name"
+                            "label": "Order ID",
+                            "visible": true,
+                            "notDisable": true,
+                            "filter": "text",
+                            "filterValue": $routeParams.increment_id
                         },
                         {
-                            "attribute": "Desc",
+                            "attribute": "description",
                             "type": "text",
-                            "label": "Description"
+                            "label": "Description",
+                            "visible": true,
+                            "filter": "text",
+                            "filterValue": $routeParams.description
+                        },
+                        {
+                            "attribute": "customer_email",
+                            "type": "text",
+                            "label": "Customer Email",
+                            "visible": true,
+                            "filter": "text",
+                            "filterValue": $routeParams.customer_email
+                        },
+                        {
+                            "attribute": "customer_name",
+                            "type": "text",
+                            "label": "Customer name",
+                            "visible": true,
+                            "filter": "text",
+                            "filterValue": $routeParams.customer_name
+                        },
+                        {
+                            "attribute": "status",
+                            "type": "text",
+                            "label": "Status",
+                            "visible": true,
+                            "filter": "select{pending,canceled,complete}",
+                            "filterValue": $routeParams.status
                         }
                     ];
 
-                    $scope.count = 100;
+                    if (JSON.stringify({}) === JSON.stringify($location.search())) {
+                        $location.search("limit", "0,5");
+                    }
 
-                    /**
-                     * Current selected order
-                     *
-                     * @type {Object}
-                     */
-                    $scope.orders = [];
+                    var getFields = function () {
+                        var arr, i;
+                        arr = [];
+
+                        for (i = 0; i < $scope.fields.length; i += 1) {
+                            arr.push($scope.fields[i].attribute);
+                        }
+                        return arr.join(",");
+                    };
+
                     $scope.removeIds = {};
 
                     /**
                      * Gets list of categories
                      */
-                    $orderApiService.orderList({}).$promise.then(
+                    $orderApiService.orderList($location.search(), {"extra": getFields()}).$promise.then(
                         function (response) {
                             var result, i;
+                            $scope.orders = [];
+
                             result = response.result || [];
                             for (i = 0; i < result.length; i += 1) {
                                 $scope.orders.push(result[i]);
+                            }
+                        }
+                    );
+
+                    /**
+                     * Gets list of products
+                     */
+                    $orderApiService.getCount($location.search(), {}).$promise.then(
+                        function (response) {
+                            if (response.error === "") {
+                                $scope.count = response.result;
+                            } else {
+                                $scope.count = 0;
                             }
                         }
                     );

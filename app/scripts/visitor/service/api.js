@@ -40,6 +40,10 @@
                         params: { id: "@id" },
                         url: visitorBaseURL + "/delete/:id"
                     },
+                    "getCountVisitors": {
+                        method: "GET",
+                        url: visitorBaseURL + "/count"
+                    },
 
                     // Addresses API
                     "addressAttributeInfo": {
@@ -64,6 +68,10 @@
                         method: "PUT",
                         params: { id: "@id" },
                         url: visitorBaseURL + "/address/update/:id"
+                    },
+                    "getCountAddresses": {
+                        method: "GET",
+                        url: visitorBaseURL + "/address/count"
                     },
                     "deleteAddress": {
                         method: "DELETE",

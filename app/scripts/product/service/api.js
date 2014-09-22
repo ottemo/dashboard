@@ -6,23 +6,23 @@
      */
     define(["product/init"], function (productModule) {
         productModule
-            /**
-             *  $productApiService contains objects to interact with REST-server
-             *  Objects:
-             *      attributesInfo()                    - gets attributes list
-             *      deleteAttribute(attribute)          - deletes attributes by name
-             *      addAttribute()                      - creates new attribute
-             *      productList()                       - gets product list
-             *      getProduct(id)                      - gets product by ID
-             *      update(id)                          - updates product by ID
-             *      save()                              - saves product
-             *      delete(id)                          - deletes product by ID
-             *      getImage(productId, mediaName)      -
-             *      getImagePath(productId)             - gets imagePath for product by productId
-             *      listImages(productId)               - gets images list for product by productId
-             *      removeImage(productId, mediaName)   - deletes image in product by fileName
-             *      addImage(productId, mediaName)      - adds image in product
-             */
+        /**
+         *  $productApiService contains objects to interact with REST-server
+         *  Objects:
+         *      attributesInfo()                    - gets attributes list
+         *      deleteAttribute(attribute)          - deletes attributes by name
+         *      addAttribute()                      - creates new attribute
+         *      productList()                       - gets product list
+         *      getProduct(id)                      - gets product by ID
+         *      update(id)                          - updates product by ID
+         *      save()                              - saves product
+         *      delete(id)                          - deletes product by ID
+         *      getImage(productId, mediaName)      -
+         *      getImagePath(productId)             - gets imagePath for product by productId
+         *      listImages(productId)               - gets images list for product by productId
+         *      removeImage(productId, mediaName)   - deletes image in product by fileName
+         *      addImage(productId, mediaName)      - adds image in product
+         */
             .service("$productApiService", ["$resource", "REST_SERVER_URI", function ($resource, REST_SERVER_URI) {
 
                 var productBaseURL = REST_SERVER_URI + "/product";
@@ -49,6 +49,10 @@
                         method: "GET",
                         params: { id: "@id" },
                         url: productBaseURL + "/get/:id"
+                    },
+                    "getCount": {
+                        method: "GET",
+                        url: productBaseURL + "/count"
                     },
                     "update": {
                         method: "PUT",

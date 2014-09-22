@@ -27,6 +27,10 @@
                         method: "POST",
                         url: categoryBaseURL + "/list"
                     },
+                    "getCount": {
+                        method: "GET",
+                        url: categoryBaseURL + "/count"
+                    },
                     "save": {
                         method: "POST",
                         url: categoryBaseURL + "/create"

@@ -44,7 +44,7 @@
 //                        $dashboardHeaderService.addMenuItem("/visitor", "Visitor", "/visitor");
 
                         // Adds item in the left sidebar
-                        $dashboardSidebarService.addItem("/visitors", "Customers", "visitors", "fa fa-users", 10);
+                        $dashboardSidebarService.addItem("/visitors", "Visitors", "visitors", "fa fa-users", 10);
                     }
                 ]);
 

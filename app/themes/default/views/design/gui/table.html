@@ -1,5 +1,14 @@
-<section class="customers">
+<section class="customers table-element" ng-init="init()">
+
     <form class="col-md-12">
+
+        <div class="checkboxes" ng-if="parent.fields.length >1" >
+            <label class="myCheckbox visibility" ng-repeat="field in parent.fields" ng-hide="field.notDisable">
+                <input type="checkbox" ng-model="field.visible" ng-hide="field.notDisable">
+                <span>{{field.label || field.attribute}}</span>
+            </label>
+        </div>
+
         <table>
             <!-- Labels -->
             <tr>
@@ -11,26 +20,27 @@
                         </label>
                     </div>
                 </th>
-                <th ng-repeat="field in parent.fields">
+                <th ng-repeat="field in parent.fields" ng-show="field.visible">
                     {{field.label}}
                 </th>
             </tr>
             <!-- Filters -->
             <tr>
                 <th>&nbsp;</th>
-                <th ng-repeat="filter in filters" ng-switch="filter.type">
+                <th ng-repeat="filter in filters" ng-switch="filter.type" ng-show="parent.fields[$index].visible">
                     <div ng-switch-when="text">
-                        <input type="text"/>
+                        <gui-filter-text editor-scope="filter.attributes" item="filter" object="this"></gui-filter-text>
                     </div>
+
                     <div ng-switch-when="range">
-                        <input type="text"/>
-                        <input type="text"/>
+                        <gui-filter-range editor-scope="filter.attributes" item="filter" object="this"></gui-filter-range>
                     </div>
+
                     <div ng-switch-when="select">
-                        <select name="" id="">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                        </select>
+                        <gui-filter-select editor-scope="filter.attributes" item="filter" object="this"></gui-filter-select>
+                    </div>
+                    <div ng-switch-default="">
+                        &nbsp;
                     </div>
                 </th>
             </tr>
@@ -46,7 +56,7 @@
                         </label>
                     </div>
                 </td>
-                <th ng-repeat="field in parent.fields">
+                <th ng-repeat="field in parent.fields" ng-show="field.visible">
                     <span ng-switch="field.type">
 
                         <!-- Image -->
@@ -75,8 +85,17 @@
             <!-- for table design-->
             <tr></tr>
         </table>
-        <div class="btn-black" ng-click="parent.remove()">Delete</div>
-        <div class="btn-black" ng-click="parent.create()">New</div>
+        <!-- Pagination -->
+        <div class="pagination-block" ng-if="paginator.countPages > 1">
+            <ul class="pagination">
+                <li class="{{getClass('prev')}}"><a href="" target="_self" ng-click="setPage('prev')">&laquo;</a></li>
+                <li class="{{getClass(page)}}" ng-repeat="page in getPages()"><a href="" target="_self" ng-click="setPage(page)">{{page}}</a></li>
+                <li class="{{getClass('next')}}"><a href="" target="_self" ng-click="setPage('next')">&raquo;</a></li>
+                <!--<li><a href="#{{getURI('all')}}">ALL</a></li>-->
+            </ul>
+        </div>
+        <div class="btn-black" ng-click="parent.remove()" ng-if="buttons.delete">Delete</div>
+        <div class="btn-black" ng-click="parent.create()" ng-if="buttons.new">New</div>
     </form>
 </section>
 
@@ -89,3 +108,28 @@
         }
     })
 </script>
+<style>
+    .customers table th {
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+    }
+    div.pagination-block{
+        text-align: center;
+    }
+    .checkboxes{
+        text-align: right;
+        margin-top: 20px;
+    }
+
+    .visibility{
+        padding-left: 25px;
+    }
+    .table-element .myCheckbox span {
+        width: 130px;
+        padding-left: 30px;
+        text-align: left;
+    }
+    th:first{
+        width: 20px !important;
+    }
+</style>

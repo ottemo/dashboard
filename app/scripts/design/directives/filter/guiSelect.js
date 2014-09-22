@@ -7,18 +7,20 @@
         /**
          *  Directive used for automatic attribute editor creation
          */
-            .directive("guiSelect", ["$designService", function ($designService) {
+            .directive("guiFilterSelect", ["$designService", function ($designService) {
                 return {
                     restrict: "E",
-                    templateUrl: $designService.getTemplate("design/gui/editor/select.html"),
+                    templateUrl: $designService.getTemplate("design/gui/filter/select.html"),
 
                     scope: {
+                        "parent": "=object",
                         "attribute": "=editorScope",
                         "item": "=item"
                     },
 
                     controller: function ($scope) {
                         var getOptions;
+                        var isInit = false;
 
                         $scope.options = [];
 
@@ -28,9 +30,10 @@
                             if (typeof $scope.attribute.Options === "string") {
                                 try {
                                     options = JSON.parse(opt.replace(/'/g, "\""));
+
                                 }
                                 catch (e) {
-                                    var parts = $scope.attribute.Options.split(",");
+                                    var parts = $scope.attribute.Options.replace(/[{}]/g,"").split(",");
                                     for (var i = 0; i < parts.length; i += 1) {
                                         options[parts[i]] = parts[i];
                                     }
@@ -42,10 +45,15 @@
                             return options;
                         };
 
+                        $scope.submit = function (id) {
+                            $scope.item[$scope.attribute.Attribute] = id;
+                            $scope.parent.newFilters[$scope.attribute.Attribute.toLowerCase()] = id.split(" ");
+                        };
+
                         $scope.$watch("item", function () {
                             var options, field;
 
-                            if (typeof $scope.item === "undefined") {
+                            if (typeof $scope.item === "undefined" || isInit) {
                                 return false;
                             }
 
@@ -63,6 +71,11 @@
                                     });
                                 }
                             }
+
+                            $scope.item[$scope.attribute.Attribute] = $scope.item[$scope.attribute.Attribute].replace(/~/g, "");
+                            $scope.parent.newFilters[$scope.attribute.Attribute] = $scope.item[$scope.attribute.Attribute].replace(/~/g, "").split(" ");
+
+                            isInit = true;
                         });
                     }
                 };

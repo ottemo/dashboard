@@ -6,10 +6,11 @@
         visitorModule
             .controller("visitorListController", [
                 "$scope",
+                "$routeParams",
                 "$visitorApiService",
                 "$location",
                 "$q",
-                function ($scope, $visitorApiService, $location, $q) {
+                function ($scope, $routeParams, $visitorApiService, $location, $q) {
 
                     /**
                      * List fields which will shows in table
@@ -20,11 +21,16 @@
                         {
                             "attribute": "Name",
                             "type": "select-link",
-                            "label": "Name"
+                            "label": "Name",
+                            "visible": true,
+                            "notDisable": true
                         }
                     ];
 
-                    $scope.visitors = [];
+                    if (JSON.stringify({}) === JSON.stringify($location.search())) {
+                        $location.search("limit", "0,5");
+                    }
+
                     $scope.removeIds = {};
 
                     $scope.getFullName = function () {
@@ -34,12 +40,26 @@
                     /**
                      * Gets list of visitors
                      */
-                    $visitorApiService.visitorList({}).$promise.then(
+                    $visitorApiService.visitorList($location.search(), {}).$promise.then(
                         function (response) {
                             var result, i;
+                            $scope.visitors = [];
                             result = response.result || [];
                             for (i = 0; i < result.length; i += 1) {
                                 $scope.visitors.push(result[i]);
+                            }
+                        }
+                    );
+
+                    /**
+                     * Gets list of visitors
+                     */
+                    $visitorApiService.getCountVisitors($location.search(), {}).$promise.then(
+                        function (response) {
+                            if (response.error === "") {
+                                $scope.count = response.result;
+                            } else {
+                                $scope.count = 0;
                             }
                         }
                     );

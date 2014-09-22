@@ -27,6 +27,10 @@
                         method: "GET",
                         url: orderBaseURL + "/attributes"
                     },
+                    "getCount": {
+                        method: "GET",
+                        url: orderBaseURL + "/count"
+                    },
                     "remove": {
                         method: "DELETE",
                         params: { "id": "@id" },

@@ -6,10 +6,11 @@
             .controller("productListController", [
                 "$scope",
                 "$location",
+                "$routeParams",
                 "$productApiService",
                 "$designImageService",
                 "$q",
-                function ($scope, $location, $productApiService, $designImageService, $q) {
+                function ($scope, $location, $routeParams, $productApiService, $designImageService, $q) {
 
                     var splitName;
 
@@ -22,33 +23,39 @@
                         {
                             "attribute": "Image",
                             "type": "image",
-                            "label": ""
+                            "label": "",
+                            "visible": true
                         },
                         {
                             "attribute": "Name",
                             "type": "select-link",
+                            "label": "Name",
+                            "visible": true,
+                            "notDisable": true,
                             "filter": "text",
-                            "label": "Name"
+                            "filterValue": $routeParams.name
                         },
                         {
                             "attribute": "price",
                             "type": "price",
+                            "label": "Price",
+                            "visible": true,
                             "filter": "range",
-                            "label": "Price"
+                            "filterValue": $routeParams.price
                         },
                         {
                             "attribute": "sku",
                             "type": "string",
+                            "label": "Sku",
+                            "visible": true,
                             "filter": "text",
-                            "label": "Sku"
-                        },
-                        {
-                            "attribute": "test",
-                            "type": "string",
-                            "filter": "select{true:true,false:false}",
-                            "label": "Sku"
+                            "filterValue": $routeParams.sku
                         }
                     ];
+
+                    if (JSON.stringify({}) === JSON.stringify($location.search())) {
+                        $location.search("limit", "0,5");
+                    }
 
                     splitName = function (string) {
                         var parts;
@@ -58,21 +65,18 @@
                         return parts;
                     };
 
-                    $scope.page = 0;
-                    $scope.count = 100;
-
-                    /**
-                     * List of products
-                     */
-                    $scope.products = [];
                     $scope.removeIds = {};
 
                     /**
                      * Gets list of products
                      */
-                    $productApiService.productList({limit: [$scope.page, $scope.count].join(","), "extra": "price"}).$promise.then(
+                    $productApiService.productList(
+                        $location.search(),
+                        {"extra": "price"}
+                    ).$promise.then(
                         function (response) {
                             var result, i, parts;
+                            $scope.products = [];
 
                             result = response.result || [];
                             for (i = 0; i < result.length; i += 1) {
@@ -81,7 +85,21 @@
                                 result[i].sku = parts[1];
                                 $scope.products.push(result[i]);
                             }
-                        });
+                        }
+                    );
+
+                    /**
+                     * Gets list of products
+                     */
+                    $productApiService.getCount($location.search(), {}).$promise.then(
+                        function (response) {
+                            if (response.error === "") {
+                                $scope.count = response.result;
+                            } else {
+                                $scope.count = 0;
+                            }
+                        }
+                    );
 
                     /**
                      * Handler event when selecting the product in the list

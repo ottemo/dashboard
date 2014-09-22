@@ -18,6 +18,10 @@
             "design/directives/guiTableManager",
             "design/directives/guiMessageManager",
 
+            "design/directives/filter/guiText",
+            "design/directives/filter/guiRange",
+            "design/directives/filter/guiSelect",
+
             "design/directives/editor/guiModelSelector",
             "design/directives/editor/guiArrayModelSelector",
             "design/directives/editor/guiNotEditable",
