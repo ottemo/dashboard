@@ -9,8 +9,9 @@
                 "$routeParams",
                 "$productApiService",
                 "$designImageService",
+                "COUNT_ITEMS_PER_PAGE",
                 "$q",
-                function ($scope, $location, $routeParams, $productApiService, $designImageService, $q) {
+                function ($scope, $location, $routeParams, $productApiService, $designImageService, COUNT_ITEMS_PER_PAGE, $q) {
 
                     var splitName;
 
@@ -54,7 +55,7 @@
                     ];
 
                     if (JSON.stringify({}) === JSON.stringify($location.search())) {
-                        $location.search("limit", "0,5");
+                        $location.search("limit", "0,"+COUNT_ITEMS_PER_PAGE);
                     }
 
                     splitName = function (string) {

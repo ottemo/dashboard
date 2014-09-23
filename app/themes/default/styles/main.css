@@ -1729,3 +1729,11 @@ ul {
     padding: 8px 15px 6px !important;
 }
 
+/** */
+.modal-header span{
+    margin-right: 10px;
+}
+.modal-header button{
+    bottom: 6px;
+    position: relative;
+}

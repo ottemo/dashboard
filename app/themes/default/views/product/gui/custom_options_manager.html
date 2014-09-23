@@ -4,11 +4,11 @@
         <div>
             <div class="left">
                 <label>Label</label>
-                <input type="text" ng-model="option.label"/>
+                <input type="text" ng-model="option.label" ng-blur="modifyData()" />
             </div>
             <div class="left">
                 <label>Type</label>
-                <select class="form-control"
+                <select class="form-control" ng-blur="modifyData()"
                         ng-change="cleanOption(option.label)"
                         ng-init="option.type = option.type || types[0]"
                         data-ng-model="option.type"
@@ -17,7 +17,7 @@
             </div>
             <div class="left">
                 <label>isRequired</label>
-                <select class="form-control"
+                <select class="form-control" ng-blur="modifyData()"
                         ng-init="option.required = option.required || false"
                         data-ng-model="option.required"
                         data-ng-options="o as o for o in [true, false]">
@@ -25,7 +25,7 @@
             </div>
             <div class="left">
                 <label>Sort</label>
-                <input type="text" ng-model="option.order"/>
+                <input type="text" ng-model="option.order" ng-blur="modifyData()" />
             </div>
             <div class="left">
                 <label>&nbsp;</label>
@@ -38,12 +38,12 @@
             <div id="field_options" ng-if="option.type === 'field'">
                 <div class="left">
                     <label>Price</label>
-                    <input type="text" ng-model="option.price"/>
+                    <input type="text" ng-model="option.price" ng-blur="modifyData()" />
                 </div>
                 <div class="left">
                     <label>Price Type</label>
 
-                    <select class="form-control"
+                    <select class="form-control" ng-blur="modifyData()"
                             ng-init="option.price_type = option.price_type || priceTypes[0]"
                             data-ng-model="option.price_type"
                             data-ng-options="o as o for o in priceTypes">
@@ -51,11 +51,7 @@
                 </div>
                 <div class="left">
                     <label>SKU</label>
-                    <input type="text" ng-model="option.sku"/>
-                </div>
-                <div class="left">
-                    <label>Max Characters</label>
-                    <input type="text" ng-model="option.max_characters"/>
+                    <input type="text" ng-model="option.sku" ng-blur="modifyData()" />
                 </div>
             </div>
 
@@ -63,15 +59,15 @@
                 <div class="option_row" ng-repeat="(key, row) in option.options | getOrdered">
                     <div class="left">
                         <label>Label</label>
-                        <input type="text" ng-model="row.label"/>
+                        <input type="text" ng-model="row.label" ng-blur="modifyData()" />
                     </div>
                     <div class="left">
                         <label>Price</label>
-                        <input type="text" ng-model="row.price"/>
+                        <input type="text" ng-model="row.price" ng-blur="modifyData()" />
                     </div>
                     <div class="left">
                         <label>Price Type</label>
-                        <select class="form-control"
+                        <select class="form-control" ng-blur="modifyData()"
                                 ng-init="row.price_type = row.price_type || priceTypes[0]"
                                 data-ng-model="row.price_type"
                                 data-ng-options="o as o for o in priceTypes">
@@ -79,11 +75,11 @@
                     </div>
                     <div class="left">
                         <label>SKU</label>
-                        <input type="text" ng-model="row.sku"/>
+                        <input type="text" ng-model="row.sku" ng-blur="modifyData()" />
                     </div>
                     <div class="left">
                         <label>Sort Order</label>
-                        <input type="text" ng-model="row.order"/>
+                        <input type="text" ng-model="row.order" ng-blur="modifyData()" />
                     </div>
                     <div class="left">
                         <label>&nbsp;</label>

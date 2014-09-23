@@ -12,7 +12,7 @@
         <table>
             <!-- Labels -->
             <tr>
-                <th>
+                <th ng-if="buttons.checkbox">
                     <div class="checkboxes">
                         <label class="myCheckbox">
                             <input type="checkbox" id="selectAll">
@@ -26,7 +26,7 @@
             </tr>
             <!-- Filters -->
             <tr ng-hide="filters.length <= 1 && !filters[0].visible">
-                <th>&nbsp;</th>
+                <th ng-if="buttons.checkbox">&nbsp;</th>
                 <th ng-repeat="filter in filters" ng-switch="filter.type" ng-show="parent.fields[$index].visible">
                     <div ng-switch-when="text">
                         <gui-filter-text editor-scope="filter.attributes" item="filter" object="this"></gui-filter-text>
@@ -46,17 +46,18 @@
             </tr>
             <!-- for table design-->
             <tr></tr>
+
             <tr ng-repeat="_item in items">
 
-                <td>
+                <td ng-if="buttons.checkbox">
                     <div class="checkboxes">
                         <label class="myCheckbox" ng-if="!_item.IsStatic">
-                            <input type="checkbox" ng-model="parent.removeIds[_item[map.id]]">
+                            <input type="checkbox" ng-model="parent.selected[_item[map.id]]">
                             <span></span>
                         </label>
                     </div>
                 </td>
-                <th ng-repeat="field in parent.fields" ng-show="field.visible" ng-class="{'row-image': field.type ==='image'}">
+                <th ng-repeat="field in parent.fields" ng-show="field.visible">
                     <span ng-switch="field.type">
 
                         <!-- Image -->
@@ -131,8 +132,5 @@
     }
     th:first{
         width: 20px !important;
-    }
-    .customers table tr th.row-image {
-        width: 1% !important;
     }
 </style>

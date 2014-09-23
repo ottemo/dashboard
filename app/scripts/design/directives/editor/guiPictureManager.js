@@ -10,7 +10,7 @@
                 return {
                     restrict: "E",
                     transclude: true,
-                    templateUrl: $designService.getTemplate("design/gui/pictureManager.html"),
+                    templateUrl: $designService.getTemplate("design/gui/editor/pictureManager.html"),
 
                     scope: {
                         "images": "=imagesList",

@@ -92,26 +92,23 @@
                 /*
                  *  $pageHeaderService implementation
                  */
-                .service("$dashboardHeaderService", ["$loginService", function ($loginService) {
+                .service("$dashboardHeaderService", ["$loginLoginService", function ($loginLoginService) {
 
                     var it = {
-                        username: $loginService.getUsername(),
                         menuLeft: [],
                         menuRight: []
                     };
 
                     return {
-                        isLogined: function () {
-                            return $loginService.isLogined();
-                        },
 
                         getUsername: function () {
-                            return it.username;
+                            return $loginLoginService.getFullName() || "root";
                         },
 
-                        logout: function () {
-                            $loginService.logout();
+                        getAvatar: function () {
+                            return $loginLoginService.getAvatar()
                         },
+
 
                         /**
                          * Adds the item to the right(user) menu

@@ -22,6 +22,14 @@
                             "uri_5": "@uri_5"
                         },
                         url: REST_SERVER_URI + "/:uri_1/:uri_2/:uri_3/:uri_4/:uri_5"
+                    },
+                    "productList": {
+                        method: "GET",
+                        url: REST_SERVER_URI + "/product/list"
+                    },
+                    "getCount": {
+                        method: "GET",
+                        url: REST_SERVER_URI + "/product/count"
                     }
                 });
             }]);

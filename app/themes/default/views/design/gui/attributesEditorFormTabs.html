@@ -30,6 +30,12 @@
                             <gui-multiline-text editor-scope="attribute" item="item"></gui-multiline-text>
                         </div>
 
+                        <div ng-switch-when="html">
+                            <label>{{attribute.Label}} <span class="asterisk"
+                                                             ng-show="attribute.IsRequired">*</span></label>
+                            <gui-multiline-text editor-scope="attribute" item="item"></gui-multiline-text>
+                        </div>
+
                         <div ng-switch-when="text">
                             <label>{{attribute.Label}} <span class="asterisk"
                                                              ng-show="attribute.IsRequired">*</span></label>
@@ -78,7 +84,17 @@
                             <gui-multi-select editor-scope="attribute" item="item"></gui-multi-select>
                         </div>
 
+                        <div ng-switch-when="product_selector">
+                            <label>{{attribute.Label}} <span class="asterisk"
+                                                             ng-show="attribute.IsRequired">*</span></label>
+                            <gui-product-selector editor-scope="attribute" item="item"></gui-product-selector>
+                        </div>
 
+                        <div ng-switch-when="category_selector">
+                            <label>{{attribute.Label}} <span class="asterisk"
+                                                             ng-show="attribute.IsRequired">*</span></label>
+                            <gui-category-selector editor-scope="attribute" item="item"></gui-category-selector>
+                        </div>
                         <div ng-switch-when="product_options">
                             <label>{{attribute.Label}} <span class="asterisk"
                                                              ng-show="attribute.IsRequired">*</span></label>

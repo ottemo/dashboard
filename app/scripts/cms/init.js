@@ -46,7 +46,7 @@
                         $dashboardHeaderService.addMenuItem("/cms/blocks", "Blocks", "/cms/blocks");
 
                         // Adds item in the left sidebar
-                        $dashboardSidebarService.addItem("/cms", "CMS", null, "fa fa-newspaper-o", 60);
+                        $dashboardSidebarService.addItem("/cms", "CMS", null, "fa fa-indent", 60);
                         $dashboardSidebarService.addItem("/cms/pages", "Page", "/cms/pages", "", 2);
                         $dashboardSidebarService.addItem("/cms/blocks", "Block", "/cms/blocks", "", 1);
                     }

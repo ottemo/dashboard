@@ -16,7 +16,7 @@
                 <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" target="_self">
                     {{it.getUsername()}}
                     <span class="caret"></span>
-                    <img ng-src="{{getImg('photos/user-avatar.png')}}" alt="" />
+                    <img ng-src="{{it.getAvatar()}}" alt="" />
                 </a>
                 <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
                     <li ng-repeat="item in rightMenu" ng-include="getTemplate('dashboard/header/menuItem.html')"></li>

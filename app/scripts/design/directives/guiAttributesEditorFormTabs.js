@@ -6,6 +6,8 @@
 
         /**
          *  Directive used for automatic attributes editor form creation
+         *
+         *  Form to edit with tabs
          */
             .directive("guiAttributesEditorFormTabs", ["$designService", function ($designService) {
                 return {

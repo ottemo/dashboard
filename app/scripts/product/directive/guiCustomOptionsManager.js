@@ -109,6 +109,10 @@
 
                                         list = $scope.optionsData[option].options;
                                         cloneRow(list);
+
+                                        if (typeof $scope.optionsData[$scope.optionsData[option].label] !== "undefined") {
+                                            $scope.optionsData[option].order = $scope.optionsData[$scope.optionsData[option].label].order;
+                                        }
                                         $scope.optionsData[$scope.optionsData[option].label] = $scope.optionsData[option];
 
                                         delete $scope.optionsData[option];
@@ -123,6 +127,9 @@
                                 if (typeof $scope.item[$scope.attribute.Attribute] === "undefined") {
                                     return false;
                                 }
+                                if (isInit) {
+                                    return false;
+                                }
                                 initData();
                                 modifyData();
                             },
@@ -132,29 +139,36 @@
                         cloneRow = function (list) {
                             var opt;
 
+                            var copy = function(opt){
+                                if (typeof list[list[opt].label] !== "undefined") {
+                                    list[opt].order = list[list[opt].label].order;
+                                }
+
+                                list[list[opt].label] = list[opt];
+                                delete list[opt];
+                            };
+
                             for (opt in list) {
                                 if (list.hasOwnProperty(opt) && (typeof list[opt].label === "undefined" || list[opt].label !== opt)) {
-                                    {
-                                        if (typeof list[opt] !== "undefined" &&
-                                            typeof list[opt].label !== "undefined" &&
-                                            list[opt] !== "") {
-                                            list[list[opt].label] = list[opt];
-                                            delete list[opt];
-                                        }
+                                    if (typeof list[opt] !== "undefined" &&
+                                        typeof list[opt].label !== "undefined" &&
+                                        list[opt] !== "" &&
+                                        list[opt].label !== "order") {
+                                        copy(opt);
                                     }
                                 }
                             }
                         };
 
-                        $scope.cleanOption = function(label){
+                        $scope.cleanOption = function (label) {
                             var optionsFields = ["label", "type", "required", "order"];
                             var options = $scope.item.options[label];
-                            for (var field in options){
-                                if(options.hasOwnProperty(field) && -1 === optionsFields.indexOf(field)){
+                            for (var field in options) {
+                                if (options.hasOwnProperty(field) && -1 === optionsFields.indexOf(field)) {
                                     delete options[field];
                                 }
                             }
-                            console.warn($scope.item.options[label])
+                            delete $scope.item.options[""];
                         };
 
                         $scope.addRow = function (option) {
@@ -162,6 +176,7 @@
                             if (typeof $scope.optionsData[option] === "undefined") {
                                 return false;
                             }
+                            modifyData();
                             if (typeof $scope.optionsData[option].options === "undefined") {
                                 $scope.optionsData[option].options = {};
                             }
@@ -180,6 +195,7 @@
                             }
 
                             var option;
+                            modifyData();
 
                             for (option in $scope.optionsData) {
                                 if ($scope.optionsData.hasOwnProperty(option)) {
@@ -201,6 +217,7 @@
                             }
 
                             var row, options;
+                            modifyData();
                             options = $scope.optionsData[option].options;
 
                             for (row in options) {
@@ -216,7 +233,13 @@
 
                         };
 
+                        $scope.modifyData = function () {
+                            modifyData();
+                        };
+
                         $scope.addNewOption = function () {
+                            modifyData();
+
                             $scope.optionsData[""] = {
                                 "type": $scope.types[0],
                                 "required": false,

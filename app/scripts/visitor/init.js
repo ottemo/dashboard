@@ -32,19 +32,26 @@
                         .when("/visitor/:visitorId/address/:id", {
                             templateUrl: angular.getTheme("visitor/address/edit.html"),
                             controller: "visitorAddressEditController"
+                        })
+                        .when("/v/attributes", {
+                            templateUrl: angular.getTheme("visitor/attribute/list.html"),
+                            controller: "visitorAttributeListController"
+                        })
+                        .when("/v/attribute/:attr", {
+                            templateUrl: angular.getTheme("visitor/attribute/edit.html"),
+                            controller: "visitorAttributeEditController"
                         });
                 }])
 
                 .run(["$designService", "$route", "$dashboardSidebarService", "$dashboardHeaderService",
 
-                    function ($designService, $route, $dashboardSidebarService, $dashboardHeaderService) {
-
-                        // NAVIGATION
-                        // Adds item in the left top-menu
-//                        $dashboardHeaderService.addMenuItem("/visitor", "Visitor", "/visitor");
+                    function ($designService, $route, $dashboardSidebarService) {
 
                         // Adds item in the left sidebar
-                        $dashboardSidebarService.addItem("/visitors", "Visitors", "visitors", "fa fa-users", 10);
+                        $dashboardSidebarService.addItem("/visitors", "Visitors", null, "fa fa-users", 10);
+                        $dashboardSidebarService.addItem("/visitors/list", "Visitors", "visitors", "", 3);
+                        $dashboardSidebarService.addItem("/visitors/attributes", "Attributes", "/v/attributes", "", 2);
+                        $dashboardSidebarService.addItem("/visitors/email", "Email", "/v/email", "", 1);
                     }
                 ]);
 

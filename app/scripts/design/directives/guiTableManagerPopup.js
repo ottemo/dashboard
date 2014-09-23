@@ -4,6 +4,19 @@
     define(["design/init"], function (designModule) {
         var assignMapping;
 
+        var clone = function (obj) {
+            if (null === obj || "object" !== typeof obj) {
+                return obj;
+            }
+            var copy = obj.constructor();
+            for (var attr in obj) {
+                if (obj.hasOwnProperty(attr)) {
+                    copy[attr] = obj[attr];
+                }
+            }
+            return copy;
+        };
+
         assignMapping = function (mapping) {
             var defaultMapping;
 
@@ -36,10 +49,11 @@
          *  Directive used for automatic attributes editor form creation
          *
          */
-            .directive("guiTableManager", [
+            .directive("guiTableManagerPopup", [
                 "$location",
                 "$designService",
-                function ($location, $designService) {
+                "COUNT_ITEMS_PER_PAGE",
+                function ($location, $designService, COUNT_ITEMS_PER_PAGE) {
                     return {
                         restrict: "E",
                         scope: {
@@ -48,17 +62,17 @@
                             "buttonData": "=buttons",
                             "mapping": "=mapping"
                         },
-                        templateUrl: $designService.getTemplate("design/gui/table.html"),
+                        templateUrl: $designService.getTemplate("design/gui/table-popup.html"),
                         controller: function ($scope) {
                             // Variables
                             var isInit, activeFilters, possibleButtons;
 
                             // Functions
-                            var splitExtraData, prepareFilters, getOptions, getFilterStr, compareFilters, saveCurrentActiveFilters,
-                                getFilterDetails, initButtons, initPaginator, getQueryStr, getLimitStr;
+                            var splitExtraData, prepareFilters, getOptions, compareFilters, saveCurrentActiveFilters,
+                                getFilterDetails, initButtons, initPaginator;
 
                             isInit = false;
-                            possibleButtons = ["new", "delete"];
+                            possibleButtons = ["new", "delete", "checkbox"];
                             activeFilters = {};
 
                             // Scope data
@@ -71,7 +85,15 @@
                                 if (typeof $scope.buttons === "undefined") {
                                     $scope.buttons = {};
                                     for (i = 0; i < possibleButtons.length; i += 1) {
-                                        $scope.buttons[possibleButtons[i]] = typeof $scope.buttonData !== "undefined" ? $scope.buttonData[possibleButtons[i]] : true;
+                                        if(typeof $scope.buttonData !== "undefined"){
+                                            if(typeof $scope.buttonData[possibleButtons[i]] !== "undefined"){
+                                                $scope.buttons[possibleButtons[i]] = $scope.buttonData[possibleButtons[i]];
+                                            } else {
+                                                $scope.buttons[possibleButtons[i]] = true;
+                                            }
+                                        } else {
+                                            $scope.buttons[possibleButtons[i]] = true;
+                                        }
                                     }
                                 }
                             };
@@ -79,8 +101,8 @@
                             initPaginator = function () {
                                 var limit, search, page, parts, countPerPage;
 
-                                page =1;
-                                countPerPage = 5;
+                                page = 1;
+                                countPerPage = COUNT_ITEMS_PER_PAGE;
                                 search = $location.search();
                                 limit = search.limit;
 
@@ -104,14 +126,14 @@
                             };
 
                             getOptions = function (opt) {
-                                var options = {"":""};
+                                var options = {"": ""};
 
                                 if (typeof opt === "string") {
                                     try {
                                         options = JSON.parse(opt.replace(/'/g, "\""));
                                     }
                                     catch (e) {
-                                        var parts = opt.replace(/[{}]/g,"").split(",");
+                                        var parts = opt.replace(/[{}]/g, "").split(",");
                                         for (var i = 0; i < parts.length; i += 1) {
                                             options[parts[i]] = parts[i];
                                         }
@@ -136,7 +158,7 @@
                             /**
                              * Save active filters
                              *
-                             * @param {object} field
+                             * @param {object} filterDetails
                              */
                             saveCurrentActiveFilters = function (filterDetails) {
                                 if (filterDetails.filterValue) {
@@ -180,6 +202,7 @@
                                     }
 
                                     filterDetails = getFilterDetails($scope.parent.fields[i]);
+
                                     filter = {
                                         "type": filterDetails.type,
                                         "visible": filterDetails.visible || false,
@@ -194,39 +217,6 @@
 
                                     $scope.filters.push(filter);
                                 }
-                            };
-
-                            /**
-                             * Generates a query string for filters
-                             *
-                             * @param {array} filters
-                             * @returns {string}
-                             */
-                            getFilterStr = function (filters) {
-                                var filtersArr = [];
-
-                                var removeEmpty = function (arr) {
-                                    for (var i = 0; i < arr.length; i += 1) {
-                                        if ("" === arr[i]) {
-                                            arr.splice(i, 1);
-                                        }
-                                    }
-                                };
-                                for (var key in filters) {
-                                    if (filters.hasOwnProperty(key) && filters[key] !== "") {
-                                        if (filters[key] instanceof Array) {
-                                            removeEmpty(filters[key]);
-                                            if (filters[key].length > 0) {
-                                                filtersArr.push(key.toLowerCase() + '=~' + filters[key].join());
-                                            }
-                                        } else {
-                                            filtersArr.push(key.toLowerCase() + '=' + filters[key]);
-                                        }
-
-                                    }
-                                }
-
-                                return filtersArr.join("&");
                             };
 
                             /**
@@ -297,7 +287,7 @@
                                     default:
                                         $scope.paginator.page = page;
                                 }
-                                $location.search(getQueryStr());
+                                $scope.parent.search = getSearchObj();
                             };
 
                             /**
@@ -326,37 +316,45 @@
                                         }
                                         break;
                                     default:
-                                        if (page === parseInt(($scope.paginator.page), 10)) {
+                                        if (page === parseInt($scope.paginator.page, 10)) {
                                             _class = 'active';
                                         }
                                 }
 
                                 return _class;
-
-                            };
-
-                            getLimitStr = function (reset) {
-                                var str = "";
-                                if (typeof $scope.paginator === "undefined") {
-                                    return false;
-                                }
-                                if (reset) {
-                                    str = "limit=0," + $scope.paginator.countPerPage;
-                                } else {
-                                    str = "limit=" + (($scope.paginator.page - 1) * $scope.paginator.countPerPage) + "," + $scope.paginator.countPerPage;
-                                }
-
-                                return str;
                             };
 
                             /** PAGINATOR END*/
 
-                            getQueryStr = function (reset) {
-                                var arr = [];
-                                arr.push(getLimitStr(reset));
-                                arr.push(getFilterStr($scope.newFilters));
+                            var getSearchObj = function (reset) {
+                                var search = {};
+                                var removeEmpty = function (arr) {
+                                    for (var i = 0; i < arr.length; i += 1) {
+                                        if ("" === arr[i].trim()) {
+                                            arr.splice(i, 1);
+                                        }
+                                    }
+                                };
+                                for (var key in $scope.newFilters) {
+                                    if ($scope.newFilters.hasOwnProperty(key)) {
+                                        if ($scope.newFilters[key] instanceof Array) {
+                                            removeEmpty($scope.newFilters[key]);
+                                            if ($scope.newFilters[key].length > 0) {
+                                                search[key.toLowerCase()] = '~' + $scope.newFilters[key].join();
+                                            }
+                                        } else if ($scope.newFilters[key] !== "") {
+                                            search[key.toLowerCase()] = $scope.newFilters[key];
+                                        }
+                                    }
+                                }
 
-                                return arr.join("&");
+                                if (reset) {
+                                    search.limit = "0," + $scope.paginator.countPerPage;
+                                } else {
+                                    search.limit = (($scope.paginator.page - 1) * $scope.paginator.countPerPage) + "," + $scope.paginator.countPerPage;
+                                }
+
+                                return search;
                             };
 
                             $scope.$watch("newFilters", function () {
@@ -365,7 +363,8 @@
                                 }
 
                                 if (!compareFilters()) {
-                                    $location.search(getQueryStr(true));
+                                    activeFilters = clone($scope.newFilters);
+                                    $scope.parent.search = getSearchObj(true);
                                 }
 
                             }, true);
@@ -374,10 +373,6 @@
                                 if (typeof $scope.items === "undefined") {
                                     return false;
                                 }
-                                if (isInit) {
-                                    return false;
-                                }
-
                                 var i, item;
                                 for (i = 0; i < $scope.items.length; i += 1) {
                                     item = $scope.items[i];
@@ -385,7 +380,9 @@
                                         splitExtraData(item);
                                     }
                                 }
-
+                                if (isInit) {
+                                    return false;
+                                }
                                 prepareFilters();
                                 isInit = true;
                             }, true);

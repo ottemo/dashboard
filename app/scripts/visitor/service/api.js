@@ -18,6 +18,15 @@
                         method: "GET",
                         url: visitorBaseURL + "/attribute/list"
                     },
+                    "addAttribute": {
+                        method: "POST",
+                        url: visitorBaseURL + "/attribute/add"
+                    },
+                    "removeAttribute": {
+                        method: "DELETE",
+                        params: { attribute: "@attribute" },
+                        url: visitorBaseURL + "/attribute/remove/:attribute"
+                    },
                     "visitorList": {
                         method: "POST",
                         url: visitorBaseURL + "/list"
