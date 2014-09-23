@@ -32,17 +32,6 @@
                         $location.search("limit", "0,5");
                     }
 
-                    var getFields = function () {
-                        var arr, i;
-                        arr = [];
-
-                        for (i = 0; i < $scope.fields.length; i += 1) {
-                            arr.push($scope.fields[i].attribute);
-                        }
-                        return arr.join(",");
-                    };
-
-
                     $scope.removeIds = {};
 
                     /**
@@ -62,15 +51,15 @@
                     /**
                      * Gets count of categories
                      */
-//                    $categoryApiService.getCount($location.search(), {}).$promise.then(
-//                        function (response) {
-//                            if (response.error === "") {
-//                                $scope.count = response.result;
-//                            } else {
-//                                $scope.count = 0;
-//                            }
-//                        }
-//                    );
+                    $categoryApiService.getCount($location.search(), {}).$promise.then(
+                        function (response) {
+                            if (response.error === "") {
+                                $scope.count = response.result;
+                            } else {
+                                $scope.count = 0;
+                            }
+                        }
+                    );
                     $scope.count = 3;
                     /**
                      * Handler event when selecting the category in the list

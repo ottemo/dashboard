@@ -145,7 +145,7 @@
                             day = date.getDay().toString().length < 2 ? '0' + date.getDay() : date.getDay();
 
                             return date.getFullYear() + '/' + month + '/' + day;
-                    }
+                    };
 
                 }]); // jshint ignore:line
         return orderModule;

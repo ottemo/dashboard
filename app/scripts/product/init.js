@@ -46,14 +46,7 @@
                     "$designService",
                     "$route",
                     "$dashboardSidebarService",
-                    "$dashboardHeaderService",
-                    function ($designService, $route, $dashboardSidebarService, $dashboardHeaderService) {
-
-                        // NAVIGATION
-                        // Adds item in the right top-menu
-//                        $dashboardHeaderService.addMenuItem("/product", "Products", null);
-//                        $dashboardHeaderService.addMenuItem("/product/list", "Manage", "/products");
-//                        $dashboardHeaderService.addMenuItem("/product/attributes", "Attributes", "/product/attributes");
+                    function ($designService, $route, $dashboardSidebarService) {
 
                         // Adds item in the left sidebar
                         $dashboardSidebarService.addItem("/product", "Products", null, "fa fa-tags", 8);

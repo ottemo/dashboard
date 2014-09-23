@@ -33,7 +33,9 @@
                         <div ng-switch-when="html">
                             <label>{{attribute.Label}} <span class="asterisk"
                                                              ng-show="attribute.IsRequired">*</span></label>
-                            <gui-multiline-text editor-scope="attribute" item="item"></gui-multiline-text>
+                            <textarea type="text" class="form-control" style="resize:vertical;" rows="7" data-gui-html id="tinymce1"
+                                      placeholder="{{attribute.Label}}"
+                                      ng-model="item[attribute.Attribute]"></textarea>
                         </div>
 
                         <div ng-switch-when="text">

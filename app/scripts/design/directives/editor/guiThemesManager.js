@@ -55,11 +55,11 @@
                                         "path": $scope.currentPath,
                                         "value": theme
                                     }).$promise.then(
-                                        function (response) {
+                                        function () {
                                             $scope.activeTheme = theme;
                                         }
                                     );
-                                }
+                                };
                             }
                         ]
                     };

@@ -22,6 +22,7 @@
             "design/directives/filter/guiRange",
             "design/directives/filter/guiSelect",
 
+            "design/directives/editor/guiHtml",
             "design/directives/editor/guiPictureManager",
             "design/directives/editor/guiModelSelector",
             "design/directives/editor/guiArrayModelSelector",

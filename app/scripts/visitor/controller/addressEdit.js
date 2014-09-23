@@ -123,7 +123,7 @@
                          */
                         updateSuccess = function (response) {
                             if (response.error === "") {
-                                var result = response.result || getDefaultPage();
+                                var result = response.result || getDefaultAddress();
                                 $scope.message = {
                                     'type': 'success',
                                     'message': 'Address was updated successfully'

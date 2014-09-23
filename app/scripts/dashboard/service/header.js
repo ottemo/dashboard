@@ -106,7 +106,7 @@
                         },
 
                         getAvatar: function () {
-                            return $loginLoginService.getAvatar()
+                            return $loginLoginService.getAvatar();
                         },
 
 

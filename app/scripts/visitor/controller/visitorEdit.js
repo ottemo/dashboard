@@ -126,7 +126,7 @@
                          */
                         updateSuccess = function (response) {
                             if (response.error === "") {
-                                var result = response.result || getDefaultPage();
+                                var result = response.result || getDefaultVisitor();
                                 $scope.message = {
                                     'type': 'success',
                                     'message': 'Visitor was updated successfully'
