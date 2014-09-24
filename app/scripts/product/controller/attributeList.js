@@ -93,20 +93,20 @@
                         var i, answer;
                         answer = window.confirm("You really want to remove this attribute");
                         if (answer) {
+                            var callback = function (response) {
+                                if (response) {
+                                    for (i = 0; i < $scope.attributesList.length; i += 1) {
+                                        if ($scope.attributesList[i].Attribute === response) {
+                                            $scope.attributesList.splice(i, 1);
+                                        }
+                                    }
+                                }
+                            };
+
                             for (attr in $scope.removeIds) {
 
                                 if ($scope.removeIds.hasOwnProperty(attr) && true === $scope.removeIds[attr]) {
-                                    remove(attr).then(
-                                        function (response) {
-                                            if (response) {
-                                                for (i = 0; i < $scope.attributesList.length; i += 1) {
-                                                    if ($scope.attributesList[i].Attribute === response) {
-                                                        $scope.attributesList.splice(i, 1);
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    );
+                                    remove(attr).then(callback);
                                 }
                             }
                         }

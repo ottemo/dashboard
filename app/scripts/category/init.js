@@ -27,13 +27,8 @@
                         });
                 }])
 
-                .run(["$designService", "$route", "$dashboardSidebarService", "$dashboardHeaderService",
-
-                    function ($designService, $route, $dashboardSidebarService, $dashboardHeaderService) {
-
-                        // NAVIGATION
-                        // Adds item in the left top-menu
-//                        $dashboardHeaderService.addMenuItem("/category", "Category", "/category");
+                .run(["$designService", "$route", "$dashboardSidebarService",
+                    function ($designService, $route, $dashboardSidebarService) {
 
                         // Adds item in the left sidebar
                         $dashboardSidebarService.addItem("/categories", "Categories", "/categories", "fa fa-th-list", 6);

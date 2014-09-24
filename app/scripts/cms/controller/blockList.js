@@ -112,24 +112,27 @@
                         var i, answer;
                         answer = window.confirm("You really want to remove this block(s)");
                         if (answer) {
+                            var callback = function (response) {
+                                if (response) {
+                                    for (i = 0; i < $scope.blocks.length; i += 1) {
+                                        if ($scope.blocks[i].Id === response) {
+                                            $scope.blocks.splice(i, 1);
+                                        }
+                                    }
+                                }
+                            };
+
                             for (id in $scope.removeIds) {
                                 if ($scope.removeIds.hasOwnProperty(id) && true === $scope.removeIds[id]) {
-                                    remove(id).then(
-                                        function (response) {
-                                            if (response) {
-                                                for (i = 0; i < $scope.blocks.length; i += 1) {
-                                                    if ($scope.blocks[i].Id === response) {
-                                                        $scope.blocks.splice(i, 1);
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    );
+                                    remove(id).then(callback);
                                 }
                             }
                         }
                     };
-                }]); // jshint ignore:line
+                }
+            ]
+        );
+
         return cmsModule;
     });
 })(window.define);

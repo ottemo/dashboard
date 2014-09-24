@@ -24,6 +24,14 @@
                             "label": "Name",
                             "visible": true,
                             "notDisable": true
+                        },
+
+                        {
+                            "attribute": "email",
+                            "type": "string",
+                            "label": "Email",
+                            "visible": true,
+                            "notDisable": true
                         }
                     ];
 
@@ -105,19 +113,19 @@
                         var i, answer;
                         answer = window.confirm("You really want to remove this visitor");
                         if (answer) {
+                            var callback = function (response) {
+                                if (response) {
+                                    for (i = 0; i < $scope.visitors.length; i += 1) {
+                                        if ($scope.visitors[i].Id === response) {
+                                            $scope.visitors.splice(i, 1);
+                                        }
+                                    }
+                                }
+                            };
+
                             for (id in $scope.removeIds) {
                                 if ($scope.removeIds.hasOwnProperty(id) && true === $scope.removeIds[id]) {
-                                    remove(id).then(
-                                        function (response) {
-                                            if (response) {
-                                                for (i = 0; i < $scope.visitors.length; i += 1) {
-                                                    if ($scope.visitors[i].Id === response) {
-                                                        $scope.visitors.splice(i, 1);
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    );
+                                    remove(id).then(callback);
                                 }
                             }
                         }

@@ -86,6 +86,10 @@
                         method: "DELETE",
                         params: { id: "@id" },
                         url: visitorBaseURL + "/address/delete/:id"
+                    },
+                    "sendMail": {
+                        method: "POST",
+                        url: visitorBaseURL + "/sendmail"
                     }
                 });
             }]);

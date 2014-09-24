@@ -85,8 +85,8 @@
                                 if (typeof $scope.buttons === "undefined") {
                                     $scope.buttons = {};
                                     for (i = 0; i < possibleButtons.length; i += 1) {
-                                        if(typeof $scope.buttonData !== "undefined"){
-                                            if(typeof $scope.buttonData[possibleButtons[i]] !== "undefined"){
+                                        if (typeof $scope.buttonData !== "undefined") {
+                                            if (typeof $scope.buttonData[possibleButtons[i]] !== "undefined") {
                                                 $scope.buttons[possibleButtons[i]] = $scope.buttonData[possibleButtons[i]];
                                             } else {
                                                 $scope.buttons[possibleButtons[i]] = true;
@@ -326,6 +326,15 @@
 
                             /** PAGINATOR END*/
 
+                            var getPaginatorSearch = function (search, reset) {
+                                if (reset) {
+                                    search.limit = "0," + $scope.paginator.countPerPage;
+                                } else {
+                                    search.limit = (($scope.paginator.page - 1) * $scope.paginator.countPerPage) + "," + $scope.paginator.countPerPage;
+                                }
+
+                                return search;
+                            };
                             var getSearchObj = function (reset) {
                                 var search = {};
                                 var removeEmpty = function (arr) {
@@ -348,11 +357,7 @@
                                     }
                                 }
 
-                                if (reset) {
-                                    search.limit = "0," + $scope.paginator.countPerPage;
-                                } else {
-                                    search.limit = (($scope.paginator.page - 1) * $scope.paginator.countPerPage) + "," + $scope.paginator.countPerPage;
-                                }
+                                search = getPaginatorSearch(search, reset);
 
                                 return search;
                             };

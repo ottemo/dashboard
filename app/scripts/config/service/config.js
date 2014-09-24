@@ -19,7 +19,7 @@
                     var isInit, configGroups, configTabs, items, itemsOld, isLoaded;
 
                     // Functions
-                    var init, load, save, getConfigGroups, getConfigTabs, getItems, addTab, addGroup;
+                    var init, load, save, getConfigGroups, getConfigTabs, getItems, addTab, addGroup, checkOnDups;
 
                     items = {};
                     itemsOld = {};
@@ -71,12 +71,6 @@
                                 "Name": attr.Label
                             });
 
-                        } else if (-1 === attr.Path.indexOf(".")) {
-                            for (var i = 0; i < configGroups.length; i += 1) {
-                                if (configGroups[i].Id === groupCode) {
-                                    configGroups[i].Name = attr.Label;
-                                }
-                            }
                         }
                     };
 
@@ -123,11 +117,13 @@
                         return isInit.promise;
                     };
 
-                    var checkOnDups = function (group, path) {
-                        for (var i = 0; i < configTabs[group].length; i += 1) {
-                            if (path === configTabs[group][i].Path) {
-                                configTabs[group].splice(i, 1);
-                                return true;
+                    checkOnDups = function (group, path, force) {
+                        if (force) {
+                            for (var i = 0; i < configTabs[group].length; i += 1) {
+                                if (path === configTabs[group][i].Path) {
+                                    configTabs[group].splice(i, 1);
+                                    return true;
+                                }
                             }
                         }
                     };
@@ -151,9 +147,7 @@
                                             parts = response.result[i].Path.match(regExp);
                                             group = parts[1];
 
-                                            if (force) {
-                                                checkOnDups(group, response.result[i].Path);
-                                            }
+                                            checkOnDups(group, response.result[i].Path, force);
 
                                             response.result[i].Attribute = response.result[i].Path;
                                             response.result[i].Group = parts[2];
@@ -178,24 +172,21 @@
                         defer = $q.defer();
 
                         for (field in items[path]) {
-                            if (items[path].hasOwnProperty(field)) {
-                                if (items[path][field] !== itemsOld[path][field]) {
-                                    qtyChangedItems += 1;
-                                    $configApiService.setPath({
-                                        "path": field,
-                                        "value": items[path][field]
-                                    }).$promise.then(
-                                        function (response) {
-                                            qtySavedItems += 1;
-                                            if (response.error === "") {
-                                                itemsOld[path][field] = items[path][field];
-                                            }
-                                            if (qtyChangedItems === qtySavedItems) {
-                                                defer.resolve(true);
-                                            }
+                            if (items[path].hasOwnProperty(field) && items[path][field] !== itemsOld[path][field]) {
+                                qtyChangedItems += 1;
+                                $configApiService.setPath({
+                                    "path": field,
+                                    "value": items[path][field]
+                                }).$promise.then(function (response) {
+                                        qtySavedItems += 1;
+                                        if (response.error === "") {
+                                            itemsOld[path][field] = items[path][field];
                                         }
-                                    ); // jshint ignore:line
-                                }
+                                        if (qtyChangedItems === qtySavedItems) {
+                                            defer.resolve(true);
+                                        }
+                                    }
+                                ); // jshint ignore:line
                             }
                         }
                         return defer.promise;
