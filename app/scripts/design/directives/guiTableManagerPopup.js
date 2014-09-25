@@ -85,8 +85,8 @@
                                 if (typeof $scope.buttons === "undefined") {
                                     $scope.buttons = {};
                                     for (i = 0; i < possibleButtons.length; i += 1) {
-                                        if(typeof $scope.buttonData !== "undefined"){
-                                            if(typeof $scope.buttonData[possibleButtons[i]] !== "undefined"){
+                                        if (typeof $scope.buttonData !== "undefined") {
+                                            if (typeof $scope.buttonData[possibleButtons[i]] !== "undefined") {
                                                 $scope.buttons[possibleButtons[i]] = $scope.buttonData[possibleButtons[i]];
                                             } else {
                                                 $scope.buttons[possibleButtons[i]] = true;
@@ -225,26 +225,54 @@
                              * @returns {boolean}
                              */
                             compareFilters = function () {
+                                var checkActiveFilters, compareArrays, check;
+
+                                checkActiveFilters = function (key) {
+                                    if ($scope.newFilters[key] instanceof Array) {
+                                        if ("" !== $scope.newFilters[key].sort().join()) {
+                                            return false;
+                                        }
+                                    } else if ($scope.newFilters[key].trim() !== "") {
+                                        return false;
+                                    }
+
+                                    return true;
+                                };
+
+                                compareArrays = function (key) {
+                                    if ($scope.newFilters[key] instanceof Array && typeof activeFilters[key] !== "undefined") {
+                                        if ($scope.newFilters[key].sort().join() !== activeFilters[key].sort().join()) {
+                                            return false;
+                                        }
+                                    } else {
+                                        if ($scope.newFilters[key] !== activeFilters[key]) {
+                                            return false;
+                                        }
+                                    }
+
+                                    return true;
+                                };
+
+                                check = function(key){
+                                    if (typeof activeFilters[key] === "undefined") {
+                                        if (!checkActiveFilters(key)) {
+                                            return false;
+                                        }
+                                        return true;
+                                    }
+
+                                    if (!compareArrays(key)) {
+                                        return false;
+                                    }
+                                    return true;
+                                };
+
                                 for (var key in $scope.newFilters) {
                                     if ($scope.newFilters.hasOwnProperty(key)) {
-                                        if (typeof activeFilters[key] === "undefined") {
-                                            if ($scope.newFilters[key] instanceof Array) {
-                                                if ("" !== $scope.newFilters[key].sort().join()) {
-                                                    return false;
-                                                }
-                                            } else if ($scope.newFilters[key].trim() !== "") {
-                                                return false;
-                                            }
+                                        if(check(key)){
                                             continue;
-                                        }
-                                        if ($scope.newFilters[key] instanceof Array) {
-                                            if ($scope.newFilters[key].sort().join() !== activeFilters[key].sort().join()) {
-                                                return false;
-                                            }
                                         } else {
-                                            if ($scope.newFilters[key] !== activeFilters[key]) {
-                                                return false;
-                                            }
+                                            return false;
                                         }
                                     }
                                 }
@@ -273,20 +301,14 @@
                                     return false;
                                 }
 
-                                switch (page) {
-                                    case 'prev':
-                                        if ($scope.paginator.page !== 1) {
-                                            $scope.paginator.page = $scope.paginator.page - 1;
-                                        }
-                                        break;
-                                    case 'next':
-                                        if ($scope.paginator.page !== $scope.paginator.countPages) {
-                                            $scope.paginator.page = $scope.paginator.page + 1;
-                                        }
-                                        break;
-                                    default:
-                                        $scope.paginator.page = page;
+                                if ("prev" === page && $scope.paginator.page !== 1) {
+                                    $scope.paginator.page = $scope.paginator.page - 1;
+                                } else if ("next" === page && $scope.paginator.page !== $scope.paginator.countPages) {
+                                    $scope.paginator.page = $scope.paginator.page + 1;
+                                } else if(-1 === ["prev", "next"].indexOf(page)){
+                                    $scope.paginator.page = page;
                                 }
+
                                 $scope.parent.search = getSearchObj();
                             };
 
@@ -298,27 +320,19 @@
                              */
                             $scope.getClass = function (page) {
                                 if (typeof $scope.paginator === "undefined") {
-                                    return false;
+                                    return '';
                                 }
 
                                 var _class;
                                 _class = '';
 
-                                switch (page) {
-                                    case 'prev':
-                                        if ($scope.paginator.page === 1) {
-                                            _class = 'disabled';
-                                        }
-                                        break;
-                                    case 'next':
-                                        if ($scope.paginator.page >= $scope.paginator.countPages) {
-                                            _class = 'disabled';
-                                        }
-                                        break;
-                                    default:
-                                        if (page === parseInt($scope.paginator.page, 10)) {
-                                            _class = 'active';
-                                        }
+                                if (page === parseInt($scope.paginator.page, 10)) {
+                                    _class = 'active';
+                                }
+
+                                if (("prev" === page && $scope.paginator.page === 1) ||
+                                    ("next" === page && $scope.paginator.page >= $scope.paginator.countPages)) {
+                                    _class = 'disabled';
                                 }
 
                                 return _class;
@@ -327,32 +341,43 @@
                             /** PAGINATOR END*/
 
                             var getSearchObj = function (reset) {
-                                var search = {};
-                                var removeEmpty = function (arr) {
+                                var addFilter, getPaginatorSearch, removeEmpty, search;
+
+                                search = {};
+                                removeEmpty = function (arr) {
                                     for (var i = 0; i < arr.length; i += 1) {
                                         if ("" === arr[i].trim()) {
                                             arr.splice(i, 1);
                                         }
                                     }
                                 };
+                                getPaginatorSearch = function (search, reset) {
+                                    if (reset) {
+                                        search.limit = "0," + $scope.paginator.countPerPage;
+                                    } else {
+                                        search.limit = (($scope.paginator.page - 1) * $scope.paginator.countPerPage) + "," + $scope.paginator.countPerPage;
+                                    }
+
+                                    return search;
+                                };
+                                addFilter = function (key) {
+                                    if ($scope.newFilters[key] instanceof Array) {
+                                        removeEmpty($scope.newFilters[key]);
+                                        if ($scope.newFilters[key].length > 0) {
+                                            search[key.toLowerCase()] = '~' + $scope.newFilters[key].join();
+                                        }
+                                    } else if ($scope.newFilters[key] !== "") {
+                                        search[key.toLowerCase()] = $scope.newFilters[key];
+                                    }
+                                };
+
                                 for (var key in $scope.newFilters) {
                                     if ($scope.newFilters.hasOwnProperty(key)) {
-                                        if ($scope.newFilters[key] instanceof Array) {
-                                            removeEmpty($scope.newFilters[key]);
-                                            if ($scope.newFilters[key].length > 0) {
-                                                search[key.toLowerCase()] = '~' + $scope.newFilters[key].join();
-                                            }
-                                        } else if ($scope.newFilters[key] !== "") {
-                                            search[key.toLowerCase()] = $scope.newFilters[key];
-                                        }
+                                        addFilter(key);
                                     }
                                 }
 
-                                if (reset) {
-                                    search.limit = "0," + $scope.paginator.countPerPage;
-                                } else {
-                                    search.limit = (($scope.paginator.page - 1) * $scope.paginator.countPerPage) + "," + $scope.paginator.countPerPage;
-                                }
+                                search = getPaginatorSearch(search, reset);
 
                                 return search;
                             };

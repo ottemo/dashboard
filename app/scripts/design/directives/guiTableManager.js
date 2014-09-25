@@ -55,7 +55,7 @@
 
                             // Functions
                             var splitExtraData, prepareFilters, getOptions, getFilterStr, compareFilters, saveCurrentActiveFilters,
-                                getFilterDetails, initButtons, initPaginator, getQueryStr, getLimitStr;
+                                getFilterDetails, getQueryStr, getLimitStr;
 
                             isInit = false;
                             possibleButtons = ["new", "delete"];
@@ -66,7 +66,7 @@
                             $scope.filters = [];
                             $scope.newFilters = {};
 
-                            initButtons = function () {
+                            $scope.init = function () {
                                 var i;
                                 if (typeof $scope.buttons === "undefined") {
                                     $scope.buttons = {};
@@ -76,42 +76,15 @@
                                 }
                             };
 
-                            initPaginator = function () {
-                                var limit, search, page, parts, countPerPage;
-
-                                page =1;
-                                countPerPage = 5;
-                                search = $location.search();
-                                limit = search.limit;
-
-                                if (limit) {
-                                    parts = limit.split(",");
-                                    page = Math.floor(parts[0] / countPerPage) + 1;
-                                }
-                                $scope.paginator = {
-                                    "page": page,
-                                    "countItems": $scope.parent.count,
-                                    "countPages": 0,
-                                    "countPerPage": countPerPage,
-                                    "limitStart": 0
-                                };
-
-                                $scope.paginator.countPages = Math.ceil($scope.paginator.countItems / $scope.paginator.countPerPage);
-                            };
-
-                            $scope.init = function () {
-                                initButtons();
-                            };
-
                             getOptions = function (opt) {
-                                var options = {"":""};
+                                var options = {"": ""};
 
                                 if (typeof opt === "string") {
                                     try {
                                         options = JSON.parse(opt.replace(/'/g, "\""));
                                     }
                                     catch (e) {
-                                        var parts = opt.replace(/[{}]/g,"").split(",");
+                                        var parts = opt.replace(/[{}]/g, "").split(",");
                                         for (var i = 0; i < parts.length; i += 1) {
                                             options[parts[i]] = parts[i];
                                         }
@@ -235,26 +208,54 @@
                              * @returns {boolean}
                              */
                             compareFilters = function () {
+                                var checkActiveFilters, compareArrays, check;
+
+                                checkActiveFilters = function (key) {
+                                    if ($scope.newFilters[key] instanceof Array) {
+                                        if ("" !== $scope.newFilters[key].sort().join()) {
+                                            return false;
+                                        }
+                                    } else if ($scope.newFilters[key].trim() !== "") {
+                                        return false;
+                                    }
+
+                                    return true;
+                                };
+
+                                compareArrays = function (key) {
+                                    if ($scope.newFilters[key] instanceof Array && typeof activeFilters[key] !== "undefined") {
+                                        if ($scope.newFilters[key].sort().join() !== activeFilters[key].sort().join()) {
+                                            return false;
+                                        }
+                                    } else {
+                                        if ($scope.newFilters[key] !== activeFilters[key]) {
+                                            return false;
+                                        }
+                                    }
+
+                                    return true;
+                                };
+
+                                check = function(key){
+                                    if (typeof activeFilters[key] === "undefined") {
+                                        if (!checkActiveFilters(key)) {
+                                            return false;
+                                        }
+                                        return true;
+                                    }
+
+                                    if (!compareArrays(key)) {
+                                        return false;
+                                    }
+                                    return true;
+                                };
+
                                 for (var key in $scope.newFilters) {
                                     if ($scope.newFilters.hasOwnProperty(key)) {
-                                        if (typeof activeFilters[key] === "undefined") {
-                                            if ($scope.newFilters[key] instanceof Array) {
-                                                if ("" !== $scope.newFilters[key].sort().join()) {
-                                                    return false;
-                                                }
-                                            } else if ($scope.newFilters[key].trim() !== "") {
-                                                return false;
-                                            }
+                                        if(check(key)){
                                             continue;
-                                        }
-                                        if ($scope.newFilters[key] instanceof Array) {
-                                            if ($scope.newFilters[key].sort().join() !== activeFilters[key].sort().join()) {
-                                                return false;
-                                            }
                                         } else {
-                                            if ($scope.newFilters[key] !== activeFilters[key]) {
-                                                return false;
-                                            }
+                                            return false;
                                         }
                                     }
                                 }
@@ -283,20 +284,14 @@
                                     return false;
                                 }
 
-                                switch (page) {
-                                    case 'prev':
-                                        if ($scope.paginator.page !== 1) {
-                                            $scope.paginator.page = $scope.paginator.page - 1;
-                                        }
-                                        break;
-                                    case 'next':
-                                        if ($scope.paginator.page !== $scope.paginator.countPages) {
-                                            $scope.paginator.page = $scope.paginator.page + 1;
-                                        }
-                                        break;
-                                    default:
-                                        $scope.paginator.page = page;
+                                if ("prev" === page && $scope.paginator.page !== 1) {
+                                    $scope.paginator.page = $scope.paginator.page - 1;
+                                } else if ("next" === page && $scope.paginator.page !== $scope.paginator.countPages) {
+                                    $scope.paginator.page = $scope.paginator.page + 1;
+                                } else if(-1 === ["prev", "next"].indexOf(page)){
+                                    $scope.paginator.page = page;
                                 }
+
                                 $location.search(getQueryStr());
                             };
 
@@ -308,38 +303,30 @@
                              */
                             $scope.getClass = function (page) {
                                 if (typeof $scope.paginator === "undefined") {
-                                    return false;
+                                    return '';
                                 }
 
                                 var _class;
                                 _class = '';
 
-                                switch (page) {
-                                    case 'prev':
-                                        if ($scope.paginator.page === 1) {
-                                            _class = 'disabled';
-                                        }
-                                        break;
-                                    case 'next':
-                                        if ($scope.paginator.page >= $scope.paginator.countPages) {
-                                            _class = 'disabled';
-                                        }
-                                        break;
-                                    default:
-                                        if (page === parseInt(($scope.paginator.page), 10)) {
-                                            _class = 'active';
-                                        }
+                                if (page === parseInt($scope.paginator.page, 10)) {
+                                    _class = 'active';
+                                }
+
+                                if (("prev" === page && $scope.paginator.page === 1) ||
+                                    ("next" === page && $scope.paginator.page >= $scope.paginator.countPages)) {
+                                    _class = 'disabled';
                                 }
 
                                 return _class;
-
                             };
 
                             getLimitStr = function (reset) {
                                 var str = "";
                                 if (typeof $scope.paginator === "undefined") {
-                                    return false;
+                                    return str;
                                 }
+
                                 if (reset) {
                                     str = "limit=0," + $scope.paginator.countPerPage;
                                 } else {
@@ -394,7 +381,28 @@
                                 if (typeof $scope.parent.count === "undefined") {
                                     return false;
                                 }
-                                initPaginator();
+
+                                var limit, search, page, parts, countPerPage;
+
+                                page = 1;
+                                countPerPage = 5;
+                                search = $location.search();
+                                limit = search.limit;
+
+                                if (limit) {
+                                    parts = limit.split(",");
+                                    page = Math.floor(parts[0] / countPerPage) + 1;
+                                }
+                                $scope.paginator = {
+                                    "page": page,
+                                    "countItems": $scope.parent.count,
+                                    "countPages": 0,
+                                    "countPerPage": countPerPage,
+                                    "limitStart": 0
+                                };
+
+                                $scope.paginator.countPages = Math.ceil($scope.paginator.countItems / $scope.paginator.countPerPage);
+
                             }, true);
                         }
                     };

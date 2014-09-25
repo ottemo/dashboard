@@ -42,7 +42,7 @@
                             "label": "Price",
                             "visible": true,
                             "filter": "range",
-                            "filterValue": $routeParams.price
+                            "filterValue": $routeParams['price']
                         },
                         {
                             "attribute": "sku",
@@ -143,24 +143,23 @@
                         answer = window.confirm("You really want to remove this product");
 
                         if (answer) {
+                            var callback = function (response) {
+                                if (response) {
+                                    for (i = 0; i < $scope.products.length; i += 1) {
+                                        if ($scope.products[i].Id === response) {
+                                            $scope.products.splice(i, 1);
+                                        }
+                                    }
+                                    $scope.message = {
+                                        'type': 'success',
+                                        'message': 'Product(s) was removed successfuly'
+                                    };
+                                }
+                            };
                             for (id in $scope.removeIds) {
 
                                 if ($scope.removeIds.hasOwnProperty(id) && true === $scope.removeIds[id]) {
-                                    remove(id).then(
-                                        function (response) {
-                                            if (response) {
-                                                for (i = 0; i < $scope.products.length; i += 1) {
-                                                    if ($scope.products[i].Id === response) {
-                                                        $scope.products.splice(i, 1);
-                                                    }
-                                                }
-                                                $scope.message = {
-                                                    'type': 'success',
-                                                    'message': 'Product(s) was removed successfuly'
-                                                };
-                                            }
-                                        }
-                                    );
+                                    remove(id).then(callback);
                                 }
                             }
                         }

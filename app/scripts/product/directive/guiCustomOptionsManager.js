@@ -93,7 +93,14 @@
                         };
 
                         modifyData = function () {
-                            var option, list;
+                            var option, list, saveOrderIfGluing;
+
+                            saveOrderIfGluing = function(obj1, obj2){
+                                if (typeof obj2 !== "undefined") {
+                                    obj1.order = obj2.order;
+                                }
+                            };
+
                             for (option in $scope.optionsData) {
                                 if ($scope.optionsData.hasOwnProperty(option) && typeof $scope.optionsData[option] !== "undefined") {
 
@@ -107,12 +114,8 @@
                                         $scope.optionsData[option].label !== option &&
                                         $scope.optionsData[option] !== "") {
 
-                                        list = $scope.optionsData[option].options;
-                                        cloneRow(list);
+                                        saveOrderIfGluing($scope.optionsData[option], $scope.optionsData[$scope.optionsData[option].label]);
 
-                                        if (typeof $scope.optionsData[$scope.optionsData[option].label] !== "undefined") {
-                                            $scope.optionsData[option].order = $scope.optionsData[$scope.optionsData[option].label].order;
-                                        }
                                         $scope.optionsData[$scope.optionsData[option].label] = $scope.optionsData[option];
 
                                         delete $scope.optionsData[option];

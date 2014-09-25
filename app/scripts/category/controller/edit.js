@@ -58,7 +58,7 @@
                         function (response) {
                             var result = response.result || {};
                             $scope.category = result;
-                            $scope.category.parent = $scope.category.parent_id;  // jshint ignore:line
+                            $scope.category.parent = $scope.category['parent_id'];
                         }
                     );
 
@@ -88,16 +88,15 @@
                             }
                         };
 
-                        removeProduct = function () { // jshint ignore:line
-                            for (var i = 0; i < oldProducts.length; i += 1) {
-                                var oldProdId = oldProducts[i];
-                                var isRemoved = true;
-                                for (var j = 0; j < $scope.category.products.length; j += 1) {
-                                    var prodId = $scope.category.products[i];
-                                    if (typeof prodId === "object") {
-                                        prodId = prodId._id;
-                                    }
-                                    if (oldProdId === prodId) {
+                        removeProduct = function () {
+                            var j, i, oldProdId, isRemoved, prodId;
+
+                            for (i = 0; i < oldProducts.length; i += 1) {
+                                oldProdId = oldProducts[i];
+                                isRemoved = true;
+                                for (j = 0; j < $scope.category.products.length; j += 1) {
+                                    prodId = $scope.category.products[i];
+                                    if (typeof prodId === "object" && oldProdId === prodId._id) {
                                         isRemoved = false;
                                         break;
                                     }
@@ -205,7 +204,10 @@
 
                     $scope.$watch("category", rememberProducts);
 
-                }]); // jshint ignore:line
+                }
+            ]
+        );
+
         return categoryModule;
     });
 })(window.define);

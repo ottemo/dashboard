@@ -24,6 +24,42 @@
                             "label": "Name",
                             "visible": true,
                             "notDisable": true
+                        },
+                        {
+                            "attribute": "first_name",
+                            "type": "string",
+                            "label": "First name",
+                            "visible": true,
+                            "notDisable": false,
+                            "filter": "text",
+                            "filterValue": $routeParams['first_name']
+                        },
+                        {
+                            "attribute": "last_name",
+                            "type": "string",
+                            "label": "Last name",
+                            "visible": true,
+                            "notDisable": false,
+                            "filter": "text",
+                            "filterValue": $routeParams['last_name']
+                        },
+                        {
+                            "attribute": "email",
+                            "type": "string",
+                            "label": "Email",
+                            "visible": true,
+                            "notDisable": false,
+                            "filter": "text",
+                            "filterValue": $routeParams.email
+                        },
+                        {
+                            "attribute": "group",
+                            "type": "string",
+                            "label": "Group",
+                            "visible": true,
+                            "notDisable": false,
+                            "filter": "select",
+                            "filterValue": $routeParams.group
                         }
                     ];
 
@@ -33,20 +69,16 @@
 
                     $scope.removeIds = {};
 
-                    $scope.getFullName = function () {
-                        return $scope.visitor.first_name + " " + $scope.visitor.last_name;                  // jshint ignore:line
-                    };
-
                     /**
                      * Gets list of visitors
                      */
-                    $visitorApiService.visitorList($location.search(), {}).$promise.then(
+                    $visitorApiService.visitorList($location.search(), {"extra": "email,group,last_name,first_name"}).$promise.then(
                         function (response) {
                             var result, i;
-                            $scope.visitors = [];
+                            $scope.visitorsTmp = [];
                             result = response.result || [];
                             for (i = 0; i < result.length; i += 1) {
-                                $scope.visitors.push(result[i]);
+                                $scope.visitorsTmp.push(result[i]);
                             }
                         }
                     );
@@ -63,6 +95,84 @@
                             }
                         }
                     );
+
+                    $visitorApiService.attributesInfo().$promise.then(
+                        function (response) {
+                            var result = response.result || [];
+                            $scope.attributes = result;
+                            var prepareGroups = function () {
+                                for (var i = 0; i < $scope.fields.length; i += 1) {
+                                    if (typeof $scope.fields[i].filter !== "undefined" && -1 !== $scope.fields[i].filter.indexOf("select")) {
+                                        for (var j = 0; j < $scope.attributes.length; j += 1) {
+                                            if ($scope.fields[i].attribute === $scope.attributes[j].Attribute) {
+                                                $scope.fields[i].filter = "select" + $scope.attributes[j].Options;
+                                            }
+                                        }
+                                    }
+                                }
+                            };
+                            prepareGroups();
+                        }
+                    );
+
+                    var prepareList = function () {
+                        if (typeof $scope.attributes === "undefined" || typeof $scope.visitorsTmp === "undefined") {
+                            return false;
+                        }
+
+                        var getOptions, substituteKeyToValue, prepareVisitor;
+
+                        getOptions = function (opt) {
+                            var options = {};
+
+                            if (typeof opt === "string") {
+                                try {
+                                    options = JSON.parse(opt.replace(/'/g, "\""));
+                                }
+                                catch (e) {
+                                    var parts = opt.split(",");
+                                    for (var i = 0; i < parts.length; i += 1) {
+                                        options[parts[i]] = parts[i];
+                                    }
+                                }
+                            } else {
+                                options = opt;
+                            }
+
+                            return options;
+                        };
+
+                        substituteKeyToValue = function (attribute, jsonStr) {
+                            var options = getOptions(jsonStr);
+                            var replace = function (key) {
+                                return options[key];
+                            };
+                            for (var i = 0; i < $scope.visitorsTmp.length; i += 1) {
+                                $scope.visitorsTmp[i].Extra[attribute] = $scope.visitorsTmp[i].Extra[attribute].map(replace);
+                                $scope.visitorsTmp[i].Extra[attribute] = $scope.visitorsTmp[i].Extra[attribute].join(", ");
+                            }
+                        };
+
+                        prepareVisitor = function () {
+                            for (var i = 0; i < $scope.fields.length; i += 1) {
+                                if (typeof $scope.fields[i].filter !== "undefined" && -1 !== $scope.fields[i].filter.indexOf("select")) {
+                                    for (var j = 0; j < $scope.attributes.length; j += 1) {
+                                        if ($scope.fields[i].attribute === $scope.attributes[j].Attribute) {
+                                            substituteKeyToValue($scope.attributes[j].Attribute, $scope.attributes[j].Options);
+                                        }
+                                    }
+                                }
+                            }
+
+                            return $scope.visitorsTmp;
+                        };
+
+                        $scope.visitors = prepareVisitor();
+
+                    };
+
+                    $scope.$watch("visitorsTmp", prepareList);
+                    $scope.$watch("attributes", prepareList);
 
                     /**
                      * Handler event when selecting the visitor in the list
@@ -105,19 +215,19 @@
                         var i, answer;
                         answer = window.confirm("You really want to remove this visitor");
                         if (answer) {
+                            var callback = function (response) {
+                                if (response) {
+                                    for (i = 0; i < $scope.visitors.length; i += 1) {
+                                        if ($scope.visitors[i].Id === response) {
+                                            $scope.visitors.splice(i, 1);
+                                        }
+                                    }
+                                }
+                            };
+
                             for (id in $scope.removeIds) {
                                 if ($scope.removeIds.hasOwnProperty(id) && true === $scope.removeIds[id]) {
-                                    remove(id).then(
-                                        function (response) {
-                                            if (response) {
-                                                for (i = 0; i < $scope.visitors.length; i += 1) {
-                                                    if ($scope.visitors[i].Id === response) {
-                                                        $scope.visitors.splice(i, 1);
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    );
+                                    remove(id).then(callback);
                                 }
                             }
                         }

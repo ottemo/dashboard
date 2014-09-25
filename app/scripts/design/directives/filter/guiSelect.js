@@ -62,7 +62,7 @@
 
                             for (field in options) {
                                 if (options.hasOwnProperty(field)) {
-                                    $scope.options.push({
+                                    $scope.options.unshift({
                                         Desc: "",
                                         Extra: null,
                                         Id: field,

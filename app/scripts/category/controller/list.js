@@ -25,6 +25,15 @@
                             "notDisable": true,
                             "filter": "text",
                             "filterValue": $routeParams.name
+                        },
+                        {
+                            "attribute": "parent_id",
+                            "type": "string",
+                            "label": "Parent ID",
+                            "visible": true,
+                            "notDisable": true,
+                            "filter": "text",
+                            "filterValue": $routeParams['parent_id']
                         }
                     ];
 
@@ -37,7 +46,7 @@
                     /**
                      * Gets list of categories
                      */
-                    $categoryApiService.categoryList($location.search(), {}).$promise.then(
+                    $categoryApiService.categoryList($location.search(), {"extra": "parent_id"}).$promise.then(
                         function (response) {
                             var result, i;
                             $scope.categories = [];
@@ -103,19 +112,19 @@
                         var i, answer;
                         answer = window.confirm("You really want to remove this category");
                         if (answer) {
+                            var callback = function (response) {
+                                if (response) {
+                                    for (i = 0; i < $scope.categories.length; i += 1) {
+                                        if ($scope.categories[i].Id === response) {
+                                            $scope.categories.splice(i, 1);
+                                        }
+                                    }
+                                }
+                            };
+
                             for (id in $scope.removeIds) {
                                 if ($scope.removeIds.hasOwnProperty(id) && true === $scope.removeIds[id]) {
-                                    remove(id).then(
-                                        function (response) {
-                                            if (response) {
-                                                for (i = 0; i < $scope.categories.length; i += 1) {
-                                                    if ($scope.categories[i].Id === response) {
-                                                        $scope.categories.splice(i, 1);
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    );
+                                    remove(id).then(callback);
                                 }
                             }
                         }

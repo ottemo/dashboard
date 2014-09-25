@@ -27,15 +27,21 @@
                             }
                         };
 
-                        updateAttributes = function () {                        // jshint ignore: line
-                            var i, groups;
+                        updateAttributes = function () {
+                            var i, groups, attr, setAttrValue;
                             groups = {};
+                            setAttrValue = function(attr){
+                                if (typeof $scope.item !== "undefined") {
+                                    attr.Value = $scope.item[attr.Attribute] || "";
+                                }
+
+                                return attr;
+                            };
+
                             if (typeof $scope.attributes !== "undefined") {
                                 for (i = 0; i < $scope.attributes.length; i += 1) {
-                                    var attr = $scope.attributes[i];
-                                    if (typeof $scope.item !== "undefined") {
-                                        attr.Value = $scope.item[attr.Attribute] || "";
-                                    }
+                                    attr = $scope.attributes[i];
+                                    attr= setAttrValue(attr);
                                     if (typeof groups[attr.Group] === "undefined") {
                                         groups[attr.Group] = [];
                                     }

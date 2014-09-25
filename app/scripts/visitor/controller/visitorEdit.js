@@ -45,7 +45,7 @@
                     };
 
                     $scope.getFullName = function () {
-                        return $scope.visitor.first_name + " " + $scope.visitor.last_name;                  // jshint ignore:line
+                        return $scope.visitor['first_name'] + " " + $scope.visitor['last_name'];
                     };
 
                     /**
@@ -68,11 +68,11 @@
                             function (response) {
                                 var result = response.result || {};
                                 $scope.visitor = result;
-                                if ($scope.visitor.shipping_address !== null) {                                 // jshint ignore:line
-                                    $scope.visitor.shipping_address_id = $scope.visitor.shipping_address._id;   // jshint ignore:line
+                                if ($scope.visitor['shipping_address'] !== null) {
+                                    $scope.visitor['shipping_address_id'] = $scope.visitor['shipping_address']._id;
                                 }
-                                if ($scope.visitor.billing_address !== null) {                                  // jshint ignore:line
-                                    $scope.visitor.billing_address_id = $scope.visitor.billing_address._id;     // jshint ignore:line
+                                if ($scope.visitor['billing_address'] !== null) {
+                                    $scope.visitor['billing_address_id'] = $scope.visitor['billing_address']._id;
                                 }
                             }
                         );
@@ -143,22 +143,22 @@
                             defer.resolve(false);
                         };
 
-                        /**
-                         * @todo: review this approach with 'delete'
-                         */
-                        delete $scope.visitor.billing_address;                                              // jshint ignore:line
-                        delete $scope.visitor.shipping_address;                                             // jshint ignore:line
+                        delete $scope.visitor['billing_address'];
+                        delete $scope.visitor['shipping_address'];
+
+                        if ($scope.visitor['shipping_address_id'] === "") {
+                            delete $scope.visitor['shipping_address_id'];
+                        }
+
+                        if ($scope.visitor['billing_address_id'] === "") {
+                            delete $scope.visitor['billing_address_id'];
+                        }
 
                         if (!id) {
                             $visitorApiService.save($scope.visitor, saveSuccess, saveError);
                         } else {
                             $scope.visitor.id = id;
-                            if ($scope.visitor.shipping_address_id === "") {                                // jshint ignore:line
-                                delete $scope.visitor.shipping_address_id;                                  // jshint ignore:line
-                            }
-                            if ($scope.visitor.billing_address_id === "") {                                 // jshint ignore:line
-                                delete $scope.visitor.billing_address_id;                                   // jshint ignore:line
-                            }
+
                             $visitorApiService.update($scope.visitor, updateSuccess, updateError);
                         }
 

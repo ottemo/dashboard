@@ -140,14 +140,17 @@
                     $scope.getDate = function(){
                             var date, month, day;
 
-                            date = new Date($scope.order.created_at);
+                            date = new Date($scope.order['created_at']);
                             month = date.getMonth().toString().length < 2 ? '0' + date.getMonth() : date.getMonth();
                             day = date.getDay().toString().length < 2 ? '0' + date.getDay() : date.getDay();
 
                             return date.getFullYear() + '/' + month + '/' + day;
                     };
 
-                }]); // jshint ignore:line
+                }
+            ]
+        );
+
         return orderModule;
     });
 })(window.define);

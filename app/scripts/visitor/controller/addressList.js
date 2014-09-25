@@ -40,12 +40,12 @@
                         var name;
 
                         if (typeof obj === "undefined") {
-                            name = $scope.address.zip_code +        // jshint ignore:line
+                            name = $scope.address['zip_code'] +
                                 " " + $scope.address.state +
                                 ", " + $scope.address.city +
                                 ", " + $scope.address.street;
                         } else {
-                            name = obj.zip_code +                   // jshint ignore:line
+                            name = obj['zip_code'] +
                                 " " + obj.state +
                                 ", " + obj.city +
                                 ", " + obj.street;
@@ -124,19 +124,19 @@
                         var i, answer;
                         answer = window.confirm("You really want to remove this address");
                         if (answer) {
+                            var callback = function (response) {
+                                if (response) {
+                                    for (i = 0; i < $scope.addresses.length; i += 1) {
+                                        if ($scope.addresses[i].Id === response) {
+                                            $scope.addresses.splice(i, 1);
+                                        }
+                                    }
+                                }
+                            };
+
                             for (id in $scope.removeIds) {
                                 if ($scope.removeIds.hasOwnProperty(id) && true === $scope.removeIds[id]) {
-                                    remove(id).then(
-                                        function (response) {
-                                            if (response) {
-                                                for (i = 0; i < $scope.addresses.length; i += 1) {
-                                                    if ($scope.addresses[i].Id === response) {
-                                                        $scope.addresses.splice(i, 1);
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    );
+                                    remove(id).then(callback);
                                 }
                             }
                         }
