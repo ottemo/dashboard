@@ -50,6 +50,10 @@
                         params: {id: "@id"},
                         url: cmsBaseURL + "/block/update/:id"
                     },
+                    "getCountB": {
+                        method: "GET",
+                        url: cmsBaseURL + "/block/count"
+                    },
                     "pageAdd": {
                         method: "POST",
                         url: cmsBaseURL + "/page/add"
@@ -79,6 +83,10 @@
                     "pageListP": {
                         method: "POST",
                         url: cmsBaseURL + "/page/list"
+                    },
+                    "getCountP": {
+                        method: "GET",
+                        url: cmsBaseURL + "/page/count"
                     },
                     "pageUpdate": {
                         method: "PUT",

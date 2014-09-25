@@ -18,8 +18,17 @@
                         method: "GET",
                         url: visitorBaseURL + "/attribute/list"
                     },
+                    "addAttribute": {
+                        method: "POST",
+                        url: visitorBaseURL + "/attribute/add"
+                    },
+                    "removeAttribute": {
+                        method: "DELETE",
+                        params: { attribute: "@attribute" },
+                        url: visitorBaseURL + "/attribute/remove/:attribute"
+                    },
                     "visitorList": {
-                        method: "GET",
+                        method: "POST",
                         url: visitorBaseURL + "/list"
                     },
                     "save": {
@@ -40,13 +49,17 @@
                         params: { id: "@id" },
                         url: visitorBaseURL + "/delete/:id"
                     },
+                    "getCountVisitors": {
+                        method: "GET",
+                        url: visitorBaseURL + "/count"
+                    },
 
                     // Addresses API
                     "addressAttributeInfo": {
                         method: "GET",
                         url: visitorBaseURL + "/address/attribute/list"
                     },
-                    "addressesList": {
+                    "addresses": {
                         method: "GET",
                         params: {visitorId: "@visitorId"},
                         url: visitorBaseURL + "/address/list/:visitorId"
@@ -64,6 +77,10 @@
                         method: "PUT",
                         params: { id: "@id" },
                         url: visitorBaseURL + "/address/update/:id"
+                    },
+                    "getCountAddresses": {
+                        method: "GET",
+                        url: visitorBaseURL + "/address/count"
                     },
                     "deleteAddress": {
                         method: "DELETE",

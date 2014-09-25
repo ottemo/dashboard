@@ -7,7 +7,8 @@
      */
     define([
             "angular",
-            "angular-route"
+            "angular-route",
+            "angular-sanitize"
 
             // "login/module"
         ],
@@ -15,9 +16,10 @@
             /*
              *  Angular "dashboardModule" declaration
              */
-            angular.module.dashboardModule = angular.module("dashboardModule", ["ngRoute", "loginModule", "designModule"])
+            angular.module.dashboardModule = angular.module("dashboardModule", ["ngRoute", "loginModule", "ngSanitize", "designModule"])
 
-                .constant("REST_SERVER_URI", "http://dev.ottemo.io:3000") 
+                .constant("REST_SERVER_URI", "http://dev.ottemo.io:3000")
+                .constant("COUNT_ITEMS_PER_PAGE", 5)
 
                 /*
                  *  Basic routing configuration
@@ -30,10 +32,16 @@
                         .otherwise({ redirectTo: "/"});
                 }])
 
-                .run(["$designService", "$route", function ($designService, $route) {
-                    // hack to allow browser page refresh work with routes
-                    $route.reload();
-                }]);
+                .run(["$designService", "$route", "$dashboardSidebarService", "$http",
+                    function ($designService, $route, $dashboardSidebarService, $http) {
+                        // ajax cookies support fix
+                        $http.defaults.withCredentials = true;
+                        delete $http.defaults.headers.common["X-Requested-With"];
+
+                        $dashboardSidebarService.addItem("/dashboard", "Dashboard", "", "fa fa-home", 100);
+
+                        $route.reload();
+                    }]);
 
             return angular.module.dashboardModule;
         });

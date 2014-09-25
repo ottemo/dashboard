@@ -7,8 +7,10 @@
      */
     define([
             "cms/service/api",
-            "cms/controller/page",
-            "cms/controller/block"
+            "cms/controller/pageList",
+            "cms/controller/pageEdit",
+            "cms/controller/blockList",
+            "cms/controller/blockEdit"
         ],
         function (cmsModule) {
 

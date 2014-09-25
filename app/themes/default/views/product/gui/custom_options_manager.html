@@ -1,0 +1,112 @@
+<div>
+    <button ng-click="addNewOption()">Add new option</button>
+    <div ng-repeat="option in optionsData | getOrdered">
+        <div>
+            <div class="left">
+                <label>Label</label>
+                <input type="text" ng-model="option.label" ng-blur="modifyData()" />
+            </div>
+            <div class="left">
+                <label>Type</label>
+                <select class="form-control" ng-blur="modifyData()"
+                        ng-change="cleanOption(option.label)"
+                        ng-init="option.type = option.type || types[0]"
+                        data-ng-model="option.type"
+                        data-ng-options="o as o for o in types">
+                </select>
+            </div>
+            <div class="left">
+                <label>isRequired</label>
+                <select class="form-control" ng-blur="modifyData()"
+                        ng-init="option.required = option.required || false"
+                        data-ng-model="option.required"
+                        data-ng-options="o as o for o in [true, false]">
+                </select>
+            </div>
+            <div class="left">
+                <label>Sort</label>
+                <input type="text" ng-model="option.order" ng-blur="modifyData()" />
+            </div>
+            <div class="left">
+                <label>&nbsp;</label>
+                <button type="button" ng-click="removeOption(option.label)">Remove option</button>
+            </div>
+        </div>
+
+        <div class="option-values">
+
+            <div id="field_options" ng-if="option.type === 'field'">
+                <div class="left">
+                    <label>Price</label>
+                    <input type="text" ng-model="option.price" ng-blur="modifyData()" />
+                </div>
+                <div class="left">
+                    <label>Price Type</label>
+
+                    <select class="form-control" ng-blur="modifyData()"
+                            ng-init="option.price_type = option.price_type || priceTypes[0]"
+                            data-ng-model="option.price_type"
+                            data-ng-options="o as o for o in priceTypes">
+                    </select>
+                </div>
+                <div class="left">
+                    <label>SKU</label>
+                    <input type="text" ng-model="option.sku" ng-blur="modifyData()" />
+                </div>
+            </div>
+
+            <div id="select_options" ng-if="option.type === 'select' || option.type === 'multi_select'">
+                <div class="option_row" ng-repeat="(key, row) in option.options | getOrdered">
+                    <div class="left">
+                        <label>Label</label>
+                        <input type="text" ng-model="row.label" ng-blur="modifyData()" />
+                    </div>
+                    <div class="left">
+                        <label>Price</label>
+                        <input type="text" ng-model="row.price" ng-blur="modifyData()" />
+                    </div>
+                    <div class="left">
+                        <label>Price Type</label>
+                        <select class="form-control" ng-blur="modifyData()"
+                                ng-init="row.price_type = row.price_type || priceTypes[0]"
+                                data-ng-model="row.price_type"
+                                data-ng-options="o as o for o in priceTypes">
+                        </select>
+                    </div>
+                    <div class="left">
+                        <label>SKU</label>
+                        <input type="text" ng-model="row.sku" ng-blur="modifyData()" />
+                    </div>
+                    <div class="left">
+                        <label>Sort Order</label>
+                        <input type="text" ng-model="row.order" ng-blur="modifyData()" />
+                    </div>
+                    <div class="left">
+                        <label>&nbsp;</label>
+                        <button type="button" ng-click="removeRow(option.label, row.label)">Remove row</button>
+                    </div>
+                </div>
+                <div>
+                    <button type="button" ng-click="addRow(option.label)">Add new row</button>
+                </div>
+
+            </div>
+        </div>
+        <hr/>
+    </div>
+</div>
+
+<style>
+    .left {
+        display: inline-table;
+    }
+
+    .left label {
+        width: 100%;
+    }
+    .option-values{
+        background-color: #ededed;
+        padding: 15px;
+        margin-top: 10px;
+    }
+</style>

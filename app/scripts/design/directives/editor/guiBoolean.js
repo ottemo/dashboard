@@ -24,14 +24,14 @@
                                 {
                                     Desc: "",
                                     Extra: null,
-                                    Id: "false",
+                                    Id: false,
                                     Image: "",
                                     Name: "false"
                                 },
                                 {
                                     Desc: "",
                                     Extra: null,
-                                    Id: "true",
+                                    Id: true,
                                     Image: "",
                                     Name: "true"
                                 }

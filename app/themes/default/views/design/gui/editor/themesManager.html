@@ -1,0 +1,9 @@
+<div ng-init="init()">
+    <div ng-repeat="theme in themes" style="float: left; margin: 0 15px 0 0">
+        <h6>{{theme}} <span  class="label label-success" ng-if="theme === activeTheme">Current Theme</span></h6>
+        <img ng-src="{{getPreview(theme)}}" alt="" style="max-width: 328px; height: 205px;"/>
+        <div>
+            <a href="" target="_self" ng-click="setActive(theme)">Apply</a>
+        </div>
+    </div>
+</div>

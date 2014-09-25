@@ -6,6 +6,8 @@
 
         /**
          *  Directive used for automatic attributes editor form creation
+         *
+         *  Form to edit as accordion
          */
             .directive("guiAttributesEditorForm", ["$designService", function ($designService) {
                 return {

@@ -63,7 +63,15 @@
                     },
 
                     getCssList: function () {
-                        return data.cssList;
+                        var i, uniqueCss;
+                        uniqueCss = [];
+                        for (i = 0; i < data.cssList.length; i += 1) {
+                            if (-1 === uniqueCss.indexOf(data.cssList[i])) {
+                                uniqueCss.push(data.cssList[i]);
+                            }
+                        }
+
+                        return uniqueCss;
                     },
 
                     getImage: function (img) {

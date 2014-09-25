@@ -40,6 +40,7 @@
                                 var options, field;
 
                                 options = getOptions($scope.attribute.Options);
+
                                 for (field in options) {
                                     if (options.hasOwnProperty(field)) {
                                         $scope.options.push({
@@ -51,8 +52,9 @@
                                         });
                                     }
                                 }
-                                
-                                $scope.item[$scope.attribute.Attribute] = $scope.item[$scope.attribute.Attribute].split(",");
+                                if(typeof $scope.item[$scope.attribute.Attribute] === "string") {
+                                    $scope.item[$scope.attribute.Attribute] = $scope.item[$scope.attribute.Attribute].split(",");
+                                }
                             });
                         });
 

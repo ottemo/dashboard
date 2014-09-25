@@ -1,0 +1,72 @@
+<div class="top top-custom">
+    <i class="fa fa-newspaper-o"></i>
+    <h6 ng-if="order._id"> {{order.increment_id}}</h6>
+    <h6 ng-if="!order._id"> New order </h6>
+</div>
+
+<div class="panel-body">
+
+    <div class="page-title"></div>
+
+    <div>
+
+        <div class="account-right order-detail">
+            <p>Order # is: <span class="blue">{{order.increment_id}}</span></p>
+            <p>Date: <strong>{{getDate();}}</strong></p>
+            <hr>
+            <div class="od-blocks">
+                <div class="od-block">
+                    <h6>Billing & Shipping</h6>
+                </div>
+                <div class="od-block">
+                    <h6>Bill to:</h6>
+                    <p>{{order.billing_address.company}}
+                    <p>{{order.billing_address.last_name}} {{order.billing_address.first_name}}</p>
+                    <p>{{order.billing_address.address_line1}} {{order.billing_address.address_line2}}, {{order.billing_address.city}},</p>
+                    <p>{{order.billing_address.zip_code}}, {{order.billing_address.state}}, {{order.billing_address.country}}</p>
+                    <p>T: {{order.billing_address.phone}}</p>
+                </div>
+
+                <div class="od-block">
+                    <h6>Ship to:</h6>
+                    <p>{{order.shipping_address.company}}
+                    <p>{{order.shipping_address.last_name}} {{order.shipping_address.first_name}}</p>
+                    <p>{{order.shipping_address.address_line1}} {{order.shipping_address.address_line2}}, {{order.shipping_address.city}},</p>
+                    <p>{{order.shipping_address.zip_code}}, {{order.shipping_address.state}}, {{order.shipping_address.country}}</p>
+                    <p>T: {{order.shipping_address.phone}}</p>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <hr>
+            <table  class="od-product">
+                <tr>
+                    <th>Product Name</th>
+                    <th>Qty</th>
+                    <th>Total Price</th>
+                </tr>
+                <tr ng-repeat="product in order.items">
+                    <td>{{product.Name}}</td>
+                    <td>{{product.Qty}}</td>
+                    <td>{{product.Price | currency}}</td>
+                </tr>
+            </table>
+            <table class="od-total">
+                <tr>
+                    <td>Subtotal:</td>
+                    <td>{{order.subtotal | currency}}</td>
+                </tr>
+                <tr>
+                    <td>Tax:</td>
+                    <td>{{order.tax_amount | currency}}</td>
+                </tr>
+                <tr>
+                    <td>Order Total:</td>
+                    <td>{{order.grand_total | currency}}</td>
+                </tr>
+            </table>
+            <a class="btns" href="#/orders/">Back to Orders</a>
+        </div>
+    </div>
+
+
+</div>

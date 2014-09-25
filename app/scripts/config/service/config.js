@@ -16,35 +16,25 @@
                 function ($configApiService, $q) {
 
                     // Variables
-                    var configGroups, configSection, items, itemsOld, attributes;
+                    var isInit, configGroups, configTabs, items, itemsOld, isLoaded;
 
                     // Functions
-                    var init, load, save, getConfigGroups, getConfigSection, getAttributes, getItems;
+                    var init, load, save, getConfigGroups, getConfigTabs, getItems, addTab, addGroup;
 
                     items = {};
                     itemsOld = {};
-                    attributes = {};
+                    isLoaded = {};
 
                     getConfigGroups = function () {
                         return configGroups;
                     };
 
-                    getConfigSection = function (group) {
-                        if (typeof group !== "undefined" && typeof configSection[group] !== "undefined") {
-                            return configSection[group];
+                    getConfigTabs = function (group) {
+                        if (typeof group !== "undefined" && typeof configTabs[group] !== "undefined") {
+                            return configTabs[group];
 
                         } else if (typeof group === "undefined") {
-                            return configSection;
-                        }
-                        return false;
-                    };
-
-                    getAttributes = function (path) {
-                        if (typeof path !== "undefined" && typeof attributes[path] !== "undefined") {
-                            return attributes[path];
-
-                        } else if (typeof path === "undefined") {
-                            return attributes;
+                            return configTabs;
                         }
                         return false;
                     };
@@ -59,12 +49,8 @@
                         return false;
                     };
 
-                    init = function () {
-
-                        var isExist, createGroup;
-
-                        configSection = {};
-                        configGroups = [];
+                    addGroup = function (attr) {
+                        var groupCode, isExist;
 
                         isExist = function (group) {
                             var i;
@@ -77,72 +63,112 @@
                             return false;
                         };
 
-                        createGroup = function(group){
-                            if (!isExist(group)) {
-                                configGroups.push({
-                                    "Name": group.Label,
-                                    "Id": group.Path,
-                                    "IsStatic": true
-                                });
+                        groupCode = attr.Path.substr(0, (-1 === attr.Path.indexOf(".") ? attr.Path.length : attr.Path.indexOf(".")));
+
+                        if (!isExist(groupCode) && (-1 === attr.Path.indexOf("."))) {
+                            configGroups.push({
+                                "Id": groupCode,
+                                "Name": attr.Label
+                            });
+
+                        } else if (-1 === attr.Path.indexOf(".")) {
+                            for (var i = 0; i < configGroups.length; i += 1) {
+                                if (configGroups[i].Id === groupCode) {
+                                    configGroups[i].Name = attr.Label;
+                                }
                             }
-                        };
+                        }
+                    };
+
+                    addTab = function (attr) {
+                        var groupCode, regExp, parts;
+                        regExp = new RegExp("(\\w+)\\.(\\w+).*", "i");
+
+                        groupCode = attr.Path.substr(0, (-1 === attr.Path.indexOf(".") ? attr.Path.length : attr.Path.indexOf(".")));
+                        if (typeof configTabs[groupCode] === "undefined") {
+                            configTabs[groupCode] = [];
+                        }
+
+                        if (-1 !== attr.Path.indexOf(".")) {
+                            parts = attr.Path.match(regExp);
+                            if (typeof parts[2] !== "undefined") {
+                                attr.Group = parts[2];
+                                configTabs[groupCode].push(attr);
+                            }
+                        }
+                    };
+
+                    init = function () {
+                        if (isInit) {
+                            return isInit.promise;
+                        }
+                        isInit = $q.defer();
+                        configTabs = {};
+                        configGroups = [];
 
                         $configApiService.getGroups().$promise.then(
                             function (response) {
-                                var i, parts, group, regExp, result;
+                                var result, attr;
                                 result = response.result || [];
-                                result.sort(function(a){
-                                    return a.Path.indexOf(".") !== -1;
-                                });
-
-                                if (result.length > 0) {
-                                    regExp = new RegExp("(\\w+)\\.(\\w+).+", "i");
-                                    for (i = 0; i < result.length; i += 1) {
-                                        parts = result[i].Path.match(regExp);
-
-                                        if(parts === null){
-                                            createGroup(result[i]);
-                                            continue;
-                                        }
-                                        group = parts[1];
-
-                                        if (typeof configSection[group] === "undefined") {
-                                            configSection[group] = [];
-                                        }
-                                        configSection[group].push({
-                                            "Name": result[i].Label,
-                                            "Code": parts[2],
-                                            "Path": result[i].Path
-                                        });
-                                    }
+                                for (var i = 0; i < result.length; i += 1) {
+                                    attr = result[i];
+                                    addGroup(attr);
+                                    addTab(attr);
                                 }
+                                isInit.resolve(true);
+
                             }
                         );
+
+                        return isInit.promise;
+                    };
+
+                    var checkOnDups = function (group, path) {
+                        for (var i = 0; i < configTabs[group].length; i += 1) {
+                            if (path === configTabs[group][i].Path) {
+                                configTabs[group].splice(i, 1);
+                                return true;
+                            }
+                        }
                     };
 
                     load = function (path, force) {
-                        var i;
+                        var i, regExp, parts, group;
+                        regExp = new RegExp("(\\w+)\\.(\\w+).*", "i");
 
                         if ((typeof items[path] === "undefined" && !force) || force) {
                             items[path] = {};
                             itemsOld[path] = {};
                         }
 
-                        if ((typeof attributes[path] === "undefined" && !force) || force) {
+                        if ((typeof isLoaded[path] === "undefined" && !force) || force) {
                             $configApiService.getInfo({"path": path}).$promise.then(
                                 function (response) {
-                                    attributes[path] = [];
+
                                     for (i = 0; i < response.result.length; i += 1) {
                                         if (response.result[i].Type !== "group") {
+
+                                            parts = response.result[i].Path.match(regExp);
+                                            group = parts[1];
+
+                                            if (force) {
+                                                checkOnDups(group, response.result[i].Path);
+                                            }
+
                                             response.result[i].Attribute = response.result[i].Path;
-                                            attributes[path].push(response.result[i]);
-                                            items[path][response.result[i].Path] = response.result[i].Value.toString();
-                                            itemsOld[path][response.result[i].Path] = response.result[i].Value.toString();
+                                            response.result[i].Group = parts[2];
+                                            response.result[i].Editors = response.result[i].Editor;
+                                            delete response.result[i].Editor;
+                                            configTabs[group].push(response.result[i]);
+
+                                            items[path][response.result[i].Path] = response.result[i].Value !== null ? response.result[i].Value.toString() : "";
+                                            itemsOld[path][response.result[i].Path] = response.result[i].Value !== null ? response.result[i].Value.toString() : "";
                                         }
                                     }
                                 }
                             );
                         }
+                        isLoaded[path] = true;
                     };
 
                     save = function (path) {
@@ -180,9 +206,8 @@
                         "load": load,
                         "save": save,
                         "getItems": getItems,
-                        "getAttributes": getAttributes,
                         "getConfigGroups": getConfigGroups,
-                        "getConfigSection": getConfigSection
+                        "getConfigTabs": getConfigTabs
                     };
                 }]);
 

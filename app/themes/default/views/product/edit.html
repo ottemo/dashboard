@@ -1,41 +1,10 @@
-<div class="container-fluid" ng-controller="productEditController">
-    <div class="row" style="margin-top: 15px">
+<div class="top top-custom">
+    <i class="fa fa-tags"></i>
+    <h6>Products</h6>
+</div>
+<div class="panel-body">
 
-        <div class="col-md-4">
-            <gui-list-manager items="products" object="this" mapping="{'additionalName': 'sku'}"></gui-list-manager>
-        </div>
+    <gui-message-manager item="message"></gui-message-manager>
+    <gui-attributes-editor-form-tabs attributes-list="attributes" object="this" item="product"></gui-attributes-editor-form-tabs>
 
-        <div class="col-md-8">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-md-8 text-muted" style="padding-top: 6px; font-size: 130%; font-weight: bold">
-                            <span ng-if="product._id"> {{product.sku}} - {{product.name}}</span>
-                            <span ng-if="!product._id"> New Product </span>
-                        </div>
-                        <div class="col-md-4 text-right">
-                            <button class="btn btn-primary" ng-click="save()">Save</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="panel-body">
-
-                    <gui-picture-manager images-path="imagesPath" images-list="productImages"
-                                         selected="selectedImage" default-img="product.default_image" ng-if="product._id">
-                        <div class="btn btn-success">
-                            <input type="file" id="uploadfile" name="uploadfile" ng-model="uploadfile" ng-change="imageAdd('uploadfile')" />
-                        </div>
-
-                        <button class="btn btn-danger" ng-click="imageRemove(selectedImage)">Remove</button>
-                        <button class="btn btn-primary" ng-click="imageDefault(selectedImage)">Mark as Default</button>
-                    </gui-picture-manager>
-
-                    <gui-attributes-editor-form attributes-list="attributes" object="this" item="product"/>
-                </div>
-
-            </div>
-        </div>
-
-    </div>
 </div>
