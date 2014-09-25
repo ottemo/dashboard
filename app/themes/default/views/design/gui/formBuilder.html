@@ -25,6 +25,12 @@
             <gui-text editor-scope="attribute" item="item"></gui-text>
         </div>
 
+        <div ng-switch-when="datetime">
+            <label>{{attribute.Label}} <span class="asterisk"
+                                             ng-show="attribute.IsRequired">*</span></label>
+            <gui-datetime editor-scope="attribute" item="item"></gui-datetime>
+        </div>
+
         <div ng-switch-when="model_selector">
             <label>{{attribute.Label}} <span class="asterisk"
                                              ng-show="attribute.IsRequired">*</span></label>

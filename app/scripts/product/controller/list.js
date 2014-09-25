@@ -42,7 +42,7 @@
                             "label": "Price",
                             "visible": true,
                             "filter": "range",
-                            "filterValue": $routeParams.price
+                            "filterValue": $routeParams['price']
                         },
                         {
                             "attribute": "sku",

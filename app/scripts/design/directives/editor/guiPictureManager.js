@@ -26,7 +26,7 @@
                         }
 
                         // function to split array on rows by x-elements
-                        var splitBy = function (arr, x) {   // jshint ignore:line
+                        var splitBy = function (arr, x) {
                             var result = [], row = [], i = 0;
 
                             for (var idx in arr) {
@@ -56,7 +56,7 @@
                         });
 
                         $scope.getImage = function (filename) {
-                                return $designImageService.getFullImagePath($scope.imagesPath, filename);
+                            return $designImageService.getFullImagePath($scope.imagesPath, filename);
                         };
 
                         $scope.selectImage = function (filename) {

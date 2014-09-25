@@ -25,6 +25,15 @@
                             "notDisable": true,
                             "filter": "text",
                             "filterValue": $routeParams.name
+                        },
+                        {
+                            "attribute": "parent_id",
+                            "type": "string",
+                            "label": "Parent ID",
+                            "visible": true,
+                            "notDisable": true,
+                            "filter": "text",
+                            "filterValue": $routeParams['parent_id']
                         }
                     ];
 
@@ -37,7 +46,7 @@
                     /**
                      * Gets list of categories
                      */
-                    $categoryApiService.categoryList($location.search(), {}).$promise.then(
+                    $categoryApiService.categoryList($location.search(), {"extra": "parent_id"}).$promise.then(
                         function (response) {
                             var result, i;
                             $scope.categories = [];

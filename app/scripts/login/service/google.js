@@ -36,9 +36,9 @@
             };
 
             loginCallback = function (response) {
-                if (response.status.signed_in) {        // jshint ignore:line
+                if (response.status['signed_in']) {
                     userData = {
-                        access_token: response.access_token     // jshint ignore:line
+                        "access_token": response['access_token']
                     };
                 } else {
                     userData = {'access_token': ''};

@@ -82,7 +82,7 @@
                             function (response) {
                                 var result = response.result || {};
                                 $scope.product = result;
-                                $scope.selectedImage = result.default_image; // jshint ignore:line
+                                $scope.selectedImage = result['default_image'];
 
                                 if (typeof $scope.product.options === "undefined") {
                                     $scope.product.options = {};
@@ -239,10 +239,10 @@
                                 .$promise.then(function () {
                                     $scope.selectedImage = undefined;
                                     $scope.reloadImages();
-                                    $scope.product.default_image = "";  // jshint ignore:line
+                                    $scope.product['default_image'] = "";
                                     for (var i = 0; i < $scope.products.length; i += 1) {
                                         if ($scope.products[i].Id === $scope.product._id) {
-                                            $scope.products[i].Image = $scope.product.default_image;  // jshint ignore:line
+                                            $scope.products[i].Image = $scope.product['default_image'];
                                         }
                                     }
                                     $scope.save();
@@ -256,7 +256,7 @@
                      * @param {string} selected - image name
                      */
                     $scope.imageDefault = function (selected) {
-                        $scope.product.default_image = selected;  // jshint ignore:line
+                        $scope.product['default_image'] = selected;
                     };
 
                     /**

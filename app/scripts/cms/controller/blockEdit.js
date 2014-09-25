@@ -134,7 +134,10 @@
                         return defer.promise;
                     };
 
-                }]); // jshint ignore:line
+                }
+            ]
+        );
+
         return cmsModule;
     });
 })(window.define);

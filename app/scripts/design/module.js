@@ -38,6 +38,7 @@
             "design/directives/editor/guiSelect",
             "design/directives/editor/guiMultiSelect",
             "design/directives/editor/guiText",
+            "design/directives/editor/guiDatetime",
             "design/directives/editor/guiJsonEditor",
             "design/directives/editor/guiThemesManager"
         ],

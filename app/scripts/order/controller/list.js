@@ -23,7 +23,7 @@
                             "visible": true,
                             "notDisable": true,
                             "filter": "text",
-                            "filterValue": $routeParams.increment_id
+                            "filterValue": $routeParams['increment_id']
                         },
                         {
                             "attribute": "description",
@@ -31,7 +31,7 @@
                             "label": "Description",
                             "visible": true,
                             "filter": "text",
-                            "filterValue": $routeParams.description
+                            "filterValue": $routeParams['description']
                         },
                         {
                             "attribute": "customer_email",
@@ -39,7 +39,7 @@
                             "label": "Customer Email",
                             "visible": true,
                             "filter": "text",
-                            "filterValue": $routeParams.customer_email
+                            "filterValue": $routeParams['customer_email']
                         },
                         {
                             "attribute": "customer_name",
@@ -47,7 +47,7 @@
                             "label": "Customer name",
                             "visible": true,
                             "filter": "text",
-                            "filterValue": $routeParams.customer_name
+                            "filterValue": $routeParams['customer_name']
                         },
                         {
                             "attribute": "status",
@@ -55,7 +55,7 @@
                             "label": "Status",
                             "visible": true,
                             "filter": "select{pending,canceled,complete}",
-                            "filterValue": $routeParams.status
+                            "filterValue": $routeParams['status']
                         }
                     ];
 
@@ -162,7 +162,10 @@
                         }
                     };
 
-                }]); // jshint ignore:line
+                }
+            ]
+        );
+
         return orderModule;
     });
 })(window.define);

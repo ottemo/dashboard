@@ -88,7 +88,7 @@
                         $loginApiService.info().$promise.then(
                             function (response) {
                                 if (response.error === '') {
-                                    isAdmin = response.result.is_admin || false;
+                                    isAdmin = response.result['is_admin'] || false;
                                     if (isAdmin === true) {
                                         isLoggedIn = true;
                                         deferIsLoggedIn.resolve(isLoggedIn);
@@ -136,8 +136,8 @@
                     setLogin = function (obj) {
                         fillFields(obj);
                         if (obj !== null) {
-                            login.billing_address_id = obj.billing_address && obj.billing_address._id || '';        // jshint ignore:line
-                            login.shipping_address_id = obj.shipping_address && obj.shipping_address._id || '';     // jshint ignore:line
+                            login['billing_address_id'] = obj['billing_address'] && obj['billing_address']._id || '';
+                            login['shipping_address_id'] = obj['shipping_address'] && obj['shipping_address']._id || '';
                         }
                     };
 
@@ -153,10 +153,10 @@
                         var avatar;
                         avatar = $designService.getImage(VISITOR_DEFAULT_AVATAR);
 
-                        if ('' !== login.facebook_id) {                                         // jshint ignore:line
-                            avatar = 'http://' + fb.getAvatar(login.facebook_id, 'large');      // jshint ignore:line
-                        } else if (login.google_id !== '') {                                    // jshint ignore:line
-                            avatar = gl.getAvatar(login.google_id);                             // jshint ignore:line
+                        if ('' !== login['facebook_id']) {
+                            avatar = 'http://' + fb.getAvatar(login['facebook_id'], 'large');      
+                        } else if (login['google_id'] !== '') {
+                            avatar = gl.getAvatar(login['google_id']);
                         }
                         return avatar;
                     };
