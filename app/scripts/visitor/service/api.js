@@ -59,8 +59,14 @@
                         method: "GET",
                         url: visitorBaseURL + "/address/attribute/list"
                     },
-                    "addresses": {
+                    "addressesG": {
                         method: "GET",
+                        params: {visitorId: "@visitorId"},
+                        url: visitorBaseURL + "/address/list/:visitorId"
+                    },
+
+                    "addressesP": {
+                        method: "POST",
                         params: {visitorId: "@visitorId"},
                         url: visitorBaseURL + "/address/list/:visitorId"
                     },

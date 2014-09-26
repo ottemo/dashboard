@@ -10,7 +10,8 @@
                 "$q",
                 "$visitorApiService",
                 "$location",
-                function ($scope, $routeParams, $q, $visitorApiService, $location) {
+                "COUNT_ITEMS_PER_PAGE",
+                function ($scope, $routeParams, $q, $visitorApiService, $location, COUNT_ITEMS_PER_PAGE) {
                     $scope.fields = [
                         {
                             "attribute": "Label",
@@ -22,7 +23,7 @@
                     ];
 
                     if (JSON.stringify({}) === JSON.stringify($location.search())) {
-                        $location.search("limit", "0,5");
+                        $location.search("limit", "0,"+COUNT_ITEMS_PER_PAGE);
                     }
 
                     var getFields = function () {

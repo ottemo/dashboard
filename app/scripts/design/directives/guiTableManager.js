@@ -39,7 +39,8 @@
             .directive("guiTableManager", [
                 "$location",
                 "$designService",
-                function ($location, $designService) {
+                "COUNT_ITEMS_PER_PAGE",
+                function ($location, $designService, COUNT_ITEMS_PER_PAGE) {
                     return {
                         restrict: "E",
                         scope: {
@@ -385,7 +386,7 @@
                                 var limit, search, page, parts, countPerPage;
 
                                 page = 1;
-                                countPerPage = 5;
+                                countPerPage = COUNT_ITEMS_PER_PAGE;
                                 search = $location.search();
                                 limit = search.limit;
 

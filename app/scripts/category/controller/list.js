@@ -8,37 +8,13 @@
                 "$location",
                 "$routeParams",
                 "$q",
+                "$dashboardListService",
                 "$categoryApiService",
-                function ($scope, $location, $routeParams, $q, $categoryApiService) {
-
-                    /**
-                     * List fields which will shows in table
-                     *
-                     * @type [object]
-                     */
-                    $scope.fields = [
-                        {
-                            "attribute": "Name",
-                            "type": "select-link",
-                            "label": "Name",
-                            "visible": true,
-                            "notDisable": true,
-                            "filter": "text",
-                            "filterValue": $routeParams.name
-                        },
-                        {
-                            "attribute": "parent_id",
-                            "type": "string",
-                            "label": "Parent ID",
-                            "visible": true,
-                            "notDisable": true,
-                            "filter": "text",
-                            "filterValue": $routeParams['parent_id']
-                        }
-                    ];
+                "COUNT_ITEMS_PER_PAGE",
+                function ($scope, $location, $routeParams, $q, $dashboardListService, $categoryApiService, COUNT_ITEMS_PER_PAGE) {
 
                     if (JSON.stringify({}) === JSON.stringify($location.search())) {
-                        $location.search("limit", "0,5");
+                        $location.search("limit", "0," + COUNT_ITEMS_PER_PAGE);
                     }
 
                     $scope.removeIds = {};
@@ -46,16 +22,18 @@
                     /**
                      * Gets list of categories
                      */
-                    $categoryApiService.categoryList($location.search(), {"extra": "parent_id"}).$promise.then(
-                        function (response) {
-                            var result, i;
-                            $scope.categories = [];
-                            result = response.result || [];
-                            for (i = 0; i < result.length; i += 1) {
-                                $scope.categories.push(result[i]);
+                    var getCategoriesList = function(){
+                        $categoryApiService.categoryList($location.search(), {"extra": $dashboardListService.getExtraFields()}).$promise.then(
+                            function (response) {
+                                var result, i;
+                                $scope.categoriesTmp = [];
+                                result = response.result || [];
+                                for (i = 0; i < result.length; i += 1) {
+                                    $scope.categoriesTmp.push(result[i]);
+                                }
                             }
-                        }
-                    );
+                        );
+                    };
 
                     /**
                      * Gets count of categories
@@ -69,7 +47,29 @@
                             }
                         }
                     );
-                    $scope.count = 3;
+
+                    $categoryApiService.attributesInfo().$promise.then(
+                        function (response) {
+                            var result = response.result || [];
+                            $dashboardListService.init('categories');
+                            $scope.attributes = result;
+                            $dashboardListService.setAttributes($scope.attributes);
+                            $scope.fields = $dashboardListService.getFields();
+                            getCategoriesList();
+                        }
+                    );
+
+                    var prepareList = function () {
+                        if (typeof $scope.attributes === "undefined" || typeof $scope.categoriesTmp === "undefined") {
+                            return false;
+                        }
+
+                        $scope.categories = $dashboardListService.getList($scope.categoriesTmp);
+                    };
+
+                    $scope.$watch("categoriesTmp", prepareList);
+                    $scope.$watch("attributes", prepareList);
+
                     /**
                      * Handler event when selecting the category in the list
                      *

@@ -38,7 +38,7 @@
             };
         };
 
-        /*
+        /**
          *  Angular "designModule" allows to use themes
          *
          *  default [themeName] is blank
@@ -52,7 +52,7 @@
             .constant("MEDIA_BASE_PATH", "media/")
             .constant("PRODUCT_DEFAULT_IMG", "placeholder.png")
 
-            /*
+            /**
              *  Startup for designModule - registration globally visible functions
              */
             .run(["$designService", "$rootScope", function ($designService, $rootScope) {
@@ -65,15 +65,6 @@
                 $rootScope.getTopPage = $designService.getTopPage;
                 $rootScope.getCss = $designService.getCssList;
                 $rootScope.getImg = $designService.getImage;
-
-
-                /**
-                 *  CSS appending in head of document after document ready
-                 *  TODO: should work with "addCss" directive but is buggy, review/update needed
-                 */
-                // angular.element(document).ready(function() {
-                //     angular.element(document.head).append( $designService.getCssHeadLinks() );
-                // });
 
             }]);
 

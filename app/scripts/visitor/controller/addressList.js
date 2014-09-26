@@ -6,34 +6,22 @@
         visitorModule
             .controller("visitorAddressListController", [
                 "$scope",
-                "$visitorApiService",
                 "$routeParams",
                 "$location",
                 "$q",
-                function ($scope, $visitorApiService, $routeParams, $location, $q) {
-
-                    /**
-                     * List fields which will shows in table
-                     *
-                     * @type [object]
-                     */
-                    $scope.fields = [
-                        {
-                            "attribute": "Name",
-                            "type": "select-link",
-                            "label": "Name",
-                            "visible": true,
-                            "notDisable": true
-                        }
-                    ];
+                "$dashboardListService",
+                "$visitorApiService",
+                "COUNT_ITEMS_PER_PAGE",
+                function ($scope, $routeParams, $location, $q, $dashboardListService, $visitorApiService, COUNT_ITEMS_PER_PAGE) {
 
                     $scope.visitorId = $routeParams.visitorId;
 
                     $scope.removeIds = {};
 
                     $location.search("visitor_id", $scope.visitorId);
+
                     if (JSON.stringify({}) === JSON.stringify($location.search())) {
-                        $location.search("limit", "0,5");
+                        $location.search("limit", "0," + COUNT_ITEMS_PER_PAGE);
                     }
 
                     $scope.getFullAddress = function (obj) {
@@ -57,15 +45,21 @@
                     /**
                      * Gets list of address
                      */
-                    $visitorApiService.addresses({"visitorId": $scope.visitorId}).$promise.then(
-                        function (response) {
-                            var result, i;
-                            $scope.addresses = [];
-                            result = response.result || [];
-                            for (i = 0; i < result.length; i += 1) {
-                                $scope.addresses.push(result[i]);
-                            }
-                        });
+                    var getAddressesList = function(){
+                        var params = {
+                            "visitorId": $scope.visitorId,
+                            "extra": $dashboardListService.getExtraFields()
+                        };
+                        $visitorApiService.addressesG(params).$promise.then(
+                            function (response) {
+                                var result, i;
+                                $scope.addressesTmp = [];
+                                result = response.result || [];
+                                for (i = 0; i < result.length; i += 1) {
+                                    $scope.addressesTmp.push(result[i]);
+                                }
+                            });
+                    };
 
                     /**
                      * Gets list of addresses
@@ -79,6 +73,29 @@
                             }
                         }
                     );
+
+                    $visitorApiService.addressAttributeInfo().$promise.then(
+                        function (response) {
+                            var result = response.result || [];
+                            $dashboardListService.init('addresses');
+                            $scope.attributes = result;
+                            $dashboardListService.setAttributes($scope.attributes);
+                            $scope.fields = $dashboardListService.getFields();
+                            getAddressesList();
+                        }
+                    );
+
+                    var prepareList = function () {
+                        if (typeof $scope.attributes === "undefined" || typeof $scope.addressesTmp === "undefined") {
+                            return false;
+                        }
+
+                        $scope.addresses = $dashboardListService.getList($scope.addressesTmp);
+                    };
+
+                    $scope.$watch("addressesTmp", prepareList);
+                    $scope.$watch("attributes", prepareList);
+
                     /**
                      * Handler event when selecting the address in the list
                      *

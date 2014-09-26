@@ -50,12 +50,14 @@
                             name = $scope.address['zip_code'] +
                                 " " + $scope.address.state +
                                 ", " + $scope.address.city +
-                                ", " + $scope.address.street;
+                                ", " + $scope.address['address_line1'] +
+                                " " + $scope.address['address_line2'];
                         } else {
                             name = obj['zip_code'] +
                                 " " + obj.state +
                                 ", " + obj.city +
-                                ", " + obj.street;
+                                ", " + obj['address_line1'] +
+                                " " + obj['address_line2'];
                         }
 
                         return name;
