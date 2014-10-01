@@ -440,9 +440,9 @@ h5.left-nav-title {
     background-image: none;
 }
 
-.left-side-collapsed .custom-nav li a span {
+.left-side-collapsed .custom-nav > li > a > span {
     position: absolute;
-    background: #65CEA7;
+    background: #9BCBEA;
     padding: 10px;
     left: 52px;
     top: 0;
@@ -452,7 +452,7 @@ h5.left-nav-title {
     display: none;
 }
 
-.left-side-collapsed .custom-nav li a span:after {
+.left-side-collapsed .custom-nav > li > a > span:after {
     right: 100%;
     top: 50%;
     border: solid transparent;
@@ -462,7 +462,7 @@ h5.left-nav-title {
     position: absolute;
     pointer-events: none;
     border-color: rgba(0, 0, 0, 0);
-    border-right-color: #65CEA7;
+    border-right-color: #9BCBEA;
     border-width: 6px;
     margin-top: -6px;
 }
@@ -565,9 +565,9 @@ h5.left-nav-title {
 }
 
 .toggle-btn:hover {
-    background: #65CEA7;
+    background: #9BCBEA;
     color: #fff;
-    border-right-color: #65CEA7;
+    border-right-color: #9BCBEA;
 }
 
 .searchform input {

@@ -162,6 +162,19 @@
             $(this).parent().parent().find('li').removeClass('nav-active');
             $(this).parent().addClass('nav-active');
         });
+        
+        // drop down list for small left side of menu 
+        $('.menu-list').hover(function(){
+            $(this).addClass('nav-hover');
+        },
+             function(){
+            $(this).removeClass('nav-hover');
+        });
+        
     });
 
 })(jQuery);
+
+
+
+

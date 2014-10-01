@@ -1112,10 +1112,16 @@ ul {
 .custom-nav .sub-menu-list > li.active > a {
     color: #cccccc;
 }
+.left-side-collapsed .custom-nav .sub-menu-list > li > a {
+    padding: 5px;
+}
 .custom-nav .sub-menu-list > li > a:hover,
 .custom-nav .sub-menu-list > li > a:active,
 .custom-nav .sub-menu-list > li > a:focus {
     color: #cccccc;
+}
+.custom-nav .sub-menu-list > li > a:hover span {
+    color: #9BCBEA;
 }
 .toggle-btn {
     border-right: none;
