@@ -1,6 +1,6 @@
-<div class="top top-custom">
-    <i class="fa fa-newspaper-o"></i>
-    <h6 ng-if="order._id"> Order: №{{order.increment_id}}</h6>
+<div class="top top-custom order-details-head">
+    <i class="fa fa-list-alt"></i>
+    <h6 ng-if="order._id"> Order Details</h6>
     <h6 ng-if="!order._id"> New order </h6>
 </div>
 
@@ -11,9 +11,9 @@
     <div>
 
         <div class="account-right order-detail">
-            <p>Order # is: <span class="blue">{{order.increment_id}}</span></p>
-            <p>Date: <strong>{{getDate();}}</strong></p>
-            <hr>
+            <h6>Order # is: <strong>{{order.increment_id}}</strong></h6>
+            <h6>Date: <span>{{getDate();}}</span></h6>
+            <div class="hr"></div>
             <div class="od-blocks">
                 <div class="od-block">
                     <h6>Billing & Shipping</h6>
@@ -40,7 +40,7 @@
             <hr>
             <table  class="od-product">
                 <tr>
-                    <th>Product Name</th>
+                    <th><h6>Product Name</h6></th>
                     <th>Qty</th>
                     <th>Total Price</th>
                 </tr>
@@ -60,7 +60,7 @@
                     <td>{{order.tax_amount | currency}}</td>
                 </tr>
                 <tr>
-                    <td>Order Total:</td>
+                    <td><h6>Order Total:</h6></td>
                     <td>{{order.grand_total | currency}}</td>
                 </tr>
             </table>
