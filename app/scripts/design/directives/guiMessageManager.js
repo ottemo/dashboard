@@ -10,20 +10,25 @@
                     "obj": "=item"
                 },
                 templateUrl: $designService.getTemplate("design/gui/guiMessageManager.html"),
-                controller: function ($scope) {
-
+                link: function ($scope) {
+                    $scope.isShow = false;
                     $scope.$watch("obj", function () {
 
                         if (typeof $scope.obj !== "undefined") {
 
                             $scope.msg = $scope.obj.message;
                             $scope.type = $scope.obj.type || "success";
+                            $scope.isShow = true;
+                            setTimeout(function () {
+                                $scope.close();
+                            }, 2000);
                         }
 
                     });
 
                     $scope.close = function () {
-                        $scope.msg = "";
+                        $scope.isShow = false;
+                        $scope.msg = false;
                     };
 
                 }

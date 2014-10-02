@@ -130,9 +130,6 @@
                             }
                         }
                     };
-
-                    $scope.test = function(){alert(1);}
-
                 }
             ]
         );

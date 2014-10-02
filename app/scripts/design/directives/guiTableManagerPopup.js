@@ -65,14 +65,13 @@
                         templateUrl: $designService.getTemplate("design/gui/table-popup.html"),
                         controller: function ($scope) {
                             // Variables
-                            var isInit, activeFilters;
+                            var isInit, isSelectedAll, activeFilters;
 
                             // Functions
-                            var splitExtraData, prepareFilters, getOptions, compareFilters, saveCurrentActiveFilters,
-                                getFilterDetails, initPaginator;
+                            var prepareFilters, getOptions, compareFilters, initPaginator;
 
                             isInit = false;
-
+                            isSelectedAll = false;
                             activeFilters = {};
 
                             // Scope data
@@ -143,55 +142,43 @@
                                 return options;
                             };
 
-                            splitExtraData = function (item) {
-                                var field;
-                                for (field in item.Extra) {
-                                    if (item.Extra.hasOwnProperty(field)) {
-                                        item[field] = item.Extra[field];
-                                        delete item.Extra[field];
+                            prepareFilters = function () {
+                                var i, filterDetails, filter, saveCurrentActiveFilters, getFilterDetails;
+                                /**
+                                 * Save active filters
+                                 *
+                                 * @param {object} filterDetails
+                                 */
+                                saveCurrentActiveFilters = function (filterDetails) {
+                                    if (filterDetails.filterValue) {
+                                        if ("range" !== filterDetails.type) {
+                                            activeFilters[filterDetails.attribute.toLowerCase()] = filterDetails.filterValue.replace(/~/g, "").split(",");
+                                        } else {
+                                            activeFilters[filterDetails.attribute.toLowerCase()] = filterDetails.filterValue.replace(/~/g, "");
+                                        }
                                     }
-                                }
-                            };
-
-                            /**
-                             * Save active filters
-                             *
-                             * @param {object} filterDetails
-                             */
-                            saveCurrentActiveFilters = function (filterDetails) {
-                                if (filterDetails.filterValue) {
-                                    if ("range" !== filterDetails.type) {
-                                        activeFilters[filterDetails.attribute.toLowerCase()] = filterDetails.filterValue.replace(/~/g, "").split(",");
-                                    } else {
-                                        activeFilters[filterDetails.attribute.toLowerCase()] = filterDetails.filterValue.replace(/~/g, "");
-                                    }
-                                }
-                            };
-
-                            getFilterDetails = function (field) {
-                                var filterInfo, parts, details;
-
-                                filterInfo = field.filter;
-                                parts = filterInfo.match(/.+(\{.*\})/i);
-
-                                details = {
-                                    "options": parts === null ? {} : getOptions(parts[1]),
-                                    "type": filterInfo.substr(0, (-1 !== filterInfo.indexOf("{") ? filterInfo.indexOf("{") : filterInfo.length)),
-                                    "filterValue": field.filterValue,
-                                    "attribute": field.attribute,
-                                    "visible": field.visible
                                 };
 
-                                if ("select" === details.type) {
-                                    details.options[""] = "";
-                                }
+                                getFilterDetails = function (field) {
+                                    var filterInfo, parts, details;
 
-                                return details;
-                            };
+                                    filterInfo = field.filter;
+                                    parts = filterInfo.match(/.+(\{.*\})/i);
 
-                            prepareFilters = function () {
-                                var i, filterDetails, filter;
+                                    details = {
+                                        "options": parts === null ? {} : getOptions(parts[1]),
+                                        "type": filterInfo.substr(0, (-1 !== filterInfo.indexOf("{") ? filterInfo.indexOf("{") : filterInfo.length)),
+                                        "filterValue": field.filterValue,
+                                        "attribute": field.attribute,
+                                        "visible": field.visible
+                                    };
 
+                                    if ("select" === details.type) {
+                                        details.options[""] = "";
+                                    }
+
+                                    return details;
+                                };
                                 for (i = 0; i < $scope.parent.fields.length; i += 1) {
 
                                     if (typeof $scope.parent.fields[i].filter === "undefined") {
@@ -354,7 +341,11 @@
                             };
 
                             $scope.setSort = function (attr) {
-                                $scope.sort.newValue = attr;
+                                if (attr === $scope.sort.currentValue) {
+                                    $scope.sort.currentValue = "^" + attr;
+                                } else if (null !== $scope.sort.newValue) {
+                                    $scope.sort.currentValue = attr;
+                                }
                                 $scope.parent.search = getSearchObj();
                             };
 
@@ -398,15 +389,7 @@
                                         return [];
                                     }
 
-                                    if ($scope.sort.newValue === $scope.sort.currentValue) {
-                                        search.sort = "^" + $scope.sort.newValue;
-                                    } else if (null !== $scope.sort.newValue) {
-                                        search.sort = $scope.sort.newValue;
-                                    } else {
-                                        search.sort = $scope.sort.currentValue;
-                                    }
-
-                                    $scope.sort.currentValue = search.sort;
+                                    search.sort = $scope.sort.currentValue;
 
                                     return search;
                                 };
@@ -421,6 +404,13 @@
                                 search = getSortSearch(search);
 
                                 return search;
+                            };
+
+                            $scope.selectAll = function () {
+                                isSelectedAll = isSelectedAll ? false : true;
+                                for (var i = 0; i < $scope.items.length; i += 1) {
+                                    $scope.parent.selected[$scope.items[i][$scope.map.id]] = isSelectedAll;
+                                }
                             };
 
                             $scope.$watch("newFilters", function () {
@@ -439,7 +429,18 @@
                                 if (typeof $scope.items === "undefined") {
                                     return false;
                                 }
-                                var i, item;
+                                var i, item, splitExtraData;
+
+                                splitExtraData = function (item) {
+                                    var field;
+                                    for (field in item.Extra) {
+                                        if (item.Extra.hasOwnProperty(field)) {
+                                            item[field] = item.Extra[field];
+                                            delete item.Extra[field];
+                                        }
+                                    }
+                                };
+
                                 for (i = 0; i < $scope.items.length; i += 1) {
                                     item = $scope.items[i];
                                     if (item.Extra !== null) {

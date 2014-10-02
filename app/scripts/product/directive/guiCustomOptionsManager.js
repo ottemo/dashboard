@@ -128,6 +128,7 @@
                         $scope.$watch("item",
                             function () {
                                 if (typeof $scope.item[$scope.attribute.Attribute] === "undefined") {
+                                    $scope.optionsData = [];
                                     return false;
                                 }
                                 if (isInit) {

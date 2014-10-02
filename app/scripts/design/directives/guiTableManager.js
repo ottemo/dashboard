@@ -52,13 +52,14 @@
                         templateUrl: $designService.getTemplate("design/gui/table.html"),
                         controller: function ($scope) {
                             // Variables
-                            var isInit, activeFilters, possibleButtons;
+                            var isInit, isSelectedAll, activeFilters, possibleButtons;
 
                             // Functions
-                            var splitExtraData, prepareFilters, getOptions, getFilterStr, compareFilters, saveCurrentActiveFilters,
+                            var prepareFilters, getOptions, getFilterStr, compareFilters, saveCurrentActiveFilters,
                                 getFilterDetails, getQueryStr, getLimitStr, getSortStr;
 
                             isInit = false;
+                            isSelectedAll = false;
                             possibleButtons = ["new", "delete"];
                             activeFilters = {};
 
@@ -104,16 +105,6 @@
                                 }
 
                                 return options;
-                            };
-
-                            splitExtraData = function (item) {
-                                var field;
-                                for (field in item.Extra) {
-                                    if (item.Extra.hasOwnProperty(field)) {
-                                        item[field] = item.Extra[field];
-                                        delete item.Extra[field];
-                                    }
-                                }
                             };
 
                             /**
@@ -178,7 +169,6 @@
                                     $scope.filters.push(filter);
                                 }
                             };
-
 
                             /**
                              * Checks filters has the changes or not
@@ -319,6 +309,13 @@
                                 $location.search(getQueryStr());
                             };
 
+                            $scope.selectAll = function () {
+                                isSelectedAll = isSelectedAll ? false : true;
+                                for (var i = 0; i < $scope.items.length; i += 1) {
+                                    $scope.parent.removeIds[$scope.items[i][$scope.map.id]] = isSelectedAll;
+                                }
+                            };
+
                             /** Sorting end*/
 
                             getQueryStr = function (reset) {
@@ -415,7 +412,18 @@
                                     return false;
                                 }
 
-                                var i, item;
+                                var i, item, splitExtraData;
+
+                                splitExtraData = function (item) {
+                                    var field;
+                                    for (field in item.Extra) {
+                                        if (item.Extra.hasOwnProperty(field)) {
+                                            item[field] = item.Extra[field];
+                                            delete item.Extra[field];
+                                        }
+                                    }
+                                };
+
                                 for (i = 0; i < $scope.items.length; i += 1) {
                                     item = $scope.items[i];
                                     if (item.Extra !== null) {
@@ -428,33 +436,32 @@
                             }, true);
 
                             $scope.$watch("parent.count", function () {
-                                    if (typeof $scope.parent.count === "undefined") {
-                                        return false;
-                                    }
+                                if (typeof $scope.parent.count === "undefined") {
+                                    return false;
+                                }
 
-                                    var limit, search, page, parts, countPerPage;
+                                var limit, search, page, parts, countPerPage;
 
-                                    page = 1;
-                                    countPerPage = COUNT_ITEMS_PER_PAGE;
-                                    search = $location.search();
-                                    limit = search.limit;
+                                page = 1;
+                                countPerPage = COUNT_ITEMS_PER_PAGE;
+                                search = $location.search();
+                                limit = search.limit;
 
-                                    if (limit) {
-                                        parts = limit.split(",");
-                                        page = Math.floor(parts[0] / countPerPage) + 1;
-                                    }
-                                    $scope.paginator = {
-                                        "page": page,
-                                        "countItems": $scope.parent.count,
-                                        "countPages": 0,
-                                        "countPerPage": countPerPage,
-                                        "limitStart": 0
-                                    };
+                                if (limit) {
+                                    parts = limit.split(",");
+                                    page = Math.floor(parts[0] / countPerPage) + 1;
+                                }
+                                $scope.paginator = {
+                                    "page": page,
+                                    "countItems": $scope.parent.count,
+                                    "countPages": 0,
+                                    "countPerPage": countPerPage,
+                                    "limitStart": 0
+                                };
 
-                                    $scope.paginator.countPages = Math.ceil($scope.paginator.countItems / $scope.paginator.countPerPage);
+                                $scope.paginator.countPages = Math.ceil($scope.paginator.countItems / $scope.paginator.countPerPage);
 
-                                }, true
-                            );
+                            }, true);
                         }
                     };
                 }

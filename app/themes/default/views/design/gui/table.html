@@ -15,7 +15,7 @@
                 <th>
                     <div class="checkboxes">
                         <label class="myCheckbox">
-                            <input type="checkbox" id="selectAll">
+                            <input type="checkbox" id="selectAll" ng-click="selectAll()">
                             <span></span>
                         </label>
                     </div>
@@ -101,13 +101,13 @@
 </section>
 
 <script>
-    jQuery("#selectAll").click(function () {
-        if (jQuery("#selectAll").is(':checked')) {
-            jQuery(this).parents("table").find(".myCheckbox > input").attr("checked", true);
-        } else {
-            jQuery(this).parents("table").find(".myCheckbox > input").attr("checked", false);
-        }
-    })
+//    jQuery("#selectAll").click(function () {
+//        if (jQuery("#selectAll").is(':checked')) {
+//            jQuery(this).parents("table").find(".myCheckbox > input").attr("checked", true);
+//        } else {
+//            jQuery(this).parents("table").find(".myCheckbox > input").attr("checked", false);
+//        }
+//    })
 </script>
 <style>
     .customers table th {

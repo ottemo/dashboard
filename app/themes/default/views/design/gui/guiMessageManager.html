@@ -1,4 +1,4 @@
-<div ng-switch="type" ng-if="msg" class="msg" name="info-msg" id="info-msg">
+<div ng-switch="type" ng-if="isShow" class="msg" name="info-msg" id="info-msg">
 
     <div class="alert alert-success alert-dismissible" role="alert" ng-switch-when="success">
         <button ng-bind-html-unsafe class="close" ng-click="close()"><span>&times;</span></button>
@@ -22,8 +22,8 @@
 
     <div class="alert alert-success alert-dismissible" role="alert" ng-switch-default>
         <button class="close" ng-click="close()"><span>&times;</span></button>
-        11
     </div>
+
 </div>
 
 <style>
