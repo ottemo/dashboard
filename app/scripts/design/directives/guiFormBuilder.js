@@ -12,6 +12,7 @@
                 return {
                     restrict: "E",
                     scope: {
+                        "parent": "=object",
                         "item": "=item",
                         "attributes": "=attributes"
                     },

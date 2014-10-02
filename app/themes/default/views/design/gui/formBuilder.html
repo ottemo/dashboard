@@ -98,7 +98,7 @@
 
         <div ng-switch-when="picture_manager">
             <gui-picture-manager images-path="parent.imagesPath" images-list="parent.productImages"
-                                 selected="selectedImage" default-img="item.default_image"
+                                 selected="parent.selectedImage" default-img="item.default_image"
                                  ng-if="item._id">
 
                 <!-- Upload button -->
@@ -107,10 +107,10 @@
                            ng-change="parent.imageAdd('uploadfile')"/>
                 </div>
                 <!-- Remove button -->
-                <button class="btn btn-danger" ng-click="parent.imageRemove(selectedImage)">Remove
+                <button class="btn btn-danger" ng-click="parent.imageRemove(parent.selectedImage)">Remove
                 </button>
                 <!-- Default button -->
-                <button class="btn btn-primary" ng-click="parent.imageDefault(selectedImage)">Mark as
+                <button class="btn btn-primary" ng-click="parent.imageDefault(parent.selectedImage)">Mark as
                     Default
                 </button>
             </gui-picture-manager>

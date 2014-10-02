@@ -397,7 +397,7 @@
                                     if (JSON.stringify($scope.sort) === JSON.stringify({})) {
                                         return [];
                                     }
-                                    console.warn($scope.sort);
+
                                     if ($scope.sort.newValue === $scope.sort.currentValue) {
                                         search.sort = "^" + $scope.sort.newValue;
                                     } else if (null !== $scope.sort.newValue) {
