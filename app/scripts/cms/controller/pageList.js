@@ -109,7 +109,7 @@
                      *
                      * @param {string} id
                      */
-                    $scope.remove = function (id) {
+                    $scope.remove = function () {
                         var i, answer;
                         answer = window.confirm("You really want to remove this page(s)");
                         if (answer) {
@@ -123,13 +123,15 @@
                                 }
                             };
 
-                            for (id in $scope.removeIds) {
+                            for (var id in $scope.removeIds) {
                                 if ($scope.removeIds.hasOwnProperty(id) && true === $scope.removeIds[id]) {
                                     remove(id).then(callback);
                                 }
                             }
                         }
                     };
+
+                    $scope.test = function(){alert(1);}
 
                 }
             ]

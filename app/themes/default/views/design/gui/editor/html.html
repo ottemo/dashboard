@@ -1,3 +1,15 @@
+<label>{{attribute.Label}} <span class="asterisk"
+                                 ng-show="attribute.IsRequired">*</span></label>
+
+<button class="switch-type" type="button" ng-hide="isSource()" ng-click="switchView('tinymce_'+attribute.Attribute, 'source')">Source</button>
+<button class="switch-type" type="button" ng-hide="isHtml()" ng-click="switchView('tinymce_'+attribute.Attribute, 'html')">HTML-Editor</button>
+
 <textarea type="text" class="form-control" style="resize:vertical;" rows="7" data-gui-tinymce id="tinymce_{{attribute.Attribute}}"
           placeholder="{{attribute.Label}}"
           ng-model="item[attribute.Attribute]"></textarea>
+
+<style>
+    .switch-type{
+        margin-left: 25px;
+    }
+</style>

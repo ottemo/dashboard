@@ -35,14 +35,15 @@
                     $scope.attributesList = [];
                     $scope.typesAttribute = ["integer", "real", "text", "blob", "numeric"];
                     $scope.editorsList = [
-                        "text",
-                        "multiline_text",
                         "not_editable",
+                        "text",
+                        "datetime",
                         "password",
+                        "multiline_text",
+                        "html",
                         "boolean",
                         "select",
-                        "multi_select",
-                        "visitor_options"
+                        "multi_select"
                     ];
                     /**
                      * Gets list all attributes of visitor

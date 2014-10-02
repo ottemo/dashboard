@@ -65,38 +65,21 @@
                         templateUrl: $designService.getTemplate("design/gui/table-popup.html"),
                         controller: function ($scope) {
                             // Variables
-                            var isInit, activeFilters, possibleButtons;
+                            var isInit, activeFilters;
 
                             // Functions
                             var splitExtraData, prepareFilters, getOptions, compareFilters, saveCurrentActiveFilters,
-                                getFilterDetails, initButtons, initPaginator;
+                                getFilterDetails, initPaginator;
 
                             isInit = false;
-                            possibleButtons = ["new", "delete", "checkbox"];
+
                             activeFilters = {};
 
                             // Scope data
                             $scope.map = assignMapping($scope.mapping);
                             $scope.filters = [];
                             $scope.newFilters = {};
-
-                            initButtons = function () {
-                                var i;
-                                if (typeof $scope.buttons === "undefined") {
-                                    $scope.buttons = {};
-                                    for (i = 0; i < possibleButtons.length; i += 1) {
-                                        if (typeof $scope.buttonData !== "undefined") {
-                                            if (typeof $scope.buttonData[possibleButtons[i]] !== "undefined") {
-                                                $scope.buttons[possibleButtons[i]] = $scope.buttonData[possibleButtons[i]];
-                                            } else {
-                                                $scope.buttons[possibleButtons[i]] = true;
-                                            }
-                                        } else {
-                                            $scope.buttons[possibleButtons[i]] = true;
-                                        }
-                                    }
-                                }
-                            };
+                            $scope.sort = {};
 
                             initPaginator = function () {
                                 var limit, search, page, parts, countPerPage;
@@ -122,7 +105,22 @@
                             };
 
                             $scope.init = function () {
-                                initButtons();
+                                var i, possibleButtons;
+                                possibleButtons = ["new", "delete", "checkbox"];
+                                if (typeof $scope.buttons === "undefined") {
+                                    $scope.buttons = {};
+                                    for (i = 0; i < possibleButtons.length; i += 1) {
+                                        if (typeof $scope.buttonData !== "undefined") {
+                                            if (typeof $scope.buttonData[possibleButtons[i]] !== "undefined") {
+                                                $scope.buttons[possibleButtons[i]] = $scope.buttonData[possibleButtons[i]];
+                                            } else {
+                                                $scope.buttons[possibleButtons[i]] = true;
+                                            }
+                                        } else {
+                                            $scope.buttons[possibleButtons[i]] = true;
+                                        }
+                                    }
+                                }
                             };
 
                             getOptions = function (opt) {
@@ -253,7 +251,7 @@
                                     return true;
                                 };
 
-                                check = function(key){
+                                check = function (key) {
                                     if (typeof activeFilters[key] === "undefined") {
                                         if (!checkActiveFilters(key)) {
                                             return false;
@@ -269,7 +267,7 @@
 
                                 for (var key in $scope.newFilters) {
                                     if ($scope.newFilters.hasOwnProperty(key)) {
-                                        if(check(key)){
+                                        if (check(key)) {
                                             continue;
                                         } else {
                                             return false;
@@ -281,7 +279,6 @@
                             };
 
                             /** PAGINATOR */
-
 
                             $scope.getPages = function () {
                                 if (typeof $scope.paginator === "undefined") {
@@ -305,7 +302,7 @@
                                     $scope.paginator.page = $scope.paginator.page - 1;
                                 } else if ("next" === page && $scope.paginator.page !== $scope.paginator.countPages) {
                                     $scope.paginator.page = $scope.paginator.page + 1;
-                                } else if(-1 === ["prev", "next"].indexOf(page)){
+                                } else if (-1 === ["prev", "next"].indexOf(page)) {
                                     $scope.paginator.page = page;
                                 }
 
@@ -340,8 +337,31 @@
 
                             /** PAGINATOR END*/
 
+                            /** Sorting */
+
+                            $scope.getSortClass = function (attr) {
+                                var _class = "";
+
+                                if (attr === $scope.sort.currentValue) {
+                                    _class = "fa fa-long-arrow-up";
+                                } else if (typeof $scope.sort.currentValue !== "undefined" && -1 !== $scope.sort.currentValue.indexOf(attr)) {
+                                    _class = "fa fa-long-arrow-down";
+                                } else {
+                                    _class = "";
+                                }
+
+                                return _class;
+                            };
+
+                            $scope.setSort = function (attr) {
+                                $scope.sort.newValue = attr;
+                                $scope.parent.search = getSearchObj();
+                            };
+
+                            /** Sorting end*/
+
                             var getSearchObj = function (reset) {
-                                var addFilter, getPaginatorSearch, removeEmpty, search;
+                                var addFilter, getPaginatorSearch, getSortSearch, removeEmpty, search;
 
                                 search = {};
                                 removeEmpty = function (arr) {
@@ -351,6 +371,7 @@
                                         }
                                     }
                                 };
+
                                 getPaginatorSearch = function (search, reset) {
                                     if (reset) {
                                         search.limit = "0," + $scope.paginator.countPerPage;
@@ -360,6 +381,7 @@
 
                                     return search;
                                 };
+
                                 addFilter = function (key) {
                                     if ($scope.newFilters[key] instanceof Array) {
                                         removeEmpty($scope.newFilters[key]);
@@ -371,6 +393,24 @@
                                     }
                                 };
 
+                                getSortSearch = function (search) {
+                                    if (JSON.stringify($scope.sort) === JSON.stringify({})) {
+                                        return [];
+                                    }
+                                    console.warn($scope.sort);
+                                    if ($scope.sort.newValue === $scope.sort.currentValue) {
+                                        search.sort = "^" + $scope.sort.newValue;
+                                    } else if (null !== $scope.sort.newValue) {
+                                        search.sort = $scope.sort.newValue;
+                                    } else {
+                                        search.sort = $scope.sort.currentValue;
+                                    }
+
+                                    $scope.sort.currentValue = search.sort;
+
+                                    return search;
+                                };
+
                                 for (var key in $scope.newFilters) {
                                     if ($scope.newFilters.hasOwnProperty(key)) {
                                         addFilter(key);
@@ -378,6 +418,7 @@
                                 }
 
                                 search = getPaginatorSearch(search, reset);
+                                search = getSortSearch(search);
 
                                 return search;
                             };
@@ -405,10 +446,12 @@
                                         splitExtraData(item);
                                     }
                                 }
+
                                 if (isInit) {
                                     return false;
                                 }
                                 prepareFilters();
+
                                 isInit = true;
                             }, true);
 

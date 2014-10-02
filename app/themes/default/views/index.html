@@ -1,7 +1,9 @@
-<add-css src="dashboard.css"></add-css>
-<add-css src="main.css"></add-css>
 <add-css src="style.css"></add-css>
 <add-css src="style-responsive.css"></add-css>
+<add-css src="dashboard.css"></add-css>
+<add-css src="main.css"></add-css>
+
+
 <!-- main content start-->
 <section class="main-content">
 
@@ -9,6 +11,8 @@
 
     <ng-include src="getTemplate('dashboard/sidebar.html')"></ng-include>
 
-    <ng-view></ng-view>
+    <section>
+        <ng-view></ng-view>
+    </section>
 
 </section><!-- main content end-->

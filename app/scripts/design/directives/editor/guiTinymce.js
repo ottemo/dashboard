@@ -1,19 +1,19 @@
 (function (define, tinymce) {
     "use strict";
 
-    define(["angular", "design/init"], function (angular, designModule) {
+    define(["angular", "design/init", "design/tinymce/blockSelector"], function (angular, designModule) {
         designModule
             .value('uiTinymceConfig', {
-                theme: "modern",
-                plugins: [
-                    "advlist autolink lists link image charmap print preview hr anchor pagebreak",
-                    "searchreplace wordcount visualblocks visualchars code fullscreen",
-                    "insertdatetime media nonbreaking save table contextmenu directionality",
-                    "emoticons template paste textcolor colorpicker textpattern"
+                "theme": "modern",
+                "plugins": [
+                    "blocks advlist autolink lists link image charmap preview hr anchor pagebreak",
+                    "visualblocks visualchars code fullscreen",
+                    "media nonbreaking save table contextmenu directionality",
+                    "template paste textcolor colorpicker textpattern"
                 ],
-                toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
-                toolbar2: "print preview media | forecolor backcolor emoticons",
-                image_advtab: true //jshint ignore:line
+                "menubar": false,
+                "toolbar1": "blocks | insertfile undo redo | styleselect | bold italic | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+                "image_advtab": true
             })
             .directive('guiTinymce', ['uiTinymceConfig', function (uiTinymceConfig) {
                 uiTinymceConfig = uiTinymceConfig || {};
@@ -29,6 +29,15 @@
                                     scope.$apply();
                                 }
                             };
+
+                        // Makes a change in tinyMCE content when made changes in parent element(textarea)
+                        scope.$watch(function () {
+                            return elm.val();
+                        }, function () {
+                            if (tinyInstance) {
+                                tinyInstance.setContent(ngModel.$viewValue || '');
+                            }
+                        });
 
                         // generate an ID if not present
                         if (!attrs.id) {

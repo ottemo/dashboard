@@ -82,19 +82,27 @@
                                 return fields;
                             }
 
-                            fields = [
-                                {
-                                    "attribute": "Name",
-                                    "type": "select-link",
-                                    "label": "Name",
-                                    "visible": true,
-                                    "notDisable": true
-                                }
-                            ];
+                            fields = [];
+
                             var prepareGroups = function () {
-                                for (var j = 0; j < attributes.length; j += 1) {
-                                    if (-1 !== Object.keys(filters).indexOf(attributes[j].Editors) &&
-                                        attributes[j].Attribute.toLowerCase() !== fields[0].attribute.toLowerCase()) {
+                                var hasName, j;
+
+                                hasName = false;
+                                for (j = 0; j < attributes.length; j += 1) {
+                                    if (-1 !== Object.keys(filters).indexOf(attributes[j].Editors)) {
+                                        if("name" === attributes[j].Attribute){
+                                            hasName = true;
+                                            fields.unshift({
+                                                "attribute": attributes[j].Attribute,
+                                                "type": "select-link",
+                                                "label": attributes[j].Label,
+                                                "visible": true,
+                                                "notDisable": true,
+                                                "filter": getFilter(attributes[j]),
+                                                "filterValue": $routeParams[attributes[j].Attribute]
+                                            });
+                                            continue;
+                                        }
                                         fields.push({
                                             "attribute": attributes[j].Attribute,
                                             "type": "string",
@@ -106,7 +114,18 @@
                                         });
                                     }
                                 }
+
+                                if (!hasName) {
+                                    fields.unshift({
+                                        "attribute": "Name",
+                                        "type": "select-link",
+                                        "label": "Name",
+                                        "visible": true,
+                                        "notDisable": true
+                                    });
+                                }
                             };
+
                             prepareGroups();
                             isInitFields = true;
 
@@ -152,7 +171,7 @@
                                         oldList[i].Extra[attribute] = oldList[i].Extra[attribute].map(replace);
                                         oldList[i].Extra[attribute] = oldList[i].Extra[attribute].join(", ");
 
-                                    } else if (typeof options[oldList[i].Extra[attribute]] !== "undefined"){
+                                    } else if (typeof options[oldList[i].Extra[attribute]] !== "undefined") {
                                         oldList[i].Extra[attribute] = options[oldList[i].Extra[attribute]];
                                     }
                                 }

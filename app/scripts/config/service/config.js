@@ -119,17 +119,18 @@
 
                     checkOnDups = function (group, path, force) {
                         if (force) {
-                            for (var i = 0; i < configTabs[group].length; i += 1) {
-                                if (path === configTabs[group][i].Path) {
-                                    configTabs[group].splice(i, 1);
-                                    return true;
+                            for (var pos = 0; pos < configTabs[group].length; pos += 1) {
+                                console.warn(path + " === " + configTabs[group][pos].Path);
+                                if (path === configTabs[group][pos].Path) {
+                                    configTabs[group].splice(pos, 1);
+                                    return pos;
                                 }
                             }
                         }
                     };
 
                     load = function (path, force) {
-                        var i, regExp, parts, group;
+                        var i, pos, regExp, parts, group;
                         regExp = new RegExp("(\\w+)\\.(\\w+).*", "i");
 
                         if ((typeof items[path] === "undefined" && !force) || force) {
@@ -141,19 +142,29 @@
                             $configApiService.getInfo({"path": path}).$promise.then(
                                 function (response) {
 
+                                    var addAttributeInTab = function (attr) {
+                                        pos = checkOnDups(group, attr.Path, true);
+
+                                        if (pos) {
+                                            configTabs[group].splice(pos, 0, attr);
+                                        } else {
+                                            configTabs[group].push(attr);
+                                        }
+                                        
+                                    };
+
                                     for (i = 0; i < response.result.length; i += 1) {
                                         if (response.result[i].Type !== "group") {
 
                                             parts = response.result[i].Path.match(regExp);
                                             group = parts[1];
 
-                                            checkOnDups(group, response.result[i].Path, force);
-
                                             response.result[i].Attribute = response.result[i].Path;
                                             response.result[i].Group = parts[2];
                                             response.result[i].Editors = response.result[i].Editor;
                                             delete response.result[i].Editor;
-                                            configTabs[group].push(response.result[i]);
+
+                                            addAttributeInTab(response.result[i]);
 
                                             items[path][response.result[i].Path] = response.result[i].Value !== null ? response.result[i].Value.toString() : "";
                                             itemsOld[path][response.result[i].Path] = response.result[i].Value !== null ? response.result[i].Value.toString() : "";

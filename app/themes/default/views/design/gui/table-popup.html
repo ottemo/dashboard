@@ -23,8 +23,9 @@
                         </label>
                     </div>
                 </th>
-                <th ng-repeat="field in parent.fields" ng-show="field.visible">
+                <th ng-repeat="field in parent.fields" ng-show="field.visible" ng-class="{'th-sort': field.label}" ng-click="field.label ? setSort(field.attribute) : ''">
                     {{field.label}}
+                    <span ng-class="getSortClass(field.attribute)"></span>
                 </th>
             </tr>
             <!-- Filters -->

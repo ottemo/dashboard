@@ -40,7 +40,9 @@
             "design/directives/editor/guiText",
             "design/directives/editor/guiDatetime",
             "design/directives/editor/guiJsonEditor",
-            "design/directives/editor/guiThemesManager"
+            "design/directives/editor/guiThemesManager",
+
+            "design/tinymce/blockSelector"
         ],
         function (designModule) {
 

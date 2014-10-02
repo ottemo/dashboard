@@ -20,8 +20,9 @@
                         </label>
                     </div>
                 </th>
-                <th ng-repeat="field in parent.fields" ng-show="field.visible">
+                <th ng-repeat="field in parent.fields" ng-show="field.visible" ng-class="{'th-sort': field.label}" ng-click="field.label ? setSort(field.attribute) : ''">
                     {{field.label}}
+                    <span ng-class="getSortClass(field.attribute)"></span>
                 </th>
             </tr>
             <!-- Filters -->
@@ -102,9 +103,9 @@
 <script>
     jQuery("#selectAll").click(function () {
         if (jQuery("#selectAll").is(':checked')) {
-            jQuery(".myCheckbox").find("input").attr("checked", true);
+            jQuery(this).parents("table").find(".myCheckbox > input").attr("checked", true);
         } else {
-            jQuery(".myCheckbox").find("input").attr("checked", false);
+            jQuery(this).parents("table").find(".myCheckbox > input").attr("checked", false);
         }
     })
 </script>
@@ -134,5 +135,12 @@
     }
     .customers table tr th.row-image {
         width: 1% !important;
+    }
+    .customers table td .fa, .customers table th .fa{
+        font-family: FontAwesome !important;
+        width: 25% !important;
+    }
+    .th-sort{
+        cursor: pointer;
     }
 </style>
