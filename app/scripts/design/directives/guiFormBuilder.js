@@ -8,7 +8,7 @@
          *  Directive used for automatic attributes editor form creation
          *
          */
-            .directive("guiFormBuilder", ["$designService", function ($designService) {
+            .directive("guiFormBuilder", ["$designService", "$compile", function ($designService) {
                 return {
                     restrict: "E",
                     scope: {
@@ -17,12 +17,12 @@
                         "attributes": "=attributes"
                     },
                     templateUrl: $designService.getTemplate("design/gui/formBuilder.html"),
-                    controller: function () {
-
-                    }
+                    controller: ["$scope",
+                        function () {
+                        }
+                    ]
                 };
             }]);
-
         return designModule;
     });
 })(window.define);

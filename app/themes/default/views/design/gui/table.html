@@ -2,12 +2,15 @@
 
     <form class="col-md-12">
 
-        <div class="checkboxes" ng-if="parent.fields.length >1" >
-            <label class="myCheckbox visibility" ng-repeat="field in parent.fields" ng-hide="field.notDisable">
-                <input type="checkbox" ng-model="field.visible" ng-hide="field.notDisable">
-                <span>{{field.label || field.attribute}}</span>
-            </label>
+        <div class="checkboxes head-checkboxes" ng-if="parent.fields.length > 1" >
+            <div class="checkboxes-wrapper">
+                <label class="myCheckbox visibility" ng-repeat="field in parent.fields" ng-hide="field.notDisable">
+                    <input type="checkbox" ng-model="field.visible" ng-hide="field.notDisable">
+                    <span>{{field.label || field.attribute}}</span>
+                </label>
+            </div>
         </div>
+        <div class="clear"></div>
 
         <table>
             <!-- Labels -->
@@ -57,7 +60,7 @@
                         </label>
                     </div>
                 </td>
-                <th ng-repeat="field in parent.fields" ng-show="field.visible" ng-class="{'row-image': field.type ==='image'}">
+                <th ng-repeat="field in parent.fields" ng-show="field.visible" ng-class="{'image-row': field.type ==='image'}" class="th2">
                     <span ng-switch="field.type">
 
                         <!-- Image -->
@@ -71,13 +74,12 @@
                         <span ng-switch-when="currency">{{_item[field.attribute] | currency}}</span>
 
                         <!-- Link -->
-                        <span ng-switch-when="select-link">
+                        <span ng-switch-when="select-link" class="select-link">
                             <a href="" ng-click="parent.select(_item[map.id])">{{_item[field.attribute]}}</a>
                         </span>
 
                         <!-- String, text -->
                         <span ng-switch-default="">{{_item[field.attribute]}}</span>
-
 
                     </span>
                 </th>
@@ -95,10 +97,13 @@
                 <!--<li><a href="#{{getURI('all')}}">ALL</a></li>-->
             </ul>
         </div>
-        <div class="btn-black" ng-click="parent.remove()" ng-if="buttons.delete">Delete</div>
-        <div class="btn-black" ng-click="parent.create()" ng-if="buttons.new">New</div>
+        
     </form>
+    <div class="clear"></div>
 </section>
+<div class="btn-black" ng-click="parent.remove()" ng-if="buttons.delete">Delete</div>
+<div class="btn-black" ng-click="parent.create()" ng-if="buttons.new">New</div>
+<div class="clear"></div>
 
 <script>
 //    jQuery("#selectAll").click(function () {
@@ -132,9 +137,6 @@
     }
     th:first{
         width: 20px !important;
-    }
-    .customers table tr th.row-image {
-        width: 1% !important;
     }
     .customers table td .fa, .customers table th .fa{
         font-family: FontAwesome !important;

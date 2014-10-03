@@ -1,4 +1,4 @@
-<form role="form" class="product-tabs">
+<form role="form" class="product-tabs" name="otEditForm" novalidate>
 
     <header class="panel-heading custom-tab">
         <ul class="nav nav-tabs">
@@ -21,20 +21,5 @@
     </div>
 </form>
 
-<div class="btn-black" ng-click="parent.save()">Save</div>
-<div class="btn-black" ng-click="parent.back()">Back</div>
-
-<script>
-    (function ($) {
-        $(document).on("click", 'ul.nav-tabs li a', function (event) {
-            event.preventDefault();
-
-            $(this).parent().siblings().removeClass('active');
-            $(this).parent().addClass('active');
-            var href = $(this).attr('href');
-            $('.tab-content div').removeClass('active');
-            $(href).addClass('active');
-        });
-    })(jQuery)
-
-</script>
+<div class="btn-black" ng-click="save()">Save</div>
+<div class="btn-black" ng-click="back()">Back</div>

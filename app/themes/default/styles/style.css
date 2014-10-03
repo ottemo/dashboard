@@ -11,7 +11,7 @@ Author: ThemeBucket
 @import url('custom-ico-fonts.css');
 
 body {
-    background: #424f63;
+    background: #fff;
     font-family: 'Open Sans', sans-serif;
     color: #7a7676;
     line-height: 20px;
@@ -542,6 +542,7 @@ h5.left-nav-title {
 .header-section {
     background: #fff;
     border-bottom: 1px solid #eff0f4;
+    text-align: center;
 }
 
 .header-section::after {

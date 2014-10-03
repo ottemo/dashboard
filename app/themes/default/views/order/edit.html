@@ -37,7 +37,7 @@
                 </div>
                 <div class="clear"></div>
             </div>
-            <hr>
+            <div class="hr"></div>
             <table  class="od-product">
                 <tr>
                     <th><h6>Product Name</h6></th>
@@ -50,21 +50,27 @@
                     <td>{{product.Price | currency}}</td>
                 </tr>
             </table>
-            <table class="od-total">
-                <tr>
-                    <td>Subtotal:</td>
-                    <td>{{order.subtotal | currency}}</td>
-                </tr>
-                <tr>
-                    <td>Tax:</td>
-                    <td>{{order.tax_amount | currency}}</td>
-                </tr>
-                <tr>
-                    <td><h6>Order Total:</h6></td>
-                    <td>{{order.grand_total | currency}}</td>
-                </tr>
-            </table>
-            <a class="btns" href="#/orders/">Back to Orders</a>
+            <hr>
+            <div class="od-total">
+                <span>{{order.subtotal | currency}}</span>
+                <span>Subtotal:</span>
+                <div class="clear"></div>        
+                <span>{{order.tax_amount | currency}}</span>
+                <span>Tax:</span>
+                <div class="clear"></div>
+            </div>
+            <br>
+            <div class="hr"></div>
+            <div class="order-total">
+                <h6>{{order.grand_total | currency}}</h6>
+                <h6>Order Total:</h6>
+                <div class="clear"></div>
+            </div>
+            <div class="btn-group pull-right">
+                <a class="btn-black" href="#/orders/">Back</a>
+                <a class="btn-black" href="#/orders/">Save</a>
+            </div>
+            
         </div>
     </div>
 

@@ -107,7 +107,6 @@
                     /**
                      * Removes cms by ID
                      *
-                     * @param {string} id
                      */
                     $scope.remove = function () {
                         var i, answer;

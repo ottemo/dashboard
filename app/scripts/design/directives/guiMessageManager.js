@@ -3,7 +3,7 @@
 
     define(["design/init"], function (designModule) {
 
-        designModule.directive("guiMessageManager", ["$designService", function ($designService) {
+        designModule.directive("guiMessageManager", ["$designService", "$timeout", function ($designService, $timeout) {
             return {
                 restrict: "E",
                 scope: {
@@ -19,7 +19,7 @@
                             $scope.msg = $scope.obj.message;
                             $scope.type = $scope.obj.type || "success";
                             $scope.isShow = true;
-                            setTimeout(function () {
+                            $timeout(function () {
                                 $scope.close();
                             }, 2000);
                         }

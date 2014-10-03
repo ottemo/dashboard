@@ -63,6 +63,14 @@
                                     });
                                 }
                             }
+
+                            $scope.options.unshift({
+                                Desc: "",
+                                Extra: null,
+                                Id: "",
+                                Image: "",
+                                Name: ""
+                            });
                         });
                     }
                 };

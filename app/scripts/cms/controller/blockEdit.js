@@ -94,7 +94,6 @@
 
                         /**
                          *
-                         * @param response
                          */
                         saveError = function () {
                             defer.resolve(false);
@@ -117,7 +116,6 @@
 
                         /**
                          *
-                         * @param response
                          */
                         updateError = function () {
                             defer.resolve(false);
