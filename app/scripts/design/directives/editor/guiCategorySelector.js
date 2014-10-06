@@ -2,18 +2,7 @@
     "use strict";
 
     define(["design/init"], function (designModule) {
-        var clone = function (obj) {
-            if (null === obj || "object" !== typeof obj) {
-                return obj;
-            }
-            var copy = obj.constructor();
-            for (var attr in obj) {
-                if (obj.hasOwnProperty(attr)) {
-                    copy[attr] = obj[attr];
-                }
-            }
-            return copy;
-        };
+
         designModule
         /**
          *  Directive used for automatic attribute editor creation
@@ -22,8 +11,9 @@
                 "$location",
                 "$routeParams",
                 "$designService",
+                "$dashboardListService",
                 "$categoryApiService",
-                function ($location, $routeParams, $designService, $categoryApiService) {
+                function ($location, $routeParams, $designService, $dashboardListService, $categoryApiService) {
                     return {
                         restrict: "E",
                         templateUrl: $designService.getTemplate("design/gui/editor/categorySelector.html"),
@@ -35,18 +25,6 @@
 
                         controller: function ($scope) {
                             var loadData;
-
-                            $scope.fields = [
-                                {
-                                    "attribute": "Name",
-                                    "type": "select-link",
-                                    "label": "Name",
-                                    "visible": true,
-                                    "notDisable": true,
-                                    "filter": "text",
-                                    "filterValue": ""
-                                }
-                            ];
 
                             $scope.oldSearch = {};
 
@@ -80,6 +58,7 @@
                             };
 
                             $scope.show = function (id) {
+                                $dashboardListService.init('categories');
                                 $("#" + id).modal("show");
                             };
 
@@ -94,46 +73,58 @@
 
                             loadData = function () {
 
-//                                if (typeof $scope.search === "undefined") {
-//                                    $scope.search = {};
-//                                    $scope.search.limit = "0," + COUNT_ITEMS_PER_PAGE;
-//                                }
-//                                if (typeof $scope.search.limit === "undefined") {
-//                                    $scope.search.limit = "0," + COUNT_ITEMS_PER_PAGE;
-//                                }
-
-                                if (JSON.stringify($scope.oldSearch) === JSON.stringify($scope.search)) {
-                                    return false;
-                                }
-
-                                $scope.oldSearch = clone($scope.search);
-
-                                $categoryApiService.categoryList(
-                                    $scope.search, {}).$promise.then(
-                                    function (response) {
-                                        var result, i;
-                                        $scope.items = [];
-                                        result = response.result || [];
-                                        for (i = 0; i < result.length; i += 1) {
-                                            if (result[i].Id !== $scope.item._id) {
-                                                $scope.items.push(result[i]);
+                                /**
+                                 * Gets list of categories
+                                 */
+                                var getCategoriesList = function () {
+                                    $categoryApiService.categoryList($scope.search, {"extra": $dashboardListService.getExtraFields()}).$promise.then(
+                                        function (response) {
+                                            var result, i;
+                                            $scope.categoriesTmp = [];
+                                            result = response.result || [];
+                                            for (i = 0; i < result.length; i += 1) {
+                                                if (result[i].Id !== $scope.item._id) {
+                                                    $scope.categoriesTmp.push(result[i]);
+                                                }
                                             }
+                                        }
+                                    );
+                                };
+
+                                /**
+                                 * Gets count of categories
+                                 */
+                                $categoryApiService.getCount($scope.search, {}).$promise.then(
+                                    function (response) {
+                                        if (response.error === "") {
+                                            $scope.count = response.result;
+                                        } else {
+                                            $scope.count = 0;
                                         }
                                     }
                                 );
 
-                                /**
-                                 * Gets list of products
-                                 */
-//                                $categoryApiService.getCount($scope.search, {}).$promise.then(
-//                                    function (response) {
-//                                        if (response.error === "") {
-//                                            $scope.count = response.result;
-//                                        } else {
-//                                            $scope.count = 0;
-//                                        }
-//                                    }
-//                                );
+                                $categoryApiService.attributesInfo().$promise.then(
+                                    function (response) {
+                                        var result = response.result || [];
+                                        $dashboardListService.init('categories');
+                                        $scope.attributes = result;
+                                        $dashboardListService.setAttributes($scope.attributes);
+                                        $scope.fields = $dashboardListService.getFields();
+                                        getCategoriesList();
+                                    }
+                                );
+
+                                var prepareList = function () {
+                                    if (typeof $scope.attributes === "undefined" || typeof $scope.categoriesTmp === "undefined") {
+                                        return false;
+                                    }
+
+                                    $scope.items = $dashboardListService.getList($scope.categoriesTmp);
+                                };
+
+                                $scope.$watch("categoriesTmp", prepareList);
+                                $scope.$watch("attributes", prepareList);
                             };
 
                             $scope.$watch("search", function () {

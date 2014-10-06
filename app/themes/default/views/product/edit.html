@@ -1,6 +1,7 @@
 <div class="top top-custom">
     <i class="fa fa-tags"></i>
-    <h6>Products</h6>
+    <h6 ng-if="product._id"> Product: {{product.name}} [<b>{{product.sku}}</b>] </h6>
+    <h6 ng-if="!product._id"> Products </h6>
 </div>
 <div class="panel-body">
 

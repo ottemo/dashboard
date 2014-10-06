@@ -65,38 +65,20 @@
                         templateUrl: $designService.getTemplate("design/gui/table-popup.html"),
                         controller: function ($scope) {
                             // Variables
-                            var isInit, activeFilters, possibleButtons;
+                            var isInit, isSelectedAll, activeFilters;
 
                             // Functions
-                            var splitExtraData, prepareFilters, getOptions, compareFilters, saveCurrentActiveFilters,
-                                getFilterDetails, initButtons, initPaginator;
+                            var prepareFilters, getOptions, compareFilters, initPaginator;
 
                             isInit = false;
-                            possibleButtons = ["new", "delete", "checkbox"];
+                            isSelectedAll = false;
                             activeFilters = {};
 
                             // Scope data
                             $scope.map = assignMapping($scope.mapping);
                             $scope.filters = [];
                             $scope.newFilters = {};
-
-                            initButtons = function () {
-                                var i;
-                                if (typeof $scope.buttons === "undefined") {
-                                    $scope.buttons = {};
-                                    for (i = 0; i < possibleButtons.length; i += 1) {
-                                        if (typeof $scope.buttonData !== "undefined") {
-                                            if (typeof $scope.buttonData[possibleButtons[i]] !== "undefined") {
-                                                $scope.buttons[possibleButtons[i]] = $scope.buttonData[possibleButtons[i]];
-                                            } else {
-                                                $scope.buttons[possibleButtons[i]] = true;
-                                            }
-                                        } else {
-                                            $scope.buttons[possibleButtons[i]] = true;
-                                        }
-                                    }
-                                }
-                            };
+                            $scope.sort = {};
 
                             initPaginator = function () {
                                 var limit, search, page, parts, countPerPage;
@@ -122,7 +104,22 @@
                             };
 
                             $scope.init = function () {
-                                initButtons();
+                                var i, possibleButtons;
+                                possibleButtons = ["new", "delete", "checkbox"];
+                                if (typeof $scope.buttons === "undefined") {
+                                    $scope.buttons = {};
+                                    for (i = 0; i < possibleButtons.length; i += 1) {
+                                        if (typeof $scope.buttonData !== "undefined") {
+                                            if (typeof $scope.buttonData[possibleButtons[i]] !== "undefined") {
+                                                $scope.buttons[possibleButtons[i]] = $scope.buttonData[possibleButtons[i]];
+                                            } else {
+                                                $scope.buttons[possibleButtons[i]] = true;
+                                            }
+                                        } else {
+                                            $scope.buttons[possibleButtons[i]] = true;
+                                        }
+                                    }
+                                }
                             };
 
                             getOptions = function (opt) {
@@ -145,55 +142,43 @@
                                 return options;
                             };
 
-                            splitExtraData = function (item) {
-                                var field;
-                                for (field in item.Extra) {
-                                    if (item.Extra.hasOwnProperty(field)) {
-                                        item[field] = item.Extra[field];
-                                        delete item.Extra[field];
+                            prepareFilters = function () {
+                                var i, filterDetails, filter, saveCurrentActiveFilters, getFilterDetails;
+                                /**
+                                 * Save active filters
+                                 *
+                                 * @param {object} filterDetails
+                                 */
+                                saveCurrentActiveFilters = function (filterDetails) {
+                                    if (filterDetails.filterValue) {
+                                        if ("range" !== filterDetails.type) {
+                                            activeFilters[filterDetails.attribute.toLowerCase()] = filterDetails.filterValue.replace(/~/g, "").split(",");
+                                        } else {
+                                            activeFilters[filterDetails.attribute.toLowerCase()] = filterDetails.filterValue.replace(/~/g, "");
+                                        }
                                     }
-                                }
-                            };
-
-                            /**
-                             * Save active filters
-                             *
-                             * @param {object} filterDetails
-                             */
-                            saveCurrentActiveFilters = function (filterDetails) {
-                                if (filterDetails.filterValue) {
-                                    if ("range" !== filterDetails.type) {
-                                        activeFilters[filterDetails.attribute.toLowerCase()] = filterDetails.filterValue.replace(/~/g, "").split(",");
-                                    } else {
-                                        activeFilters[filterDetails.attribute.toLowerCase()] = filterDetails.filterValue.replace(/~/g, "");
-                                    }
-                                }
-                            };
-
-                            getFilterDetails = function (field) {
-                                var filterInfo, parts, details;
-
-                                filterInfo = field.filter;
-                                parts = filterInfo.match(/.+(\{.*\})/i);
-
-                                details = {
-                                    "options": parts === null ? {} : getOptions(parts[1]),
-                                    "type": filterInfo.substr(0, (-1 !== filterInfo.indexOf("{") ? filterInfo.indexOf("{") : filterInfo.length)),
-                                    "filterValue": field.filterValue,
-                                    "attribute": field.attribute,
-                                    "visible": field.visible
                                 };
 
-                                if ("select" === details.type) {
-                                    details.options[""] = "";
-                                }
+                                getFilterDetails = function (field) {
+                                    var filterInfo, parts, details;
 
-                                return details;
-                            };
+                                    filterInfo = field.filter;
+                                    parts = filterInfo.match(/.+(\{.*\})/i);
 
-                            prepareFilters = function () {
-                                var i, filterDetails, filter;
+                                    details = {
+                                        "options": parts === null ? {} : getOptions(parts[1]),
+                                        "type": filterInfo.substr(0, (-1 !== filterInfo.indexOf("{") ? filterInfo.indexOf("{") : filterInfo.length)),
+                                        "filterValue": field.filterValue,
+                                        "attribute": field.attribute,
+                                        "visible": field.visible
+                                    };
 
+                                    if ("select" === details.type) {
+                                        details.options[""] = "";
+                                    }
+
+                                    return details;
+                                };
                                 for (i = 0; i < $scope.parent.fields.length; i += 1) {
 
                                     if (typeof $scope.parent.fields[i].filter === "undefined") {
@@ -253,7 +238,7 @@
                                     return true;
                                 };
 
-                                check = function(key){
+                                check = function (key) {
                                     if (typeof activeFilters[key] === "undefined") {
                                         if (!checkActiveFilters(key)) {
                                             return false;
@@ -269,7 +254,7 @@
 
                                 for (var key in $scope.newFilters) {
                                     if ($scope.newFilters.hasOwnProperty(key)) {
-                                        if(check(key)){
+                                        if (check(key)) {
                                             continue;
                                         } else {
                                             return false;
@@ -281,7 +266,6 @@
                             };
 
                             /** PAGINATOR */
-
 
                             $scope.getPages = function () {
                                 if (typeof $scope.paginator === "undefined") {
@@ -305,7 +289,7 @@
                                     $scope.paginator.page = $scope.paginator.page - 1;
                                 } else if ("next" === page && $scope.paginator.page !== $scope.paginator.countPages) {
                                     $scope.paginator.page = $scope.paginator.page + 1;
-                                } else if(-1 === ["prev", "next"].indexOf(page)){
+                                } else if (-1 === ["prev", "next"].indexOf(page)) {
                                     $scope.paginator.page = page;
                                 }
 
@@ -340,8 +324,35 @@
 
                             /** PAGINATOR END*/
 
+                            /** Sorting */
+
+                            $scope.getSortClass = function (attr) {
+                                var _class = "";
+
+                                if (attr === $scope.sort.currentValue) {
+                                    _class = "fa fa-long-arrow-up";
+                                } else if (typeof $scope.sort.currentValue !== "undefined" && -1 !== $scope.sort.currentValue.indexOf(attr)) {
+                                    _class = "fa fa-long-arrow-down";
+                                } else {
+                                    _class = "";
+                                }
+
+                                return _class;
+                            };
+
+                            $scope.setSort = function (attr) {
+                                if (attr === $scope.sort.currentValue) {
+                                    $scope.sort.currentValue = "^" + attr;
+                                } else if (null !== $scope.sort.newValue) {
+                                    $scope.sort.currentValue = attr;
+                                }
+                                $scope.parent.search = getSearchObj();
+                            };
+
+                            /** Sorting end*/
+
                             var getSearchObj = function (reset) {
-                                var addFilter, getPaginatorSearch, removeEmpty, search;
+                                var addFilter, getPaginatorSearch, getSortSearch, removeEmpty, search;
 
                                 search = {};
                                 removeEmpty = function (arr) {
@@ -351,6 +362,7 @@
                                         }
                                     }
                                 };
+
                                 getPaginatorSearch = function (search, reset) {
                                     if (reset) {
                                         search.limit = "0," + $scope.paginator.countPerPage;
@@ -360,6 +372,7 @@
 
                                     return search;
                                 };
+
                                 addFilter = function (key) {
                                     if ($scope.newFilters[key] instanceof Array) {
                                         removeEmpty($scope.newFilters[key]);
@@ -371,6 +384,16 @@
                                     }
                                 };
 
+                                getSortSearch = function (search) {
+                                    if (JSON.stringify($scope.sort) === JSON.stringify({})) {
+                                        return [];
+                                    }
+
+                                    search.sort = $scope.sort.currentValue;
+
+                                    return search;
+                                };
+
                                 for (var key in $scope.newFilters) {
                                     if ($scope.newFilters.hasOwnProperty(key)) {
                                         addFilter(key);
@@ -378,8 +401,16 @@
                                 }
 
                                 search = getPaginatorSearch(search, reset);
+                                search = getSortSearch(search);
 
                                 return search;
+                            };
+
+                            $scope.selectAll = function () {
+                                isSelectedAll = isSelectedAll ? false : true;
+                                for (var i = 0; i < $scope.items.length; i += 1) {
+                                    $scope.parent.selected[$scope.items[i][$scope.map.id]] = isSelectedAll;
+                                }
                             };
 
                             $scope.$watch("newFilters", function () {
@@ -398,17 +429,30 @@
                                 if (typeof $scope.items === "undefined") {
                                     return false;
                                 }
-                                var i, item;
+                                var i, item, splitExtraData;
+
+                                splitExtraData = function (item) {
+                                    var field;
+                                    for (field in item.Extra) {
+                                        if (item.Extra.hasOwnProperty(field)) {
+                                            item[field] = item.Extra[field];
+                                            delete item.Extra[field];
+                                        }
+                                    }
+                                };
+
                                 for (i = 0; i < $scope.items.length; i += 1) {
                                     item = $scope.items[i];
                                     if (item.Extra !== null) {
                                         splitExtraData(item);
                                     }
                                 }
+
                                 if (isInit) {
                                     return false;
                                 }
                                 prepareFilters();
+
                                 isInit = true;
                             }, true);
 

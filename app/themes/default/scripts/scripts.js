@@ -142,26 +142,52 @@
         $(href).addClass('active');
     });
 
+    /** Datepicker for gui-datepicker element */
+//    $(document).on('click', '.datepicker', function () {
+//        $(this).datepicker({
+//            showOn: 'focus',
+//            yearRange: '1900:+0',
+//            changeMonth: true,
+//            changeYear: true
+//        }).focus();
+//    });
+
     $(document).ready(function () {
 
         var str = $(location).attr('hash');
         str = str.substring(2);
 
-        if (str === '')
+        if (str === '') {
             $('.left-side-inner > ul > li:first-child').addClass('nav-active');
-        else if (str === 'visitor')
+        } else if (-1 !== str.indexOf('visitor')) {
             $('.left-side-inner > ul > li:nth-child(2)').addClass('nav-active');
-        else if (str === 'product')
+        } else if (-1 !== str.indexOf('product')) {
             $('.left-side-inner > ul > li:nth-child(3)').addClass('nav-active');
-        else if (str === 'category')
+        } else if (-1 !== str.indexOf('category')) {
             $('.left-side-inner > ul > li:nth-child(4)').addClass('nav-active');
-        else if (str === 'config')
+        } else if (-1 !== str.indexOf('config')) {
             $('.left-side-inner > ul > li:nth-child(5)').addClass('nav-active');
+        }
 
         $(document).on('click', '.left-side-inner > ul > li > a', function () {
             $(this).parent().parent().find('li').removeClass('nav-active');
             $(this).parent().addClass('nav-active');
         });
+
+        // drop down list for small left side of menu 
+        $(document).on("hover", '.menu-list', function () {
+                if ($(this).hasClass('nav-hover')) {
+                    $(this).removeClass('nav-hover');
+                } else {
+                    $(this).addClass('nav-hover');
+                }
+            }
+        );
+
     });
 
 })(jQuery);
+
+
+
+

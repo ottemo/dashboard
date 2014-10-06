@@ -7,55 +7,27 @@
                 "$scope",
                 "$location",
                 "$routeParams",
+                "$q",
+                "$dashboardListService",
                 "$productApiService",
                 "$designImageService",
                 "COUNT_ITEMS_PER_PAGE",
-                "$q",
-                function ($scope, $location, $routeParams, $productApiService, $designImageService, COUNT_ITEMS_PER_PAGE, $q) {
+                function ($scope, $location, $routeParams, $q, $dashboardListService, $productApiService, $designImageService, COUNT_ITEMS_PER_PAGE) {
 
                     var splitName;
 
-                    /**
-                     * List fields which will shows in table
-                     *
-                     * @type [object]
-                     */
                     $scope.fields = [
                         {
                             "attribute": "Image",
                             "type": "image",
                             "label": "",
                             "visible": true
-                        },
-                        {
-                            "attribute": "Name",
-                            "type": "select-link",
-                            "label": "Name",
-                            "visible": true,
-                            "notDisable": true,
-                            "filter": "text",
-                            "filterValue": $routeParams.name
-                        },
-                        {
-                            "attribute": "price",
-                            "type": "price",
-                            "label": "Price",
-                            "visible": true,
-                            "filter": "range",
-                            "filterValue": $routeParams['price']
-                        },
-                        {
-                            "attribute": "sku",
-                            "type": "string",
-                            "label": "Sku",
-                            "visible": true,
-                            "filter": "text",
-                            "filterValue": $routeParams.sku
                         }
                     ];
 
+
                     if (JSON.stringify({}) === JSON.stringify($location.search())) {
-                        $location.search("limit", "0,"+COUNT_ITEMS_PER_PAGE);
+                        $location.search("limit", "0," + COUNT_ITEMS_PER_PAGE);
                     }
 
                     splitName = function (string) {
@@ -71,23 +43,25 @@
                     /**
                      * Gets list of products
                      */
-                    $productApiService.productList(
-                        $location.search(),
-                        {"extra": "price"}
-                    ).$promise.then(
-                        function (response) {
-                            var result, i, parts;
-                            $scope.products = [];
+                    var getProductsList = function () {
+                        $productApiService.productList(
+                            $location.search(),
+                            {"extra": $dashboardListService.getExtraFields()}
+                        ).$promise.then(
+                            function (response) {
+                                var result, i, parts;
+                                $scope.productsTmp = [];
 
-                            result = response.result || [];
-                            for (i = 0; i < result.length; i += 1) {
-                                parts = splitName(result[i].Name);
-                                result[i].Name = parts[2];
-                                result[i].sku = parts[1];
-                                $scope.products.push(result[i]);
+                                result = response.result || [];
+                                for (i = 0; i < result.length; i += 1) {
+                                    parts = splitName(result[i].Name);
+                                    result[i].Name = parts[2];
+                                    result[i].sku = parts[1];
+                                    $scope.productsTmp.push(result[i]);
+                                }
                             }
-                        }
-                    );
+                        );
+                    };
 
                     /**
                      * Gets list of products
@@ -101,6 +75,29 @@
                             }
                         }
                     );
+
+                    $productApiService.attributesInfo().$promise.then(
+                        function (response) {
+                            var result = response.result || [];
+                            $dashboardListService.init('products');
+
+                            $scope.attributes = result;
+                            $dashboardListService.setAttributes($scope.attributes);
+                            $scope.fields = $scope.fields.concat($dashboardListService.getFields());
+                            getProductsList();
+                        }
+                    );
+
+                    var prepareList = function () {
+                        if (typeof $scope.attributes === "undefined" || typeof $scope.productsTmp === "undefined") {
+                            return false;
+                        }
+
+                        $scope.products = $dashboardListService.getList($scope.productsTmp);
+                    };
+
+                    $scope.$watch("productsTmp", prepareList);
+                    $scope.$watch("attributes", prepareList);
 
                     /**
                      * Handler event when selecting the product in the list

@@ -9,7 +9,8 @@
             "dashboard/controllers",
 
             "dashboard/service/header",
-            "dashboard/service/sidebar"
+            "dashboard/service/sidebar",
+            "dashboard/service/list"
         ],
         function (dashboardModule) {
 

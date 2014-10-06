@@ -22,10 +22,11 @@
                 "$location",
                 "$routeParams",
                 "$designService",
+                "$dashboardListService",
                 "$productApiService",
                 "$designImageService",
                 "COUNT_ITEMS_PER_PAGE",
-                function ($location, $routeParams, $designService, $productApiService, $designImageService, COUNT_ITEMS_PER_PAGE) {
+                function ($location, $routeParams, $designService, $dashboardListService, $productApiService, $designImageService, COUNT_ITEMS_PER_PAGE) {
                     return {
                         restrict: "E",
                         templateUrl: $designService.getTemplate("design/gui/editor/productSelector.html"),
@@ -38,39 +39,6 @@
                         controller: function ($scope) {
                             var loadData;
 
-                            $scope.fields = [
-                                {
-                                    "attribute": "Image",
-                                    "type": "image",
-                                    "label": "",
-                                    "visible": true
-                                },
-                                {
-                                    "attribute": "Name",
-                                    "type": "string",
-                                    "label": "Name",
-                                    "visible": true,
-                                    "notDisable": true,
-                                    "filter": "text",
-                                    "filterValue": ""
-                                },
-                                {
-                                    "attribute": "price",
-                                    "type": "price",
-                                    "label": "Price",
-                                    "visible": true,
-                                    "filter": "range",
-                                    "filterValue": ""
-                                },
-                                {
-                                    "attribute": "sku",
-                                    "type": "string",
-                                    "label": "Sku",
-                                    "visible": true,
-                                    "filter": "text",
-                                    "filterValue": ""
-                                }
-                            ];
 
                             $scope.oldSearch = {};
                             $scope.selected = {};
@@ -94,6 +62,7 @@
                             };
 
                             $scope.show = function (id) {
+                                $dashboardListService.init('products');
                                 $("#" + id).modal("show");
                             };
 
@@ -102,7 +71,14 @@
                             };
 
                             loadData = function () {
-
+                                $scope.fields = [
+                                    {
+                                        "attribute": "Image",
+                                        "type": "image",
+                                        "label": "",
+                                        "visible": true
+                                    }
+                                ];
                                 if (typeof $scope.search === "undefined") {
                                     $scope.search = {};
                                     $scope.search.limit = "0," + COUNT_ITEMS_PER_PAGE;
@@ -117,29 +93,31 @@
 
                                 $scope.oldSearch = clone($scope.search);
 
-                                $productApiService.productList(
-                                    $scope.search,
-                                    {"extra": "price"}).$promise.then(
-                                    function (response) {
-                                        var result, i, parts, splitName;
-                                        splitName = function (string) {
-                                            var parts;
-                                            var regExp = /\[(.+)\](.+)/i;
-                                            parts = string.match(regExp);
+                                var getProductsList = function () {
+                                    $productApiService.productList(
+                                        $scope.search,
+                                        {"extra": $dashboardListService.getExtraFields()}
+                                    ).$promise.then(
+                                        function (response) {
+                                            var result, i, parts, splitName;
+                                            $scope.productsTmp = [];
+                                            splitName = function (string) {
+                                                var parts;
+                                                var regExp = /\[(.+)\](.+)/i;
+                                                parts = string.match(regExp);
 
-                                            return parts;
-                                        };
-                                        $scope.items = [];
-
-                                        result = response.result || [];
-                                        for (i = 0; i < result.length; i += 1) {
-                                            parts = splitName(result[i].Name);
-                                            result[i].Name = parts[2];
-                                            result[i].sku = parts[1];
-                                            $scope.items.push(result[i]);
+                                                return parts;
+                                            };
+                                            result = response.result || [];
+                                            for (i = 0; i < result.length; i += 1) {
+                                                parts = splitName(result[i].Name);
+                                                result[i].Name = parts[2];
+                                                result[i].sku = parts[1];
+                                                $scope.productsTmp.push(result[i]);
+                                            }
                                         }
-                                    }
-                                );
+                                    );
+                                };
 
                                 /**
                                  * Gets list of products
@@ -153,6 +131,28 @@
                                         }
                                     }
                                 );
+
+                                $productApiService.attributesInfo().$promise.then(
+                                    function (response) {
+                                        var result = response.result || [];
+                                        $dashboardListService.init('products');
+                                        $scope.attributes = result;
+                                        $dashboardListService.setAttributes($scope.attributes);
+                                        $scope.fields = $scope.fields.concat($dashboardListService.getFields());
+                                        getProductsList();
+                                    }
+                                );
+
+                                var prepareList = function () {
+                                    if (typeof $scope.attributes === "undefined" || typeof $scope.productsTmp === "undefined") {
+                                        return false;
+                                    }
+
+                                    $scope.items = $dashboardListService.getList($scope.productsTmp);
+                                };
+
+                                $scope.$watch("productsTmp", prepareList);
+                                $scope.$watch("attributes", prepareList);
                             };
 
                             $scope.$watch("item", function () {

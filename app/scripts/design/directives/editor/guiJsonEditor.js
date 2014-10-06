@@ -15,7 +15,11 @@
                     templateUrl: $designService.getTemplate("design/gui/editor/json.html"),
 
                     controller: ["$scope", function ($scope) {
-                        $scope.items = [];
+                        $scope.items = [
+                            { "key": "",
+                                "value": ""
+                            }
+                        ];
                         $scope.show = function () {
                             $("#jsonEditor").modal("show");
                         };
@@ -61,8 +65,8 @@
                             for (var i = 0; i < $scope.items.length; i += 1) {
                                 if (key === $scope.items[i].key) {
                                     $scope.items.splice(i, 1);
+                                    break;
                                 }
-//                                data[$scope.items[i].key] = $scope.items[i].value;
                             }
                         };
 

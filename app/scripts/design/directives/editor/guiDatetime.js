@@ -40,7 +40,6 @@
                                 isInit = true;
                             }, true);
 
-
                             $scope.changeValue = function () {
                                 if (typeof $scope.value === "undefined") {
                                     return false;
@@ -54,6 +53,15 @@
                             };
                         }
                     ]
+//                    link: function ($scope, elm, attrs, ngModel) {
+////                        $scope.$watch("value", function(){
+//                        if (typeof $scope.value !== "undefined") {
+//                            $scope.value.$setViewValue(elm.val());
+//                            $scope.changeValue();
+//                        }
+////                        });
+//
+//                    }
                 };
             }]);
 

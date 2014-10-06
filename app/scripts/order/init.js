@@ -36,7 +36,7 @@
                         $dashboardHeaderService.addMenuItem("/order", "Orders", "/orders");
 
                         // Adds item in the left sidebar
-                        $dashboardSidebarService.addItem("/order", "Orders", "/orders", "fa fa-gavel", 5);
+                        $dashboardSidebarService.addItem("/order", "Orders", "/orders", "fa fa-list-alt", 5);
                     }
                 ]);
 

@@ -95,7 +95,7 @@
                         modifyData = function () {
                             var option, list, saveOrderIfGluing;
 
-                            saveOrderIfGluing = function(obj1, obj2){
+                            saveOrderIfGluing = function (obj1, obj2) {
                                 if (typeof obj2 !== "undefined") {
                                     obj1.order = obj2.order;
                                 }
@@ -128,6 +128,7 @@
                         $scope.$watch("item",
                             function () {
                                 if (typeof $scope.item[$scope.attribute.Attribute] === "undefined") {
+                                    $scope.optionsData = [];
                                     return false;
                                 }
                                 if (isInit) {
@@ -142,7 +143,7 @@
                         cloneRow = function (list) {
                             var opt;
 
-                            var copy = function(opt){
+                            var copy = function (opt) {
                                 if (typeof list[list[opt].label] !== "undefined") {
                                     list[opt].order = list[list[opt].label].order;
                                 }

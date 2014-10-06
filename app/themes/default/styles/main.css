@@ -1112,10 +1112,16 @@ ul {
 .custom-nav .sub-menu-list > li.active > a {
     color: #cccccc;
 }
+.left-side-collapsed .custom-nav .sub-menu-list > li > a {
+    padding: 5px;
+}
 .custom-nav .sub-menu-list > li > a:hover,
 .custom-nav .sub-menu-list > li > a:active,
 .custom-nav .sub-menu-list > li > a:focus {
     color: #cccccc;
+}
+.custom-nav .sub-menu-list > li > a:hover span {
+    color: #9BCBEA;
 }
 .toggle-btn {
     border-right: none;
@@ -1128,23 +1134,25 @@ ul {
 
 /*/////////////////////////////////////////////////////////////////////////////////////////////////// start dashboard */
 
-
-
 .h-logo {
-    display: block;
-    height: 13px;
-    width: 33px;
-    margin: 0 auto;
-    padding: 20px 0 0;
+  display: inline-block;
+  height: auto;
+  margin: 3px auto 0;
+  padding: 0;
+  width: auto;
+  line-height: 5.5;
 }
 .h-logo a:hover {
     opacity: 0.8;
 }
 .menu-right {
-    margin: -25px 15px 0;
+  position: absolute;
+  right: 30px;
+  top: 0;
 }
 .notification-menu .dropdown-toggle {
-    padding: 22px 30px 18px 10px;
+    padding: 18px 30px 18px 10px;
+    margin-top: 0;
 }
 .notification-menu .dropdown-toggle:hover, .notification-menu .dropdown-toggle:focus, .notification-menu .dropdown-toggle:active, .notification-menu .dropdown-toggle.active, .notification-menu .open .dropdown-toggle.dropdown-toggle {
     background: none repeat scroll 0 0 #e6e8eb;
@@ -1446,7 +1454,11 @@ ul {
 .main-content {
     background-color: #ffffff;
 }
-
+.main-content:after {
+  content: "";
+  display: table;
+  clear: both;
+}
 /*///////////////////////////////////////////////////////////////////////////////////////////////////// end dashboard */
 
 /*/////////////////////////////////////////////////////////////////////////////////////////////////// start customers */
@@ -1457,6 +1469,9 @@ ul {
 }
 .customers table {
   width: 100%;
+}
+.customers form {
+  margin-top: 20px;
 }
 .customers table td,
 .customers table th {
@@ -1493,10 +1508,8 @@ ul {
     width: 5%;
     padding: 13px 0 3px 10px;
 }
-.customers table tr th:nth-child(2) ,
-.customers table tr td:nth-child(2) {
-    width: 20%;
-}
+
+
 .customers table tr th:nth-child(3) ,
 .customers table tr td:nth-child(3) {
     width: 20%;
@@ -1542,12 +1555,22 @@ ul {
   height: 40px;
   text-align: center;
   font: 18px 'roboto_ltregular',sans-serif;
-  margin: 26px 12px 0 0;
+  margin: 25px 12px 25px 0;
   padding-top: 6px;
+  -webkit-transition: all 0.5s ease;/* Safari 3.2+, Chrome */
+  -moz-transition: all 0.5s ease;/* Firefox 4-15 */
+  -o-transition: all 0.5s ease;/* Opera 10.5-12.00 */
+  transition: all 0.5s ease;/* Firefox 16+, Opera 12.50+ */
 }
 .btn-black:hover {
-    opacity: 0.8;
+    background: #48474a;
+    color: #fff;
+    text-decoration: none;
     cursor: pointer;
+    -webkit-transition: all 0.5s ease;/* Safari 3.2+, Chrome */
+    -moz-transition: all 0.5s ease;/* Firefox 4-15 */
+    -o-transition: all 0.5s ease;/* Opera 10.5-12.00 */
+    transition: all 0.5s ease;/* Firefox 16+, Opera 12.50+ */
 }
 .customers {
     padding: 0 15px;
@@ -1736,4 +1759,353 @@ ul {
 .modal-header button{
     bottom: 6px;
     position: relative;
+}
+
+
+
+
+
+
+/*---------- By Andrey ----------*/
+
+.btn-primary {
+  outline: none !important;
+  border-radius: 0;
+}
+
+/*--------- Products modal ----------*/
+/*---------- modals ----------*/
+.modal-body .pagination-block{
+    text-align: center;
+}
+.modal-dialog {
+  width: 50%;
+  min-width: 800px;
+}
+.modal-body {
+  padding: 0;
+}
+.modal-dialog .panel-body {
+  padding: 0;
+}
+.modal-dialog form {
+  padding: 0;
+}
+.modal-body table th {
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+}
+
+/*---------- checkboxes in table ----------*/
+table .checkboxes  {
+  width: auto;
+  height: auto;
+  margin: 0;
+  display: inline-block;
+}
+table .myCheckbox  {
+  width: auto;
+  height: auto;
+  margin: 0;
+  display: inline-block;
+}
+table .myCheckbox span {
+  display: inline-block;
+  padding: 0 !important;
+  width: 25px !important;
+}
+
+
+
+/*---------- tables ----------*/
+.customers table tr th:nth-child(1), .customers table tr td:nth-child(1) {
+  padding: 0;
+  vertical-align: middle;
+  text-align: center;
+  width: 0%;
+}
+.customers table tr th:first-child, .customers table tr td:first-child {
+  width: 0.00005%;
+}
+
+
+.customers table tr .th2,
+.customers table tr .th2 {
+    width: 20%;
+}
+.customers table tr .image-row,
+.customers table tr .image-row {
+    width: 1% !important;
+}
+
+/*---------- checkboxes in head ----------*/
+.head-checkboxes {
+  width:20px;
+  height: 20px;
+  background: #fcfcfc;
+  border-radius: 2px;
+  display: block;
+  text-align: center;
+  border:1px #cccccc solid;
+  cursor: pointer;
+  position: relative;
+  float: right;
+  margin: 20px 0 20px 27px;
+}
+.head-checkboxes:after {
+  content: "+";
+  font-size: 16px;
+  color: #555555;
+  line-height: 1.2;
+  text-align: center;
+  display: block;
+}
+.head-checkboxes:before {
+  content: "Columns";
+  font-size: 14px;
+  left: -65px;
+  position: absolute;
+  top: -1px;
+}
+.head-checkboxes .checkboxes-wrapper {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 40%;
+  background: white;
+  width: 280px;
+  height: auto;
+  padding: 20px 20px 0;
+  box-shadow: 0 0 6px 0 rgba(0,0,0,0.4);
+  z-index: 50;
+  cursor: default;
+}
+.head-checkboxes:hover .checkboxes-wrapper{
+  display: block;
+}
+.head-checkboxes .checkboxes-wrapper label {
+  display: block;
+  margin-bottom: 21px;
+}
+.head-checkboxes .checkboxes-wrapper label span {
+  cursor: pointer;
+}
+
+table input.form-control {
+  margin: 5px 0;
+}
+
+/*---------- themes ----------*/
+.theme-preview {
+  display: inline-block;
+  height: 290px;
+  width: 335px;
+  margin: 0 10px 60px;
+}
+.theme-preview img {
+  width: 100%;
+  height: 100%;
+}
+.theme-preview:nth-child(odd) img {
+  border: 12px #e2e2e2 solid;
+  border-bottom: none;
+}
+.theme-preview:nth-child(even) img {
+  border: 6px #e2e2e2 solid;
+  border-bottom: none;
+}
+.theme-preview h6 {
+  font-size: 18px;
+  color: #565656;
+  text-transform: capitalize;
+}
+.theme-preview h6 span {
+  font-size: 12px;
+  color: #185b8f;
+  float: right;
+  margin-top: 5px;
+}
+.theme-preview a {
+  color: #44b1f6;
+  border-bottom: 1px #44b1f6 solid;
+  float: right;
+  line-height: 1.2;
+  font-size: 14px;
+}
+.theme-preview a:hover {
+  text-decoration: none;
+  border-bottom: none;
+}
+
+/*---------- Json modals ----------*/
+#jsonEditor .panel-body {
+  text-align: center;
+  padding: 20px;
+}
+#jsonEditor ul li {
+  height: 55px;
+  padding-top: 15px;
+  margin-top: 0;
+}
+#jsonEditor button.save{
+  margin-left: 10px;
+  margin-right: 15px;
+}
+#jsonEditor button.add {
+  margin-bottom: 20px;
+}
+#jsonEditor input {
+  border: 1px solid #e0e0e0;
+  border-radius: 2px;
+  height: 30px;
+  margin-right: 10px;
+  width: 218px;
+  position: relative;
+  top: 2px;
+  font-family: 16px;
+  padding: 0 15px;
+}
+#jsonEditor span.input-wrap {
+  position: relative;
+  display: inline-block;
+}
+#jsonEditor span.input-wrap label{
+  position: absolute;
+  top: -18px;
+  left: 0;
+  font-size: 11px;
+}
+/*---------- parents modal ----------*/
+#parent_id .modal-body {
+  padding: 20px;
+}
+#parent_id .modal-body tr th, #parent_id .modal-body tr td {
+  padding: 15px 0;
+  vertical-align: middle;
+}
+#parent_id .modal-body input {
+  margin-bottom: 0;
+}
+/*---------- order details ----------*/
+.order-details-head, .order-detail {
+  font-family: "robotoregular";
+}
+.order-details-head .fa-list-alt {
+  font-size: 25px;
+  transform:scaleY(1.2);
+  position: relative;
+  top: 1px;
+}
+.order-detail h6 {
+  font-size: 21px;
+  color: #565656;
+}
+.order-detail h6 strong {
+  font-size: 28px;
+  font-weight: normal;
+  color: #3e4146;
+}
+.order-detail .hr {
+  width: 100%;
+  height: 0;
+  border-bottom: 2px #969696 dashed;
+}
+.order-detail .od-blocks .od-block {
+  float: left;
+  width: auto;
+  margin-right: 60px;
+}
+.order-detail .od-blocks .od-block p {
+  font-size: 16px;
+  color: #3e4146;
+}
+
+.order-detail .od-product{
+  width: 100%;
+  text-align: left;
+}
+.order-detail .od-product tr th {
+  font-size: 18px;
+  color: #565656;
+}
+.order-detail .od-product tr td {
+  font-size: 18px;
+  color: #3e4146;
+  text-transform: lowercase;
+  padding: 0;
+}
+.order-detail .od-product tr td:first-letter {
+  text-transform: uppercase;
+}
+.order-detail .od-product tr th:not(:first-child),.order-detail .od-product tr td:not(:first-child) {
+  text-align: right;
+  width: 150px;
+}
+.order-detail .od-total {
+  width: 100%;
+  font-size: 18px;
+  text-align: right;
+  color: #565656;
+}
+.order-detail .od-total span {
+  width: 120px;
+  float: right;
+}
+.order-detail .order-total h6 {
+  width: 120px;
+  float: right;
+  text-align: right;
+}
+.order-detail .btn-group {
+  margin-top: 20px;
+}
+
+
+/*---------- product-custom-options ----------*/
+.product-custom-options input,.product-custom-options select {
+  height: 33px;
+  vertical-align: middle;
+  padding: 0 10px;
+  width: 100%;
+  border: 2px #ededed solid;
+  border-radius: 4px;
+}
+.product-custom-options input {
+  position: relative;
+  top: -2px;
+}
+.product-custom-options input:focus {
+  border-color: #66646d;
+  -webkit-transition: all 0.5s ease;/* Safari 3.2+, Chrome */
+  -moz-transition: all 0.5s ease;/* Firefox 4-15 */
+  -o-transition: all 0.5s ease;/* Opera 10.5-12.00 */
+  transition: all 0.5s ease;/* Firefox 16+, Opera 12.50+ */
+}
+.product-custom-options label{
+  width: 100%;
+  margin: 5px 5px;
+}
+.product-custom-options button{
+  width: 150px;
+  height: 30px;
+  margin: 5px 5px;
+}
+.product-custom-options .btn-black {
+  float: none;
+  outline: none;
+  border: none;
+  font-size: 14px;
+  padding-top: 0;
+  position: relative;
+  top: 0;
+}
+.product-custom-options .left {
+  width: 150px;
+  margin: 5px 5px;
+  display: inline-block;
+}
+.option-values{
+    background-color: #ededed;
+    padding: 15px;
+    margin-top: 10px;
 }
