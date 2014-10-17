@@ -30,15 +30,6 @@
                                 }
                             };
 
-                        // Makes a change in tinyMCE content when made changes in parent element(textarea)
-                        scope.$watch(function () {
-                            return elm.val();
-                        }, function () {
-                            if (tinyInstance) {
-                                tinyInstance.setContent(ngModel.$viewValue || '');
-                            }
-                        });
-
                         // generate an ID if not present
                         if (!attrs.id) {
                             attrs.$set('id', 'uiTinymce' + (generatedIds += 1));
@@ -108,6 +99,8 @@
                             if (tinyInstance) {
                                 tinyInstance.setContent(ngModel.$viewValue || '');
                             }
+
+                            scope.tinyInstance = tinyInstance;
                         };
 
                         scope.$on('$destroy', function () {

@@ -33,7 +33,7 @@
 
                     $scope.attribute = {};
                     $scope.attributesList = [];
-                    $scope.typesAttribute = ["integer", "real", "text", "blob", "numeric"];
+                    $scope.typesAttribute = ["integer", "real", "text"];
                     $scope.editorsList = [
                         "text",
                         "multiline_text",
@@ -97,6 +97,9 @@
                             }
                         };
                         if (attribute) {
+                            if (-1 !== ["multi_select"].indexOf($scope.attribute.Editors)) {
+                                $scope.attribute.Type = "[]text";
+                            }
                             $productApiService.addAttribute($scope.attribute, saveSuccess);
                         }
                     };
