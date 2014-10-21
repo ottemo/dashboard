@@ -116,7 +116,7 @@
         <div ng-switch-when="product_selector">
             <label>{{attribute.Label}} <span class="asterisk"
                                              ng-show="attribute.IsRequired">*</span></label>
-            <gui-product-selector editor-scope="attribute" item="item"></gui-product-selector>
+            <gui-product-selector editor-scope="attribute" item="item" parent="parent"></gui-product-selector>
         </div>
 
         <div ng-switch-when="category_selector">
