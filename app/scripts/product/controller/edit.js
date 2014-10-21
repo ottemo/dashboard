@@ -53,8 +53,7 @@
                             "short_description": "",
                             "default_image": "",
                             "price": "",
-                            "weight": "",
-                            "size": ""
+                            "weight": ""
                         };
                     };
 
@@ -125,6 +124,11 @@
                                 };
                                 addImageManagerAttribute();
                                 defer.resolve($scope.product);
+                            } else {
+                                $scope.message = {
+                                    'type': 'danger',
+                                    'message': response.error
+                                };
                             }
                         };
 
@@ -152,6 +156,11 @@
                                     'message': 'Product was updated successfully'
                                 };
                                 defer.resolve(result);
+                            } else {
+                                $scope.message = {
+                                    'type': 'danger',
+                                    'message': response.error
+                                };
                             }
                         };
 

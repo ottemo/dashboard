@@ -33,7 +33,7 @@
 
                     $scope.attribute = {};
                     $scope.attributesList = [];
-                    $scope.typesAttribute = ["integer", "real", "text", "blob", "numeric"];
+                    $scope.typesAttribute = ["integer", "real", "text"];
                     $scope.editorsList = [
                         "not_editable",
                         "text",
@@ -98,6 +98,9 @@
                             }
                         };
                         if (attribute) {
+                            if (-1 !== ["multi_select"].indexOf($scope.attribute.Editors)) {
+                                $scope.attribute.Type = "[]text";
+                            }
                             $visitorApiService.addAttribute($scope.attribute, saveSuccess);
                         }
                     };

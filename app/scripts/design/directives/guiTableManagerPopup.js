@@ -385,9 +385,6 @@
                                 };
 
                                 getSortSearch = function (search) {
-                                    if (JSON.stringify($scope.sort) === JSON.stringify({})) {
-                                        return [];
-                                    }
 
                                     search.sort = $scope.sort.currentValue;
 
