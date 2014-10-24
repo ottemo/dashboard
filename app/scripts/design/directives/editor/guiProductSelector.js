@@ -33,7 +33,8 @@
 
                         scope: {
                             "attribute": "=editorScope",
-                            "item": "=item"
+                            "item": "=item",
+                            "parent": "=parent"
                         },
 
                         controller: function ($scope) {
@@ -43,22 +44,26 @@
                             $scope.oldSearch = {};
                             $scope.selected = {};
                             $scope.isExpand = false;
+                            $scope.countSelected = 0;
 
-                            var oldWidth;
+                            var oldWidth, getCountItems;
 
                             /**
                              * Gets count items
                              *
                              * @returns {number}
                              */
-                            $scope.getCountItems = function () {
-                                var len = 0;
+                            getCountItems = function () {
+                                $scope.countSelected = 0;
                                 if (typeof $scope.item !== "undefined" &&
                                     typeof $scope.item[$scope.attribute.Attribute] !== "undefined" &&
                                     $scope.item[$scope.attribute.Attribute].length) {
-                                    len = $scope.item[$scope.attribute.Attribute].length;
+                                    $scope.item[$scope.attribute.Attribute].map(function (val) {
+                                        if ("" !== val && typeof val !== "undefined") {
+                                            $scope.countSelected += 1;
+                                        }
+                                    });
                                 }
-                                return len;
                             };
 
                             $scope.show = function (id) {
@@ -110,6 +115,9 @@
                                             };
                                             result = response.result || [];
                                             for (i = 0; i < result.length; i += 1) {
+                                                if (typeof $scope.parent.excludeItems !== "undefined" && -1 !== $scope.parent.excludeItems.indexOf(result[i].Id)) {
+                                                    continue;
+                                                }
                                                 parts = splitName(result[i].Name);
                                                 result[i].Name = parts[2];
                                                 result[i].sku = parts[1];
@@ -118,7 +126,6 @@
                                         }
                                     );
                                 };
-
                                 /**
                                  * Gets list of products
                                  */
@@ -159,12 +166,14 @@
                                 $scope.selected = {};
 
                                 if (typeof $scope.item !== "undefined" && $scope.item._id) {
-
                                     for (var i = 0; i < $scope.item[$scope.attribute.Attribute].length; i += 1) {
-                                        if (typeof $scope.item[$scope.attribute.Attribute] === "object") {
+                                        if (typeof $scope.item[$scope.attribute.Attribute][i] === "object") {
                                             $scope.selected[$scope.item[$scope.attribute.Attribute][i]._id] = true;
+                                        } else {
+                                            $scope.selected[$scope.item[$scope.attribute.Attribute][i]] = true;
                                         }
                                     }
+                                    getCountItems();
                                 }
                             });
 
@@ -180,7 +189,7 @@
                                         $scope.item[$scope.attribute.Attribute].push(id);
                                     }
                                 }
-
+                                getCountItems();
                             }, true);
 
                             /**

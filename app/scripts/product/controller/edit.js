@@ -30,19 +30,21 @@
                     }
 
                     addImageManagerAttribute = function () {
-                        $scope.attributes.unshift({
-                            Attribute: "default_image",
-                            Collection: "product",
-                            Default: "",
-                            Editors: "picture_manager",
-                            Group: "Pictures",
-                            IsRequired: false,
-                            IsStatic: false,
-                            Label: "Image",
-                            Model: "Product",
-                            Options: "",
-                            Type: "text"
-                        });
+                        if(typeof $scope.attributes !== "undefined" && typeof $scope.product._id !== "undefined") {
+                            $scope.attributes.unshift({
+                                Attribute: "default_image",
+                                Collection: "product",
+                                Default: "",
+                                Editors: "picture_manager",
+                                Group: "Pictures",
+                                IsRequired: false,
+                                IsStatic: false,
+                                Label: "Image",
+                                Model: "Product",
+                                Options: "",
+                                Type: "text"
+                            });
+                        }
                     };
 
                     getDefaultProduct = function () {
@@ -71,22 +73,23 @@
                         function (response) {
                             var result = response.result || [];
                             $scope.attributes = result;
+                            addImageManagerAttribute();
                         });
 
                     /**
-                     * Gets list all attributes of product
+                     * Gets product data
                      */
                     if (null !== productId) {
                         $productApiService.getProduct({"id": productId}).$promise.then(
                             function (response) {
                                 var result = response.result || {};
                                 $scope.product = result;
+                                $scope.excludeItems = result._id;
                                 $scope.selectedImage = result['default_image'];
 
                                 if (typeof $scope.product.options === "undefined") {
                                     $scope.product.options = {};
                                 }
-
                                 addImageManagerAttribute();
                             }
                         );
