@@ -19,30 +19,39 @@
              */
             angular.module.productModule = angular.module("productModule", ["ngRoute", "ngResource", "designModule"])
 
-                /**
-                 *  Basic routing configuration
-                 */
+            /**
+             *  Basic routing configuration
+             */
                 .config(["$routeProvider", function ($routeProvider) {
                     $routeProvider
-                        .when("/product", { templateUrl: angular.getTheme("product/edit.html") })
-                        .when("/product/attributes", { templateUrl: angular.getTheme("product/attribute/edit.html") });
+                        .when("/products", {
+                            templateUrl: angular.getTheme("product/list.html"),
+                            controller: "productListController"
+                        })
+                        .when("/product/:id", {
+                            templateUrl: angular.getTheme("product/edit.html"),
+                            controller: "productEditController"
+                        })
+                        .when("/attributes", {
+                            templateUrl: angular.getTheme("product/attribute/list.html"),
+                            controller: "productAttributeListController"
+                        })
+                        .when("/attribute/:attr", {
+                            templateUrl: angular.getTheme("product/attribute/edit.html"),
+                            controller: "productAttributeEditController"
+                        });
                 }])
 
                 .run([
                     "$designService",
                     "$route",
                     "$dashboardSidebarService",
-                    "$dashboardHeaderService",
-                    function ($designService, $route, $dashboardSidebarService, $dashboardHeaderService) {
-
-                        // NAVIGATION
-                        // Adds item in the right top-menu
-                        $dashboardHeaderService.addMenuItem("/product", "Products", null);
-                        $dashboardHeaderService.addMenuItem("/product/attributes", "Manage", "/product");
-                        $dashboardHeaderService.addMenuItem("/product/attributes", "Attributes", "/product/attributes");
+                    function ($designService, $route, $dashboardSidebarService) {
 
                         // Adds item in the left sidebar
-                        $dashboardSidebarService.addItem("Product manage", "product", "glyphicon glyphicon-barcode", 100);
+                        $dashboardSidebarService.addItem("/product", "Products", null, "fa fa-tags", 8);
+                        $dashboardSidebarService.addItem("/product/products", "Products", "/products", "", 2);
+                        $dashboardSidebarService.addItem("/product/attributes", "Attributes", "/attributes", "", 1);
                     }
                 ]);
 

@@ -9,7 +9,7 @@
              */
             .controller("dashboardHeaderController", ["$scope", "$dashboardHeaderService", function ($scope, $dashboardHeaderService) {
                 $scope.it = $dashboardHeaderService;
-                $scope.leftMenu= $dashboardHeaderService.getMenuLeft();
+                $scope.leftMenu = $dashboardHeaderService.getMenuLeft();
                 $scope.rightMenu = $dashboardHeaderService.getMenuRight();
             }])
 
@@ -18,9 +18,13 @@
                 $scope.items = $dashboardSidebarService.getItems();
             }])
 
-            .controller("dashboardController", ["$scope", "$loginService", function($scope) {
-                $scope.x = "dashboardController";
-            }]);
+            .controller("dashboardController", [
+                "$scope",
+                "$location",
+                function ($scope) {
+                    $scope.x = "dashboardController";
+                }
+            ]);
 
         return dashboardModule;
     });

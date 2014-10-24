@@ -18,9 +18,14 @@
                     },
 
                     controller: function ($scope) {
+                        var isInit = false;
                         $scope.options = [];
+
                         $scope.$watch("item", function () {
-                            var getOptions;
+                            if (isInit) {
+                                return false;
+                            }
+                            var getOptions, options, field;
 
                             $scope.options = [];
 
@@ -36,24 +41,23 @@
                                 return options;
                             };
 
-                            $scope.$watch("item", function () {
-                                var options, field;
+                            options = getOptions($scope.attribute.Options);
 
-                                options = getOptions($scope.attribute.Options);
-                                for (field in options) {
-                                    if (options.hasOwnProperty(field)) {
-                                        $scope.options.push({
-                                            Desc: "",
-                                            Extra: null,
-                                            Id: field,
-                                            Image: "",
-                                            Name: options[field]
-                                        });
-                                    }
+                            for (field in options) {
+                                if (options.hasOwnProperty(field)) {
+                                    $scope.options.push({
+                                        Desc: "",
+                                        Extra: null,
+                                        Id: field,
+                                        Image: "",
+                                        Name: options[field]
+                                    });
                                 }
-                                
+                            }
+                            if (typeof $scope.item[$scope.attribute.Attribute] === "string") {
                                 $scope.item[$scope.attribute.Attribute] = $scope.item[$scope.attribute.Attribute].split(",");
-                            });
+                            }
+                            isInit = true;
                         });
 
                     }

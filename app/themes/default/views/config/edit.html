@@ -1,47 +1,15 @@
-<div class="container-fluid" ng-controller="configEditController" ng-init="init()">
-    <div class="row" style="margin-top: 15px">
+<div class="top top-custom">
+    <i class="fa fa-cogs"></i>
+    <h6>{{getGroupName()}}</h6>
+</div>
+<div class="panel-body" ng-init="init()">
 
-        <div class="col-md-4">
-            <gui-list-manager items="config.getConfigGroups()" object="this" add-new-disable="true"></gui-list-manager>
-        </div>
+    <gui-message-manager item="message"></gui-message-manager>
 
-        <div class="col-md-8">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-md-6 text-muted" style="padding-top: 6px; font-size: 130%; font-weight: bold">
-                            <span> {{getGroupName()}} </span>
-                        </div>
-                    </div>
-                </div>
+    <!--<gui-attributes-editor-form-tabs attributes-list="sections" object="this" item="config.getItems(currentPath)"></gui-attributes-editor-form-tabs>-->
 
-                <div class="panel-body">
+    <gui-config-editor-form attributes-list="sections" object="this" item="config.getItems(currentPath)" ng-if="!isThemeManager()"></gui-config-editor-form>
 
-                    <form role="form">
-                        <div class="panel-group" id="accordion">
-                            <div class="form-group" ng-repeat="section in sections">
-                                <div class="panel panel-default">
+    <gui-themes-manager ng-if="isThemeManager()"></gui-themes-manager>
 
-                                    <div class="panel-heading">
-                                        <h4 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse_{{section.Code}}"
-                                               target="_self" ng-click="load(section.Path)">
-                                                {{section.Name}}
-                                            </a>
-                                        </h4>
-                                    </div>
-
-                                    <div id="collapse_{{section.Code}}" class="panel-collapse collapse" >
-                                        <gui-config-editor-form attributes-list="config.getAttributes(section.Path)" object="this" item="config.getItems(section.Path)"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-
-            </div>
-        </div>
-
-    </div>
 </div>

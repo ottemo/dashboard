@@ -1,64 +1,38 @@
-<form role="form">
-    <div class="panel-group" id="accordion">
-        <div ng-repeat="attribute in attributes">
-            <div ng-switch="attribute.Editor">
+<form role="form" class="product-tabs">
+    <header class="panel-heading custom-tab">
+        <ul class="nav nav-tabs">
+            <li ng-class='{active:$first}' ng-repeat="(key, items) in attributeGroups" ng-click="click(key)">
+                <a href="#collapse{{key}}" target="_self">
+                    {{items[0].Label}}
+                </a>
+            </li>
+        </ul>
+    </header>
 
-                <div ng-switch-when="not_editable">
-                    <label for="inp{{attribute.Attribute}}">{{attribute.Label}} <span class="asterisk"
-                                                                                      ng-show="attribute.IsRequired">*</span></label>
-                    <gui-not-editable editor-scope="attribute" item="item"></gui-not-editable>
-                </div>
+    <div class="panel-body">
+        <div class="tab-content">
 
-                <div ng-switch-when="multiline_text">
-                    <label for="inp{{attribute.Attribute}}">{{attribute.Label}} <span class="asterisk"
-                                                                                      ng-show="attribute.IsRequired">*</span></label>
-                    <gui-multiline-text editor-scope="attribute" item="item"></gui-multiline-text>
-                </div>
-
-                <div ng-switch-when="model_selector">
-                    <label for="inp{{attribute.Attribute}}">{{attribute.Label}} <span class="asterisk"
-                                                                                      ng-show="attribute.IsRequired">*</span></label>
-                    <gui-model-selector editor-scope="attribute" item="item"></gui-model-selector>
-                </div>
-
-                <div ng-switch-when="array_model_selector">
-                    <label for="inp{{attribute.Attribute}}">{{attribute.Label}} <span class="asterisk"
-                                                                                      ng-show="attribute.IsRequired">*</span></label>
-                    <gui-array-model-selector editor-scope="attribute"
-                                              item="item"></gui-array-model-selector>
-                </div>
-
-                <div ng-switch-when="password">
-                    <label for="inp{{attribute.Attribute}}">{{attribute.Label}} <span class="asterisk"
-                                                                                      ng-show="attribute.IsRequired">*</span></label>
-                    <gui-password editor-scope="attribute" item="item"></gui-password>
-                </div>
-
-                <div ng-switch-when="boolean">
-                    <label for="inp{{attribute.Attribute}}">{{attribute.Label}} <span class="asterisk" ng-show="attribute.IsRequired">*</span></label>
-                    <gui-boolean editor-scope="attribute" item="item"></gui-boolean>
-                </div>
-
-                <div ng-switch-when="select">
-                    <label for="inp{{attribute.Attribute}}">{{attribute.Label}} <span class="asterisk" ng-show="attribute.IsRequired">*</span></label>
-                    <gui-select editor-scope="attribute" item="item"></gui-select>
-                </div>
-
-                <div ng-switch-when="multi_select">
-                    <label for="inp{{attribute.Attribute}}">{{attribute.Label}} <span class="asterisk" ng-show="attribute.IsRequired">*</span></label>
-                    <gui-multi-select editor-scope="attribute" item="item"></gui-multi-select>
-                </div>
-
-                <div ng-switch-default>
-                    <label for="inp{{attribute.Attribute}}">{{attribute.Label}} <span class="asterisk"
-                                                                                      ng-show="attribute.IsRequired">*</span></label>
-                    <gui-text editor-scope="attribute" item="item"></gui-text>
-                </div>
-
+            <div ng-class='{active:$first}' id="collapse{{key}}" class="tab-pane" ng-repeat="(key, items) in attributeGroups">
+                <gui-form-builder attributes="items" item="item"></gui-form-builder>
             </div>
-        </div>
-        <div class="btn-actions">
-            <button type="button" ng-click="parent.save(parent.getGroupPath(attributes))" class="btn btn-primary">Save</button>
         </div>
     </div>
 </form>
+
+<div class="btn-black" ng-click="parent.save()">Save</div>
+<div class="btn-black" ng-click="parent.back()">Back</div>
+
+<script>
+    (function ($) {
+        $(document).on("click", 'ul.nav-tabs li a', function (event) {
+            event.preventDefault();
+
+            $(this).parent().siblings().removeClass('active');
+            $(this).parent().addClass('active');
+            var href = $(this).attr('href');
+            $('.tab-content div').removeClass('active');
+            $(href).addClass('active');
+        });
+    })(jQuery)
+
+</script>

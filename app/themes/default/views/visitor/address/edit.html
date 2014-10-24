@@ -1,31 +1,13 @@
-<div class="container-fluid" ng-controller="visitorAddressController">
-    <div class="row" style="margin-top: 15px">{{item}}
-    <div class="bg-warning" style="margin: 15px;padding: 5px"><h4>Addresses user: {{address.visitor_id}}</h4></div>
+<div class="top top-custom">
+    <i class="fa fa-newspaper-o"></i>
+    <h6 ng-if="address._id"> Address: {{getFullAddress()}}</h6>
+    <h6 ng-if="!address._id"> New address </h6>
+</div>
 
-        <div class="col-md-4">
-            <gui-list-manager items="addressesList" object="this"></gui-list-manager>
-        </div>
+<div class="panel-body">
 
-        <div class="col-md-8">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-md-6 text-muted" style="padding-top: 6px; font-size: 130%; font-weight: bold">
-                            <span ng-if="address._id"> {{getFullAddress()}}</span>
-                            <span ng-if="!address._id"> New Address </span>
-                        </div>
-                        <div class="col-md-6 text-right">
-                            <button class="btn btn-primary" ng-click="save()">Save</button>
-                        </div>
-                    </div>
-                </div>
+    <gui-message-manager item="message"></gui-message-manager>
+    <gui-attributes-editor-form-tabs attributes-list="attributes" object="this" item="address"></gui-attributes-editor-form-tabs>
+    <div class="btn-black" ng-click="backToVisitor()">Visitor</div>
 
-                <div class="panel-body">
-                    <gui-attributes-editor-form attributes-list="attributes" object="this" item="address"/>
-                </div>
-
-            </div>
-        </div>
-
-    </div>
 </div>

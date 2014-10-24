@@ -6,6 +6,8 @@
 
         /**
          *  Directive used for automatic attributes editor form creation
+         *
+         *  Form to edit as accordion
          */
             .directive("guiAttributesEditorForm", ["$designService", function ($designService) {
                 return {
@@ -18,15 +20,20 @@
                     templateUrl: $designService.getTemplate("design/gui/attributesEditorForm.html"),
                     controller: function ($scope) {
                         var updateAttributes;
-                        updateAttributes = function () {                        // jshint ignore: line
-                            var i, groups;
+                        updateAttributes = function () {
+                            var i, groups, setAttrValue;
                             groups = {};
+                            setAttrValue = function(attr){
+                                if (typeof $scope.item !== "undefined") {
+                                    attr.Value = $scope.item[attr.Attribute] || "";
+                                }
+
+                                return attr;
+                            };
                             if (typeof $scope.attributes !== "undefined") {
                                 for (i = 0; i < $scope.attributes.length; i += 1) {
                                     var attr = $scope.attributes[i];
-                                    if (typeof $scope.item !== "undefined") {
-                                        attr.Value = $scope.item[attr.Attribute] || "";
-                                    }
+                                    attr= setAttrValue(attr);
                                     if (typeof groups[attr.Group] === "undefined") {
                                         groups[attr.Group] = [];
                                     }

@@ -19,7 +19,7 @@
                 };
             }])
 
-            /*
+            /**
              *  Directive to solve browser auto-fill issue on model
              */
             .directive("autoFillSync", ["$timeout", function ($timeout) {
@@ -37,7 +37,24 @@
                 };
             }])
 
-            /*
+            /**
+             * Fix issue with the dynamic names fields in the form for validation form
+             */
+            .directive('dynamicName', function ($compile, $parse) {
+                return {
+                    restrict: 'A',
+                    terminal: true,
+                    priority: 100000,
+                    link: function (scope, elem) {
+                        var name = $parse(elem.attr('dynamic-name'))(scope);
+                        elem.removeAttr('dynamic-name');
+                        elem.attr('name', name);
+                        $compile(elem)(scope);
+                    }
+                };
+            })
+
+            /**
              *  jQuery layout directive
              */
             .directive("jqLayout", function () {
@@ -46,6 +63,20 @@
                     link: function (scope, elem) {
                         jQuery(elem).layout({ applyDefaultStyles: true });
                     }
+                };
+            })
+
+            .directive('ngEnter', function () {
+                return function (scope, element, attrs) {
+                    element.bind("keydown keypress", function (event) {
+                        if(event.which === 13) {
+                            scope.$apply(function (){
+                                scope.$eval(attrs.ngEnter);
+                            });
+
+                            event.preventDefault();
+                        }
+                    });
                 };
             })
 
