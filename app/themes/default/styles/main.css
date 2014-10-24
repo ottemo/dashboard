@@ -1459,6 +1459,7 @@ ul {
   display: table;
   clear: both;
 }
+
 /*///////////////////////////////////////////////////////////////////////////////////////////////////// end dashboard */
 
 /*/////////////////////////////////////////////////////////////////////////////////////////////////// start customers */
@@ -1579,6 +1580,58 @@ ul {
 
 /*///////////////////////////////////////////////////////////////////////////////////////////////////// end customers */
 
+/*//////////////////////////////////////////////////////////////////////////////////////////////////// start products */
+
+.filters {
+  width:20px;
+  height: 20px;
+  background: #fcfcfc;
+  border-radius: 2px;
+  display: block;
+  text-align: center;
+  border:1px #cccccc solid;
+  cursor: pointer;
+  position: relative;
+  float: right;
+  margin: 20px 64px 20px 27px;
+}
+.filters:before {
+    content: "Filters";
+    font-size: 14px;
+    left: -49px;
+    position: absolute;
+    top: -1px;
+}
+.filters:after {
+    color: #555555;
+    content: "+";
+    display: block;
+    font-size: 16px;
+    line-height: 1.2;
+    text-align: center;
+}
+.filters.active:after {
+    content: "-";
+    line-height: 0.9;
+}
+.customers table tr:nth-child(2) {
+    display: none;
+    width: 100%;
+}
+.customers table tr:nth-child(2).active {
+    display: table-row;
+}
+.cat-label {
+    margin: 15px 0 10px;
+    position: relative;
+}
+.cat-label button {
+    left: 120px;
+    padding: 0 10px;
+    position: absolute;
+}
+
+/*///////////////////////////////////////////////////////////////////////////////////////////////////// end products */
 
 .switch {
     position: relative;

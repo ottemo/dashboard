@@ -543,6 +543,7 @@ h5.left-nav-title {
     background: #fff;
     border-bottom: 1px solid #eff0f4;
     text-align: center;
+    position: relative;
 }
 
 .header-section::after {
@@ -590,7 +591,6 @@ h5.left-nav-title {
 
 .menu-right {
     float: right;
-    margin-right: 15px;
 }
 
 .notification-menu {

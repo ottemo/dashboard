@@ -113,13 +113,13 @@
             <gui-visitor-selector editor-scope="attribute" item="item"></gui-visitor-selector>
         </div>
 
-        <div ng-switch-when="product_selector">
+        <div ng-switch-when="product_selector" class="cat-label">
             <label>{{attribute.Label}} <span class="asterisk"
                                              ng-show="attribute.IsRequired">*</span></label>
             <gui-product-selector editor-scope="attribute" item="item" parent="parent"></gui-product-selector>
         </div>
 
-        <div ng-switch-when="category_selector">
+        <div ng-switch-when="category_selector" class="cat-label">
             <label>{{attribute.Label}} <span class="asterisk"
                                              ng-show="attribute.IsRequired">*</span></label>
             <gui-category-selector editor-scope="attribute" item="item"></gui-category-selector>
