@@ -142,6 +142,12 @@
         $(href).addClass('active');
     });
 
+    // hide and show filters in tables
+    $(document).on("click", '.filters', function(){
+      $(".customers table tr:nth-child(2)").toggleClass("active");
+      $(this).toggleClass("active");
+    });
+
     /** Datepicker for gui-datepicker element */
 //    $(document).on('click', '.datepicker', function () {
 //        $(this).datepicker({
