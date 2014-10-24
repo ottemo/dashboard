@@ -11,21 +11,23 @@
                 <div class="panel">
                     <div class="panel-body extra-pad">
                         <div class="col-sm-6 col-xs-6">
-                            <span class="num">2456</span>
+                            <span class="num">{{visits.visitsToday}}</span>
                             <span class="text">Today Visits</span>
                         </div>
                         <div class="col-sm-6 col-xs-6">
-                            <span class="perc">20%</span>
+                            <span class="perc">{{visits.ratio}}%</span>
                             <span class="pointer">
-                                <i class="fa fa-arrow-up"></i>
+                                <i class="fa fa-arrow-up" ng-if="visits.higher"></i>
+                                <i class="fa fa-arrow-down" ng-if="visits.lower"></i>
                             </span>
                             <div class="clear"></div>
-                            <span class="text">higher than yesterday</span>
+                            <span class="text" ng-if="visits.higher">higher than yesterday</span>
+                            <span class="text" ng-if="visits.lower">lower than yesterday</span>
                         </div>
                         <div class="clear"></div>
                         <div class="progress progress-xs">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-                                <span class="sr-only">60% Complete</span>
+                            <div class="progress-bar" role="progressbar" aria-valuenow="{{visits.ratio}}" aria-valuemin="0" aria-valuemax="100" style="width: {{visits.ratio}}%;">
+                                <span class="sr-only">{{visits.ratio}}% Complete</span>
                             </div>
                         </div>
                     </div>
@@ -122,25 +124,22 @@
             <div class="panel-body">
                 <div class="col-md-12">
                     <div id="visitors-chart">
-                        <div id="visitors-container" style="width: 100%; height:155px; text-align: center; margin:0 auto;">
+                        <div id="visitors-container" style="width: 100%; height:155px; text-align: center; margin:0 auto;">{{initVisitorsChart()}}
                         </div>
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="btns-pad">
-                        <span class="btns">today</span>
+                        <span class="btns" ng-class="{'active': visitsPeriod === 'today'}" ng-click="updateVisitsChart('today')">today</span>
                     </div>
                     <div class="btns-pad">
-                        <span class="btns">yesterday</span>
+                        <span class="btns" ng-class="{'active': visitsPeriod === 'yesterday'}" ng-click="updateVisitsChart('yesterday')">yesterday</span>
                     </div>
                     <div class="btns-pad">
-                        <span class="btns active">last 7 days</span>
+                        <span class="btns" ng-class="{'active': visitsPeriod === 'week'}" ng-click="updateVisitsChart('week')">last 7 days</span>
                     </div>
                     <div class="btns-pad">
-                        <span class="btns">last 30 days</span>
-                    </div>
-                    <div class="btns-pad">
-                        <span class="btns">other period</span>
+                        <span class="btns" ng-class="{'active': visitsPeriod === 'month'}" ng-click="updateVisitsChart('month')">last 30 days</span>
                     </div>
                 </div>
             </div>
@@ -192,8 +191,8 @@
                     to Cart
                 </p>
                 <span>
-                    0%
-                    <span class="small">(0)</span>
+                    {{conversions.addedToCartPercent | number:2}}
+                    <span class="small">({{conversions.addedToCart}})</span>
                 </span>
                 <a href=""> 
                     <i class="fa fa-download"></i>
@@ -203,16 +202,16 @@
                     Checkout
                 </p>
                 <span>
-                    0%
-                    <span class="small">(0)</span>
+                    {{conversions.reachedCheckoutPercent | number:2}}%
+                    <span class="small">({{conversions.reachedCheckout}})</span>
                 </span>
                 <a href=""> 
                     <i class="fa fa-dollar"></i>
                 </a>
                 <p>Purchased</p>
                 <span>
-                    0%
-                    <span class="small">(0)</span>
+                    {{conversions.purchasedPercent | number:2}}%
+                    <span class="small">({{conversions.purchased}})</span>
                 </span>
             </div>
         </div>
@@ -225,28 +224,11 @@
             </div>
             <div class="panel-body">
                 <table>
-                    <tr>
-                        <td>www.richkidsbrand.com</td>
-                        <td>58</td>
-                    </tr>
-                    <tr>
-                        <td>www.brand.com</td>
-                        <td>43</td>
-                    </tr>
-                    <tr>
-                        <td>www.rich.com</td>
-                        <td>27</td>
-                    </tr>
-                    <tr>
-                        <td>www.kids.com</td>
-                        <td>12</td>
-                    </tr>
-                    <tr>
-                        <td>www.dsbrand.com</td>
-                        <td>3</td>
+                    <tr ng-repeat="item in referrers">
+                        <td>{{item.url}}</td>
+                        <td>{{item.count}}</td>
                     </tr>
                 </table>
-                <a href="#">View report</a>
             </div>
         </div>
     </div>
@@ -299,7 +281,6 @@
                         </td>
                     </tr>
                 </table>
-                <a href="#">View report</a>
             </div>
         </div>
     </div>
@@ -309,20 +290,7 @@
 <script>
     (function ($) {
 
-        var data7_1 = [
-            [1354586000000, 253],
-            [1354587000000, 465],
-            [1354588000000, 498],
-            [1354589000000, 383],
-            [1354590000000, 280],
-            [1354591000000, 108],
-            [1354592000000, 120],
-            [1354593000000, 474],
-            [1354594000000, 623],
-            [1354595000000, 479],
-            [1354596000000, 788],
-            [1354597000000, 836]
-        ];
+
         var data7_2 = [
             [1354586000000, 253],
             [1354587000000, 465],
@@ -338,92 +306,66 @@
             [1354597000000, 836]
         ];
 
-        $.plot($("#visitors-chart #visitors-container"), [
-                    {
-                        data: data7_1,
-                        label: "Page View",
-                        lines: {
-                            fill: true
-                        }
-                    },
-                    {
-                        data: data7_2,
-                        label: "Online User",
-
-                        points: {
-                            show: false
-                        },
-                        lines: {
-                            show: false
-                        },
-                        yaxis: 2
-                    }
-                ],
-                {
-                    series: {
-                        lines: {
-                            show: true,
-                            fill: false
-                        },
-                        points: {
-                            show: true,
-                            lineWidth: 2,
-                            fill: true,
-                            fillColor: "#ffffff",
-                            symbol: "circle",
-                            radius: 5
-                        },
-                        shadowSize: 0
-                    },
-                    grid: {
-                        hoverable: true,
-                        clickable: true,
-                        tickColor: "#f9f9f9",
-                        borderWidth: 1,
-                        borderColor: "#eeeeee"
-                    },
-                    colors: ["#65CEA7", "#424F63"],
-                    tooltip: true,
-                    tooltipOpts: {
-                        defaultTheme: false
-                    },
-                    xaxis: {
-                        mode: "time"
-
-
-                    },
-                    yaxes: [
-                        {
-                            /* First y axis */
-                        },
-                        {
-                            /* Second y axis */
-                            position: "right" /* left or right */
-                        }
-                    ]
-                }
-        );
+//        $.plot(
+//                $("#visitors-chart #visitors-container"), [
+//                    {
+//                        label: "Page View",
+//                        lines: {
+//                            fill: true
+//                        }
+//                    }
+//                ],
+//                {
+//                    series: {
+//                        lines: {
+//                            show: true,
+//                            fill: false
+//                        },
+//                        points: {
+//                            show: true,
+//                            lineWidth: 2,
+//                            fill: true,
+//                            fillColor: "#ffffff",
+//                            symbol: "circle",
+//                            radius: 2
+//                        },
+//                        shadowSize: 0
+//                    },
+//                    grid: {
+//                        hoverable: true,
+//                        clickable: true,
+//                        tickColor: "#f9f9f9",
+//                        borderWidth: 1,
+//                        borderColor: "#eeeeee"
+//                    },
+//                    colors: ["#65CEA7", "#424F63"],
+//                    tooltip: true,
+//                    tooltipOpts: {
+//                        defaultTheme: false
+//                    },
+//                    xaxis: {
+//                        mode: "time"
+//                    },
+//                    yaxes: [
+//                        {
+//                            /* First y axis */
+//                        },
+//                        {
+//                            /* Second y axis */
+//                            position: "right" /* left or right */
+//                        }
+//                    ]
+//                }
+//        );
 
 
         $.plot($("#visitors-chart2 #visitors-container2"), [
                     {
-                        data: data7_1,
+                        data: data7_2,
                         label: "Page View",
                         lines: {
                             fill: true
                         }
-                    },
-                    {
-                        data: data7_2,
-                        label: "Online User",
-
-                        points: {
-                            show: false
-                        },
-                        lines: {
-                            show: false
-                        },
-                        yaxis: 2
                     }
                 ],
                 {
@@ -456,8 +398,6 @@
                     },
                     xaxis: {
                         mode: "time"
-
-
                     },
                     yaxes: [
                         {
