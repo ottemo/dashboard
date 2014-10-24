@@ -4,11 +4,12 @@ box: wercker/nodejs
 build:
   # The steps that will be executed on build
   steps:
-    # A step that executes `npm install` command
-    #- npm-install
     - script:
-        name: NPM Install
-        code: sudo npm cache clear && sudo npm install -g bower gulp && sudo npm install
+        name: Upgrade NPM
+        code: sudo npm update -g npm
+    - script:
+        name: Install bower/gulp
+        code: sudo npm install -g bower gulp && sudo npm install
     - script:
         name: Run Bower Install
         code: bower install
