@@ -42,11 +42,11 @@
                 <div class="panel">
                     <div class="panel-body extra-pad">
                         <div class="col-sm-6 col-xs-6">
-                            <span class="num">145</span>
+                            <span class="num">{{sales.salesToday}}</span>
                             <span class="text">Today Sales</span>
                         </div>
                         <div class="col-sm-6 col-xs-6">
-                            <span class="perc">3%</span>
+                            <span class="perc">{{sales.ratio}}%</span>
                             <span class="pointer">
                                 <i class="fa fa-arrow-up"></i>
                             </span>
@@ -55,8 +55,8 @@
                         </div>
                         <div class="clear"></div>
                         <div class="progress progress-xs">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-                                <span class="sr-only">60% Complete</span>
+                            <div class="progress-bar" role="progressbar" aria-valuenow="{{sales.ratio}}" aria-valuemin="0" aria-valuemax="100" style="width: {{sales.ratio}}%;">
+                                <span class="sr-only">{{sales.ratio}}% Complete</span>
                             </div>
                         </div>
                     </div>
@@ -99,7 +99,7 @@
                                     <span class="sr-only">60% Complete</span>
                                 </div>
                             </div>
-                            <span class="text">Direct</span>
+                            <span class="text">Stes</span>
                         </div>
                         <div class="col-sm-4 col-xs-4">
                             <span class="text">15</span>
@@ -108,7 +108,7 @@
                                     <span class="sr-only">60% Complete</span>
                                 </div>
                             </div>
-                            <span class="text">Direct</span>
+                            <span class="text">Search</span>
                         </div>
                     </div>
                 </div>
@@ -154,25 +154,22 @@
             <div class="panel-body">
                 <div class="col-md-12">
                     <div id="visitors-chart2">
-                        <div id="visitors-container2" style="width: 100%; height:155px; text-align: center; margin:0 auto;">
+                        <div id="visitors-container2" style="width: 100%; height:155px; text-align: center; margin:0 auto;">{{initSalesChart()}}
                         </div>
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="btns-pad">
-                        <span class="btns">today</span>
+                        <span class="btns" ng-click="updateSalesChart('today')">today</span>
                     </div>
                     <div class="btns-pad">
-                        <span class="btns">yesterday</span>
+                        <span class="btns" ng-click="updateSalesChart('yesterday')">yesterday</span>
                     </div>
                     <div class="btns-pad">
-                        <span class="btns active">last 7 days</span>
+                        <span class="btns active" ng-click="updateSalesChart('week')">last 7 days</span>
                     </div>
                     <div class="btns-pad">
-                        <span class="btns">last 30 days</span>
-                    </div>
-                    <div class="btns-pad">
-                        <span class="btns">other period</span>
+                        <span class="btns" ng-click="updateSalesChart('month')">last 30 days</span>
                     </div>
                 </div>
             </div>
@@ -191,7 +188,7 @@
                     to Cart
                 </p>
                 <span>
-                    {{conversions.addedToCartPercent | number:2}}
+                    {{conversions.addedToCartPercent | number:2}}%
                     <span class="small">({{conversions.addedToCart}})</span>
                 </span>
                 <a href=""> 
@@ -286,132 +283,3 @@
     </div>
     <div class="clear"></div>
 </section>
-
-<script>
-    (function ($) {
-
-
-        var data7_2 = [
-            [1354586000000, 253],
-            [1354587000000, 465],
-            [1354588000000, 498],
-            [1354589000000, 383],
-            [1354590000000, 280],
-            [1354591000000, 108],
-            [1354592000000, 120],
-            [1354593000000, 474],
-            [1354594000000, 623],
-            [1354595000000, 479],
-            [1354596000000, 788],
-            [1354597000000, 836]
-        ];
-
-//        $.plot(
-//                $("#visitors-chart #visitors-container"), [
-//                    {
-//                        label: "Page View",
-//                        lines: {
-//                            fill: true
-//                        }
-//                    }
-//                ],
-//                {
-//                    series: {
-//                        lines: {
-//                            show: true,
-//                            fill: false
-//                        },
-//                        points: {
-//                            show: true,
-//                            lineWidth: 2,
-//                            fill: true,
-//                            fillColor: "#ffffff",
-//                            symbol: "circle",
-//                            radius: 2
-//                        },
-//                        shadowSize: 0
-//                    },
-//                    grid: {
-//                        hoverable: true,
-//                        clickable: true,
-//                        tickColor: "#f9f9f9",
-//                        borderWidth: 1,
-//                        borderColor: "#eeeeee"
-//                    },
-//                    colors: ["#65CEA7", "#424F63"],
-//                    tooltip: true,
-//                    tooltipOpts: {
-//                        defaultTheme: false
-//                    },
-//                    xaxis: {
-//                        mode: "time"
-//                    },
-//                    yaxes: [
-//                        {
-//                            /* First y axis */
-//                        },
-//                        {
-//                            /* Second y axis */
-//                            position: "right" /* left or right */
-//                        }
-//                    ]
-//                }
-//        );
-
-
-        $.plot($("#visitors-chart2 #visitors-container2"), [
-                    {
-                        data: data7_2,
-                        label: "Page View",
-                        lines: {
-                            fill: true
-                        }
-                    }
-                ],
-                {
-                    series: {
-                        lines: {
-                            show: true,
-                            fill: false
-                        },
-                        points: {
-                            show: true,
-                            lineWidth: 2,
-                            fill: true,
-                            fillColor: "#ffffff",
-                            symbol: "circle",
-                            radius: 5
-                        },
-                        shadowSize: 0
-                    },
-                    grid: {
-                        hoverable: true,
-                        clickable: true,
-                        tickColor: "#f9f9f9",
-                        borderWidth: 1,
-                        borderColor: "#eeeeee"
-                    },
-                    colors: ["#65CEA7", "#424F63"],
-                    tooltip: true,
-                    tooltipOpts: {
-                        defaultTheme: false
-                    },
-                    xaxis: {
-                        mode: "time"
-                    },
-                    yaxes: [
-                        {
-                            /* First y axis */
-                        },
-                        {
-                            /* Second y axis */
-                            position: "right" /* left or right */
-                        }
-                    ]
-                }
-        );
-
-
-    })(jQuery);
-
-</script>

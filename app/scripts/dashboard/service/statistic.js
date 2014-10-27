@@ -10,15 +10,15 @@
         function (dashboardModule) {
 
             dashboardModule
-                /**
-                 *  $dashboardStatisticService implementation
-                 */
+            /**
+             *  $dashboardStatisticService implementation
+             */
                 .service("$dashboardStatisticService", [
                     "$dashboardApiService",
                     "$q",
                     function ($api, $q) {
 
-                        var getReferrers, getVisits, getVisitsDetail, getConversions;
+                        var getReferrers, getVisits, getSales, getVisitsDetail, getSalesDetail, getConversions;
 
                         getReferrers = function () {
                             var defer;
@@ -83,6 +83,38 @@
                             return defer.promise;
                         };
 
+                        getSales = function () {
+                            var defer;
+                            defer = $q.defer();
+
+                            $api.getSales().$promise.then(function (response) {
+                                var result, sales;
+
+                                result = response.result || [];
+                                sales = {
+                                    "salesToday": 0,
+                                    "ratio": 0,
+                                    "higher": true,
+                                    "lower": false
+                                };
+
+                                if ("" === response.error) {
+                                    sales = {
+                                        "salesToday": result.today,
+                                        "ratio": (Math.abs(result.ratio) * 100),
+                                        "higher": result.ratio > 0,
+                                        "lower": result.ratio < 0
+                                    };
+
+                                    defer.resolve(sales);
+                                } else {
+                                    defer.resolve(sales);
+                                }
+                            });
+
+                            return defer.promise;
+                        };
+
                         getVisitsDetail = function (from, to) {
                             var defer;
                             defer = $q.defer();
@@ -112,11 +144,40 @@
                             return defer.promise;
                         };
 
+                        getSalesDetail = function (from, to) {
+                            var defer;
+                            defer = $q.defer();
+
+                            $api.getSalesDetails({
+                                "from": from,
+                                "to": to
+                            }).$promise.then(function (response) {
+                                    var result, timestamp, dataChart;
+
+                                    result = response.result || [];
+                                    dataChart = [];
+
+                                    if ("" === response.error) {
+                                        for (timestamp in result) {
+                                            if (result.hasOwnProperty(timestamp)) {
+                                                dataChart.push([timestamp * 1000, result[timestamp]]);
+                                            }
+                                        }
+
+                                        defer.resolve(dataChart);
+                                    } else {
+                                        defer.resolve(dataChart);
+                                    }
+                                });
+
+                            return defer.promise;
+                        };
+
                         getConversions = function () {
                             var defer, getPercents;
                             defer = $q.defer();
 
-                            getPercents = function (val, total){
+                            getPercents = function (val, total) {
                                 return (val / total) * 100 || 0;
                             };
 
@@ -149,7 +210,9 @@
                             getReferrers: getReferrers,
                             getVisits: getVisits,
                             getVisitsDetail: getVisitsDetail,
-                            getConversions: getConversions
+                            getConversions: getConversions,
+                            getSales: getSales,
+                            getSalesDetail: getSalesDetail
                         };
                     }
                 ]

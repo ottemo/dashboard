@@ -32,6 +32,18 @@
                                 "to": "@to"
                             },
                             url: REST_SERVER_URI + "/rts/visits/details/:from/:to"
+                        },
+                        "getSales": {
+                            method: "GET",
+                            url: REST_SERVER_URI + "/rts/sales"
+                        },
+                        "getSalesDetails": {
+                            method: "GET",
+                            params: {
+                                "from": "@from",
+                                "to": "@to"
+                            },
+                            url: REST_SERVER_URI + "/rts/sales/details/:from/:to"
                         }
                     });
             }]);
