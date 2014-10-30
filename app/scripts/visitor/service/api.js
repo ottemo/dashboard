@@ -4,8 +4,8 @@
     /*
      *  HTML top page header manipulation stuff
      */
-    define(["visitor/init"], function (productModule) {
-        productModule
+    define(["visitor/init"], function (visitorModule) {
+        visitorModule
             /*
              *  $productApiService interaction service
              */
@@ -100,7 +100,7 @@
                 });
             }]);
 
-        return productModule;
+        return visitorModule;
     });
 
 })(window.define);

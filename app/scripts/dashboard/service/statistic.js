@@ -18,7 +18,7 @@
                     "$q",
                     function ($api, $q) {
 
-                        var getReferrers, getVisits, getSales, getVisitsDetail, getSalesDetail, getConversions;
+                        var getTopSellers, getReferrers, getVisits, getSales, getVisitsDetail, getSalesDetail, getConversions;
 
                         getReferrers = function () {
                             var defer;
@@ -70,7 +70,7 @@
                                     visits = {
                                         "visitsToday": result.visitsToday,
                                         "ratio": (Math.abs(result.ratio) * 100),
-                                        "higher": result.ratio > 0,
+                                        "higher": result.ratio >= 0,
                                         "lower": result.ratio < 0
                                     };
 
@@ -102,7 +102,7 @@
                                     sales = {
                                         "salesToday": result.today,
                                         "ratio": (Math.abs(result.ratio) * 100),
-                                        "higher": result.ratio > 0,
+                                        "higher": result.ratio >= 0,
                                         "lower": result.ratio < 0
                                     };
 
@@ -206,13 +206,47 @@
                             return defer.promise;
                         };
 
+                        getTopSellers = function () {
+                            var defer;
+                            defer = $q.defer();
+
+                            $api.getTopSellers().$promise.then(function (response) {
+                                var result, topSellers;
+
+                                result = response.result || [];
+                                topSellers = [];
+
+                                if ("" === response.error) {
+                                    for (var productId in result) {
+                                        if (result.hasOwnProperty(productId)) {
+                                            topSellers.push({
+                                                "id": productId,
+                                                "name": result[productId]["Name"],
+                                                "image": result[productId]["Image"],
+                                                "count": result[productId]["Count"]
+                                            });
+                                        }
+                                    }
+                                    topSellers = topSellers.sort(function (a, b) {
+                                        return (a.count < b.count);
+                                    });
+                                    defer.resolve(topSellers);
+                                } else {
+                                    defer.resolve(topSellers);
+                                }
+                            });
+
+                            return defer.promise;
+                        };
+
                         return {
                             getReferrers: getReferrers,
                             getVisits: getVisits,
                             getVisitsDetail: getVisitsDetail,
                             getConversions: getConversions,
                             getSales: getSales,
-                            getSalesDetail: getSalesDetail
+                            getSalesDetail: getSalesDetail,
+                            getTopSellers: getTopSellers
                         };
                     }
                 ]

@@ -21,8 +21,8 @@
                                 <i class="fa fa-arrow-down" ng-if="visits.lower"></i>
                             </span>
                             <div class="clear"></div>
-                            <span class="text" ng-if="visits.higher">higher than yesterday</span>
-                            <span class="text" ng-if="visits.lower">lower than yesterday</span>
+                            <span class="text" ng-if="visits.higher && visits.ratio>0">higher than yesterday</span>
+                            <span class="text" ng-if="visits.lower && visits.ratio>0">lower than yesterday</span>
                         </div>
                         <div class="clear"></div>
                         <div class="progress progress-xs">
@@ -51,7 +51,8 @@
                                 <i class="fa fa-arrow-up"></i>
                             </span>
                             <div class="clear"></div>
-                            <span class="text">higher than yesterday</span>
+                            <span class="text" ng-if="sales.higher && sales.ratio>0">higher than yesterday</span>
+                            <span class="text" ng-if="sales.lower && sales.ratio>0">lower than yesterday</span>
                         </div>
                         <div class="clear"></div>
                         <div class="progress progress-xs">
@@ -160,16 +161,16 @@
                 </div>
                 <div class="col-md-12">
                     <div class="btns-pad">
-                        <span class="btns" ng-click="updateSalesChart('today')">today</span>
+                        <span class="btns" ng-class="{'active': salesPeriod === 'today'}" ng-click="updateSalesChart('today')">today</span>
                     </div>
                     <div class="btns-pad">
-                        <span class="btns" ng-click="updateSalesChart('yesterday')">yesterday</span>
+                        <span class="btns" ng-class="{'active': salesPeriod === 'yesterday'}" ng-click="updateSalesChart('yesterday')">yesterday</span>
                     </div>
                     <div class="btns-pad">
-                        <span class="btns active" ng-click="updateSalesChart('week')">last 7 days</span>
+                        <span class="btns" ng-class="{'active': salesPeriod === 'week'}" ng-click="updateSalesChart('week')">last 7 days</span>
                     </div>
                     <div class="btns-pad">
-                        <span class="btns" ng-click="updateSalesChart('month')">last 30 days</span>
+                        <span class="btns" ng-class="{'active': salesPeriod === 'month'}" ng-click="updateSalesChart('month')">last 30 days</span>
                     </div>
                 </div>
             </div>
@@ -237,44 +238,14 @@
             </div>
             <div class="panel-body">
                 <table>
-                    <tr>
+                    <tr ng-repeat="item in topSellers">
                         <td>
-                            <img ng-src="{{getImg('product/img1.jpg')}}" alt="" />
+                            <img ng-src="{{getProductImage(item.image)}}" alt="" />
                         </td>
                         <td>
-                            Loyal Panther Crew
+                            {{item.name}}
                             <br>
-                            12 Sold
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <img ng-src="{{getImg('product/img2.jpg')}}" alt="" />
-                        </td>
-                        <td>
-                            Loyal Panther Crew
-                            <br>
-                            12 Sold
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <img ng-src="{{getImg('product/img1.jpg')}}" alt="" />
-                        </td>
-                        <td>
-                            Loyal Panther Crew
-                            <br>
-                            12 Sold
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <img ng-src="{{getImg('product/img2.jpg')}}" alt="" />
-                        </td>
-                        <td>
-                            Loyal Panther Crew
-                            <br>
-                            12 Sold
+                            {{item.count}} Sold
                         </td>
                     </tr>
                 </table>

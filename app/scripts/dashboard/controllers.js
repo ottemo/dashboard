@@ -22,10 +22,13 @@
                 "$scope",
                 "$location",
                 "$dashboardStatisticService",
-                function ($scope, $location, $statistic) {
+                "$designImageService",
+                function ($scope, $location, $statistic, $designImageService) {
                     $scope.x = "dashboardController";
                     $scope.visitorsChartData = [];
                     $scope.visitsPeriod = 'week';
+                    $scope.salesChartData = [];
+                    $scope.salesPeriod = 'week';
 
                     var renderVisitsChart = function (data) {
                         if ($scope.visitorsCharts) {
@@ -68,6 +71,13 @@
                     $statistic.getConversions().then(
                         function (data) {
                             $scope.conversions = data;
+                        }
+                    );
+
+                    // TOP SELLERS
+                    $statistic.getTopSellers().then(
+                        function (data) {
+                            $scope.topSellers = data;
                         }
                     );
 
@@ -157,7 +167,7 @@
                     $scope.initSalesChart = function () {
                         if (!$scope.salesCharts) {
                             $scope.salesCharts = $.plot(
-                                $('#visitors-chart #visitors-container'), [
+                                $('#visitors-chart2 #visitors-container2'), [
                                     {
                                         data: $scope.salesChartData,
                                         label: "Page View",
@@ -306,27 +316,27 @@
 
                             switch (period) {
                                 case "today":
-                                    $scope.visitsPeriod = 'today';
+                                    $scope.salesPeriod = 'today';
                                     delta["to"] = 1;
                                     delta["from"] = 1;
                                     break;
                                 case "yesterday":
-                                    $scope.visitsPeriod = 'yesterday';
+                                    $scope.salesPeriod = 'yesterday';
                                     delta["to"] = 0;
                                     delta["from"] = 1;
                                     break;
                                 case "week":
-                                    $scope.visitsPeriod = 'week';
+                                    $scope.salesPeriod = 'week';
                                     delta["to"] = 1;
                                     delta["from"] = 7;
                                     break;
                                 case "month":
-                                    $scope.visitsPeriod = 'month';
+                                    $scope.salesPeriod = 'month';
                                     delta["to"] = 1;
                                     delta["from"] = 31;
                                     break;
                                 default:
-                                    $scope.visitsPeriod = 'week';
+                                    $scope.salesPeriod = 'week';
                                     delta["to"] = 1;
                                     delta["from"] = 7;
                             }
@@ -358,6 +368,11 @@
                             }
                         );
                     };
+
+                    $scope.getProductImage = function (image) {
+                        return $designImageService.getFullImagePath("", image);
+                    };
+
                 }
             ]);
 

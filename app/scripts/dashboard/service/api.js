@@ -44,6 +44,10 @@
                                 "to": "@to"
                             },
                             url: REST_SERVER_URI + "/rts/sales/details/:from/:to"
+                        },
+                        "getTopSellers": {
+                            method: "GET",
+                            url: REST_SERVER_URI + "/rts/top_sellers"
                         }
                     });
             }]);
