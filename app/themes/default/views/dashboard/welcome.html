@@ -74,39 +74,39 @@
                         <p>Pageviews Realtime</p>
                         <div class="col-sm-6 col-xs-6">
                             <span class="text">
-                                <span>26</span>
+                                <span>{{visitorsOnline.online}}</span>
                                 visitors online
                             </span>
                         </div>
                         <div class="clear"></div>
                         <div class="progress progress-xs">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-                                <span class="sr-only">60% Complete</span>
+                            <div class="progress-bar" role="progressbar" aria-valuenow="{{visitorsOnline.onlineRatio}}" aria-valuemin="0" aria-valuemax="100" style="width: {{visitorsOnline.onlineRatio}}%;">
+                                <span class="sr-only">{{visitorsOnline.onlineRatio}}% Complete</span>
                             </div>
                         </div>
                         <div class="col-sm-4 col-xs-4">
-                            <span class="text">15</span>
+                            <span class="text">{{visitorsOnline.direct}}</span>
                             <div class="progress progress-xs">
-                                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-                                    <span class="sr-only">60% Complete</span>
+                                <div class="progress-bar" role="progressbar" aria-valuenow="{{visitorsOnline.directRatio}}" aria-valuemin="0" aria-valuemax="100" style="width: {{visitorsOnline.directRatio}}%;">
+                                    <span class="sr-only">{{visitorsOnline.directRatio}}% Complete</span>
                                 </div>
                             </div>
                             <span class="text">Direct</span>
                         </div>
                         <div class="col-sm-4 col-xs-4">
-                            <span class="text">15</span>
+                            <span class="text">{{visitorsOnline.site}}</span>
                             <div class="progress progress-xs">
-                                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-                                    <span class="sr-only">60% Complete</span>
+                                <div class="progress-bar" role="progressbar" aria-valuenow="{{visitorsOnline.siteRatio}}" aria-valuemin="0" aria-valuemax="100" style="width: {{visitorsOnline.siteRatio}}%;">
+                                    <span class="sr-only">{{visitorsOnline.siteRatio}}% Complete</span>
                                 </div>
                             </div>
-                            <span class="text">Stes</span>
+                            <span class="text">Site</span>
                         </div>
                         <div class="col-sm-4 col-xs-4">
-                            <span class="text">15</span>
+                            <span class="text">{{visitorsOnline.search}}</span>
                             <div class="progress progress-xs">
-                                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-                                    <span class="sr-only">60% Complete</span>
+                                <div class="progress-bar" role="progressbar" aria-valuenow="{{visitorsOnline.searchRatio}}" aria-valuemin="0" aria-valuemax="100" style="width: {{visitorsOnline.searchRatio}}%;">
+                                    <span class="sr-only">{{visitorsOnline.searchRatio}}% Complete</span>
                                 </div>
                             </div>
                             <span class="text">Search</span>

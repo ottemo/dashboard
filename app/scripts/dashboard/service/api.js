@@ -11,19 +11,20 @@
          */
             .service("$dashboardApiService", ["$resource", "REST_SERVER_URI", function ($resource, REST_SERVER_URI) {
 
+                var RTS_URI = REST_SERVER_URI + "/rts/";
                 return $resource(REST_SERVER_URI, {},
                     {
                         "getReferrers": {
                             method: "GET",
-                            url: REST_SERVER_URI + "/rts/referrers"
+                            url: RTS_URI + "referrers"
                         },
                         "getVisits": {
                             method: "GET",
-                            url: REST_SERVER_URI + "/rts/visits"
+                            url: RTS_URI + "visits"
                         },
                         "getConversions": {
                             method: "GET",
-                            url: REST_SERVER_URI + "/rts/conversions"
+                            url: RTS_URI + "conversions"
                         },
                         "getVisitsDetails": {
                             method: "GET",
@@ -31,11 +32,11 @@
                                 "from": "@from",
                                 "to": "@to"
                             },
-                            url: REST_SERVER_URI + "/rts/visits/details/:from/:to"
+                            url: RTS_URI + "visits/details/:from/:to"
                         },
                         "getSales": {
                             method: "GET",
-                            url: REST_SERVER_URI + "/rts/sales"
+                            url: RTS_URI + "sales"
                         },
                         "getSalesDetails": {
                             method: "GET",
@@ -43,11 +44,15 @@
                                 "from": "@from",
                                 "to": "@to"
                             },
-                            url: REST_SERVER_URI + "/rts/sales/details/:from/:to"
+                            url: RTS_URI + "sales/details/:from/:to"
                         },
                         "getTopSellers": {
                             method: "GET",
-                            url: REST_SERVER_URI + "/rts/top_sellers"
+                            url: RTS_URI + "top_sellers"
+                        },
+                        "getVisitorsOnline": {
+                            method: "GET",
+                            url: RTS_URI + "visitors/realtime"
                         }
                     });
             }]);

@@ -18,7 +18,7 @@
                     "$q",
                     function ($api, $q) {
 
-                        var getTopSellers, getReferrers, getVisits, getSales, getVisitsDetail, getSalesDetail, getConversions;
+                        var getVisitorsOnline, getTopSellers, getReferrers, getVisits, getSales, getVisitsDetail, getSalesDetail, getConversions;
 
                         getReferrers = function () {
                             var defer;
@@ -239,6 +239,35 @@
                             return defer.promise;
                         };
 
+                        getVisitorsOnline = function () {
+                            var defer;
+                            defer = $q.defer();
+
+                            $api.getVisitorsOnline().$promise.then(function (response) {
+                                var result, visitorsDetail;
+
+                                result = response.result || [];
+                                visitorsDetail = {};
+
+                                if ("" === response.error) {
+
+                                    visitorsDetail["direct"] = result.Direct;
+                                    visitorsDetail["directRatio"] = (Math.abs(result.DirectRatio) * 100);
+                                    visitorsDetail["online"] = result.Online;
+                                    visitorsDetail["onlineRatio"] = (Math.abs(result.OnlineRatio) * 100);
+                                    visitorsDetail["search"] = result.Search;
+                                    visitorsDetail["searchRatio"] = (Math.abs(result.SearchRatio) * 100);
+                                    visitorsDetail["site"] = result.Site;
+                                    visitorsDetail["siteRatio"] = (Math.abs(result.SiteRatio) * 100);
+
+                                    defer.resolve(visitorsDetail);
+                                } else {
+                                    defer.resolve(visitorsDetail);
+                                }
+                            });
+
+                            return defer.promise;
+                        };
                         return {
                             getReferrers: getReferrers,
                             getVisits: getVisits,
@@ -246,7 +275,8 @@
                             getConversions: getConversions,
                             getSales: getSales,
                             getSalesDetail: getSalesDetail,
-                            getTopSellers: getTopSellers
+                            getTopSellers: getTopSellers,
+                            getVisitorsOnline: getVisitorsOnline
                         };
                     }
                 ]

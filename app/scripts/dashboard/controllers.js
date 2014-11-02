@@ -47,39 +47,34 @@
                     };
 
                     // TOP REFERRERS
-                    $statistic.getReferrers().then(
-                        function (data) {
-                            $scope.referrers = data;
-                        }
-                    );
+                    $statistic.getReferrers().then(function (data) {
+                        $scope.referrers = data;
+                    });
 
                     // VISITS TODAY
-                    $statistic.getVisits().then(
-                        function (data) {
-                            $scope.visits = data;
-                        }
-                    );
+                    $statistic.getVisits().then(function (data) {
+                        $scope.visits = data;
+                    });
 
                     // SALES TODAY
-                    $statistic.getSales().then(
-                        function (data) {
-                            $scope.sales = data;
-                        }
-                    );
+                    $statistic.getSales().then(function (data) {
+                        $scope.sales = data;
+                    });
 
                     // Website Conversions
-                    $statistic.getConversions().then(
-                        function (data) {
-                            $scope.conversions = data;
-                        }
-                    );
+                    $statistic.getConversions().then(function (data) {
+                        $scope.conversions = data;
+                    });
 
                     // TOP SELLERS
-                    $statistic.getTopSellers().then(
-                        function (data) {
-                            $scope.topSellers = data;
-                        }
-                    );
+                    $statistic.getTopSellers().then(function (data) {
+                        $scope.topSellers = data;
+                    });
+
+                    // VISITORS ONLINE
+                    $statistic.getVisitorsOnline().then(function (data) {
+                        $scope.visitorsOnline = data;
+                    });
 
                     $scope.initVisitorsChart = function () {
                         if (!$scope.visitorsCharts) {
@@ -141,18 +136,20 @@
                     // VISITORS CHART
                     // BY DEFAULT LAST 7 DAYS
                     (function () {
-                        var from, to, today, dd, mm, yyyy;
+                        var from, to, today, dd, mm, yyyy, month;
 
                         today = new Date();
                         today.setDate(today.getDate() + 1);
-                        dd = today.getDate();
-                        mm = today.getMonth() + 1; //January is 0!
+                        dd = today.getDate().toString().length < 2 ? '0' + today.getDate() : today.getDate();
+                        month = today.getMonth() + 1; //January is 0!
+                        mm = month.toString().length < 2 ? '0' + month : month;
                         yyyy = today.getFullYear();
                         to = yyyy + "-" + mm + "-" + dd;
 
                         today.setDate(today.getDate() - 7);
-                        dd = today.getDate();
-                        mm = today.getMonth() + 1; //January is 0!
+                        dd = today.getDate().toString().length < 2 ? '0' + today.getDate() : today.getDate();
+                        month = today.getMonth() + 1; //January is 0!
+                        mm = month.toString().length < 2 ? '0' + month : month;
                         yyyy = today.getFullYear();
                         from = yyyy + "-" + mm + "-" + dd;
 
@@ -224,18 +221,20 @@
                     // SALES CHART
                     // BY DEFAULT LAST 7 DAYS
                     (function () {
-                        var from, to, today, dd, mm, yyyy;
+                        var from, to, today, dd, mm, yyyy, month;
 
                         today = new Date();
                         today.setDate(today.getDate() + 1);
-                        dd = today.getDate();
-                        mm = today.getMonth() + 1; //January is 0!
+                        dd = today.getDate().toString().length < 2 ? '0' + today.getDate() : today.getDate();
+                        month = today.getMonth() + 1; //January is 0!
+                        mm = month.toString().length < 2 ? '0' + month : month;
                         yyyy = today.getFullYear();
                         to = yyyy + "-" + mm + "-" + dd;
 
                         today.setDate(today.getDate() - 7);
-                        dd = today.getDate();
-                        mm = today.getMonth() + 1; //January is 0!
+                        dd = today.getDate().toString().length < 2 ? '0' + today.getDate() : today.getDate();
+                        month = today.getMonth() + 1; //January is 0!
+                        mm = month.toString().length < 2 ? '0' + month : month;
                         yyyy = today.getFullYear();
                         from = yyyy + "-" + mm + "-" + dd;
 
@@ -252,7 +251,7 @@
 
                         var getDeltaValueForPeriod = function (period) {
                             var delta = {};
-                            
+
                             switch (period) {
                                 case "today":
                                     $scope.visitsPeriod = 'today';
@@ -279,10 +278,10 @@
                                     delta["to"] = 1;
                                     delta["from"] = 7;
                             }
-                            
+
                             return delta;
                         };
-                        
+
                         delta = getDeltaValueForPeriod(period);
 
                         today = new Date();
