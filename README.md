@@ -27,4 +27,16 @@ Not configured yet. Will be realized in the near future
     gulp jshint // check js on errors
     gulp sass   // Makes compilation sass to css
     gulp clean  // Removes the _dist_ folder
-    
+
+### How to run ottemo/storefront docker container
+Pull latest image from docker hub
+
+    docker pull ottemo/dashboard
+
+For dev start the container with gulp serve
+
+    docker run -d -p 9000:9000 -t ottemo/storefront gulp serve
+
+For stg and prod start the container using nginx
+
+    docker run -d -p 9000:9000 -t ottemo/storefront service nginx start    
