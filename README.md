@@ -35,8 +35,8 @@ Pull latest image from docker hub
 
 For dev start the container with gulp serve
 
-    docker run -d -p 9000:9000 -t ottemo/storefront gulp serve
+    docker run -d -p 9000:9000 -t ottemo/dashboard gulp serve
 
 For stg and prod start the container using nginx
 
-    docker run -d -p 9000:9000 -t ottemo/storefront service nginx start    
+    docker run -d -p 9000:9000 -t ottemo/dashboard service nginx start    
