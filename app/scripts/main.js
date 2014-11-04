@@ -6,6 +6,7 @@ require.config({
     "baseUrl": "scripts",
     "paths": {
         "angular": "../lib/angular/angular.min",
+        "tinymce": "../lib/tinymce/tinymce.min",
 
         "angular-scenario": "../lib/angular/angular-scenario.min",
         "angular-sanitize": "../lib/angular/angular-sanitize.min",
@@ -19,6 +20,13 @@ require.config({
     },
     "shim": {
         "angular": {exports: "angular"},
+        "tinymce": {
+            exports: 'tinymce',
+                init: function () {
+                this.tinyMCE.DOM.events.domLoaded = true;
+                return this.tinyMCE;
+            }
+        },
 
         "angular-route": ["angular"],
         "angular-cookies": ["angular"],

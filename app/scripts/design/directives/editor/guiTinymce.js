@@ -1,7 +1,7 @@
-(function (define, tinymce) {
+(function (define) {
     "use strict";
 
-    define(["angular", "design/init", "design/tinymce/blockSelector"], function (angular, designModule) {
+    define(["angular", "design/init", "tinymce", "design/tinymce/blockSelector"], function (angular, designModule, tinymce) {
         designModule
             .value('uiTinymceConfig', {
                 "theme": "modern",
@@ -117,4 +117,4 @@
             }]
         );
     });
-})(window.define, window.tinymce);
+})(window.define);
