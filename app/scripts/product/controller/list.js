@@ -149,7 +149,7 @@
                                     }
                                     $scope.message = {
                                         'type': 'success',
-                                        'message': 'Product(s) was removed successfuly'
+                                        'message': 'Product(s) was removed successfully'
                                     };
                                 }
                             };

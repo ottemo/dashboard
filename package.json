@@ -1,11 +1,8 @@
 {
   "name": "Dashboard",
-  "version": "0.0.15",
+  "version": "0.9.19",
   "description": "Ottemo Administration Dashboard",
   "main": "gulpfile.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "git://github.com/ottemo/dashboard.git"

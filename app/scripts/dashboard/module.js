@@ -8,8 +8,10 @@
     define([
             "dashboard/controllers",
 
+            "dashboard/service/api",
             "dashboard/service/header",
             "dashboard/service/sidebar",
+            "dashboard/service/statistic",
             "dashboard/service/list"
         ],
         function (dashboardModule) {
