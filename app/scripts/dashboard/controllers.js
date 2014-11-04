@@ -118,16 +118,7 @@
                                     },
                                     xaxis: {
                                         mode: "time"
-                                    },
-                                    yaxes: [
-                                        {
-                                            /* First y axis */
-                                        },
-                                        {
-                                            /* Second y axis */
-                                            position: "right" /* left or right */
-                                        }
-                                    ]
+                                    }
                                 }
                             );
                         }
@@ -164,7 +155,7 @@
                     $scope.initSalesChart = function () {
                         if (!$scope.salesCharts) {
                             $scope.salesCharts = $.plot(
-                                $('#visitors-chart2 #visitors-container2'), [
+                                $('#sales-chart #sales-container'), [
                                     {
                                         data: $scope.salesChartData,
                                         label: "Page View",
@@ -203,16 +194,7 @@
                                     },
                                     xaxis: {
                                         mode: "time"
-                                    },
-                                    yaxes: [
-                                        {
-                                            /* First y axis */
-                                        },
-                                        {
-                                            /* Second y axis */
-                                            position: "right" /* left or right */
-                                        }
-                                    ]
+                                    }
                                 }
                             );
                         }
