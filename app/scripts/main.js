@@ -21,11 +21,7 @@ require.config({
     "shim": {
         "angular": {exports: "angular"},
         "tinymce": {
-            exports: 'tinymce',
-                init: function () {
-                this.tinyMCE.DOM.events.domLoaded = true;
-                return this.tinyMCE;
-            }
+            exports: 'tinymce'
         },
 
         "angular-route": ["angular"],
