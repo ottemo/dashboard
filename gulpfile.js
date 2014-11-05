@@ -1,37 +1,42 @@
 (function () {
     'use strict';
 
-    var gulp = require('gulp'),
-        minifyHTML = require('gulp-minify-html'),
-        concat = require('gulp-concat'),
-        stripDebug = require('gulp-strip-debug'),
-        uglify = require('gulp-uglify'),
-        jshint = require('gulp-jshint'),
-        changed = require('gulp-changed'),
-        imagemin = require('gulp-imagemin'),
-        autoprefix = require('gulp-autoprefixer'),
-        sass = require('gulp-sass'),
-        rjs = require('gulp-requirejs'),
-        minifyCSS = require('gulp-minify-css'),
-        // protractor = require('gulp-protractor'),
-        // jasmine = require('gulp-jasmine'),
-        browserSync = require('browser-sync'),
-        del = require('del');
+    var gulp, minifyHTML, concat, stripDebug, uglify, jshint, changed, imagemin, autoprefix, sass, rjs, minifyCSS,
+        browserSync, pngquant, del, paths, host, themes;
 
-    var paths = {
-        app: require('./bower.json').appPath || 'app',
-        dist: 'dist',
-        js: ['app/scripts/*.js', 'app/scripts/**/*.js'],
-        vendor: 'app/lib/**/*.js',
-        sass: 'app/styles/sass/**/*.scss',
-        css: 'app/styles/*.css',
-        images: 'app/images/**/*',
-        html: 'app/**/*.html',
-        misc: 'app/*.{txt,htaccess,ico}'
+    gulp = require('gulp');
+    minifyHTML = require('gulp-minify-html');
+    concat = require('gulp-concat');
+    stripDebug = require('gulp-strip-debug');
+    uglify = require('gulp-uglify');
+    jshint = require('gulp-jshint');
+    changed = require('gulp-changed');
+    imagemin = require('gulp-imagemin');
+    autoprefix = require('gulp-autoprefixer');
+    sass = require('gulp-sass');
+    rjs = require('gulp-requirejs');
+    minifyCSS = require('gulp-minify-css');
+    browserSync = require('browser-sync');
+    pngquant = require('imagemin-pngquant');
+    del = require('del');
+    paths = {
+        "app": require('./bower.json').appPath || 'app',
+        "dist": 'dist',
+        "themes": 'themes',
+        "js": ['app/scripts/*.js', 'app/scripts/**/*.js'],
+        "vendor": 'app/lib/**/*',
+        "vendorTheme": 'app/themes/**/lib/**/*',
+        "sass": 'app/styles/sass/**/*.scss',
+        "css": 'app/themes/**/styles/**/*.css',
+        "images": 'app/themes/**/images/**/*',
+        "fonts": 'app/themes/**/styles/fonts/**/*',
+        "html": 'app/**/*.html',
+        "misc": 'app/*.{txt,htaccess,ico}',
+        "themeDest": "dist/themes"
 
     };
 
-    var host = {
+    host = {
         port: '9000',
         lrPort: '35729'
     };
@@ -41,14 +46,31 @@
         del(['dist'], cb);
     });
 
+    // Actions with js-files from theme
+    gulp.task('vendorTheme', ['clean'], function () {
+        /**
+         * Minify and uglify the custom scripts in folder 'scripts' in each theme
+         */
+        gulp.src('app/themes/**/scripts/**/*.js')
+            .pipe(stripDebug())
+            .pipe(uglify({mangle: false}))
+            .pipe(gulp.dest(paths.themeDest));
+
+        /**
+         * copy vendor js from theme folder
+         */
+        return gulp.src(paths.vendorTheme)
+            .pipe(gulp.dest(paths.themeDest));
+    });
+
     // copy vendor js 
-    gulp.task('vendor', ['clean'], function() {
+    gulp.task('vendor', ['clean', 'vendorTheme'], function () {
         return gulp.src(paths.vendor)
             .pipe(gulp.dest(paths.dist + '/lib'));
     });
 
     // copy misc assets
-    gulp.task('misc', ['clean'], function() {
+    gulp.task('misc', ['clean'], function () {
         return gulp.src(paths.misc)
             .pipe(gulp.dest(paths.dist));
     });
@@ -66,6 +88,9 @@
             name: 'main',
             preserveLicenseComments: false, // remove all comments
             removeCombined: true,
+            paths: {
+                "tinymce" : "empty:"
+            },
             baseUrl: paths.app + '/scripts',
             mainConfigFile: 'app/scripts/main.js'
         })
@@ -78,18 +103,18 @@
     // will auto-update browsers
     gulp.task('sass', function () {
         return gulp.src(paths.sass)
-        .pipe(sass({imagePath: '../../images'}))
-        .pipe(autoprefix('last 1 version'))
-        .pipe(gulp.dest(paths.dist + '/styles'))
-        .pipe(gulp.dest(paths.app + '/styles'));
+            .pipe(sass({imagePath: '../../images'}))
+            .pipe(autoprefix('last 1 version'))
+            .pipe(gulp.dest(paths.dist + '/styles'))
+            .pipe(gulp.dest(paths.app + '/styles'));
     });
 
     // minify new images
     gulp.task('imagemin', ['clean'], function () {
         return gulp.src(paths.images)
-            .pipe(changed(paths.dist + '/images'))
+            .pipe(changed(paths.themeDest))
             .pipe(imagemin())
-            .pipe(gulp.dest(paths.dist + '/images'));
+            .pipe(gulp.dest(paths.themeDest));
     });
 
     // minify new or changed HTML pages
@@ -108,20 +133,15 @@
             .pipe(gulp.dest(paths.dist));
     });
 
-    // CSS concat, auto-prefix and minify
+    // CSS auto-prefix and minify
     gulp.task('autoprefixer', ['clean', 'sass'], function () {
         gulp.src(paths.css)
-            .pipe(concat('main.css'))
             .pipe(autoprefix('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
             .pipe(minifyCSS())
-            .pipe(gulp.dest(paths.dist + '/styles'));
-        return gulp.src(paths.app + '/styles/font-awesome/*')
-            .pipe(concat('font-awesome.css'))
-            .pipe(autoprefix('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
-            .pipe(minifyCSS())
-            .pipe(gulp.dest(paths.dist + '/styles/font-awesome/'));
+            .pipe(gulp.dest(paths.themeDest));
+        gulp.src(paths.fonts)
+            .pipe(gulp.dest(paths.themeDest));
     });
-
 
     // Protractor tests
     // gulp.task('protractorUpdate', protractor.webdriverUpdate);
@@ -142,21 +162,21 @@
     // gulp.task('test', ['protractor', 'jasmine'], function () {});
 
     // browser-sync task for starting server
-    gulp.task('browser-sync', function() {
+    gulp.task('browser-sync', function () {
         browserSync({
             server: {
-                baseDir: './app' 
+                baseDir: './app'
             },
             port: host.port
         });
     });
 
-    gulp.task('bs-reload', function() {
+    gulp.task('bs-reload', function () {
         browserSync.reload();
     });
 
     // run in development mode with easy browser reloading
-    gulp.task('dev', ['browser-sync'], function() {
+    gulp.task('dev', ['browser-sync'], function () {
 
         gulp.watch('app/views/**/*.html', [browserSync.reload]);
         gulp.watch('app/styles/**/*.css', [browserSync.reload]);

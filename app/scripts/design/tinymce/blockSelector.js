@@ -1,6 +1,6 @@
-(function (define, tinymce) {
+(function (define) {
     'use strict';
-    define(["angular"], function (angular) {
+    define(["angular", "tinymce"], function (angular, tinymce) {
 
         tinymce.PluginManager.add('blocks', function (editor) {
             var onclick = function () {
@@ -43,4 +43,4 @@
         return tinymce;
     });
 
-})(window.define, window.tinymce);
+})(window.define);
