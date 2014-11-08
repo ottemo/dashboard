@@ -22,3 +22,7 @@ RUN gulp build
 RUN rm -f /etc/nginx/sites-enabled/default
 ADD ./config/dashboard.conf /etc/nginx/conf.d/
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
+
+EXPOSE 80
+
+CMD service nginx start
