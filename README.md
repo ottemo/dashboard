@@ -28,15 +28,21 @@ Not configured yet. Will be realized in the near future
     gulp sass   // Makes compilation sass to css
     gulp clean  // Removes the _dist_ folder
 
-### How to run ottemo/storefront docker container
+### How start with Vagrantfile
+Clone ottemo/dashboard github repo. The vagrant instance will start with nginx available at http://localhost:9999 - You can use gulp serve as well and will be available at http://localhost:9000
+
+    vagrant up
+    vagrant ssh
+    sudo su -
+    cd /vagrant
+    gulp serve (this will take a few minutes to start)
+    
+### How to run ottemo/dashboard docker container
 Pull latest image from docker hub
 
     docker pull ottemo/dashboard
 
-For dev start the container with gulp serve
+Start the container and access locally
 
-    docker run -d -p 9000:9000 -t ottemo/dashboard gulp serve
-
-For stg and prod start the container using nginx
-
-    docker run -d -p 9000:9000 -t ottemo/dashboard service nginx start    
+    docker run -d -p 9000:9000 -t ottemo/dashboard
+      
