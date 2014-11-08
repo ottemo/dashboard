@@ -42,7 +42,7 @@ Pull latest image from docker hub
 
     docker pull ottemo/dashboard
 
-Start the container and access locally
+Start the container and access locally access at http://localhost:9999
 
-    docker run -d -p 9000:9000 -t ottemo/dashboard
+    docker run -d -p 9999:80 -t ottemo/dashboard
       
