@@ -18,7 +18,7 @@
              */
             angular.module.dashboardModule = angular.module("dashboardModule", ["ngRoute", "loginModule", "ngSanitize", "designModule"])
 
-                .constant("REST_SERVER_URI", "http://dev.ottemo.io:3000")
+                .constant("REST_SERVER_URI", "http://urbanity.ottemo.io:3000")
                 .constant("COUNT_ITEMS_PER_PAGE", 10)
 
                 /*
