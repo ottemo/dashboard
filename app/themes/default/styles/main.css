@@ -1626,9 +1626,9 @@ ul {
     position: relative;
 }
 .cat-label button {
-    left: 120px;
-    padding: 0 10px;
-    position: absolute;
+    /*left: 120px;*/
+    /*padding: 0 10px;*/
+    /*position: absolute;*/
 }
 
 /*///////////////////////////////////////////////////////////////////////////////////////////////////// end products */
