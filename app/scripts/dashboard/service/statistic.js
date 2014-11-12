@@ -69,7 +69,7 @@
                                 if ("" === response.error) {
                                     visits = {
                                         "visitsToday": result.visitsToday,
-                                        "ratio": (Math.abs(result.ratio) * 100),
+                                        "ratio": (Math.abs(result.ratio) * 100).toFixed(2),
                                         "higher": result.ratio >= 0,
                                         "lower": result.ratio < 0
                                     };
@@ -101,7 +101,7 @@
                                 if ("" === response.error) {
                                     sales = {
                                         "salesToday": result.today,
-                                        "ratio": (Math.abs(result.ratio) * 100),
+                                        "ratio": (Math.abs(result.ratio) * 100).toFixed(2),
                                         "higher": result.ratio >= 0,
                                         "lower": result.ratio < 0
                                     };
@@ -252,13 +252,13 @@
                                 if ("" === response.error) {
 
                                     visitorsDetail["direct"] = result.Direct;
-                                    visitorsDetail["directRatio"] = (Math.abs(result.DirectRatio) * 100);
+                                    visitorsDetail["directRatio"] = (Math.abs(result.DirectRatio) * 100).toFixed(2);
                                     visitorsDetail["online"] = result.Online;
-                                    visitorsDetail["onlineRatio"] = (Math.abs(result.OnlineRatio) * 100);
+                                    visitorsDetail["onlineRatio"] = (Math.abs(result.OnlineRatio) * 100).toFixed(2);
                                     visitorsDetail["search"] = result.Search;
-                                    visitorsDetail["searchRatio"] = (Math.abs(result.SearchRatio) * 100);
+                                    visitorsDetail["searchRatio"] = (Math.abs(result.SearchRatio) * 100).toFixed(2);
                                     visitorsDetail["site"] = result.Site;
-                                    visitorsDetail["siteRatio"] = (Math.abs(result.SiteRatio) * 100);
+                                    visitorsDetail["siteRatio"] = (Math.abs(result.SiteRatio) * 100).toFixed(2);
 
                                     defer.resolve(visitorsDetail);
                                 } else {
