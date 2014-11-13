@@ -12,7 +12,8 @@
                 "$dashboardListService",
                 "$orderApiService",
                 "COUNT_ITEMS_PER_PAGE",
-                function ($rootScope, $scope, $location, $routeParams, $q, $dashboardListService, $orderApiService, COUNT_ITEMS_PER_PAGE) {
+                function ($rootScope, $scope, $location, $routeParams, $q, DashboardListService, $orderApiService, COUNT_ITEMS_PER_PAGE) {
+                    var serviceList = new DashboardListService();
 
                     if (JSON.stringify({}) === JSON.stringify($location.search())) {
                         $location.search("limit", "0," + COUNT_ITEMS_PER_PAGE);
@@ -53,7 +54,7 @@
                     $orderApiService.getAttributes().$promise.then(
                         function (response) {
                             var result = response.result || [];
-                            $dashboardListService.init('orders');
+                            serviceList.init('orders');
                             $scope.attributes = result;
                             $rootScope.$list.setAttributes($scope.attributes);
                             $scope.fields = $rootScope.$list.getFields();

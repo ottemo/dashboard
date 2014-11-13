@@ -11,7 +11,8 @@
                 "$dashboardListService",
                 "$cmsApiService",
                 "COUNT_ITEMS_PER_PAGE",
-                function ($scope, $location, $routeParams, $q, $dashboardListService, $cmsApiService, COUNT_ITEMS_PER_PAGE) {
+                function ($scope, $location, $routeParams, $q, DashboardListService, $cmsApiService, COUNT_ITEMS_PER_PAGE) {
+                    var serviceList = new DashboardListService();
 
                     if (JSON.stringify({}) === JSON.stringify($location.search())) {
                         $location.search("limit", "0," + COUNT_ITEMS_PER_PAGE);
@@ -23,7 +24,7 @@
                      * Gets list of blocks
                      */
                     var getBlocksList = function(){
-                        $cmsApiService.blockListP($location.search(), {"extra": $dashboardListService.getExtraFields()}).$promise.then(
+                        $cmsApiService.blockListP($location.search(), {"extra": serviceList.getExtraFields()}).$promise.then(
                             function (response) {
                                 var result, i;
                                 $scope.blocksTmp = [];
@@ -51,10 +52,10 @@
                     $cmsApiService.blockAttributes().$promise.then(
                         function (response) {
                             var result = response.result || [];
-                            $dashboardListService.init('blocks');
+                            serviceList.init('blocks');
                             $scope.attributes = result;
-                            $dashboardListService.setAttributes($scope.attributes);
-                            $scope.fields = $dashboardListService.getFields();
+                            serviceList.setAttributes($scope.attributes);
+                            $scope.fields = serviceList.getFields();
                             getBlocksList();
                         }
                     );
@@ -64,7 +65,7 @@
                             return false;
                         }
 
-                        $scope.blocks = $dashboardListService.getList($scope.blocksTmp);
+                        $scope.blocks = serviceList.getList($scope.blocksTmp);
                     };
 
                     $scope.$watch("blocksTmp", prepareList);

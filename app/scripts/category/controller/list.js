@@ -11,7 +11,8 @@
                 "$dashboardListService",
                 "$categoryApiService",
                 "COUNT_ITEMS_PER_PAGE",
-                function ($scope, $location, $routeParams, $q, $dashboardListService, $categoryApiService, COUNT_ITEMS_PER_PAGE) {
+                function ($scope, $location, $routeParams, $q, DashboardListService, $categoryApiService, COUNT_ITEMS_PER_PAGE) {
+                    var serviceList = new DashboardListService();
 
                     if (JSON.stringify({}) === JSON.stringify($location.search())) {
                         $location.search("limit", "0," + COUNT_ITEMS_PER_PAGE);
@@ -23,7 +24,7 @@
                      * Gets list of categories
                      */
                     var getCategoriesList = function(){
-                        $categoryApiService.categoryList($location.search(), {"extra": $dashboardListService.getExtraFields()}).$promise.then(
+                        $categoryApiService.categoryList($location.search(), {"extra": serviceList.getExtraFields()}).$promise.then(
                             function (response) {
                                 var result, i;
                                 $scope.categoriesTmp = [];
@@ -51,10 +52,10 @@
                     $categoryApiService.attributesInfo().$promise.then(
                         function (response) {
                             var result = response.result || [];
-                            $dashboardListService.init('categories');
+                            serviceList.init('categories');
                             $scope.attributes = result;
-                            $dashboardListService.setAttributes($scope.attributes);
-                            $scope.fields = $dashboardListService.getFields();
+                            serviceList.setAttributes($scope.attributes);
+                            $scope.fields = serviceList.getFields();
                             getCategoriesList();
                         }
                     );
@@ -64,7 +65,7 @@
                             return false;
                         }
 
-                        $scope.categories = $dashboardListService.getList($scope.categoriesTmp);
+                        $scope.categories = serviceList.getList($scope.categoriesTmp);
                     };
 
                     $scope.$watch("categoriesTmp", prepareList);

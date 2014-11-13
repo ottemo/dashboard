@@ -12,7 +12,8 @@
                 "$dashboardListService",
                 "$visitorApiService",
                 "COUNT_ITEMS_PER_PAGE",
-                function ($scope, $routeParams, $location, $q, $dashboardListService, $visitorApiService, COUNT_ITEMS_PER_PAGE) {
+                function ($scope, $routeParams, $location, $q, DashboardListService, $visitorApiService, COUNT_ITEMS_PER_PAGE) {
+                    var serviceList = new DashboardListService();
 
                     $scope.visitorId = $routeParams.visitorId;
 
@@ -48,7 +49,7 @@
                     var getAddressesList = function(){
                         var params = {
                             "visitorId": $scope.visitorId,
-                            "extra": $dashboardListService.getExtraFields()
+                            "extra": serviceList.getExtraFields()
                         };
                         $visitorApiService.addressesP(params).$promise.then(
                             function (response) {
@@ -77,10 +78,10 @@
                     $visitorApiService.addressAttributeInfo().$promise.then(
                         function (response) {
                             var result = response.result || [];
-                            $dashboardListService.init('addresses');
+                            serviceList.init('addresses');
                             $scope.attributes = result;
-                            $dashboardListService.setAttributes($scope.attributes);
-                            $scope.fields = $dashboardListService.getFields();
+                            serviceList.setAttributes($scope.attributes);
+                            $scope.fields = serviceList.getFields();
                             getAddressesList();
                         }
                     );
@@ -90,7 +91,7 @@
                             return false;
                         }
 
-                        $scope.addresses = $dashboardListService.getList($scope.addressesTmp);
+                        $scope.addresses = serviceList.getList($scope.addressesTmp);
                     };
 
                     $scope.$watch("addressesTmp", prepareList);

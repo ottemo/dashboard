@@ -13,7 +13,8 @@
                 "$designService",
                 "$dashboardListService",
                 "$categoryApiService",
-                function ($location, $routeParams, $designService, $dashboardListService, $categoryApiService) {
+                function ($location, $routeParams, $designService, DashboardListService, $categoryApiService) {
+                    var serviceList = new DashboardListService();
                     return {
                         restrict: "E",
                         templateUrl: $designService.getTemplate("design/gui/editor/categorySelector.html"),
@@ -58,7 +59,7 @@
                             };
 
                             $scope.show = function (id) {
-                                $dashboardListService.init('categories');
+                                serviceList.init('categories');
                                 $("#" + id).modal("show");
                             };
 
@@ -77,7 +78,7 @@
                                  * Gets list of categories
                                  */
                                 var getCategoriesList = function () {
-                                    $categoryApiService.categoryList($scope.search, {"extra": $dashboardListService.getExtraFields()}).$promise.then(
+                                    $categoryApiService.categoryList($scope.search, {"extra": serviceList.getExtraFields()}).$promise.then(
                                         function (response) {
                                             var result, i;
                                             $scope.categoriesTmp = [];
@@ -107,10 +108,10 @@
                                 $categoryApiService.attributesInfo().$promise.then(
                                     function (response) {
                                         var result = response.result || [];
-                                        $dashboardListService.init('categories');
+                                        serviceList.init('categories');
                                         $scope.attributes = result;
-                                        $dashboardListService.setAttributes($scope.attributes);
-                                        $scope.fields = $dashboardListService.getFields();
+                                        serviceList.setAttributes($scope.attributes);
+                                        $scope.fields = serviceList.getFields();
                                         getCategoriesList();
                                     }
                                 );
@@ -120,7 +121,7 @@
                                         return false;
                                     }
 
-                                    $scope.items = $dashboardListService.getList($scope.categoriesTmp);
+                                    $scope.items = serviceList.getList($scope.categoriesTmp);
                                 };
 
                                 $scope.$watch("categoriesTmp", prepareList);

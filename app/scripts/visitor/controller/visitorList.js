@@ -12,7 +12,8 @@
                 "$dashboardListService",
                 "$visitorApiService",
                 "COUNT_ITEMS_PER_PAGE",
-                function ($scope, $routeParams, $location, $q, $dashboardListService, $visitorApiService, COUNT_ITEMS_PER_PAGE) {
+                function ($scope, $routeParams, $location, $q, DashboardListService, $visitorApiService, COUNT_ITEMS_PER_PAGE) {
+                    var serviceList = new DashboardListService();
 
                     if (JSON.stringify({}) === JSON.stringify($location.search())) {
                         $location.search("limit", "0," + COUNT_ITEMS_PER_PAGE);
@@ -24,7 +25,7 @@
                      * Gets list of visitors
                      */
                     var getVisitorsList = function () {
-                        $visitorApiService.visitorList($location.search(), {"extra": $dashboardListService.getExtraFields()}).$promise.then(
+                        $visitorApiService.visitorList($location.search(), {"extra": serviceList.getExtraFields()}).$promise.then(
                             function (response) {
                                 var result, i;
                                 $scope.visitorsTmp = [];
@@ -52,10 +53,10 @@
                     $visitorApiService.attributesInfo().$promise.then(
                         function (response) {
                             var result = response.result || [];
-                            $dashboardListService.init('visitors');
+                            serviceList.init('visitors');
                             $scope.attributes = result;
-                            $dashboardListService.setAttributes($scope.attributes);
-                            $scope.fields = $dashboardListService.getFields();
+                            serviceList.setAttributes($scope.attributes);
+                            $scope.fields = serviceList.getFields();
                             getVisitorsList();
                         }
                     );
@@ -65,7 +66,7 @@
                             return false;
                         }
 
-                        $scope.visitors = $dashboardListService.getList($scope.visitorsTmp);
+                        $scope.visitors = serviceList.getList($scope.visitorsTmp);
                     };
 
                     $scope.$watch("visitorsTmp", prepareList);
