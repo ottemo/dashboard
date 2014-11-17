@@ -135,14 +135,20 @@
 
                         isModified = JSON.stringify(newValue) !== JSON.stringify(oldValue);
 
-                        if (null === oldValue || typeof oldValue === "undefined") {
-                            var defObj = getDefaultSeo();
-                            for (var i = 0; i < seoFields.length; i += 1) {
-                                console.log(defObj[seoFields[i]] + " !== " + newValue[seoFields[i]]);
+                        function compare() {
+                            var defObj, i;
+                            defObj = getDefaultSeo();
+                            for (i = 0; i < seoFields.length; i += 1) {
                                 if (defObj[seoFields[i]] !== newValue[seoFields[i]]) {
-                                    isModified = true;
+                                    return true;
                                 }
                             }
+
+                            return false;
+                        }
+
+                        if (null === oldValue || typeof oldValue === "undefined") {
+                            isModified = compare();
                         }
 
                         return isModified;
