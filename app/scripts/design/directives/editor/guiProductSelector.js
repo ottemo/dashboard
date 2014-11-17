@@ -166,7 +166,9 @@
                             $scope.$watch("item", function () {
                                 $scope.selected = {};
 
-                                if (typeof $scope.item !== "undefined" && $scope.item._id) {
+                                if (typeof $scope.item !== "undefined" &&
+                                    $scope.item._id &&
+                                    $scope.item[$scope.attribute.Attribute] instanceof Array) {
                                     for (var i = 0; i < $scope.item[$scope.attribute.Attribute].length; i += 1) {
                                         if (typeof $scope.item[$scope.attribute.Attribute][i] === "object") {
                                             $scope.selected[$scope.item[$scope.attribute.Attribute][i]._id] = true;

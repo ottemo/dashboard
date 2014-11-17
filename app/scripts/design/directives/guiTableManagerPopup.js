@@ -1,4 +1,4 @@
-(function (define) {
+(function (define, $) {
     "use strict";
 
     define(["design/init"], function (designModule) {
@@ -293,6 +293,9 @@
                                     $scope.paginator.page = page;
                                 }
 
+                                $("#selectAll").removeAttr("checked");
+                                isSelectedAll = false;
+
                                 $scope.parent.search = getSearchObj();
                             };
 
@@ -467,4 +470,4 @@
 
         return designModule;
     });
-})(window.define);
+})(window.define, jQuery);
