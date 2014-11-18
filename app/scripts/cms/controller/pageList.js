@@ -11,7 +11,8 @@
                 "$dashboardListService",
                 "$cmsApiService",
                 "COUNT_ITEMS_PER_PAGE",
-                function ($scope, $location, $routeParams, $q, $dashboardListService, $cmsApiService, COUNT_ITEMS_PER_PAGE) {
+                function ($scope, $location, $routeParams, $q, DashboardListService, $cmsApiService, COUNT_ITEMS_PER_PAGE) {
+                    var serviceList = new DashboardListService();
 
                     if (JSON.stringify({}) === JSON.stringify($location.search())) {
                         $location.search("limit", "0," + COUNT_ITEMS_PER_PAGE);
@@ -23,7 +24,7 @@
                      * Gets list of pages
                      */
                     var getPagesList = function(){
-//                        $cmsApiService.pageListP($location.search(), {"extra": $dashboardListService.getExtraFields()}).$promise.then(
+//                        $cmsApiService.pageListP($location.search(), {"extra": serviceList.getExtraFields()}).$promise.then(
                         $cmsApiService.pageListP($location.search(), {"extra": "title"}).$promise.then(
                             function (response) {
                                 var result, i;
@@ -52,10 +53,10 @@
                     $cmsApiService.pageAttributes().$promise.then(
                         function (response) {
                             var result = response.result || [];
-                            $dashboardListService.init('pages');
+                            serviceList.init('pages');
                             $scope.attributes = result;
-                            $dashboardListService.setAttributes($scope.attributes);
-                            $scope.fields = $dashboardListService.getFields();
+                            serviceList.setAttributes($scope.attributes);
+                            $scope.fields = serviceList.getFields();
                             getPagesList();
                         }
                     );
@@ -65,7 +66,7 @@
                             return false;
                         }
 
-                        $scope.pages = $dashboardListService.getList($scope.pagesTmp);
+                        $scope.pages = serviceList.getList($scope.pagesTmp);
                     };
 
                     $scope.$watch("pagesTmp", prepareList);

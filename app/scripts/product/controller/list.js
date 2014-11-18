@@ -12,8 +12,9 @@
                 "$productApiService",
                 "$designImageService",
                 "COUNT_ITEMS_PER_PAGE",
-                function ($scope, $location, $routeParams, $q, $dashboardListService, $productApiService, $designImageService, COUNT_ITEMS_PER_PAGE) {
+                function ($scope, $location, $routeParams, $q, DashboardListService, $productApiService, $designImageService, COUNT_ITEMS_PER_PAGE) {
 
+                    var serviceList = new DashboardListService();
                     var splitName;
 
                     $scope.fields = [
@@ -46,7 +47,7 @@
                     var getProductsList = function () {
                         $productApiService.productList(
                             $location.search(),
-                            {"extra": $dashboardListService.getExtraFields()}
+                            {"extra": serviceList.getExtraFields()}
                         ).$promise.then(
                             function (response) {
                                 var result, i, parts;
@@ -79,11 +80,11 @@
                     $productApiService.attributesInfo().$promise.then(
                         function (response) {
                             var result = response.result || [];
-                            $dashboardListService.init('products');
+                            serviceList.init('products');
 
                             $scope.attributes = result;
-                            $dashboardListService.setAttributes($scope.attributes);
-                            $scope.fields = $scope.fields.concat($dashboardListService.getFields());
+                            serviceList.setAttributes($scope.attributes);
+                            $scope.fields = $scope.fields.concat(serviceList.getFields());
                             getProductsList();
                         }
                     );
@@ -93,7 +94,7 @@
                             return false;
                         }
 
-                        $scope.products = $dashboardListService.getList($scope.productsTmp);
+                        $scope.products = serviceList.getList($scope.productsTmp);
                     };
 
                     $scope.$watch("productsTmp", prepareList);

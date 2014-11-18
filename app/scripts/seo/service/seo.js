@@ -30,11 +30,21 @@
                 function ($resource, $seoApiService, $q) {
 
                     // Variables
-                    var list, oldValue;
+                    var list, oldValue, seoFields;
                     // Functions
-                    var init, find, save, update, remove, isModified;
+                    var init, find, save, update, remove, isModified, getDefaultSeo, getSeoFields;
 
                     list = [];
+                    seoFields = ["url", "title", "meta_keywords", "meta_description"];
+
+                    getDefaultSeo = function () {
+                        return {
+                            "url": "",
+                            "title": "",
+                            "meta_keywords": "",
+                            "meta_description": ""
+                        };
+                    };
 
                     init = function () {
                         $seoApiService.list().$promise.then(
@@ -123,7 +133,29 @@
                             return false;
                         }
 
-                        return JSON.stringify(newValue) !== JSON.stringify(oldValue);
+                        isModified = JSON.stringify(newValue) !== JSON.stringify(oldValue);
+
+                        function compare() {
+                            var defObj, i;
+                            defObj = getDefaultSeo();
+                            for (i = 0; i < seoFields.length; i += 1) {
+                                if (defObj[seoFields[i]] !== newValue[seoFields[i]]) {
+                                    return true;
+                                }
+                            }
+
+                            return false;
+                        }
+
+                        if (null === oldValue || typeof oldValue === "undefined") {
+                            isModified = compare();
+                        }
+
+                        return isModified;
+                    };
+
+                    getSeoFields = function () {
+                        return seoFields;
                     };
 
                     return {
@@ -131,7 +163,9 @@
                         "find": find,
                         "update": update,
                         "save": save,
-                        "remove": remove
+                        "remove": remove,
+                        "getDefaultSeo": getDefaultSeo,
+                        "getSeoFields": getSeoFields
                     };
                 }
             ]

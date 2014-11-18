@@ -15,17 +15,13 @@
                     $seoService.init();
 
                     getDefaultSeo = function () {
-                        return {
-                            "url": "",
-                            "rewrite": typeof $scope[itemName] !== "undefined" ? $scope[itemName]._id : "",
-                            "title": "",
-                            "type": itemName,
-                            "meta_keywords": "",
-                            "meta_description": ""
-                        };
+                        var defObj = $seoService.getDefaultSeo();
+                        defObj.rewrite = typeof $scope[itemName] !== "undefined" ? $scope[itemName]._id : "";
+                        defObj.type = itemName;
+                        return defObj;
                     };
 
-                    seoFields = ["url", "title", "meta_keywords", "meta_description"];
+                    seoFields = $seoService.getSeoFields();
                     isModifySave = false;
                     isModifyRemove = false;
                     isInitUrlRewrite = false;

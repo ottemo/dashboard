@@ -26,7 +26,8 @@
                 "$productApiService",
                 "$designImageService",
                 "COUNT_ITEMS_PER_PAGE",
-                function ($location, $routeParams, $designService, $dashboardListService, $productApiService, $designImageService, COUNT_ITEMS_PER_PAGE) {
+                function ($location, $routeParams, $designService, DashboardListService, $productApiService, $designImageService, COUNT_ITEMS_PER_PAGE) {
+                    var serviceList = new DashboardListService();
                     return {
                         restrict: "E",
                         templateUrl: $designService.getTemplate("design/gui/editor/productSelector.html"),
@@ -67,7 +68,7 @@
                             };
 
                             $scope.show = function (id) {
-                                $dashboardListService.init('products');
+                                serviceList.init('products');
                                 $("#" + id).modal("show");
                             };
 
@@ -101,7 +102,7 @@
                                 var getProductsList = function () {
                                     $productApiService.productList(
                                         $scope.search,
-                                        {"extra": $dashboardListService.getExtraFields()}
+                                        {"extra": serviceList.getExtraFields()}
                                     ).$promise.then(
                                         function (response) {
                                             var result, i, parts, splitName;
@@ -142,10 +143,10 @@
                                 $productApiService.attributesInfo().$promise.then(
                                     function (response) {
                                         var result = response.result || [];
-                                        $dashboardListService.init('products');
+                                        serviceList.init('products');
                                         $scope.attributes = result;
-                                        $dashboardListService.setAttributes($scope.attributes);
-                                        $scope.fields = $scope.fields.concat($dashboardListService.getFields());
+                                        serviceList.setAttributes($scope.attributes);
+                                        $scope.fields = $scope.fields.concat(serviceList.getFields());
                                         getProductsList();
                                     }
                                 );
@@ -155,7 +156,7 @@
                                         return false;
                                     }
 
-                                    $scope.items = $dashboardListService.getList($scope.productsTmp);
+                                    $scope.items = serviceList.getList($scope.productsTmp);
                                 };
 
                                 $scope.$watch("productsTmp", prepareList);
@@ -165,7 +166,9 @@
                             $scope.$watch("item", function () {
                                 $scope.selected = {};
 
-                                if (typeof $scope.item !== "undefined" && $scope.item._id) {
+                                if (typeof $scope.item !== "undefined" &&
+                                    $scope.item._id &&
+                                    $scope.item[$scope.attribute.Attribute] instanceof Array) {
                                     for (var i = 0; i < $scope.item[$scope.attribute.Attribute].length; i += 1) {
                                         if (typeof $scope.item[$scope.attribute.Attribute][i] === "object") {
                                             $scope.selected[$scope.item[$scope.attribute.Attribute][i]._id] = true;

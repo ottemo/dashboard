@@ -13,7 +13,7 @@
                     var categoryId, rememberProducts, oldProducts, getDefaultCategory;
 
                     // Initialize SEO
-                    if(typeof $scope.initSeo === "function"){
+                    if (typeof $scope.initSeo === "function") {
                         $scope.initSeo("category");
                     }
 
@@ -47,27 +47,25 @@
                     /**
                      * Gets list all attributes of category
                      */
-                    $categoryApiService.attributesInfo().$promise.then(
-                        function (response) {
-                            var result = response.result || [];
-                            $scope.attributes = result;
-                        }
-                    );
+                    $categoryApiService.attributesInfo().$promise.then(function (response) {
+                        var result = response.result || [];
+                        $scope.attributes = result;
+                    });
 
-                    $categoryApiService.getCategory({"id": categoryId}).$promise.then(
-                        function (response) {
-                            var result = response.result || {};
-                            $scope.category = result;
-                            $scope.category.parent = $scope.category['parent_id'];
-                        }
-                    );
+                    $categoryApiService.getCategory({"id": categoryId}).$promise.then(function (response) {
+                        var result = response.result || {};
+                        $scope.category = result;
+                        rememberProducts();
+                        $scope.category.parent = $scope.category['parent_id'];
+                    });
 
                     $scope.back = function () {
                         $location.path("/categories");
                     };
 
                     $scope.saveProducts = function () {
-                        var id, addProduct, removeProduct;
+                        var defer, id, addProduct, removeProduct;
+                        defer = $q.defer();
 
                         if (typeof $scope.category !== "undefined") {
                             id = $scope.category.id || $scope.category._id;
@@ -86,32 +84,29 @@
                                     }).$promise.then();
                                 }
                             }
+                            defer.resolve(true);
                         };
 
-                        removeProduct = function () {
-                            var j, i, oldProdId, isRemoved, prodId;
-
+                        removeProduct = function (cb) {
+                            var j, i, oldProdId, prodId;
                             for (i = 0; i < oldProducts.length; i += 1) {
                                 oldProdId = oldProducts[i];
-                                isRemoved = true;
                                 for (j = 0; j < $scope.category.products.length; j += 1) {
                                     prodId = $scope.category.products[i];
-                                    if (typeof prodId === "object" && oldProdId === prodId._id) {
-                                        isRemoved = false;
-                                        break;
-                                    }
                                 }
-                                if (isRemoved) {
+                                if (-1 === $scope.category.products.indexOf(oldProdId)) {
                                     $categoryApiService.removeProduct({
                                         categoryId: id,
                                         productId: oldProdId
                                     }).$promise.then();
                                 }
                             }
+                            cb();
                         };
 
-                        addProduct();
-                        removeProduct();
+                        removeProduct(addProduct);
+
+                        return defer.promise;
                     };
 
                     /**
@@ -181,9 +176,11 @@
                             }
                         } else {
                             $scope.category.id = id;
-                            $scope.saveProducts();
-                            delete $scope.category.products;
-                            $categoryApiService.update($scope.category, updateSuccess, updateError);
+                            $scope.saveProducts().then(function () {
+                                delete $scope.category.products;
+                                $categoryApiService.update($scope.category, updateSuccess, updateError);
+                            });
+
                         }
 
                         return defer.promise;
@@ -201,8 +198,6 @@
                             }
                         }
                     };
-
-                    $scope.$watch("category", rememberProducts);
 
                 }
             ]

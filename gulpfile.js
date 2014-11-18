@@ -181,7 +181,7 @@
         gulp.watch('app/views/**/*.html', [browserSync.reload]);
         gulp.watch('app/styles/**/*.css', [browserSync.reload]);
         gulp.watch('app/styles/**/*.scss', ['sass', browserSync.reload]);
-        gulp.watch('app/scripts/**/*.js', ['vendor', 'requirejs', browserSync.reload]);
+        gulp.watch('app/scripts/**/*.js', ['jshint', browserSync.reload]);
     });
 
     gulp.task('serve', ['dev']);

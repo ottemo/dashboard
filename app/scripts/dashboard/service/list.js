@@ -13,10 +13,8 @@
             /**
              *  $dashboardListService implementation
              */
-                .service("$dashboardListService", [
-                    "$routeParams",
-                    function ($routeParams) {
-
+                .service("$dashboardListService", ["$routeParams", function ($routeParams) {
+                    return function () {
                         // Variables
                         var ID, filters, attributes, fields, isInitFields;
 
@@ -90,7 +88,7 @@
                                 hasName = false;
                                 for (j = 0; j < attributes.length; j += 1) {
                                     if (-1 !== Object.keys(filters).indexOf(attributes[j].Editors)) {
-                                        if("name" === attributes[j].Attribute){
+                                        if ("name" === attributes[j].Attribute) {
                                             hasName = true;
                                             fields.unshift({
                                                 "attribute": attributes[j].Attribute,
@@ -227,9 +225,9 @@
                             "getFields": getFields,
                             "getList": getList
                         };
-                    }
-                ]
-            );
+                    };
+                }
+                ]);
 
             return dashboardModule;
         });

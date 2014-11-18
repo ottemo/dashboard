@@ -8,7 +8,6 @@
         configModule
         /**
          *
-         *
          */
             .service("$configService", [
                 "$configApiService",
@@ -120,7 +119,6 @@
                     checkOnDups = function (group, path, force) {
                         if (force) {
                             for (var pos = 0; pos < configTabs[group].length; pos += 1) {
-                                console.warn(path + " === " + configTabs[group][pos].Path);
                                 if (path === configTabs[group][pos].Path) {
                                     configTabs[group].splice(pos, 1);
                                     return pos;

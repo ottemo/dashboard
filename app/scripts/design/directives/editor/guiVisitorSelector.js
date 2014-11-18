@@ -26,7 +26,9 @@
                 "$visitorApiService",
                 "$designImageService",
                 "COUNT_ITEMS_PER_PAGE",
-                function ($location, $routeParams, $designService, $dashboardListService, $visitorApiService, $designImageService, COUNT_ITEMS_PER_PAGE) {
+                function ($location, $routeParams, $designService, DashboardListService, $visitorApiService, $designImageService, COUNT_ITEMS_PER_PAGE) {
+                    var serviceList = new DashboardListService();
+
                     return {
                         restrict: "E",
                         templateUrl: $designService.getTemplate("design/gui/editor/visitorSelector.html"),
@@ -61,7 +63,7 @@
                             };
 
                             $scope.show = function (id) {
-                                $dashboardListService.init('visitors');
+                                serviceList.init('visitors');
                                 $("#" + id).modal("show");
                             };
 
@@ -89,7 +91,7 @@
                                  * Gets list of visitors
                                  */
                                 var getVisitorsList = function () {
-                                    $visitorApiService.visitorList($scope.search, {"extra": $dashboardListService.getExtraFields()}).$promise.then(
+                                    $visitorApiService.visitorList($scope.search, {"extra": serviceList.getExtraFields()}).$promise.then(
                                         function (response) {
                                             var result, i;
                                             $scope.visitorsTmp = [];
@@ -117,10 +119,10 @@
                                 $visitorApiService.attributesInfo().$promise.then(
                                     function (response) {
                                         var result = response.result || [];
-                                        $dashboardListService.init('visitors');
+                                        serviceList.init('visitors');
                                         $scope.attributes = result;
-                                        $dashboardListService.setAttributes($scope.attributes);
-                                        $scope.fields = $dashboardListService.getFields();
+                                        serviceList.setAttributes($scope.attributes);
+                                        $scope.fields = serviceList.getFields();
                                         getVisitorsList();
                                     }
                                 );
@@ -130,7 +132,7 @@
                                         return false;
                                     }
 
-                                    $scope.items = $dashboardListService.getList($scope.visitorsTmp);
+                                    $scope.items = serviceList.getList($scope.visitorsTmp);
                                 };
 
                                 $scope.$watch("visitorsTmp", prepareList);
