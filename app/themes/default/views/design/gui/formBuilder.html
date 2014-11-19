@@ -135,7 +135,7 @@
         <div ng-switch-when="picture_manager">
             <gui-picture-manager images-path="parent.imagesPath" images-list="parent.productImages"
                                  selected="parent.selectedImage" default-img="item.default_image"
-                                 ng-if="item._id">
+                                 bind-if="item._id">
 
                 <!-- Upload button -->
                 <div class="btn btn-success">

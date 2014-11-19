@@ -13,11 +13,11 @@
                     templateUrl: $designService.getTemplate("design/gui/editor/pictureManager.html"),
 
                     scope: {
-                        "images": "=imagesList",
+                        "images": "=?imagesList",
                         "imagesPath": "=?imagesPath",
                         "placeholder": "=?placeholder",
                         "defaultImg": "=?defaultImg",
-                        "selected": "=selected"
+                        "selected": "=?selected"
                     },
 
                     controller: function ($scope) {
