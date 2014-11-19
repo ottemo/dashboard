@@ -43,7 +43,7 @@
 
     // Empties folders to start fresh
     gulp.task('clean', function (cb) {
-        del(['dist'], cb);
+        del(['dist/*','!dist/media'], cb);
     });
 
     // Actions with js-files from theme

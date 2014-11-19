@@ -4,7 +4,7 @@
         <div class="col-md-4"></div>
         <div class="col-md-3">
             <a href="" class="thumbnail">
-                <img ng-src="{{ getImage(selected)}}" alt="selected image" class="img-thumbnail">
+                <img ng-src="{{getImage(parent.selectedImage)}}" alt="selected image" class="img-thumbnail">
             </a>
         </div>
         <div class="col-md-4"></div>
@@ -12,15 +12,25 @@
 
     <div class="row" ng-repeat="row in splitedImages">
         <div class="col-md-4"></div>
-        <div class="col-md-1" ng-repeat="image in row">
+        <div class="col-md-1" ng-repeat="image in row track by $index">
             <a href="" class="thumbnail{{isDefault(image)}}" ng-click="selectImage(image)">
-                <img ng-src="{{ getImage(image) }}"/>
+                <img ng-src="{{getImage(image)}}"/>
             </a>
         </div>
         <div class="col-md-4"></div>
     </div>
 
-    <div class="row col-md-12 text-center" ng-transclude>
+    <div class="row col-md-12 text-center">
+        <div class="btn btn-success">
+            <input type="file" id="uploadfile" name="uploadfile" ng-model="parent.uploadfile"
+                   ng-change="parent.imageAdd('uploadfile')"/>
+        </div>
+        <!-- Remove button -->
+        <button class="btn btn-danger" ng-click="parent.imageRemove(parent.selectedImage)">Remove
+        </button>
+        <!-- Default button -->
+        <button class="btn btn-primary" ng-click="parent.imageDefault(parent.selectedImage)">Mark as
+            Default
+        </button>
     </div>
-
 </div>

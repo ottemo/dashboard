@@ -133,7 +133,7 @@
                             return false;
                         }
 
-                        isModified = JSON.stringify(newValue) !== JSON.stringify(oldValue);
+                        var result = JSON.stringify(newValue) !== JSON.stringify(oldValue);
 
                         function compare() {
                             var defObj, i;
@@ -148,10 +148,10 @@
                         }
 
                         if (null === oldValue || typeof oldValue === "undefined") {
-                            isModified = compare();
+                            result = compare();
                         }
 
-                        return isModified;
+                        return result;
                     };
 
                     getSeoFields = function () {
