@@ -41,7 +41,7 @@
                         };
 
                         $scope.$watch("parent.productImages", function () {
-                            if(typeof $scope.parent !== "undefined") {
+                            if(typeof $scope.parent.productImages !== "undefined") {
                                 $scope.imagesPath = $scope.parent.imagesPath;
                                 $scope.splitedImages = splitBy($scope.parent.productImages, 4);
                             }
