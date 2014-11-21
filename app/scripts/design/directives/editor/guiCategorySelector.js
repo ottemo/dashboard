@@ -42,8 +42,8 @@
 
                                     for (var i = 0; i < $scope.items.length; i += 1) {
 
-                                        if ($scope.items[i].Id === $scope.item[$scope.attribute.Attribute] ||
-                                            $scope.items[i].Id === $scope.item.parent) {
+                                        if ($scope.items[i].ID === $scope.item[$scope.attribute.Attribute] ||
+                                            $scope.items[i].ID === $scope.item.parent) {
                                             name = $scope.items[i].Name;
                                             break;
                                         }
@@ -84,7 +84,7 @@
                                             $scope.categoriesTmp = [];
                                             result = response.result || [];
                                             for (i = 0; i < result.length; i += 1) {
-                                                if (result[i].Id !== $scope.item._id) {
+                                                if (result[i].ID !== $scope.item._id) {
                                                     $scope.categoriesTmp.push(result[i]);
                                                 }
                                             }

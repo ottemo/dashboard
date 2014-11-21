@@ -25,7 +25,7 @@
              * @type {object}
              */
             defaultMapping = {
-                "id": "Id",
+                "id": "ID",
                 "name": "Name",
                 "image": "Image",
                 "shortDesc": "Desc",
@@ -281,7 +281,7 @@
                             };
 
                             $scope.setPage = function (page) {
-                                if (typeof $scope.paginator === "undefined") {
+                                if (typeof $scope.paginator === "undefined" || page === $scope.paginator.page) {
                                     return false;
                                 }
 
@@ -291,6 +291,8 @@
                                     $scope.paginator.page = $scope.paginator.page + 1;
                                 } else if (-1 === ["prev", "next"].indexOf(page)) {
                                     $scope.paginator.page = page;
+                                } else {
+                                    return false;
                                 }
 
                                 $("#selectAll").removeAttr("checked");

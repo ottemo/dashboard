@@ -12,11 +12,13 @@
                 "$productApiService",
                 "$designImageService",
                 "COUNT_ITEMS_PER_PAGE",
-                function ($scope, $location, $routeParams, $q, DashboardListService, $productApiService, $designImageService, COUNT_ITEMS_PER_PAGE) {
+                function ($scope, $location, $routeParams, $q, DashboardListService, $productApiService,
+                          $designImageService, COUNT_ITEMS_PER_PAGE) {
+                    var serviceList, splitName, getProductsList, getAttributeList, getProductCount;
 
-                    var serviceList = new DashboardListService();
-                    var splitName;
+                    serviceList = new DashboardListService();
 
+                    $scope.removeIds = {};
                     $scope.fields = [
                         {
                             "attribute": "Image",
@@ -26,11 +28,6 @@
                         }
                     ];
 
-
-                    if (JSON.stringify({}) === JSON.stringify($location.search())) {
-                        $location.search("limit", "0," + COUNT_ITEMS_PER_PAGE);
-                    }
-
                     splitName = function (string) {
                         var parts;
                         var regExp = /\[(.+)\](.+)/i;
@@ -39,12 +36,10 @@
                         return parts;
                     };
 
-                    $scope.removeIds = {};
-
                     /**
                      * Gets list of products
                      */
-                    var getProductsList = function () {
+                    getProductsList = function () {
                         $productApiService.productList(
                             $location.search(),
                             {"extra": serviceList.getExtraFields()}
@@ -65,40 +60,33 @@
                     };
 
                     /**
-                     * Gets list of products
+                     * Gets count products
                      */
-                    $productApiService.getCount($location.search(), {}).$promise.then(
-                        function (response) {
+                    getProductCount = function () {
+                        $productApiService.getCount($location.search(), {}).$promise.then(function (response) {
                             if (response.error === "") {
                                 $scope.count = response.result;
                             } else {
                                 $scope.count = 0;
                             }
-                        }
-                    );
+                        });
+                    };
 
-                    $productApiService.attributesInfo().$promise.then(
-                        function (response) {
+                    /**
+                     * Gets attribute list
+                     */
+                    getAttributeList = function () {
+                        $productApiService.attributesInfo().$promise.then(function (response) {
                             var result = response.result || [];
                             serviceList.init('products');
 
                             $scope.attributes = result;
                             serviceList.setAttributes($scope.attributes);
                             $scope.fields = $scope.fields.concat(serviceList.getFields());
+
                             getProductsList();
-                        }
-                    );
-
-                    var prepareList = function () {
-                        if (typeof $scope.attributes === "undefined" || typeof $scope.productsTmp === "undefined") {
-                            return false;
-                        }
-
-                        $scope.products = serviceList.getList($scope.productsTmp);
+                        });
                     };
-
-                    $scope.$watch("productsTmp", prepareList);
-                    $scope.$watch("attributes", prepareList);
 
                     /**
                      * Handler event when selecting the product in the list
@@ -116,29 +104,28 @@
                         $location.path("/product/new");
                     };
 
-                    var remove = function (id) {
-                        var defer = $q.defer();
-
-                        $productApiService.remove({"id": id},
-                            function (response) {
-                                if (response.result === "ok") {
-                                    defer.resolve(id);
-                                } else {
-                                    defer.resolve(false);
-                                }
-                            }
-                        );
-
-                        return defer.promise;
-                    };
-
                     /**
                      * Removes products which id collected in removeIds
                      *
                      */
                     $scope.remove = function () {
-                        var answer, id, i;
-                        answer = window.confirm("You really want to remove this product");
+                        var answer, id, i, _remove;
+                        answer = window.confirm("You really want to remove this product?");
+                        _remove = function (id) {
+                            var defer = $q.defer();
+
+                            $productApiService.remove({"id": id},
+                                function (response) {
+                                    if (response.result === "ok") {
+                                        defer.resolve(id);
+                                    } else {
+                                        defer.resolve(false);
+                                    }
+                                }
+                            );
+
+                            return defer.promise;
+                        };
 
                         if (answer) {
                             var callback = function (response) {
@@ -157,7 +144,7 @@
                             for (id in $scope.removeIds) {
 
                                 if ($scope.removeIds.hasOwnProperty(id) && true === $scope.removeIds[id]) {
-                                    remove(id).then(callback);
+                                    _remove(id).then(callback);
                                 }
                             }
                         }
@@ -166,13 +153,33 @@
                     /**
                      * Returns full path to image
                      *
-                     * @param {string} path     - the destination path to product folder
                      * @param {string} image    - image name
                      * @returns {string}        - full path to image
                      */
                     $scope.getImage = function (image) {
                         return $designImageService.getFullImagePath("", image);
                     };
+
+                    $scope.$watch(function () {
+                        if (typeof $scope.attributes !== "undefined" && typeof $scope.productsTmp !== "undefined") {
+                            return true;
+                        }
+
+                        return false;
+                    }, function (isInitAll) {
+                        if(isInitAll) {
+                            $scope.products = serviceList.getList($scope.productsTmp);
+                        }
+                    });
+
+                    $scope.init = (function () {
+                        if (JSON.stringify({}) === JSON.stringify($location.search())) {
+                            $location.search("limit", "0," + COUNT_ITEMS_PER_PAGE);
+                            return;
+                        }
+                        getProductCount();
+                        getAttributeList();
+                    })();
                 }
             ]
         );

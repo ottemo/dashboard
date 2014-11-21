@@ -193,6 +193,7 @@
 
                                         for (j = 0; j < attributes.length; j += 1) {
                                             if (fields[i].attribute === attributes[j].Attribute) {
+
                                                 substituteKeyToValue(fields[i].attribute, getOptionsData(fields[i], attributes[j]));
                                             }
                                         }

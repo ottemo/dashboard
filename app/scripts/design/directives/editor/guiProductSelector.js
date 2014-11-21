@@ -115,8 +115,9 @@
                                                 return parts;
                                             };
                                             result = response.result || [];
+
                                             for (i = 0; i < result.length; i += 1) {
-                                                if (typeof $scope.parent.excludeItems !== "undefined" && -1 !== $scope.parent.excludeItems.indexOf(result[i].Id)) {
+                                                if (typeof $scope.parent.excludeItems !== "undefined" && -1 !== $scope.parent.excludeItems.indexOf(result[i].ID)) {
                                                     continue;
                                                 }
                                                 parts = splitName(result[i].Name);
@@ -130,37 +131,47 @@
                                 /**
                                  * Gets list of products
                                  */
-                                $productApiService.getCount($scope.search, {}).$promise.then(
-                                    function (response) {
+                                var getProductCount = function() {
+                                    $productApiService.getCount($scope.search, {}).$promise.then(function (response) {
                                         if (response.error === "") {
                                             $scope.count = response.result;
                                         } else {
                                             $scope.count = 0;
                                         }
-                                    }
-                                );
+                                    });
+                                };
 
-                                $productApiService.attributesInfo().$promise.then(
-                                    function (response) {
+                                var getAttributeList = function() {
+                                    $productApiService.attributesInfo().$promise.then(function (response) {
                                         var result = response.result || [];
                                         serviceList.init('products');
                                         $scope.attributes = result;
                                         serviceList.setAttributes($scope.attributes);
                                         $scope.fields = $scope.fields.concat(serviceList.getFields());
                                         getProductsList();
-                                    }
-                                );
-
-                                var prepareList = function () {
-                                    if (typeof $scope.attributes === "undefined" || typeof $scope.productsTmp === "undefined") {
-                                        return false;
-                                    }
-
-                                    $scope.items = serviceList.getList($scope.productsTmp);
+                                    });
                                 };
 
-                                $scope.$watch("productsTmp", prepareList);
-                                $scope.$watch("attributes", prepareList);
+                                $scope.$watch(function () {
+                                    if (typeof $scope.attributes !== "undefined" && typeof $scope.productsTmp !== "undefined") {
+                                        return true;
+                                    }
+
+                                    return false;
+                                }, function (isInitAll) {
+                                    if(isInitAll) {
+                                        $scope.items = serviceList.getList($scope.productsTmp);
+                                    }
+                                });
+
+                                $scope.init = (function () {
+                                    if (JSON.stringify({}) === JSON.stringify($location.search())) {
+                                        $location.search("limit", "0," + COUNT_ITEMS_PER_PAGE);
+                                        return;
+                                    }
+                                    getProductCount();
+                                    getAttributeList();
+                                })();
                             };
 
                             $scope.$watch("item", function () {

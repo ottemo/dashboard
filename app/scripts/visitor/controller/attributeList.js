@@ -23,7 +23,7 @@
                     ];
 
                     if (JSON.stringify({}) === JSON.stringify($location.search())) {
-                        $location.search("limit", "0,"+COUNT_ITEMS_PER_PAGE);
+                        $location.search("limit", "0," + COUNT_ITEMS_PER_PAGE);
                     }
 
                     var getFields = function () {
@@ -42,15 +42,14 @@
                     /**
                      * Gets list all attributes of visitor
                      */
-                    $visitorApiService.attributesInfo($location.search(), {"extra": getFields()}).$promise.then(
-                        function (response) {
-                            var result, i;
-                            $scope.attributesList = [];
-                            result = response.result || [];
-                            for (i = 0; i < result.length; i += 1) {
-                                $scope.attributesList.push(result[i]);
-                            }
-                        });
+                    $visitorApiService.attributesInfo($location.search(), {"extra": getFields()}).$promise.then(function (response) {
+                        var result, i;
+                        $scope.attributesList = [];
+                        result = response.result || [];
+                        for (i = 0; i < result.length; i += 1) {
+                            $scope.attributesList.push(result[i]);
+                        }
+                    });
 
 
                     /**
@@ -69,30 +68,29 @@
                         $location.path("/v/attribute/new");
                     };
 
-                    var remove = function (attr) {
-                        var defer = $q.defer();
-
-                        $visitorApiService.removeAttribute({"attribute": attr},
-                            function (response) {
-                                if (response.result === "ok") {
-                                    defer.resolve(attr);
-                                } else {
-                                    defer.resolve(false);
-                                }
-                            }
-                        );
-
-                        return defer.promise;
-                    };
-
                     /**
                      * Removes visitor by attribute name
                      *
                      * @param {string} attr
                      */
                     $scope.remove = function (attr) {
-                        var i, answer;
+                        var i, answer, _remove;
                         answer = window.confirm("You really want to remove this attribute");
+                        _remove = function (attr) {
+                            var defer = $q.defer();
+
+                            $visitorApiService.removeAttribute({"attribute": attr},
+                                function (response) {
+                                    if (response.result === "ok") {
+                                        defer.resolve(attr);
+                                    } else {
+                                        defer.resolve(false);
+                                    }
+                                }
+                            );
+
+                            return defer.promise;
+                        };
                         if (answer) {
                             var callback = function (response) {
                                 if (response) {
@@ -106,7 +104,7 @@
                             for (attr in $scope.removeIds) {
 
                                 if ($scope.removeIds.hasOwnProperty(attr) && true === $scope.removeIds[attr]) {
-                                    remove(attr).then(callback);
+                                    _remove(attr).then(callback);
                                 }
                             }
                         }

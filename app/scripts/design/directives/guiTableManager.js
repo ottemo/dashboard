@@ -12,7 +12,7 @@
              * @type {object}
              */
             defaultMapping = {
-                "id": "Id",
+                "id": "ID",
                 "name": "Name",
                 "image": "Image",
                 "shortDesc": "Desc",

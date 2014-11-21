@@ -12,19 +12,15 @@
                 "$cmsApiService",
                 "COUNT_ITEMS_PER_PAGE",
                 function ($scope, $location, $routeParams, $q, DashboardListService, $cmsApiService, COUNT_ITEMS_PER_PAGE) {
-                    var serviceList = new DashboardListService();
-
-                    if (JSON.stringify({}) === JSON.stringify($location.search())) {
-                        $location.search("limit", "0," + COUNT_ITEMS_PER_PAGE);
-                    }
+                    var serviceList, getPageCount, getAttributeList, getPagesList;
+                    serviceList = new DashboardListService();
 
                     $scope.removeIds = {};
 
                     /**
                      * Gets list of pages
                      */
-                    var getPagesList = function(){
-//                        $cmsApiService.pageListP($location.search(), {"extra": serviceList.getExtraFields()}).$promise.then(
+                    getPagesList = function(){
                         $cmsApiService.pageListP($location.search(), {"extra": "title"}).$promise.then(
                             function (response) {
                                 var result, i;
@@ -40,37 +36,31 @@
                     /**
                      * Gets list of pages
                      */
-                    $cmsApiService.getCountP($location.search(), {}).$promise.then(
-                        function (response) {
-                            if (response.error === "") {
-                                $scope.count = response.result;
-                            } else {
-                                $scope.count = 0;
+                    getPageCount = function() {
+                        $cmsApiService.getCountP($location.search(), {}).$promise.then(
+                            function (response) {
+                                if (response.error === "") {
+                                    $scope.count = response.result;
+                                } else {
+                                    $scope.count = 0;
+                                }
                             }
-                        }
-                    );
-
-                    $cmsApiService.pageAttributes().$promise.then(
-                        function (response) {
-                            var result = response.result || [];
-                            serviceList.init('pages');
-                            $scope.attributes = result;
-                            serviceList.setAttributes($scope.attributes);
-                            $scope.fields = serviceList.getFields();
-                            getPagesList();
-                        }
-                    );
-
-                    var prepareList = function () {
-                        if (typeof $scope.attributes === "undefined" || typeof $scope.pagesTmp === "undefined") {
-                            return false;
-                        }
-
-                        $scope.pages = serviceList.getList($scope.pagesTmp);
+                        );
                     };
 
-                    $scope.$watch("pagesTmp", prepareList);
-                    $scope.$watch("attributes", prepareList);
+                    getAttributeList = function() {
+                        $cmsApiService.pageAttributes().$promise.then(
+                            function (response) {
+                                var result = response.result || [];
+                                serviceList.init('pages');
+
+                                $scope.attributes = result;
+                                serviceList.setAttributes($scope.attributes);
+                                $scope.fields = serviceList.getFields();
+                                getPagesList();
+                            }
+                        );
+                    };
 
                     /**
                      * Handler event when selecting the cms in the list
@@ -88,30 +78,28 @@
                         $location.path("/cms/page/new");
                     };
 
-
-                    var remove = function (id) {
-                        var defer = $q.defer();
-
-                        $cmsApiService.pageRemove({"id": id},
-                            function (response) {
-                                if (response.result === "ok") {
-                                    defer.resolve(id);
-                                } else {
-                                    defer.resolve(false);
-                                }
-                            }
-                        );
-
-                        return defer.promise;
-                    };
-
                     /**
                      * Removes cms by ID
                      *
                      */
                     $scope.remove = function () {
-                        var i, answer;
+                        var i, answer, _remove;
                         answer = window.confirm("You really want to remove this page(s)");
+                        _remove = function (id) {
+                            var defer = $q.defer();
+
+                            $cmsApiService.pageRemove({"id": id},
+                                function (response) {
+                                    if (response.result === "ok") {
+                                        defer.resolve(id);
+                                    } else {
+                                        defer.resolve(false);
+                                    }
+                                }
+                            );
+
+                            return defer.promise;
+                        };
                         if (answer) {
                             var callback = function (response) {
                                 if (response) {
@@ -125,11 +113,34 @@
 
                             for (var id in $scope.removeIds) {
                                 if ($scope.removeIds.hasOwnProperty(id) && true === $scope.removeIds[id]) {
-                                    remove(id).then(callback);
+                                    _remove(id).then(callback);
                                 }
                             }
                         }
                     };
+
+                    $scope.$watch(function () {
+                        if (typeof $scope.attributes !== "undefined" && typeof $scope.pagesTmp !== "undefined") {
+                            return true;
+                        }
+
+                        return false;
+                    }, function (isInitAll) {
+                        if(isInitAll) {
+                            $scope.pages = serviceList.getList($scope.pagesTmp);
+                        }
+                    });
+
+                    $scope.init = (function () {
+                        if (JSON.stringify({}) === JSON.stringify($location.search())) {
+                            console.log(1);
+                            $location.search("limit", "0," + COUNT_ITEMS_PER_PAGE);
+                            return;
+                        }
+                        console.log(2);
+                        getPageCount();
+                        getAttributeList();
+                    })();
                 }
             ]
         );
