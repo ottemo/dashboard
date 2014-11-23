@@ -131,7 +131,7 @@
                             var callback = function (response) {
                                 if (response) {
                                     for (i = 0; i < $scope.products.length; i += 1) {
-                                        if ($scope.products[i].Id === response) {
+                                        if ($scope.products[i].ID === response) {
                                             $scope.products.splice(i, 1);
                                         }
                                     }

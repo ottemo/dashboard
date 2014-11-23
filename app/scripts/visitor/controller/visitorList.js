@@ -108,7 +108,7 @@
                             var callback = function (response) {
                                 if (response) {
                                     for (i = 0; i < $scope.visitors.length; i += 1) {
-                                        if ($scope.visitors[i].Id === response) {
+                                        if ($scope.visitors[i].ID === response) {
                                             $scope.visitors.splice(i, 1);
                                         }
                                     }

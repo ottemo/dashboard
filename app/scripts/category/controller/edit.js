@@ -52,12 +52,14 @@
                         $scope.attributes = result;
                     });
 
-                    $categoryApiService.getCategory({"id": categoryId}).$promise.then(function (response) {
-                        var result = response.result || {};
-                        $scope.category = result;
-                        rememberProducts();
-                        $scope.category.parent = $scope.category['parent_id'];
-                    });
+                    if (null !== categoryId) {
+                        $categoryApiService.getCategory({"id": categoryId}).$promise.then(function (response) {
+                            var result = response.result || {};
+                            $scope.category = result;
+                            rememberProducts();
+                            $scope.category.parent = $scope.category['parent_id'];
+                        });
+                    }
 
                     $scope.back = function () {
                         $location.path("/categories");

@@ -41,7 +41,6 @@
                         controller: function ($scope) {
                             var loadData;
 
-
                             $scope.oldSearch = {};
                             $scope.selected = {};
                             $scope.isExpand = false;
@@ -131,7 +130,7 @@
                                 /**
                                  * Gets list of products
                                  */
-                                var getProductCount = function() {
+                                var getProductCount = function () {
                                     $productApiService.getCount($scope.search, {}).$promise.then(function (response) {
                                         if (response.error === "") {
                                             $scope.count = response.result;
@@ -141,7 +140,7 @@
                                     });
                                 };
 
-                                var getAttributeList = function() {
+                                var getAttributeList = function () {
                                     $productApiService.attributesInfo().$promise.then(function (response) {
                                         var result = response.result || [];
                                         serviceList.init('products');
@@ -159,16 +158,12 @@
 
                                     return false;
                                 }, function (isInitAll) {
-                                    if(isInitAll) {
+                                    if (isInitAll) {
                                         $scope.items = serviceList.getList($scope.productsTmp);
                                     }
                                 });
 
                                 $scope.init = (function () {
-                                    if (JSON.stringify({}) === JSON.stringify($location.search())) {
-                                        $location.search("limit", "0," + COUNT_ITEMS_PER_PAGE);
-                                        return;
-                                    }
                                     getProductCount();
                                     getAttributeList();
                                 })();
@@ -192,6 +187,7 @@
                             });
 
                             $scope.$watch("search", function () {
+                                delete $scope.productsTmp;
                                 loadData();
                             });
 

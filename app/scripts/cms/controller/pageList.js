@@ -104,7 +104,7 @@
                             var callback = function (response) {
                                 if (response) {
                                     for (i = 0; i < $scope.pages.length; i += 1) {
-                                        if ($scope.pages[i].Id === response) {
+                                        if ($scope.pages[i].ID === response) {
                                             $scope.pages.splice(i, 1);
                                         }
                                     }
@@ -133,11 +133,9 @@
 
                     $scope.init = (function () {
                         if (JSON.stringify({}) === JSON.stringify($location.search())) {
-                            console.log(1);
                             $location.search("limit", "0," + COUNT_ITEMS_PER_PAGE);
                             return;
                         }
-                        console.log(2);
                         getPageCount();
                         getAttributeList();
                     })();

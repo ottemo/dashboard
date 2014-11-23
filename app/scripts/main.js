@@ -5,6 +5,7 @@ window.name = "NG_DEFER_BOOTSTRAP!"; // http://code.angularjs.org/1.2.1/docs/gui
 require.config({
     "baseUrl": "scripts",
     "paths": {
+        "config": "config",
         "angular": "../lib/angular/angular.min",
         "tinymce": "../lib/tinymce/tinymce.min",
 
@@ -19,7 +20,8 @@ require.config({
         "angular-bootstrap": "../lib/angular/ui-bootstrap-tpls.min"
     },
     "shim": {
-        "angular": {exports: "angular"},
+        "config": {exports: "config"},
+        "angular": {deps: ["config"], exports: "angular"},
         "tinymce": {
             exports: 'tinymce'
         },
@@ -34,6 +36,25 @@ require.config({
         "angular-bootstrap": { deps: ["angular"], exports: "uiBootstrap"}
     },
     "priority": ["angular"]
+});
+
+
+require(['angular'], function (angular) {
+    if (typeof require.iniConfig === "undefined") {
+        require.iniConfig = {};
+    }
+
+    angular.appConfig = {};
+    angular.appConfigValue = function (valueName) {
+        if (typeof angular.appConfig[valueName] !== "undefined") {
+            return angular.appConfig[valueName];
+        } else {
+            if (typeof require.iniConfig[valueName] !== "undefined") {
+                return require.iniConfig[valueName];
+            }
+        }
+        return "";
+    };
 });
 
 require([
@@ -54,8 +75,11 @@ require([
     ],
     function (angular) {
         angular.element(document).ready(function () {
-
             var modules = Object.keys( angular.module );
+
+            angular.isExistFile = function () {
+                return false;
+            };
             angular.resumeBootstrap( modules );
         });
     }

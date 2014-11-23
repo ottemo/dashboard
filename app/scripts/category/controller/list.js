@@ -105,7 +105,7 @@
                             var callback = function (response) {
                                 if (response) {
                                     for (i = 0; i < $scope.categories.length; i += 1) {
-                                        if ($scope.categories[i].Id === response) {
+                                        if ($scope.categories[i].ID === response) {
                                             $scope.categories.splice(i, 1);
                                         }
                                     }
