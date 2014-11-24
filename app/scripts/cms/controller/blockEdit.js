@@ -84,6 +84,7 @@
                         saveSuccess = function (response) {
                             if (response.error === "") {
                                 var result = response.result || getDefaultBlock();
+                                $scope.block._id = response.result._id;
                                 $scope.message = {
                                     'type': 'success',
                                     'message': 'Block was saved successfully'

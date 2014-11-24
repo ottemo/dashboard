@@ -92,6 +92,7 @@
                         saveSuccess = function (response) {
                             if (response.error === "") {
                                 var result = response.result || getDefaultPage();
+                                $scope.page._id = response.result._id;
                                 $scope.message = {
                                     'type': 'success',
                                     'message': 'Page was created successfully'

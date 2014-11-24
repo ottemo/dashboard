@@ -285,13 +285,21 @@
                                     return false;
                                 }
 
-                                if ("prev" === page && $scope.paginator.page !== 1) {
-                                    $scope.paginator.page = $scope.paginator.page - 1;
-                                } else if ("next" === page && $scope.paginator.page !== $scope.paginator.countPages) {
-                                    $scope.paginator.page = $scope.paginator.page + 1;
-                                } else if (-1 === ["prev", "next"].indexOf(page)) {
-                                    $scope.paginator.page = page;
-                                } else {
+                                var _setPage = function (page) {
+                                    if ("prev" === page && $scope.paginator.page !== 1) {
+                                        $scope.paginator.page = $scope.paginator.page - 1;
+                                    } else if ("next" === page && $scope.paginator.page !== $scope.paginator.countPages) {
+                                        $scope.paginator.page = $scope.paginator.page + 1;
+                                    } else if (-1 === ["prev", "next"].indexOf(page)) {
+                                        $scope.paginator.page = page;
+                                    } else {
+                                        return false;
+                                    }
+
+                                    return true;
+                                };
+
+                                if (!_setPage(page)) {
                                     return false;
                                 }
 

@@ -96,6 +96,7 @@
                                 };
                             }
                         };
+
                         if (attribute) {
                             if (-1 !== ["multi_select"].indexOf($scope.attribute.Editors)) {
                                 $scope.attribute.Type = "[]text";

@@ -103,6 +103,7 @@
                         saveSuccess = function (response) {
                             if (response.error === "") {
                                 var result = response.result || getDefaultAddress();
+                                $scope.address._id = response.result._id;
                                 $scope.message = {
                                     'type': 'success',
                                     'message': 'Address was created successfully'

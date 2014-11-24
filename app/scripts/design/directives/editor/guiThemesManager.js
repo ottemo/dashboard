@@ -47,7 +47,7 @@
                                     if (typeof storefrontUrl === "undefined") {
                                         return "";
                                     }
-                                    return storefrontUrl + "/themes/" + theme + "/preview.png";
+                                    return storefrontUrl.replace(/\/$/, "") + "/themes/" + theme + "/preview.png";
                                 };
 
                                 $scope.setActive = function(theme){

@@ -74,67 +74,7 @@
                      * Creates new order if ID in current order is empty OR updates current order if ID is set
                      */
                     $scope.save = function () {
-                        var id, defer, saveSuccess, saveError, updateSuccess, updateError;
-                        defer = $q.defer();
-                        if (typeof $scope.order !== "undefined") {
-                            id = $scope.order.id || $scope.order._id;
-                        }
-
-                        /**
-                         *
-                         * @param response
-                         */
-                        saveSuccess = function (response) {
-                            if (response.error === "") {
-                                var result = response.result || getDefaultOrder();
-                                $scope.message = {
-                                    'type': 'success',
-                                    'message': 'Order was created successfully'
-                                };
-                                defer.resolve(result);
-                            }
-                        };
-
-                        /**
-                         *
-                         * @param response
-                         */
-                        saveError = function () {
-                            defer.resolve(false);
-                        };
-
-                        /**
-                         *
-                         * @param response
-                         */
-                        updateSuccess = function (response) {
-                            if (response.error === "") {
-                                var result = response.result || getDefaultOrder();
-                                $scope.message = {
-                                    'type': 'success',
-                                    'message': 'Order was updated successfully'
-                                };
-                                defer.resolve(result);
-                            }
-                        };
-
-                        /**
-                         *
-                         * @param response
-                         */
-                        updateError = function () {
-                            defer.resolve(false);
-                        };
-
-
-                        if (!id) {
-                            $orderApiService.orderAdd($scope.order, saveSuccess, saveError);
-                        } else {
-                            $scope.order.id = id;
-                            $orderApiService.orderUpdate($scope.order, updateSuccess, updateError);
-                        }
-
-                        return defer.promise;
+                        $location.path("/orders");
                     };
 
                     $scope.getDate = function(){
@@ -142,7 +82,7 @@
 
                             date = new Date($scope.order['created_at']);
                             month = date.getMonth().toString().length < 2 ? '0' + date.getMonth() : date.getMonth();
-                            day = date.getDay().toString().length < 2 ? '0' + date.getDay() : date.getDay();
+                            day = date.getDate().toString().length < 2 ? '0' + date.getDate() : date.getDate();
 
                             return date.getFullYear() + '/' + month + '/' + day;
                     };
