@@ -9,22 +9,15 @@
             .directive("guiPictureManager", ["$designService", "$designImageService", function ($designService, $designImageService) {
                 return {
                     restrict: "E",
-                    transclude: true,
+//                    transclude: true,
                     templateUrl: $designService.getTemplate("design/gui/editor/pictureManager.html"),
 
                     scope: {
-                        "images": "=imagesList",
-                        "imagesPath": "=?imagesPath",
-                        "placeholder": "=?placeholder",
-                        "defaultImg": "=?defaultImg",
-                        "selected": "=selected"
+                        "parent": "=parent",
+                        "item": "=item"
                     },
 
                     controller: function ($scope) {
-                        if ($scope.placeholder === undefined) {
-                            $scope.placeholder = "images/placeholder.png";
-                        }
-
                         // function to split array on rows by x-elements
                         var splitBy = function (arr, x) {
                             var result = [], row = [], i = 0;
@@ -47,12 +40,11 @@
                             return result;
                         };
 
-                        $scope.$watch("images", function (newValue) {
-                            $scope.splitedImages = splitBy(newValue, 4);
-                        });
-
-                        $scope.$watch("defaultImg", function (newValue) {
-                            $scope.selected = newValue;
+                        $scope.$watch("parent.productImages", function () {
+                            if(typeof $scope.parent.productImages !== "undefined") {
+                                $scope.imagesPath = $scope.parent.imagesPath;
+                                $scope.splitedImages = splitBy($scope.parent.productImages, 4);
+                            }
                         });
 
                         $scope.getImage = function (filename) {
@@ -61,7 +53,7 @@
 
                         $scope.selectImage = function (filename) {
                             if (typeof filename !== "undefined" && filename !== "") {
-                                $scope.selected = filename;
+                                $scope.parent.selectedImage = filename;
                             }
                         };
 

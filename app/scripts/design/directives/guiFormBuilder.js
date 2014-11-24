@@ -8,7 +8,7 @@
          *  Directive used for automatic attributes editor form creation
          *
          */
-            .directive("guiFormBuilder", ["$designService", "$compile", function ($designService) {
+            .directive("guiFormBuilder", ["$designService", function ($designService) {
                 return {
                     restrict: "E",
                     scope: {
