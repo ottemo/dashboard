@@ -52,12 +52,14 @@
                         $scope.attributes = result;
                     });
 
-                    $categoryApiService.getCategory({"id": categoryId}).$promise.then(function (response) {
-                        var result = response.result || {};
-                        $scope.category = result;
-                        rememberProducts();
-                        $scope.category.parent = $scope.category['parent_id'];
-                    });
+                    if (null !== categoryId) {
+                        $categoryApiService.getCategory({"id": categoryId}).$promise.then(function (response) {
+                            var result = response.result || {};
+                            $scope.category = result;
+                            rememberProducts();
+                            $scope.category.parent = $scope.category['parent_id'];
+                        });
+                    }
 
                     $scope.back = function () {
                         $location.path("/categories");
@@ -72,16 +74,18 @@
                         }
 
                         addProduct = function () {
-                            for (var i = 0; i < $scope.category.products.length; i += 1) {
-                                var prodId = $scope.category.products[i];
-                                if (typeof prodId === "object") {
-                                    prodId = prodId._id;
-                                }
-                                if (oldProducts.indexOf(prodId) === -1) {
-                                    $categoryApiService.addProduct({
-                                        categoryId: id,
-                                        productId: prodId
-                                    }).$promise.then();
+                            if ($scope.category.products instanceof Array) {
+                                for (var i = 0; i < $scope.category.products.length; i += 1) {
+                                    var prodId = $scope.category.products[i];
+                                    if (typeof prodId === "object") {
+                                        prodId = prodId._id;
+                                    }
+                                    if (oldProducts.indexOf(prodId) === -1) {
+                                        $categoryApiService.addProduct({
+                                            categoryId: id,
+                                            productId: prodId
+                                        }).$promise.then();
+                                    }
                                 }
                             }
                             defer.resolve(true);
@@ -91,8 +95,10 @@
                             var j, i, oldProdId, prodId;
                             for (i = 0; i < oldProducts.length; i += 1) {
                                 oldProdId = oldProducts[i];
-                                for (j = 0; j < $scope.category.products.length; j += 1) {
-                                    prodId = $scope.category.products[i];
+                                if ($scope.category.products instanceof Array) {
+                                    for (j = 0; j < $scope.category.products.length; j += 1) {
+                                        prodId = $scope.category.products[i];
+                                    }
                                 }
                                 if (-1 === $scope.category.products.indexOf(oldProdId)) {
                                     $categoryApiService.removeProduct({
@@ -190,7 +196,7 @@
                         var i, prod;
                         oldProducts = [];
                         if (typeof $scope.category !== "undefined" &&
-                            typeof $scope.category.products !== "undefined" &&
+                            $scope.category.products instanceof Array &&
                             $scope.category.products.length !== -1) {
                             for (i = 0; i < $scope.category.products.length; i += 1) {
                                 prod = $scope.category.products[i];

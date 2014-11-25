@@ -24,14 +24,14 @@
                             <!-- Items of the list -->
                             <li class="media" ng-repeat="_item in items | filter:searchText" checkbox-group>
 
-                                <a class="pull-left" href="" target="_self" ng-click="toggleSelection(_item.Id, _item.Name)" >
+                                <a class="pull-left" href="" target="_self" ng-click="toggleSelection(_item.ID, _item.Name)" >
                                     <img class="media-object" ng-src="{{getImage(_item.Image)}}"
                                          alt="{{_item.Name}}" style="max-width: 75px; max-height: 75px;">
                                 </a>
                                 <div class="media-body pull-left">
                                     <input type="checkbox"
-                                           ng-checked="selection.indexOf(_item.Id) > -1"
-                                           ng-click="toggleSelection(_item.Id, _item.Name)" />
+                                           ng-checked="selection.indexOf(_item.ID) > -1"
+                                           ng-click="toggleSelection(_item.ID, _item.Name)" />
                                 </div>
                                 <div class="media-body  pull-left">
                                     <h4 class="media-heading" ng-model="_item.Name" ng-bind="_item.Name"></h4>

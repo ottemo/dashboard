@@ -10,18 +10,6 @@
      */
     define(["angular"], function (angular) {
 
-        angular.activeTheme = "default";
-
-        // TODO: modify this check when we support multiple themes
-        angular.isExistFile = false;
-        // angular.isExistFile = function (path) {
-//            if (files[angular.activeTheme].indexOf(path) !== -1) {
-//                return true;
-//            }
-        //
-        //     return false;
-        // };
-
         angular.getTheme = function (path) {
 
             return function () {
@@ -29,7 +17,7 @@
                 tpl = "/views/" + path;
 
                 if (angular.isExistFile) {
-                    template = "themes/" + angular.activeTheme + tpl;
+                    template = "themes/" + angular.appConfigValue("themes.list.active") + tpl;
                 } else {
                     template = "themes/default" + tpl;
                 }
@@ -49,7 +37,7 @@
          */
         angular.module.designModule = angular.module("designModule",[])
 
-            .constant("MEDIA_BASE_PATH", "media/")
+            .constant("MEDIA_BASE_PATH", angular.appConfigValue("general.app.media_path"))
             .constant("PRODUCT_DEFAULT_IMG", "placeholder.png")
 
             /**

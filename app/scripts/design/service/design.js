@@ -8,7 +8,7 @@
          */
             .service("$designService", [function () {
 
-                var data = { theme: "default", topPage: "index.html", cssList: []};
+                var data = { theme: angular.appConfigValue("themes.list.active"), topPage: "index.html", cssList: []};
                 var isFullPathRegex = new RegExp("^http[s]?://", "i");
                 var isCssRegex = new RegExp(".css$", "i");
                 var themesDir = "themes/";
@@ -22,6 +22,7 @@
                         data.theme = newTheme;
 
                         angular.activeTheme = newTheme;
+                        angular.appConfig["themes.list.active"] = newTheme;
                         data.cssList = [];
 
                         return data.theme;
@@ -51,7 +52,7 @@
                         if (isFullPathRegex.test(cssName) === false && isCssRegex.test(cssName) === true) {
                             fileName = "/styles/" + cssName;
 
-                            if (angular.isExistFile) {
+                            if (angular.isExistFile(fileName)) {
                                 cssName = (themesDir + data.theme + fileName).replace(/\/+/, "/");
                             } else {
                                 cssName = (themesDir + "default" + fileName).replace(/\/+/, "/");
@@ -76,11 +77,12 @@
 
                     getImage: function (img) {
                         var image;
+                        img = "/images/" + img;
 
-                        if (angular.isExistFile) {
-                            image = themesDir + data.theme + "/images/" + img;
+                        if (angular.isExistFile(img)) {
+                            image = themesDir + data.theme + img;
                         } else {
-                            image = themesDir + "default/images/" + img;
+                            image = themesDir + "default" + img;
                         }
 
                         return image;

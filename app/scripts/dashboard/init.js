@@ -18,8 +18,8 @@
              */
             angular.module.dashboardModule = angular.module("dashboardModule", ["ngRoute", "loginModule", "ngSanitize", "designModule"])
 
-                .constant("REST_SERVER_URI", "http://ottemo.local:3000")
-                .constant("COUNT_ITEMS_PER_PAGE", 10)
+                .constant("REST_SERVER_URI", angular.appConfigValue("general.app.foundation_url"))
+                .constant("COUNT_ITEMS_PER_PAGE", angular.appConfigValue("general.app.item_per_page"))
 
                 /*
                  *  Basic routing configuration

@@ -104,6 +104,7 @@
                         saveSuccess = function (response) {
                             if (response.error === "") {
                                 var result = response.result || getDefaultVisitor();
+                                $scope.visitor._id = response.result._id;
                                 $scope.message = {
                                     'type': 'success',
                                     'message': 'Visitor was created successfully'
@@ -146,14 +147,13 @@
                         delete $scope.visitor['billing_address'];
                         delete $scope.visitor['shipping_address'];
 
-                        if ($scope.visitor['shipping_address_id'] === "") {
-                            delete $scope.visitor['shipping_address_id'];
-                        }
-
-                        if ($scope.visitor['billing_address_id'] === "") {
-                            delete $scope.visitor['billing_address_id'];
-                        }
-
+//                        if ($scope.visitor['shipping_address_id'] === "") {
+//                            delete $scope.visitor['shipping_address_id'];
+//                        }
+//
+//                        if ($scope.visitor['billing_address_id'] === "") {
+//                            delete $scope.visitor['billing_address_id'];
+//                        }
                         if (!id) {
                             $visitorApiService.save($scope.visitor, saveSuccess, saveError);
                         } else {

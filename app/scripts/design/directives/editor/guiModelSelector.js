@@ -97,12 +97,12 @@
                                     result.unshift({
                                         Desc: "",
                                         Extra: null,
-                                        Id: "",
+                                        ID: "",
                                         Image: "",
                                         Name: ""
                                     });
                                     
-                                    $scope.item[$scope.attribute.Attribute] = $scope.item[$scope.attribute.Attribute] || result[0].Id;
+                                    $scope.item[$scope.attribute.Attribute] = $scope.item[$scope.attribute.Attribute] || result[0].ID;
 
                                     $scope.options = result;
                                 });

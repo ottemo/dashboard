@@ -54,7 +54,7 @@
                         isExist = function (group) {
                             var i;
                             for (i = 0; i < configGroups.length; i += 1) {
-                                if (configGroups[i].Name === group) {
+                                if (configGroups[i].Id === group) {
                                     return true;
                                 }
                             }

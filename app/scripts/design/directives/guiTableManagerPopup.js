@@ -25,7 +25,7 @@
              * @type {object}
              */
             defaultMapping = {
-                "id": "Id",
+                "id": "ID",
                 "name": "Name",
                 "image": "Image",
                 "shortDesc": "Desc",
@@ -281,16 +281,26 @@
                             };
 
                             $scope.setPage = function (page) {
-                                if (typeof $scope.paginator === "undefined") {
+                                if (typeof $scope.paginator === "undefined" || page === $scope.paginator.page) {
                                     return false;
                                 }
 
-                                if ("prev" === page && $scope.paginator.page !== 1) {
-                                    $scope.paginator.page = $scope.paginator.page - 1;
-                                } else if ("next" === page && $scope.paginator.page !== $scope.paginator.countPages) {
-                                    $scope.paginator.page = $scope.paginator.page + 1;
-                                } else if (-1 === ["prev", "next"].indexOf(page)) {
-                                    $scope.paginator.page = page;
+                                var _setPage = function (page) {
+                                    if ("prev" === page && $scope.paginator.page !== 1) {
+                                        $scope.paginator.page = $scope.paginator.page - 1;
+                                    } else if ("next" === page && $scope.paginator.page !== $scope.paginator.countPages) {
+                                        $scope.paginator.page = $scope.paginator.page + 1;
+                                    } else if (-1 === ["prev", "next"].indexOf(page)) {
+                                        $scope.paginator.page = page;
+                                    } else {
+                                        return false;
+                                    }
+
+                                    return true;
+                                };
+
+                                if (!_setPage(page)) {
+                                    return false;
                                 }
 
                                 $("#selectAll").removeAttr("checked");
