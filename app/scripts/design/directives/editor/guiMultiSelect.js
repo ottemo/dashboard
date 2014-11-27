@@ -30,10 +30,13 @@
                             $scope.options = [];
 
                             getOptions = function (opt) {
-                                var options;
+                                var options = {};
 
                                 if (typeof $scope.attribute.Options === "string") {
-                                    options = JSON.parse(opt.replace(/'/g, "\""));
+                                    try {
+                                        options = JSON.parse(opt.replace(/'/g, "\""));
+                                    } catch(err) {
+                                    }
                                 } else {
                                     options = opt;
                                 }

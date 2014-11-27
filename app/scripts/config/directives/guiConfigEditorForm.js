@@ -30,7 +30,7 @@
                         updateAttributes = function () {
                             var i, groups, attr, setAttrValue;
                             groups = {};
-                            setAttrValue = function(attr){
+                            setAttrValue = function (attr) {
                                 if (typeof $scope.item !== "undefined") {
                                     attr.Value = $scope.item[attr.Attribute] || "";
                                 }
@@ -41,7 +41,7 @@
                             if (typeof $scope.attributes !== "undefined") {
                                 for (i = 0; i < $scope.attributes.length; i += 1) {
                                     attr = $scope.attributes[i];
-                                    attr= setAttrValue(attr);
+                                    attr = setAttrValue(attr);
                                     if (typeof groups[attr.Group] === "undefined") {
                                         groups[attr.Group] = [];
                                     }

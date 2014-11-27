@@ -51,9 +51,11 @@
                                 result = response.result || [];
                                 for (i = 0; i < result.length; i += 1) {
                                     parts = splitName(result[i].Name);
-                                    result[i].Name = parts[2];
-                                    result[i].sku = parts[1];
-                                    $scope.productsTmp.push(result[i]);
+                                    if(parts instanceof Array) {
+                                        result[i].Name = parts[2];
+                                        result[i].sku = parts[1];
+                                        $scope.productsTmp.push(result[i]);
+                                    }
                                 }
                             }
                         );

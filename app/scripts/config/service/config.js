@@ -30,12 +30,18 @@
 
                     getConfigTabs = function (group) {
                         if (typeof group !== "undefined" && typeof configTabs[group] !== "undefined") {
+                            configTabs[group].sort(function(a, b){
+                                return a.Group > b.Group;
+                            });
                             return configTabs[group];
-
                         } else if (typeof group === "undefined") {
+                            configTabs.sort(function(a, b){
+                                return a.Group > b.Group;
+                            });
                             return configTabs;
                         }
-                        return false;
+
+                        return [];
                     };
 
                     getItems = function (path) {
@@ -128,7 +134,8 @@
                     };
 
                     load = function (path, force) {
-                        var i, pos, regExp, parts, group;
+                        var i, pos, regExp, parts, group, defer;
+                        defer = $q.defer();
                         regExp = new RegExp("(\\w+)\\.(\\w+).*", "i");
 
                         if ((typeof items[path] === "undefined" && !force) || force) {
@@ -148,7 +155,7 @@
                                         } else {
                                             configTabs[group].push(attr);
                                         }
-                                        
+
                                     };
 
                                     for (i = 0; i < response.result.length; i += 1) {
@@ -168,10 +175,13 @@
                                             itemsOld[path][response.result[i].Path] = response.result[i].Value !== null ? response.result[i].Value.toString() : "";
                                         }
                                     }
+                                    defer.resolve(true);
                                 }
                             );
                         }
                         isLoaded[path] = true;
+
+                        return defer.promise;
                     };
 
                     save = function (path) {
