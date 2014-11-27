@@ -15,7 +15,7 @@
                     var serviceList, getPageCount, getAttributeList, getPagesList;
                     serviceList = new DashboardListService();
 
-                    $scope.removeIds = {};
+                    $scope.idsSelectedRows = {};
 
                     /**
                      * Gets list of pages
@@ -78,13 +78,27 @@
                         $location.path("/cms/page/new");
                     };
 
+                    var hasSelectedRows = function () {
+                        var result = false;
+                        for (var _id in $scope.idsSelectedRows) {
+                            if ($scope.idsSelectedRows.hasOwnProperty(_id) && $scope.idsSelectedRows[_id]) {
+                                result = true;
+                            }
+                        }
+                        return result;
+                    };
+
                     /**
-                     * Removes cms by ID
+                     * Removes page by ID
                      *
                      */
                     $scope.remove = function () {
+                        if (!hasSelectedRows()) {
+                            return true;
+                        }
+
                         var i, answer, _remove;
-                        answer = window.confirm("You really want to remove this page(s)");
+                        answer = window.confirm("You really want to remove this page(s)?");
                         _remove = function (id) {
                             var defer = $q.defer();
 
@@ -111,8 +125,8 @@
                                 }
                             };
 
-                            for (var id in $scope.removeIds) {
-                                if ($scope.removeIds.hasOwnProperty(id) && true === $scope.removeIds[id]) {
+                            for (var id in $scope.idsSelectedRows) {
+                                if ($scope.idsSelectedRows.hasOwnProperty(id) && true === $scope.idsSelectedRows[id]) {
                                     _remove(id).then(callback);
                                 }
                             }

@@ -24,10 +24,31 @@
                 /*
                  *  Basic routing configuration
                  */
-                .config(["$routeProvider", function ($routeProvider) {
+                .config(["$routeProvider", "$httpProvider", function ($routeProvider, $httpProvider) {
+                    $httpProvider.interceptors.push(function ($q) {
+                        return {
+                            'response': function (response) {
+                                if (response.data.error === "no admin rights") {
+                                    location.replace('/');
+                                }
+                                return response;
+                            },
+                            'responseError': function (rejection) {
+                                switch (rejection.status) {
+                                    case 401:
+                                        location.reload();
+                                        break;
+                                    case 404:
+                                        console.warn("The server cannot process this request - " + rejection.config.url);
+                                        break;
+                                }
+                                return $q.reject(rejection);
+                            }
+                        };
+                    });
                     $routeProvider
                         .when("/", {
-                            templateUrl: angular.getTheme("dashboard/welcome.html") ,
+                            templateUrl: angular.getTheme("dashboard/welcome.html"),
                             controller: "dashboardController"
                         })
                         .when("/help", { templateUrl: angular.getTheme("help.html")})
@@ -42,7 +63,7 @@
                     "$designService",
                     "$dashboardSidebarService",
                     "$dashboardListService",
-                    function ($rootScope, $route,  $http, $designService, $dashboardSidebarService, DashboardListService) {
+                    function ($rootScope, $route, $http, $designService, $dashboardSidebarService, DashboardListService) {
                         // ajax cookies support fix
                         $http.defaults.withCredentials = true;
                         delete $http.defaults.headers.common["X-Requested-With"];

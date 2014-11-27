@@ -15,12 +15,12 @@
                     var serviceList, getCategoriesList, getCategoryCount, getAttributeList;
                     serviceList = new DashboardListService();
 
-                    $scope.removeIds = {};
+                    $scope.idsSelectedRows = {};
 
                     /**
                      * Gets list of categories
                      */
-                    getCategoriesList = function(){
+                    getCategoriesList = function () {
                         $categoryApiService.categoryList($location.search(), {"extra": serviceList.getExtraFields()}).$promise.then(
                             function (response) {
                                 var result, i;
@@ -36,7 +36,7 @@
                     /**
                      * Gets count of categories
                      */
-                    getCategoryCount = function() {
+                    getCategoryCount = function () {
                         $categoryApiService.getCount($location.search(), {}).$promise.then(
                             function (response) {
                                 if (response.error === "") {
@@ -48,7 +48,7 @@
                         );
                     };
 
-                    getAttributeList = function(){
+                    getAttributeList = function () {
                         $categoryApiService.attributesInfo().$promise.then(
                             function (response) {
                                 var result = response.result || [];
@@ -78,14 +78,27 @@
                         $location.path("/category/new");
                     };
 
+                    var hasSelectedRows = function () {
+                        var result = false;
+                        for (var _id in $scope.idsSelectedRows) {
+                            if ($scope.idsSelectedRows.hasOwnProperty(_id) && $scope.idsSelectedRows[_id]) {
+                                result = true;
+                            }
+                        }
+                        return result;
+                    };
+
                     /**
                      * Removes category by ID
                      *
-                     * @param {string} id
                      */
-                    $scope.remove = function (id) {
+                    $scope.remove = function () {
+                        if (!hasSelectedRows()) {
+                            return true;
+                        }
+
                         var i, answer, _remove;
-                        answer = window.confirm("You really want to remove this category");
+                        answer = window.confirm("You really want to remove this category?");
                         _remove = function (id) {
                             var defer = $q.defer();
 
@@ -112,8 +125,8 @@
                                 }
                             };
 
-                            for (id in $scope.removeIds) {
-                                if ($scope.removeIds.hasOwnProperty(id) && true === $scope.removeIds[id]) {
+                            for (var id in $scope.idsSelectedRows) {
+                                if ($scope.idsSelectedRows.hasOwnProperty(id) && true === $scope.idsSelectedRows[id]) {
                                     _remove(id).then(callback);
                                 }
                             }
@@ -127,7 +140,7 @@
 
                         return false;
                     }, function (isInitAll) {
-                        if(isInitAll) {
+                        if (isInitAll) {
                             $scope.categories = serviceList.getList($scope.categoriesTmp);
                         }
                     });

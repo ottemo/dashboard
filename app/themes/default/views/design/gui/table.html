@@ -55,8 +55,8 @@
 
                 <td>
                     <div class="checkboxes">
-                        <label class="myCheckbox" ng-if="!_item.IsStatic">
-                            <input type="checkbox" ng-model="parent.removeIds[_item[map.id]]">
+                        <label class="myCheckbox myCheckboxRow" ng-if="!_item.IsStatic">
+                            <input type="checkbox" ng-model="parent.idsSelectedRows[_item[map.id]]">
                             <span></span>
                         </label>
                     </div>

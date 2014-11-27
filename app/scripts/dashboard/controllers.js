@@ -13,6 +13,12 @@
                 $scope.rightMenu = $dashboardHeaderService.getMenuRight();
             }])
 
+            .controller("dashboardHeaderController", ["$scope", "$dashboardHeaderService", function ($scope, $dashboardHeaderService) {
+                $scope.it = $dashboardHeaderService;
+                $scope.leftMenu = $dashboardHeaderService.getMenuLeft();
+                $scope.rightMenu = $dashboardHeaderService.getMenuRight();
+            }])
+
             .controller("dashboardSidebarController", ["$scope", "$dashboardSidebarService", function ($scope, $dashboardSidebarService) {
                 $scope.it = $dashboardSidebarService;
                 $scope.items = $dashboardSidebarService.getItems();
@@ -45,6 +51,8 @@
                             $scope.salesCharts.draw();
                         }
                     };
+
+
 
                     // TOP REFERRERS
                     $statistic.getReferrers().then(function (data) {

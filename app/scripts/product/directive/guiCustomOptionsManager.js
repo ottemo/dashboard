@@ -26,17 +26,17 @@
                         ];
 
                         getOptionLength = function (obj) {
-                            var count = 0;
+                            var result = 0;
 
                             if (typeof obj !== "undefined") {
                                 for (var key in obj) {
-                                    if (obj.hasOwnProperty(key) && typeof obj[key].label !== "undefined") {
-                                        count += 1;
+                                    if (obj.hasOwnProperty(key) && typeof obj[key].label !== "undefined" && result < obj[key].order) {
+                                        result = obj[key].order;
                                     }
                                 }
                             }
 
-                            return count;
+                            return result;
                         };
 
                         normalizeJSON = function () {
@@ -120,20 +120,17 @@
                             }
                         };
 
-                        $scope.$watch("item",
-                            function () {
-                                if (typeof $scope.item[$scope.attribute.Attribute] === "undefined") {
-                                    $scope.optionsData = [];
-                                    return false;
-                                }
-                                if (isInit) {
-                                    return false;
-                                }
-                                initData();
-                                modifyData();
-                            },
-                            true
-                        );
+                        $scope.$watch("item", function () {
+                            if (typeof $scope.item[$scope.attribute.Attribute] === "undefined") {
+                                $scope.optionsData = [];
+                                return false;
+                            }
+                            if (isInit) {
+                                return false;
+                            }
+                            initData();
+                            modifyData();
+                        }, true);
 
                         cloneRow = function (list) {
                             var opt;

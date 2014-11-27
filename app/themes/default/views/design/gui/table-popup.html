@@ -106,13 +106,28 @@
 </section>
 
 <script>
-    jQuery("#selectAll").click(function () {
-        if (jQuery("#selectAll").is(':checked')) {
-            jQuery(".myCheckbox").find("input").attr("checked", true);
-        } else {
-            jQuery(".myCheckbox").find("input").attr("checked", false);
-        }
-    })
+    (function($){
+        $(document).ready(function(){
+            jQuery("#selectAll").click(function () {
+                alert(1)
+                if (this.is(':checked')) {
+                    jQuery(".myCheckbox").find("input").attr("checked", true);
+                } else {
+                    jQuery(".myCheckbox").find("input").attr("checked", false);
+                }
+            });
+            jQuery(".myCheckbox input").click(function(){
+                console.log(this.is(":checked"))
+                jQuery("#selectAll").attr("checked", false);
+                if (this.is(":checked")) {
+                    // checkAll
+                } else {
+//            jQuery("#selectAll").attr("checked", false);
+                }
+            })
+        });
+    })(jQuery)
+
 </script>
 <style>
     .table-element .myCheckbox span {

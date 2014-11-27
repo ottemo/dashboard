@@ -37,7 +37,7 @@
                     };
 
 
-                    $scope.removeIds = {};
+                    $scope.idsSelectedRows = {};
 
                     /**
                      * Gets list all attributes of visitor
@@ -68,14 +68,27 @@
                         $location.path("/v/attribute/new");
                     };
 
+                    var hasSelectedRows = function () {
+                        var result = false;
+                        for (var _id in $scope.idsSelectedRows) {
+                            if ($scope.idsSelectedRows.hasOwnProperty(_id) && $scope.idsSelectedRows[_id]) {
+                                result = true;
+                            }
+                        }
+                        return result;
+                    };
+
                     /**
-                     * Removes visitor by attribute name
+                     * Removes attribute
                      *
-                     * @param {string} attr
                      */
-                    $scope.remove = function (attr) {
+                    $scope.remove = function () {
+                        if (!hasSelectedRows()) {
+                            return true;
+                        }
+
                         var i, answer, _remove;
-                        answer = window.confirm("You really want to remove this attribute");
+                        answer = window.confirm("You really want to remove this attribute?");
                         _remove = function (attr) {
                             var defer = $q.defer();
 
@@ -101,9 +114,9 @@
                                     }
                                 }
                             };
-                            for (attr in $scope.removeIds) {
+                            for (var attr in $scope.idsSelectedRows) {
 
-                                if ($scope.removeIds.hasOwnProperty(attr) && true === $scope.removeIds[attr]) {
+                                if ($scope.idsSelectedRows.hasOwnProperty(attr) && true === $scope.idsSelectedRows[attr]) {
                                     _remove(attr).then(callback);
                                 }
                             }

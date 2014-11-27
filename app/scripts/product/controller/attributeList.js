@@ -36,7 +36,7 @@
                     };
 
 
-                    $scope.removeIds = {};
+                    $scope.idsSelectedRows = {};
 
                     /**
                      * Gets list all attributes of product
@@ -84,14 +84,27 @@
                         return defer.promise;
                     };
 
+                    var hasSelectedRows = function () {
+                        var result = false;
+                        for (var _id in $scope.idsSelectedRows) {
+                            if ($scope.idsSelectedRows.hasOwnProperty(_id) && $scope.idsSelectedRows[_id]) {
+                                result = true;
+                            }
+                        }
+                        return result;
+                    };
+
                     /**
-                     * Removes product by attribute name
+                     * Removes attribute by ID
                      *
-                     * @param {string} attr
                      */
-                    $scope.remove = function (attr) {
+                    $scope.remove = function () {
+                        if (!hasSelectedRows()) {
+                            return true;
+                        }
+
                         var i, answer;
-                        answer = window.confirm("You really want to remove this attribute");
+                        answer = window.confirm("You really want to remove this attribute?");
                         if (answer) {
                             var callback = function (response) {
                                 if (response) {
@@ -103,9 +116,9 @@
                                 }
                             };
 
-                            for (attr in $scope.removeIds) {
+                            for (var attr in $scope.idsSelectedRows) {
 
-                                if ($scope.removeIds.hasOwnProperty(attr) && true === $scope.removeIds[attr]) {
+                                if ($scope.idsSelectedRows.hasOwnProperty(attr) && true === $scope.idsSelectedRows[attr]) {
                                     remove(attr).then(callback);
                                 }
                             }
