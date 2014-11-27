@@ -41,13 +41,9 @@
                     <input type="text" ng-model="option.price" ng-blur="modifyData()" />
                 </div>
                 <div class="left">
-                    <label>Price Type</label>
 
-                    <select class="form-control" ng-blur="modifyData()"
-                            ng-init="option.price_type = option.price_type || priceTypes[0]"
-                            data-ng-model="option.price_type"
-                            data-ng-options="o as o for o in priceTypes">
-                    </select>
+                    <label>QTY</label>
+                    <input type="text" ng-model="option.qty" ng-blur="modifyData()" />
                 </div>
                 <div class="left">
                     <label>SKU</label>
@@ -66,12 +62,8 @@
                         <input type="text" ng-model="row.price" ng-blur="modifyData()" />
                     </div>
                     <div class="left">
-                        <label>Price Type</label>
-                        <select class="form-control" ng-blur="modifyData()"
-                                ng-init="row.price_type = row.price_type || priceTypes[0]"
-                                data-ng-model="row.price_type"
-                                data-ng-options="o as o for o in priceTypes">
-                        </select>
+                        <label>QTY</label>
+                        <input type="text" ng-model="row.qty" ng-blur="modifyData()" />
                     </div>
                     <div class="left">
                         <label>SKU</label>

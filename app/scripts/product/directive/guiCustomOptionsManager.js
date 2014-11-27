@@ -19,11 +19,6 @@
 
                         isInit = false;
 
-                        $scope.priceTypes = [
-                            "fixed",
-                            "percent"
-                        ];
-
                         $scope.types = [
                             "field",
                             "select",
@@ -186,7 +181,6 @@
                             }
 
                             $scope.optionsData[option].options[""] = {
-                                "price_type": $scope.priceTypes[0],
                                 "order": (typeof $scope.optionsData[option].options === "undefined" ? 0 : getOptionLength($scope.optionsData[option].options) + 1)
                             };
                         };
