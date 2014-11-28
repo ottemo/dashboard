@@ -27,7 +27,7 @@
                                 return false;
                             }
 
-                            if (typeof $scope.attribute.Value === "boolean") {
+                            if (typeof $scope.item[$scope.attribute.Attribute] === "boolean") {
                                 $scope.options = [
                                     {
                                         Desc: "",

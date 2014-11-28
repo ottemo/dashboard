@@ -14,14 +14,30 @@
                     $scope.items = {};
                     $scope.currentGroup = $routeParams.group;
                     $scope.currentPath = "";
+                    var activeTab;
 
                     $scope.init = function () {
                         $configService.init().then(
                             function () {
-                                var regExp = new RegExp("(\\w+)\\.(\\w+).*", "i");
+                                var regExp, parts, tabs;
+                                regExp = new RegExp("(\\w+)\\.(\\w+).*", "i");
+                                tabs = {};
 
                                 $scope.sections = $configService.getConfigTabs($scope.currentGroup);
-                                var parts = $scope.sections[0].Path.match(regExp);
+
+                                for (var i = 0; i < $scope.sections.length; i += 1) {
+                                    var attr = $scope.sections[i];
+
+                                    if (attr.Type === "group") {
+                                        if (typeof tabs[attr.Group] === "undefined") {
+                                            tabs[attr.Group] = [];
+                                        }
+                                        tabs[attr.Group].push(attr);
+                                    }
+                                }
+                                activeTab = Object.keys(tabs).sort()[0];
+                                parts = tabs[activeTab][0].Path.match(regExp);
+
                                 if (parts instanceof Array) {
                                     $scope.currentPath = parts[2];
                                     $configService.load($scope.currentPath).then(

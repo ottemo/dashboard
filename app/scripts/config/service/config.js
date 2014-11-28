@@ -30,14 +30,8 @@
 
                     getConfigTabs = function (group) {
                         if (typeof group !== "undefined" && typeof configTabs[group] !== "undefined") {
-                            configTabs[group].sort(function(a, b){
-                                return a.Group > b.Group;
-                            });
                             return configTabs[group];
                         } else if (typeof group === "undefined") {
-                            configTabs.sort(function(a, b){
-                                return a.Group > b.Group;
-                            });
                             return configTabs;
                         }
 
@@ -88,7 +82,7 @@
                             configTabs[groupCode] = [];
                         }
 
-                        if (-1 !== attr.Path.indexOf(".")) {
+                        if (-1 !== attr.Path.indexOf(".") && attr.Type === "group") {
                             parts = attr.Path.match(regExp);
                             if (typeof parts[2] !== "undefined") {
                                 attr.Group = parts[2];
@@ -171,15 +165,18 @@
 
                                             addAttributeInTab(response.result[i]);
 
-                                            items[path][response.result[i].Path] = response.result[i].Value !== null ? response.result[i].Value.toString() : "";
-                                            itemsOld[path][response.result[i].Path] = response.result[i].Value !== null ? response.result[i].Value.toString() : "";
+                                            items[path][response.result[i].Path] = response.result[i].Value.toString();
+                                            itemsOld[path][response.result[i].Path] = response.result[i].Value.toString();
                                         }
                                     }
+                                    isLoaded[path] = true;
                                     defer.resolve(true);
                                 }
                             );
+                        } else {
+                            isLoaded[path] = true;
+                            defer.resolve(true);
                         }
-                        isLoaded[path] = true;
 
                         return defer.promise;
                     };

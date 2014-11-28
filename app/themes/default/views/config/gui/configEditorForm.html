@@ -1,7 +1,7 @@
 <form role="form" class="product-tabs">
     <header class="panel-heading custom-tab">
         <ul class="nav nav-tabs">
-            <li ng-class='{active:$first}' ng-repeat="(key, items) in attributeGroups" ng-click="click(key)">
+            <li ng-class='{active:$first}' ng-repeat="(key, items) in tabs" ng-click="click(key)">
                 <a href="#collapse{{key}}" target="_self">
                     {{items[0].Label}}
                 </a>
