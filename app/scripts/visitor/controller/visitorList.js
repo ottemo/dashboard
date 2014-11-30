@@ -101,7 +101,7 @@
                         }
 
                         var i, answer, _remove;
-                        answer = window.confirm("You really want to remove this visitor?");
+                        answer = window.confirm("Please confirm you want to remove this visitor.");
                         _remove = function (id) {
                             var defer = $q.defer();
 

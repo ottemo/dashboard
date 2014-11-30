@@ -88,7 +88,7 @@
                         }
 
                         var i, answer, _remove;
-                        answer = window.confirm("You really want to remove this attribute?");
+                        answer = window.confirm("Please confirm you want to remove this attribute.");
                         _remove = function (attr) {
                             var defer = $q.defer();
 

@@ -126,7 +126,7 @@
                         }
 
                         var answer, id, i, _remove;
-                        answer = window.confirm("You really want to remove this product?");
+                        answer = window.confirm("Please confirm you want to remove this product.");
                         _remove = function (id) {
                             var defer = $q.defer();
 

@@ -28,7 +28,7 @@
                     $httpProvider.interceptors.push(function ($q) {
                         return {
                             'response': function (response) {
-                                if (response.data.error === "no admin rights") {
+                                if (response.data.error === "Need Admin rights") {
                                     location.replace('/');
                                 }
                                 return response;
@@ -39,7 +39,7 @@
                                         location.reload();
                                         break;
                                     case 404:
-                                        console.warn("The server cannot process this request - " + rejection.config.url);
+                                        console.warn("The server is unable to process this request - " + rejection.config.url);
                                         break;
                                 }
                                 return $q.reject(rejection);
