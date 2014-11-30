@@ -19,11 +19,6 @@
 
                         isInit = false;
 
-                        $scope.priceTypes = [
-                            "fixed",
-                            "percent"
-                        ];
-
                         $scope.types = [
                             "field",
                             "select",
@@ -31,17 +26,17 @@
                         ];
 
                         getOptionLength = function (obj) {
-                            var count = 0;
+                            var result = 0;
 
                             if (typeof obj !== "undefined") {
                                 for (var key in obj) {
-                                    if (obj.hasOwnProperty(key) && typeof obj[key].label !== "undefined") {
-                                        count += 1;
+                                    if (obj.hasOwnProperty(key) && typeof obj[key].label !== "undefined" && result < obj[key].order) {
+                                        result = obj[key].order;
                                     }
                                 }
                             }
 
-                            return count;
+                            return result;
                         };
 
                         normalizeJSON = function () {
@@ -125,20 +120,17 @@
                             }
                         };
 
-                        $scope.$watch("item",
-                            function () {
-                                if (typeof $scope.item[$scope.attribute.Attribute] === "undefined") {
-                                    $scope.optionsData = [];
-                                    return false;
-                                }
-                                if (isInit) {
-                                    return false;
-                                }
-                                initData();
-                                modifyData();
-                            },
-                            true
-                        );
+                        $scope.$watch("item", function () {
+                            if (typeof $scope.item[$scope.attribute.Attribute] === "undefined") {
+                                $scope.optionsData = [];
+                                return false;
+                            }
+                            if (isInit) {
+                                return false;
+                            }
+                            initData();
+                            modifyData();
+                        }, true);
 
                         cloneRow = function (list) {
                             var opt;
@@ -186,7 +178,6 @@
                             }
 
                             $scope.optionsData[option].options[""] = {
-                                "price_type": $scope.priceTypes[0],
                                 "order": (typeof $scope.optionsData[option].options === "undefined" ? 0 : getOptionLength($scope.optionsData[option].options) + 1)
                             };
                         };

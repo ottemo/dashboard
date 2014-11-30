@@ -15,7 +15,7 @@
                     var serviceList, getBlockCount, getAttributeList, getBlocksList;
                     serviceList = new DashboardListService();
 
-                    $scope.removeIds = {};
+                    $scope.idsSelectedRows = {};
 
                     /**
                      * Gets list of blocks
@@ -77,14 +77,27 @@
                         $location.path("/cms/block/new");
                     };
 
+                    var hasSelectedRows = function () {
+                        var result = false;
+                        for (var _id in $scope.idsSelectedRows) {
+                            if ($scope.idsSelectedRows.hasOwnProperty(_id) && $scope.idsSelectedRows[_id]) {
+                                result = true;
+                            }
+                        }
+                        return result;
+                    };
+
                     /**
-                     * Removes cms by ID
+                     * Removes block by ID
                      *
-                     * @param {string} id
                      */
-                    $scope.remove = function (id) {
+                    $scope.remove = function () {
+                        if (!hasSelectedRows()) {
+                            return true;
+                        }
+
                         var i, answer, _remove;
-                        answer = window.confirm("You really want to remove this block(s)");
+                        answer = window.confirm("You really want to remove this block(s)?");
                         _remove = function (id) {
                             var defer = $q.defer();
 
@@ -111,8 +124,8 @@
                                 }
                             };
 
-                            for (id in $scope.removeIds) {
-                                if ($scope.removeIds.hasOwnProperty(id) && true === $scope.removeIds[id]) {
+                            for (var id in $scope.idsSelectedRows) {
+                                if ($scope.idsSelectedRows.hasOwnProperty(id) && true === $scope.idsSelectedRows[id]) {
                                     _remove(id).then(callback);
                                 }
                             }

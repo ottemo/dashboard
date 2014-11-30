@@ -120,9 +120,11 @@
                                                     continue;
                                                 }
                                                 parts = splitName(result[i].Name);
-                                                result[i].Name = parts[2];
-                                                result[i].sku = parts[1];
-                                                $scope.productsTmp.push(result[i]);
+                                                if (parts instanceof Array) {
+                                                    result[i].Name = parts[2];
+                                                    result[i].sku = parts[1];
+                                                    $scope.productsTmp.push(result[i]);
+                                                }
                                             }
                                         }
                                     );

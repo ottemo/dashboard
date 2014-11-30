@@ -10,35 +10,63 @@
                 "$configService",
                 function ($scope, $routeParams, $configApiService, $configService) {
 
-                    $scope.config = $configService;
                     $scope.currentGroup = null;
                     $scope.items = {};
-
                     $scope.currentGroup = $routeParams.group;
-                    $scope.sections = $scope.config.getConfigTabs($scope.currentGroup);
                     $scope.currentPath = "";
+                    var activeTab;
 
                     $scope.init = function () {
-                        $scope.config.init();
-                        var regExp = new RegExp("(\\w+)\\.(\\w+).*", "i");
-                        var parts = $scope.sections[0].Path.match(regExp);
-                        $scope.currentPath = parts[2];
-                        $scope.config.load($scope.currentPath);
+                        $configService.init().then(
+                            function () {
+                                var regExp, parts, tabs;
+                                regExp = new RegExp("(\\w+)\\.(\\w+).*", "i");
+                                tabs = {};
+
+                                $scope.sections = $configService.getConfigTabs($scope.currentGroup);
+
+                                for (var i = 0; i < $scope.sections.length; i += 1) {
+                                    var attr = $scope.sections[i];
+
+                                    if (attr.Type === "group") {
+                                        if (typeof tabs[attr.Group] === "undefined") {
+                                            tabs[attr.Group] = [];
+                                        }
+                                        tabs[attr.Group].push(attr);
+                                    }
+                                }
+                                activeTab = Object.keys(tabs).sort()[0];
+                                parts = tabs[activeTab][0].Path.match(regExp);
+
+                                if (parts instanceof Array) {
+                                    $scope.currentPath = parts[2];
+                                    $configService.load($scope.currentPath).then(
+                                        function () {
+                                            $scope.items = $configService.getItems($scope.currentPath);
+                                        }
+                                    );
+                                }
+                            }
+                        );
                     };
 
                     $scope.selectTab = function (path) {
                         $scope.currentPath = path;
-                        $scope.config.load(path);
+                        $configService.load($scope.currentPath).then(
+                            function () {
+                                $scope.items = $configService.getItems($scope.currentPath);
+                            }
+                        );
                     };
 
                     $scope.save = function () {
-                        $scope.config.save($scope.currentPath).then(
+                        $configService.save($scope.currentPath).then(
                             function () {
                                 $scope.message = {
                                     'type': 'success',
                                     'message': 'config was saved successfully'
                                 };
-                                $scope.config.load($scope.currentPath, true);
+                                $configService.load($scope.currentPath, true);
                             }
                         );
                     };

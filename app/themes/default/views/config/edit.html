@@ -8,7 +8,7 @@
 
     <!--<gui-attributes-editor-form-tabs attributes-list="sections" object="this" item="config.getItems(currentPath)"></gui-attributes-editor-form-tabs>-->
 
-    <gui-config-editor-form attributes-list="sections" object="this" item="config.getItems(currentPath)" ng-if="!isThemeManager()"></gui-config-editor-form>
+    <gui-config-editor-form attributes-list="sections" object="this" item="items" ng-if="!isThemeManager()"></gui-config-editor-form>
 
     <gui-themes-manager ng-if="isThemeManager()"></gui-themes-manager>
 

@@ -18,7 +18,7 @@
                     templateUrl: $designService.getTemplate("config/gui/configEditorForm.html"),
                     controller: function ($scope) {
                         var updateAttributes;
-
+                        $scope.tabs = {};
                         $scope.click = function (id) {
                             if (typeof $scope.parent.selectTab === "function") {
                                 $scope.parent.selectTab(id);
@@ -27,10 +27,31 @@
                             }
                         };
 
+                        var addTab = function(attr) {
+                            if (attr.Type === "group") {
+                                if (typeof $scope.tabs[attr.Group] === "undefined") {
+                                    $scope.tabs[attr.Group] = [];
+                                }
+                                $scope.tabs[attr.Group].push(attr);
+                            }
+                        };
+
+                        var addFields = function(attr) {
+                            if (typeof $scope.attributeGroups[attr.Group] === "undefined") {
+                                $scope.attributeGroups[attr.Group] = [];
+                            }
+                            $scope.attributeGroups[attr.Group].push(attr);
+                        };
+
                         updateAttributes = function () {
-                            var i, groups, attr, setAttrValue;
-                            groups = {};
-                            setAttrValue = function(attr){
+                            if ($scope.item === "undefined" ||
+                                JSON.stringify({}) === JSON.stringify($scope.item)) {
+                                return true;
+                            }
+                            var i, attr, setAttrValue;
+                            $scope.attributeGroups = {};
+
+                            setAttrValue = function (attr) {
                                 if (typeof $scope.item !== "undefined") {
                                     attr.Value = $scope.item[attr.Attribute] || "";
                                 }
@@ -40,15 +61,15 @@
 
                             if (typeof $scope.attributes !== "undefined") {
                                 for (i = 0; i < $scope.attributes.length; i += 1) {
-                                    attr = $scope.attributes[i];
-                                    attr= setAttrValue(attr);
-                                    if (typeof groups[attr.Group] === "undefined") {
-                                        groups[attr.Group] = [];
-                                    }
-                                    groups[attr.Group].push(attr);
+                                    attr = setAttrValue($scope.attributes[i]);
+
+                                    addFields(attr);
+
+                                    addTab(attr);
                                 }
                             }
-                            $scope.attributeGroups = groups;
+
+
                         };
 
                         $scope.$watchCollection("attributes", updateAttributes);

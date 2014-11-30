@@ -18,7 +18,7 @@
 
                     $scope.visitorId = $routeParams.visitorId;
 
-                    $scope.removeIds = {};
+                    $scope.idsSelectedRows = {};
 
                     $location.search("visitor_id", $scope.visitorId);
 
@@ -107,14 +107,27 @@
                         $location.path("/visitor/" + $scope.visitorId);
                     };
 
+                    var hasSelectedRows = function () {
+                        var result = false;
+                        for (var _id in $scope.idsSelectedRows) {
+                            if ($scope.idsSelectedRows.hasOwnProperty(_id) && $scope.idsSelectedRows[_id]) {
+                                result = true;
+                            }
+                        }
+                        return result;
+                    };
+
                     /**
-                     * Removes address by ID
+                     * Removes address
                      *
-                     * @param {string} id
                      */
-                    $scope.remove = function (id) {
+                    $scope.remove = function () {
+                        if (!hasSelectedRows()) {
+                            return true;
+                        }
+
                         var i, answer, _remove;
-                        answer = window.confirm("You really want to remove this address");
+                        answer = window.confirm("Please confirm you want to remove this address.");
                         _remove = function (id) {
                             var defer = $q.defer();
 
@@ -141,8 +154,8 @@
                                 }
                             };
 
-                            for (id in $scope.removeIds) {
-                                if ($scope.removeIds.hasOwnProperty(id) && true === $scope.removeIds[id]) {
+                            for (var id in $scope.idsSelectedRows) {
+                                if ($scope.idsSelectedRows.hasOwnProperty(id) && true === $scope.idsSelectedRows[id]) {
                                     _remove(id).then(callback);
                                 }
                             }

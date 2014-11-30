@@ -11,6 +11,7 @@
                 },
                 templateUrl: $designService.getTemplate("design/gui/guiMessageManager.html"),
                 link: function ($scope) {
+                    var timeout;
                     $scope.isShow = false;
                     $scope.$watch("obj", function () {
 
@@ -19,9 +20,13 @@
                             $scope.msg = $scope.obj.message;
                             $scope.type = $scope.obj.type || "success";
                             $scope.isShow = true;
-                            $timeout(function () {
-                                $scope.close();
-                            }, 2000);
+                            timeout = $scope.obj.timeout;
+
+                            if(timeout > 0) {
+                                $timeout(function () {
+                                    $scope.close();
+                                }, 2000);
+                            }
                         }
 
                     });

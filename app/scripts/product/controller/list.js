@@ -18,7 +18,7 @@
 
                     serviceList = new DashboardListService();
 
-                    $scope.removeIds = {};
+                    $scope.idsSelectedRows = {};
                     $scope.fields = [
                         {
                             "attribute": "Image",
@@ -51,9 +51,11 @@
                                 result = response.result || [];
                                 for (i = 0; i < result.length; i += 1) {
                                     parts = splitName(result[i].Name);
-                                    result[i].Name = parts[2];
-                                    result[i].sku = parts[1];
-                                    $scope.productsTmp.push(result[i]);
+                                    if(parts instanceof Array) {
+                                        result[i].Name = parts[2];
+                                        result[i].sku = parts[1];
+                                        $scope.productsTmp.push(result[i]);
+                                    }
                                 }
                             }
                         );
@@ -104,13 +106,27 @@
                         $location.path("/product/new");
                     };
 
+                    var hasSelectedRows = function () {
+                        var result = false;
+                        for (var _id in $scope.idsSelectedRows) {
+                            if ($scope.idsSelectedRows.hasOwnProperty(_id) && $scope.idsSelectedRows[_id]) {
+                                result = true;
+                            }
+                        }
+                        return result;
+                    };
+
                     /**
-                     * Removes products which id collected in removeIds
+                     * Removes product
                      *
                      */
                     $scope.remove = function () {
+                        if (!hasSelectedRows()) {
+                            return true;
+                        }
+
                         var answer, id, i, _remove;
-                        answer = window.confirm("You really want to remove this product?");
+                        answer = window.confirm("Please confirm you want to remove this product.");
                         _remove = function (id) {
                             var defer = $q.defer();
 
@@ -141,9 +157,9 @@
                                     };
                                 }
                             };
-                            for (id in $scope.removeIds) {
+                            for (id in $scope.idsSelectedRows) {
 
-                                if ($scope.removeIds.hasOwnProperty(id) && true === $scope.removeIds[id]) {
+                                if ($scope.idsSelectedRows.hasOwnProperty(id) && true === $scope.idsSelectedRows[id]) {
                                     _remove(id).then(callback);
                                 }
                             }

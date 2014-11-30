@@ -31,11 +31,11 @@
                     getConfigTabs = function (group) {
                         if (typeof group !== "undefined" && typeof configTabs[group] !== "undefined") {
                             return configTabs[group];
-
                         } else if (typeof group === "undefined") {
                             return configTabs;
                         }
-                        return false;
+
+                        return [];
                     };
 
                     getItems = function (path) {
@@ -82,7 +82,7 @@
                             configTabs[groupCode] = [];
                         }
 
-                        if (-1 !== attr.Path.indexOf(".")) {
+                        if (-1 !== attr.Path.indexOf(".") && attr.Type === "group") {
                             parts = attr.Path.match(regExp);
                             if (typeof parts[2] !== "undefined") {
                                 attr.Group = parts[2];
@@ -128,7 +128,8 @@
                     };
 
                     load = function (path, force) {
-                        var i, pos, regExp, parts, group;
+                        var i, pos, regExp, parts, group, defer;
+                        defer = $q.defer();
                         regExp = new RegExp("(\\w+)\\.(\\w+).*", "i");
 
                         if ((typeof items[path] === "undefined" && !force) || force) {
@@ -148,7 +149,7 @@
                                         } else {
                                             configTabs[group].push(attr);
                                         }
-                                        
+
                                     };
 
                                     for (i = 0; i < response.result.length; i += 1) {
@@ -164,14 +165,20 @@
 
                                             addAttributeInTab(response.result[i]);
 
-                                            items[path][response.result[i].Path] = response.result[i].Value !== null ? response.result[i].Value.toString() : "";
-                                            itemsOld[path][response.result[i].Path] = response.result[i].Value !== null ? response.result[i].Value.toString() : "";
+                                            items[path][response.result[i].Path] = response.result[i].Value.toString();
+                                            itemsOld[path][response.result[i].Path] = response.result[i].Value.toString();
                                         }
                                     }
+                                    isLoaded[path] = true;
+                                    defer.resolve(true);
                                 }
                             );
+                        } else {
+                            isLoaded[path] = true;
+                            defer.resolve(true);
                         }
-                        isLoaded[path] = true;
+
+                        return defer.promise;
                     };
 
                     save = function (path) {

@@ -312,7 +312,7 @@
                             $scope.selectAll = function () {
                                 isSelectedAll = isSelectedAll ? false : true;
                                 for (var i = 0; i < $scope.items.length; i += 1) {
-                                    $scope.parent.removeIds[$scope.items[i][$scope.map.id]] = isSelectedAll;
+                                    $scope.parent.idsSelectedRows[$scope.items[i][$scope.map.id]] = isSelectedAll;
                                 }
                             };
 
