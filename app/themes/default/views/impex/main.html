@@ -1,0 +1,42 @@
+<div class="top top-custom">
+    <i class="fa fa-exchange"></i>
+    <h6> Import / Export </h6>
+</div>
+
+<div class="panel-body">
+    <gui-message-manager item="message"></gui-message-manager>
+    <form role="form" class="product-tabs" name="otEditForm" novalidate>
+
+        <div class="panel-body">
+            <div class="btn-black left" ng-click="importBatch()">Import csv script</div>
+            <div ng-class="{ 'has-error' : (modelImportSubmit && !file) || (batchSubmit && !file)}">
+                <label for="file">File</label>
+
+                <input type="file" id="file" name="file" ng-model="file"/>
+
+                <p ng-show="(modelImportSubmit && !file) || (batchSubmit && !file)"
+                   class="help-block">This field is required.</p>
+
+
+            </div>
+<br />
+            <div ng-class="{ 'has-error' : (modelImportSubmit && !mode) || (modelExportSubmit && !mode)}">
+
+                <label for="model">Model</label>
+
+                <select class="form-control" name="model" id="model"
+                        data-ng-model="model" required
+                        data-ng-options="key as value for (key, value) in modelList">
+                </select>
+
+                <p ng-show="(modelImportSubmit && !mode) || (modelExportSubmit && !mode)"
+                   class="help-block">This field is required.</p>
+
+            </div>
+
+            <div class="btn-black left" ng-click="exportModel()">Export Model</div>
+            <div class="btn-black left" ng-click="importModel()">Import Model</div>
+        </div>
+    </form>
+
+</div>
