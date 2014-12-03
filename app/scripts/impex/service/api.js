@@ -28,14 +28,6 @@
 
                         headers: {"Content-Type": undefined },
                         transformRequest: angular.identity
-                    },
-                    "exportModel": {
-                        method: "GET",
-                        params: { model: "@model" },
-                        url: impexBaseURL + "/export/:model",
-
-                        headers: {"Content-Type": "text/csv" },
-                        transformRequest: angular.identity
                     }
                 });
             }]);

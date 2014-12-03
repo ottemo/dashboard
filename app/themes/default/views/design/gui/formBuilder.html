@@ -34,6 +34,16 @@
                class="help-block">This field is required.</p>
         </div>
 
+        <div ng-switch-when="price"
+             ng-class="{ 'has-error' : (parent.form.submitted && parent.form.{{attribute.Attribute}}.$error.required) || (parent.form.{{attribute.Attribute}}.$invalid && !parent.form.{{attribute.Attribute}}.$pristine) }">
+            <label>{{attribute.Label}} <span class="asterisk"
+                                             ng-show="attribute.IsRequired">*</span></label>
+            <gui-price editor-scope="attribute" item="item" ng-required="attribute.IsRequired"
+                      name="attribute.Attribute"></gui-price>
+            <p ng-show="(parent.form.submitted && parent.form.{{attribute.Attribute}}.$error.required) || (parent.form.{{attribute.Attribute}}.$invalid && !parent.form.{{attribute.Attribute}}.$pristine)"
+               class="help-block">This field is required.</p>
+        </div>
+
         <div ng-switch-when="datetime"
              ng-class="{ 'has-error' : (parent.form.submitted && parent.form.{{attribute.Attribute}}.$error.required) || (parent.form.{{attribute.Attribute}}.$invalid && !parent.form.{{attribute.Attribute}}.$pristine) }">
             <label>{{attribute.Label}} <span class="asterisk"
