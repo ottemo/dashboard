@@ -15,7 +15,6 @@ body {
     font-family: 'Open Sans', sans-serif;
     color: #7a7676;
     line-height: 20px;
-    overflow-x: hidden;
     font-size: 14px;
 }
 
@@ -191,12 +190,12 @@ hr {
 .sticky-left-side {
     position: fixed;
     height: 100%;
-    overflow-y: auto;
     z-index: 100;
+    overflow-y:auto;
 }
 
 .left-side-collapsed .sticky-left-side {
-    overflow-y: visible;
+    
 }
 
 .logo {
@@ -209,7 +208,7 @@ hr {
     color: #fff;
     margin: 0 0 0 20px;
     text-decoration: none;
-    display: inline-block;
+    display: inline-block;89
 }
 
 .logo-icon {
@@ -899,7 +898,6 @@ h5.left-nav-title {
 .main-content {
     margin-left: 282px;
     background: #eff0f4;
-    min-height: 1000px;
 }
 
 .page-heading {
