@@ -11,6 +11,7 @@
             "design/service/design",
 
             "design/directives/design",
+            "design/directives/guiPaginator",
             "design/directives/guiFormBuilder",
             "design/directives/guiAttributesEditorForm",
             "design/directives/guiAttributesEditorFormTabs",
@@ -38,6 +39,7 @@
             "design/directives/editor/guiSelect",
             "design/directives/editor/guiMultiSelect",
             "design/directives/editor/guiText",
+            "design/directives/editor/guiPrice",
             "design/directives/editor/guiDatetime",
             "design/directives/editor/guiJsonEditor",
             "design/directives/editor/guiThemesManager",
