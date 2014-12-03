@@ -7,7 +7,7 @@
 <div class="LoginWrapper" ng-controller="loginLoginController">
     <div class="LoginLogo"></div>
     <div class="LoginContainer">
-        <gui-message-manager item="message"></gui-message-manager>
+
         <form role="form" name="loginForm">
             <label for="username">User Name or Email Address</label>
             <input id="username" type="text" ng-model="loginCredentials.email" required auto-fill-sync/>
@@ -21,16 +21,3 @@
         <div class="clear"></div>
     </div>
 </div>
-
-<style>
-    .alert-warning {
-        background: white;
-        padding: 23px;
-        border-radius: 0;
-        margin-bottom: 40px;
-    }
-    .alert-warning > div {
-        font-size: 19px;
-        color: #767676;
-    }
-</style>

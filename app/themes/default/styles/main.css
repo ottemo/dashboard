@@ -859,8 +859,7 @@ ul {
   .LoginWrapper .LoginLogo {
     width: 540px;
     height: 110px;
-    background: url("../images/login/desktop-logo.jpg") center center no-repeat;
-    background-size: auto 100%;
+    background: url("../images/login/desktop-logo.jpg") top left no-repeat;
     margin-bottom: 30px; }
   .LoginWrapper .LoginContainer {
     background: #157ac1;
@@ -881,7 +880,7 @@ ul {
       border: 0px;
       margin-bottom: 40px;
       font-size: 24px; }
-    .LoginWrapper .LoginContainer button:not(.close) {
+    .LoginWrapper .LoginContainer button {
       height: 64px;
       line-height: 64px;
       width: 190px;
@@ -900,6 +899,7 @@ ul {
     .LoginWrapper .LoginLogo {
       width: 350px;
       height: 70px;
+      background: url("../images/login/tablet-logo.png") top left no-repeat;
       margin: 0 auto;
       margin-bottom: 30px; }
       .LoginWrapper .LoginLogo input {
@@ -920,7 +920,7 @@ ul {
       height: 45px;
       margin: 0 auto;
       margin-bottom: 40px;
-    }
+      background: url("../images/login/mobile-logo.jpg") top left no-repeat; }
     .LoginWrapper .LoginContainer {
       padding: 30px;
       width: 240px; }
@@ -1833,7 +1833,7 @@ ul {
 }
 .modal-dialog {
   width: 50%;
-  min-width: 1200px;
+  min-width: 800px;
 }
 .modal-body {
   padding: 0;
