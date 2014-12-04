@@ -71,7 +71,8 @@ require([
         "login/module",
         "cms/module",
         "seo/module",
-        "order/module"
+        "order/module",
+        "impex/module"
     ],
     function (angular) {
         angular.element(document).ready(function () {

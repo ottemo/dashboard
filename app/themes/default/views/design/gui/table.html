@@ -13,6 +13,9 @@
         <div class="filters" ng-if="parent.fields.length > 1" ></div>
         <div class="clear"></div>
 
+        <!-- Pagination -->
+        <gui-paginator object="this"></gui-paginator>
+
         <table>
             <!-- Labels -->
             <tr>
@@ -90,15 +93,7 @@
             <tr></tr>
         </table>
         <!-- Pagination -->
-        <div class="pagination-block" ng-if="paginator.countPages > 1">
-            <ul class="pagination">
-                <li class="{{getClass('prev')}}"><a href="" target="_self" ng-click="setPage('prev')">&laquo;</a></li>
-                <li class="{{getClass(page)}}" ng-repeat="page in getPages()"><a href="" target="_self" ng-click="setPage(page)">{{page}}</a></li>
-                <li class="{{getClass('next')}}"><a href="" target="_self" ng-click="setPage('next')">&raquo;</a></li>
-                <!--<li><a href="#{{getURI('all')}}">ALL</a></li>-->
-            </ul>
-        </div>
-        
+        <gui-paginator object="this"></gui-paginator>
     </form>
     <div class="clear"></div>
 </section>
