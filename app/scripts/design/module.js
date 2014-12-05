@@ -24,6 +24,13 @@
             "design/directives/filter/guiRange",
             "design/directives/filter/guiSelect",
 
+            // Validator
+            "design/directives/otApplyValidator",
+            "design/directives/validator/sku",
+            "design/directives/validator/email",
+            "design/directives/validator/price",
+            "design/directives/validator/len",
+
             "design/directives/editor/guiHtml",
             "design/directives/editor/guiTinymce",
             "design/directives/editor/guiPictureManager",
@@ -42,6 +49,7 @@
             "design/directives/editor/guiPrice",
             "design/directives/editor/guiDatetime",
             "design/directives/editor/guiJsonEditor",
+            "design/directives/editor/guiThemesManager",
             "design/directives/editor/guiThemesManager",
 
             "design/tinymce/blockSelector"

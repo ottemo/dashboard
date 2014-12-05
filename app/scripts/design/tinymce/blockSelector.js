@@ -5,7 +5,7 @@
         tinymce.PluginManager.add('blocks', function (editor) {
             var onclick = function () {
                 var blocks = [];
-                angular.element.get("http://dev.ottemo.io:3000/cms/block/list", function (data) {
+                angular.element.get(angular.appConfigValue("general.app.foundation_url") + "/cms/block/list", function (data) {
                     for (var i = 0; i < data.result.length; i += 1) {
                         blocks.push({
                             "value": data.result[i].Name,
