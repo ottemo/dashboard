@@ -1,0 +1,13 @@
+<div class="top top-custom">
+    <i class="fa fa-newspaper-o"></i>
+    <h6 ng-if="address._id"> Address: {{getFullAddress()}}</h6>
+    <h6 ng-if="!address._id"> New address </h6>
+</div>
+
+<div class="panel-body">
+
+    <gui-message-manager item="message"></gui-message-manager>
+    <gui-attributes-editor-form-tabs attributes-list="attributes" object="this" item="address"></gui-attributes-editor-form-tabs>
+    <div class="btn-black" ng-click="backToVisitor()">Visitor</div>
+
+</div>

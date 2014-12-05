@@ -1,0 +1,9 @@
+<div class="top top-custom">
+    <i class="fa fa-th-list"></i>
+    <h6 ng-if="category._id"> {{category.name}}</h6>
+    <h6 ng-if="!category._id"> New Category </h6>
+</div>
+<div class="panel-body">
+    <gui-message-manager item="message"></gui-message-manager>
+    <gui-attributes-editor-form-tabs attributes-list="attributes" object="this" item="category"></gui-attributes-editor-form-tabs>
+</div>
