@@ -1,18 +1,15 @@
-<div>
-    <div ng-class="{ 'has-error' : lowInvalid }" >
-        <input type="text" class="form-control"
-               placeholder="{{attribute.Label}}"
-               ng-model="low" ng-enter="submit()" ng-blur="submit()"/>
-
-        <p ng-show="lowInvalid"
-           class="help-block">Invalid format. Only numbers.</p>
+<div class="form-inline">
+    <!-- Low range -->
+    <div class="form-group" ng-class="{ 'has-error' : lowInvalid }" >
+        <div class="input-group">
+            <input type="text" class="form-control range" placeholder="Low" ng-model="low" ng-enter="submit()" ng-blur="submit()"/>
+            <p ng-show="lowInvalid" class="help-block">Invalid format. Only numbers.</p>
+        </div>
     </div>
-    <div ng-class="{ 'has-error' : hightInvalid }" >
-        <input type="text" class="form-control"
-               placeholder="{{attribute.Label}}"
-               ng-model="hight" ng-enter="submit()" ng-blur="submit()" />
-
-        <p ng-show="hightInvalid"
-           class="help-block">Invalid format. Only numbers.</p>
+    
+    <!-- High range -->
+    <div class="form-group" ng-class="{ 'has-error' : hightInvalid }" >
+        <input type="text" class="form-control range" placeholder="High" ng-model="hight" ng-enter="submit()" ng-blur="submit()" />
+        <p ng-show="hightInvalid" class="help-block">Invalid format. Only numbers.</p>
     </div>
 </div>

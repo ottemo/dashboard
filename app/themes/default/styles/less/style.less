@@ -1,9 +1,64 @@
+/* Login page */
 #hide {
-    display: none !important;
+  display: none !important;
 }
 .login-page h1 {
-	color:#fff;
+  color: #fff;
 }
 .login-page .jumbotron {
-	padding-top: 1px;
+  padding-top: 1px;
+}
+
+/* Index page */
+.navbar-brand {
+    padding: 5px 15px;
+}
+.main-menu {
+	float: none;
+	width: 100%;
+	text-align: center;
+}
+.main-menu > li {
+	float: none;
+	display: inline-block;
+}
+.main-menu > li > a > i, .navbar-right li a .fa  {
+	font-size: 20px;
+	position: relative;
+	top: 3px;
+}
+input.range {
+	width: 80px !important;
+}
+.has-error {
+	position: relative;
+}
+.help-block {
+	position: absolute;
+	width: 150px;
+	background: black;
+	z-index: 10;
+	padding: 10px;
+	text-align: center;
+	top: 100%;
+	left:50%;
+	margin-left: -75px;
+	color: #fff !important;
+	font-weight: 300;
+	border-radius: 2px;
+}
+.help-block:before {
+	content: "";
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-width: 0 7px 7px 7px;
+	border-color: transparent transparent #000;
+	position: absolute;
+	top: -6px;
+	color:#000;
+	left: 50%;
+	margin-left: -4px;
+	display: block;
+	z-index: 50;
 }

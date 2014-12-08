@@ -1,22 +1,23 @@
-<section class="customers table-element" ng-init="init()">
-
-    <form class="col-md-12">
-
-        <div class="checkboxes head-checkboxes sorts" ng-if="parent.fields.length > 1" >
-            <div class="checkboxes-wrapper">
-                <label class="myCheckbox visibility" ng-repeat="field in parent.fields" ng-hide="field.notDisable">
+<section ng-init="init()">
+    <form class="form-group">
+        <div class="">
+            <div class="filters btn btn-primary pull-right" ng-if="parent.fields.length > 1" >Filters</div>
+            <span class="pull-right" ng-if="parent.fields.length > 1" >
+                <label class="checkbox-inline" ng-repeat="field in parent.fields" ng-hide="field.notDisable">
                     <input type="checkbox" ng-model="field.visible" ng-hide="field.notDisable">
-                    <span>{{field.label || field.attribute}}</span>
+                    {{field.label || field.attribute}}
                 </label>
-            </div>
+            </span>
         </div>
-        <div class="filters" ng-if="parent.fields.length > 1" ></div>
-        <div class="clear"></div>
+
+        <div class="clearfix"></div>
+
+        <br>
 
         <!-- Pagination -->
         <gui-paginator object="this"></gui-paginator>
 
-        <table>
+        <table class="table table-hover">
             <!-- Labels -->
             <tr>
                 <th>
@@ -33,7 +34,7 @@
                 </th>
             </tr>
             <!-- Filters -->
-            <tr ng-hide="filters.length <= 1 && !filters[0].visible">
+            <tr id="filters" ng-hide="filters.length <= 1 && !filters[0].visible">
                 <th>&nbsp;</th>
                 <th ng-repeat="filter in filters" ng-switch="filter.type" ng-show="parent.fields[$index].visible">
                     <div ng-switch-when="text">
@@ -87,58 +88,24 @@
 
                     </span>
                 </th>
-
             </tr>
+
             <!-- for table design-->
             <tr></tr>
         </table>
+
         <!-- Pagination -->
         <gui-paginator object="this"></gui-paginator>
+        <!-- button group -->
+        <div class="text-center">
+            <button class="btn btn-primary" ng-click="parent.remove()" ng-if="buttons.delete">Delete</button>
+            <button class="btn btn-default" ng-click="parent.create()" ng-if="buttons.new">New</button>
+        </div>
     </form>
-    <div class="clear"></div>
 </section>
-<div class="btn-black" ng-click="parent.remove()" ng-if="buttons.delete">Delete</div>
-<div class="btn-black" ng-click="parent.create()" ng-if="buttons.new">New</div>
-<div class="clear"></div>
 
 <script>
-//    jQuery("#selectAll").click(function () {
-//        if (jQuery("#selectAll").is(':checked')) {
-//            jQuery(this).parents("table").find(".myCheckbox > input").attr("checked", true);
-//        } else {
-//            jQuery(this).parents("table").find(".myCheckbox > input").attr("checked", false);
-//        }
-//    })
+    $(document).on('click', '.filters', function(event) {
+        $('#filters').toggle(500)
+    });
 </script>
-<style>
-    .customers table th {
-        padding-left: 15px !important;
-        padding-right: 15px !important;
-    }
-    div.pagination-block{
-        text-align: center;
-    }
-    .checkboxes{
-        text-align: right;
-        margin-top: 20px;
-    }
-
-    .visibility{
-        padding-left: 25px;
-    }
-    .table-element .myCheckbox span {
-        width: 130px;
-        padding-left: 30px;
-        text-align: left;
-    }
-    th:first{
-        width: 20px !important;
-    }
-    .customers table td .fa, .customers table th .fa{
-        font-family: FontAwesome !important;
-        width: 25% !important;
-    }
-    .th-sort{
-        cursor: pointer;
-    }
-</style>

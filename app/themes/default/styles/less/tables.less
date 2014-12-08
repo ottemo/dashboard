@@ -32,14 +32,14 @@ th {
       > td {
         padding: @table-cell-padding;
         line-height: @line-height-base;
-        vertical-align: top;
+        vertical-align: middle;
         border-top: 1px solid @table-border-color;
       }
     }
   }
   // Bottom align for column headings
   > thead > tr > th {
-    vertical-align: bottom;
+    vertical-align: middle;
     border-bottom: 2px solid @table-border-color;
   }
   // Remove top border from thead by default
@@ -144,6 +144,7 @@ table {
       position: static; // Prevent border hiding in Firefox and IE9/10 (see https://github.com/twbs/bootstrap/issues/11623)
       float: none;
       display: table-cell;
+      vertical-align: middle;
     }
   }
 }

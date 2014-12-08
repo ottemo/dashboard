@@ -1,12 +1,20 @@
 <!-- Pagination -->
-<div class="pagination-block" ng-if="parent.paginator.countPages > 1">
+<nav ng-if="parent.paginator.countPages > 1" class="text-center">
     <ul class="pagination">
-        <li class="{{parent.getClass('prev')}}"><a href="" target="_self" ng-click="parent.setPage('prev')">&laquo;</a></li>
 
+    	<!-- Prev page button -->
+        <li class="{{parent.getClass('prev')}}">
+        	<a href="" target="_self" ng-click="parent.setPage('prev')">&laquo;</a>
+        </li>
+
+        <!-- Pages -->
         <li class="{{parent.getClass(page)}}" ng-repeat="page in parent.getPages()">
             <a href="" target="_self" ng-click="parent.setPage(page)">{{page}}</a>
         </li>
-
-        <li class="{{parent.getClass('next')}}"><a href="" target="_self" ng-click="parent.setPage('next')">&raquo;</a></li>
+		
+		<!-- Next page button -->
+        <li class="{{parent.getClass('next')}}">
+        	<a href="" target="_self" ng-click="parent.setPage('next')">&raquo;</a>
+        </li>
     </ul>
-</div>
+</nav>

@@ -1,19 +1,29 @@
+<!-- Css -->
 <add-css src="bootstrap.css"></add-css>
 <add-css src="style.css"></add-css>
 <add-css src="animate.css"></add-css>
 
-
-
+<!-- Controller wrapper -->
 <div class="login-page container" ng-controller="loginLoginController">
     <br>
+
+    <!-- Logo -->
     <div class="text-center">
-        <img alt="logo" class="" ng-src="{{getImg('logo.png')}}">
+        <img alt="logo" class="" ng-src="{{getImg('logo-login.png')}}">
     </div>
+
     <br>
+
+    <!-- form -->
     <form  class="jumbotron animated fadeIn" role="form" name="loginForm">
         <h2 class="text-center">Login in</h2>
+
         <hr>
         
+        <!-- Error message -->
+        <gui-message-manager item="message"></gui-message-manager>
+        
+        <!-- Login -->
         <div class="form-group col-sm-8 col-sm-offset-2">
             <label for="username">User Name or Email Address:</label>
             <div class="input-group input-group-lg">
@@ -21,15 +31,20 @@
                 <input id="username" class="form-control" type="text" placeholder="Login" ng-model="loginCredentials.email" required auto-fill-sync/>
             </div>
         </div>
+
+        <!-- Password -->
         <div class="form-group col-sm-8 col-sm-offset-2">
             <label for="password">Password:</label>
             <div class="input-group input-group-lg">
                 <span class="input-group-addon glyphicon glyphicon-lock"></span>
-                <input id="password" class="form-control" type="password" ng-model="loginCredentials.password" required auto-fill-sync/>
+                <input id="password" class="form-control" type="password" placeholder="Password" ng-model="loginCredentials.password" required auto-fill-sync/>
             </div>
         </div>
+
         <div class="clearfix"></div>
         <br>
+
+        <!-- Sign in button -->
         <div class="text-center">
             <button class="btn btn-default btn-lg" type="submit" aria-label="Left Align" ng-click="login()">
                 <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
@@ -37,5 +52,9 @@
             </button>
         </div>
     </form>
-
 </div>
+<style>
+    body{
+        background: #222;
+    }
+</style>

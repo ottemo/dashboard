@@ -1,18 +1,13 @@
+<add-css src="bootstrap.css"></add-css>
 <add-css src="style.css"></add-css>
-<add-css src="style-responsive.css"></add-css>
-<add-css src="dashboard.css"></add-css>
-<add-css src="main.css"></add-css>
+<add-css src="animate.css"></add-css>
 
-        
+<!-- Header view -->
+<ng-include src="getTemplate('dashboard/header.html')"></ng-include>
+
 <!-- main content start-->
-<section class="main-content">
+<section ng-controller="seoEditController">
 
-    <ng-include src="getTemplate('dashboard/header.html')"></ng-include>
-
-    <ng-include src="getTemplate('dashboard/sidebar.html')"></ng-include>
-
-    <section ng-controller="seoEditController">
-        <ng-view></ng-view>
-    </section>
+    <ng-view></ng-view>
 
 </section><!-- main content end-->
