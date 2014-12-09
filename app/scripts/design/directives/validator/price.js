@@ -6,27 +6,27 @@
         var priceNotValid = "not valid price";
 
         designModule
-            .directive("price", function () {
+            .directive("otPrice", function () {
                 return {
-                    restrict: 'EA',
+                    restrict: 'A',
                     terminal: true,
-                    require: 'ngModel',
+                    require: '?ngModel',
                     link: function (scope, elem, attrs, ngModel) {
-                        //For DOM -> model validation
-                        ngModel.$parsers.unshift(function (value) {
-                            var valid = re.test(value);
-                            ngModel.$setValidity('price', valid);
-                            ngModel.message = priceNotValid;
-                            return valid ? value : undefined;
-                        });
 
-                        //For model -> DOM validation
-                        ngModel.$formatters.unshift(function (value) {
+                        var validate = function (value) {
                             var valid = re.test(value);
-                            ngModel.$setValidity('price', valid);
-                            ngModel.message = priceNotValid;
+                            ngModel.$setValidity('ot-price', valid);
+                            if (!valid) {
+                                ngModel.message = priceNotValid;
+                            }
+
                             return value;
-                        });
+                        };
+
+                        //For DOM -> model validation
+                        ngModel.$parsers.unshift(validate);
+                        //For model -> DOM validation
+                        ngModel.$formatters.unshift(validate);
                     }
                 };
             });

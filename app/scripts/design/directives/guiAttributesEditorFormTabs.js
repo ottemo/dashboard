@@ -31,7 +31,6 @@
 
                         $scope.save = function () {
                             $scope.otEditForm.submitted = true;
-                            console.log($scope.otEditForm)
                             if ($scope.otEditForm.$valid) {
                                 $scope.parent.save();
                             } else {

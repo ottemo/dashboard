@@ -4,49 +4,39 @@
     define(["design/init"], function (designModule) {
 
         var maxLength = 150;
-        var re = new RegExp("^[\\w\\d\\_\\+]{1," + maxLength + "}$", "i");
-        var skuNotValid = "not valid sku";
-        var skuTooMuchLong = "sku too much long";
+        var re = new RegExp("^[\\w\\d\\_\\-]{1," + maxLength + "}$", "i");
+        var skuNotValid = "Please use only letters (a-z, A-Z), numbers (0-9) or underscore(_) in this field, first character should be a letter. Max length " + maxLength;
+        var skuTooMuchLong = "Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter. Max length " + maxLength;
 
-        designModule.directive("sku", function () {
+        designModule.directive("otSku", function () {
             return {
-                restrict: 'EA',
+                restrict: 'A',
                 terminal: true,
-                require: 'ngModel',
+                require: '?ngModel',
                 link: function (scope, elem, attrs, ngModel) {
 
-                    //For DOM -> model validation
-                    ngModel.$parsers.unshift(function (value) {
-
+                    var validate = function (value) {
                         if (typeof value !== "undefined" && value.length > maxLength) {
-                            ngModel.$setValidity('sku', false);
+                            ngModel.$setValidity('ot-sku', false);
                             ngModel.message = skuTooMuchLong;
+
                             return false;
                         }
 
                         var valid = re.test(value);
-                        ngModel.$setValidity('sku', valid);
-                        if(!valid){
+                        ngModel.$setValidity('ot-sku', valid);
+                        if (!valid) {
                             ngModel.message = skuNotValid;
                         }
-                        return valid ? value : undefined;
-                    });
 
-                    //For model -> DOM validation
-                    ngModel.$formatters.unshift(function (value) {
-                        if (typeof value !== "undefined" && value.length > maxLength) {
-                            ngModel.$setValidity('sku', false);
-                            ngModel.message = skuTooMuchLong;
-                            return false;
-                        }
-
-                        var valid = re.test(value);
-                        ngModel.$setValidity('sku', valid);
-                        if(!valid){
-                            ngModel.message = skuNotValid;
-                        }
                         return value;
-                    });
+                    };
+
+
+                    //For DOM -> model validation
+                    ngModel.$parsers.unshift(validate);
+                    //For model -> DOM validation
+                    ngModel.$formatters.unshift(validate);
                 }
             };
         });

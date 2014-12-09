@@ -6,31 +6,33 @@
         designModule.directive("otApplyValidator", function ($parse, $compile) {
             return {
                 restrict: 'A',
-//                replace: false,
+                replace: false,
                 terminal: true,
                 priority: 1000,
                 link: function (scope, elem) {
                     var validatorStr = $parse(elem.attr('ot-apply-validator'))(scope);
+
                     if (typeof validatorStr !== "string" && validatorStr !== "") {
                         return true;
                     }
 
-                    var validatorList = validatorStr.split(/[ ]/);
+                    var i, validatorList, validator, regExp, matches;
+                    validatorList = validatorStr.split(/[ ]/);
 
-                    for (var i = 0; i < validatorList.length; i += 1) {
+                    for (i = 0; i < validatorList.length; i += 1) {
+                        validator = validatorList[i];
 
-                        var validator = validatorList[i];
                         if (validator === "") {
                             continue;
                         }
 
-                        var regExp = new RegExp("(\\w+)(\(\\d+\\,\\d+\)|\(\\d+\))*", "g");
-                        var matches = validator.match(regExp);
+                        regExp = new RegExp("(\\w+)(\(\\d+\\,\\d+\)|\(\\d+\))*", "g"); // jshint ignore:line
+                        matches = validator.match(regExp);
 
                         if (matches.length > 1) {
-                            elem.attr(matches[0], matches[1] + "," + matches[2]);
+                            elem.attr("ot-" + matches[0], matches[1] + "," + matches[2]);
                         } else {
-                                elem.attr(matches[0], "true");
+                            elem.attr("ot-" + matches[0], "true");
                         }
                     }
 

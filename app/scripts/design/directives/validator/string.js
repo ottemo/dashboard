@@ -1,21 +1,23 @@
 (function (define) {
     "use strict";
+
     define(["design/init"], function (designModule) {
 
-        var re = new RegExp("^(([^<>()[\\]\\.,;:\\s@\"]+(\\.[^<>()[\\]\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$", "");
-        var emailNotValid = "Please enter a valid email address. For example johndoe@domain.com.";
+        var re = new RegExp("^[\\w\\d\\_]+[\\w\\d\\_\\-]*$", "");
+        var stringNotValid = "not valid string";
 
-        designModule.directive("otEmail", function () {
+        designModule.directive("otString", function () {
             return {
-                restrict: 'EA',
+                restrict: 'A',
                 terminal: true,
-                require: 'ngModel',
+                require: '?ngModel',
                 link: function (scope, elem, attrs, ngModel) {
+
                     var validate = function (value) {
                         var valid = re.test(value);
-                        ngModel.$setValidity('ot-email', valid);
+                        ngModel.$setValidity('ot-string', valid);
                         if (!valid) {
-                            ngModel.message = emailNotValid;
+                            ngModel.message = stringNotValid;
                         }
 
                         return value;

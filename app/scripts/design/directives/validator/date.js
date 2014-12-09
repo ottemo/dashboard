@@ -1,21 +1,23 @@
 (function (define) {
     "use strict";
+
     define(["design/init"], function (designModule) {
 
-        var re = new RegExp("^(([^<>()[\\]\\.,;:\\s@\"]+(\\.[^<>()[\\]\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$", "");
-        var emailNotValid = "Please enter a valid email address. For example johndoe@domain.com.";
+        var dateNotValid = "Please enter a valid date (mm/dd/yyyy)";
 
-        designModule.directive("otEmail", function () {
+        designModule.directive("otDate", function () {
             return {
-                restrict: 'EA',
+                restrict: 'A',
                 terminal: true,
-                require: 'ngModel',
+                require: '?ngModel',
                 link: function (scope, elem, attrs, ngModel) {
+
                     var validate = function (value) {
-                        var valid = re.test(value);
-                        ngModel.$setValidity('ot-email', valid);
+                        var date = new Date(value);
+                        var valid = (!isNaN(date) && value.length === 10);
+                        ngModel.$setValidity('ot-date', valid);
                         if (!valid) {
-                            ngModel.message = emailNotValid;
+                            ngModel.message = dateNotValid;
                         }
 
                         return value;

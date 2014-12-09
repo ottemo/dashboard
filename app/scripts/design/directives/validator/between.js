@@ -2,32 +2,33 @@
     "use strict";
     define(["design/init"], function (designModule) {
 
-        var stringToShort = "Text length does not satisfy specified text range.";
-        var stringToLong = "Text length does not satisfy specified text range.";
+        var numberToLess = "The value is not within the specified range.";
+        var numberToMore = "The value is not within the specified range.";
 
         designModule
-            .directive("otLen", function () {
+            .directive("otBetween", function () {
                 return {
                     restrict: 'A',
                     terminal: true,
                     require: '?ngModel',
                     link: function (scope, elem, attrs, ngModel) {
-                        var params = elem.attr('ot-len').split(",");
+                        var params = elem.attr('ot-between').split(",");
 
                         var validate = function (value) {
                             var valid;
                             if (typeof value !== "undefined" &&
-                                value.length < params[0]) {
-                                ngModel.message = stringToShort;
+                                parseFloat(value) < parseFloat(params[0])) {
+                                ngModel.message = numberToLess;
                                 valid = false;
-                            } else if (typeof value !== "undefined" && value.length > params[1]) {
-                                ngModel.message = stringToLong;
+                            } else if (typeof value !== "undefined" &&
+                                parseFloat(value) > parseFloat(params[1]))   {
+                                ngModel.message = numberToMore;
                                 valid = false;
                             } else {
                                 valid = true;
                             }
 
-                            ngModel.$setValidity('ot-len', valid);
+                            ngModel.$setValidity('ot-between', valid);
                             return valid ? value : undefined;
                         };
 

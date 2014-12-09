@@ -238,7 +238,7 @@
 
             <p ng-show="(parent.form.submitted && parent.form.{{attribute.Attribute}}.$error.required)"
                class="help-block">This field is required.</p>
-{{parent.form[attribute.Attribute].$error.required}}
+
             <p ng-if="!parent.form[attribute.Attribute].$error.required"
                ng-show="(parent.form.submitted && parent.form.{{attribute.Attribute}}.$invalid) || (parent.form.{{attribute.Attribute}}.$invalid && !parent.form.{{attribute.Attribute}}.$pristine)"
                class="help-block">{{parent.form[attribute.Attribute].message}}</p>

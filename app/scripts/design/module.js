@@ -20,6 +20,7 @@
             "design/directives/guiTableManagerPopup",
             "design/directives/guiMessageManager",
 
+            // Table filters
             "design/directives/filter/guiText",
             "design/directives/filter/guiRange",
             "design/directives/filter/guiSelect",
@@ -30,7 +31,13 @@
             "design/directives/validator/email",
             "design/directives/validator/price",
             "design/directives/validator/len",
+            "design/directives/validator/between",
+            "design/directives/validator/number",
+            "design/directives/validator/positive",
+            "design/directives/validator/string",
+            "design/directives/validator/date",
 
+            // Form fields
             "design/directives/editor/guiHtml",
             "design/directives/editor/guiTinymce",
             "design/directives/editor/guiPictureManager",
