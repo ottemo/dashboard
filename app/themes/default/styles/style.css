@@ -9,23 +9,27 @@
   padding-top: 1px;
 }
 /* Index page */
+.navbar {
+  height: auto !important;
+  min-height: 0 !important;
+}
 .navbar-brand {
-  padding: 5px 15px;
+  padding: 5px 15px !important;
 }
 .main-menu {
-  float: none;
-  width: 100%;
-  text-align: center;
+  float: none !important;
+  width: 100% !important;
+  text-align: center !important;
 }
 .main-menu > li {
-  float: none;
-  display: inline-block;
+  float: none !important;
+  display: inline-block !important;
 }
 .main-menu > li > a > i,
 .navbar-right li a .fa {
-  font-size: 20px;
-  position: relative;
-  top: 3px;
+  font-size: 20px !important;
+  position: relative !important;
+  top: 3px !important;
 }
 input.range {
   width: 80px !important;
@@ -61,4 +65,17 @@ input.range {
   margin-left: -4px;
   display: block;
   z-index: 50;
+}
+.nav-tabs li a:focus {
+  outline: none !important;
+}
+.attr-table table tr td,
+.attr-table table tr th,
+.attr-table table tr:hover {
+  background: none !important;
+  border-color: transparent;
+  color: #000;
+}
+.attr-table table tr td:first-child {
+  width: 30px;
 }

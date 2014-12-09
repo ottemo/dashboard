@@ -1,10 +1,14 @@
-<div class="top top-custom">
-    <i class="fa fa-users"></i>
-    <h6>Addresses</h6>
+<!-- Page title -->
+<h2 class="text-center">Addresses</h2>
+
+<div class="col-xs-12">
+	<!-- Error-message -->
+	<gui-message-manager item="message"></gui-message-manager>
+
+	<!-- Table -->
+    <gui-table-manager items="addresses" object="this"></gui-table-manager>
 </div>
 
-<div class="panel-body">
-    <gui-message-manager item="message"></gui-message-manager>
-    <gui-table-manager items="addresses" object="this"></gui-table-manager>
-    <div class="btn-black" ng-click="backToVisitor()">Visitor</div>
+<div class="text-center">
+	<div class="btn btn-primary" ng-click="backToVisitor()">Back to visitor's page</div>
 </div>

@@ -1,87 +1,76 @@
-<div class="top top-custom">
-    <i class="fa fa-tags"></i>
-    <h6 ng-if="attribute.Attribute"> {{attribute.Label}}</h6>
-    <h6 ng-if="!attribute.Attribute"> New Attribute </h6>
+<!-- Page title -->
+<h2 class="text-center" ng-if="attribute.Attribute">"{{attribute.Label}}" attribute editor</h2>
+<h2 class="text-center" ng-if="!attribute.Attribute">New Attribute</h2>
+    
+<!-- Error message -->
+<gui-message-manager item="message"></gui-message-manager>
+<div ng-switch="attribute.Editors">
+    <input type="hidden" name="Model" value="product" required/>
+    <input type="hidden" name="Collection" value="product" required/>
+
+    <div class="col-xs-12 col-sm-6 col-lg-4 col-lg-offset-2 form-group ">
+        <label for="inpAttribute">Attribute</label>
+        <input type="text" class="form-control" name="Attribute"
+               ng-model="attribute.Attribute"/>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-lg-4 form-group ">
+        <label for="inpType">Type</label>
+        <select class="form-control" name="Type"
+                data-ng-model="attribute.Type"
+                data-ng-options="choice for choice in typesAttribute">
+        </select>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-lg-4 col-lg-offset-2 form-group ">
+        <label for="inpLabel">Label</label>
+        <input type="text" class="form-control" name="Label"
+               ng-model="attribute.Label"/>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-lg-4 form-group ">
+        <label for="inpGroup">Group</label>
+        <input type="text" class="form-control" name="Group"
+               ng-model="attribute.Group"/>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-lg-4 col-lg-offset-2 form-group ">
+        <label for="inpEditors">Editors</label>
+        <select class="form-control" name="Editors"
+                ng-init="attribute.Editors = editorsList[0]"
+                ng-change="choiceEditor()"
+                data-ng-model="attribute.Editors"
+                data-ng-options="choice for choice in editorsList">
+        </select>
+        <gui-json-editor data="attribute.Options" ng-if="isEditOptions"></gui-json-editor>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-lg-4 form-group ">
+        <label for="inpOptions">Options</label>
+        <input type="text" class="form-control" name="Options"
+               ng-readonly="readonlyEditors()"
+               ng-model="attribute.Options"/>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-lg-4 col-lg-offset-2 form-group ">
+        <label for="inpDefault">Default</label>
+        <input type="text" class="form-control" name="Default"
+               ng-model="attribute.Default"/>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-lg-4 form-group ">
+        <label for="inpIsRequired">IsRequired</label>
+        <select class="form-control" name="IsRequired"
+                ng-init="attribute.IsRequired = true"
+                data-ng-model="attribute.IsRequired"
+                data-ng-options="choice for choice in [true, false]">
+        </select>
+    </div>
+
+    <div class="col-xs-12 col-sm-6 col-lg-4 col-lg-offset-2 form-group ">
+        <label for="inpIsRequired">Validators</label>
+        <input type="text" class="form-control" name="Default"
+               ng-model="attribute.Validators"/>
+    </div>
+    <div class="clearfix"></div>
 </div>
 
-<div class="panel-body">
-    <gui-message-manager item="message"></gui-message-manager>
-    <div class="panel-heading">
-        <h4 class="panel-title">
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapseGeneral"
-               target="_self">
-                General
-            </a>
-        </h4>
-    </div>
+<br>
 
-    <div id="collapseGeneral" class="panel-collapse collapse in">
-        <div class="panel-body">
-            <div ng-switch="attribute.Editors">
-                <input type="hidden" name="Model" value="product" required/>
-                <input type="hidden" name="Collection" value="product" required/>
-
-                <div>
-                    <label for="inpAttribute">Attribute</label>
-                    <input type="text" class="form-control" name="Attribute"
-                           ng-model="attribute.Attribute"/>
-                </div>
-                <div>
-                    <label for="inpType">Type</label>
-                    <select class="form-control" name="Type"
-                            data-ng-model="attribute.Type"
-                            data-ng-options="choice for choice in typesAttribute">
-                    </select>
-                </div>
-                <div>
-                    <label for="inpLabel">Label</label>
-                    <input type="text" class="form-control" name="Label"
-                           ng-model="attribute.Label"/>
-                </div>
-                <div>
-                    <label for="inpGroup">Group</label>
-                    <input type="text" class="form-control" name="Group"
-                           ng-model="attribute.Group"/>
-                </div>
-                <div>
-                    <label for="inpEditors">Editors</label>
-                    <select class="form-control" name="Editors"
-                            ng-init="attribute.Editors = editorsList[0]"
-                            ng-change="choiceEditor()"
-                            data-ng-model="attribute.Editors"
-                            data-ng-options="choice for choice in editorsList">
-                    </select>
-                    <gui-json-editor data="attribute.Options" ng-if="isEditOptions"></gui-json-editor>
-                </div>
-                <div>
-                    <label for="inpOptions">Options</label>
-                    <input type="text" class="form-control" name="Options"
-                           ng-readonly="readonlyEditors()"
-                           ng-model="attribute.Options"/>
-                </div>
-                <div>
-                    <label for="inpDefault">Default</label>
-                    <input type="text" class="form-control" name="Default"
-                           ng-model="attribute.Default"/>
-                </div>
-                <div>
-                    <label for="inpIsRequired">IsRequired</label>
-                    <select class="form-control" name="IsRequired"
-                            ng-init="attribute.IsRequired = true"
-                            data-ng-model="attribute.IsRequired"
-                            data-ng-options="choice for choice in [true, false]">
-                    </select>
-                </div>
-
-                <div>
-                    <label for="inpIsRequired">Validators</label>
-                    <input type="text" class="form-control" name="Default"
-                           ng-model="attribute.Validators"/>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    <div class="btn-black" ng-click="save()">Save</div>
-    <div class="btn-black" ng-click="back()">Back</div>
+<div class="text-center">
+    <div class="btn btn-primary" ng-click="save()">Save</div>
+    <div class="btn btn-default" ng-click="back()">Back</div>
 </div>

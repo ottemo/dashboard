@@ -1,5 +1,5 @@
 <!-- Navigation bar -->
-<nav class="navbar navbar-inverse" ng-controller="dashboardHeaderController">
+<nav class="navbar navbar-default" ng-controller="dashboardHeaderController">
     <div class="container-fluid">
         <div class="navbar-header">
 
@@ -27,6 +27,8 @@
                         {{it.getUsername()}}&nbsp;
                         <span class="caret"></span></a>
                     <ul class="dropdown-menu">
+                        <li data-toggle="modal" data-target="#switcher"><a href="">Theme switcher</a></li>
+                        <li data-toggle="modal" data-target="#switcher_code"><a href="">Theme code switcher</a></li>
                         <li ng-repeat="item in rightMenu" ng-include="getTemplate('dashboard/header/menuItem.html')"></li>
                     </ul>
                 </li>

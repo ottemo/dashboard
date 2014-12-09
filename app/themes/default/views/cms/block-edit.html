@@ -1,12 +1,12 @@
-<div class="top top-custom">
-    <i class="fa fa-indent"></i>
-    <h6 ng-if="block._id"> Block: {{block.identifier}}</h6>
-    <h6 ng-if="!block._id"> New block </h6>
-</div>
+<!-- Page title -->
+<h2 class="text-center" ng-if="block._id">Block: {{block.identifier}}</h2>
+<h2 class="text-center" ng-if="!block._id">New block </h2>
 
-<div class="panel-body">
-
+<div class="col-xs-12">
+	
+	<!-- Error message -->
     <gui-message-manager item="message"></gui-message-manager>
-    <gui-attributes-editor-form-tabs attributes-list="attributes" object="this" item="block"></gui-attributes-editor-form-tabs>
 
+    <!-- Tabs editor -->
+    <gui-attributes-editor-form-tabs attributes-list="attributes" object="this" item="block"></gui-attributes-editor-form-tabs>
 </div>

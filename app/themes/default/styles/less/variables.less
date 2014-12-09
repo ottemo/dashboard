@@ -11,7 +11,7 @@
 @gray-darker:            lighten(@gray-base, 13.5%); // #222
 @gray-dark:              lighten(@gray-base, 20%);   // #333
 @gray:                   lighten(@gray-base, 33.5%); // #555
-@gray-light:             lighten(@gray-base, 46.7%); // #777
+@gray-light:             lighten(@gray-base, 95.7%); // #777
 @gray-lighter:           #fff; // #white
 
 @brand-primary:         darken(#428bca, 6.5%);
@@ -26,7 +26,7 @@
 //## Settings for some of the most global styles.
 
 //** Background color for `<body>`.
-@body-bg:               @gray-lighter;
+@body-bg:               @gray-light;
 //** Global text color on `<body>`.
 @text-color:            @gray-base;
 
@@ -127,11 +127,11 @@
 @table-condensed-cell-padding:  3px;
 
 //** Default background color used for all tables.
-@table-bg:                      transparent;
+@table-bg:                      #fff;
 //** Background color used for `.table-striped`.
 @table-bg-accent:               #f9f9f9;
 //** Background color used for `.table-hover`.
-@table-bg-hover:                #f5f5f5;
+@table-bg-hover:                @gray-dark;
 @table-bg-active:               @table-bg-hover;
 
 //** Border color for table and cell borders.
@@ -144,13 +144,13 @@
 
 @btn-font-weight:                normal;
 
-@btn-default-color:              #333;
+@btn-default-color:              @gray-dark;
 @btn-default-bg:                 #fff;
 @btn-default-border:             #ccc;
 
 @btn-primary-color:              #fff;
 @btn-primary-bg:                 @gray-dark;
-@btn-primary-border:             darken(@btn-primary-bg, 5%);
+@btn-primary-border:             darken(@btn-primary-bg, 15%);
 
 @btn-success-color:              #fff;
 @btn-success-bg:                 @brand-success;
@@ -199,7 +199,7 @@
 @input-color-placeholder:        #999;
 
 //** Default `.form-control` height
-@input-height-base:              (@line-height-computed + (@padding-base-vertical * 2) + 2);
+@input-height-base:              (@line-height-computed + (@padding-base-vertical * 2));
 //** Large `.form-control` height
 @input-height-large:             (ceil(@font-size-large * @line-height-large) + (@padding-large-vertical * 2) + 2);
 //** Small `.form-control` height
@@ -353,12 +353,12 @@
 @navbar-padding-vertical:          ((@navbar-height - @line-height-computed) / 2);
 @navbar-collapse-max-height:       340px;
 
-@navbar-default-color:             #777;
-@navbar-default-bg:                #f8f8f8;
+@navbar-default-color:             @gray-base;
+@navbar-default-bg:                @gray-lighter;
 @navbar-default-border:            darken(@navbar-default-bg, 6.5%);
 
 // Navbar links
-@navbar-default-link-color:                #777;
+@navbar-default-link-color:                @gray-dark;
 @navbar-default-link-hover-color:          #333;
 @navbar-default-link-hover-bg:             transparent;
 @navbar-default-link-active-color:         #555;
@@ -419,8 +419,8 @@
 
 @nav-tabs-link-hover-border-color:          @gray-lighter;
 
-@nav-tabs-active-link-hover-bg:             @body-bg;
-@nav-tabs-active-link-hover-color:          @gray;
+@nav-tabs-active-link-hover-bg:             @gray-lighter;
+@nav-tabs-active-link-hover-color:          @gray-base;
 @nav-tabs-active-link-hover-border-color:   #ddd;
 
 @nav-tabs-justified-link-border-color:            #ddd;
@@ -441,7 +441,7 @@
 @pagination-border:                    @gray-light;
 
 @pagination-hover-color:               @gray-lighter;
-@pagination-hover-bg:                  @gray-light;
+@pagination-hover-bg:                  @gray;
 @pagination-hover-border:              @gray-dark;
 
 @pagination-active-color:              #fff;

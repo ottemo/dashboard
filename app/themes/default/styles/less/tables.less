@@ -31,7 +31,8 @@ th {
       > th,
       > td {
         padding: @table-cell-padding;
-        line-height: @line-height-base;
+        padding-top: 8px;
+        line-height: 1;
         vertical-align: middle;
         border-top: 1px solid @table-border-color;
       }
@@ -124,7 +125,10 @@ th {
 .table-hover {
   > tbody > tr:hover {
     background-color: @table-bg-hover;
+    color: @gray-lighter;
+    .animation;
   }
+
 }
 
 

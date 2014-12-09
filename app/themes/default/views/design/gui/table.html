@@ -1,13 +1,10 @@
 <section ng-init="init()">
     <form class="form-group">
-        <div class="">
-            <div class="filters btn btn-primary pull-right" ng-if="parent.fields.length > 1" >Filters</div>
-            <span class="pull-right" ng-if="parent.fields.length > 1" >
-                <label class="checkbox-inline" ng-repeat="field in parent.fields" ng-hide="field.notDisable">
-                    <input type="checkbox" ng-model="field.visible" ng-hide="field.notDisable">
-                    {{field.label || field.attribute}}
-                </label>
+        <div class="btn-group pull-right">
+            <span class="btn btn-default" data-toggle="modal" data-target="#myModal" ng-if="parent.fields.length > 1" >
+                Columns
             </span>
+            <span class="filters btn btn-primary" ng-if="parent.fields.length > 1" >Filters</span>
         </div>
 
         <div class="clearfix"></div>
@@ -21,12 +18,7 @@
             <!-- Labels -->
             <tr>
                 <th>
-                    <div class="checkboxes">
-                        <label class="myCheckbox">
-                            <input type="checkbox" id="selectAll" ng-click="selectAll()">
-                            <span></span>
-                        </label>
-                    </div>
+                    <input type="checkbox" id="selectAll" ng-click="selectAll()">
                 </th>
                 <th ng-repeat="field in parent.fields" ng-show="field.visible" ng-class="{'th-sort': field.label}" ng-click="field.label ? setSort(field.attribute) : ''">
                     {{field.label}}
@@ -56,16 +48,10 @@
             <!-- for table design-->
             <tr></tr>
             <tr ng-repeat="_item in items">
-
                 <td>
-                    <div class="checkboxes">
-                        <label class="myCheckbox myCheckboxRow" ng-if="!_item.IsStatic">
-                            <input type="checkbox" ng-model="parent.idsSelectedRows[_item[map.id]]">
-                            <span></span>
-                        </label>
-                    </div>
+                    <input type="checkbox" ng-if="!_item.IsStatic" ng-model="parent.idsSelectedRows[_item[map.id]]">
                 </td>
-                <th ng-repeat="field in parent.fields" ng-show="field.visible" ng-class="{'image-row': field.type ==='image'}" class="th2">
+                <td  ng-click="parent.select(_item[map.id])" ng-repeat="field in parent.fields" ng-show="field.visible" ng-class="{'image-row': field.type ==='image'}">
                     <span ng-switch="field.type">
 
                         <!-- Image -->
@@ -87,7 +73,7 @@
                         <span ng-switch-default="">{{_item[field.attribute]}}</span>
 
                     </span>
-                </th>
+                </td>
             </tr>
 
             <!-- for table design-->
@@ -104,8 +90,27 @@
     </form>
 </section>
 
-<script>
-    $(document).on('click', '.filters', function(event) {
-        $('#filters').toggle(500)
-    });
-</script>
+<!-- Modal columns -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel">
+                    Select columns
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                </h4> 
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <label class="col-xs-12 col-sm-6" ng-repeat="field in parent.fields" ng-hide="field.notDisable">
+                        <input type="checkbox" ng-model="field.visible" ng-hide="field.notDisable">
+                        {{field.label || field.attribute}}
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+     </div>
+</div>
