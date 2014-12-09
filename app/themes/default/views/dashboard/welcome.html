@@ -10,11 +10,11 @@
             <div class="col-md-12">
                 <div class="panel">
                     <div class="panel-body extra-pad">
-                        <div class="col-xs-5">
+                        <div class="col-sm-6 col-xs-6">
                             <span class="num">{{visits.visitsToday}}</span>
                             <span class="text">Today's Visits</span>
                         </div>
-                        <div class="col-xs-7">
+                        <div class="col-sm-6 col-xs-6">
                             <span class="perc">{{visits.ratio}}%</span>
                             <span class="pointer">
                                 <i class="fa fa-arrow-up" ng-if="visits.higher"></i>
@@ -41,11 +41,11 @@
             <div class="col-md-12">
                 <div class="panel">
                     <div class="panel-body extra-pad">
-                        <div class="col-xs-5">
+                        <div class="col-sm-6 col-xs-6">
                             <span class="num">{{sales.salesToday}}</span>
                             <span class="text">Today's Sales</span>
                         </div>
-                        <div class="col-xs-7">
+                        <div class="col-sm-6 col-xs-6">
                             <span class="perc">{{sales.ratio}}%</span>
                             <span class="pointer">
                                 <i class="fa fa-arrow-up"></i>
@@ -72,7 +72,7 @@
                 <div class="panel">
                     <div class="panel-body extra-pad">
                         <p>Real-Time Page Views</p>
-                        <div class="col-xs-12">
+                        <div class="col-sm-6 col-xs-6">
                             <span class="text">
                                 <span>{{visitorsOnline.online}}</span>
                                 visitors online
@@ -117,7 +117,7 @@
         </div>
     </div>
     <!-- block chart for Visitors -->
-    <div class="col-xs-12 col-md-6 col-lg-5">
+    <div class="col-md-5">
         <div class="panel panel-info d-visitors">
             <div class="panel-heading">
                 <h3 class="panel-title">Visitors</h3>
@@ -147,7 +147,7 @@
         </div>
     </div>
     <!-- block chart for Total Sales -->
-    <div class="col-xs-12 col-md-6 col-lg-5">
+    <div class="col-md-5">
         <div class="panel panel-info d-sales">
             <div class="panel-heading">
                 <h3 class="panel-title">Total Sales</h3>
@@ -177,51 +177,45 @@
         </div>
     </div>
     <!-- right block Website Conversions -->
-    <div class="col-xs-12 col-md-12 col-lg-2 pull-right d-right">
+    <div class="col-md-2">
         <div class="panel panel-info">
-            <h4>Website <br>Conversions</h4>
+            <h4>Website Conversions</h4>
             <div class="panel-body">
-                <div class="col-xs-4 col-lg-12">
-                    <a href="">
-                        <i class="fa fa-shopping-cart"></i>
-                    </a>
-                    <p>Added
-                        <br>
-                        to Cart
-                    </p>
-                    <span>
-                        {{conversions.addedToCartPercent | number:2}}%
-                        <span class="small">({{conversions.addedToCart}})</span>
-                    </span>
-                </div>
-                <div class="col-xs-4 col-lg-12">
-                    <a href="">
-                        <i class="fa fa-download"></i>
-                    </a>
-                    <p>Reached
-                        <br>
-                        Checkout
-                    </p>
-                    <span>
-                        {{conversions.reachedCheckoutPercent | number:2}}%
-                        <span class="small">({{conversions.reachedCheckout}})</span>
-                    </span>
-                </div>
-                <div class="col-xs-4 col-lg-12">
-                    <a href="">
-                        <i class="fa fa-dollar"></i>
-                    </a>
-                    <p>Purchased</p>
-                    <span>
-                        {{conversions.purchasedPercent | number:2}}%
-                        <span class="small">({{conversions.purchased}})</span>
-                    </span>
-                </div>
+                <a href=""> 
+                    <i class="fa fa-shopping-cart"></i>
+                </a>
+                <p>Added
+                    <br>
+                    to Cart
+                </p>
+                <span>
+                    {{conversions.addedToCartPercent | number:2}}%
+                    <span class="small">({{conversions.addedToCart}})</span>
+                </span>
+                <a href=""> 
+                    <i class="fa fa-download"></i>
+                </a>
+                <p>Reached
+                    <br>
+                    Checkout
+                </p>
+                <span>
+                    {{conversions.reachedCheckoutPercent | number:2}}%
+                    <span class="small">({{conversions.reachedCheckout}})</span>
+                </span>
+                <a href=""> 
+                    <i class="fa fa-dollar"></i>
+                </a>
+                <p>Purchased</p>
+                <span>
+                    {{conversions.purchasedPercent | number:2}}%
+                    <span class="small">({{conversions.purchased}})</span>
+                </span>
             </div>
         </div>
     </div>
     <!-- block Top Referrals -->
-    <div class="col-xs-12 col-md-6 col-lg-5">
+    <div class="col-md-5">
         <div class="panel panel-info d-table">
             <div class="panel-heading">
                 <h3 class="panel-title">Top Referrals</h3>
@@ -237,7 +231,7 @@
         </div>
     </div>
     <!-- block Top Sellers -->
-    <div class="col-xs-12 col-md-6 col-lg-5">
+    <div class="col-md-5">
         <div class="panel panel-info d-table d-sellers">
             <div class="panel-heading">
                 <h3 class="panel-title">Top Sellers</h3>
