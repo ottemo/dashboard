@@ -501,7 +501,7 @@ h5.left-nav-title {
 .left-side-collapsed .custom-nav li.nav-hover ul {
     display: block;
     position: absolute;
-    top: 40px;
+    top: 45px;
     left: 53px;
     margin: 0;
     min-width: 172px;
