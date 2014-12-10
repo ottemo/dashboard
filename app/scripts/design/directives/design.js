@@ -3,10 +3,10 @@
 
     define(["design/init"], function (designModule) {
         designModule
-            /**
-             *  Directive that allows to declare CSS inside module templates
-             *  (TODO: not working currently as html creation going before)
-             */
+        /**
+         *  Directive that allows to declare CSS inside module templates
+         *  (TODO: not working currently as html creation going before)
+         */
             .directive("addCss", ["$designService", function ($designService) {
                 return {
                     restrict: "E",
@@ -19,9 +19,9 @@
                 };
             }])
 
-            /**
-             *  Directive to solve browser auto-fill issue on model
-             */
+        /**
+         *  Directive to solve browser auto-fill issue on model
+         */
             .directive("autoFillSync", ["$timeout", function ($timeout) {
                 return {
                     require: "ngModel",
@@ -37,9 +37,9 @@
                 };
             }])
 
-            /**
-             * Fix issue with the dynamic names fields in the form for validation form
-             */
+        /**
+         * Fix issue with the dynamic names fields in the form for validation form
+         */
             .directive('dynamicName', function ($compile, $parse) {
                 return {
                     restrict: 'A',
@@ -54,9 +54,9 @@
                 };
             })
 
-            /**
-             *  jQuery layout directive
-             */
+        /**
+         *  jQuery layout directive
+         */
             .directive("jqLayout", function () {
                 return {
                     restrict: "A",
@@ -69,8 +69,8 @@
             .directive('ngEnter', function () {
                 return function (scope, element, attrs) {
                     element.bind("keydown keypress", function (event) {
-                        if(event.which === 13) {
-                            scope.$apply(function (){
+                        if (event.which === 13) {
+                            scope.$apply(function () {
                                 scope.$eval(attrs.ngEnter);
                             });
 
@@ -92,7 +92,9 @@
                 return {
                     restrict: "E",
                     scope: false,
-                    templateUrl: function (element, attr) { return $designService.getTemplate(attr.src); }
+                    templateUrl: function (element, attr) {
+                        return $designService.getTemplate(attr.src);
+                    }
                     // controller: function (element, attr) { return attr.controller; }
                 };
             }]);
