@@ -56,8 +56,8 @@
         </div>
 
         <div ng-switch-when="price"
-             ng-class="{ 'has-error' : (parent.form.submitted && parent.form.{{attribute.Attribute}}.$error.required) ||
-                     (parent.form.{{attribute.Attribute}}.$invalid && !parent.form.{{attribute.Attribute}}.$pristine) }">
+             ng-class="{ 'has-error' : (parent.form.submitted && parent.form.{{attribute.Attribute}}.$invalid) ||
+             (parent.form.{{attribute.Attribute}}.$invalid && !parent.form.{{attribute.Attribute}}.$pristine) }">
             <label>{{attribute.Label}} <span class="asterisk"
                                              ng-show="attribute.IsRequired">*</span></label>
             <gui-price editor-scope="attribute" item="item" ng-required="attribute.IsRequired"

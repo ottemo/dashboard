@@ -34,7 +34,6 @@
             "design/directives/validator/between",
             "design/directives/validator/number",
             "design/directives/validator/positive",
-            "design/directives/validator/string",
             "design/directives/validator/date",
 
             // Form fields

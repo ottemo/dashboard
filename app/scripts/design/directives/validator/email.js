@@ -8,8 +8,7 @@
         designModule.directive("otEmail", function () {
             return {
                 restrict: 'EA',
-                terminal: true,
-                require: 'ngModel',
+                require: '?ngModel',
                 link: function (scope, elem, attrs, ngModel) {
                     var validate = function (value) {
                         var valid = re.test(value);

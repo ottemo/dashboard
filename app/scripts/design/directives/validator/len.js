@@ -9,7 +9,6 @@
             .directive("otLen", function () {
                 return {
                     restrict: 'A',
-                    terminal: true,
                     require: '?ngModel',
                     link: function (scope, elem, attrs, ngModel) {
                         var params = elem.attr('ot-len').split(",");

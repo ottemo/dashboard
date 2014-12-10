@@ -9,7 +9,6 @@
         designModule.directive("otNumber", function () {
             return {
                 restrict: 'A',
-                terminal: true,
                 require: '?ngModel',
                 link: function (scope, elem, attrs, ngModel) {
 
