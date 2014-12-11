@@ -1,15 +1,13 @@
-<div class="top top-custom">
-    <i class="fa fa-cogs"></i>
-    <h6>{{getGroupName()}}</h6>
-</div>
-<div class="panel-body" ng-init="init()">
+<!-- Page title -->
+<h2 class="text-center">{{getGroupName()}}</h2>
 
+<div class="col-xs-12" ng-init="init()">
+	<!-- Error message -->
     <gui-message-manager item="message"></gui-message-manager>
-
-    <!--<gui-attributes-editor-form-tabs attributes-list="sections" object="this" item="config.getItems(currentPath)"></gui-attributes-editor-form-tabs>-->
-
+	
+	<!-- Tabs editor -->
     <gui-config-editor-form attributes-list="sections" object="this" item="items" ng-if="!isThemeManager()"></gui-config-editor-form>
-
+	
+	<!-- Theme manager -->
     <gui-themes-manager ng-if="isThemeManager()"></gui-themes-manager>
-
 </div>

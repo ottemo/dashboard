@@ -1,137 +1,103 @@
-<section class="customers table-element" ng-init="init()">
+<section ng-init="init()">
+    <form role="form" class="form-group">
 
-    <form class="col-md-12">
+        <!-- Pagination -->
+        <gui-paginator object="this"></gui-paginator>
+        
+        <!-- Columns filter -->
+        <div class="text-center" ng-if="parent.fields.length > 1">
+            <label class="checkbox-inline" ng-repeat="field in parent.fields" ng-hide="field.notDisable">
+                <input type="checkbox" ng-model="field.visible" ng-hide="field.notDisable">
+                {{field.label || field.attribute}}
 
-        <div class="checkboxes head-checkboxes" ng-if="parent.fields.length > 1" >
-            <div class="checkboxes-wrapper">
-                <label class="myCheckbox visibility" ng-repeat="field in parent.fields" ng-hide="field.notDisable">
-                    <input type="checkbox" ng-model="field.visible" ng-hide="field.notDisable">
-                    <span>{{field.label || field.attribute}}</span>
-                </label>
-            </div>
+                &nbsp;&nbsp;&nbsp;
+            </label>
         </div>
+
+
         <div class="filters" ng-if="parent.fields.length > 1" ></div>
-        <div class="clear"></div>
-
-        <!-- Pagination -->
-        <gui-paginator object="this"></gui-paginator>
-
-        <table class="table-responsive table">
-            <!-- Labels -->
-            <tr>
-                <th ng-if="buttons.checkbox">
-                    <div class="checkboxes">
-                        <label class="myCheckbox">
+        
+        <br>
+        
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <!-- Checkboxes column thead -->
+                        <th class="checkboxes-column" ng-if="buttons.checkbox">
                             <input type="checkbox" id="selectAll" ng-click="selectAll()">
-                            <span></span>
-                        </label>
-                    </div>
-                </th>
-                <th ng-repeat="field in parent.fields" ng-show="field.visible" ng-class="{'th-sort': field.label}" ng-click="field.label ? setSort(field.attribute) : ''">
-                    {{field.label}}
-                    <span ng-class="getSortClass(field.attribute)"></span>
-                </th>
-            </tr>
-            <!-- Filters -->
-            <tr ng-hide="filters.length <= 1 && !filters[0].visible">
-                <th ng-if="buttons.checkbox">&nbsp;</th>
-                <th ng-repeat="filter in filters" ng-switch="filter.type" ng-show="parent.fields[$index].visible">
-                    <div ng-switch-when="text">
-                        <gui-filter-text editor-scope="filter.attributes" item="filter" object="this"></gui-filter-text>
-                    </div>
+                        </th>
 
-                    <div ng-switch-when="range">
-                        <gui-filter-range editor-scope="filter.attributes" item="filter" object="this"></gui-filter-range>
-                    </div>
+                        <!-- Other columns thead -->
+                        <th ng-repeat="field in parent.fields" ng-show="field.visible" ng-class="{'th-sort': field.label}" ng-click="field.label ? setSort(field.attribute) : ''">
+                            {{field.label}}
+                            <span ng-class="getSortClass(field.attribute)"></span>
+                        </th>
+                    </tr>
 
-                    <div ng-switch-when="select">
-                        <gui-filter-select editor-scope="filter.attributes" item="filter" object="this"></gui-filter-select>
-                    </div>
-                    <div ng-switch-default="">
-                        &nbsp;
-                    </div>
-                </th>
-            </tr>
-            <!-- for table design-->
-            <tr></tr>
+                    <!-- Filters row -->
+                    <tr ng-hide="filters.length <= 1 && !filters[0].visible">
+                        <th ng-if="buttons.checkbox">&nbsp;</th>
+                        <th ng-repeat="filter in filters" ng-switch="filter.type" ng-show="parent.fields[$index].visible">
+                            <div ng-switch-when="text">
+                                <gui-filter-text editor-scope="filter.attributes" item="filter" object="this"></gui-filter-text>
+                            </div>
 
-            <tr ng-repeat="_item in items">
+                            <div ng-switch-when="range">
+                                <gui-filter-range editor-scope="filter.attributes" item="filter" object="this"></gui-filter-range>
+                            </div>
 
-                <td ng-if="buttons.checkbox">
-                    <div class="checkboxes">
-                        <label class="myCheckbox" ng-if="!_item.IsStatic">
-                            <input type="checkbox" ng-model="parent.selected[_item[map.id]]">
-                            <span></span>
-                        </label>
-                    </div>
-                </td>
-                <th ng-repeat="field in parent.fields" ng-show="field.visible">
-                    <span ng-switch="field.type">
+                            <div ng-switch-when="select">
+                                <gui-filter-select editor-scope="filter.attributes" item="filter" object="this"></gui-filter-select>
+                            </div>
+                            <div ng-switch-default="">
+                                &nbsp;
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="_item in items">
 
-                        <!-- Image -->
-                        <span ng-switch-when="image">
-                            <img class="media-object" ng-src="{{parent.getImage(_item[field.attribute])}}"
-                                 alt="{{item[map.name]}}" style="max-width: 75px; max-height: 75px;">
-                        </span>
+                        <!-- Checkboxes column -->
+                        <td class="checkboxes-column" ng-if="buttons.checkbox">
+                            <input type="checkbox" ng-model="parent.selected[_item[map.id]]" ng-if="!_item.IsStatic">
+                        </td>
 
-                        <!-- Currency -->
-                        <span ng-switch-when="price">{{_item[field.attribute] | currency}}</span>
-                        <span ng-switch-when="currency">{{_item[field.attribute] | currency}}</span>
+                        <!-- Other columns with ng-switcher -->
+                        <td ng-repeat="field in parent.fields" ng-show="field.visible" ng-class="{'select-link': field.type ==='select-link'}">
+                            <span ng-switch="field.type">
 
-                        <!-- Link -->
-                        <span ng-switch-when="select-link">
-                            <a href="" ng-click="parent.select(_item[map.id])">{{_item[field.attribute]}}</a>
-                        </span>
+                                <!-- Image -->
+                                <span ng-switch-when="image">
+                                    <img class="media-object" ng-src="{{parent.getImage(_item[field.attribute])}}"
+                                         alt="{{item[map.name]}}" style="max-width: 75px; max-height: 75px;">
+                                </span>
 
-                        <!-- String, text -->
-                        <span ng-switch-default="">{{_item[field.attribute]}}</span>
+                                <!-- Currency -->
+                                <span ng-switch-when="price">{{_item[field.attribute] | currency}}</span>
+                                <span ng-switch-when="currency">{{_item[field.attribute] | currency}}</span>
 
+                                <!-- Link -->
+                                <span ng-switch-when="select-link">
+                                    <div ng-click="parent.select(_item[map.id])">{{_item[field.attribute]}}</div>
+                                </span>
 
-                    </span>
-                </th>
-
-            </tr>
-            <!-- for table design-->
-            <tr></tr>
-        </table>
+                                <!-- String, text -->
+                                <span ng-switch-default="">{{_item[field.attribute]}}</span>
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
         <!-- Pagination -->
         <gui-paginator object="this"></gui-paginator>
-
-        <div class="btn-black" ng-click="parent.remove()" ng-if="buttons.delete">Delete</div>
-        <div class="btn-black" ng-click="parent.create()" ng-if="buttons.new">New</div>
+        
+        <div class="text-center">
+            <div class="btn btn-primary" ng-click="parent.remove()" ng-if="buttons.delete">Delete</div>
+            <div class="btn-black" ng-click="parent.create()" ng-if="buttons.new">New</div>
+        </div>
     </form>
 </section>
-
-<script>
-    (function($){
-        $(document).ready(function(){
-            jQuery("#selectAll").click(function () {
-                alert(1)
-                if (this.is(':checked')) {
-                    jQuery(".myCheckbox").find("input").attr("checked", true);
-                } else {
-                    jQuery(".myCheckbox").find("input").attr("checked", false);
-                }
-            });
-            jQuery(".myCheckbox input").click(function(){
-                console.log(this.is(":checked"))
-                jQuery("#selectAll").attr("checked", false);
-                if (this.is(":checked")) {
-                    // checkAll
-                } else {
-//            jQuery("#selectAll").attr("checked", false);
-                }
-            })
-        });
-    })(jQuery)
-
-</script>
-<style>
-    .table-element .myCheckbox span {
-        width: auto;
-        padding-left: 30px;
-        text-align: left;
-    }
-    
-</style>

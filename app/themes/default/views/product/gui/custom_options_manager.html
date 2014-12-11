@@ -1,89 +1,88 @@
-<div class="product-custom-options">
-    <button class="btn-black" ng-click="addNewOption()">Add new option</button>
-    <div ng-repeat="option in optionsData | getOrdered">
-        <div>
+<button class="btn btn-primary" ng-click="addNewOption()">Add new option</button>
+
+<br><br><br>
+
+<div class="container text-center" ng-repeat="option in optionsData | getOrdered">
+
+    <div class="form-group col-xs-6 col-sm-3">
+        <label>Label</label>
+        <input class="form-control" type="text" ng-model="option.label" ng-blur="modifyData()" />
+    </div>
+    <div class="form-group col-xs-6 col-sm-3">
+        <label>Type</label>
+        <select class="form-control" ng-blur="modifyData()"
+                ng-change="cleanOption(option.label)"
+                ng-init="option.type = option.type || types[0]"
+                data-ng-model="option.type"
+                data-ng-options="o as o for o in types">
+        </select>
+    </div>
+    <div class="form-group col-xs-6 col-sm-3">
+        <label>isRequired</label>
+        <select class="form-control" ng-blur="modifyData()"
+                ng-init="option.required = option.required || false"
+                data-ng-model="option.required"
+                data-ng-options="o as o for o in [true, false]">
+        </select>
+    </div>
+    <div class="form-group col-xs-6 col-sm-3 col-lg-2">
+        <label>Sort</label>
+        <input class="form-control" type="text" ng-model="option.order" ng-blur="modifyData()" />
+    </div>
+     <br>
+    <button class="btn btn-primary" type="button" ng-click="removeOption(option.label)">Remove option</button>
+    <hr>
+</div>
+
+<div class="option-values">
+
+    <div id="field_options" ng-if="option.type === 'field'">
+        <div class="left">
+            <label>Price</label>
+            <input type="text" ng-model="option.price" ng-blur="modifyData()" />
+        </div>
+        <div class="left">
+
+            <label>QTY</label>
+            <input type="text" ng-model="option.qty" ng-blur="modifyData()" />
+        </div>
+        <div class="left">
+            <label>SKU</label>
+            <input type="text" ng-model="option.sku" ng-blur="modifyData()" />
+        </div>
+    </div>
+
+    <div id="select_options" ng-if="option.type === 'select' || option.type === 'multi_select'">
+        <div class="option_row" ng-repeat="(key, row) in option.options | getOrdered">
             <div class="left">
                 <label>Label</label>
-                <input type="text" ng-model="option.label" ng-blur="modifyData()" />
+                <input type="text" ng-model="row.label" ng-blur="modifyData()" />
             </div>
             <div class="left">
-                <label>Type</label>
-                <select class="form-control" ng-blur="modifyData()"
-                        ng-change="cleanOption(option.label)"
-                        ng-init="option.type = option.type || types[0]"
-                        data-ng-model="option.type"
-                        data-ng-options="o as o for o in types">
-                </select>
+                <label>Price</label>
+                <input type="text" ng-model="row.price" ng-blur="modifyData()" />
             </div>
             <div class="left">
-                <label>isRequired</label>
-                <select class="form-control" ng-blur="modifyData()"
-                        ng-init="option.required = option.required || false"
-                        data-ng-model="option.required"
-                        data-ng-options="o as o for o in [true, false]">
-                </select>
+                <label>QTY</label>
+                <input type="text" ng-model="row.qty" ng-blur="modifyData()" />
             </div>
             <div class="left">
-                <label>Sort</label>
-                <input type="text" ng-model="option.order" ng-blur="modifyData()" />
+                <label>SKU</label>
+                <input type="text" ng-model="row.sku" ng-blur="modifyData()" />
+            </div>
+            <div class="left">
+                <label>Sort Order</label>
+                <input type="text" ng-model="row.order" ng-blur="modifyData()" />
             </div>
             <div class="left">
                 <label>&nbsp;</label>
-                <button class="btn-black" type="button" ng-click="removeOption(option.label)">Remove option</button>
+                <button class="btn-black" type="button" ng-click="removeRow(option.label, row.label)">Remove row</button>
             </div>
         </div>
-
-        <div class="option-values">
-
-            <div id="field_options" ng-if="option.type === 'field'">
-                <div class="left">
-                    <label>Price</label>
-                    <input type="text" ng-model="option.price" ng-blur="modifyData()" />
-                </div>
-                <div class="left">
-
-                    <label>QTY</label>
-                    <input type="text" ng-model="option.qty" ng-blur="modifyData()" />
-                </div>
-                <div class="left">
-                    <label>SKU</label>
-                    <input type="text" ng-model="option.sku" ng-blur="modifyData()" />
-                </div>
-            </div>
-
-            <div id="select_options" ng-if="option.type === 'select' || option.type === 'multi_select'">
-                <div class="option_row" ng-repeat="(key, row) in option.options | getOrdered">
-                    <div class="left">
-                        <label>Label</label>
-                        <input type="text" ng-model="row.label" ng-blur="modifyData()" />
-                    </div>
-                    <div class="left">
-                        <label>Price</label>
-                        <input type="text" ng-model="row.price" ng-blur="modifyData()" />
-                    </div>
-                    <div class="left">
-                        <label>QTY</label>
-                        <input type="text" ng-model="row.qty" ng-blur="modifyData()" />
-                    </div>
-                    <div class="left">
-                        <label>SKU</label>
-                        <input type="text" ng-model="row.sku" ng-blur="modifyData()" />
-                    </div>
-                    <div class="left">
-                        <label>Sort Order</label>
-                        <input type="text" ng-model="row.order" ng-blur="modifyData()" />
-                    </div>
-                    <div class="left">
-                        <label>&nbsp;</label>
-                        <button class="btn-black" type="button" ng-click="removeRow(option.label, row.label)">Remove row</button>
-                    </div>
-                </div>
-                <div>
-                    <button class="btn-black" type="button" ng-click="addRow(option.label)">Add new row</button>
-                </div>
-
-            </div>
+        <div>
+            <button class="btn-black" type="button" ng-click="addRow(option.label)">Add new row</button>
         </div>
-        <hr/>
+
     </div>
+
 </div>

@@ -1,38 +1,21 @@
-<form role="form" class="product-tabs">
-    <header class="panel-heading custom-tab">
-        <ul class="nav nav-tabs">
-            <li ng-class='{active:$first}' ng-repeat="(key, items) in tabs" ng-click="click(key)">
-                <a href="#collapse{{key}}" target="_self">
-                    {{items[0].Label}}
-                </a>
-            </li>
-        </ul>
-    </header>
+<form role="form" name="otEditForm" role="tabpanel" novalidate>
+    <ul class="nav nav-tabs">
+        <li ng-class='{active:$first}' ng-repeat="(key, items) in tabs" ng-click="click(key)" role="presentation">
+            <a href="#collapse{{key}}" target="_self" aria-controls="home" role="tab" data-toggle="tab">
+                {{items[0].Label}}
+            </a>
+        </li>
+    </ul>
 
-    <div class="panel-body">
-        <div class="tab-content">
-
-            <div ng-class='{active:$first}' id="collapse{{key}}" class="tab-pane" ng-repeat="(key, items) in attributeGroups">
-                <gui-form-builder attributes="items" item="item"></gui-form-builder>
-            <div>
-        </div>
+    <div class="tab-content">
+        <div ng-class='{active:$first,in:$first}' id="collapse{{key}}" class="tab-pane fade" ng-repeat="(key, items) in attributeGroups">
+            <gui-form-builder attributes="items" item="item"></gui-form-builder>
+        <div>
+    </div>
+    <br>
+    <div class="text-center">
+        <div class="btn btn-primary" ng-click="parent.save()">Save</div>
+        <div class="btn btn-default" ng-click="parent.back()">Back</div>
     </div>
 </form>
 
-<div class="btn-black" ng-click="parent.save()">Save</div>
-<div class="btn-black" ng-click="parent.back()">Back</div>
-
-<script>
-    (function ($) {
-        $(document).on("click", 'ul.nav-tabs li a', function (event) {
-            event.preventDefault();
-
-            $(this).parent().siblings().removeClass('active');
-            $(this).parent().addClass('active');
-            var href = $(this).attr('href');
-            $('.tab-content div').removeClass('active');
-            $(href).addClass('active');
-        });
-    })(jQuery)
-
-</script>

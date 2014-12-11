@@ -7,6 +7,7 @@ $(document).ready(function() {
         $('#filters').toggle(0)
     });
 
+    //theme switcher
     $(document).on('click', '#switcher .modal-body button', function(event) {	
     	$('body #code_container').html('');
         $('body #theme_container > *').remove();
@@ -21,4 +22,15 @@ $(document).ready(function() {
     	var thisCode = $('#code_area').val();
     	$('body #code_container').text(thisCode);
     });
+
+    // uploading files
+    $(document).on('click', '.upl-btn', function(event) {
+        $(this).prev('.upl-input').trigger('click');
+    });
+
+    // modals table checkbox active on td click
+    $(document).on('click', '.modal-dialog table tbody td', function(event) {
+        $(this).parents('tr').children('td:first-child').children('input').trigger('click');
+    });
+  
 });

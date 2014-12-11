@@ -1,256 +1,234 @@
-<!--<h1>Welcome to the Dashboard</h1>-->
-<div class="top">
-    <i class="fa fa-home"></i>
-    <h6>Dashboard</h6>
-</div>
-<section class="dashboard">
-    <!-- block Today Visits -->
-    <div class="d-progressbar col-md-4">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="panel">
-                    <div class="panel-body extra-pad">
-                        <div class="col-sm-6 col-xs-6">
-                            <span class="num">{{visits.visitsToday}}</span>
-                            <span class="text">Today's Visits</span>
+
+<!-- Page title -->
+<h2 class="text-center">
+    <img alt="logo" class="" ng-src="{{getImg('color-logo.png')}}">
+</h2>
+
+<section>
+    
+    <!-- Today Visits -->
+    <div class="col-xs-12 col-sm-4">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h2 class="panel-title">
+                    Today's Visits: <strong>{{visits.visitsToday}}</strong>
+                </h2>
+            </div>
+            <div class="panel-body">
+                <strong>
+                    <span>{{visits.ratio}}%</span>
+                    <i class="fa fa-arrow-up" ng-if="visits.higher"></i>
+                    <i class="fa fa-arrow-down" ng-if="visits.lower"></i>     
+                    <span ng-if="visits.higher && visits.ratio>0">higher than yesterday</span>
+                    <span ng-if="visits.lower && visits.ratio>0">lower than yesterday</span>
+                </strong>
+
+                <br><br>
+
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped active progress-bar-info" role="progressbar" aria-valuenow="{{visits.ratio}}" aria-valuemin="0" aria-valuemax="100" style="width: {{visits.ratio}}%">
+                        <strong>{{visits.ratio}}%</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Today sales -->
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h2 class="panel-title">
+                    Today's Sales: <strong>{{sales.salesToday}}</strong>
+                </h2>
+            </div>
+            <div class="panel-body">
+                <strong>
+                    <span>{{sales.ratio}}</span>
+                    <i class="fa fa-arrow-up" ng-if="sales.higher"></i>
+                    <i class="fa fa-arrow-down" ng-if="sales.lower"></i>     
+                    <span class="text" ng-if="sales.higher && sales.ratio>0">higher than yesterday</span>
+                    <span class="text" ng-if="sales.lower && sales.ratio>0">lower than yesterday</span>
+                </strong>
+
+                <br><br>
+
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped active progress-bar-info" role="progressbar" aria-valuenow="{{sales.ratio}}" aria-valuemin="0" aria-valuemax="100" style="width:{{sales.ratio}}%">
+                        <strong>{{sales.ratio}}%</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pageviews Realtime -->
+    <div class="col-xs-12 col-sm-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h2 class="panel-title">
+                    Real-Time Page Views
+                </h2>
+            </div>
+            <div class="panel-body">
+                
+                <!-- Visitors online -->
+                <div class="col-xs-12">
+                    <strong>
+                        <span>{{visitorsOnline.online}} visitors online</span>
+                    </strong>
+                    
+                    <div class="progress progress-xs">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="{{visitorsOnline.onlineRatio}}" aria-valuemin="0" aria-valuemax="100" style="width:{{visitorsOnline.onlineRatio}}%;">
+                            <span class="sr-only">{{visitorsOnline.siteRatio}}%</span>
                         </div>
-                        <div class="col-sm-6 col-xs-6">
-                            <span class="perc">{{visits.ratio}}%</span>
-                            <span class="pointer">
-                                <i class="fa fa-arrow-up" ng-if="visits.higher"></i>
-                                <i class="fa fa-arrow-down" ng-if="visits.lower"></i>
-                            </span>
-                            <div class="clear"></div>
-                            <span class="text" ng-if="visits.higher && visits.ratio>0">higher than yesterday</span>
-                            <span class="text" ng-if="visits.lower && visits.ratio>0">lower than yesterday</span>
+                    </div>
+                </div>
+
+                <!-- Directs -->
+                <div class="col-xs-12">
+                    <strong>{{visitorsOnline.direct}} Direct</strong>
+                    <div class="progress progress-xs">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="{{visitorsOnline.directRatio}}" aria-valuemin="0" aria-valuemax="100" style="width: {{visitorsOnline.directRatio}}%;">
                         </div>
-                        <div class="clear"></div>
-                        <div class="progress progress-xs">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="{{visits.ratio}}" aria-valuemin="0" aria-valuemax="100" style="width: {{visits.ratio}}%;">
-                                <span class="sr-only">{{visits.ratio}}% Complete</span>
-                            </div>
+                    </div>
+                </div>
+
+
+                <!-- Site -->
+                <div class="col-xs-12">
+                    <strong>{{visitorsOnline.site}} Site</strong>
+                    <div class="progress progress-xs">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="{{visitorsOnline.siteRatio}}" aria-valuemin="0" aria-valuemax="100" style="width: {{visitorsOnline.siteRatio}}%;">
+                            <span class="sr-only">{{visitorsOnline.siteRatio}}%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Search -->
+                <div class="col-xs-12">
+                    <strong>{{visitorsOnline.search}} Search</strong>
+                    <div class="progress progress-xs">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="{{visitorsOnline.searchRatio}}" aria-valuemin="0" aria-valuemax="100" style="width: {{visitorsOnline.searchRatio}}%;">
+                            <span class="sr-only">{{visitorsOnline.searchRatio}}%</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- block Today Sales -->
-    <div class="d-progressbar col-md-4 d-progress-middle">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="panel">
-                    <div class="panel-body extra-pad">
-                        <div class="col-sm-6 col-xs-6">
-                            <span class="num">{{sales.salesToday}}</span>
-                            <span class="text">Today's Sales</span>
-                        </div>
-                        <div class="col-sm-6 col-xs-6">
-                            <span class="perc">{{sales.ratio}}%</span>
-                            <span class="pointer">
-                                <i class="fa fa-arrow-up"></i>
-                            </span>
-                            <div class="clear"></div>
-                            <span class="text" ng-if="sales.higher && sales.ratio>0">higher than yesterday</span>
-                            <span class="text" ng-if="sales.lower && sales.ratio>0">lower than yesterday</span>
-                        </div>
-                        <div class="clear"></div>
-                        <div class="progress progress-xs">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="{{sales.ratio}}" aria-valuemin="0" aria-valuemax="100" style="width: {{sales.ratio}}%;">
-                                <span class="sr-only">{{sales.ratio}}% Complete</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
+    <!-- Website Conversions -->
+    <div class="col-xs-12 col-sm-4">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h2 class="panel-title">
+                    Website Conversions
+                </h2>
+            </div>
+            <div class="panel-body">
+                <h4>
+                    <span class="glyphicon glyphicon-shopping-cart"></span>
+                    Added to cart 
+                    {{conversions.addedToCartPercent | number:2}}%
+                    ({{conversions.addedToCart}})
+                </h4>
+                <h4>
+                    <span class="glyphicon glyphicon-cloud-download"></span>
+                    Reached Checkout 
+                    {{conversions.reachedCheckoutPercent | number:2}}%
+                    ({{conversions.reachedCheckout}})
+                </h4>
+                <h4>
+                    <span class="glyphicon glyphicon-usd"></span>
+                    Purchased
+                    {{conversions.purchasedPercent | number:2}}%
+                    ({{conversions.purchased}})
+                </h4>
             </div>
         </div>
     </div>
-    <!-- block Pageviews Realtime -->
-    <div class="d-progressbar col-md-4 d-progress-last">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="panel">
-                    <div class="panel-body extra-pad">
-                        <p>Real-Time Page Views</p>
-                        <div class="col-sm-6 col-xs-6">
-                            <span class="text">
-                                <span>{{visitorsOnline.online}}</span>
-                                visitors online
-                            </span>
-                        </div>
-                        <div class="clear"></div>
-                        <div class="progress progress-xs">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="{{visitorsOnline.onlineRatio}}" aria-valuemin="0" aria-valuemax="100" style="width: {{visitorsOnline.onlineRatio}}%;">
-                                <span class="sr-only">{{visitorsOnline.onlineRatio}}% Complete</span>
-                            </div>
-                        </div>
-                        <div class="col-sm-4 col-xs-4">
-                            <span class="text">{{visitorsOnline.direct}}</span>
-                            <div class="progress progress-xs">
-                                <div class="progress-bar" role="progressbar" aria-valuenow="{{visitorsOnline.directRatio}}" aria-valuemin="0" aria-valuemax="100" style="width: {{visitorsOnline.directRatio}}%;">
-                                    <span class="sr-only">{{visitorsOnline.directRatio}}% Complete</span>
-                                </div>
-                            </div>
-                            <span class="text">Direct</span>
-                        </div>
-                        <div class="col-sm-4 col-xs-4">
-                            <span class="text">{{visitorsOnline.site}}</span>
-                            <div class="progress progress-xs">
-                                <div class="progress-bar" role="progressbar" aria-valuenow="{{visitorsOnline.siteRatio}}" aria-valuemin="0" aria-valuemax="100" style="width: {{visitorsOnline.siteRatio}}%;">
-                                    <span class="sr-only">{{visitorsOnline.siteRatio}}% Complete</span>
-                                </div>
-                            </div>
-                            <span class="text">Site</span>
-                        </div>
-                        <div class="col-sm-4 col-xs-4">
-                            <span class="text">{{visitorsOnline.search}}</span>
-                            <div class="progress progress-xs">
-                                <div class="progress-bar" role="progressbar" aria-valuenow="{{visitorsOnline.searchRatio}}" aria-valuemin="0" aria-valuemax="100" style="width: {{visitorsOnline.searchRatio}}%;">
-                                    <span class="sr-only">{{visitorsOnline.searchRatio}}% Complete</span>
-                                </div>
-                            </div>
-                            <span class="text">Search</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- block chart for Visitors -->
-    <div class="col-md-5">
+    <div class="clearfix"></div>
+
+    <!-- Visitors -->
+    <div class="col-xs-12 col-sm-6">
         <div class="panel panel-info d-visitors">
             <div class="panel-heading">
                 <h3 class="panel-title">Visitors</h3>
             </div>
             <div class="panel-body">
-                <div class="col-md-12">
-                    <div id="visitors-chart">
-                        <div id="visitors-container" style="width: 100%; height:155px; text-align: center; margin:0 auto;">{{initVisitorsChart()}}
-                        </div>
+                <div id="visitors-chart">
+                    <div id="visitors-container" style="width: 100%; height:155px; text-align: center; margin:0 auto;">
+                        {{initVisitorsChart()}}
                     </div>
                 </div>
-                <div class="col-md-12">
-                    <div class="btns-pad">
-                        <span class="btns" ng-class="{'active': visitsPeriod === 'today'}" ng-click="updateVisitsChart('today')">today</span>
-                    </div>
-                    <div class="btns-pad">
-                        <span class="btns" ng-class="{'active': visitsPeriod === 'yesterday'}" ng-click="updateVisitsChart('yesterday')">yesterday</span>
-                    </div>
-                    <div class="btns-pad">
-                        <span class="btns" ng-class="{'active': visitsPeriod === 'week'}" ng-click="updateVisitsChart('week')">last 7 days</span>
-                    </div>
-                    <div class="btns-pad">
-                        <span class="btns" ng-class="{'active': visitsPeriod === 'month'}" ng-click="updateVisitsChart('month')">last 30 days</span>
-                    </div>
+
+                <br> 
+
+                <div class="text-center">
+                    <span class="btn btn-info" ng-class="{'disabled ': visitsPeriod === 'today'}" ng-click="updateVisitsChart('today')">today</span>
+                    <span class="btn btn-info" ng-class="{'disabled ': visitsPeriod === 'yesterday'}" ng-click="updateVisitsChart('yesterday')">yesterday</span>
+                    <span class="btn btn-info" ng-class="{'disabled ': visitsPeriod === 'week'}" ng-click="updateVisitsChart('week')">last 7 days</span>
+                    <span class="btn btn-info" ng-class="{'disabled ': visitsPeriod === 'month'}" ng-click="updateVisitsChart('month')">last 30 days</span>    
                 </div>
             </div>
         </div>
     </div>
+
     <!-- block chart for Total Sales -->
-    <div class="col-md-5">
-        <div class="panel panel-info d-sales">
+    <div class="col-xs-12 col-sm-6">
+        <div class="panel panel-info">
             <div class="panel-heading">
                 <h3 class="panel-title">Total Sales</h3>
             </div>
             <div class="panel-body">
-                <div class="col-md-12">
-                    <div id="sales-chart">
-                        <div id="sales-container" style="width: 100%; height:155px; text-align: center; margin:0 auto;">{{initSalesChart()}}
-                        </div>
+                <div id="sales-chart">
+                    <div id="sales-container" style="width: 100%; height:155px; text-align: center; margin:0 auto;">
+                        {{initSalesChart()}}
                     </div>
                 </div>
-                <div class="col-md-12">
-                    <div class="btns-pad">
-                        <span class="btns" ng-class="{'active': salesPeriod === 'today'}" ng-click="updateSalesChart('today')">today</span>
-                    </div>
-                    <div class="btns-pad">
-                        <span class="btns" ng-class="{'active': salesPeriod === 'yesterday'}" ng-click="updateSalesChart('yesterday')">yesterday</span>
-                    </div>
-                    <div class="btns-pad">
-                        <span class="btns" ng-class="{'active': salesPeriod === 'week'}" ng-click="updateSalesChart('week')">last 7 days</span>
-                    </div>
-                    <div class="btns-pad">
-                        <span class="btns" ng-class="{'active': salesPeriod === 'month'}" ng-click="updateSalesChart('month')">last 30 days</span>
-                    </div>
+                <div class="text-center">
+                    <span class="btn btn-info" ng-class="{'disabled': salesPeriod === 'today'}" ng-click="updateSalesChart('today')">today</span>
+                    <span class="btn btn-info" ng-class="{'disabled': salesPeriod === 'yesterday'}" ng-click="updateSalesChart('yesterday')">yesterday</span>
+                    <span class="btn btn-info" ng-class="{'disabled': salesPeriod === 'week'}" ng-click="updateSalesChart('week')">last 7 days</span>
                 </div>
             </div>
         </div>
     </div>
-    <!-- right block Website Conversions -->
-    <div class="col-md-2">
+
+    <div class="clearfix"></div>
+    
+    <!-- block Top Sellers -->
+    <div class="col-xs-12">
         <div class="panel panel-info">
-            <h4>Website Conversions</h4>
+            <div class="panel-heading">
+                <h3 class="panel-title">Top Sellers</h3>
+            </div>
             <div class="panel-body">
-                <a href=""> 
-                    <i class="fa fa-shopping-cart"></i>
-                </a>
-                <p>Added
-                    <br>
-                    to Cart
-                </p>
-                <span>
-                    {{conversions.addedToCartPercent | number:2}}%
-                    <span class="small">({{conversions.addedToCart}})</span>
-                </span>
-                <a href=""> 
-                    <i class="fa fa-download"></i>
-                </a>
-                <p>Reached
-                    <br>
-                    Checkout
-                </p>
-                <span>
-                    {{conversions.reachedCheckoutPercent | number:2}}%
-                    <span class="small">({{conversions.reachedCheckout}})</span>
-                </span>
-                <a href=""> 
-                    <i class="fa fa-dollar"></i>
-                </a>
-                <p>Purchased</p>
-                <span>
-                    {{conversions.purchasedPercent | number:2}}%
-                    <span class="small">({{conversions.purchased}})</span>
+                <span class="col-xs-6 col-sm-4 col-md-3 col-lg-2 text-center row" ng-repeat="item in topSellers">
+                    <img class="img-responsive" ng-src="{{getProductImage(item.image)}}" alt="">
+                    <p class="text-center">
+                        {{item.name}}
+                        {{item.count}}
+                    </p>
                 </span>
             </div>
         </div>
     </div>
+    
+    
     <!-- block Top Referrals -->
-    <div class="col-md-5">
+    <div class="col-xs-12">
         <div class="panel panel-info d-table">
             <div class="panel-heading">
                 <h3 class="panel-title">Top Referrals</h3>
             </div>
             <div class="panel-body">
-                <table>
-                    <tr ng-repeat="item in referrers">
-                        <td>{{item.url}}</td>
-                        <td>{{item.count}}</td>
-                    </tr>
-                </table>
+                <span ng-repeat="item in referrers">
+                    {{item.url}}
+                    {{item.count}}
+                </span>
             </div>
         </div>
     </div>
-    <!-- block Top Sellers -->
-    <div class="col-md-5">
-        <div class="panel panel-info d-table d-sellers">
-            <div class="panel-heading">
-                <h3 class="panel-title">Top Sellers</h3>
-            </div>
-            <div class="panel-body">
-                <table>
-                    <tr ng-repeat="item in topSellers">
-                        <td>
-                            <img ng-src="{{getProductImage(item.image)}}" alt="" />
-                        </td>
-                        <td>
-                            {{item.name}}
-                            <br>
-                            {{item.count}} Sold
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-    </div>
-    <div class="clear"></div>
+    <div class="clearfix"></div>
+
 </section>
