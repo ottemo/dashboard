@@ -1,5 +1,12 @@
 <form role="form" name="otEditForm" role="tabpanel" novalidate>
-    <ul class="nav nav-tabs">
+    <ul class="nav nav-tabs hidden-xs">
+        <li ng-class='{active:$first}' ng-repeat="(key, items) in attributeGroups" ng-click="click(key)" role="presentation">
+            <a href="#collapse{{key}}" target="_self" aria-controls="home" role="tab" data-toggle="tab">
+                {{key}}
+            </a>
+        </li>
+    </ul>
+    <ul class="nav nav-pills nav-stacked visible-xs">
         <li ng-class='{active:$first}' ng-repeat="(key, items) in attributeGroups" ng-click="click(key)" role="presentation">
             <a href="#collapse{{key}}" target="_self" aria-controls="home" role="tab" data-toggle="tab">
                 {{key}}

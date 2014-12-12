@@ -1,6 +1,6 @@
 <!-- Pagination -->
 <nav ng-if="parent.paginator.countPages > 1" class="text-center">
-    <ul class="pagination">
+    <ul class="pagination hidden-xs">
 
     	<!-- Prev page button -->
         <li class="{{parent.getClass('prev')}}">
@@ -15,6 +15,20 @@
 		<!-- Next page button -->
         <li class="{{parent.getClass('next')}}">
         	<a href="" target="_self" ng-click="parent.setPage('next')">&raquo;</a>
+        </li>
+    </ul>
+
+    <!-- Mobile version -->
+    <ul class="pager visible-xs">
+
+        <!-- Prev page button -->
+        <li class="previous">
+            <a href="" target="_self" ng-click="parent.setPage('prev')">&laquo;</a>
+        </li>
+        
+        <!-- Next page button -->
+        <li class="next">
+            <a href="" target="_self" ng-click="parent.setPage('next')">&raquo;</a>
         </li>
     </ul>
 </nav>

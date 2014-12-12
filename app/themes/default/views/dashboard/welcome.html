@@ -163,11 +163,22 @@
 
                 <br> 
 
-                <div class="text-center">
+                <div class="text-center hidden-xs">
                     <span class="btn btn-info" ng-class="{'disabled ': visitsPeriod === 'today'}" ng-click="updateVisitsChart('today')">today</span>
                     <span class="btn btn-info" ng-class="{'disabled ': visitsPeriod === 'yesterday'}" ng-click="updateVisitsChart('yesterday')">yesterday</span>
                     <span class="btn btn-info" ng-class="{'disabled ': visitsPeriod === 'week'}" ng-click="updateVisitsChart('week')">last 7 days</span>
                     <span class="btn btn-info" ng-class="{'disabled ': visitsPeriod === 'month'}" ng-click="updateVisitsChart('month')">last 30 days</span>    
+                </div>
+                <div class="text-center visible-xs">
+                    <div>
+                        <span class="btn btn-info" ng-class="{'disabled ': visitsPeriod === 'today'}" ng-click="updateVisitsChart('today')">today</span>
+                        <span class="btn btn-info" ng-class="{'disabled ': visitsPeriod === 'yesterday'}" ng-click="updateVisitsChart('yesterday')">yesterday</span>
+                    </div>
+                    <br>
+                    <div>
+                        <span class="btn btn-info" ng-class="{'disabled ': visitsPeriod === 'week'}" ng-click="updateVisitsChart('week')">last 7 days</span>
+                        <span class="btn btn-info" ng-class="{'disabled ': visitsPeriod === 'month'}" ng-click="updateVisitsChart('month')">last 30 days</span>    
+                    </div>
                 </div>
             </div>
         </div>
@@ -185,9 +196,18 @@
                         {{initSalesChart()}}
                     </div>
                 </div>
-                <div class="text-center">
+                <br>
+                <div class="text-center hidden-xs">
                     <span class="btn btn-info" ng-class="{'disabled': salesPeriod === 'today'}" ng-click="updateSalesChart('today')">today</span>
                     <span class="btn btn-info" ng-class="{'disabled': salesPeriod === 'yesterday'}" ng-click="updateSalesChart('yesterday')">yesterday</span>
+                    <span class="btn btn-info" ng-class="{'disabled': salesPeriod === 'week'}" ng-click="updateSalesChart('week')">last 7 days</span>
+                </div>
+                <div class="text-center visible-xs">
+                    <div>
+                        <span class="btn btn-info" ng-class="{'disabled': salesPeriod === 'today'}" ng-click="updateSalesChart('today')">today</span>
+                        <span class="btn btn-info" ng-class="{'disabled': salesPeriod === 'yesterday'}" ng-click="updateSalesChart('yesterday')">yesterday</span>
+                    </div>
+                    <br>
                     <span class="btn btn-info" ng-class="{'disabled': salesPeriod === 'week'}" ng-click="updateSalesChart('week')">last 7 days</span>
                 </div>
             </div>

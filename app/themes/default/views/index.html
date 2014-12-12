@@ -2,15 +2,97 @@
 <add-css src="style.css"></add-css>
 <add-css src="animate.css"></add-css>
 
+<!-- Header view -->
+<ng-include src="getTemplate('dashboard/header.html')"></ng-include>
+
 <!-- main content start-->
-<section class="main-content">
+<section>
 
-    <ng-include src="getTemplate('dashboard/header.html')"></ng-include>
-
-    <ng-include src="getTemplate('dashboard/sidebar.html')"></ng-include>
-
-    <section>
-        <ng-view></ng-view>
-    </section>
+    <ng-view></ng-view>
 
 </section><!-- main content end-->
+
+<!-- Theme code switcher -->
+<div class="modal fade" id="switcher_code" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	    <div class="modal-content">
+	      	<div class="modal-header">
+	        	<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+	        	<h4 class="modal-title" id="myModalLabel">Live theme switcher</h4>
+	      	</div>
+	      	<div class="modal-body">
+	      		<h4>Insert the css code:</h4>
+	        	<textarea name="" class="col-sm-12" id="code_area"></textarea>
+	        	<div class="clearfix"></div>
+	        	<br>
+	        	<div class="text-center">
+	        		<div class="btn btn-primary" id="apply">Apply</div>
+	        	</div>
+	      	</div>
+	      	<div class="modal-footer">
+	        	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	      	</div>
+	    </div>
+	</div>
+</div>
+
+<div id="theme_switcher" class="btn-primary">
+	<span class="btn btn-primary">
+		<i class="fa fa-cog fa-spin"></i>
+	</span>
+	<div id="switcher">
+		<div class="preview" id="default">
+			<img class="" src="">
+		</div>
+		<div class="preview" id="cerulean">
+			<img class="" src="">
+		</div>
+		<div class="preview" id="cosmo">
+			<img class="" src="">
+		</div>
+		<div class="preview" id="cyborg">
+			<img class="" src="">
+		</div>
+		<div class="preview" id="darkly">
+			<img class="" src="">
+		</div>
+		<div class="preview" id="flatly">
+			<img class="" src="">
+		</div>
+		<div class="preview" id="journal">
+			<img class="" src="">
+		</div>
+		<div class="preview" id="lumen">
+			<img class="" src="">
+		</div>
+		<div class="preview" id="paper">
+			<img class="" src="">
+		</div>
+		<div class="preview" id="readable">
+			<img class="" src="">
+		</div>
+		<div class="preview" id="sandstone">
+			<img class="" src="">
+		</div>
+		<div class="preview" id="simplex">
+			<img class="" src="">
+		</div>
+		<div class="preview" id="spacelab">
+			<img class="" src="">
+		</div>
+		<div class="preview" id="superhero">
+			<img class="" src="">
+		</div>
+		<div class="preview" id="united">
+			<img class="" src="">
+		</div>
+		<div class="preview" id="yeti">
+			<img class="" src="">
+		</div>
+	</div>
+	<!-- navigation arrows -->
+	<button class="btn btn-lg btn-success scroll-down fa fa-arrow-circle-o-down"></button>
+	<button class="btn btn-lg btn-success scroll-up fa fa-arrow-circle-o-up"></button>
+</div>
+
+<script src="themes/default/scripts/main.js"></script>

@@ -27,7 +27,7 @@
                         {{it.getUsername()}}&nbsp;
                         <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li data-toggle="modal" data-target="#switcher"><a href="">Theme switcher</a></li>
+                        <li id="switcher-toogle"><a href="">Theme switcher</a></li>
                         <li data-toggle="modal" data-target="#switcher_code"><a href="">Theme code switcher</a></li>
                         <li ng-repeat="item in rightMenu" ng-include="getTemplate('dashboard/header/menuItem.html')"></li>
                     </ul>

@@ -32,7 +32,7 @@ h2.text-center {
 }
 .main-menu > li {
   float: none !important;
-  display: inline-block !important;
+  display: inline-block;
 }
 .main-menu > li > a > i,
 .navbar-right li a .fa {
@@ -152,4 +152,164 @@ table th.checkboxes-column {
 }
 #table_manager tbody tr td:not(:first-child) {
   cursor: pointer;
+}
+#theme_switcher {
+  position: fixed;
+  left: -300px;
+  top: 0;
+  width: 300px;
+  height: 100%;
+  -webkit-transition: all 0.5s ease;
+  /* Safari 3.2+, Chrome */
+  -moz-transition: all 0.5s ease;
+  /* Firefox 4-15 */
+  -o-transition: all 0.5s ease;
+  /* Opera 10.5-12.00 */
+  transition: all 0.5s ease;
+  /* Firefox 16+, Opera 12.50+ */
+}
+#theme_switcher.active {
+  left: 0%;
+}
+#switcher {
+  height: 100%;
+  overflow-y: hidden;
+}
+#theme_switcher:hover .scroll-down,
+#theme_switcher:hover .scroll-up {
+  opacity: 1;
+  z-index: 10;
+  -webkit-transition: all 0.5s ease;
+  /* Safari 3.2+, Chrome */
+  -moz-transition: all 0.5s ease;
+  /* Firefox 4-15 */
+  -o-transition: all 0.5s ease;
+  /* Opera 10.5-12.00 */
+  transition: all 0.5s ease;
+  /* Firefox 16+, Opera 12.50+ */
+}
+#theme_switcher > span.btn {
+  position: absolute;
+  left: 100%;
+  top: 30%;
+  width: 45px !important;
+  height: 40px !important;
+  border-left: none;
+  visibility: hidden;
+  opacity: 0;
+  padding: 0;
+  text-align: center;
+  border-radius: 0 50px 50px 0;
+}
+#theme_switcher > span.btn i {
+  font-size: 25px;
+  line-height: 1.5;
+}
+#theme_switcher > span.btn.active {
+  visibility: visible;
+  opacity: 1;
+  -webkit-transition: all 0.5s ease;
+  /* Safari 3.2+, Chrome */
+  -moz-transition: all 0.5s ease;
+  /* Firefox 4-15 */
+  -o-transition: all 0.5s ease;
+  /* Opera 10.5-12.00 */
+  transition: all 0.5s ease;
+  /* Firefox 16+, Opera 12.50+ */
+}
+#theme_switcher .preview {
+  text-align: center;
+  margin: 10px 0;
+}
+#theme_switcher .preview img:hover {
+  -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=90, Color=#000000)";
+  /*IE 8*/
+  -moz-box-shadow: 0px 0px 5px #000000;
+  /*FF 3.5+*/
+  -webkit-box-shadow: 0px 0px 5px #000000;
+  /*Saf3-4, Chrome, iOS 4.0.2-4.2, Android 2.3+*/
+  box-shadow: 0px 0px 5px #000000;
+  /* FF3.5+, Opera 9+, Saf1+, Chrome, IE10 */
+  filter: progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=90, Color=#000000);
+  /*IE 5.5-7*/
+  -webkit-transition: all 0.5s ease;
+  /* Safari 3.2+, Chrome */
+  -moz-transition: all 0.5s ease;
+  /* Firefox 4-15 */
+  -o-transition: all 0.5s ease;
+  /* Opera 10.5-12.00 */
+  transition: all 0.5s ease;
+  /* Firefox 16+, Opera 12.50+ */
+}
+#theme_switcher .preview img {
+  width: 90%;
+  cursor: pointer;
+}
+#theme_switcher .scroll-down {
+  position: absolute;
+  bottom: 0;
+  padding: 0;
+  font-size: 20px !important;
+  margin: 0 auto;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  left: 50%;
+  margin-left: -15px;
+  opacity: 0;
+  -webkit-transition: all 0.5s ease;
+  /* Safari 3.2+, Chrome */
+  -moz-transition: all 0.5s ease;
+  /* Firefox 4-15 */
+  -o-transition: all 0.5s ease;
+  /* Opera 10.5-12.00 */
+  transition: all 0.5s ease;
+  /* Firefox 16+, Opera 12.50+ */
+}
+#theme_switcher .scroll-up:active,
+#theme_switcher .scroll-down:active,
+#theme_switcher .scroll-up:focus,
+#theme_switcher .scroll-down:focus {
+  outline: none !important;
+}
+#theme_switcher .scroll-up {
+  position: absolute;
+  top: 0;
+  padding: 0;
+  font-size: 20px !important;
+  margin: 0 auto;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  left: 50%;
+  margin-left: -15px;
+  opacity: 0;
+  -webkit-transition: all 0.5s ease;
+  /* Safari 3.2+, Chrome */
+  -moz-transition: all 0.5s ease;
+  /* Firefox 4-15 */
+  -o-transition: all 0.5s ease;
+  /* Opera 10.5-12.00 */
+  transition: all 0.5s ease;
+  /* Firefox 16+, Opera 12.50+ */
+}
+#theme_switcher .scroll-up:hover,
+#theme_switcher .scroll-down:hover {
+  -moz-transform: rotate(0deg) scale(1.2, 1.2) skewX(0deg) skewY(0deg) translate(0px, 0px);
+  /* FF3.5+ */
+  -webkit-transform: rotate(0deg) scale(1.2, 1.2) skew(0deg, 0deg) translate(0px, 0px);
+  /*Saf3.1+, Chrome*/
+  -o-transform: rotate(0deg) scale(1.2, 1.2) skew(0deg, 0deg) translate(0px, 0px);
+  /* Opera 10.5 */
+  -ms-transform: rotate(0deg) scale(1.2, 1.2) skew(0deg, 0deg) translate(0px, 0px);
+  /* IE 9 */
+  transform: rotate(0deg) scale(1.2, 1.2) skew(0deg, 0deg) translate(0px, 0px);
+  -webkit-transition: all 0.5s ease;
+  /* Safari 3.2+, Chrome */
+  -moz-transition: all 0.5s ease;
+  /* Firefox 4-15 */
+  -o-transition: all 0.5s ease;
+  /* Opera 10.5-12.00 */
+  transition: all 0.5s ease;
+  /* Firefox 16+, Opera 12.50+ */
 }
