@@ -1,11 +1,11 @@
 <section ng-init="init()">
-    <form role="form" class="form-group animated fadeIn">
+    <form role="form" class="form-group  ">
 
         <!-- Pagination -->
         <gui-paginator object="this"></gui-paginator>
         
         <!-- Columns filter -->
-        <div class="text-center  animated fadeIn" ng-if="parent.fields.length > 1">
+        <div class="text-center   " ng-if="parent.fields.length > 1">
             <label class="checkbox-inline" ng-repeat="field in parent.fields" ng-hide="field.notDisable">
                 <input type="checkbox" ng-model="field.visible" ng-hide="field.notDisable">
                 {{field.label || field.attribute}}
@@ -19,10 +19,10 @@
         
         <br>
         
-        <div class="table-responsive animated fadeIn">
-            <table class="table table-hover table-bordered table-striped animated fadeIn">
+        <div class="table-responsive  ">
+            <table class="table table-hover table-bordered table-striped">
                 <thead>
-                    <tr class="animated fadeIn">
+                    <tr class=" ">
                         <!-- Checkboxes column thead -->
                         <th class="checkboxes-column" ng-if="buttons.checkbox">
                             <input type="checkbox" id="selectAll" ng-click="selectAll()">
@@ -36,7 +36,7 @@
                     </tr>
 
                     <!-- Filters row -->
-                    <tr class="animated fadeIn" ng-hide="filters.length <= 1 && !filters[0].visible">
+                    <tr class=" " ng-hide="filters.length <= 1 && !filters[0].visible">
                         <th ng-if="buttons.checkbox">&nbsp;</th>
                         <th ng-repeat="filter in filters" ng-switch="filter.type" ng-show="parent.fields[$index].visible">
                             <div ng-switch-when="text">
@@ -57,7 +57,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="animated fadeIn" ng-repeat="_item in items">
+                    <tr class=" " ng-repeat="_item in items">
 
                         <!-- Checkboxes column -->
                         <td class="checkboxes-column" ng-if="buttons.checkbox">

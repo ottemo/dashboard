@@ -14,6 +14,9 @@ a:active {
   outline: none !important;
 }
 /* Index page */
+.modal-dialog {
+  min-width: 90% !important;
+}
 h2.text-center {
   margin-bottom: 85px;
   font-weight: bold;
