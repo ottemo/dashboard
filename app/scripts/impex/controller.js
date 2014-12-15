@@ -9,9 +9,10 @@
          */
             .controller("impexController", [
                 "$scope",
+                "$sce",
                 "$impexApiService",
                 "REST_SERVER_URI",
-                function ($scope, $impexApiService, REST_SERVER_URI) {
+                function ($scope, $sce, $impexApiService, REST_SERVER_URI) {
 
                     $scope.modelList = {
                         "Product": "Product",
@@ -33,6 +34,12 @@
                             return true;
                         }
 
+                        $scope.batchSubmit = true;
+
+                        if ($scope.file === "" || typeof $scope.file === "undefined") {
+                            return true;
+                        }
+                        
                         var file, postData;
 
                         $scope.sendRequest = true;
@@ -60,11 +67,10 @@
 
                     $scope.exportModel = function () {
                         $scope.modelExportSubmit = true;
-
                         if ($scope.model === "" || typeof $scope.model === "undefined") {
                             return true;
                         }
-                        document.body.innerHTML += "<iframe src='" + REST_SERVER_URI + "/impex/export/" + $scope.model + "' style='display: none;' ></iframe>";
+                        $scope.exportFile = $sce.trustAsHtml("<iframe src='" + REST_SERVER_URI + "/impex/export/" + $scope.model + "' style='display: none;' ></iframe>");
                     };
 
 
