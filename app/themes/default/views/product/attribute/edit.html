@@ -75,9 +75,18 @@
 
                 <div>
                     <label for="inpDefault">Layered</label>
-                    <select class="form-control" name="Layered"
-                            ng-init="attribute.Layered = false"
-                            data-ng-model="attribute.Layered"
+                    <select class="form-control" name="IsLayered"
+                            ng-init="attribute.IsLayered = true"
+                            ng-model="attribute.IsLayered"
+                            ng-options="choice for choice in [true, false]">
+                    </select>
+                </div>
+
+                <div>
+                    <label for="inpDefault">Public</label>
+                    <select class="form-control" name="Public"
+                            ng-init="attribute.Public = attribute.Public || false"
+                            data-ng-model="attribute.Public"
                             data-ng-options="choice for choice in [true, false]">
                     </select>
                 </div>
