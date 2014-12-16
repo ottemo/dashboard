@@ -55,6 +55,11 @@
                         function (response) {
                             var result = response.result || [];
                             $scope.attributes = result;
+                            for (var i = 0; i < $scope.attributes.length; i += 1) {
+                                if($scope.attributes[i].Editors === "password"){
+                                    $scope.attributes[i].Confirm = true;
+                                }
+                            }
                         }
                     );
 
