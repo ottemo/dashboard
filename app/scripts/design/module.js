@@ -35,6 +35,7 @@
             "design/directives/validator/number",
             "design/directives/validator/positive",
             "design/directives/validator/date",
+            "design/directives/validator/regexp",
 
             // Form fields
             "design/directives/editor/guiHtml",

@@ -10,14 +10,13 @@
             addValidator = function (elem, validator) {
                 var regExp, matches;
                 if (validator !== "") {
+                    regExp = /(\w+)(\((.*)\))*/g;
 
-                    regExp = new RegExp("(\\w+)(\(\\d+\\,\\d+\)|\(\\d+\))*", "g"); // jshint ignore:line
-                    matches = validator.match(regExp);
-
+                    matches = regExp.exec(validator);
                     if (matches.length > 1) {
-                        elem.attr("ot-" + matches[0], matches[1] + "," + matches[2]);
+                        elem.attr("ot-" + matches[1], matches[3]);
                     } else {
-                        elem.attr("ot-" + matches[0], "true");
+                        elem.attr("ot-" + matches[1], "true");
                     }
                 }
             };

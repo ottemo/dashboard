@@ -12,6 +12,7 @@
             "dashboard/service/header",
             "dashboard/service/sidebar",
             "dashboard/service/statistic",
+            "dashboard/service/utils",
             "dashboard/service/list"
         ],
         function (dashboardModule) {
