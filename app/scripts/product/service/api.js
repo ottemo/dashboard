@@ -41,6 +41,11 @@
                         method: "POST",
                         url: productBaseURL + "/attribute/add"
                     },
+                    "updateAttribute": {
+                        method: "POST",
+                        params: { attribute: "@attribute" },
+                        url: productBaseURL + "/attribute/edit/:attribute"
+                    },
                     "productList": {
                         method: "POST",
                         url: productBaseURL + "/list"

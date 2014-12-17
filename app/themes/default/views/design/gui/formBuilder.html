@@ -8,8 +8,8 @@
         </div>
 
         <div ng-switch-when="multiline_text"
-             ng-class="{ 'has-error' : (parent.form.submitted && parent.form.{{attribute.Attribute}}.$error.required) ||
-                     (parent.form.{{attribute.Attribute}}.$invalid && !parent.form.{{attribute.Attribute}}.$pristine) }">
+             ng-class="{ 'has-error' : (parent.form.submitted && parent.form.{{attribute.Attribute}}.$invalid) ||
+                       (parent.form.{{attribute.Attribute}}.$invalid && !parent.form.{{attribute.Attribute}}.$pristine) }">
             <label>{{attribute.Label}} <span class="asterisk"
                                              ng-show="attribute.IsRequired">*</span></label>
             <gui-multiline-text editor-scope="attribute" item="item"></gui-multiline-text>
@@ -24,8 +24,8 @@
         </div>
 
         <div ng-switch-when="html"
-             ng-class="{ 'has-error' : (parent.form.submitted && parent.form.{{attribute.Attribute}}.$error.required) ||
-                     (parent.form.{{attribute.Attribute}}.$invalid && !parent.form.{{attribute.Attribute}}.$pristine) }">
+             ng-class="{ 'has-error' : (parent.form.submitted && parent.form.{{attribute.Attribute}}.$invalid) ||
+                       (parent.form.{{attribute.Attribute}}.$invalid && !parent.form.{{attribute.Attribute}}.$pristine) }">
 
             <gui-html editor-scope="attribute" item="item"></gui-html>
 
@@ -39,8 +39,8 @@
         </div>
 
         <div ng-switch-when="text"
-             ng-class="{ 'has-error' : (parent.form.submitted && parent.form.{{attribute.Attribute}}.$error.required) ||
-                     (parent.form.{{attribute.Attribute}}.$invalid && !parent.form.{{attribute.Attribute}}.$pristine) }">
+             ng-class="{ 'has-error' : (parent.form.submitted && parent.form.{{attribute.Attribute}}.$invalid) ||
+                       (parent.form.{{attribute.Attribute}}.$invalid && !parent.form.{{attribute.Attribute}}.$pristine) }">
             <label>{{attribute.Label}} <span class="asterisk"
                                              ng-show="attribute.IsRequired">*</span></label>
             <gui-text editor-scope="attribute" item="item" ng-required="attribute.IsRequired"
@@ -73,8 +73,8 @@
         </div>
 
         <div ng-switch-when="datetime"
-             ng-class="{ 'has-error' : (parent.form.submitted && parent.form.{{attribute.Attribute}}.$error.required) ||
-                     (parent.form.{{attribute.Attribute}}.$invalid && !parent.form.{{attribute.Attribute}}.$pristine) }">
+             ng-class="{ 'has-error' : (parent.form.submitted && parent.form.{{attribute.Attribute}}.$invalid) ||
+                       (parent.form.{{attribute.Attribute}}.$invalid && !parent.form.{{attribute.Attribute}}.$pristine) }">
             <label>{{attribute.Label}} <span class="asterisk"
                                              ng-show="attribute.IsRequired">*</span></label>
             <gui-datetime editor-scope="attribute" item="item"></gui-datetime>
@@ -89,8 +89,8 @@
         </div>
 
         <div ng-switch-when="model_selector"
-             ng-class="{ 'has-error' : (parent.form.submitted && parent.form.{{attribute.Attribute}}.$error.required) ||
-                     (parent.form.{{attribute.Attribute}}.$invalid && !parent.form.{{attribute.Attribute}}.$pristine) }">
+             ng-class="{ 'has-error' : (parent.form.submitted && parent.form.{{attribute.Attribute}}.$invalid) ||
+                       (parent.form.{{attribute.Attribute}}.$invalid && !parent.form.{{attribute.Attribute}}.$pristine) }">
             <label>{{attribute.Label}} <span class="asterisk"
                                              ng-show="attribute.IsRequired">*</span></label>
             <gui-model-selector editor-scope="attribute" item="item"></gui-model-selector>
@@ -105,8 +105,8 @@
         </div>
 
         <div ng-switch-when="array_model_selector"
-             ng-class="{ 'has-error' : (parent.form.submitted && parent.form.{{attribute.Attribute}}.$error.required) ||
-                     (parent.form.{{attribute.Attribute}}.$invalid && !parent.form.{{attribute.Attribute}}.$pristine) }">
+             ng-class="{ 'has-error' : (parent.form.submitted && parent.form.{{attribute.Attribute}}.$invalid) ||
+                       (parent.form.{{attribute.Attribute}}.$invalid && !parent.form.{{attribute.Attribute}}.$pristine) }">
             <label>{{attribute.Label}} <span class="asterisk"
                                              ng-show="attribute.IsRequired">*</span></label>
             <gui-array-model-selector editor-scope="attribute" item="item"></gui-array-model-selector>
@@ -121,9 +121,10 @@
         </div>
 
         <div ng-switch-when="password"
-             ng-class="{ 'has-error' : (parent.form.submitted && parent.form.{{attribute.Attribute}}.$error.required) ||
-                     (parent.form.{{attribute.Attribute}}.$invalid && !parent.form.{{attribute.Attribute}}.$pristine) }">
-
+             ng-class="{ 'has-error' : (parent.form.submitted && parent.form.{{attribute.Attribute}}.$invalid) ||
+                       (parent.form.{{attribute.Attribute}}.$invalid && !parent.form.{{attribute.Attribute}}.$pristine) }">
+            <label>{{attribute.Label}} <span class="asterisk"
+                                             ng-show="attribute.IsRequired">*</span></label>
             <gui-password editor-scope="attribute" item="item"></gui-password>
 
             <p ng-show="(parent.form.submitted && parent.form.{{attribute.Attribute}}.$error.required)"
@@ -136,8 +137,8 @@
         </div>
 
         <div ng-switch-when="boolean"
-             ng-class="{ 'has-error' : (parent.form.submitted && parent.form.{{attribute.Attribute}}.$error.required) ||
-                     (parent.form.{{attribute.Attribute}}.$invalid && !parent.form.{{attribute.Attribute}}.$pristine) }">
+             ng-class="{ 'has-error' : (parent.form.submitted && parent.form.{{attribute.Attribute}}.$invalid) ||
+                       (parent.form.{{attribute.Attribute}}.$invalid && !parent.form.{{attribute.Attribute}}.$pristine) }">
             <label>{{attribute.Label}} <span class="asterisk"
                                              ng-show="attribute.IsRequired">*</span></label>
             <gui-boolean editor-scope="attribute" item="item"></gui-boolean>
@@ -152,8 +153,8 @@
         </div>
 
         <div ng-switch-when="select"
-             ng-class="{ 'has-error' : (parent.form.submitted && parent.form.{{attribute.Attribute}}.$error.required) ||
-                     (parent.form.{{attribute.Attribute}}.$invalid && !parent.form.{{attribute.Attribute}}.$pristine) }">
+             ng-class="{ 'has-error' : (parent.form.submitted && parent.form.{{attribute.Attribute}}.$invalid) ||
+                       (parent.form.{{attribute.Attribute}}.$invalid && !parent.form.{{attribute.Attribute}}.$pristine) }">
             <label>{{attribute.Label}} <span class="asterisk"
                                              ng-show="attribute.IsRequired">*</span></label>
             <gui-select editor-scope="attribute" item="item"></gui-select>
@@ -168,8 +169,8 @@
         </div>
 
         <div ng-switch-when="selector"
-             ng-class="{ 'has-error' : (parent.form.submitted && parent.form.{{attribute.Attribute}}.$error.required) ||
-                     (parent.form.{{attribute.Attribute}}.$invalid && !parent.form.{{attribute.Attribute}}.$pristine) }">
+             ng-class="{ 'has-error' : (parent.form.submitted && parent.form.{{attribute.Attribute}}.$invalid) ||
+                       (parent.form.{{attribute.Attribute}}.$invalid && !parent.form.{{attribute.Attribute}}.$pristine) }">
             <label>{{attribute.Label}} <span class="asterisk"
                                              ng-show="attribute.IsRequired">*</span></label>
             <gui-select editor-scope="attribute" item="item"></gui-select>
@@ -184,8 +185,8 @@
         </div>
 
         <div ng-switch-when="multi_select"
-             ng-class="{ 'has-error' : (parent.form.submitted && parent.form.{{attribute.Attribute}}.$error.required) ||
-                     (parent.form.{{attribute.Attribute}}.$invalid && !parent.form.{{attribute.Attribute}}.$pristine) }">
+             ng-class="{ 'has-error' : (parent.form.submitted && parent.form.{{attribute.Attribute}}.$invalid) ||
+                       (parent.form.{{attribute.Attribute}}.$invalid && !parent.form.{{attribute.Attribute}}.$pristine) }">
             <label>{{attribute.Label}} <span class="asterisk"
                                              ng-show="attribute.IsRequired">*</span></label>
             <gui-multi-select editor-scope="attribute" item="item"></gui-multi-select>
@@ -230,7 +231,7 @@
 
         <div ng-switch-default
              ng-class="{ 'has-error' : (parent.form.submitted && parent.form.{{attribute.Attribute}}.$invalid) ||
-             (parent.form.{{attribute.Attribute}}.$invalid && !parent.form.{{attribute.Attribute}}.$pristine) }">
+                       (parent.form.{{attribute.Attribute}}.$invalid && !parent.form.{{attribute.Attribute}}.$pristine) }">
 
             <label>{{attribute.Label}} <span class="asterisk"
                                              ng-show="attribute.IsRequired">*</span></label>

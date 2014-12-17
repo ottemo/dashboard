@@ -10,7 +10,7 @@
                 "$location",
                 "$productApiService",
                 function ($scope, $routeParams, $location, $productApiService) {
-                    var formDisable, formEnable, attr;
+                    var editableFields, formDisable, formEnable, attr;
 
                     attr = $routeParams.attr;
                     if (!attr && attr !== "new") {
@@ -21,9 +21,15 @@
                         attr = null;
                     }
 
+                    editableFields = ["Label", "Group", "Editors", "Options", "Default", "Validators", "IsRequired", "IsLayered", "IsPublic", "Validators"];
+
                     formDisable = function () {
                         $(".panel-body").find("input").attr("readonly", true);
                         $(".panel-body").find("select").attr("disabled", true);
+                        for (var i = 0; i < editableFields.length; i += 1) {
+                            $(".panel-body").find("input[id=inp_" + editableFields[i] + "]").removeAttr("readonly");
+                            $(".panel-body").find("select[id=inp_" + editableFields[i] + "]").removeAttr("disabled");
+                        }
                     };
 
                     formEnable = function () {
@@ -56,6 +62,7 @@
 
                                 if (result[i].Attribute === $routeParams.attr) {
                                     $scope.attribute = result[i];
+                                    $scope.choiceEditor();
                                     formDisable();
                                 }
                             }
@@ -67,9 +74,7 @@
                      * Clears the form to create a new attribute
                      */
                     $scope.clearForm = function () {
-                        $scope.attribute = {
-                            "Options": '{"a":"1st","b":"2st","c";"3st"}'
-                        };
+                        $scope.attribute = {};
                         formEnable();
                     };
 
@@ -78,30 +83,37 @@
                      * Creates new attribute if ID in current product is empty OR updates current product if ID is set
                      */
                     $scope.save = function () {
-                        var attribute, saveSuccess;
-
-                        if (typeof $scope.attribute !== "undefined") {
-                            attribute = $scope.attribute.Attribute;
-                        }
-
-                        /**
-                         *
-                         * @param response
-                         */
-                        saveSuccess = function (response) {
-                            if (response.error === "") {
-                                $scope.message = {
-                                    'type': 'success',
-                                    'message': 'Attribute was created successfully'
-                                };
-                            }
-                        };
-
-                        if (attribute) {
+                        if (attr === null) {
                             if (-1 !== ["multi_select"].indexOf($scope.attribute.Editors)) {
                                 $scope.attribute.Type = "[]text";
                             }
-                            $productApiService.addAttribute($scope.attribute, saveSuccess);
+                            $productApiService.addAttribute($scope.attribute).$promise.then(function (response) {
+                                if (response.error === "") {
+                                    $scope.message = {
+                                        'type': 'success',
+                                        'message': 'Attribute was updated successfully'
+                                    };
+                                } else {
+                                    $scope.message = {
+                                        'type': 'error',
+                                        'message': response.error
+                                    };
+                                }
+                            });
+                        } else {
+                            $productApiService.updateAttribute({"attribute": attr}, $scope.attribute).$promise.then(function (response) {
+                                if (response.error === "") {
+                                    $scope.message = {
+                                        'type': 'success',
+                                        'message': 'Attribute was updated successfully'
+                                    };
+                                } else {
+                                    $scope.message = {
+                                        'type': 'danger',
+                                        'message': response.error
+                                    };
+                                }
+                            });
                         }
                     };
 
@@ -109,8 +121,8 @@
                         $location.path("/attributes");
                     };
 
-                    $scope.readonlyEditors = function(){
-                        if(-1 !== ["select", "multi_select"].indexOf($scope.attribute.Editors)){
+                    $scope.readonlyEditors = function () {
+                        if (-1 !== ["select", "multi_select"].indexOf($scope.attribute.Editors)) {
                             return true;
                         }
                         return false;
