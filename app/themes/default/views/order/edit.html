@@ -1,6 +1,12 @@
 <!-- Page title -->
-<h2 class="text-center" ng-if="order._id">Order <strong>№{{order.increment_id}}</strong></h2>
-<h2 class="text-center" ng-if="!order._id">New order</h2>
+<h2 class="title label-info" ng-if="order._id">
+    <span class="fa fa-list-alt"></span>
+    Order <strong>№{{order.increment_id}}</strong>
+</h2>
+<h2 class="title label-info" ng-if="!order._id">
+    <span class="fa fa-list-alt"></span>
+    New order
+</h2>
 
 <br>
 <h3 class="text-center">Date: <strong>{{getDate();}}</strong></h3>

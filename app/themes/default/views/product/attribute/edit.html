@@ -1,5 +1,8 @@
 <!-- Page title -->
-<h2 class="text-center" ng-if="attribute.Attribute">{{attribute.Label}}</h2>
+<h2 class="title label-info" ng-if="attribute.Attribute">
+    <span class="fa fa-tags"></span>
+    {{attribute.Label}}
+</h2>
 <h2 class="text-center" ng-if="!attribute.Attribute">New Attribute</h2>
 
 <!-- Error message -->

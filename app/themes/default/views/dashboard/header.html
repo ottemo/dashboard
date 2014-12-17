@@ -1,5 +1,45 @@
 <!-- Navigation bar -->
-<nav class="navbar navbar-default" ng-controller="dashboardHeaderController">
+<nav class="navbar navbar-default hidden-xs" id="header_sidebar" ng-controller="dashboardHeaderController">
+    <div class="container-fluid text-center">
+        <div class="navbar-header text-center">
+            <button data-toggle="offcanvas" class="btn btn-primary navbar-btn" type="button">
+                <span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span>                
+            </button>
+        </div>
+
+        <!-- Logo -->
+        <div class="navbar-brand">
+            <a href="#/">
+                <img ng-src="{{getImg('logo.png')}}" alt=""/>
+            </a>
+        </div>
+
+        <!-- Right side -->
+        <div class="collapse navbar-collapse pull-right">
+            
+            <!-- Account menu -->
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="" class="dropdown-toggle" data-toggle="dropdown">
+                        <span class="fa fa-user"></span>&nbsp;
+                        {{it.getUsername()}}&nbsp;
+                        <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li id="switcher-toogle"><a href="">Theme switcher</a></li>
+                        <li data-toggle="modal" data-target="#switcher_code"><a href="">Theme code switcher</a></li>
+                        <li id="navbar_switch_top"><a href="">Navbar top view</a></li>
+                        <li ng-repeat="item in rightMenu" ng-include="getTemplate('dashboard/header/menuItem.html')"></li>
+                    </ul>
+                </li>
+            </ul>  
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</nav>
+
+
+<!-- Navigation bar -->
+<nav class="navbar navbar-default" id="header_no_sidebar" ng-controller="dashboardHeaderController">
     <div class="container-fluid">
         <div class="navbar-header">
 
@@ -27,8 +67,10 @@
                         {{it.getUsername()}}&nbsp;
                         <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li id="switcher-toogle"><a href="">Theme switcher</a></li>
-                        <li data-toggle="modal" data-target="#switcher_code"><a href="">Theme code switcher</a></li>
+                        <li id="switcher-toogle" class="hidden-xs"><a href="">Theme switcher</a></li>
+                        <li data-toggle="modal" data-target="#switcher_code" class="hidden-xs"><a href="">Theme code switcher</a></li>
+                        <li id="navbar_switch_side" class="hidden-xs"><a href="">Sidebar view</a></li>
+                        <li id="fix_navbar" class="hidden-xs"><a href="">Fix to top navbar</a></li>
                         <li ng-repeat="item in rightMenu" ng-include="getTemplate('dashboard/header/menuItem.html')"></li>
                     </ul>
                 </li>
@@ -42,4 +84,4 @@
             </ul>     
         </div>
     </div>
-</nav><!-- header section end-->
+</nav>

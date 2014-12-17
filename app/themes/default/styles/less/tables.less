@@ -113,7 +113,7 @@ th {
 
 .table-striped {
   > tbody > tr:nth-child(odd) {
-    background-color: @table-bg-accent;
+    background-color: darken(@table-bg-accent, 4%)
   }
 }
 
@@ -125,7 +125,6 @@ th {
 .table-hover {
   > tbody > tr:hover {
     background-color: @table-bg-hover;
-    color: @gray-lighter;
     .animation;
   }
 
