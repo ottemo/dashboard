@@ -13,7 +13,8 @@
                     regExp = /(\w+)(\((.*)\))*/g;
 
                     matches = regExp.exec(validator);
-                    if (matches.length > 1) {
+
+                    if (matches.length > 1 && typeof matches[3] !== "undefined") {
                         elem.attr("ot-" + matches[1], matches[3]);
                     } else {
                         elem.attr("ot-" + matches[1], "true");
