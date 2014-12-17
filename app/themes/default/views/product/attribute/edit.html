@@ -22,68 +22,77 @@
                 <input type="hidden" name="Collection" value="product" required/>
 
                 <div>
-                    <label for="inpAttribute">Attribute</label>
-                    <input type="text" class="form-control" name="Attribute"
+                    <label for="inp_Attribute">Attribute</label>
+                    <input type="text" class="form-control" name="Attribute" id="inp_Attribute"
                            ng-model="attribute.Attribute"/>
                 </div>
                 <div>
-                    <label for="inpType">Type</label>
+                    <label for="inp_Type">Type</label>
                     <select class="form-control" name="Type"
-                            data-ng-model="attribute.Type"
+                            data-ng-model="attribute.Type" id="inp_Type"
                             data-ng-options="choice for choice in typesAttribute">
                     </select>
                 </div>
                 <div>
-                    <label for="inpLabel">Label</label>
-                    <input type="text" class="form-control" name="Label"
+                    <label for="inp_Label">Label</label>
+                    <input type="text" class="form-control" name="Label" id="inp_Label"
                            ng-model="attribute.Label"/>
                 </div>
                 <div>
-                    <label for="inpGroup">Group</label>
-                    <input type="text" class="form-control" name="Group"
+                    <label for="inp_Group">Group</label>
+                    <input type="text" class="form-control" name="Group" id="inp_Group"
                            ng-model="attribute.Group"/>
                 </div>
                 <div>
-                    <label for="inpEditors">Editors</label>
+                    <label for="inp_Editors">Editors</label>
                     <select class="form-control" name="Editors"
                             ng-init="attribute.Editors = editorsList[0]"
-                            ng-change="choiceEditor()"
+                            ng-change="choiceEditor()" id="inp_Editors"
                             data-ng-model="attribute.Editors"
                             data-ng-options="choice for choice in editorsList">
                     </select>
                     <gui-json-editor data="attribute.Options" ng-if="isEditOptions"></gui-json-editor>
                 </div>
                 <div>
-                    <label for="inpOptions">Options</label>
+                    <label for="inp_Options">Options</label>
                     <input type="text" class="form-control" name="Options"
-                           ng-readonly="readonlyEditors()"
+                           ng-readonly="readonlyEditors()" id="inp_Options"
                            ng-model="attribute.Options"/>
                 </div>
                 <div>
-                    <label for="inpDefault">Default</label>
-                    <input type="text" class="form-control" name="Default"
+                    <label for="inp_Default">Default</label>
+                    <input type="text" class="form-control" name="Default" id="inp_Default"
                            ng-model="attribute.Default"/>
                 </div>
                 <div>
-                    <label for="inpIsRequired">IsRequired</label>
+                    <label for="inp_IsRequired">IsRequired</label>
                     <select class="form-control" name="IsRequired"
-                            ng-init="attribute.IsRequired = true"
+                            ng-init="attribute.IsRequired = true" id="inp_IsRequired"
                             data-ng-model="attribute.IsRequired"
                             data-ng-options="choice for choice in [true, false]">
                     </select>
                 </div>
 
                 <div>
-                    <label for="inpDefault">Layered</label>
-                    <select class="form-control" name="Layered"
-                            ng-init="attribute.Layered = false"
-                            data-ng-model="attribute.Layered"
+                    <label for="inp_IsLayered">Layered</label>
+                    <select class="form-control" name="IsLayered" id="inp_IsLayered"
+                            ng-init="attribute.IsLayered = true"
+                            ng-model="attribute.IsLayered"
+                            ng-options="choice for choice in [true, false]">
+                    </select>
+                </div>
+
+                <div>
+                    <label for="inp_IsPublic">Public</label>
+                    <select class="form-control" name="IsPublic" id="inp_IsPublic"
+                            ng-init="attribute.IsPublic = attribute.IsPublic || false"
+                            data-ng-model="attribute.IsPublic"
                             data-ng-options="choice for choice in [true, false]">
                     </select>
                 </div>
 
                 <div>
-                    <label for="inpIsRequired">Validators</label>
+                    <label for="inp_IsRequired">Validators</label>
                     <input type="text" class="form-control" name="Default"
                            ng-model="attribute.Validators"/>
                 </div>
