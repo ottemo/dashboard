@@ -20,23 +20,24 @@
 
             </div>
             <br />
-            <div ng-class="{ 'has-error' : (modelImportSubmit && !mode) || (modelExportSubmit && !mode)}">
+            <div ng-class="{ 'has-error' : (modelImportSubmit || modelExportSubmit) && !model}">
 
                 <label for="model">Model</label>
 
                 <select class="form-control" name="model" id="model"
-                        data-ng-model="model" required
-                        data-ng-options="key as value for (key, value) in modelList">
+                        ng-model="model" required
+                        ng-options="key as value for (key, value) in modelList">
                 </select>
 
-                <p ng-show="(modelImportSubmit && !mode) || (modelExportSubmit && !mode)"
+                <p ng-show="(modelImportSubmit || modelExportSubmit) && !model"
                    class="help-block">This field is required.</p>
 
             </div>
 
             <div class="btn-black left" ng-click="exportModel()">Export Model</div>
             <div class="btn-black left" ng-click="importModel()">Import Model</div>
+
         </div>
     </form>
-
+    <span ng-bind-html="exportFile"></span>
 </div>
