@@ -25,7 +25,16 @@
                     isLoaded = {};
 
                     getConfigGroups = function () {
-                        return configGroups;
+                        return configGroups.sort(function(a, b){
+                            if (a.Name.toString() < b.Name.toString()) {
+                                return 1;
+                            }
+                            if (a.Name.toString() > b.Name.toString()) {
+                                return -1;
+                            }
+
+                            return 0;
+                        });
                     };
 
                     getConfigTabs = function (group) {
