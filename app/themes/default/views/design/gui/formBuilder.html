@@ -123,8 +123,7 @@
         <div ng-switch-when="password"
              ng-class="{ 'has-error' : (parent.form.submitted && parent.form.{{attribute.Attribute}}.$error.required) ||
                      (parent.form.{{attribute.Attribute}}.$invalid && !parent.form.{{attribute.Attribute}}.$pristine) }">
-            <label>{{attribute.Label}} <span class="asterisk"
-                                             ng-show="attribute.IsRequired">*</span></label>
+
             <gui-password editor-scope="attribute" item="item"></gui-password>
 
             <p ng-show="(parent.form.submitted && parent.form.{{attribute.Attribute}}.$error.required)"
@@ -230,7 +229,8 @@
         </div>
 
         <div ng-switch-default
-             ng-class="{ 'has-error' : (parent.form.submitted && parent.form.{{attribute.Attribute}}.$invalid) || (parent.form.{{attribute.Attribute}}.$invalid && !parent.form.{{attribute.Attribute}}.$pristine) }">
+             ng-class="{ 'has-error' : (parent.form.submitted && parent.form.{{attribute.Attribute}}.$invalid) ||
+             (parent.form.{{attribute.Attribute}}.$invalid && !parent.form.{{attribute.Attribute}}.$pristine) }">
 
             <label>{{attribute.Label}} <span class="asterisk"
                                              ng-show="attribute.IsRequired">*</span></label>
@@ -240,7 +240,8 @@
                class="help-block">This field is required.</p>
 
             <p ng-if="!parent.form[attribute.Attribute].$error.required"
-               ng-show="(parent.form.submitted && parent.form.{{attribute.Attribute}}.$invalid) || (parent.form.{{attribute.Attribute}}.$invalid && !parent.form.{{attribute.Attribute}}.$pristine)"
+               ng-show="(parent.form.submitted && parent.form.{{attribute.Attribute}}.$invalid) ||
+               (parent.form.{{attribute.Attribute}}.$invalid && !parent.form.{{attribute.Attribute}}.$pristine)"
                class="help-block">{{parent.form[attribute.Attribute].message}}</p>
         </div>
 
