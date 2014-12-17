@@ -113,6 +113,7 @@ $(document).ready(function() {
         $('#header_sidebar').fadeOut(500,function(){
             $('#header_no_sidebar').fadeIn(500);
             $('#offcanvas').removeClass('active');
+            $('body').removeClass('sticky-sidebar');
         })
     });
 
@@ -135,5 +136,10 @@ $(document).ready(function() {
             $('body').animate({paddingTop:navbarHeight}, 400).addClass('have-fixed-sidebar');
         }
         $('#header_no_sidebar').toggleClass('navbar-fixed-top');
+    });
+
+    $(document).on('click', '#static_sidebar', function(event) {
+        event.preventDefault();
+        $('body').toggleClass('sticky-sidebar');
     });
 });

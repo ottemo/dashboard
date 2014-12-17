@@ -343,6 +343,15 @@ body {
 #content {
   min-height: 100%;
 }
+body.sticky-sidebar {
+  padding-left: 300px;
+}
+body.sticky-sidebar #offcanvas {
+  left: 0;
+}
+body.sticky-sidebar button[data-toggle="offcanvas"] {
+  display: none;
+}
 #offcanvas {
   width: 300px;
   height: 50px;
@@ -381,6 +390,17 @@ body {
 button[data-toggle="offcanvas"] {
   position: relative;
   z-index: 1;
+}
+@media (max-width: 1170px) {
+  body {
+    padding-left: 0 !important;
+  }
+  #offcanvas {
+    left: -300px !important;
+  }
+  button[data-toggle="offcanvas"] {
+    display: inline-block;
+  }
 }
 #offcanvas button[data-toggle="offcanvas"] {
   float: right;
