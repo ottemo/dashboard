@@ -32,7 +32,7 @@
                     // Variables
                     var list, oldValue, seoFields;
                     // Functions
-                    var init, find, save, update, remove, isModified, getDefaultSeo, getSeoFields;
+                    var init, find, save, update, remove, isModified, getDefaultSeo, getSeoFields, getByUrl;
 
                     list = [];
                     seoFields = ["url", "title", "meta_keywords", "meta_description"];
@@ -66,6 +66,18 @@
                         }
 
                         return null;
+                    };
+
+                    getByUrl = function (url) {
+                        var defer = $q.defer();
+
+                        $seoApiService.get({"url": url}).$promise.then(
+                            function (response) {
+                                defer.resolve(response);
+                            }
+                        );
+
+                        return defer.promise;
                     };
 
                     update = function (obj) {
@@ -164,6 +176,7 @@
                         "update": update,
                         "save": save,
                         "remove": remove,
+                        "get": getByUrl,
                         "getDefaultSeo": getDefaultSeo,
                         "getSeoFields": getSeoFields
                     };

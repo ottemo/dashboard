@@ -6,7 +6,8 @@
             .controller("seoEditController", [
                 "$scope",
                 "$seoService",
-                function ($scope, $seoService) {
+                "$dashboardUtilsService",
+                function ($scope, $seoService, $dashboardUtilsService) {
 
                     var isInit, seo, seoFields, itemName, hasAttribute, save, remove, isModifySave, isInitUrlRewrite,
                         modifyRemoveMethod, isModifyRemove, modifySaveMethod, addAttributes, addAttributesValue, getDefaultSeo,
@@ -48,19 +49,23 @@
                         return flag;
                     };
 
-                    saveSeo = function () {
-                        if (typeof seo._id !== "undefined") {
-                            seo = $seoService.update(seo).then(
-                                function (response) {
-                                    seo = response || null;
-                                    for (var i = 0; i < seoFields.length; i += 1) {
+                    saveSeo = function (oldSeo) {
+                        var existingSeo = $seoService.find(itemName, oldSeo.rewrite);
+                        if (existingSeo) {
+                            var callback = function (response) {
+                                seo._id = response.result[0]._id;
+                                $seoService.update(seo).then(
+                                    function (response) {
+                                        seo = response || null;
+                                        for (var i = 0; i < seoFields.length; i += 1) {
 
-                                        $scope[itemName][seoFields[i]] = seo[seoFields[i]];
+                                            $scope[itemName][seoFields[i]] = seo[seoFields[i]];
+                                        }
+                                        isInitUrlRewrite = true;
                                     }
-                                    isInitUrlRewrite = true;
-                                }
-                            );
-
+                                );
+                            };
+                            $seoService.get(oldSeo.url).then(callback);
                         } else {
                             $seoService.save(seo).then(
                                 function (response) {
@@ -86,7 +91,18 @@
                             save = $scope.save;
                             delete $scope.save;
 
+                            if (typeof seo._id === "undefined") {
+                                $seoService.get(seo.url).then(function (response) {
+                                    if (response.result !== null) {
+                                        for (var i = 0; i < seoFields.length; i += 1) {
+                                            $scope[itemName][seoFields[i]] = response.result[0][seoFields[i]];
+                                        }
+                                    }
+                                });
+                            }
+
                             $scope.save = function () {
+                                var oldSeo = $dashboardUtilsService.clone(seo);
                                 for (var i = 0; i < seoFields.length; i += 1) {
                                     seo[seoFields[i]] = $scope[itemName][seoFields[i]];
 
@@ -95,7 +111,7 @@
 
                                 save().then(
                                     function () {
-                                        saveSeo();
+                                        saveSeo(oldSeo);
                                     }
                                 );
 
@@ -115,12 +131,23 @@
                             remove = $scope.remove;
                             delete $scope.remove;
 
-                            $scope.remove = function (id) {
-                                remove(id);
-
-                                if (typeof seo._id !== "undefined") {
-                                    seo = $seoService.remove(seo);
+                            $scope.remove = function () {
+                                var seo;
+                                var callback = function (response) {
+                                    if (response.result !== null) {
+                                        $seoService.remove(response.result[0]);
+                                    }
+                                };
+                                for (var id in $scope.idsSelectedRows) {
+                                    if ($scope.idsSelectedRows.hasOwnProperty(id) && true === $scope.idsSelectedRows[id]) {
+                                        seo = $seoService.find(itemName, id);
+                                        if (seo !== null) {
+                                            $seoService.get(seo.url).then(callback);
+                                        }
+                                    }
                                 }
+
+                                remove(id);
                             };
 
                             isInitUrlRewrite = false;
@@ -211,14 +238,13 @@
                         if (!isInit) {
                             return false;
                         }
-                        if (typeof $scope[itemName]._id !== "undefined") {
+                        if (typeof $scope[itemName] !== "undefined" && typeof $scope[itemName]._id !== "undefined") {
                             addAttributes();
 
                             addAttributesValue();
-
                             modifySaveMethod();
-                            modifyRemoveMethod();
                         } else {
+                            modifyRemoveMethod();
                             removeAttributes();
                         }
                     }, true);
@@ -227,7 +253,7 @@
                      * Watches for the selected item in child scope
                      */
                     $scope.$watch(function () {
-                        if (!isInit) {
+                        if (!isInit || typeof $scope[itemName] === "undefined") {
                             return false;
                         }
 

@@ -16,6 +16,11 @@
                           $designImageService, COUNT_ITEMS_PER_PAGE) {
                     var serviceList, splitName, getProductsList, getAttributeList, getProductCount;
 
+                    // Initialize SEO
+                    if (typeof $scope.initSeo === "function") {
+                        $scope.initSeo("product");
+                    }
+
                     serviceList = new DashboardListService();
 
                     $scope.idsSelectedRows = {};
