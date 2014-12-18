@@ -1,12 +1,17 @@
 $(document).ready(function() {
+
+    // click on tab link
 	$('.nav-tabs a').click(function (e) {
 	    e.preventDefault()
 	    $(this).tab('show')
 	});
+
+    // sho/hide filsters
 	$(document).on('click', '.filters', function() {
         $('#filters').toggle(0)
     });
 
+    // click on offcanvas button
     $(document).on('click', '[data-toggle="offcanvas"]', function(event) {
         event.preventDefault();
         $(this).toggleClass('active');
@@ -32,6 +37,7 @@ $(document).ready(function() {
         localStorage.setItem("activeTheme", link);
     });
 
+    // apply the code
     $(document).on('click', '#apply', function() {
 
         // clear the containers and storage
@@ -52,6 +58,7 @@ $(document).ready(function() {
     document.getElementById("code_container").innerHTML = localStorage.getItem("cssCode");
     document.getElementById("theme_container").innerHTML = localStorage.getItem("activeTheme");
 
+    // set the theme
     setTimeout(function(){
         $('#switcher .preview').each(function() {
         var thisId = $(this).attr('id');
@@ -69,6 +76,7 @@ $(document).ready(function() {
         };
     });
 
+    // clickable scroll bottom
     $(document).on('click', '#theme_switcher .scroll-down', function scrollDown() {
         var step = 150;
         $("#switcher").stop().animate({
@@ -77,6 +85,7 @@ $(document).ready(function() {
          event.preventDefault();
     });
 
+    // clickable scroll top
     $(document).on('click', '#theme_switcher .scroll-up', function scrollUp() {
         var step = 150;
         $("#switcher").stop().animate({
@@ -85,6 +94,7 @@ $(document).ready(function() {
          event.preventDefault();
     });
 
+    // toggle theme_switcher
     $(document).on('click', '#theme_switcher > span.btn', function() {
         $('#theme_switcher').toggleClass('active');
     });
@@ -99,9 +109,9 @@ $(document).ready(function() {
         $(this).parents('tr').children('td:first-child').children('input').trigger('click');
     });
 
+    // click on element of offcanvas
     $(document).on('click', '#offcanvas a.menu-item', function(event) {
         var itHasLink = $(this).attr('href');
-        
         if ( itHasLink == '' ) {
             event.preventDefault();
             $('#offcanvas .sub-menu').not($(this).next()).slideUp(300)
@@ -109,6 +119,7 @@ $(document).ready(function() {
         }
     });
 
+    // go to 'no_sidebar' mode
     $(document).on('click', '#navbar_switch_top', function(event) {
         $('#header_sidebar').fadeOut(500,function(){
             $('#header_no_sidebar').fadeIn(500);
@@ -117,6 +128,7 @@ $(document).ready(function() {
         })
     });
 
+    // go to 'sidebar' mode
     $(document).on('click', '#navbar_switch_side', function(event) {
         $('#header_no_sidebar').fadeOut(500,function(){
             $('body').css('paddingTop', 0).removeClass('have-fixed-sidebar');
@@ -126,6 +138,7 @@ $(document).ready(function() {
         })
     });
 
+    // fix the navbar in the top
     $(document).on('click', '#fix_navbar', function(event) {
         var bodyHasClass = $('body').hasClass('have-fixed-sidebar');
         if ( bodyHasClass == true ) {
@@ -138,6 +151,7 @@ $(document).ready(function() {
         $('#header_no_sidebar').toggleClass('navbar-fixed-top');
     });
 
+    //make the sidebar sticky
     $(document).on('click', '#static_sidebar', function(event) {
         event.preventDefault();
         $('body').toggleClass('sticky-sidebar');

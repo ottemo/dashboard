@@ -1,4 +1,7 @@
 /* Login page */
+.nicescroll-rails {
+  display: none !important;
+}
 #hide {
   display: none !important;
 }
