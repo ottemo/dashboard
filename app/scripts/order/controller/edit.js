@@ -2,6 +2,18 @@
     "use strict";
 
     define(["order/init"], function (orderModule) {
+        var clone = function (obj) {
+            if (null === obj || "object" !== typeof obj) {
+                return obj;
+            }
+            var copy = obj.constructor();
+            for (var attr in obj) {
+                if (obj.hasOwnProperty(attr)) {
+                    copy[attr] = obj[attr];
+                }
+            }
+            return copy;
+        };
         orderModule
             .controller("orderEditController", [
                 "$scope",
@@ -10,7 +22,7 @@
                 "$q",
                 "$orderApiService",
                 function ($scope, $routeParams, $location, $q, $orderApiService) {
-                    var orderId, getDefaultOrder;
+                    var orderId, getDefaultOrder, oldString;
 
                     orderId = $routeParams.id;
 
@@ -36,14 +48,31 @@
                         };
                     };
 
-                    $scope.count = 100;
-
                     /**
                      * Current selected order
                      *
                      * @type {Object}
                      */
                     $scope.order = getDefaultOrder();
+
+                    $scope.statuses = [
+                        {
+                            "value": "new",
+                            "label": "New"
+                        },
+                        {
+                            "value": "completed",
+                            "label": "Completed"
+                        },
+                        {
+                            "value": "pending",
+                            "label": "Pending"
+                        },
+                        {
+                            "value": "canceled",
+                            "label": "Cancel Order"
+                        }
+                    ];
 
 
                     /**
@@ -61,6 +90,8 @@
                             function (response) {
                                 var result = response.result || {};
                                 $scope.order = result;
+                                oldString = clone($scope.order);
+                                delete oldString["updated_at"];
                             }
                         );
                     }
@@ -74,17 +105,38 @@
                      * Creates new order if ID in current order is empty OR updates current order if ID is set
                      */
                     $scope.save = function () {
-                        $location.path("/orders");
+                        delete $scope.order["updated_at"];
+                        if (orderId !== null && JSON.stringify(oldString) !== JSON.stringify($scope.order)) {
+                            $orderApiService.update({"id": orderId}, $scope.order).$promise.then(function (response) {
+                                if (response.error === "") {
+                                    $scope.message = {
+                                        'type': 'success',
+                                        'message': 'Order was updated successfully'
+                                    };
+                                    for (var field in response.result) {
+                                        if (response.result.hasOwnProperty(field) && "updated_at" !== field) {
+                                            oldString[field] = response.result[field];
+
+                                        }
+                                    }
+                                } else {
+                                    $scope.message = {
+                                        'type': 'danger',
+                                        'message': response.error
+                                    };
+                                }
+                            });
+                        }
                     };
 
-                    $scope.getDate = function(){
-                            var date, month, day;
+                    $scope.getDate = function () {
+                        var date, month, day;
 
-                            date = new Date($scope.order['created_at']);
-                            month = date.getMonth().toString().length < 2 ? '0' + date.getMonth() : date.getMonth();
-                            day = date.getDate().toString().length < 2 ? '0' + date.getDate() : date.getDate();
+                        date = new Date($scope.order['created_at']);
+                        month = date.getMonth().toString().length < 2 ? '0' + date.getMonth() : date.getMonth();
+                        day = date.getDate().toString().length < 2 ? '0' + date.getDate() : date.getDate();
 
-                            return date.getFullYear() + '/' + month + '/' + day;
+                        return date.getFullYear() + '/' + month + '/' + day;
                     };
 
                 }
