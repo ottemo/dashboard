@@ -5,7 +5,7 @@
 </div>
 
 <div class="panel-body">
-
+    <gui-message-manager item="message"></gui-message-manager>
     <div class="page-title"></div>
 
     <div>
@@ -13,6 +13,7 @@
         <div class="account-right order-detail">
             <h6>Order # is: <strong>{{order.increment_id}}</strong></h6>
             <h6>Date: <span>{{getDate();}}</span></h6>
+            <h6>Status: <span>{{order.status}}</span></h6>
             <div class="hr"></div>
             <div class="od-blocks">
                 <div class="od-block">
@@ -69,9 +70,18 @@
                 <h6>Order Total:</h6>
                 <div class="clear"></div>
             </div>
+
             <div class="btn-group pull-right">
-                <a class="btn-black" href="#/orders/">Back</a>
-                <a class="btn-black" href="#/orders/">Save</a>
+
+                <div>
+                    <h6 class="pull-left">Change status</h6>
+                    <select class="form-control pull-right select-change-order-status" name="status" id="status" ng-model="order.status"
+                            ng-init="order.status"
+                            ng-options="obj.value as obj.label for obj in  statuses"></select>
+                </div>
+                <div class="clear"></div>
+                <a class="btn-black" ng-click="back()">Back</a>
+                <a class="btn-black" ng-click="save()">Save</a>
             </div>
             
         </div>
@@ -79,3 +89,12 @@
 
 
 </div>
+
+<style>
+    .select-change-order-status {
+
+        width: 60%;
+        margin-top: 5px;
+        margin-right: 12px;
+    }
+</style>

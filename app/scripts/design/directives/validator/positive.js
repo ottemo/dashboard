@@ -25,7 +25,7 @@
                             return value;
                         }
 
-                        valid = parseFloat(value) > 0;
+                        valid = parseFloat(value) >= 0;
                         ngModel.$setValidity('ot-positive', valid);
                         if (!valid) {
                             ngModel.message = positiveNotValid;

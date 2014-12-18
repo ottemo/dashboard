@@ -15,6 +15,11 @@
                     var serviceList, getPageCount, getAttributeList, getPagesList;
                     serviceList = new DashboardListService();
 
+                    // Initialize SEO
+                    if (typeof $scope.initSeo === "function") {
+                        $scope.initSeo("page");
+                    }
+
                     $scope.idsSelectedRows = {};
 
                     /**

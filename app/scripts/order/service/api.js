@@ -31,6 +31,11 @@
                         method: "GET",
                         url: orderBaseURL + "/count"
                     },
+                    "update": {
+                        method: "PUT",
+                        params: { "id": "@id" },
+                        url: orderBaseURL + "/update/:id"
+                    },
                     "remove": {
                         method: "DELETE",
                         params: { "id": "@id" },

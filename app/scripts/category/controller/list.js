@@ -13,6 +13,12 @@
                 "COUNT_ITEMS_PER_PAGE",
                 function ($scope, $location, $routeParams, $q, DashboardListService, $categoryApiService, COUNT_ITEMS_PER_PAGE) {
                     var serviceList, getCategoriesList, getCategoryCount, getAttributeList;
+
+                    // Initialize SEO
+                    if (typeof $scope.initSeo === "function") {
+                        $scope.initSeo("category");
+                    }
+
                     serviceList = new DashboardListService();
 
                     $scope.idsSelectedRows = {};
