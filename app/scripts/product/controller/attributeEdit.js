@@ -39,7 +39,7 @@
 
                     $scope.attribute = {};
                     $scope.attributesList = [];
-                    $scope.typesAttribute = ["integer", "real", "text"];
+                    $scope.typesAttribute = ["id", "boolean", "integer", "text", "json", "decimal", "datetime", "[]id", "[]integer", "[]text"];
                     $scope.editorsList = [
                         "text",
                         "multiline_text",
