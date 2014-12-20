@@ -175,21 +175,18 @@ table th.checkboxes-column {
 }
 #theme_switcher {
   position: fixed;
-  left: -300px;
+  right: -300px;
   top: 0;
   width: 300px;
   height: 100%;
+  z-index: 100;
   -webkit-transition: all 0.5s ease;
-  /* Safari 3.2+, Chrome */
   -moz-transition: all 0.5s ease;
-  /* Firefox 4-15 */
   -o-transition: all 0.5s ease;
-  /* Opera 10.5-12.00 */
   transition: all 0.5s ease;
-  /* Firefox 16+, Opera 12.50+ */
 }
 #theme_switcher.active {
-  left: 0%;
+  right: 0%;
 }
 #switcher {
   height: 100%;
@@ -210,16 +207,17 @@ table th.checkboxes-column {
 }
 #theme_switcher > span.btn {
   position: absolute;
-  left: 100%;
-  top: 30%;
-  width: 45px !important;
+  right: 100%;
+  top: 50%;
+  margin-top: -40px;
+  width: 40px !important;
   height: 40px !important;
   border-left: none;
   visibility: hidden;
   opacity: 0;
   padding: 0;
   text-align: center;
-  border-radius: 0 50px 50px 0;
+  border-radius: 5px 0 0 5px;
 }
 #theme_switcher > span.btn i {
   font-size: 25px;
@@ -348,11 +346,27 @@ body {
 }
 body.sticky-sidebar {
   padding-left: 300px;
+  -webkit-transition: all 0.4s ease;
+  /* Safari 3.2+, Chrome */
+  -moz-transition: all 0.4s ease;
+  /* Firefox 4-15 */
+  -o-transition: all 0.4s ease;
+  /* Opera 10.5-12.00 */
+  transition: all 0.4s ease;
+  /* Firefox 16+, Opera 12.50+ */
 }
 body.sticky-sidebar #offcanvas {
   left: 0;
+  -webkit-transition: all 0.4s ease;
+  /* Safari 3.2+, Chrome */
+  -moz-transition: all 0.4s ease;
+  /* Firefox 4-15 */
+  -o-transition: all 0.4s ease;
+  /* Opera 10.5-12.00 */
+  transition: all 0.4s ease;
+  /* Firefox 16+, Opera 12.50+ */
 }
-body.sticky-sidebar button[data-toggle="offcanvas"] {
+body.sticky-sidebar *[data-toggle="offcanvas"] {
   display: none;
 }
 #offcanvas {
@@ -375,6 +389,14 @@ body.sticky-sidebar button[data-toggle="offcanvas"] {
 }
 #offcanvas.active {
   left: 0;
+  -webkit-transition: all 0.4s ease;
+  /* Safari 3.2+, Chrome */
+  -moz-transition: all 0.4s ease;
+  /* Firefox 4-15 */
+  -o-transition: all 0.4s ease;
+  /* Opera 10.5-12.00 */
+  transition: all 0.4s ease;
+  /* Firefox 16+, Opera 12.50+ */
 }
 #header_sidebar .navbar-brand {
   width: 100%;
@@ -404,6 +426,9 @@ button[data-toggle="offcanvas"] {
   button[data-toggle="offcanvas"] {
     display: inline-block;
   }
+}
+.sidebar-toggler {
+  z-index: 2;
 }
 #offcanvas button[data-toggle="offcanvas"] {
   float: right;
@@ -510,6 +535,15 @@ button[data-toggle="offcanvas"] {
   #header_sidebar {
     display: none !important;
   }
+}
+.sellers-images > span {
+  height: auto;
+}
+.sellers-images span img {
+  height: 60px;
+  display: inline-block;
+  margin-bottom: 10px;
+  width: auto;
 }
 .welcome .today-visits .col-xs-6,
 .welcome .today-sales .col-xs-6,
