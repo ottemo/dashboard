@@ -1,0 +1,50 @@
+- {{getCountItems()}} items
+<button class="btn btn-primary" ng-click="show(attribute.Attribute)" style="padding: 0px 10px;">Select</button>
+<div class="modal fade" id="{{attribute.Attribute}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+                {{attribute.Attribute}}
+                <button class="btn btn-primary pull-right" ng-click="hide(attribute.Attribute)">Close</button>
+            </div>
+
+            <div class="modal-body">
+                <div class="panel panel-default">
+                    <!-- Search block -->
+                    <div class="panel-heading">
+                        <input type="text" class="form-control" placeholder="Search" ng-model="searchText"/>
+                    </div>
+
+                    <!-- List block -->
+                    <div class="panel-body">
+                        <ul class="media-list{{getListType()}}">
+                            <!-- Items of the list -->
+                            <li class="media" ng-repeat="_item in items | filter:searchText" checkbox-group>
+
+                                <a class="pull-left" href="" target="_self" ng-click="toggleSelection(_item.ID, _item.Name)" >
+                                    <img class="media-object" ng-src="{{getImage(_item.Image)}}"
+                                         alt="{{_item.Name}}" style="max-width: 75px; max-height: 75px;">
+                                </a>
+                                <div class="media-body pull-left">
+                                    <input type="checkbox"
+                                           ng-checked="selection.indexOf(_item.ID) > -1"
+                                           ng-click="toggleSelection(_item.ID, _item.Name)" />
+                                </div>
+                                <div class="media-body  pull-left">
+                                    <h4 class="media-heading" ng-model="_item.Name" ng-bind="_item.Name"></h4>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>

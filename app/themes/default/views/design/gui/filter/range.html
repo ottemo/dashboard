@@ -1,0 +1,18 @@
+<div>
+    <div ng-class="{ 'has-error' : lowInvalid }" >
+        <input type="text" class="form-control"
+               placeholder="{{attribute.Label}}"
+               ng-model="low" ng-enter="submit()" ng-blur="submit()"/>
+
+        <p ng-show="lowInvalid"
+           class="help-block">Invalid format. Only numbers.</p>
+    </div>
+    <div ng-class="{ 'has-error' : hightInvalid }" >
+        <input type="text" class="form-control"
+               placeholder="{{attribute.Label}}"
+               ng-model="hight" ng-enter="submit()" ng-blur="submit()" />
+
+        <p ng-show="hightInvalid"
+           class="help-block">Invalid format. Only numbers.</p>
+    </div>
+</div>

@@ -1,180 +1,73 @@
-dashboard
+Dashboard
 =========
 
-Administration and Dashboards for Ottemo
+[![wercker status](https://app.wercker.com/status/0d1dbce7b17a8fc14016760e30709afc/m "wercker status")](https://app.wercker.com/project/bykey/0d1dbce7b17a8fc14016760e30709afc)
 
-##install
 
-Install `generator-angular-require`:
+## Workflow with gulp
 
-    	$ npm install -g generator-angular-require
-    	
-Run `yo angular-require`, optionally passing an app name:
+### Build
+Builds project and moves files on the destination folder. Makes concat and minify css and JS. Compiling SASS to css. Checks JS on errors using JSHint
 
-		$ yo angular-require [app-name]
+    gulp build
 
-##usage
-`grunt build` must be run before anything else due to dependency population in the RequireJS config and the like (this will be fixed in a future version).
+### Run Client in Development Mode
+Moves images, bower-files into destination folder. Compiling sass. Adds watcher on a changes in css, scss, js, html and images. After a change these files browser automatically will be update  content
 
-Run `grunt` for building:
+    gulp build && gulp dev
+    or
+    gulp build && gulp serve
 
-		$ grunt
-		
-and `grunt serve` for preview:
+### Run Unit Tests
+Not configured yet. Will be realized in the near future
 
-		$ grunt serve
+    gulp test
 
-when you creating angular components use builtin generators, which are listed below:
+### Also useful are the following commands
+    gulp jshint // check js on errors
+    gulp sass   // Makes compilation sass to css
+    gulp clean  // Removes the _dist_ folder
 
-### App
-Sets up a new AngularJS-RequireJS app, generating all the boilerplate you need to get started. The app generator also optionally installs Twitter Bootstrap and additional AngularJS modules, such as angular-resource (installed by default). All files created will be in the RequireJS/AMD format, and therefore all will be within "define" blocks.
+### How start with Vagrantfile
+Clone ottemo/dashboard github repo. The vagrant instance will start with nginx available at http://localhost:9999 - You can use gulp serve as well and will be available at http://localhost:9000
 
-Example:
-```bash
-yo angular-require
-```
+    vagrant up
+    vagrant ssh
+    sudo su -
+    cd /vagrant
+    gulp serve (this will take a few minutes to start)
 
-### Route
-Generates a controller and view, and configures a route in `app/scripts/app.js` connecting them.
+### How to run ottemo/dashboard docker container
+Pull latest image from docker hub
 
-Example:
-```bash
-yo angular-require:route myroute
-```
+    docker pull ottemo/dashboard
 
-Produces `app/scripts/controllers/myroute.js`:
-```javascript
-define(['angular'], function (angular) {
-  'use strict';
-  angular.module('myApp.controllers.myrouteCtrl', [])
-    .controller('myrouteCtrl', function ($scope) {
-      // ...
-    });
-});
-```
+Start the container and access locally access at http://localhost:9999
 
-Produces `app/views/myroute.html`:
-```html
-<p>This is the myroute view</p>
-```
+    docker run -d -p 9999:80 -t ottemo/dashboard
 
-### Controller
-Generates a controller in `app/scripts/controllers`.
+## Contribute to Ottemo Dashboard development
+We use git-flow internally, but if you do not like git-flow you may use [this document](CONTRIBUTOR.md) as an alternative.
 
-Example:
-```bash
-yo angular-require:controller user
-```
+Below is a mini quickstart if you are new to git-flow and can't wait to jump into the code.
 
-Produces `app/scripts/controllers/user.js`:
-```javascript
-define(['angular'], function (angular) {
-  'use strict';
-  angular.module('myApp.controllers.userCtrl', [])
-    .controller('userCtrl', function ($scope) {
-      // ...
-    });
-});
-```
-### Directive
-Generates a directive in `app/scripts/directives`.
+### Initialize git-flow
 
-Example:
-```bash
-yo angular-require:directive myDirective
-```
+    # fork or clone ottemo like below
+    $ git clone https://github.com/ottemo/ottemo-go.git
 
-Produces `app/scripts/directives/myDirective.js`:
-```javascript
-define(['angular'], function (angular) {
-  'use strict';
-  angular.module('myApp.directives.myDirective', [])
-    .directive('myDirective', function () {
-      return {
-        template: '<div></div>',
-        restrict: 'E',
-        link: function postLink(scope, element, attrs) {
-          element.text('this is the myDirective directive');
-        }
-      };
-    });
-  });
-```
+    # init git-flow, (git-flow must be installed for your OS locally)
+    $ git checkout master
+    $ git checkout develop
+    $ git flow init -d
 
-### Filter
-Generates a filter in `app/scripts/filters`.
+### Start a feature branch
+    $ git flow feature start <FEATURE-NAME>
 
-Example:
-```bash
-yo angular-require:filter myFilter
-```
+### Issue a pull request on github
+    $ git push -u origin <FEATURE-BRANCH>
+    # if you have git aliased to hub otherwise use the github web interface
+    $ git pull-request -b develop
 
-Produces `app/scripts/filters/myFilter.js`:
-```javascript
-define(['angular'], function (angular) {
-  'use strict';
-  angular.module('myApp.filters.myFilter', [])
-    .filter('myFilter', function () {
-      return function (input) {
-        return 'myFilter filter:' + input;
-      };
-    });
-});
-```
-
-### View
-Generates an HTML view file in `app/views`.
-
-Example:
-```bash
-yo angular-require:view user
-```
-
-Produces `app/views/user.html`:
-```html
-<p>This is the user view</p>
-```
-
-### Service
-Generates an AngularJS service.
-
-Example:
-```bash
-yo angular-require:service myService
-```
-
-Produces `app/scripts/services/myService.js`:
-```javascript
-define(['angular'], function (angular) {
-  'use strict';
-  angular.module('myApp.services.myService', [])
-    .service('myService', function () {
-      // ...
-    });
-});
-```
-
-You can also do `yo angular:factory`, `yo angular:provider`, `yo angular:value`, and `yo angular:constant` for other types of services.
-
-### Decorator
-Generates an AngularJS service decorator.
-
-Example:
-```bash
-yo angular-require:decorator serviceName
-```
-
-Produces `app/scripts/decorators/serviceNameDecorator.js`:
-```javascript
-define(['angular'], function (angular) {
-  'use strict';
-  angular.module('myApp.decorators.serviceName', [])
-    .config(function ($provide) {
-      $provide.decorator('serviceName', function ($delegate) {
-        // ...
-        return $delegate;
-      });
-    });
-});
-```
-		
+### Delete the local branch
+    $ git branch -d <FEATURE-BRANCH>

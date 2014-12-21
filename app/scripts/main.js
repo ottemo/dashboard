@@ -1,58 +1,87 @@
-/*jshint unused: vars */
+"use strict";
+
+window.name = "NG_DEFER_BOOTSTRAP!"; // http://code.angularjs.org/1.2.1/docs/guide/bootstrap#overview_deferred-bootstrap
+
 require.config({
-  paths: {
-    'angular-scenario': '../bower_components/angular-scenario/angular-scenario',
-    'angular-sanitize': '../bower_components/angular-sanitize/angular-sanitize',
-    'angular-route': '../bower_components/angular-route/angular-route',
-    'angular-resource': '../bower_components/angular-resource/angular-resource',
-    'angular-mocks': '../bower_components/angular-mocks/angular-mocks',
-    'angular-cookies': '../bower_components/angular-cookies/angular-cookies',
-    angular: '../bower_components/angular/angular'
-  },
-  shim: {
-    angular: {
-      exports: 'angular'
+    "baseUrl": "scripts",
+    "paths": {
+        "config": "config",
+        "angular": "../lib/angular/angular.min",
+        "tinymce": "../lib/tinymce/tinymce.min",
+
+        "angular-scenario": "../lib/angular/angular-scenario.min",
+        "angular-sanitize": "../lib/angular/angular-sanitize.min",
+        "angular-route": "../lib/angular/angular-route.min",
+        "angular-resource": "../lib/angular/angular-resource.min",
+        "angular-cookies": "../lib/angular/angular-cookies.min",
+        "angular-mocks": "../lib/angular/angular-mocks",
+
+        "angular-animate": "../lib/angular/angular-animate.min",
+        "angular-bootstrap": "../lib/angular/ui-bootstrap-tpls.min"
     },
-    'angular-route': [
-      'angular'
-    ],
-    'angular-cookies': [
-      'angular'
-    ],
-    'angular-sanitize': [
-      'angular'
-    ],
-    'angular-resource': [
-      'angular'
-    ],
-    'angular-mocks': {
-      deps: [
-        'angular'
-      ],
-      exports: 'angular.mock'
-    }
-  },
-  priority: [
-    'angular'
-  ]
+    "shim": {
+        "config": {exports: "config"},
+        "angular": {deps: ["config"], exports: "angular"},
+        "tinymce": {
+            exports: 'tinymce'
+        },
+
+        "angular-route": ["angular"],
+        "angular-cookies": ["angular"],
+        "angular-sanitize": ["angular"],
+        "angular-resource": ["angular"],
+        "angular-animate": ["angular"],
+
+        "angular-mocks": { deps: ["angular"], exports: "angular.mock"},
+        "angular-bootstrap": { deps: ["angular"], exports: "uiBootstrap"}
+    },
+    "priority": ["angular"]
 });
 
-//http://code.angularjs.org/1.2.1/docs/guide/bootstrap#overview_deferred-bootstrap
-window.name = 'NG_DEFER_BOOTSTRAP!';
+
+require(['angular'], function (angular) {
+    if (typeof require.iniConfig === "undefined") {
+        require.iniConfig = {};
+    }
+
+    angular.appConfig = {};
+    angular.appConfigValue = function (valueName) {
+        if (typeof angular.appConfig[valueName] !== "undefined") {
+            return angular.appConfig[valueName];
+        } else {
+            if (typeof require.iniConfig[valueName] !== "undefined") {
+                return require.iniConfig[valueName];
+            }
+        }
+        return "";
+    };
+});
 
 require([
-  'angular',
-  'app',
-  'angular-route',
-  'angular-cookies',
-  'angular-sanitize',
-  'angular-resource'
-], function(angular, app, ngRoutes, ngCookies, ngSanitize, ngResource) {
-  'use strict';
-  /* jshint ignore:start */
-  var $html = angular.element(document.getElementsByTagName('html')[0]);
-  /* jshint ignore:end */
-  angular.element().ready(function() {
-    angular.resumeBootstrap([app.name]);
-  });
-});
+        "angular",
+        "angular-bootstrap",
+
+        "design/module",
+        "dashboard/module",
+        "config/module",
+
+        "product/module",
+        "category/module",
+        "visitor/module",
+        "login/module",
+        "cms/module",
+        "seo/module",
+        "order/module",
+        "impex/module"
+    ],
+    function (angular) {
+        angular.element(document).ready(function () {
+            var modules = Object.keys( angular.module );
+
+            angular.isExistFile = function () {
+                return false;
+            };
+            angular.resumeBootstrap( modules );
+        });
+    }
+);

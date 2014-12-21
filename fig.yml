@@ -1,0 +1,7 @@
+web:
+    image: ottemo/dashboard
+    command: gulp serve
+    ports:
+    - "9000:9000"
+    volumes:
+    - .:/dashboard
