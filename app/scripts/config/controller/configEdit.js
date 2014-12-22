@@ -66,7 +66,6 @@
                                     'type': 'success',
                                     'message': 'config was saved successfully'
                                 };
-                                $configService.load($scope.currentPath, true);
                             }
                         );
                     };
