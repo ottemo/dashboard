@@ -101,6 +101,7 @@
                         if (!hasSelectedRows()) {
                             return true;
                         }
+                        $('[ng-click="parent.remove()"]').addClass('disabled').append('<i class="fa fa-spin fa-spinner"><i>').siblings('.btn').addClass('disabled');
 
                         var i, answer, _remove;
                         answer = window.confirm("You really want to remove this page(s)?");
@@ -118,6 +119,7 @@
                             );
 
                             return defer.promise;
+
                         };
                         if (answer) {
                             var callback = function (response) {
@@ -136,6 +138,8 @@
                                 }
                             }
                         }
+                        $('[ng-click="parent.remove()"]').removeClass('disabled').children('i').remove();
+                        $('[ng-click="parent.remove()"]').siblings('.btn').removeClass('disabled');
                     };
 
                     $scope.$watch(function () {
