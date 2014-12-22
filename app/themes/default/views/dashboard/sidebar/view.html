@@ -1,0 +1,12 @@
+<!-- Sidebar view -->
+<nav id="offcanvas" class="navmenu hidden-xs" ng-controller="dashboardHeaderController">
+	<img class="pull-left avatar" alt="" ng-src="{{getImg('photos/user-avatar.png')}}">
+	<h4 class="pull-left">{{it.getUsername()}}</h4>
+	<button class="glyphicon glyphicon-arrow-left" data-toggle="offcanvas"></button>
+	<div class="clearfix"></div>
+	<hr>
+    <!-- Main menu -->
+    <div  ng-controller="dashboardSidebarController">
+    	<div ng-repeat="item in items track by $index" ng-include="getTemplate('dashboard/header/offcanvasItem.html')"></div>
+    </div>
+</nav>
