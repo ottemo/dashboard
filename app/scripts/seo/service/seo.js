@@ -111,7 +111,7 @@
                         } else {
                             $seoApiService.add(obj).$promise.then(
                                 function (response) {
-                                    if (response.error === "") {
+                                    if (response.error === null) {
                                         var result = response.result || null;
                                         list.push(result);
 
@@ -128,7 +128,7 @@
                         var defer = $q.defer();
                         $seoApiService.remove({"id": obj._id}, obj).$promise.then(
                             function (response) {
-                                if (response.error === "") {
+                                if (response.error === null) {
                                     var result = response.result || null;
                                     list.push(result);
 

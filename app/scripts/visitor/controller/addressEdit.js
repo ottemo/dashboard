@@ -10,7 +10,8 @@
                 "$routeParams",
                 "$location",
                 "$q",
-                function ($scope, $visitorApiService, $routeParams, $location, $q) {
+                "$dashboardUtilsService",
+                function ($scope, $visitorApiService, $routeParams, $location, $q, $dashboardUtilsService) {
                     var addressId, getDefaultAddress;
 
                     getDefaultAddress = function () {
@@ -101,13 +102,10 @@
                          * @param response
                          */
                         saveSuccess = function (response) {
-                            if (response.error === "") {
+                            if (response.error === null) {
                                 var result = response.result || getDefaultAddress();
                                 $scope.address._id = response.result._id;
-                                $scope.message = {
-                                    'type': 'success',
-                                    'message': 'Address was created successfully'
-                                };
+                                $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Address was created successfully');
                                 defer.resolve(result);
                             }
                         };
@@ -125,12 +123,9 @@
                          * @param response
                          */
                         updateSuccess = function (response) {
-                            if (response.error === "") {
+                            if (response.error === null) {
                                 var result = response.result || getDefaultAddress();
-                                $scope.message = {
-                                    'type': 'success',
-                                    'message': 'Address was updated successfully'
-                                };
+                                $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Address was updated successfully');
                                 defer.resolve(result);
                             }
                         };

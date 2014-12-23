@@ -9,7 +9,8 @@
                 "$location",
                 "$q",
                 "$cmsApiService",
-                function ($scope, $routeParams, $location, $q, $cmsApiService) {
+                "$dashboardUtilsService",
+                function ($scope, $routeParams, $location, $q, $cmsApiService, $dashboardUtilsService) {
                     var pageId, getDefaultPage;
 
                     // Initialize SEO
@@ -90,13 +91,10 @@
                          * @param response
                          */
                         saveSuccess = function (response) {
-                            if (response.error === "") {
+                            if (response.error === null) {
                                 var result = response.result || getDefaultPage();
                                 $scope.page._id = response.result._id;
-                                $scope.message = {
-                                    'type': 'success',
-                                    'message': 'Page was created successfully'
-                                };
+                                $scope.message = $dashboardUtilsService(null, 'success', 'Page was created successfully');
                                 defer.resolve(result);
                             }
                         };
@@ -114,12 +112,9 @@
                          * @param response
                          */
                         updateSuccess = function (response) {
-                            if (response.error === "") {
+                            if (response.error === null) {
                                 var result = response.result || getDefaultPage();
-                                $scope.message = {
-                                    'type': 'success',
-                                    'message': 'Page was updated successfully'
-                                };
+                                $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Page was updated successfully');
                                 defer.resolve(result);
                             }
                         };

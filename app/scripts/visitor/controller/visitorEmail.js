@@ -8,7 +8,8 @@
                 "$scope",
                 "$location",
                 "$visitorApiService",
-                function ($scope, $location, $visitorApiService) {
+                "$dashboardUtilsService",
+                function ($scope, $location, $visitorApiService, $dashboardUtilsService) {
                     var getDefaultEmail;
 
                     getDefaultEmail = function () {
@@ -59,20 +60,14 @@
                     $scope.send = function () {
                         var successSend = function (response) {
                             if (response.result === "ok") {
-                                $scope.message = {
-                                    'type': 'success',
-                                    'message': 'Emails sent successfully'
-                                };
+                                $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Emails sent successfully');
                             }
                         };
 
 
                         var errorSend = function (response) {
                             if (response.result === "ok") {
-                                $scope.message = {
-                                    'type': 'danger',
-                                    'message': 'Something went wrong'
-                                };
+                                $scope.message = $dashboardUtilsService.getMessage(null, 'danger', 'Something went wrong');
                             }
                         };
 

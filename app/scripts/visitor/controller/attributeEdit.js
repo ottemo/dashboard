@@ -9,7 +9,8 @@
                 "$routeParams",
                 "$location",
                 "$visitorApiService",
-                function ($scope, $routeParams, $location, $visitorApiService) {
+                "$dashboardUtilsService",
+                function ($scope, $routeParams, $location, $visitorApiService, $dashboardUtilsService) {
                     var formDisable, formEnable, attr;
 
                     attr = $routeParams.attr;
@@ -90,11 +91,8 @@
                          * @param response
                          */
                         saveSuccess = function (response) {
-                            if (response.error === "") {
-                                $scope.message = {
-                                    'type': 'success',
-                                    'message': 'Attribute was created successfully'
-                                };
+                            if (response.error === null) {
+                                $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Attribute was created successfully');
                             }
                         };
                         if (attribute) {
@@ -109,8 +107,8 @@
                         $location.path("/v/attributes");
                     };
 
-                    $scope.readonlyEditors = function(){
-                        if(-1 !== ["select", "multi_select"].indexOf($scope.attribute.Editors)){
+                    $scope.readonlyEditors = function () {
+                        if (-1 !== ["select", "multi_select"].indexOf($scope.attribute.Editors)) {
                             return true;
                         }
                         return false;

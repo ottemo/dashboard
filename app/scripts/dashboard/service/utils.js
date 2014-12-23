@@ -48,7 +48,7 @@
             };
 
             dashboardModule.service("$dashboardUtilsService", function () {
-                var clone;
+                var clone, getMessage, getMessageByCode;
 
                 clone = function (obj) {
                     if (null === obj || "object" !== typeof obj) {
@@ -63,8 +63,51 @@
                     return copy;
                 };
 
+                /**
+                 * Gets message text by code. If message by code not exist, returns default message from  error object
+                 *
+                 * @param {object} error - should contain code and default message for error
+                 * @returns {string}
+                 */
+                getMessageByCode = function (error) {
+                    var msgList = {};
+
+                    return typeof msgList[error.code] !== "undefined" ? msgList[error.code].toString() : error.message;
+                };
+
+                /**
+                 *
+                 * @param {object} response
+                 * @param {string} type
+                 * @param {string} message
+                 * @param {int} timeout
+                 */
+                getMessage = function (response, type, message, timeout) {
+                    var messageObj, error;
+                    messageObj = {};
+                    error = {};
+
+                    if (response !== null && response.error !== null) {
+                        messageObj.type = "danger";
+                        if (typeof message === "undefined" || message === null) {
+                            error = response.error;
+                        } else {
+                            error = {"code": message, "message": message};
+                        }
+                    } else {
+                        messageObj.type = type;
+                        error = {"code": message, "message": message};
+                    }
+
+                    messageObj.message = getMessageByCode(error);
+                    messageObj.timeout = timeout || null;
+
+                    return messageObj;
+                };
+
                 return {
-                    "clone": clone
+                    "clone": clone,
+                    "getMessage": getMessage
                 };
             });
 

@@ -91,7 +91,7 @@
                             save = $scope.save;
                             delete $scope.save;
 
-                            if (typeof seo._id === "undefined") {
+                            if (typeof seo._id === "undefined" && seo.url !== "") {
                                 $seoService.get(seo.url).then(function (response) {
                                     if (response.result !== null) {
                                         for (var i = 0; i < seoFields.length; i += 1) {

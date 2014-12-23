@@ -9,7 +9,8 @@
                 "$routeParams",
                 "$location",
                 "$productApiService",
-                function ($scope, $routeParams, $location, $productApiService) {
+                "$dashboardUtilsService",
+                function ($scope, $routeParams, $location, $productApiService, $dashboardUtilsService) {
                     var editableFields, formDisable, formEnable, attr;
 
                     attr = $routeParams.attr;
@@ -88,30 +89,18 @@
                                 $scope.attribute.Type = "[]text";
                             }
                             $productApiService.addAttribute($scope.attribute).$promise.then(function (response) {
-                                if (response.error === "") {
-                                    $scope.message = {
-                                        'type': 'success',
-                                        'message': 'Attribute was updated successfully'
-                                    };
+                                if (response.error === null) {
+                                    $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Attribute was updated successfully');
                                 } else {
-                                    $scope.message = {
-                                        'type': 'error',
-                                        'message': response.error
-                                    };
+                                    $scope.message = $dashboardUtilsService.getMessage(response);
                                 }
                             });
                         } else {
                             $productApiService.updateAttribute({"attribute": attr}, $scope.attribute).$promise.then(function (response) {
-                                if (response.error === "") {
-                                    $scope.message = {
-                                        'type': 'success',
-                                        'message': 'Attribute was updated successfully'
-                                    };
+                                if (response.error === null) {
+                                    $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Attribute was updated successfully');
                                 } else {
-                                    $scope.message = {
-                                        'type': 'danger',
-                                        'message': response.error
-                                    };
+                                    $scope.message = $dashboardUtilsService.getMessage(response);
                                 }
                             });
                         }

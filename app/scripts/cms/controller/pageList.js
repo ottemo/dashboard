@@ -44,7 +44,7 @@
                     getPageCount = function() {
                         $cmsApiService.getCountP($location.search(), {}).$promise.then(
                             function (response) {
-                                if (response.error === "") {
+                                if (response.error === null) {
                                     $scope.count = response.result;
                                 } else {
                                     $scope.count = 0;

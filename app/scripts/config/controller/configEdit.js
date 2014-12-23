@@ -8,7 +8,8 @@
                 "$routeParams",
                 "$configApiService",
                 "$configService",
-                function ($scope, $routeParams, $configApiService, $configService) {
+                "$dashboardUtilsService",
+                function ($scope, $routeParams, $configApiService, $configService, $dashboardUtilsService) {
 
                     $scope.currentGroup = null;
                     $scope.items = {};
@@ -62,10 +63,7 @@
                     $scope.save = function () {
                         $configService.save($scope.currentPath).then(
                             function () {
-                                $scope.message = {
-                                    'type': 'success',
-                                    'message': 'config was saved successfully'
-                                };
+                                $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'config was saved successfully');
                             }
                         );
                     };
