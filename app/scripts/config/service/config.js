@@ -204,7 +204,7 @@
                                     "value": items[path][field]
                                 }).$promise.then(function (response) {
                                         qtySavedItems += 1;
-                                        if (response.error === "") {
+                                        if (response.error === null) {
                                             itemsOld[path][field] = items[path][field];
                                         }
                                         if (qtyChangedItems === qtySavedItems) {

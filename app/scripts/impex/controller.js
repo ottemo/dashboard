@@ -11,8 +11,9 @@
                 "$scope",
                 "$sce",
                 "$impexApiService",
+                "$dashboardUtilsService",
                 "REST_SERVER_URI",
-                function ($scope, $sce, $impexApiService, REST_SERVER_URI) {
+                function ($scope, $sce, $impexApiService, $dashboardUtilsService, REST_SERVER_URI) {
 
                     $scope.modelList = {
                         "Product": "Product",
@@ -50,16 +51,10 @@
                         $impexApiService.importModel({"model": $scope.model}, postData).$promise.then(function (response) {
                             $scope.modelImportSubmit = false;
                             $scope.sendRequest = false;
-                            if (response.error === "") {
-                                $scope.message = {
-                                    'type': 'success',
-                                    'message': response.result
-                                };
+                            if (response.error === null) {
+                                $scope.message = $dashboardUtilsService.getMessage(null, 'success', response.result);
                             } else {
-                                $scope.message = {
-                                    'type': 'danger',
-                                    'message': response.error
-                                };
+                                $scope.message = $dashboardUtilsService.getMessage(response.error);
                             }
 
                         });
@@ -90,16 +85,10 @@
                         $impexApiService.importBatch({}, postData).$promise.then(function (response) {
                             $scope.batchSubmit = false;
                             $scope.sendRequest = false;
-                            if (response.error === "") {
-                                $scope.message = {
-                                    'type': 'success',
-                                    'message': response.result
-                                };
+                            if (response.error === null) {
+                                $scope.message = $dashboardUtilsService.getMessage(null, 'success', response.result);
                             } else {
-                                $scope.message = {
-                                    'type': 'danger',
-                                    'message': response.error
-                                };
+                                $scope.message = $dashboardUtilsService.getMessage(response.error);
                             }
 
                         });

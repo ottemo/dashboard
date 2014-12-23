@@ -87,7 +87,7 @@
 
                         $loginApiService.info().$promise.then(
                             function (response) {
-                                if (response.error === '') {
+                                if (response.error === null) {
                                     isAdmin = response.result['is_admin'] || false;
                                     if (isAdmin === true) {
                                         isLoggedIn = true;
