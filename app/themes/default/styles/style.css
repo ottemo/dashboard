@@ -412,7 +412,7 @@ body.sticky-sidebar *[data-toggle="offcanvas"] {
 #header_sidebar .navbar-brand img {
   display: inline-block;
 }
-button[data-toggle="offcanvas"] {
+*[data-toggle="offcanvas"] {
   position: relative;
   z-index: 1;
 }
