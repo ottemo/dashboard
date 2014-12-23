@@ -30,9 +30,9 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li id="switcher-toogle"><a href="">Theme switcher</a></li>
-                        <li data-toggle="modal" data-target="#switcher_code"><a href="">Theme switcher by code</a></li>
+                        <li data-toggle="modal" class="visible-lg visible-md" data-target="#switcher_code"><a href="">Theme switcher by code</a></li>
                         <li id="static_sidebar" class="visible-lg"><a href="">Sidebar visibility</a></li>
-                        <li id="navbar_switch_top"><a href="">Navbar mode</a></li>
+                        <li id="navbar_switch_top" class="visible-md visible-lg"><a href="">Navbar mode</a></li>
                         <li ng-repeat="item in rightMenu" ng-include="getTemplate('dashboard/header/menuItem.html')"></li>
                     </ul>
                 </li>
@@ -44,7 +44,7 @@
 
 
 <!-- Navigation bar -->
-<nav class="navbar navbar-default" id="header_no_sidebar" ng-controller="dashboardHeaderController">
+<nav class="navbar navbar-default hidden-sm" id="header_no_sidebar" ng-controller="dashboardHeaderController">
     <div class="container-fluid">
         <div class="navbar-header">
 
@@ -73,9 +73,9 @@
                         <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li id="switcher-toogle" class="hidden-xs"><a href="">Theme switcher</a></li>
-                        <li data-toggle="modal" data-target="#switcher_code" class="hidden-xs"><a href="">Theme switcher by code</a></li>
-                        <li id="navbar_switch_side" class="hidden-xs"><a href="">Sidebar mode</a></li>
-                        <li id="fix_navbar" class="hidden-xs"><a href="">Fix the navbar</a></li>
+                        <li data-toggle="modal" data-target="#switcher_code" class="visible-md visible-lg"><a href="">Theme switcher by code</a></li>
+                        <li id="navbar_switch_side" class="hidden-xs hidden-sm"><a href="">Sidebar mode</a></li>
+                        <li id="fix_navbar" class="hidden-xs hidden-sm"><a href="">Fix the navbar</a></li>
                         <li ng-repeat="item in rightMenu" ng-include="getTemplate('dashboard/header/menuItem.html')"></li>
                     </ul>
                 </li>

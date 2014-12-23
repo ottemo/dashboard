@@ -90,6 +90,7 @@
                      * Creates new address if ID in current address is empty OR updates current address if ID is set
                      */
                     $scope.save = function () {
+                        $('[ng-click="save()"]').addClass('disabled').append('<i class="fa fa-spin fa-spinner"><i>').siblings('.btn').addClass('disabled');
                         var id, defer, saveSuccess, saveError, updateSuccess, updateError;
                         defer = $q.defer();
                         if (typeof $scope.address !== "undefined") {
@@ -110,6 +111,8 @@
                                 };
                                 defer.resolve(result);
                             }
+                            $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                            $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                         };
 
                         /**
@@ -117,6 +120,8 @@
                          * @param response
                          */
                         saveError = function () {
+                            $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                            $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                             defer.resolve(false);
                         };
 
@@ -131,6 +136,8 @@
                                     'type': 'success',
                                     'message': 'Address was updated successfully'
                                 };
+                                $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                                $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                                 defer.resolve(result);
                             }
                         };
@@ -140,6 +147,8 @@
                          * @param response
                          */
                         updateError = function () {
+                            $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                            $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                             defer.resolve(false);
                         };
 

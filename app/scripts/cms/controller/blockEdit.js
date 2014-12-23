@@ -70,6 +70,7 @@
                      * Creates new cms if ID in current cms is empty OR updates current cms if ID is set
                      */
                     $scope.save = function () {
+                        $('[ng-click="save()"]').addClass('disabled').append('<i class="fa fa-spin fa-spinner"><i>').siblings('.btn').addClass('disabled');
                         var id, defer, saveSuccess, saveError, updateSuccess, updateError;
                         defer = $q.defer();
 
@@ -90,6 +91,9 @@
                                     'message': 'Block was saved successfully'
                                 };
                                 defer.resolve(result);
+
+                                $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                                $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                             }
                         };
 
@@ -97,6 +101,8 @@
                          *
                          */
                         saveError = function () {
+                            $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                            $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                             defer.resolve(false);
                         };
 
@@ -111,6 +117,8 @@
                                     'type': 'success',
                                     'message': 'Block was updated successfully'
                                 };
+                                $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                                $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                                 defer.resolve(result);
                             }
                         };
@@ -119,6 +127,8 @@
                          *
                          */
                         updateError = function () {
+                            $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                            $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                             defer.resolve(false);
                         };
 

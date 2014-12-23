@@ -3,7 +3,10 @@
     <span class="fa fa-tags"></span>
     {{attribute.Label}}
 </h2>
-<h2 class="text-center" ng-if="!attribute.Attribute">New Attribute</h2>
+<h2 class="title label-info" ng-if="!attribute.Attribute">
+    <span class="fa fa-tags"></span>
+    New Attribute
+</h2>
 
 <!-- Error message -->
 <gui-message-manager item="message"></gui-message-manager>

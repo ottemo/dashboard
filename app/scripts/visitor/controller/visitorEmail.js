@@ -57,12 +57,15 @@
                      * Creates new visitor if ID in current visitor is empty OR updates current visitor if ID is set
                      */
                     $scope.send = function () {
+                        $('[ng-click="send()"]').addClass('disabled').append('<i class="fa fa-spin fa-spinner"><i>').siblings('.btn').addClass('disabled');
                         var successSend = function (response) {
                             if (response.result === "ok") {
                                 $scope.message = {
                                     'type': 'success',
                                     'message': 'Emails sent successfully'
                                 };
+                                $('[ng-click="send()"]').removeClass('disabled').children('i').remove();
+                                $('[ng-click="send()"]').siblings('.btn').removeClass('disabled');
                             }
                         };
 
@@ -73,7 +76,10 @@
                                     'type': 'danger',
                                     'message': 'Something went wrong'
                                 };
+                                $('[ng-click="send()"]').removeClass('disabled').children('i').remove();
+                                $('[ng-click="send()"]').siblings('.btn').removeClass('disabled');
                             }
+                            
                         };
 
                         $visitorApiService.sendMail($scope.email, successSend, errorSend);

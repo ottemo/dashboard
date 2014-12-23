@@ -31,7 +31,7 @@ th {
       > th,
       > td {
         padding: @table-cell-padding;
-        padding-top: 8px;
+        padding-top: 4px;
         line-height: 1;
         vertical-align: middle;
         border-top: 1px solid @table-border-color;
@@ -42,6 +42,8 @@ th {
   > thead > tr > th {
     vertical-align: middle;
     border-bottom: 2px solid @table-border-color;
+    background: #fff;
+    border:none;
   }
   // Remove top border from thead by default
   > caption + thead,
@@ -126,6 +128,10 @@ th {
   > tbody > tr:hover {
     background-color: @table-bg-hover;
     .animation;
+    & td {
+      color: #65cea7;
+      .animation;
+    }
   }
 
 }

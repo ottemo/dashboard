@@ -120,6 +120,8 @@
                      * Creates new category if ID in current category is empty OR updates current category if ID is set
                      */
                     $scope.save = function () {
+                        $('[ng-click="save()"]').addClass('disabled').append('<i class="fa fa-spin fa-spinner"><i>').siblings('.btn').addClass('disabled');
+
                         var id, defer, saveSuccess, saveError, updateSuccess, updateError;
                         defer = $q.defer();
 
@@ -140,6 +142,8 @@
                                 };
                                 defer.resolve(true);
                             }
+                            $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                            $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                         };
 
                         /**
@@ -148,6 +152,8 @@
                          */
                         saveError = function () {
                             defer.resolve(false);
+                            $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                            $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                         };
 
                         /**
@@ -162,6 +168,8 @@
                                     'message': 'Product was updated successfully'
                                 };
                                 defer.resolve(true);
+                                $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                                $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                             }
                         };
 
@@ -171,6 +179,8 @@
                          */
                         updateError = function () {
                             defer.resolve(false);
+                            $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                            $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                         };
 
                         delete $scope.category.parent;

@@ -83,6 +83,8 @@
                      * Creates new attribute if ID in current product is empty OR updates current product if ID is set
                      */
                     $scope.save = function () {
+                        $('[ng-click="save()"]').addClass('disabled').append('<i class="fa fa-spin fa-spinner"><i>').siblings('.btn').addClass('disabled');
+
                         if (attr === null) {
                             if (-1 !== ["multi_select"].indexOf($scope.attribute.Editors)) {
                                 $scope.attribute.Type = "[]text";
@@ -100,6 +102,8 @@
                                     };
                                 }
                             });
+                            $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                            $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                         } else {
                             $productApiService.updateAttribute({"attribute": attr}, $scope.attribute).$promise.then(function (response) {
                                 if (response.error === "") {
@@ -114,7 +118,11 @@
                                     };
                                 }
                             });
+                            $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                            $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                         }
+                        
+
                     };
 
                     $scope.back = function () {

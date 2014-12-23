@@ -96,6 +96,7 @@
                      * Creates new visitor if ID in current visitor is empty OR updates current visitor if ID is set
                      */
                     $scope.save = function () { // jshint ignore:line
+                        $('[ng-click="save()"]').addClass('disabled').append('<i class="fa fa-spin fa-spinner"><i>').siblings('.btn').addClass('disabled');
                         var id, defer, saveSuccess, saveError, updateSuccess, updateError;
                         defer = $q.defer();
                         if (typeof $scope.visitor !== "undefined") {
@@ -114,6 +115,8 @@
                                     'type': 'success',
                                     'message': 'Visitor was created successfully'
                                 };
+                                $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                                $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                                 defer.resolve(result);
                             }
                         };
@@ -123,6 +126,8 @@
                          * @param response
                          */
                         saveError = function () {
+                            $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                            $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                             defer.resolve(false);
                         };
 
@@ -137,6 +142,8 @@
                                     'type': 'success',
                                     'message': 'Visitor was updated successfully'
                                 };
+                                $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                                $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                                 defer.resolve(result);
                             }
                         };
@@ -146,6 +153,8 @@
                          * @param response
                          */
                         updateError = function () {
+                            $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                            $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                             defer.resolve(false);
                         };
 

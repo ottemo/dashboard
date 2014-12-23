@@ -6,6 +6,7 @@
   padding-left: 0;
   margin: @line-height-computed 0;
   border-radius: @border-radius-base;
+  font-weight: 300;
 
   > li {
     display: inline; // Remove list-style and block-level defaults
@@ -43,6 +44,7 @@
       color: @pagination-hover-color;
       background-color: @pagination-hover-bg;
       border-color: @pagination-hover-bg;
+      .animation;
     }
   }
 
@@ -53,9 +55,10 @@
     &:focus {
       z-index: 2;
       color: @pagination-active-color;
-      background-color: @brand-primary;
-      border-color: @brand-primary;
+      background-color: @pager-active-bg;
+      border-color: @pager-active-bg;
       cursor: default;
+      .animation;
     }
   }
 
@@ -70,6 +73,7 @@
       background-color: @pagination-disabled-bg;
       border-color: @pagination-disabled-border;
       cursor: @cursor-disabled;
+      .animation;
     }
   }
 }

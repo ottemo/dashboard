@@ -122,6 +122,7 @@
                      *
                      */
                     $scope.remove = function () {
+                        $('[ng-click="parent.remove()"]').addClass('disabled').append('<i class="fa fa-spin fa-spinner"><i>').siblings('.btn').addClass('disabled');
                         if (!hasSelectedRows()) {
                             return true;
                         }
@@ -160,6 +161,8 @@
                                 }
                             }
                         }
+                        $('[ng-click="parent.remove()"]').removeClass('disabled').children('i').remove();
+                        $('[ng-click="parent.remove()"]').siblings('.btn').removeClass('disabled');
                     };
 
                     $scope.$watch(function () {

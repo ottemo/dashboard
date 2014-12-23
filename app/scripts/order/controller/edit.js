@@ -105,6 +105,8 @@
                      * Creates new order if ID in current order is empty OR updates current order if ID is set
                      */
                     $scope.save = function () {
+                        $('[ng-click="save()"]').addClass('disabled').append('<i class="fa fa-spin fa-spinner"><i>').siblings('.btn').addClass('disabled');
+
                         delete $scope.order["updated_at"];
                         if (orderId !== null && JSON.stringify(oldString) !== JSON.stringify($scope.order)) {
                             $orderApiService.update({"id": orderId}, $scope.order).$promise.then(function (response) {
@@ -125,8 +127,12 @@
                                         'message': response.error
                                     };
                                 }
+                                                      $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                                $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                             });
+
                         }
+
                     };
 
                     $scope.getDate = function () {

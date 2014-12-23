@@ -81,6 +81,7 @@
                         if ($scope.file === "" || typeof $scope.file === "undefined") {
                             return true;
                         }
+                        $('#processing').modal('show');
 
                         $scope.sendRequest = true;
                         file = document.getElementById("file");
@@ -101,7 +102,7 @@
                                     'message': response.error
                                 };
                             }
-
+                        $('#processing').modal('hide');
                         });
                     };
 
