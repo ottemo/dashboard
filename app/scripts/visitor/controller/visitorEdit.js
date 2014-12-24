@@ -1,4 +1,4 @@
-(function (define) {
+(function (define, $) {
     "use strict";
 
     define(["visitor/init"], function (visitorModule) {
@@ -97,6 +97,7 @@
                      * Creates new visitor if ID in current visitor is empty OR updates current visitor if ID is set
                      */
                     $scope.save = function () { // jshint ignore:line
+                        $('[ng-click="save()"]').addClass('disabled').append('<i class="fa fa-spin fa-spinner"><i>').siblings('.btn').addClass('disabled');
                         var id, defer, saveSuccess, saveError, updateSuccess, updateError;
                         defer = $q.defer();
                         if (typeof $scope.visitor !== "undefined") {
@@ -112,6 +113,8 @@
                                 var result = response.result || getDefaultVisitor();
                                 $scope.visitor._id = response.result._id;
                                 $scope.message = $dashboardUtilsService.getMEssage(null, 'success', 'Visitor was created successfully');
+                                $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                                $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                                 defer.resolve(result);
                             }
                         };
@@ -121,6 +124,8 @@
                          * @param response
                          */
                         saveError = function () {
+                            $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                            $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                             defer.resolve(false);
                         };
 
@@ -132,6 +137,8 @@
                             if (response.error === null) {
                                 var result = response.result || getDefaultVisitor();
                                 $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Visitor was updated successfully');
+                                $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                                $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                                 defer.resolve(result);
                             }
                         };
@@ -141,6 +148,8 @@
                          * @param response
                          */
                         updateError = function () {
+                            $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                            $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                             defer.resolve(false);
                         };
 
@@ -168,4 +177,4 @@
                 }]);
         return visitorModule;
     });
-})(window.define);
+})(window.define, jQuery);

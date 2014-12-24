@@ -1,6 +1,14 @@
-<div class="top top-custom">
-    <i class="fa fa-tags"></i>
-    <h6>Products</h6>
+<!-- Page title -->
+<h2 class="title label-info">
+	<span class="fa fa-tags"></span>
+	Products
+</h2>
+
+<div class="col-sm-12">
+
+	<!-- Error message -->
+	<gui-message-manager item="message"></gui-message-manager>
+
+	<!-- Table -->
+	<gui-table-manager items="products" object="this"></gui-table-manager>
 </div>
-<gui-message-manager item="message"></gui-message-manager>
-<gui-table-manager items="products" object="this"></gui-table-manager>

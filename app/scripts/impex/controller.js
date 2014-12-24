@@ -1,4 +1,4 @@
-(function (define) {
+(function (define, $) {
     "use strict";
 
     define(["angular", "impex/init"], function (angular, impexModule) {
@@ -76,6 +76,7 @@
                         if ($scope.file === "" || typeof $scope.file === "undefined") {
                             return true;
                         }
+                        $('#processing').modal('show');
 
                         $scope.sendRequest = true;
                         file = document.getElementById("file");
@@ -90,7 +91,7 @@
                             } else {
                                 $scope.message = $dashboardUtilsService.getMessage(response.error);
                             }
-
+                        $('#processing').modal('hide');
                         });
                     };
 
@@ -98,4 +99,4 @@
 
         return impexModule;
     });
-})(window.define);
+})(window.define, jQuery);

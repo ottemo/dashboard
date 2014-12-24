@@ -1,4 +1,4 @@
-(function (define) {
+(function (define, $) {
     "use strict";
 
     define(["order/init"], function (orderModule) {
@@ -106,6 +106,8 @@
                      * Creates new order if ID in current order is empty OR updates current order if ID is set
                      */
                     $scope.save = function () {
+                        $('[ng-click="save()"]').addClass('disabled').append('<i class="fa fa-spin fa-spinner"><i>').siblings('.btn').addClass('disabled');
+
                         delete $scope.order["updated_at"];
                         if (orderId !== null && JSON.stringify(oldString) !== JSON.stringify($scope.order)) {
                             $orderApiService.update({"id": orderId}, $scope.order).$promise.then(function (response) {
@@ -120,8 +122,12 @@
                                 } else {
                                     $scope.message = $dashboardUtilsService.getMessage(response);
                                 }
+                                                      $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                                $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                             });
+
                         }
+
                     };
 
                     $scope.getDate = function () {
@@ -140,4 +146,4 @@
 
         return orderModule;
     });
-})(window.define);
+})(window.define, jQuery);

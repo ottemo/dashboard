@@ -1,4 +1,4 @@
-(function (define) {
+(function (define, $) {
     "use strict";
 
     define(["cms/init"], function (cmsModule) {
@@ -80,6 +80,9 @@
                      * Creates new cms if ID in current cms is empty OR updates current cms if ID is set
                      */
                     $scope.save = function () {
+                        //disable buttons
+                        $('[ng-click="save()"]').addClass('disabled').append('<i class="fa fa-spin fa-spinner"><i>').siblings('.btn').addClass('disabled');
+
                         var id, defer, saveSuccess, saveError, updateSuccess, updateError;
                         defer = $q.defer();
                         if (typeof $scope.page !== "undefined") {
@@ -94,8 +97,11 @@
                             if (response.error === null) {
                                 var result = response.result || getDefaultPage();
                                 $scope.page._id = response.result._id;
-                                $scope.message = $dashboardUtilsService(null, 'success', 'Page was created successfully');
+                                $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Page was created successfully');
                                 defer.resolve(result);
+
+                                $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                                $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                             }
                         };
 
@@ -104,6 +110,8 @@
                          * @param response
                          */
                         saveError = function () {
+                            $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                            $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                             defer.resolve(false);
                         };
 
@@ -115,6 +123,8 @@
                             if (response.error === null) {
                                 var result = response.result || getDefaultPage();
                                 $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Page was updated successfully');
+                                $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                                $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                                 defer.resolve(result);
                             }
                         };
@@ -124,9 +134,10 @@
                          * @param response
                          */
                         updateError = function () {
+                            $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                            $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                             defer.resolve(false);
                         };
-
 
                         if (!id) {
                             $cmsApiService.pageAdd($scope.page, saveSuccess, saveError);
@@ -144,4 +155,4 @@
 
         return cmsModule;
     });
-})(window.define);
+})(window.define, jQuery);

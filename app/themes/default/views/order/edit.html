@@ -1,100 +1,135 @@
-<div class="top top-custom order-details-head">
-    <i class="fa fa-list-alt"></i>
-    <h6 ng-if="order._id"> Order Details</h6>
-    <h6 ng-if="!order._id"> New order </h6>
+<!-- Page title -->
+<h2 class="title label-info" ng-if="order._id">
+    <span class="fa fa-list-alt"></span>
+    Order <strong>№{{order.increment_id}}</strong>
+</h2>
+<h2 class="title label-info" ng-if="!order._id">
+    <span class="fa fa-list-alt"></span>
+    New order
+</h2>
+
+<!-- Error message -->
+<gui-message-manager item="message"></gui-message-manager>
+
+<br>
+<h3 class="text-center">Date: <strong>{{getDate();}}</strong></h3>
+<hr>
+
+<!-- bill to table -->
+<div class="col-sm-5 col-sm-offset-1 col-xs-12 col-xs-offset-0">
+    <h3 class="text-center">
+        Bill to:
+    </h3>
+
+    <!-- bill to info -->
+    <table class="table table-bordered order-details">
+        <tr class="text-left">
+            <td><strong>Company:</strong></td>
+            <td>{{order.billing_address.company}}</td>
+        </tr>
+        <tr class="text-left">
+            <td><strong>Name:</strong></td>
+            <td>{{order.billing_address.last_name}} {{order.billing_address.first_name}}</td>
+        </tr>
+        <tr class="text-left">
+            <td><strong>Address:</strong></td>
+            <td>{{order.billing_address.address_line1}} {{order.billing_address.address_line2}}, {{order.billing_address.city}}</td>
+        </tr>
+        <tr class="text-left">
+            <td><strong>Zip,state,country:</strong></td>
+            <td>{{order.billing_address.zip_code}}, {{order.billing_address.state}}, {{order.billing_address.country}}</td>
+        </tr>
+        <tr class="text-left">
+            <td><strong>Phone:</strong></td>
+            <td>{{order.billing_address.phone}}</td>
+        </tr>
+    </table>
 </div>
 
-<div class="panel-body">
-    <gui-message-manager item="message"></gui-message-manager>
-    <div class="page-title"></div>
+<!-- ship to table -->
+<div class="col-sm-5 col-xs-12">
+    <h3 class="text-center">
+        Ship to:
+    </h3>
 
-    <div>
-
-        <div class="account-right order-detail">
-            <h6>Order # is: <strong>{{order.increment_id}}</strong></h6>
-            <h6>Date: <span>{{getDate();}}</span></h6>
-            <h6>Status: <span>{{order.status}}</span></h6>
-            <div class="hr"></div>
-            <div class="od-blocks">
-                <div class="od-block">
-                    <h6>Billing & Shipping</h6>
-                </div>
-                <div class="od-block">
-                    <h6>Bill to:</h6>
-                    <p>{{order.billing_address.company}}
-                    <p>{{order.billing_address.last_name}} {{order.billing_address.first_name}}</p>
-                    <p>{{order.billing_address.address_line1}} {{order.billing_address.address_line2}}, {{order.billing_address.city}},</p>
-                    <p>{{order.billing_address.zip_code}}, {{order.billing_address.state}}, {{order.billing_address.country}}</p>
-                    <p>T: {{order.billing_address.phone}}</p>
-                </div>
-
-                <div class="od-block">
-                    <h6>Ship to:</h6>
-                    <p>{{order.shipping_address.company}}
-                    <p>{{order.shipping_address.last_name}} {{order.shipping_address.first_name}}</p>
-                    <p>{{order.shipping_address.address_line1}} {{order.shipping_address.address_line2}}, {{order.shipping_address.city}},</p>
-                    <p>{{order.shipping_address.zip_code}}, {{order.shipping_address.state}}, {{order.shipping_address.country}}</p>
-                    <p>T: {{order.shipping_address.phone}}</p>
-                </div>
-                <div class="clear"></div>
-            </div>
-            <div class="hr"></div>
-            <table  class="od-product">
-                <tr>
-                    <th><h6>Product Name</h6></th>
-                    <th>Qty</th>
-                    <th>Total Price</th>
-                </tr>
-                <tr ng-repeat="product in order.items">
-                    <td>{{product.Name}}</td>
-                    <td>{{product.Qty}}</td>
-                    <td>{{product.Price | currency}}</td>
-                </tr>
-            </table>
-            <hr>
-            <div class="od-total">
-                <span>{{order.subtotal | currency}}</span>
-                <span>Subtotal:</span>
-                <div class="clear"></div>
-                <span>{{order.shipping_amount | currency}}</span>
-                <span>Shipping:</span>
-                <div class="clear"></div>
-                <span>{{order.tax_amount | currency}}</span>
-                <span>Tax:</span>
-                <div class="clear"></div>
-            </div>
-            <br>
-            <div class="hr"></div>
-            <div class="order-total">
-                <h6>{{order.grand_total | currency}}</h6>
-                <h6>Order Total:</h6>
-                <div class="clear"></div>
-            </div>
-
-            <div class="btn-group pull-right">
-
-                <div>
-                    <h6 class="pull-left">Change status</h6>
-                    <select class="form-control pull-right select-change-order-status" name="status" id="status" ng-model="order.status"
-                            ng-init="order.status"
-                            ng-options="obj.value as obj.label for obj in  statuses"></select>
-                </div>
-                <div class="clear"></div>
-                <a class="btn-black" ng-click="back()">Back</a>
-                <a class="btn-black" ng-click="save()">Save</a>
-            </div>
-            
-        </div>
-    </div>
-
-
+    <!-- ship to info -->
+    <table class="table table-bordered order-details">
+        <tr>
+            <td><strong>Company:</strong></td>
+            <td>{{order.shipping_address.company}}</td>
+        </tr>
+        <tr>
+            <td><strong>Name:</strong></td>
+            <td>{{order.shipping_address.last_name}} {{order.shipping_address.first_name}}</td>
+        </tr>
+        <tr>
+            <td><strong>Address:</strong></td>
+            <td>{{order.shipping_address.address_line1}} {{order.shipping_address.address_line2}}, {{order.shipping_address.city}},</td>
+        </tr>
+        <tr>
+            <td><strong>Zip,state,country:</strong></td>
+            <td>{{order.shipping_address.zip_code}}, {{order.shipping_address.state}}, {{order.shipping_address.country}}</td>
+        </tr>
+        <tr>
+            <td><strong>Phone:</strong></td>
+            <td>{{order.shipping_address.phone}}</td>
+        </tr>
+    </table>
 </div>
 
-<style>
-    .select-change-order-status {
+<div class="clearfix"></div>
+    
+<!-- products in order -->
+<div class="col-sm-5 col-sm-offset-1 col-xs-12 col-xs-offset-0">
+    <table class="table table-bordered text-left order-details">
+        <tr ng-repeat="product in order.items">
 
-        width: 60%;
-        margin-top: 5px;
-        margin-right: 12px;
-    }
-</style>
+            <!-- product name -->
+            <td class="text-left">{{product.Name}}</td>
+
+            <!-- product quantity -->
+            <td>{{product.Qty}}</td>
+
+            <!-- product price -->
+            <td>{{product.Price | currency}}</td>
+        </tr>
+    </table>
+</div>
+
+<!-- total table -->
+<div class="col-sm-5 col-xs-12">
+    <table class="table table-bordered text-left order-details">
+        <tr>
+            <td class="text-left"><strong>Subtotal:</strong></td>
+            <td>{{order.subtotal | currency}}</td>
+        </tr>
+        <tr>
+            <td><strong>Shipping</strong></td>
+            <td>{{order.shipping_amount | currency}}</td>
+        </tr>
+        <tr>
+            <td class="text-left"><strong>Tax:</strong></td>
+            <td>{{order.tax_amount | currency}}</td>
+        </tr>
+        <tr>
+            <td class="text-left"><strong>Order Total:</strong></td>
+            <td>{{order.grand_total | currency}}</td>
+        </tr>
+    </table>
+</div>
+
+<div class="clearfix"></div>
+
+<label class="col-xs-12 col-sm-4 col-sm-offset-4">Change status
+    <select class="form-control" name="status" id="status" ng-model="order.status"
+    ng-init="order.status"
+    ng-options="obj.value as obj.label for obj in statuses"></select>
+</label>
+
+<div class="clearfix"></div>
+<br>    
+<div class="text-center">
+    <a class="btn btn-default" ng-click="save()">Save</a>
+    <a class="btn btn-primary" href="#/orders/">Back to orders</a>
+</div>
+<br>            

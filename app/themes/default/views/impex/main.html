@@ -1,43 +1,40 @@
-<div class="top top-custom">
-    <i class="fa fa-exchange"></i>
-    <h6> Import / Export </h6>
-</div>
+<!-- Page title -->
+<h2 class="title label-info">
+    <span class="fa fa-exchange"></span>
+    Import / Export
+</h2>
 
-<div class="panel-body">
+<div class="container animated fadeIn">
+    <!-- Error message -->
     <gui-message-manager item="message"></gui-message-manager>
-    <form role="form" class="product-tabs" name="otEditForm" novalidate>
 
-        <div class="panel-body">
-            <div class="btn-black left" ng-click="importBatch()">Import csv script</div>
-            <div ng-class="{ 'has-error' : (modelImportSubmit && !file) || (batchSubmit && !file)}">
-                <label for="file">File</label>
+    <form class="form" role="form" class="product-tabs" name="otEditForm" novalidate>
 
-                <input type="file" id="file" name="file" ng-model="file"/>
-
-                <p ng-show="(modelImportSubmit && !file) || (batchSubmit && !file)"
-                   class="help-block">This field is required.</p>
-
-
+        <!-- Upload file -->
+        <span class="col-xs-12 col-sm-6" style="display:inline-block" ng-class="{ 'has-error' : (modelImportSubmit && !file) || (batchSubmit && !file)}">
+            <label for="file">File</label>
+            <span class="clearfix"></span>
+            <input class="btn btn-success" style="display:inline-block" type="file" id="file" name="file" ng-model="file"/>
+            <span class="btn btn-primary" ng-click="importBatch()">Import csv script</span>
+            <p ng-show="(modelImportSubmit && !file) || (batchSubmit && !file)" class="help-block">This field is required.</p>
+        </span>
+        
+        <!-- Select model -->
+        <div class="col-xs-12 col-sm-6" ng-class="{ 'has-error' : (modelImportSubmit || modelExportSubmit) && !model}">
+            <label for="model">Model</label>
+            <select class="form-control" name="model" id="model" data-ng-model="model" required data-ng-options="key as value for (key, value) in modelList"></select>
+            <p ng-show="(modelImportSubmit || modelExportSubmit) && !model" class="help-block">This field is required.</p>
+            <br>
+            <div class="text-center animated fadeIn">
+                <div class="btn btn-primary" ng-click="exportModel()">Export Model</div>
+                <div class="btn btn-default" ng-click="importModel()">Import Model</div>
             </div>
-            <br />
-            <div ng-class="{ 'has-error' : (modelImportSubmit || modelExportSubmit) && !model}">
-
-                <label for="model">Model</label>
-
-                <select class="form-control" name="model" id="model"
-                        ng-model="model" required
-                        ng-options="key as value for (key, value) in modelList">
-                </select>
-
-                <p ng-show="(modelImportSubmit || modelExportSubmit) && !model"
-                   class="help-block">This field is required.</p>
-
-            </div>
-
-            <div class="btn-black left" ng-click="exportModel()">Export Model</div>
-            <div class="btn-black left" ng-click="importModel()">Import Model</div>
-
         </div>
+
+        <div class="clearfix"></div>
     </form>
-    <span ng-bind-html="exportFile"></span>
 </div>
+
+<br>
+
+<span ng-bind-html="exportFile"></span>

@@ -1,13 +1,24 @@
-<div class="top top-custom">
-    <i class="fa fa-users"></i>
-    <h6 ng-if="visitor._id"> Visitor: {{visitor.first_name}} {{visitor.last_name}}</h6>
-    <h6 ng-if="!visitor._id"> New visitor </h6>
+<!-- Page title -->
+<h2 ng-if="visitor._id" class="title label-info">
+	<span class="fa fa-users"></span>
+	Visitor: {{visitor.first_name}} {{visitor.last_name}}
+</h2>
+
+<h2 ng-if="!visitor._id" class="title label-info">
+	<span class="fa fa-users"></span>
+	New visitor
+</h2>
+
+<div class="col-xs-12">
+	<!-- Message -->
+	<gui-message-manager item="message"></gui-message-manager>
+
+	<!-- Atributes -->
+	<gui-attributes-editor-form-tabs attributes-list="attributes" object="this" item="visitor"></gui-attributes-editor-form-tabs>
+	
+	<br>
 </div>
 
-<div class="panel-body">
-
-    <gui-message-manager item="message"></gui-message-manager>
-    <gui-attributes-editor-form-tabs attributes-list="attributes" object="this" item="visitor"></gui-attributes-editor-form-tabs>
-    <div class="btn-black" ng-click="addressForm()">Addresses</div>
-
+<div class="text-center" ng-hide="!visitor._id">
+	<div class="btn btn-primary" ng-click="addressForm()">Addresses</div>
 </div>
