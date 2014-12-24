@@ -97,7 +97,7 @@
                             if (response.error === null) {
                                 var result = response.result || getDefaultPage();
                                 $scope.page._id = response.result._id;
-                                $scope.message = $dashboardUtilsService(null, 'success', 'Page was created successfully');
+                                $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Page was created successfully');
                                 defer.resolve(result);
 
                                 $('[ng-click="save()"]').removeClass('disabled').children('i').remove();

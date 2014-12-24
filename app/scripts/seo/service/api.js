@@ -34,7 +34,7 @@
                     },
                     "update": {
                         method: "PUT",
-                        params: {"id": "@id"},
+                        params: {"id": '@id'},
                         url: rewriteBaseURL + "/update/:id"
                     }
                 });
