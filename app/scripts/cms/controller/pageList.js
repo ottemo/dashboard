@@ -1,4 +1,4 @@
-(function (define) {
+(function (define, $) {
     "use strict";
 
     define(["cms/init"], function (cmsModule) {
@@ -25,7 +25,7 @@
                     /**
                      * Gets list of pages
                      */
-                    getPagesList = function(){
+                    getPagesList = function () {
                         $cmsApiService.pageListP($location.search(), {"extra": "title"}).$promise.then(
                             function (response) {
                                 var result, i;
@@ -41,7 +41,7 @@
                     /**
                      * Gets list of pages
                      */
-                    getPageCount = function() {
+                    getPageCount = function () {
                         $cmsApiService.getCountP($location.search(), {}).$promise.then(
                             function (response) {
                                 if (response.error === null) {
@@ -53,7 +53,7 @@
                         );
                     };
 
-                    getAttributeList = function() {
+                    getAttributeList = function () {
                         $cmsApiService.pageAttributes().$promise.then(
                             function (response) {
                                 var result = response.result || [];
@@ -101,6 +101,7 @@
                         if (!hasSelectedRows()) {
                             return true;
                         }
+                        $('[ng-click="parent.remove()"]').addClass('disabled').append('<i class="fa fa-spin fa-spinner"><i>').siblings('.btn').addClass('disabled');
 
                         var i, answer, _remove;
                         answer = window.confirm("You really want to remove this page(s)?");
@@ -118,6 +119,7 @@
                             );
 
                             return defer.promise;
+
                         };
                         if (answer) {
                             var callback = function (response) {
@@ -136,6 +138,8 @@
                                 }
                             }
                         }
+                        $('[ng-click="parent.remove()"]').removeClass('disabled').children('i').remove();
+                        $('[ng-click="parent.remove()"]').siblings('.btn').removeClass('disabled');
                     };
 
                     $scope.$watch(function () {
@@ -145,7 +149,7 @@
 
                         return false;
                     }, function (isInitAll) {
-                        if(isInitAll) {
+                        if (isInitAll) {
                             $scope.pages = serviceList.getList($scope.pagesTmp);
                         }
                     });
@@ -164,4 +168,4 @@
 
         return cmsModule;
     });
-})(window.define);
+})(window.define, jQuery);

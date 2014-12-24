@@ -69,7 +69,7 @@
                                 if (null === response.error) {
                                     visits = {
                                         "visitsToday": result.visitsToday,
-                                        "ratio": (Math.abs(result.ratio) * 100).toFixed(2),
+                                        "ratio": Math.round((Math.abs(result.ratio) * 100) * 100) / 100,
                                         "higher": result.ratio >= 0,
                                         "lower": result.ratio < 0
                                     };
@@ -101,7 +101,7 @@
                                 if (null === response.error) {
                                     sales = {
                                         "salesToday": result.today,
-                                        "ratio": (Math.abs(result.ratio) * 100).toFixed(2),
+                                        "ratio": Math.round((Math.abs(result.ratio) * 100) * 100) / 100,
                                         "higher": result.ratio >= 0,
                                         "lower": result.ratio < 0
                                     };
@@ -178,7 +178,7 @@
                             defer = $q.defer();
 
                             getPercents = function (val, total) {
-                                return (val / total) * 100 || 0;
+                                return Math.round((Math.abs(val/total) * 100) * 100) / 100 || 0;
                             };
 
                             $api.getConversions().$promise.then(function (response) {

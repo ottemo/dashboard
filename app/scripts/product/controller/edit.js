@@ -1,4 +1,4 @@
-(function (define) {
+(function (define, $) {
     "use strict";
 
     define(["product/init"], function (productModule) {
@@ -107,6 +107,7 @@
                      * Creates new product if ID in current product is empty OR updates current product if ID is set
                      */
                     $scope.save = function () {
+                        $('[ng-click="save()"]').addClass('disabled').append('<i class="fa fa-spin fa-spinner"><i>').siblings('.btn').addClass('disabled');
                         var id, defer, saveSuccess, saveError, updateSuccess, updateError;
                         defer = $q.defer();
 
@@ -128,6 +129,8 @@
                             } else {
                                 $scope.message = $dashboardUtilsService.getMessage(response);
                             }
+                            $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                            $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                         };
 
                         /**
@@ -136,6 +139,8 @@
                          */
                         saveError = function () {
                             $scope.message = $dashboardUtilsService.getMEssage(null, 'danger', 'Something went wrong');
+                            $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                            $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                             defer.resolve(false);
                         };
 
@@ -151,6 +156,8 @@
                             } else {
                                 $scope.message = $dashboardUtilsService.getMessage(response);
                             }
+                            $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                            $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                         };
 
                         /**
@@ -159,6 +166,8 @@
                          */
                         updateError = function () {
                             $scope.message = $dashboardUtilsService.getMessage(null, 'danger', 'Something went wrong');
+                            $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                            $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                             defer.resolve(false);
                         };
 
@@ -265,4 +274,4 @@
 
         return productModule;
     });
-})(window.define);
+})(window.define, jQuery);
