@@ -25,17 +25,17 @@
                     editableFields = ["Label", "Group", "Editors", "Options", "Default", "Validators", "IsRequired", "IsLayered", "IsPublic", "Validators"];
 
                     formDisable = function () {
-                        $(".panel-body").find("input").attr("readonly", true);
-                        $(".panel-body").find("select").attr("disabled", true);
+                        $("form.container").find("input").attr("disabled", true);
+                        $("form.container").find("select").attr("disabled", true);
                         for (var i = 0; i < editableFields.length; i += 1) {
-                            $(".panel-body").find("input[id=inp_" + editableFields[i] + "]").removeAttr("readonly");
-                            $(".panel-body").find("select[id=inp_" + editableFields[i] + "]").removeAttr("disabled");
+                            $("form.container").find("input[id=inp_" + editableFields[i] + "]").removeAttr("disabled");
+                            $("form.container").find("select[id=inp_" + editableFields[i] + "]").removeAttr("disabled");
                         }
                     };
 
                     formEnable = function () {
-                        $(".panel-body").find("input").attr("readonly", false);
-                        $(".panel-body").find("select").attr("disabled", false);
+                        $("form.container").find("input").removeAttr("disabled", false);
+                        $("form.container").find("select").removeAttr("disabled", false);
                     };
 
                     $scope.attribute = {};

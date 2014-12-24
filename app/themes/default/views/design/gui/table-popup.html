@@ -5,7 +5,7 @@
         <gui-paginator object="this"></gui-paginator>
         
         <!-- Columns filter -->
-        <div class="text-center   " ng-if="parent.fields.length > 1">
+        <div class="text-center" ng-if="parent.fields.length > 1">
             <label class="checkbox-inline" ng-repeat="field in parent.fields" ng-hide="field.notDisable">
                 <input type="checkbox" ng-model="field.visible" ng-hide="field.notDisable">
                 {{field.label || field.attribute}}
@@ -13,13 +13,10 @@
                 &nbsp;&nbsp;&nbsp;
             </label>
         </div>
-
-
-        <div class="filters" ng-if="parent.fields.length > 1" ></div>
         
         <br>
         
-        <div class="table-responsive  ">
+        <div class="table-responsive">
             <table class="table table-hover table-bordered table-striped">
                 <thead>
                     <tr class=" ">

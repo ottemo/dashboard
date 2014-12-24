@@ -1,25 +1,41 @@
 <section ng-init="init()">
     <form role="form" class="form-group">
-       
+
         <!-- Pagination -->
         <gui-paginator object="this"></gui-paginator>
-        
-        <!-- Columns/filters/add/remove buttons -->
-        <div>
+
+        <br>
+       
+        <div class="table-pagination-row">
+            <!-- Delete/New buttons -->
             <div class="btn-group pull-left">
                 <button class="btn btn-primary" ng-click="parent.remove()" ng-if="buttons.delete">Delete</button>
                 <button class="btn btn-default" ng-click="parent.create()" ng-if="buttons.new">New</button>
             </div>
-            
+
+            <!-- Filters -->
             <div class="btn-group pull-right">
-                <button class="btn btn-default" data-toggle="modal" data-target="#myModal" ng-if="parent.fields.length > 1">Columns</span>
                 <button class="filters btn btn-primary" ng-if="parent.fields.length > 1" >Filters</span>
             </div>
+
+            <div class="text-center hidden-xs hidden-sm" ng-if="parent.fields.length > 1">
+                <label class="checkbox-inline" ng-repeat="field in parent.fields" ng-hide="field.notDisable">
+                    <input type="checkbox" ng-model="field.visible" ng-hide="field.notDisable">
+                    {{field.label || field.attribute}} &nbsp;&nbsp;&nbsp;
+                </label>
+            </div>
+
+            <div class="col-xs-12 text-center visible-xs visible-sm" ng-if="parent.fields.length > 1">
+                <br>
+                <label class="checkbox-inline" ng-repeat="field in parent.fields" ng-hide="field.notDisable">
+                    <input type="checkbox" ng-model="field.visible" ng-hide="field.notDisable">
+                    {{field.label || field.attribute}}&nbsp;&nbsp;&nbsp;
+                </label>
+            </div>
+            
             <div class="clearfix"></div>
         </div>
         
-
-        <div class="clearfix"></div>
         <br>
 
         <div class="table-responsive">
@@ -99,28 +115,3 @@
         </div>
     </form>
 </section>
-
-<!-- Modal columns -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="exampleModalLabel">
-                    Select columns
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                </h4> 
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <label class="col-xs-12 col-sm-6" ng-repeat="field in parent.fields" ng-hide="field.notDisable">
-                        <input type="checkbox" ng-model="field.visible" ng-hide="field.notDisable">
-                        {{field.label || field.attribute}}
-                    </label>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-     </div>
-</div>

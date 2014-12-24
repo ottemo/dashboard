@@ -24,17 +24,17 @@
             <label for="model">Model</label>
             <select class="form-control" name="model" id="model" data-ng-model="model" required data-ng-options="key as value for (key, value) in modelList"></select>
             <p ng-show="(modelImportSubmit || modelExportSubmit) && !model" class="help-block">This field is required.</p>
+            <br>
+            <div class="text-center animated fadeIn">
+                <div class="btn btn-primary" ng-click="exportModel()">Export Model</div>
+                <div class="btn btn-default" ng-click="importModel()">Import Model</div>
+            </div>
         </div>
 
         <div class="clearfix"></div>
     </form>
 </div>
 
-<br><br><br>
-
-<div class="text-center animated fadeIn">
-    <div class="btn btn-primary" ng-click="exportModel()">Export Model</div>
-    <div class="btn btn-default" ng-click="importModel()">Import Model</div>
-</div>
+<br>
 
 <span ng-bind-html="exportFile"></span>

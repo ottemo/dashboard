@@ -128,6 +128,15 @@ table td.checkboxes-column,
 table th.checkboxes-column {
   width: 40px !important;
 }
+.table-pagination-row {
+  margin-top: 10px;
+}
+.table-pagination-row .pagination {
+  margin: 0;
+}
+#filters {
+  display: none;
+}
 .modal-dialog table tbody td {
   cursor: pointer;
 }
@@ -550,14 +559,23 @@ body.sticky-sidebar *[data-toggle="offcanvas"] {
     display: none !important;
   }
 }
-.sellers-images > span {
-  height: auto;
+.welcome .sellers-referrs table td {
+  width: auto !important;
 }
-.sellers-images span img {
-  height: 60px;
-  display: inline-block;
-  margin-bottom: 10px;
-  width: auto;
+.welcome .sellers-referrs table td {
+  text-align: left;
+}
+.welcome .sellers-referrs table td:first-child {
+  text-align: center;
+  width: 50px !important;
+}
+.welcome .sellers-referrs table td:last-child {
+  text-align: center;
+  width: 50px !important;
+}
+.welcome .sellers-referrs table td img {
+  max-height: 50px;
+  max-width: 50px;
 }
 .welcome .today-visits .col-xs-6,
 .welcome .today-sales .col-xs-6,

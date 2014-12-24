@@ -124,9 +124,19 @@ table td.select-link {
 table td:not(.select-link) {
   width: 100px;
 }
+
 table td.checkboxes-column,
 table th.checkboxes-column {
   width: 40px !important;
+}
+.table-pagination-row{
+  margin-top: 10px;
+  & .pagination {
+    margin: 0;
+  }
+}
+#filters {
+  display: none;
 }
 .modal-dialog table tbody td {
   cursor: pointer;
@@ -528,18 +538,26 @@ body.sticky-sidebar {
 		display: none !important;
 	}
 }
-
-// welcome
-.sellers-images > span {
-  height: auto;
-}
-.sellers-images span img {
-  height: 60px;
-  display: inline-block;
-  margin-bottom: 10px;
-  width: auto;
-}
 .welcome {
+  .sellers-referrs table td {
+    width: auto !important;
+  }
+  .sellers-referrs table td {
+    text-align: left;
+    &:first-child {
+      text-align: center;
+      width: 50px !important;
+    }
+    &:last-child {
+      text-align: center;
+      width: 50px !important;
+    }
+    & img {
+      max-height: 50px;
+      max-width: 50px;
+    }
+  }
+
 	.today-visits .col-xs-6, .today-sales .col-xs-6, .real-time .progrcol-xs-6ess {
 		padding-left: 0;
 		padding-right: 0;

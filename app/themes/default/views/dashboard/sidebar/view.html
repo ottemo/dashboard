@@ -1,6 +1,6 @@
 <!-- Sidebar view -->
 <nav id="offcanvas" class="navmenu hidden-xs" ng-controller="dashboardHeaderController">
-	<img class="pull-left avatar" alt="" ng-src="{{getImg('photos/user-avatar.png')}}">
+	<img ng-src="{{it.getAvatar()}}" alt="" class="pull-left avatar">
 	<h4 class="pull-left">{{it.getUsername()}}</h4>
 	<button class="glyphicon glyphicon-arrow-left" data-toggle="offcanvas"></button>
 	<div class="clearfix"></div>
