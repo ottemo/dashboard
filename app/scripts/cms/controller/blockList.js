@@ -1,4 +1,4 @@
-(function (define) {
+(function (define, $) {
     "use strict";
 
     define(["cms/init"], function (cmsModule) {
@@ -39,7 +39,7 @@
                     getBlockCount = function () {
                         $cmsApiService.getCountB($location.search(), {}).$promise.then(
                             function (response) {
-                                if (response.error === "") {
+                                if (response.error === null) {
                                     $scope.count = response.result;
                                 } else {
                                     $scope.count = 0;
@@ -161,4 +161,4 @@
 
         return cmsModule;
     });
-})(window.define);
+})(window.define, jQuery);

@@ -1,4 +1,4 @@
-(function (define) {
+(function (define, $) {
     "use strict";
 
     define(["product/init"], function (productModule) {
@@ -10,7 +10,8 @@
                 "$q",
                 "$productApiService",
                 "$designImageService",
-                function ($scope, $routeParams, $location, $q, $productApiService, $designImageService) {
+                "$dashboardUtilsService",
+                function ($scope, $routeParams, $location, $q, $productApiService, $designImageService, $dashboardUtilsService) {
 
                     var productId, getDefaultProduct, addImageManagerAttribute;
 
@@ -119,20 +120,14 @@
                          * @param response
                          */
                         saveSuccess = function (response) {
-                            if (response.error === "") {
+                            if (response.error === null) {
                                 $scope.product._id = response.result._id;
                                 $scope.productImages = [];
-                                $scope.message = {
-                                    'type': 'success',
-                                    'message': 'Product was created successfully'
-                                };
+                                $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Product was created successfully');
                                 addImageManagerAttribute();
                                 defer.resolve($scope.product);
                             } else {
-                                $scope.message = {
-                                    'type': 'danger',
-                                    'message': response.error
-                                };
+                                $scope.message = $dashboardUtilsService.getMessage(response);
                             }
                             $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
                             $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
@@ -143,10 +138,7 @@
                          * @param response
                          */
                         saveError = function () {
-                            $scope.message = {
-                                'type': 'danger',
-                                'message': 'Something went wrong'
-                            };
+                            $scope.message = $dashboardUtilsService.getMEssage(null, 'danger', 'Something went wrong');
                             $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
                             $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                             defer.resolve(false);
@@ -157,18 +149,12 @@
                          * @param response
                          */
                         updateSuccess = function (response) {
-                            if (response.error === "") {
+                            if (response.error === null) {
                                 var result = response.result || getDefaultProduct();
-                                $scope.message = {
-                                    'type': 'success',
-                                    'message': 'Product was updated successfully'
-                                };
+                                $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Product was updated successfully');
                                 defer.resolve(result);
                             } else {
-                                $scope.message = {
-                                    'type': 'danger',
-                                    'message': response.error
-                                };
+                                $scope.message = $dashboardUtilsService.getMessage(response);
                             }
                             $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
                             $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
@@ -179,10 +165,7 @@
                          * @param response
                          */
                         updateError = function () {
-                            $scope.message = {
-                                'type': 'danger',
-                                'message': 'Something went wrong'
-                            };
+                            $scope.message = $dashboardUtilsService.getMessage(null, 'danger', 'Something went wrong');
                             $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
                             $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                             defer.resolve(false);
@@ -291,4 +274,4 @@
 
         return productModule;
     });
-})(window.define);
+})(window.define, jQuery);

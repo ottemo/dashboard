@@ -1,4 +1,4 @@
-(function (define) {
+(function (define, $) {
     "use strict";
 
     define(["category/init"], function (categoryModule) {
@@ -9,7 +9,8 @@
                 "$location",
                 "$q",
                 "$categoryApiService",
-                function ($scope, $routeParams, $location, $q, $categoryApiService) {
+                "$dashboardUtilsService",
+                function ($scope, $routeParams, $location, $q, $categoryApiService, $dashboardUtilsService) {
                     var categoryId, rememberProducts, oldProducts, getDefaultCategory;
 
                     // Initialize SEO
@@ -134,12 +135,9 @@
                          * @param response
                          */
                         saveSuccess = function (response) {
-                            if (response.error === "") {
+                            if (response.error === null) {
                                 $scope.category = response.result || getDefaultCategory();
-                                $scope.message = {
-                                    'type': 'success',
-                                    'message': 'Category was created successfully'
-                                };
+                                $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Category was created successfully');
                                 defer.resolve(true);
                             }
                             $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
@@ -161,12 +159,9 @@
                          * @param response
                          */
                         updateSuccess = function (response) {
-                            if (response.error === "") {
+                            if (response.error === null) {
                                 $scope.category = response.result || getDefaultCategory();
-                                $scope.message = {
-                                    'type': 'success',
-                                    'message': 'Product was updated successfully'
-                                };
+                                $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Product was updated successfully');
                                 defer.resolve(true);
                                 $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
                                 $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
@@ -221,4 +216,4 @@
 
         return categoryModule;
     });
-})(window.define);
+})(window.define, jQuery);

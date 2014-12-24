@@ -1,4 +1,4 @@
-(function (define) {
+(function (define, $) {
     "use strict";
 
     define(["product/init"], function (productModule) {
@@ -134,4 +134,4 @@
 
         return productModule;
     });
-})(window.define);
+})(window.define, jQuery);

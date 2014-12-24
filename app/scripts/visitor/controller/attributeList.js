@@ -1,4 +1,4 @@
-(function (define) {
+(function (define, $) {
     "use strict";
 
     define(["visitor/init"], function (visitorModule) {
@@ -133,4 +133,4 @@
 
         return visitorModule;
     });
-})(window.define);
+})(window.define, jQuery);

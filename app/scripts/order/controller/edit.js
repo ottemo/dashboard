@@ -1,4 +1,4 @@
-(function (define) {
+(function (define, $) {
     "use strict";
 
     define(["order/init"], function (orderModule) {
@@ -21,7 +21,8 @@
                 "$location",
                 "$q",
                 "$orderApiService",
-                function ($scope, $routeParams, $location, $q, $orderApiService) {
+                "$dashboardUtilsService",
+                function ($scope, $routeParams, $location, $q, $orderApiService, $dashboardUtilsService) {
                     var orderId, getDefaultOrder, oldString;
 
                     orderId = $routeParams.id;
@@ -110,11 +111,8 @@
                         delete $scope.order["updated_at"];
                         if (orderId !== null && JSON.stringify(oldString) !== JSON.stringify($scope.order)) {
                             $orderApiService.update({"id": orderId}, $scope.order).$promise.then(function (response) {
-                                if (response.error === "") {
-                                    $scope.message = {
-                                        'type': 'success',
-                                        'message': 'Order was updated successfully'
-                                    };
+                                if (response.error === null) {
+                                    $scope.message = $dashboardUtilsService.getMessage(null , 'success', 'Order was updated successfully');
                                     for (var field in response.result) {
                                         if (response.result.hasOwnProperty(field) && "updated_at" !== field) {
                                             oldString[field] = response.result[field];
@@ -122,10 +120,7 @@
                                         }
                                     }
                                 } else {
-                                    $scope.message = {
-                                        'type': 'danger',
-                                        'message': response.error
-                                    };
+                                    $scope.message = $dashboardUtilsService.getMessage(response);
                                 }
                                                       $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
                                 $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
@@ -151,4 +146,4 @@
 
         return orderModule;
     });
-})(window.define);
+})(window.define, jQuery);

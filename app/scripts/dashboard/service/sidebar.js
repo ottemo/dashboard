@@ -81,8 +81,9 @@
                  *  $pageSidebarService implementation
                  */
                 .service("$dashboardSidebarService", [function () {
-                    var addItem, getItems, getType, items, isImagePathRegex;
+                    var addItem, getItems, getType, items, isImagePathRegex, transformedItems;
                     items = [];
+                    transformedItems = null;
                     isImagePathRegex = new RegExp(".gif|png|jpg|ico$", "i");
 
                     /**
@@ -128,7 +129,11 @@
                      * @returns {Array}
                      */
                     getItems = function () {
-                        var res = transformMenu(items);
+                        if(transformedItems !== null){
+                            return transformedItems;
+                        }
+
+                        transformedItems = transformMenu(items);
 
                         var recursiveSort = function(arr){
                             arr.sort(function (a, b) {
@@ -142,9 +147,9 @@
                             });
                         };
 
-                        recursiveSort(res);
+                        recursiveSort(transformedItems);
 
-                        return res;
+                        return transformedItems;
                     };
 
                     /**

@@ -1,4 +1,4 @@
-(function (define) {
+(function (define, $) {
     "use strict";
 
     define(["cms/init"], function (cmsModule) {
@@ -9,7 +9,8 @@
                 "$location",
                 "$q",
                 "$cmsApiService",
-                function ($scope, $routeParams, $location, $q, $cmsApiService) {
+                "$dashboardUtilsService",
+                function ($scope, $routeParams, $location, $q, $cmsApiService, $dashboardUtilsService) {
                     var blockId, getDefaultBlock;
 
                     blockId = $routeParams.id;
@@ -83,13 +84,10 @@
                          * @param response
                          */
                         saveSuccess = function (response) {
-                            if (response.error === "") {
+                            if (response.error === null) {
                                 var result = response.result || getDefaultBlock();
                                 $scope.block._id = response.result._id;
-                                $scope.message = {
-                                    'type': 'success',
-                                    'message': 'Block was saved successfully'
-                                };
+                                $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Block was saved successfully');
                                 defer.resolve(result);
 
                                 $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
@@ -111,13 +109,10 @@
                          * @param response
                          */
                         updateSuccess = function (response) {
-                            if (response.error === "") {
+                            if (response.error === null) {
                                 var result = response.result || getDefaultBlock();
-                                $scope.message = {
-                                    'type': 'success',
-                                    'message': 'Block was updated successfully'
-                                };
-                                $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                                $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Block was updated successfully');
+                                    $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
                                 $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                                 defer.resolve(result);
                             }
@@ -149,4 +144,4 @@
 
         return cmsModule;
     });
-})(window.define);
+})(window.define, jQuery);

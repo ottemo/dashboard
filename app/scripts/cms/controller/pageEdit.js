@@ -1,4 +1,4 @@
-(function (define) {
+(function (define, $) {
     "use strict";
 
     define(["cms/init"], function (cmsModule) {
@@ -9,7 +9,8 @@
                 "$location",
                 "$q",
                 "$cmsApiService",
-                function ($scope, $routeParams, $location, $q, $cmsApiService) {
+                "$dashboardUtilsService",
+                function ($scope, $routeParams, $location, $q, $cmsApiService, $dashboardUtilsService) {
                     var pageId, getDefaultPage;
 
                     // Initialize SEO
@@ -93,13 +94,10 @@
                          * @param response
                          */
                         saveSuccess = function (response) {
-                            if (response.error === "") {
+                            if (response.error === null) {
                                 var result = response.result || getDefaultPage();
                                 $scope.page._id = response.result._id;
-                                $scope.message = {
-                                    'type': 'success',
-                                    'message': 'Page was created successfully'
-                                };
+                                $scope.message = $dashboardUtilsService(null, 'success', 'Page was created successfully');
                                 defer.resolve(result);
 
                                 $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
@@ -122,12 +120,9 @@
                          * @param response
                          */
                         updateSuccess = function (response) {
-                            if (response.error === "") {
+                            if (response.error === null) {
                                 var result = response.result || getDefaultPage();
-                                $scope.message = {
-                                    'type': 'success',
-                                    'message': 'Page was updated successfully'
-                                };
+                                $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Page was updated successfully');
                                 $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
                                 $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                                 defer.resolve(result);
@@ -160,4 +155,4 @@
 
         return cmsModule;
     });
-})(window.define);
+})(window.define, jQuery);

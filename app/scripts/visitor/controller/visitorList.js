@@ -1,4 +1,4 @@
-(function (define) {
+(function (define, $) {
     "use strict";
 
     define(["visitor/init"], function (visitorModule) {
@@ -40,7 +40,7 @@
                     getVisitorCount = function() {
                         $visitorApiService.getCountVisitors($location.search(), {}).$promise.then(
                             function (response) {
-                                if (response.error === "") {
+                                if (response.error === null) {
                                     $scope.count = response.result;
                                 } else {
                                     $scope.count = 0;
@@ -165,4 +165,4 @@
 
         return visitorModule;
     });
-})(window.define);
+})(window.define, jQuery);

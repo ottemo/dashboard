@@ -1,4 +1,4 @@
-(function (define) {
+(function (define, $) {
     "use strict";
 
     define(["product/init"], function (productModule) {
@@ -11,9 +11,10 @@
                 "$dashboardListService",
                 "$productApiService",
                 "$designImageService",
+                "$dashboardUtilsService",
                 "COUNT_ITEMS_PER_PAGE",
                 function ($scope, $location, $routeParams, $q, DashboardListService, $productApiService,
-                          $designImageService, COUNT_ITEMS_PER_PAGE) {
+                          $designImageService, $dashboardUtilsService, COUNT_ITEMS_PER_PAGE) {
                     var serviceList, splitName, getProductsList, getAttributeList, getProductCount;
 
                     // Initialize SEO
@@ -71,7 +72,7 @@
                      */
                     getProductCount = function () {
                         $productApiService.getCount($location.search(), {}).$promise.then(function (response) {
-                            if (response.error === "") {
+                            if (response.error === null) {
                                 $scope.count = response.result;
                             } else {
                                 $scope.count = 0;
@@ -157,10 +158,7 @@
                                             $scope.products.splice(i, 1);
                                         }
                                     }
-                                    $scope.message = {
-                                        'type': 'success',
-                                        'message': 'Product(s) was removed successfully'
-                                    };
+                                    $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Product(s) was removed successfully');
                                 }
                             };
                             for (id in $scope.idsSelectedRows) {
@@ -210,4 +208,4 @@
 
         return productModule;
     });
-})(window.define);
+})(window.define, jQuery);

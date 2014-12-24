@@ -1,4 +1,4 @@
-(function (define) {
+(function (define, $) {
     "use strict";
 
     define(["visitor/init"], function (visitorModule) {
@@ -10,7 +10,8 @@
                 "$location",
                 "$q",
                 "$visitorApiService",
-                function ($scope, $routeParams, $location, $q, $visitorApiService) {
+                "$dashboardUtilsService",
+                function ($scope, $routeParams, $location, $q, $visitorApiService, $dashboardUtilsService) {
                     var visitorId, getDefaultVisitor;
 
                     visitorId = $routeParams.id;
@@ -108,13 +109,10 @@
                          * @param response
                          */
                         saveSuccess = function (response) {
-                            if (response.error === "") {
+                            if (response.error === null) {
                                 var result = response.result || getDefaultVisitor();
                                 $scope.visitor._id = response.result._id;
-                                $scope.message = {
-                                    'type': 'success',
-                                    'message': 'Visitor was created successfully'
-                                };
+                                $scope.message = $dashboardUtilsService.getMEssage(null, 'success', 'Visitor was created successfully');
                                 $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
                                 $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                                 defer.resolve(result);
@@ -136,12 +134,9 @@
                          * @param response
                          */
                         updateSuccess = function (response) {
-                            if (response.error === "") {
+                            if (response.error === null) {
                                 var result = response.result || getDefaultVisitor();
-                                $scope.message = {
-                                    'type': 'success',
-                                    'message': 'Visitor was updated successfully'
-                                };
+                                $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Visitor was updated successfully');
                                 $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
                                 $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                                 defer.resolve(result);
@@ -182,4 +177,4 @@
                 }]);
         return visitorModule;
     });
-})(window.define);
+})(window.define, jQuery);

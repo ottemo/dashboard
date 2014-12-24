@@ -1,4 +1,4 @@
-(function (define) {
+(function (define, $) {
     "use strict";
 
     define(["order/init"], function (orderModule) {
@@ -41,7 +41,7 @@
                     getOrderCount = function() {
                         $orderApiService.getCount($location.search(), {}).$promise.then(
                             function (response) {
-                                if (response.error === "") {
+                                if (response.error === null) {
                                     $scope.count = response.result;
                                 } else {
                                     $scope.count = 0;
@@ -164,4 +164,4 @@
 
         return orderModule;
     });
-})(window.define);
+})(window.define, jQuery);
