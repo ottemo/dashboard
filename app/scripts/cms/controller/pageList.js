@@ -25,7 +25,7 @@
                     /**
                      * Gets list of pages
                      */
-                    getPagesList = function(){
+                    getPagesList = function () {
                         $cmsApiService.pageListP($location.search(), {"extra": "title"}).$promise.then(
                             function (response) {
                                 var result, i;
@@ -41,7 +41,7 @@
                     /**
                      * Gets list of pages
                      */
-                    getPageCount = function() {
+                    getPageCount = function () {
                         $cmsApiService.getCountP($location.search(), {}).$promise.then(
                             function (response) {
                                 if (response.error === null) {
@@ -53,7 +53,7 @@
                         );
                     };
 
-                    getAttributeList = function() {
+                    getAttributeList = function () {
                         $cmsApiService.pageAttributes().$promise.then(
                             function (response) {
                                 var result = response.result || [];
@@ -149,7 +149,7 @@
 
                         return false;
                     }, function (isInitAll) {
-                        if(isInitAll) {
+                        if (isInitAll) {
                             $scope.pages = serviceList.getList($scope.pagesTmp);
                         }
                     });

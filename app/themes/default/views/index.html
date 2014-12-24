@@ -8,7 +8,7 @@
 <ng-include src="getTemplate('dashboard/header.html')"></ng-include>
 
 <!-- Main content -->
-<section ng-controller="seoEditController">
+<section>
     <ng-view></ng-view>
 </section><!-- main content end-->
 
@@ -21,3 +21,6 @@
 <!-- Scripts -->
 <script src="themes/default/scripts/main.js"></script>
 <script src="themes/default/scripts/jquery.nicescroll.js"></script>
+
+<!-- processing -->
+<ng-include src="getTemplate('dashboard/processing/view.html')"></ng-include>

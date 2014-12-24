@@ -112,7 +112,7 @@
                             if (response.error === null) {
                                 var result = response.result || getDefaultBlock();
                                 $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Block was updated successfully');
-                                    $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                                $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
                                 $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                                 defer.resolve(result);
                             }

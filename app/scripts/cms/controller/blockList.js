@@ -142,7 +142,7 @@
 
                         return false;
                     }, function (isInitAll) {
-                        if(isInitAll) {
+                        if (isInitAll) {
                             $scope.blocks = serviceList.getList($scope.blocksTmp);
                         }
                     });

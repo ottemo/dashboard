@@ -97,6 +97,18 @@
                     }
                     // controller: function (element, attr) { return attr.controller; }
                 };
+            }])
+
+            .directive('errSrc', ["$rootScope", function ($rootScope) {
+                return {
+                    link: function (scope, element, attrs) {
+                        element.bind('error', function () {
+                            if (attrs.src !== attrs.errSrc) {
+                                attrs.$set('src', $rootScope.getImg(attrs.errSrc));
+                            }
+                        });
+                    }
+                };
             }]);
 
         return designModule;
