@@ -98,13 +98,6 @@ input.range {
 .nav-tabs li a:focus {
   outline: none !important;
 }
-.attr-table table tr td,
-.attr-table table tr th,
-.attr-table table tr:hover {
-  background: none !important;
-  border-color: transparent;
-  color: #000;
-}
 .attr-table table tr td:first-child {
   width: 30px;
 }
@@ -516,6 +509,18 @@ body.sticky-sidebar *[data-toggle="offcanvas"] {
 #offcanvas a:hover {
   background: #a0caeb;
   color: #34374a;
+  -webkit-transition: all 0.4s ease;
+  /* Safari 3.2+, Chrome */
+  -moz-transition: all 0.4s ease;
+  /* Firefox 4-15 */
+  -o-transition: all 0.4s ease;
+  /* Opera 10.5-12.00 */
+  transition: all 0.4s ease;
+  /* Firefox 16+, Opera 12.50+ */
+}
+#offcanvas a.active {
+  background: #839caf !important;
+  color: #fff !important;
   -webkit-transition: all 0.4s ease;
   /* Safari 3.2+, Chrome */
   -moz-transition: all 0.4s ease;

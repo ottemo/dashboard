@@ -129,10 +129,16 @@ $(document).ready(function() {
     // click on element of offcanvas
     $(document).on('click', '#offcanvas a.menu-item', function(event) {
         var itHasLink = $(this).attr('href');
+
         if ( itHasLink == '' ) {
             event.preventDefault();
             $('#offcanvas .sub-menu').not($(this).next()).slideUp(300)
             $(this).next('.sub-menu').slideToggle(300);  
+        }
+        else {
+            $('#offcanvas').removeClass('active');
+            $('#offcanvas a.menu-item').removeClass('active');
+            $(this).addClass('active');
         }
     });
 

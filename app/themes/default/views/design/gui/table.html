@@ -7,11 +7,13 @@
         <br>
        
         <div class="table-pagination-row">
+
             <!-- Delete/New buttons -->
-            <div class="btn-group pull-left">
+            <div class="pull-left">
                 <button class="btn btn-primary" ng-click="parent.remove()" ng-if="buttons.delete">Delete</button>
-                <button class="btn btn-default" ng-click="parent.create()" ng-if="buttons.new">New</button>
+                <button class="btn btn-primary" ng-click="parent.create()" ng-if="buttons.new">New</button>
             </div>
+
 
             <!-- Filters -->
             <div class="btn-group pull-right">
@@ -111,7 +113,7 @@
         <!-- button group -->
         <div class="text-center">
             <button class="btn btn-primary" ng-click="parent.remove()" ng-if="buttons.delete">Delete</button>
-            <button class="btn btn-default" ng-click="parent.create()" ng-if="buttons.new">New</button>
+            <button class="btn btn-primary" ng-click="parent.create()" ng-if="buttons.new">New</button>
         </div>
     </form>
 </section>
