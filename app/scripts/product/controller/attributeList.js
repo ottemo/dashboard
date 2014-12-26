@@ -99,7 +99,6 @@
                      *
                      */
                     $scope.remove = function () {
-                        $('[ng-click="parent.remove()"]').addClass('disabled').append('<i class="fa fa-spin fa-spinner"><i>').siblings('.btn').addClass('disabled');
                         if (!hasSelectedRows()) {
                             return true;
                         }
@@ -107,6 +106,7 @@
                         var i, answer;
                         answer = window.confirm("You really want to remove this attribute?");
                         if (answer) {
+                            $('[ng-click="parent.remove()"]').addClass('disabled').append('<i class="fa fa-spin fa-spinner"><i>').siblings('.btn').addClass('disabled');
                             var callback = function (response) {
                                 if (response) {
                                     for (i = 0; i < $scope.attributesList.length; i += 1) {
