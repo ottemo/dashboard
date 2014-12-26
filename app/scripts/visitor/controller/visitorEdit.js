@@ -112,7 +112,7 @@
                             if (response.error === null) {
                                 var result = response.result || getDefaultVisitor();
                                 $scope.visitor._id = response.result._id;
-                                $scope.message = $dashboardUtilsService.getMEssage(null, 'success', 'Visitor was created successfully');
+                                $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Visitor was created successfully');
                                 $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
                                 $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                                 defer.resolve(result);
@@ -156,13 +156,6 @@
                         delete $scope.visitor['billing_address'];
                         delete $scope.visitor['shipping_address'];
 
-//                        if ($scope.visitor['shipping_address_id'] === "") {
-//                            delete $scope.visitor['shipping_address_id'];
-//                        }
-//
-//                        if ($scope.visitor['billing_address_id'] === "") {
-//                            delete $scope.visitor['billing_address_id'];
-//                        }
                         if (!id) {
                             $visitorApiService.save($scope.visitor, saveSuccess, saveError);
                         } else {
