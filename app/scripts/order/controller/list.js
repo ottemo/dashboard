@@ -97,8 +97,6 @@
                         if (!hasSelectedRows()) {
                             return true;
                         }
-                        $('[ng-click="parent.remove()"]').addClass('disabled').append('<i class="fa fa-spin fa-spinner"><i>').siblings('.btn').addClass('disabled');
-
 
                         var i, answer, _remove;
                         answer = window.confirm("You really want to remove this order(s)?");
@@ -118,6 +116,7 @@
                             return defer.promise;
                         };
                         if (answer) {
+                            $('[ng-click="parent.remove()"]').addClass('disabled').append('<i class="fa fa-spin fa-spinner"><i>').siblings('.btn').addClass('disabled');
                             var callback = function (response) {
                                 if (response) {
                                     for (i = 0; i < $scope.orders.length; i += 1) {

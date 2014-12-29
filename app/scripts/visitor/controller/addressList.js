@@ -122,7 +122,7 @@
                      *
                      */
                     $scope.remove = function () {
-                        $('[ng-click="parent.remove()"]').addClass('disabled').append('<i class="fa fa-spin fa-spinner"><i>').siblings('.btn').addClass('disabled');
+
                         if (!hasSelectedRows()) {
                             return true;
                         }
@@ -145,6 +145,8 @@
                             return defer.promise;
                         };
                         if (answer) {
+                            $('[ng-click="parent.remove()"]').addClass('disabled').append('<i class="fa fa-spin fa-spinner"><i>').siblings('.btn').addClass('disabled');
+
                             var callback = function (response) {
                                 if (response) {
                                     for (i = 0; i < $scope.addresses.length; i += 1) {

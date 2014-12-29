@@ -33,7 +33,7 @@
 
                                 }
                                 catch (e) {
-                                    var parts = $scope.attribute.Options.replace(/[{}]/g,"").split(",");
+                                    var parts = $scope.attribute.Options.replace(/[{}]/g, "").split(",");
                                     for (var i = 0; i < parts.length; i += 1) {
                                         options[parts[i]] = parts[i];
                                     }
@@ -48,14 +48,30 @@
                         $scope.submit = function (id) {
                             $scope.item[$scope.attribute.Attribute] = id;
                             $scope.parent.newFilters[$scope.attribute.Attribute.toLowerCase()] = id.split(" ");
+                            if (-1 !== ['text', 'string'].indexOf($scope.item.dataType)) {
+                                $scope.parent.newFilters[$scope.attribute.Attribute.toLowerCase()] = id.split(" ");
+                            } else {
+                                $scope.parent.newFilters[$scope.attribute.Attribute.toLowerCase()] = id;
+                            }
                         };
 
                         $scope.$watch("item", function () {
-                            var options, field;
-
                             if (typeof $scope.item === "undefined" || isInit) {
                                 return false;
                             }
+
+                            var options, field, setNewFilterValues;
+
+                            setNewFilterValues = function () {
+                                if (-1 !== ['text', 'string'].indexOf($scope.item.dataType)) {
+                                    $scope.item[$scope.attribute.Attribute] = $scope.item[$scope.attribute.Attribute].replace(/~/g, "");
+                                    $scope.parent.newFilters[$scope.attribute.Attribute] = $scope.item[$scope.attribute.Attribute].replace(/~/g, "").split(" ");
+                                } else {
+                                    $scope.item[$scope.attribute.Attribute] = $scope.item[$scope.attribute.Attribute].replace(/~/g, "");
+                                    $scope.parent.newFilters[$scope.attribute.Attribute] = $scope.item[$scope.attribute.Attribute].replace(/~/g, "");
+                                }
+
+                            };
 
                             $scope.options = [];
                             options = getOptions($scope.attribute.Options);
@@ -72,8 +88,7 @@
                                 }
                             }
 
-                            $scope.item[$scope.attribute.Attribute] = $scope.item[$scope.attribute.Attribute].replace(/~/g, "");
-                            $scope.parent.newFilters[$scope.attribute.Attribute] = $scope.item[$scope.attribute.Attribute].replace(/~/g, "").split(" ");
+                            setNewFilterValues();
 
                             isInit = true;
                         });

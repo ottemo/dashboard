@@ -94,6 +94,7 @@
                                                 "attribute": attributes[j].Attribute,
                                                 "type": "select-link",
                                                 "label": attributes[j].Label,
+                                                "dataType": attributes[j].Type,
                                                 "visible": true,
                                                 "notDisable": true,
                                                 "filter": getFilter(attributes[j]),
@@ -105,6 +106,7 @@
                                             "attribute": attributes[j].Attribute,
                                             "type": "string",
                                             "label": attributes[j].Label,
+                                            "dataType": attributes[j].Type,
                                             "visible": true,
                                             "notDisable": false,
                                             "filter": getFilter(attributes[j]),
@@ -117,6 +119,7 @@
                                     fields.unshift({
                                         "attribute": "Name",
                                         "type": "select-link",
+                                        "dataType": "text",
                                         "label": "Name",
                                         "visible": true,
                                         "notDisable": true

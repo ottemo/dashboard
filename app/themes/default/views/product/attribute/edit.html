@@ -23,25 +23,25 @@
                ng-model="attribute.Attribute"/>
     </div>
     <div class="col-xs-12 col-sm-6 form-group ">
-        <label for="inpType">Type</label>
+        <label for="inp_Type">Type</label>
         <select class="form-control" name="Type"
-                data-ng-model="attribute.Type"
+                data-ng-model="attribute.Type" id="inp_Type"
                 data-ng-options="choice for choice in typesAttribute">
         </select>
     </div>
     <div class="col-xs-12 col-sm-6  form-group">
-        <label for="inpLabel">Label</label>
-        <input type="text" class="form-control" name="Label"
+        <label for="inp_Label">Label</label>
+        <input type="text" class="form-control" name="Label" id="inp_Label"
                ng-model="attribute.Label"/>
     </div>
     <div class="col-xs-12 col-sm-6 form-group ">
-        <label for="inpGroup">Group</label>
-        <input type="text" class="form-control" name="Group"
+        <label for="inp_Group">Group</label>
+        <input type="text" class="form-control" name="Group" id="inp_Group"
                ng-model="attribute.Group"/>
     </div>
     <div class="col-xs-12 col-sm-6  form-group">
-        <label for="inpEditors">Editors</label>
-        <select class="form-control" name="Editors"
+        <label for="inp_Editors">Editors</label>
+        <select class="form-control" name="Editors" id="inp_Editors"
                 ng-init="attribute.Editors = editorsList[0]"
                 ng-change="choiceEditor()"
                 data-ng-model="attribute.Editors"
@@ -50,19 +50,19 @@
         <gui-json-editor data="attribute.Options" ng-if="isEditOptions"></gui-json-editor>
     </div>
     <div class="col-xs-12 col-sm-6 form-group ">
-        <label for="inpOptions">Options</label>
-        <input type="text" class="form-control" name="Options"
+        <label for="inp_Options">Options</label>
+        <input type="text" class="form-control" name="Options" id="inp_Options"
                ng-readonly="readonlyEditors()"
                ng-model="attribute.Options"/>
     </div>
     <div class="col-xs-12 col-sm-6  form-group">
-        <label for="inpDefault">Default</label>
-        <input type="text" class="form-control" name="Default"
+        <label for="inp_Default">Default</label>
+        <input type="text" class="form-control" name="Default" id="inp_Default"
                ng-model="attribute.Default"/>
     </div>
     <div class="col-xs-12 col-sm-6 form-group ">
-        <label for="inpIsRequired">IsRequired</label>
-        <select class="form-control" name="IsRequired"
+        <label for="inp_IsRequired">Required</label>
+        <select class="form-control" name="IsRequired" id="inp_IsRequired"
                 ng-init="attribute.IsRequired = true"
                 data-ng-model="attribute.IsRequired"
                 data-ng-options="choice for choice in [true, false]">
@@ -70,17 +70,26 @@
     </div>
 
     <div class="col-xs-12 col-sm-6  form-group">
-        <label for="inpDefault">Layered</label>
-        <select class="form-control" name="Layered"
+        <label for="inp_Layered">Layered</label>
+        <select class="form-control" name="Layered" id="inp_Layered"
                 ng-init="attribute.Layered = false"
                 data-ng-model="attribute.Layered"
                 data-ng-options="choice for choice in [true, false]">
         </select>
     </div>
 
+    <div class="col-xs-12 col-sm-6  form-group">
+        <label for="inp_IsPublic">Public</label>
+        <select class="form-control" name="IsPublic" id="inp_IsPublic"
+                ng-init="attribute.IsPublic = false"
+                data-ng-model="attribute.IsPublic"
+                data-ng-options="choice for choice in [true, false]">
+        </select>
+    </div>
+
     <div class="col-xs-12 col-sm-6 form-group ">
-        <label for="inpIsRequired">Validators</label>
-        <input type="text" class="form-control" name="Default"
+        <label for="inp_Validators">Validators</label>
+        <input type="text" class="form-control" name="Default" id="inp_Validators"
                ng-model="attribute.Validators"/>
     </div>
     <div class="clearfix"></div>
