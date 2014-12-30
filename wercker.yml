@@ -29,7 +29,7 @@ deploy:
             hostname: $REMOTE_HOST
         - script:
             name: scp dist dir to $REMOTE_HOST
-            code: scp $WERCKER_SOURCE_DIR/dist root@$REMOTE_HOST:/home/ottemo/dashboard
+            code: scp -r $WERCKER_SOURCE_DIR/dist root@$REMOTE_HOST:/home/ottemo/dashboard
     after-steps:
         - wercker/hipchat-notify@1.0.3:
             token: $HIPCHAT_TOKEN
