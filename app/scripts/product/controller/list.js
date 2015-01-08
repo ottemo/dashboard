@@ -15,7 +15,7 @@
                 "COUNT_ITEMS_PER_PAGE",
                 function ($scope, $location, $routeParams, $q, DashboardListService, $productApiService,
                           $designImageService, $dashboardUtilsService, COUNT_ITEMS_PER_PAGE) {
-                    var serviceList, splitName, getProductsList, getAttributeList, getProductCount;
+                    var serviceList, getProductsList, getAttributeList, getProductCount;
 
                     // Initialize SEO
                     if (typeof $scope.initSeo === "function") {
@@ -34,14 +34,6 @@
                         }
                     ];
 
-                    splitName = function (string) {
-                        var parts;
-                        var regExp = /\[(.+)\](.+)/i;
-                        parts = string.match(regExp);
-
-                        return parts;
-                    };
-
                     /**
                      * Gets list of products
                      */
@@ -51,17 +43,14 @@
                             {"extra": serviceList.getExtraFields()}
                         ).$promise.then(
                             function (response) {
-                                var result, i, parts;
+                                var result, i;
                                 $scope.productsTmp = [];
 
                                 result = response.result || [];
                                 for (i = 0; i < result.length; i += 1) {
-                                    parts = splitName(result[i].Name);
-                                    if(parts instanceof Array) {
-                                        result[i].Name = parts[2];
-                                        result[i].sku = parts[1];
-                                        $scope.productsTmp.push(result[i]);
-                                    }
+                                    result[i].Name = result[i].Extra.name;
+                                    result[i].sku = result[i].Extra.sku;
+                                    $scope.productsTmp.push(result[i]);
                                 }
                             }
                         );

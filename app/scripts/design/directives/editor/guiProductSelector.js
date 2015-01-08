@@ -104,27 +104,17 @@
                                         {"extra": serviceList.getExtraFields()}
                                     ).$promise.then(
                                         function (response) {
-                                            var result, i, parts, splitName;
+                                            var result, i;
                                             $scope.productsTmp = [];
-                                            splitName = function (string) {
-                                                var parts;
-                                                var regExp = /\[(.+)\](.+)/i;
-                                                parts = string.match(regExp);
-
-                                                return parts;
-                                            };
                                             result = response.result || [];
 
                                             for (i = 0; i < result.length; i += 1) {
                                                 if (typeof $scope.parent.excludeItems !== "undefined" && -1 !== $scope.parent.excludeItems.indexOf(result[i].ID)) {
                                                     continue;
                                                 }
-                                                parts = splitName(result[i].Name);
-                                                if (parts instanceof Array) {
-                                                    result[i].Name = parts[2];
-                                                    result[i].sku = parts[1];
-                                                    $scope.productsTmp.push(result[i]);
-                                                }
+                                                result[i].Name = result[i].Extra.name;
+                                                result[i].sku = result[i].Extra.sku;
+                                                $scope.productsTmp.push(result[i]);
                                             }
                                         }
                                     );
