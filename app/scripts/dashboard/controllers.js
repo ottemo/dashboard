@@ -29,7 +29,8 @@
                 "$location",
                 "$dashboardStatisticService",
                 "$designImageService",
-                function ($scope, $location, $statistic, $designImageService) {
+                "$dashboardUtilsService",
+                function ($scope, $location, $statistic, $designImageService, $dashboardUtilsService) {
                     $scope.x = "dashboardController";
                     $scope.visitorsChartData = [];
                     $scope.visitsPeriod = 'week';
@@ -56,7 +57,7 @@
 
                     // TOP REFERRERS
                     $statistic.getReferrers().then(function (data) {
-                        $scope.referrers = data;
+                        $scope.referrers = $dashboardUtilsService.sortObjectsArrayByField(data, 'count', 'int', "DESC");
                     });
 
                     // VISITS TODAY
@@ -76,7 +77,7 @@
 
                     // TOP SELLERS
                     $statistic.getTopSellers().then(function (data) {
-                        $scope.topSellers = data;
+                        $scope.topSellers = $dashboardUtilsService.sortObjectsArrayByField(data, 'count', 'int', "DESC");
                     });
 
                     // VISITORS ONLINE
@@ -125,7 +126,9 @@
                                         defaultTheme: false
                                     },
                                     xaxis: {
-                                        mode: "time"
+                                        mode:   "time",
+                                        tickLength: 5,
+                                        timezone: "browser" // "browser" for local to the client or timezone for timezone-js
                                     }
                                 }
                             );
@@ -201,7 +204,9 @@
                                         defaultTheme: false
                                     },
                                     xaxis: {
-                                        mode: "time"
+                                        mode:   "time",
+                                        tickLength: 5,
+                                        timezone: "browser" // "browser" for local to the client or timezone for timezone-js
                                     }
                                 }
                             );
