@@ -28,11 +28,8 @@ deploy:
         - add-to-known_hosts:
             hostname: $REMOTE_HOST
         - script:
-            name: Copy Fig.yml
-            code: scp fig.yml root@$REMOTE_HOST:/tmp/dashboard/fig.yml
-        - script:
-            name: Fig Up
-            code: ssh root@$REMOTE_HOST "cd /tmp/dashboard; fig kill; fig up -d"
+            name: Copy dist dir to $REMOTE_HOST
+            code: scp -r $WERCKER_SOURCE_DIR/dist root@$REMOTE_HOST:/home/ottemo/dashboard
     after-steps:
         - wercker/hipchat-notify@1.0.3:
             token: $HIPCHAT_TOKEN
