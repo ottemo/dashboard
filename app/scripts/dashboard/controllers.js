@@ -126,7 +126,9 @@
                                         defaultTheme: false
                                     },
                                     xaxis: {
-                                        mode: "time"
+                                        mode:   "time",
+                                        tickLength: 5,
+                                        timezone: "browser" // "browser" for local to the client or timezone for timezone-js
                                     }
                                 }
                             );
@@ -202,7 +204,9 @@
                                         defaultTheme: false
                                     },
                                     xaxis: {
-                                        mode: "time"
+                                        mode:   "time",
+                                        tickLength: 5,
+                                        timezone: "browser" // "browser" for local to the client or timezone for timezone-js
                                     }
                                 }
                             );
