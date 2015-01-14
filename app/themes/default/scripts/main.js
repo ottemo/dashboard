@@ -60,9 +60,6 @@ $(document).ready(function () {
     var navbarTop = localStorage.getItem('navbarTop');
 
     setTimeout(function () {
-        //nice scroll
-        $("#offcanvas").niceScroll();
-        $("#switcher").niceScroll();
 
         // set the theme
         $('#switcher .preview').each(function () {
