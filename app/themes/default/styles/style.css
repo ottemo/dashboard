@@ -175,9 +175,6 @@ table th.checkboxes-column {
 #table_manager tbody tr td:not(:first-child) {
   cursor: pointer;
 }
-#code_container {
-  display: none;
-}
 #theme_switcher {
   position: fixed;
   right: -300px;
@@ -376,12 +373,11 @@ body.sticky-sidebar *[data-toggle="offcanvas"] {
 }
 #offcanvas {
   width: 300px;
-  height: 100%;
+  height: 50px;
   min-height: 100%;
   position: fixed;
   left: -300px;
   top: 0;
-  overflow: hidden;
   z-index: 20;
   background: #23212c;
   -webkit-transition: all 0.4s ease;
@@ -403,15 +399,6 @@ body.sticky-sidebar *[data-toggle="offcanvas"] {
   /* Opera 10.5-12.00 */
   transition: all 0.4s ease;
   /* Firefox 16+, Opera 12.50+ */
-}
-#offcanvas .sidebar-wrapper {
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 320px;
-  overflow-x:hidden;
-  overflow-y:scroll;
 }
 #header_sidebar .navbar-brand {
   width: 100%;
