@@ -196,22 +196,33 @@
                         qtySavedItems = 0;
                         defer = $q.defer();
 
+                        var _save = function (field) {
+                            var defer = $q.defer();
+
+                            $configApiService.setPath({
+                                "path": field,
+                                "value": items[path][field]
+                            }).$promise.then(function (response) {
+                                    qtySavedItems += 1;
+                                    if (response.error === null) {
+                                        itemsOld[path][field] = items[path][field];
+                                    }
+                                    defer.resolve(response);
+                                }
+                            ); // jshint ignore:line
+
+                            return defer.promise;
+                        };
+                        var callback = function () {
+                            if (qtyChangedItems === qtySavedItems) {
+                                defer.resolve(true);
+                            }
+                        };
                         for (field in items[path]) {
                             if (items[path].hasOwnProperty(field) && items[path][field] !== itemsOld[path][field]) {
                                 qtyChangedItems += 1;
-                                $configApiService.setPath({
-                                    "path": field,
-                                    "value": items[path][field]
-                                }).$promise.then(function (response) {
-                                        qtySavedItems += 1;
-                                        if (response.error === null) {
-                                            itemsOld[path][field] = items[path][field];
-                                        }
-                                        if (qtyChangedItems === qtySavedItems) {
-                                            defer.resolve(true);
-                                        }
-                                    }
-                                ); // jshint ignore:line
+                                _save(field).then(callback);
+
                             }
                         }
                         return defer.promise;
