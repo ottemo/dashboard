@@ -114,7 +114,7 @@
                              */
                             saveCurrentActiveFilters = function (filterDetails) {
                                 if (filterDetails.filterValue) {
-                                    if (-1 !== ['text', 'string', 'varchar'].indexOf(filterDetails.dataType)) {
+                                    if (-1 !== ['text', 'string'].indexOf(filterDetails.dataType)) {
                                         activeFilters[filterDetails.attribute.toLowerCase()] = filterDetails.filterValue.replace(/~/g, "").split(",");
                                     } else {
                                         activeFilters[filterDetails.attribute.toLowerCase()] = filterDetails.filterValue.replace(/~/g, "");
