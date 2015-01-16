@@ -28,6 +28,10 @@
 
                         headers: {"Content-Type": undefined },
                         transformRequest: angular.identity
+                    },
+                    "getModels": {
+                        method: "GET",
+                        url: impexBaseURL + "/models"
                     }
                 });
             }]);

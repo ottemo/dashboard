@@ -4,7 +4,7 @@
     Import / Export
 </h2>
 
-<div class="container animated fadeIn">
+<div class="container animated fadeIn" ng-init="init()">
     <!-- Error message -->
     <gui-message-manager item="message"></gui-message-manager>
 
@@ -22,7 +22,8 @@
         <!-- Select model -->
         <div class="col-xs-12 col-sm-6" ng-class="{ 'has-error' : (modelImportSubmit || modelExportSubmit) && !model}">
             <label for="model">Model</label>
-            <select class="form-control" name="model" id="model" data-ng-model="model" required data-ng-options="key as value for (key, value) in modelList"></select>
+            <select class="form-control" name="model" id="model" data-ng-model="model" required
+                    data-ng-options="value as value for value in modelList"></select>
             <p ng-show="(modelImportSubmit || modelExportSubmit) && !model" class="help-block">This field is required.</p>
             <br>
             <div class="text-center animated fadeIn">
