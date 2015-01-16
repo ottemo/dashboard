@@ -58,7 +58,7 @@
                                 }
                             }
                             if (typeof $scope.item[$scope.attribute.Attribute] === "string") {
-                                var stringData = $scope.item[$scope.attribute.Attribute].trim('\\[\\]').replace(/['"]/g,'');
+                                var stringData = $scope.item[$scope.attribute.Attribute].trim('\\[\\]').replace(/['"\s]/g,'');
                                 $scope.item[$scope.attribute.Attribute] = stringData.split(",");
                             }
                             isInit = true;
