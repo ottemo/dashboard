@@ -1,3 +1,6 @@
+#code_container {
+  display: none !important;
+}
 /* Login page */
 .nicescroll-rails {
   display: none !important;
@@ -95,6 +98,31 @@ input.range {
   display: block;
   z-index: 50;
 }
+.form-group.has-error .help-block {
+  -webkit-animation: helpBlock 0.5s;
+  /* Chrome, Safari, Opera */
+  animation: helpBlock 0.5s;
+}
+/* Chrome, Safari, Opera */
+@-webkit-keyframes helpBlock {
+  from {
+    opacity: 0;
+    top: 70%;
+  }
+  to {
+    opacity: 1;
+  }
+}
+/* Standard syntax */
+@keyframes helpBlock {
+  from {
+    opacity: 0;
+    top: 70%;
+  }
+  to {
+    opacity: 1;
+  }
+}
 .nav-tabs li a:focus {
   outline: none !important;
 }
@@ -175,9 +203,6 @@ table th.checkboxes-column {
 #table_manager tbody tr td:not(:first-child) {
   cursor: pointer;
 }
-#code_container {
-  display: none;
-}
 #theme_switcher {
   position: fixed;
   right: -300px;
@@ -195,7 +220,10 @@ table th.checkboxes-column {
 }
 #switcher {
   height: 100%;
-  overflow-y: hidden;
+  position: absolute;
+  top: 0;
+  right: -17px;
+  overflow-y: scroll;
 }
 #theme_switcher:hover .scroll-down,
 #theme_switcher:hover .scroll-up {
@@ -340,7 +368,8 @@ table th.checkboxes-column {
 html,
 body {
   overflow-x: hidden;
-  height: 100%;
+  height: auto;
+  min-height: 100%;
 }
 body {
   height: auto;
@@ -377,7 +406,6 @@ body.sticky-sidebar *[data-toggle="offcanvas"] {
 #offcanvas {
   width: 300px;
   height: 100%;
-  min-height: 100%;
   position: fixed;
   left: -300px;
   top: 0;
@@ -393,6 +421,17 @@ body.sticky-sidebar *[data-toggle="offcanvas"] {
   transition: all 0.4s ease;
   /* Firefox 16+, Opera 12.50+ */
 }
+#offcanvas .sidebar-wrapper {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  padding: 0;
+  right: -17px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  padding-right: 0px;
+}
 #offcanvas.active {
   left: 0;
   -webkit-transition: all 0.4s ease;
@@ -403,15 +442,6 @@ body.sticky-sidebar *[data-toggle="offcanvas"] {
   /* Opera 10.5-12.00 */
   transition: all 0.4s ease;
   /* Firefox 16+, Opera 12.50+ */
-}
-#offcanvas .sidebar-wrapper {
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 320px;
-  overflow-x:hidden;
-  overflow-y:scroll;
 }
 #header_sidebar .navbar-brand {
   width: 100%;
