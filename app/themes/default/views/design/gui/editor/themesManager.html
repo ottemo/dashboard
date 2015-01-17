@@ -1,9 +1,17 @@
-<div ng-init="init()">
-    <div ng-repeat="theme in themes" class="theme-preview col-md-2">
-        <h6>{{theme}} <span ng-if="theme === activeTheme">Current Theme</span></h6>
-        <img ng-src="{{getPreview(theme)}}" alt="" onerror="this.src='themes/default/images/theme-placeholder.png'"/>
-        <div>
-            <a href="" target="_self" ng-click="setActive(theme)">Apply</a>
-        </div>
-    </div>
+<div class="row" ng-init="init()" class="animated fadeIn">
+	<div class="col-xs-12 col-sm-4 col-md-3 col-lg-2" ng-repeat="theme in themes" class="col-md-2">
+	    <div class="thumbnail">
+	      	<img ng-src="{{getPreview(theme)}}" class="theme-images" alt="" err-src="placeholder.png"/>
+	      	<div class="caption text-center">
+	        	<h3>{{theme}}</h3>
+	        	<p>
+	        		<a href="" ng-if="theme === activeTheme" class="btn btn-success" role="button" target="_self" ng-click="setActive(theme)">
+	        			<span class="glyphicon glyphicon-ok"></span>
+	        			Active theme
+	        		</a>
+					<a href="" ng-if="theme !== activeTheme" class="btn btn-primary" role="button" target="_self" ng-click="setActive(theme)">Set active</a>
+	        	</p>
+	      	</div>
+	    </div>
+	</div>
 </div>

@@ -151,7 +151,7 @@
                                  */
                                 saveCurrentActiveFilters = function (filterDetails) {
                                     if (filterDetails.filterValue) {
-                                        if ("range" !== filterDetails.type) {
+                                        if (-1 !== ['text', 'string'].indexOf(filterDetails.dataType)) {
                                             activeFilters[filterDetails.attribute.toLowerCase()] = filterDetails.filterValue.replace(/~/g, "").split(",");
                                         } else {
                                             activeFilters[filterDetails.attribute.toLowerCase()] = filterDetails.filterValue.replace(/~/g, "");
@@ -168,6 +168,7 @@
                                     details = {
                                         "options": parts === null ? {} : getOptions(parts[1]),
                                         "type": filterInfo.substr(0, (-1 !== filterInfo.indexOf("{") ? filterInfo.indexOf("{") : filterInfo.length)),
+                                        "dataType": field.dataType,
                                         "filterValue": field.filterValue,
                                         "attribute": field.attribute,
                                         "visible": field.visible
@@ -190,6 +191,7 @@
 
                                     filter = {
                                         "type": filterDetails.type,
+                                        "dataType": filterDetails.dataType,
                                         "visible": filterDetails.visible || false,
                                         "attributes": {
                                             "Attribute": filterDetails.attribute,

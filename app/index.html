@@ -1,29 +1,25 @@
 <!doctype html>
 <html class="no-js lt-ie9 lt-ie8" id="ng-app" ng-app="dashboardModule">
     <head>
-
         <base href="/" />
-
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
         <meta name="description" content="">
         <meta name="keywords" content="">
-        <meta name="viewport" content="width=device-width initial-scale=1">
-        <title>Dashboard</title>
+        <meta name="viewport" content="width=device-width, maximum-scale=1, minimum-scale=1", initial-scale=1, user-scalable=0 />
+        <script src="lib/jquery-1.11.1.min.js"></script>
+        <script src="lib/bootstrap.js"></script>
 
-        <!--start bootstrap styles-->
-        <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css" />
+        <title>Ottemo Dashboard</title>
 
-
-
-        <link rel="stylesheet" href="themes/default/styles/cropper.css" />
-
-        <!--end bootstrap styles-->
+        <!-- style sheets from theme -->
         <link ng-repeat="stylesheet in getCss()" ng-href="{{stylesheet}}" type="text/css" rel="stylesheet"/>
+        
+        <!-- custom remote css -->
+        <link href="themes/default/styles/font-awesome.css" rel="stylesheet">
 
-        <link rel="shortcut icon" href="favicon.ico"  type="image/x-icon" />
+        <!-- favicon -->
+        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 
         <!--[if lt IE 9]>
         <script src="lib/html5shiv.js"></script>
@@ -31,29 +27,28 @@
         <![endif]-->
     </head>
 
-    <body class="metro" ng-controller="dashboardController">
+    <body ng-controller="dashboardController" >
         <!--[if lt IE 7]>
         <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
-        <ng-include src="getTopPage()"></ng-include>
-
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        <script src="lib/jquery.layout.min.js"></script>
-        <script src="http://netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-
+        <div id="loader">
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="100" style="width: 12%">
+                </div>
+            </div>
+        </div>
+    
+        <!-- main content -->
+        <div id="content" ng-hide="true">
+            <ng-include src="getTopPage()" ></ng-include>
+        </div>
+        
+        <!-- JS libs -->
         <script src="lib/require.js"></script>
         <script src="scripts/main.js"></script>
 
-
-
-        <!-- Placed js at the end of the document so the pages load faster -->
-        <!--<script src="themes/default/scripts/jquery-1.10.2.min.js"></script>-->
-        <script src="themes/default/scripts/jquery-ui-1.9.2.custom.min.js"></script>
-        <script src="themes/default/scripts/jquery-migrate-1.2.1.min.js"></script>
-        <!--<script src="themes/default/scripts/bootstrap.min.js"></script>-->
-        <script src="themes/default/scripts/modernizr.min.js"></script>
-
+        
         <!-- jQuery Flot Chart-->
         <script src="themes/default/scripts/flot-chart/jquery.flot.js"></script>
         <script src="themes/default/scripts/flot-chart/jquery.flot.tooltip.js"></script>
@@ -63,8 +58,34 @@
         <script src="themes/default/scripts/flot-chart/jquery.flot.stack.js"></script>
         <script src="themes/default/scripts/flot-chart/jquery.flot.time.js"></script>
 
-        <!--common bootstrap scripts for all pages-->
-        <script src="themes/default/scripts/scripts.js"></script>
+        <div id="theme_container"></div>
+        <style id="code_container">
+            #code_container {display: none;}
+        </style>
 
+        <script>
+            $(window).load(function() {
+                setTimeout(function(){
+                    $('#loader .progress-bar').animate({
+                        width: '60%'},
+                        200, function() {
+                        setTimeout(function(){
+                            $('#loader .progress-bar').animate({
+                                width: '100%'},
+                                200, function() {
+                                    $('#loader').animate({
+                                        opacity: 0},
+                                        400, function() {
+                                        $(this).css('display', 'none');
+                                        setTimeout(function(){
+                                            $('#content').removeClass('ng-hide').addClass('animated fadeIn')
+                                        },100)
+                                    });
+                            });
+                        },500)
+                    });
+                },200)
+            });
+        </script>
     </body>
 </html>

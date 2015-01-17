@@ -1,4 +1,4 @@
-(function (define) {
+(function (define, $) {
     "use strict";
 
     define(["visitor/init"], function (visitorModule) {
@@ -8,7 +8,8 @@
                 "$scope",
                 "$location",
                 "$visitorApiService",
-                function ($scope, $location, $visitorApiService) {
+                "$dashboardUtilsService",
+                function ($scope, $location, $visitorApiService, $dashboardUtilsService) {
                     var getDefaultEmail;
 
                     getDefaultEmail = function () {
@@ -57,22 +58,21 @@
                      * Creates new visitor if ID in current visitor is empty OR updates current visitor if ID is set
                      */
                     $scope.send = function () {
+                        $('[ng-click="send()"]').addClass('disabled').append('<i class="fa fa-spin fa-spinner"><i>').siblings('.btn').addClass('disabled');
                         var successSend = function (response) {
                             if (response.result === "ok") {
-                                $scope.message = {
-                                    'type': 'success',
-                                    'message': 'Emails sent successfully'
-                                };
+                                $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Emails sent successfully');
+                                $('[ng-click="send()"]').removeClass('disabled').children('i').remove();
+                                $('[ng-click="send()"]').siblings('.btn').removeClass('disabled');
                             }
                         };
 
 
                         var errorSend = function (response) {
                             if (response.result === "ok") {
-                                $scope.message = {
-                                    'type': 'danger',
-                                    'message': 'Something went wrong'
-                                };
+                                $scope.message = $dashboardUtilsService.getMessage(null, 'danger', 'Something went wrong');
+                                $('[ng-click="send()"]').removeClass('disabled').children('i').remove();
+                                $('[ng-click="send()"]').siblings('.btn').removeClass('disabled');
                             }
                         };
 
@@ -85,4 +85,4 @@
 
         return visitorModule;
     });
-})(window.define);
+})(window.define, jQuery);

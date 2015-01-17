@@ -1,19 +1,25 @@
+<add-css src="bootstrap.css"></add-css>
 <add-css src="style.css"></add-css>
-<add-css src="style-responsive.css"></add-css>
-<add-css src="dashboard.css"></add-css>
-<add-css src="main.css"></add-css>
+<add-css src="animate.css"></add-css>
+<!-- Sidebar -->
+<ng-include src="getTemplate('dashboard/sidebar/view.html')"></ng-include>
 
+<!-- Header view -->
+<ng-include src="getTemplate('dashboard/header.html')"></ng-include>
 
-
-<!-- main content start-->
-<section class="main-content">
-
-    <ng-include src="getTemplate('dashboard/header.html')"></ng-include>
-
-    <ng-include src="getTemplate('dashboard/sidebar.html')"></ng-include>
-
-    <section>
-        <ng-view></ng-view>
-    </section>
-
+<!-- Main content -->
+<section>
+    <ng-view></ng-view>
 </section><!-- main content end-->
+
+<!-- Theme-switcher -->
+<ng-include src="getTemplate('dashboard/themeSwitcher/view.html')"></ng-include>
+
+<!-- Theme-switcher by code -->
+<ng-include src="getTemplate('dashboard/themeSwitcher/view2.html')"></ng-include>
+
+<!-- Scripts -->
+<script src="themes/default/scripts/main.js"></script>
+
+<!-- processing -->
+<ng-include src="getTemplate('dashboard/processing/view.html')"></ng-include>

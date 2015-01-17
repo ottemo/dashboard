@@ -1,19 +1,11 @@
-<a href="{{item.link === null ? '' : item.link}}" target="{{item.link != null ? '' : '_self'}}"
-   ng-switch="it.getType(item.icon)">
-    <i class="{{item.icon}}"></i>
-    <span>{{item.title}}</span>
+<!-- Menu title -->
+<a href="{{item.link === null ? '' : item.link}}" target="{{item.link != null ? '' : '_self'}}" ng-class="(item.items.length &gt 0) ? dropdown-toggle : ''" data-toggle="dropdown" ng-switch="it.getType(item.icon)">
+    <i class="{{item.icon}}"></i>&nbsp;
+    <span>{{item.title}}</span>&nbsp;
+    <span class="caret" ng-if="item.items.length &gt 0"></span>
 </a>
-<ul class="sub-menu-list" ng-if="item.items.length &gt 0">
-    <li class="menu-list" ng-repeat="item in item.items track by $index"
-        ng-include="getTemplate('dashboard/header/sidebarItem.html')"></li>
-</ul>
 
-<script>
-    (function ($) {
-        $(".menu-list > a").click(function (e) {
-            if ($(this).attr("href") === "") {
-                e.preventDefault();
-            }
-        });
-    })(jQuery)
-</script>
+<!-- Sub menu -->
+<ul class="dropdown-menu" ng-if="item.items.length &gt 0">
+    <li class="menu-list" ng-repeat="item in item.items track by $index" ng-include="getTemplate('dashboard/header/sidebarItem.html')"></li>
+</ul>

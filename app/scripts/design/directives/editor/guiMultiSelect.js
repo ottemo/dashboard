@@ -58,7 +58,8 @@
                                 }
                             }
                             if (typeof $scope.item[$scope.attribute.Attribute] === "string") {
-                                $scope.item[$scope.attribute.Attribute] = $scope.item[$scope.attribute.Attribute].split(",");
+                                var stringData = $scope.item[$scope.attribute.Attribute].trim('\\[\\]').replace(/['"\s]/g,'');
+                                $scope.item[$scope.attribute.Attribute] = stringData.split(",");
                             }
                             isInit = true;
                         });

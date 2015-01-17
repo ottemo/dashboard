@@ -1,4 +1,4 @@
-(function (define) {
+(function (define, $) {
     "use strict";
 
     define(["order/init"], function (orderModule) {
@@ -41,7 +41,7 @@
                     getOrderCount = function() {
                         $orderApiService.getCount($location.search(), {}).$promise.then(
                             function (response) {
-                                if (response.error === "") {
+                                if (response.error === null) {
                                     $scope.count = response.result;
                                 } else {
                                     $scope.count = 0;
@@ -116,6 +116,7 @@
                             return defer.promise;
                         };
                         if (answer) {
+                            $('[ng-click="parent.remove()"]').addClass('disabled').append('<i class="fa fa-spin fa-spinner"><i>').siblings('.btn').addClass('disabled');
                             var callback = function (response) {
                                 if (response) {
                                     for (i = 0; i < $scope.orders.length; i += 1) {
@@ -131,6 +132,9 @@
                                 }
                             }
                         }
+                        $('[ng-click="parent.remove()"]').removeClass('disabled').children('i').remove();
+                        $('[ng-click="parent.remove()"]').siblings('.btn').removeClass('disabled');
+
                     };
 
                     $scope.$watch(function () {
@@ -159,4 +163,4 @@
 
         return orderModule;
     });
-})(window.define);
+})(window.define, jQuery);

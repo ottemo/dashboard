@@ -28,7 +28,9 @@
                     $httpProvider.interceptors.push(function ($q) {
                         return {
                             'response': function (response) {
-                                if (response.data.error === "no admin rights") {
+                                if (typeof response.data.error !== "undefined" &&
+                                    response.data.error !== null &&
+                                    response.data.error.code === "0bc07b3d-1443-4594-af82-9d15211ed179") {
                                     location.replace('/');
                                 }
                                 return response;

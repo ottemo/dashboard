@@ -1,4 +1,4 @@
-(function (define) {
+(function (define, $) {
     "use strict";
 
     define(["visitor/init"], function (visitorModule) {
@@ -83,6 +83,8 @@
                      *
                      */
                     $scope.remove = function () {
+                        $('[ng-click="parent.remove()"]').addClass('disabled').append('<i class="fa fa-spin fa-spinner"><i>').siblings('.btn').addClass('disabled');
+
                         if (!hasSelectedRows()) {
                             return true;
                         }
@@ -121,6 +123,8 @@
                                 }
                             }
                         }
+                        $('[ng-click="parent.remove()"]').removeClass('disabled').children('i').remove();
+                        $('[ng-click="parent.remove()"]').siblings('.btn').removeClass('disabled');
                     };
 
                 }
@@ -129,4 +133,4 @@
 
         return visitorModule;
     });
-})(window.define);
+})(window.define, jQuery);

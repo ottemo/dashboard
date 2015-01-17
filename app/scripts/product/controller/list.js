@@ -1,4 +1,4 @@
-(function (define) {
+(function (define, $) {
     "use strict";
 
     define(["product/init"], function (productModule) {
@@ -11,10 +11,11 @@
                 "$dashboardListService",
                 "$productApiService",
                 "$designImageService",
+                "$dashboardUtilsService",
                 "COUNT_ITEMS_PER_PAGE",
                 function ($scope, $location, $routeParams, $q, DashboardListService, $productApiService,
-                          $designImageService, COUNT_ITEMS_PER_PAGE) {
-                    var serviceList, splitName, getProductsList, getAttributeList, getProductCount;
+                          $designImageService, $dashboardUtilsService, COUNT_ITEMS_PER_PAGE) {
+                    var serviceList, getProductsList, getAttributeList, getProductCount;
 
                     // Initialize SEO
                     if (typeof $scope.initSeo === "function") {
@@ -33,14 +34,6 @@
                         }
                     ];
 
-                    splitName = function (string) {
-                        var parts;
-                        var regExp = /\[(.+)\](.+)/i;
-                        parts = string.match(regExp);
-
-                        return parts;
-                    };
-
                     /**
                      * Gets list of products
                      */
@@ -50,17 +43,14 @@
                             {"extra": serviceList.getExtraFields()}
                         ).$promise.then(
                             function (response) {
-                                var result, i, parts;
+                                var result, i;
                                 $scope.productsTmp = [];
 
                                 result = response.result || [];
                                 for (i = 0; i < result.length; i += 1) {
-                                    parts = splitName(result[i].Name);
-                                    if(parts instanceof Array) {
-                                        result[i].Name = parts[2];
-                                        result[i].sku = parts[1];
-                                        $scope.productsTmp.push(result[i]);
-                                    }
+                                    result[i].Name = result[i].Extra.name;
+                                    result[i].sku = result[i].Extra.sku;
+                                    $scope.productsTmp.push(result[i]);
                                 }
                             }
                         );
@@ -71,7 +61,7 @@
                      */
                     getProductCount = function () {
                         $productApiService.getCount($location.search(), {}).$promise.then(function (response) {
-                            if (response.error === "") {
+                            if (response.error === null) {
                                 $scope.count = response.result;
                             } else {
                                 $scope.count = 0;
@@ -149,6 +139,7 @@
                         };
 
                         if (answer) {
+                            $('[ng-click="parent.remove()"]').addClass('disabled').append('<i class="fa fa-spin fa-spinner"><i>').siblings('.btn').addClass('disabled');
                             var callback = function (response) {
                                 if (response) {
                                     for (i = 0; i < $scope.products.length; i += 1) {
@@ -156,10 +147,7 @@
                                             $scope.products.splice(i, 1);
                                         }
                                     }
-                                    $scope.message = {
-                                        'type': 'success',
-                                        'message': 'Product(s) was removed successfully'
-                                    };
+                                    $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Product(s) was removed successfully');
                                 }
                             };
                             for (id in $scope.idsSelectedRows) {
@@ -169,6 +157,8 @@
                                 }
                             }
                         }
+                        $('[ng-click="parent.remove()"]').removeClass('disabled').children('i').remove();
+                        $('[ng-click="parent.remove()"]').siblings('.btn').removeClass('disabled');
                     };
 
                     /**
@@ -207,4 +197,4 @@
 
         return productModule;
     });
-})(window.define);
+})(window.define, jQuery);

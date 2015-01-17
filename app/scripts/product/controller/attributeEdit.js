@@ -9,7 +9,8 @@
                 "$routeParams",
                 "$location",
                 "$productApiService",
-                function ($scope, $routeParams, $location, $productApiService) {
+                "$dashboardUtilsService",
+                function ($scope, $routeParams, $location, $productApiService, $dashboardUtilsService) {
                     var editableFields, formDisable, formEnable, attr;
 
                     attr = $routeParams.attr;
@@ -24,22 +25,22 @@
                     editableFields = ["Label", "Group", "Editors", "Options", "Default", "Validators", "IsRequired", "IsLayered", "IsPublic", "Validators"];
 
                     formDisable = function () {
-                        $(".panel-body").find("input").attr("readonly", true);
-                        $(".panel-body").find("select").attr("disabled", true);
+                        $("form.container").find("input").attr("disabled", true);
+                        $("form.container").find("select").attr("disabled", true);
                         for (var i = 0; i < editableFields.length; i += 1) {
-                            $(".panel-body").find("input[id=inp_" + editableFields[i] + "]").removeAttr("readonly");
-                            $(".panel-body").find("select[id=inp_" + editableFields[i] + "]").removeAttr("disabled");
+                            $("form.container").find("input[id=inp_" + editableFields[i] + "]").removeAttr("disabled");
+                            $("form.container").find("select[id=inp_" + editableFields[i] + "]").removeAttr("disabled");
                         }
                     };
 
                     formEnable = function () {
-                        $(".panel-body").find("input").attr("readonly", false);
-                        $(".panel-body").find("select").attr("disabled", false);
+                        $("form.container").find("input").removeAttr("disabled", false);
+                        $("form.container").find("select").removeAttr("disabled", false);
                     };
 
                     $scope.attribute = {};
                     $scope.attributesList = [];
-                    $scope.typesAttribute = ["integer", "real", "text"];
+                    $scope.typesAttribute = ["id", "boolean", "integer", "text", "json", "decimal", "datetime", "[]id", "[]integer", "[]text"];
                     $scope.editorsList = [
                         "text",
                         "multiline_text",
@@ -83,38 +84,34 @@
                      * Creates new attribute if ID in current product is empty OR updates current product if ID is set
                      */
                     $scope.save = function () {
+                        $('[ng-click="save()"]').addClass('disabled').append('<i class="fa fa-spin fa-spinner"><i>').siblings('.btn').addClass('disabled');
+
                         if (attr === null) {
                             if (-1 !== ["multi_select"].indexOf($scope.attribute.Editors)) {
                                 $scope.attribute.Type = "[]text";
                             }
                             $productApiService.addAttribute($scope.attribute).$promise.then(function (response) {
-                                if (response.error === "") {
-                                    $scope.message = {
-                                        'type': 'success',
-                                        'message': 'Attribute was updated successfully'
-                                    };
+                                if (response.error === null) {
+                                    $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Attribute was updated successfully');
                                 } else {
-                                    $scope.message = {
-                                        'type': 'error',
-                                        'message': response.error
-                                    };
+                                    $scope.message = $dashboardUtilsService.getMessage(response);
                                 }
                             });
+                            $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                            $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                         } else {
                             $productApiService.updateAttribute({"attribute": attr}, $scope.attribute).$promise.then(function (response) {
-                                if (response.error === "") {
-                                    $scope.message = {
-                                        'type': 'success',
-                                        'message': 'Attribute was updated successfully'
-                                    };
+                                if (response.error === null) {
+                                    $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Attribute was updated successfully');
                                 } else {
-                                    $scope.message = {
-                                        'type': 'danger',
-                                        'message': response.error
-                                    };
+                                    $scope.message = $dashboardUtilsService.getMessage(response);
                                 }
                             });
+                            $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                            $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                         }
+                        
+
                     };
 
                     $scope.back = function () {

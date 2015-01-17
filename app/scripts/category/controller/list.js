@@ -1,4 +1,4 @@
-(function (define) {
+(function (define, $) {
     "use strict";
 
     define(["category/init"], function (categoryModule) {
@@ -45,7 +45,7 @@
                     getCategoryCount = function () {
                         $categoryApiService.getCount($location.search(), {}).$promise.then(
                             function (response) {
-                                if (response.error === "") {
+                                if (response.error === null) {
                                     $scope.count = response.result;
                                 } else {
                                     $scope.count = 0;
@@ -99,6 +99,7 @@
                      *
                      */
                     $scope.remove = function () {
+
                         if (!hasSelectedRows()) {
                             return true;
                         }
@@ -121,6 +122,7 @@
                             return defer.promise;
                         };
                         if (answer) {
+                            $('[ng-click="parent.remove()"]').addClass('disabled').append('<i class="fa fa-spin fa-spinner"><i>').siblings('.btn').addClass('disabled');
                             var callback = function (response) {
                                 if (response) {
                                     for (i = 0; i < $scope.categories.length; i += 1) {
@@ -137,6 +139,9 @@
                                 }
                             }
                         }
+                        $('[ng-click="parent.remove()"]').removeClass('disabled').children('i').remove();
+                        $('[ng-click="parent.remove()"]').siblings('.btn').removeClass('disabled');
+
                     };
 
                     $scope.$watch(function () {
@@ -165,4 +170,4 @@
 
         return categoryModule;
     });
-})(window.define);
+})(window.define, jQuery);

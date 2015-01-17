@@ -1,4 +1,4 @@
-(function (define) {
+(function (define, $) {
     "use strict";
 
     define(["visitor/init"], function (visitorModule) {
@@ -10,7 +10,8 @@
                 "$routeParams",
                 "$location",
                 "$q",
-                function ($scope, $visitorApiService, $routeParams, $location, $q) {
+                "$dashboardUtilsService",
+                function ($scope, $visitorApiService, $routeParams, $location, $q, $dashboardUtilsService) {
                     var addressId, getDefaultAddress;
 
                     getDefaultAddress = function () {
@@ -90,6 +91,7 @@
                      * Creates new address if ID in current address is empty OR updates current address if ID is set
                      */
                     $scope.save = function () {
+                        $('[ng-click="save()"]').addClass('disabled').append('<i class="fa fa-spin fa-spinner"><i>').siblings('.btn').addClass('disabled');
                         var id, defer, saveSuccess, saveError, updateSuccess, updateError;
                         defer = $q.defer();
                         if (typeof $scope.address !== "undefined") {
@@ -101,15 +103,14 @@
                          * @param response
                          */
                         saveSuccess = function (response) {
-                            if (response.error === "") {
+                            if (response.error === null) {
                                 var result = response.result || getDefaultAddress();
                                 $scope.address._id = response.result._id;
-                                $scope.message = {
-                                    'type': 'success',
-                                    'message': 'Address was created successfully'
-                                };
+                                $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Address was created successfully');
                                 defer.resolve(result);
                             }
+                            $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                            $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                         };
 
                         /**
@@ -117,6 +118,8 @@
                          * @param response
                          */
                         saveError = function () {
+                            $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                            $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                             defer.resolve(false);
                         };
 
@@ -125,12 +128,11 @@
                          * @param response
                          */
                         updateSuccess = function (response) {
-                            if (response.error === "") {
+                            if (response.error === null) {
                                 var result = response.result || getDefaultAddress();
-                                $scope.message = {
-                                    'type': 'success',
-                                    'message': 'Address was updated successfully'
-                                };
+                                $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Address was updated successfully');
+                                $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                                $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                                 defer.resolve(result);
                             }
                         };
@@ -140,6 +142,8 @@
                          * @param response
                          */
                         updateError = function () {
+                            $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                            $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                             defer.resolve(false);
                         };
 
@@ -158,4 +162,4 @@
 
         return visitorModule;
     });
-})(window.define);
+})(window.define, jQuery);

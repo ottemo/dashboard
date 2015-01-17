@@ -1,4 +1,4 @@
-(function (define) {
+(function (define, $) {
     "use strict";
 
     define(["visitor/init"], function (visitorModule) {
@@ -10,7 +10,8 @@
                 "$location",
                 "$q",
                 "$visitorApiService",
-                function ($scope, $routeParams, $location, $q, $visitorApiService) {
+                "$dashboardUtilsService",
+                function ($scope, $routeParams, $location, $q, $visitorApiService, $dashboardUtilsService) {
                     var visitorId, getDefaultVisitor;
 
                     visitorId = $routeParams.id;
@@ -96,6 +97,7 @@
                      * Creates new visitor if ID in current visitor is empty OR updates current visitor if ID is set
                      */
                     $scope.save = function () { // jshint ignore:line
+                        $('[ng-click="save()"]').addClass('disabled').append('<i class="fa fa-spin fa-spinner"><i>').siblings('.btn').addClass('disabled');
                         var id, defer, saveSuccess, saveError, updateSuccess, updateError;
                         defer = $q.defer();
                         if (typeof $scope.visitor !== "undefined") {
@@ -107,13 +109,12 @@
                          * @param response
                          */
                         saveSuccess = function (response) {
-                            if (response.error === "") {
+                            if (response.error === null) {
                                 var result = response.result || getDefaultVisitor();
                                 $scope.visitor._id = response.result._id;
-                                $scope.message = {
-                                    'type': 'success',
-                                    'message': 'Visitor was created successfully'
-                                };
+                                $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Visitor was created successfully');
+                                $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                                $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                                 defer.resolve(result);
                             }
                         };
@@ -123,6 +124,8 @@
                          * @param response
                          */
                         saveError = function () {
+                            $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                            $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                             defer.resolve(false);
                         };
 
@@ -131,12 +134,11 @@
                          * @param response
                          */
                         updateSuccess = function (response) {
-                            if (response.error === "") {
+                            if (response.error === null) {
                                 var result = response.result || getDefaultVisitor();
-                                $scope.message = {
-                                    'type': 'success',
-                                    'message': 'Visitor was updated successfully'
-                                };
+                                $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Visitor was updated successfully');
+                                $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                                $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                                 defer.resolve(result);
                             }
                         };
@@ -146,19 +148,14 @@
                          * @param response
                          */
                         updateError = function () {
+                            $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                            $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                             defer.resolve(false);
                         };
 
                         delete $scope.visitor['billing_address'];
                         delete $scope.visitor['shipping_address'];
 
-//                        if ($scope.visitor['shipping_address_id'] === "") {
-//                            delete $scope.visitor['shipping_address_id'];
-//                        }
-//
-//                        if ($scope.visitor['billing_address_id'] === "") {
-//                            delete $scope.visitor['billing_address_id'];
-//                        }
                         if (!id) {
                             $visitorApiService.save($scope.visitor, saveSuccess, saveError);
                         } else {
@@ -173,4 +170,4 @@
                 }]);
         return visitorModule;
     });
-})(window.define);
+})(window.define, jQuery);

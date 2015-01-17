@@ -30,7 +30,7 @@
                                 result = response.result || [];
                                 referrers = [];
 
-                                if ("" === response.error) {
+                                if (null === response.error) {
                                     for (url in result) {
                                         if (result.hasOwnProperty(url)) {
                                             referrers.push({
@@ -66,10 +66,10 @@
                                     "lower": false
                                 };
 
-                                if ("" === response.error) {
+                                if (null === response.error) {
                                     visits = {
                                         "visitsToday": result.visitsToday,
-                                        "ratio": (Math.abs(result.ratio) * 100).toFixed(2),
+                                        "ratio": Math.round((Math.abs(result.ratio) * 100) * 100) / 100,
                                         "higher": result.ratio >= 0,
                                         "lower": result.ratio < 0
                                     };
@@ -98,10 +98,10 @@
                                     "lower": false
                                 };
 
-                                if ("" === response.error) {
+                                if (null === response.error) {
                                     sales = {
                                         "salesToday": result.today,
-                                        "ratio": (Math.abs(result.ratio) * 100).toFixed(2),
+                                        "ratio": Math.round((Math.abs(result.ratio) * 100) * 100) / 100,
                                         "higher": result.ratio >= 0,
                                         "lower": result.ratio < 0
                                     };
@@ -128,7 +128,7 @@
                                     result = response.result || [];
                                     dataChart = [];
 
-                                    if ("" === response.error) {
+                                    if (null === response.error) {
                                         for (timestamp in result) {
                                             if (result.hasOwnProperty(timestamp)) {
                                                 dataChart.push([timestamp * 1000, result[timestamp]]);
@@ -157,7 +157,7 @@
                                     result = response.result || [];
                                     dataChart = [];
 
-                                    if ("" === response.error) {
+                                    if (null === response.error) {
                                         for (timestamp in result) {
                                             if (result.hasOwnProperty(timestamp)) {
                                                 dataChart.push([timestamp * 1000, result[timestamp]]);
@@ -178,7 +178,7 @@
                             defer = $q.defer();
 
                             getPercents = function (val, total) {
-                                return (val / total) * 100 || 0;
+                                return Math.round((Math.abs(val/total) * 100) * 100) / 100 || 0;
                             };
 
                             $api.getConversions().$promise.then(function (response) {
@@ -187,7 +187,7 @@
                                 result = response.result || [];
                                 conversion = {};
 
-                                if ("" === response.error) {
+                                if (null === response.error) {
                                     conversion.addedToCart = result["addedToCart"];
                                     conversion.addedToCartPercent = getPercents(result["addedToCart"], result["totalVisitors"]);
 
@@ -216,7 +216,7 @@
                                 result = response.result || [];
                                 topSellers = [];
 
-                                if ("" === response.error) {
+                                if (null === response.error) {
                                     for (var productId in result) {
                                         if (result.hasOwnProperty(productId)) {
                                             topSellers.push({
@@ -249,7 +249,7 @@
                                 result = response.result || [];
                                 visitorsDetail = {};
 
-                                if ("" === response.error) {
+                                if (null === response.error) {
 
                                     visitorsDetail["direct"] = result.Direct;
                                     visitorsDetail["directRatio"] = (Math.abs(result.DirectRatio) * 100).toFixed(2);

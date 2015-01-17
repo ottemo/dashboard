@@ -6,19 +6,6 @@
      */
     define(["seo/init"], function (seoModule) {
 
-        var clone = function (obj) {
-            if (null === obj || "object" !== typeof obj) {
-                return obj;
-            }
-            var copy = obj.constructor();
-            for (var attr in obj) {
-                if (obj.hasOwnProperty(attr)) {
-                    copy[attr] = obj[attr];
-                }
-            }
-            return copy;
-        };
-
         seoModule
         /**
          *
@@ -27,7 +14,8 @@
                 "$resource",
                 "$seoApiService",
                 "$q",
-                function ($resource, $seoApiService, $q) {
+                "$dashboardUtilsService",
+                function ($resource, $seoApiService, $q, $dashboardUtilsService) {
 
                     // Variables
                     var list, oldValue, seoFields;
@@ -59,7 +47,9 @@
 
                         for (i = 0; i < list.length; i += 1) {
                             if (list[i].type === type && list[i].rewrite === rewrite) {
-                                oldValue = clone(list[i]);
+                                if(typeof oldValue === "undefined") {
+                                    oldValue = $dashboardUtilsService.clone(list[i]);
+                                }
 
                                 return list[i];
                             }
@@ -82,7 +72,6 @@
 
                     update = function (obj) {
                         var defer = $q.defer();
-
                         if (!isModified(obj)) {
                             defer.resolve(obj);
                         } else {
@@ -93,6 +82,8 @@
                                     for (i = 0; i < list.length; i += 1) {
                                         if (list[i]._id === response.result._id) {
                                             list[i] = response.result;
+                                            oldValue = $dashboardUtilsService.clone(list[i]);
+
                                             defer.resolve(list[i]);
                                         }
                                     }
@@ -111,10 +102,10 @@
                         } else {
                             $seoApiService.add(obj).$promise.then(
                                 function (response) {
-                                    if (response.error === "") {
+                                    if (response.error === null) {
                                         var result = response.result || null;
                                         list.push(result);
-
+                                        oldValue = $dashboardUtilsService.clone(result);
                                         defer.resolve(result);
                                     }
                                 }
@@ -128,10 +119,10 @@
                         var defer = $q.defer();
                         $seoApiService.remove({"id": obj._id}, obj).$promise.then(
                             function (response) {
-                                if (response.error === "") {
+                                if (response.error === null) {
                                     var result = response.result || null;
                                     list.push(result);
-
+                                    oldValue = undefined;
                                     defer.resolve(result);
                                 }
                             }

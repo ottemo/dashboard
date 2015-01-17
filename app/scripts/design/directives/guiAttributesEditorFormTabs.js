@@ -9,7 +9,7 @@
          *
          *  Form to edit with tabs
          */
-            .directive("guiAttributesEditorFormTabs", ["$designService", function ($designService) {
+            .directive("guiAttributesEditorFormTabs", ["$designService", "$dashboardUtilsService", function ($designService, $dashboardUtilsService) {
                 return {
                     restrict: "E",
                     scope: {
@@ -34,10 +34,7 @@
                             if ($scope.otEditForm.$valid) {
                                 $scope.parent.save();
                             } else {
-                                $scope.parent.message = {
-                                    "type": "warning",
-                                    "message": "Form is invalid"
-                                };
+                                $scope.parent.message = $dashboardUtilsService.getMessage(null, "warning", "Form is invalid");
                             }
                         };
 
