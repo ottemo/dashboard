@@ -48,3 +48,11 @@
 
 ### Start a Feature Branch
     git flow feature start <feature-name>
+
+### Issue a pull request on github
+    $ git push -u origin <FEATURE-BRANCH>
+    # if you have git aliased to hub otherwise use the github web interface
+    $ git pull-request -b develop
+
+### Delete the local branch
+    $ git branch -d <FEATURE-BRANCH>
