@@ -3,8 +3,7 @@ Dashboard
 
 [![wercker status](https://app.wercker.com/status/0d1dbce7b17a8fc14016760e30709afc/m "wercker status")](https://app.wercker.com/project/bykey/0d1dbce7b17a8fc14016760e30709afc)
 
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ottemo/dash?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
+[Link to our HipChat Room for Support](https://www.hipchat.com/gWgE1EkYF) 
 
 
 ## Workflow with gulp
