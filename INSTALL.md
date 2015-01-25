@@ -1,4 +1,4 @@
-## Developer Installation Instructions
+## Installation Instructions for Local Development
 
 ### Install NPM Gulp and Bower
 
@@ -25,7 +25,23 @@
     npm install
     bower install
 
-### Initialize Git Flow
+### Build project using Gulp
+    gulp build
+    
+### Run Client in Development Mode with Browser Reload
+    gulp build && gulp dev
+    or 
+    gulp build && gulp serve
+
+## How to set up Git Flow on Mac/Linux
+
+#### OSX
+   brew install git-flow
+
+#### Linux
+   sudo apt-get install git-flow
+
+### Initialize Git Flow in cloned Repository
     git checkout master
     git checkout develop
     git flow init -d
@@ -33,14 +49,10 @@
 ### Start a Feature Branch
     git flow feature start <feature-name>
 
-### Build
-    gulp build
-    
-### Run Unit Tests
-    Not configured yet
+### Issue a pull request on github
+    $ git push -u origin <FEATURE-BRANCH>
+    # if you have git aliased to hub otherwise use the github web interface
+    $ git pull-request -b develop
 
-### Run Client in Development Mode
-    gulp build && gulp dev
-    
-### Issue Pull Request on Github
-    git push -u origin <feature-branch>
+### Delete the local branch
+    $ git branch -d <FEATURE-BRANCH>
