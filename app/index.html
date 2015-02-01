@@ -60,7 +60,7 @@
 
         <div id="theme_container"></div>
         <style id="code_container">
-            #code_container {display: none;}
+            #code_container {display: none !important;}
         </style>
 
         <script>
@@ -78,7 +78,7 @@
                                         400, function() {
                                         $(this).css('display', 'none');
                                         setTimeout(function(){
-                                            $('#content').removeClass('ng-hide').addClass('animated fadeIn')
+                                            $('#content').removeClass('ng-hide');
                                         },100)
                                     });
                             });
