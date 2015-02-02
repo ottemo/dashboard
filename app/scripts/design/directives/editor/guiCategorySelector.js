@@ -97,7 +97,7 @@
                                 /**
                                  * Gets count of categories
                                  */
-                                $categoryApiService.getCount($scope.search, {}).$promise.then(
+                                $categoryApiService.getCount($scope.search).$promise.then(
                                     function (response) {
                                         if (response.error === null) {
                                             $scope.count = response.result;

@@ -17,7 +17,6 @@
                     },
                     "getOrder": {
                         method: "GET",
-                        params: { "orderID": "@id" },
                         url: REST_SERVER_URI + "/order/:orderID"
                     },
                     "getAttributes": {
@@ -26,16 +25,17 @@
                     },
                     "getCount": {
                         method: "GET",
-                        url: REST_SERVER_URI + "/orders?action=count"
+                        params: { action: "count"},
+                        url: REST_SERVER_URI + "/orders"
                     },
                     "update": {
                         method: "PUT",
-                        params: { "orderID": "@id" },
+                        params: { orderID: "@id" },
                         url: REST_SERVER_URI + "/order/:orderID"
                     },
                     "remove": {
                         method: "DELETE",
-                        params: { "orderID": "@id" },
+                        params: { orderID: "@id" },
                         url: REST_SERVER_URI + "/delete/:orderID"
                     }
                 });

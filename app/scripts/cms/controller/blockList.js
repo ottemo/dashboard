@@ -39,7 +39,7 @@
                      * Gets list of blocks
                      */
                     getBlockCount = function () {
-                        $cmsApiService.getCountB($location.search(), {}).$promise.then(
+                        $cmsApiService.blockCount($location.search()).$promise.then(
                             function (response) {
                                 if (response.error === null) {
                                     $scope.count = response.result;

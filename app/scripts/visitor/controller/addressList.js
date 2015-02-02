@@ -45,7 +45,7 @@
                      */
                     getAddressesList = function () {
                         var params = {
-                            "visitorId": $scope.visitorId,
+                            "visitorID": $scope.visitorId,
                             "extra": serviceList.getExtraFields()
                         };
                         $visitorApiService.addresses(params).$promise.then(
@@ -63,7 +63,9 @@
                      * Gets list of addresses
                      */
                     getAddressesCount = function () {
-                        $visitorApiService.getCountAddresses($location.search(), {}).$promise.then(
+                        var params = $location.search();
+                        params["visitorID"] = $scope.visitorId;
+                        $visitorApiService.getCountAddresses(params).$promise.then(
                             function (response) {
                                 if (response.error === null) {
                                     $scope.count = response.result;

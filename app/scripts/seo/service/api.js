@@ -17,12 +17,12 @@
                     },
                     "remove": {
                         method: "DELETE",
-                        params: {itemID: "@id"},
+                        params: { itemID: "@id"},
                         url: REST_SERVER_URI + "/seo/item/:itemID"
                     },
                     "get": {
                         method: "GET",
-                        params: {url: "@url"},
+                        params: { url: "@url"},
                         url: REST_SERVER_URI + "/seo/url/:url"
                     },
                     "list": {
@@ -31,7 +31,7 @@
                     },
                     "update": {
                         method: "PUT",
-                        params: {itemID: '@id'},
+                        params: { itemID: "@id"},
                         url: REST_SERVER_URI + "/seo/item/:itemID"
                     }
                 });

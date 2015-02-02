@@ -27,7 +27,7 @@
                 return $resource(REST_SERVER_URI, {}, {
                     "attributesInfo": {
                         method: "GET",
-                        url: REST_SERVER_URI + "/product/attributes"
+                        url: REST_SERVER_URI + "/products/attributes"
                     },
                     "deleteAttribute": {
                         method: "DELETE",
@@ -49,12 +49,12 @@
                     },
                     "getProduct": {
                         method: "GET",
-                        params: { productID: "@id" },
                         url: REST_SERVER_URI + "/product/:productID"
                     },
                     "getCount": {
                         method: "GET",
-                        url: REST_SERVER_URI + "/products?action=count"
+                        params: { action: "count" },
+                        url: REST_SERVER_URI + "/products"
                     },
                     "update": {
                         method: "PUT",
@@ -72,17 +72,14 @@
                     },
                     "getImage": {
                         method: "GET",
-                        params: { productID: "@productId", mediaName: "@mediaName" },
                         url: REST_SERVER_URI + "/product/:productID/media/image/:mediaName"
                     },
                     "getImagePath": {
                         method: "GET",
-                        params: { productID: "@productId" },
                         url: REST_SERVER_URI + "/product/:productID/mediapath/image"
                     },
                     "listImages": {
                         method: "GET",
-                        params: { productID: "@productId" },
                         url: REST_SERVER_URI + "/product/:productID/media/image"
                     },
                     "removeImage": {

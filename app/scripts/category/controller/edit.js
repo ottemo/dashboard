@@ -54,7 +54,7 @@
                     });
 
                     if (null !== categoryId) {
-                        $categoryApiService.getCategory({"id": categoryId}).$promise.then(function (response) {
+                        $categoryApiService.getCategory({"categoryID": categoryId}).$promise.then(function (response) {
                             var result = response.result || {};
                             $scope.category = result;
                             rememberProducts();

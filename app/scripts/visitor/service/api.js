@@ -34,7 +34,6 @@
                     },
                     "load": {
                         method: "GET",
-                        params: { visitorID: "@id" },
                         url: REST_SERVER_URI + "/visitor/:visitorID" },
                     "update": {
                         method: "PUT",
@@ -48,7 +47,8 @@
                     },
                     "getCountVisitors": {
                         method: "GET",
-                        url: REST_SERVER_URI + "/visitors?action=count"
+                        params: { action: "count" },
+                        url: REST_SERVER_URI + "/visitors"
                     },
 
                     // Addresses API
@@ -58,17 +58,15 @@
                     },
                     "addresses": {
                         method: "GET",
-                        params: {visitorID: "@visitorId"},
                         url: REST_SERVER_URI + "/visitor/:visitorID/addresses"
                     },
                     "loadAddress": {
                         method: "GET",
-                        params: {addressID: "@id"},
                         url: REST_SERVER_URI + "/visitors/address/:addressID"
                     },
                     "saveAddress": {
                         method: "POST",
-                        params: {visitorID: "@visitorId"},
+                        params: { visitorID: "@visitorId"},
                         url: REST_SERVER_URI + "/visitor/:visitorID/address"
                     },
                     "updateAddress": {
@@ -78,12 +76,12 @@
                     },
                     "getCountAddresses": {
                         method: "GET",
-                        params: {visitorID: "@visitorId"},
-                        url: REST_SERVER_URI + "/visitor/:visitorID/addresses?action=count"
+                        params: { action: "count" },
+                        url: REST_SERVER_URI + "/visitor/:visitorID/addresses"
                     },
                     "deleteAddress": {
                         method: "DELETE",
-                        params: { id: "@id" },
+                        params: { addressID: "@id" },
                         url: REST_SERVER_URI + "/visitors/address/:addressID"
                     },
                     "sendMail": {

@@ -28,7 +28,8 @@
                     },
                     "getCount": {
                         method: "GET",
-                        url: REST_SERVER_URI + "/products?acton=count"
+                        params: { action: "count" },
+                        url: REST_SERVER_URI + "/products"
                     }
                 });
             }]);

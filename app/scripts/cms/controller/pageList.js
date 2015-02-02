@@ -44,7 +44,7 @@
                      * Gets list of pages
                      */
                     getPageCount = function () {
-                        $cmsApiService.getCountP($location.search(), {}).$promise.then(
+                        $cmsApiService.pageCount($location.search()).$promise.then(
                             function (response) {
                                 if (response.error === null) {
                                     $scope.count = response.result;

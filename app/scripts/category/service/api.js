@@ -17,7 +17,6 @@
                     },
                     "getCategory": {
                         method: "GET",
-                        params: { categoryID: "@id" },
                         url: REST_SERVER_URI + "/category/:categoryID"
                     },
                     "categoryList": {
@@ -26,7 +25,8 @@
                     },
                     "getCount": {
                         method: "GET",
-                        url: REST_SERVER_URI + "/categories?action=count"
+                        params: { action: "count" },
+                        url: REST_SERVER_URI + "/categories"
                     },
                     "save": {
                         method: "POST",
@@ -62,7 +62,6 @@
                     },
                     "getProducts": {
                         method: "GET",
-                        params: {categoryID: "@id"},
                         url: REST_SERVER_URI + "/category/:categoryID/products"
                     }
                 });

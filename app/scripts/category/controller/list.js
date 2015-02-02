@@ -45,7 +45,7 @@
                      * Gets count of categories
                      */
                     getCategoryCount = function () {
-                        $categoryApiService.getCount($location.search(), {}).$promise.then(
+                        $categoryApiService.getCount($location.search()).$promise.then(
                             function (response) {
                                 if (response.error === null) {
                                     $scope.count = response.result;

@@ -87,7 +87,7 @@
                     );
 
                     if (null !== orderId) {
-                        $orderApiService.getOrder({"id": orderId}).$promise.then(
+                        $orderApiService.getOrder({"orderID": orderId}).$promise.then(
                             function (response) {
                                 var result = response.result || {};
                                 $scope.order = result;
