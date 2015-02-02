@@ -27,7 +27,9 @@
                      * Gets list of categories
                      */
                     getCategoriesList = function () {
-                        $categoryApiService.categoryList($location.search(), {"extra": serviceList.getExtraFields()}).$promise.then(
+                        var params = $location.search();
+                        params["extra"] = serviceList.getExtraFields();
+                        $categoryApiService.categoryList(params).$promise.then(
                             function (response) {
                                 var result, i;
                                 $scope.categoriesTmp = [];

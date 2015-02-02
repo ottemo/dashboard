@@ -10,32 +10,29 @@
          *
          */
             .service("$seoApiService", ["$resource", "REST_SERVER_URI", function ($resource, REST_SERVER_URI) {
-
-                var rewriteBaseURL = REST_SERVER_URI + "/url_rewrite";
-
-                return $resource(rewriteBaseURL, {}, {
+                return $resource(REST_SERVER_URI, {}, {
                     "add": {
                         method: "POST",
-                        url: rewriteBaseURL + "/add"
+                        url: REST_SERVER_URI + "/add"
                     },
                     "remove": {
                         method: "DELETE",
-                        params: {"id": "@id"},
-                        url: rewriteBaseURL + "/delete/:id"
+                        params: {itemID: "@id"},
+                        url: REST_SERVER_URI + "/seo/item/:itemID"
                     },
                     "get": {
                         method: "GET",
-                        params: {"url": "@url"},
-                        url: rewriteBaseURL + "/get/:url"
+                        params: {url: "@url"},
+                        url: REST_SERVER_URI + "/seo/url/:url"
                     },
                     "list": {
                         method: "GET",
-                        url: rewriteBaseURL + "/list"
+                        url: REST_SERVER_URI + "/seo/items"
                     },
                     "update": {
                         method: "PUT",
-                        params: {"id": '@id'},
-                        url: rewriteBaseURL + "/update/:id"
+                        params: {itemID: '@id'},
+                        url: REST_SERVER_URI + "/seo/item/:itemID"
                     }
                 });
             }]);

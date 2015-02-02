@@ -26,7 +26,9 @@
                      * Gets list of pages
                      */
                     getPagesList = function () {
-                        $cmsApiService.pageListP($location.search(), {"extra": "title"}).$promise.then(
+                        var params = $location.search();
+                        params["extra"] = "title";
+                        $cmsApiService.pageList(params).$promise.then(
                             function (response) {
                                 var result, i;
                                 $scope.pagesTmp = [];

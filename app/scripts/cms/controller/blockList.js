@@ -21,7 +21,9 @@
                      * Gets list of blocks
                      */
                     getBlocksList = function () {
-                        $cmsApiService.blockListP($location.search(), {"extra": serviceList.getExtraFields()}).$promise.then(
+                        var params = $location.search();
+                        params["extra"] = serviceList.getExtraFields();
+                        $cmsApiService.blockList(params).$promise.then(
                             function (response) {
                                 var result, i;
                                 $scope.blocksTmp = [];

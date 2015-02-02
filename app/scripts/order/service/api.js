@@ -10,36 +10,33 @@
          *
          */
             .service("$orderApiService", ["$resource", "REST_SERVER_URI", function ($resource, REST_SERVER_URI) {
-
-                var orderBaseURL = REST_SERVER_URI + "/order";
-
-                return $resource(orderBaseURL, {}, {
+                return $resource(REST_SERVER_URI, {}, {
                     "orderList": {
-                        method: "POST",
-                        url: orderBaseURL + "/list"
+                        method: "GET",
+                        url: REST_SERVER_URI + "/orders"
                     },
                     "getOrder": {
                         method: "GET",
-                        params: { "id": "@id" },
-                        url: orderBaseURL + "/get/:id"
+                        params: { "orderID": "@id" },
+                        url: REST_SERVER_URI + "/order/:orderID"
                     },
                     "getAttributes": {
                         method: "GET",
-                        url: orderBaseURL + "/attributes"
+                        url: REST_SERVER_URI + "/orders/attributes"
                     },
                     "getCount": {
                         method: "GET",
-                        url: orderBaseURL + "/count"
+                        url: REST_SERVER_URI + "/orders?action=count"
                     },
                     "update": {
                         method: "PUT",
-                        params: { "id": "@id" },
-                        url: orderBaseURL + "/update/:id"
+                        params: { "orderID": "@id" },
+                        url: REST_SERVER_URI + "/order/:orderID"
                     },
                     "remove": {
                         method: "DELETE",
-                        params: { "id": "@id" },
-                        url: orderBaseURL + "/delete/:id"
+                        params: { "orderID": "@id" },
+                        url: REST_SERVER_URI + "/delete/:orderID"
                     }
                 });
             }]);

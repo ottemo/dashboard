@@ -15,7 +15,7 @@
                 $scope.loginCredentials = {};
 
                 $scope.login = function () {
-                    $loginApiService.loginPost($scope.loginCredentials).$promise.then(function (response) {
+                    $loginApiService.login($scope.loginCredentials).$promise.then(function (response) {
                         if (response.result === 'ok') {
                             window.location.assign("/");
                         } else {

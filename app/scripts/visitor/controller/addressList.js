@@ -48,7 +48,7 @@
                             "visitorId": $scope.visitorId,
                             "extra": serviceList.getExtraFields()
                         };
-                        $visitorApiService.addressesP(params).$promise.then(
+                        $visitorApiService.addresses(params).$promise.then(
                             function (response) {
                                 var result, i;
                                 $scope.addressesTmp = [];

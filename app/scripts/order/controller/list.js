@@ -22,7 +22,9 @@
                      * Gets list of categories
                      */
                     getOrdersList = function () {
-                        $orderApiService.orderList($location.search(), {"extra": serviceList.getExtraFields()}).$promise.then(
+                        var params = $location.search();
+                        params["extra"] = serviceList.getExtraFields();
+                        $orderApiService.orderList(params).$promise.then(
                             function (response) {
                                 var result, i;
                                 $scope.ordersTmp = [];

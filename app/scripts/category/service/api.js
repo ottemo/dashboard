@@ -10,63 +10,60 @@
              *  $productApiService interaction service
              */
             .service("$categoryApiService", ["$resource", "REST_SERVER_URI", function ($resource, REST_SERVER_URI) {
-
-                var categoryBaseURL = REST_SERVER_URI + "/category";
-
-                return $resource(categoryBaseURL, {}, {
+                return $resource(REST_SERVER_URI, {}, {
                     "attributesInfo": {
                         method: "GET",
-                        url: categoryBaseURL + "/attribute/list"
+                        url: REST_SERVER_URI + "/categories/attributes"
                     },
                     "getCategory": {
                         method: "GET",
-                        params: { id: "@id" },
-                        url: categoryBaseURL + "/get/:id"
+                        params: { categoryID: "@id" },
+                        url: REST_SERVER_URI + "/category/:categoryID"
                     },
                     "categoryList": {
-                        method: "POST",
-                        url: categoryBaseURL + "/list"
+                        method: "GET",
+                        url: REST_SERVER_URI + "/categories"
                     },
                     "getCount": {
                         method: "GET",
-                        url: categoryBaseURL + "/count"
+                        url: REST_SERVER_URI + "/categories?action=count"
                     },
                     "save": {
                         method: "POST",
-                        url: categoryBaseURL + "/create"
+                        url: REST_SERVER_URI + "/category"
                     },
                     "remove": {
                         method: "DELETE",
-                        params: { id: "@id" },
-                        url: categoryBaseURL + "/delete/:id"
+                        params: { categoryID: "@id" },
+                        url: REST_SERVER_URI + "/category/:categoryID"
                     },
                     "update": {
                         method: "PUT",
-                        params: { id: "@id" },
-                        url: categoryBaseURL + "/update/:id"
+                        params: { categoryID: "@id" },
+                        url: REST_SERVER_URI + "/category/:categoryID"
                     },
 
                     // Products
                     "addProduct": {
-                        method: "GET",
+                        method: "POST",
                         params: {
-                            categoryId: "@categoryId",
-                            productId: "@productId"
+                            categoryID: "@categoryId",
+                            productID: "@productId"
                         },
-                        url: categoryBaseURL + "/product/add/:categoryId/:productId"
+                        url: REST_SERVER_URI + "/category/:categoryID/product/:productID"
                     },
                     "removeProduct": {
-                        method: "GET",
+                        method: "DELETE",
                         params: {
-                            categoryId: "@categoryId",
-                            productId: "@productId"
+                            categoryID: "@categoryId",
+                            productID: "@productId"
                         },
-                        url: categoryBaseURL + "/product/remove/:categoryId/:productId"
+                        url: REST_SERVER_URI + "/category/:categoryID/product/:productID"
                     },
                     "getProducts": {
                         method: "GET",
-                        params: {id: "@id"},
-                        url: categoryBaseURL + "/product/:id"
+                        params: {categoryID: "@id"},
+                        url: REST_SERVER_URI + "/category/:categoryID/products"
                     }
                 });
             }]);
