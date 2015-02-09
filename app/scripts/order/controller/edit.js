@@ -110,7 +110,7 @@
 
                         delete $scope.order["updated_at"];
                         if (orderId !== null && JSON.stringify(oldString) !== JSON.stringify($scope.order)) {
-                            $orderApiService.update({"id": orderId}, $scope.order).$promise.then(function (response) {
+                            $orderApiService.update({"orderID": orderId}, $scope.order).$promise.then(function (response) {
                                 if (response.error === null) {
                                     $scope.message = $dashboardUtilsService.getMessage(null , 'success', 'Order was updated successfully');
                                     for (var field in response.result) {

@@ -34,7 +34,6 @@
                     },
                     "remove": {
                         method: "DELETE",
-                        params: { categoryID: "@id" },
                         url: REST_SERVER_URI + "/category/:categoryID"
                     },
                     "update": {
@@ -54,10 +53,6 @@
                     },
                     "removeProduct": {
                         method: "DELETE",
-                        params: {
-                            categoryID: "@categoryId",
-                            productID: "@productId"
-                        },
                         url: REST_SERVER_URI + "/category/:categoryID/product/:productID"
                     },
                     "getProducts": {

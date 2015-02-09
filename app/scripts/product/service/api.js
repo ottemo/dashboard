@@ -31,7 +31,6 @@
                     },
                     "deleteAttribute": {
                         method: "DELETE",
-                        params: { attribute: "@attribute" },
                         url: REST_SERVER_URI + "/products/attribute/:attribute"
                     },
                     "addAttribute": {
@@ -40,7 +39,6 @@
                     },
                     "updateAttribute": {
                         method: "PUT",
-                        params: { attribute: "@attribute" },
                         url: REST_SERVER_URI + "/products/attribute/:attribute"
                     },
                     "productList": {
@@ -67,7 +65,6 @@
                     },
                     "remove": {
                         method: "DELETE",
-                        params: { productID: "@id" },
                         url: REST_SERVER_URI + "/product/:productID"
                     },
                     "getImage": {
@@ -84,7 +81,6 @@
                     },
                     "removeImage": {
                         method: "DELETE",
-                        params: { productID: "@productId", mediaName: "@mediaName" },
                         url: REST_SERVER_URI + "/product/:productID/media/image/:mediaName"
                     },
                     "addImage": { // http://stackoverflow.com/questions/13963022/angularjs-how-to-implement-a-simple-file-upload-with-multipart-form

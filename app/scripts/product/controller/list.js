@@ -124,7 +124,7 @@
                         _remove = function (id) {
                             var defer = $q.defer();
 
-                            $productApiService.remove({"id": id},
+                            $productApiService.remove({"productID": id},
                                 function (response) {
                                     if (response.result === "ok") {
                                         defer.resolve(id);

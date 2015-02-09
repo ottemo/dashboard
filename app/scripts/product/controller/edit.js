@@ -81,7 +81,6 @@
                      * Gets product data
                      */
                     if (null !== productId) {
-                        console.log($productApiService);
                         $productApiService.getProduct({"productID": productId}).$promise.then(
                             function (response) {
                                 var result = response.result || {};

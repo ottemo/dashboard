@@ -108,7 +108,7 @@
                         _remove = function (id) {
                             var defer = $q.defer();
 
-                            $visitorApiService.remove({"id": id},
+                            $visitorApiService.remove({"visitorID": id},
                                 function (response) {
                                     if (response.result === "ok") {
                                         defer.resolve(id);

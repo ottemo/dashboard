@@ -27,7 +27,7 @@
                      */
                     getPagesList = function () {
                         var params = $location.search();
-                        params["extra"] = "title";
+                        params["extra"] = "identifier,title";
                         $cmsApiService.pageList(params).$promise.then(
                             function (response) {
                                 var result, i;
@@ -109,7 +109,7 @@
                         _remove = function (id) {
                             var defer = $q.defer();
 
-                            $cmsApiService.pageRemove({"id": id},
+                            $cmsApiService.pageRemove({"pageID": id},
                                 function (response) {
                                     if (response.result === "ok") {
                                         defer.resolve(id);

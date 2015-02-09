@@ -111,7 +111,7 @@
                         _remove = function (id) {
                             var defer = $q.defer();
 
-                            $categoryApiService.remove({"id": id},
+                            $categoryApiService.remove({"categoryID": id},
                                 function (response) {
                                     if (response.result === "ok") {
                                         defer.resolve(id);

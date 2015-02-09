@@ -103,7 +103,7 @@
                         _remove = function (id) {
                             var defer = $q.defer();
 
-                            $cmsApiService.blockRemove({"id": id},
+                            $cmsApiService.blockRemove({"blockID": id},
                                 function (response) {
                                     if (response.result === "ok") {
                                         defer.resolve(id);

@@ -139,8 +139,8 @@
 
                                 if (-1 === getProductIds($scope.category.products).indexOf(oldProdId)) {
                                     $categoryApiService.removeProduct({
-                                        categoryId: categoryId,
-                                        productId: oldProdId
+                                        categoryID: categoryId,
+                                        productID: oldProdId
                                     }).$promise.then(function () {
                                             removeDefer.resolve(index);
                                         }

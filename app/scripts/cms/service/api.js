@@ -27,7 +27,6 @@
                     },
                     "blockRemove": {
                         method: "DELETE",
-                        params: { blockID: "@id" },
                         url: REST_SERVER_URI + "/cms/block/:blockID"
                     },
                     "blockGet": {
@@ -58,7 +57,6 @@
                     },
                     "pageRemove": {
                         method: "DELETE",
-                        params: { pageID: "@id" },
                         url: REST_SERVER_URI + "/cms/page/:pageID"
                     },
                     "pageGet": {

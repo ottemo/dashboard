@@ -13,11 +13,10 @@
                 return $resource(REST_SERVER_URI, {}, {
                     "add": {
                         method: "POST",
-                        url: REST_SERVER_URI + "/add"
+                        url: REST_SERVER_URI + "/seo/item"
                     },
                     "remove": {
                         method: "DELETE",
-                        params: { itemID: "@id"},
                         url: REST_SERVER_URI + "/seo/item/:itemID"
                     },
                     "get": {
@@ -31,7 +30,6 @@
                     },
                     "update": {
                         method: "PUT",
-                        params: { itemID: "@id"},
                         url: REST_SERVER_URI + "/seo/item/:itemID"
                     }
                 });

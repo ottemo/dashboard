@@ -30,13 +30,11 @@
                     },
                     "update": {
                         method: "PUT",
-                        params: { orderID: "@id" },
                         url: REST_SERVER_URI + "/order/:orderID"
                     },
                     "remove": {
                         method: "DELETE",
-                        params: { orderID: "@id" },
-                        url: REST_SERVER_URI + "/delete/:orderID"
+                        url: REST_SERVER_URI + "/order/:orderID"
                     }
                 });
             }]);

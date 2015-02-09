@@ -134,7 +134,7 @@
                         _remove = function (id) {
                             var defer = $q.defer();
 
-                            $visitorApiService.deleteAddress({"id": id},
+                            $visitorApiService.deleteAddress({"addressID": id},
                                 function (response) {
                                     if (response.result === "ok") {
                                         defer.resolve(id);

@@ -21,7 +21,6 @@
                     },
                     "removeAttribute": {
                         method: "DELETE",
-                        params: { attribute: "@attribute" },
                         url: REST_SERVER_URI + "/visitors/attribute/:attribute"
                     },
                     "visitorList": {
@@ -42,7 +41,6 @@
                     },
                     "remove": {
                         method: "DELETE",
-                        params: { visitorID: "@id" },
                         url: REST_SERVER_URI + "/visitor/:visitorID"
                     },
                     "getCountVisitors": {
@@ -66,7 +64,7 @@
                     },
                     "saveAddress": {
                         method: "POST",
-                        params: { visitorID: "@visitorId"},
+                        params: { visitorID: "@visitor_id"},
                         url: REST_SERVER_URI + "/visitor/:visitorID/address"
                     },
                     "updateAddress": {
@@ -81,7 +79,6 @@
                     },
                     "deleteAddress": {
                         method: "DELETE",
-                        params: { addressID: "@id" },
                         url: REST_SERVER_URI + "/visitors/address/:addressID"
                     },
                     "sendMail": {
