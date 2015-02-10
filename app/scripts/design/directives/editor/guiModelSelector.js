@@ -57,7 +57,7 @@
                     break;
                 default:
                     params = {
-                        "uri_1": model + "s",
+                        "uri_1": model + "s"
                     };
             }
             return params;

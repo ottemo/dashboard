@@ -57,12 +57,16 @@
                             $('#processing').modal('hide');
                             // @todo: temporary fix with closing popup, while these methods not returns json in response
                             $scope.message = $dashboardUtilsService.getMessage(null, 'success', "Operation is finished");
+
+                            try {
+                                if (response.error === null) {
+                                    $scope.message = $dashboardUtilsService.getMessage(null, 'success', response.result);
+                                } else {
+                                    $scope.message = $dashboardUtilsService.getMessage(response);
+                                }
+                            } catch(e) {}
+
                             return true;
-                            if (response.error === null) {
-                                $scope.message = $dashboardUtilsService.getMessage(null, 'success', response.result);
-                            } else {
-                                $scope.message = $dashboardUtilsService.getMessage(response);
-                            }
                         });
                     };
 
@@ -94,12 +98,16 @@
                             $('#processing').modal('hide');
                             // @todo: temporary fix with closing popup, while these methods not returns json in response
                             $scope.message = $dashboardUtilsService.getMessage(null, 'success', "Operation is finished");
+
+                            try {
+                                if (response.error === null) {
+                                    $scope.message = $dashboardUtilsService.getMessage(null, 'success', response.result);
+                                } else {
+                                    $scope.message = $dashboardUtilsService.getMessage(response);
+                                }
+                            } catch(e) {}
+
                             return true;
-                            if (response.error === null) {
-                                $scope.message = $dashboardUtilsService.getMessage(null, 'success', response.result);
-                            } else {
-                                $scope.message = $dashboardUtilsService.getMessage(response);
-                            }
                         });
                     };
 
