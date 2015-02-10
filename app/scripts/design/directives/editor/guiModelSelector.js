@@ -91,19 +91,21 @@
 
                             $designApiService.attributesModel(params).$promise.then(
                                 function (response) {
-                                    var result = response.result || [];
+                                    try {
+                                        var result = response.result || [];
 
-                                    result.unshift({
-                                        Desc: "",
-                                        Extra: null,
-                                        ID: "",
-                                        Image: "",
-                                        Name: ""
-                                    });
-                                    
-                                    $scope.item[$scope.attribute.Attribute] = $scope.item[$scope.attribute.Attribute] || result[0].ID;
+                                        result.unshift({
+                                            Desc: "",
+                                            Extra: null,
+                                            ID: "",
+                                            Image: "",
+                                            Name: ""
+                                        });
 
-                                    $scope.options = result;
+                                        $scope.item[$scope.attribute.Attribute] = $scope.item[$scope.attribute.Attribute] || result[0].ID;
+
+                                        $scope.options = result;
+                                    } catch (e) {}
                                 });
                         });
 
