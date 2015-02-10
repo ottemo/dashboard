@@ -31,7 +31,7 @@
                         url: REST_SERVER_URI + "/config/values"
                     },
                     "setPath": {
-                        method: "POST",
+                        method: "PUT",
                         params: {"path": "@path"},
                         url: REST_SERVER_URI + "/config/value/:path"
                     }
