@@ -21,7 +21,9 @@
                      * Gets list of blocks
                      */
                     getBlocksList = function () {
-                        $cmsApiService.blockListP($location.search(), {"extra": serviceList.getExtraFields()}).$promise.then(
+                        var params = $location.search();
+                        params["extra"] = serviceList.getExtraFields();
+                        $cmsApiService.blockList(params).$promise.then(
                             function (response) {
                                 var result, i;
                                 $scope.blocksTmp = [];
@@ -37,7 +39,7 @@
                      * Gets list of blocks
                      */
                     getBlockCount = function () {
-                        $cmsApiService.getCountB($location.search(), {}).$promise.then(
+                        $cmsApiService.blockCount($location.search()).$promise.then(
                             function (response) {
                                 if (response.error === null) {
                                     $scope.count = response.result;
@@ -101,7 +103,7 @@
                         _remove = function (id) {
                             var defer = $q.defer();
 
-                            $cmsApiService.blockRemove({"id": id},
+                            $cmsApiService.blockRemove({"blockID": id},
                                 function (response) {
                                     if (response.result === "ok") {
                                         defer.resolve(id);

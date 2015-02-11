@@ -91,7 +91,9 @@
                                  * Gets list of visitors
                                  */
                                 var getVisitorsList = function () {
-                                    $visitorApiService.visitorList($scope.search, {"extra": serviceList.getExtraFields()}).$promise.then(
+                                    var params = $scope.search;
+                                    params["extra"] = serviceList.getExtraFields();
+                                    $visitorApiService.visitorList(params).$promise.then(
                                         function (response) {
                                             var result, i;
                                             $scope.visitorsTmp = [];

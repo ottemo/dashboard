@@ -41,7 +41,9 @@
                     /**
                      * Gets list all attributes of product
                      */
-                    $productApiService.attributesInfo($location.search(), {"extra": getFields()}).$promise.then(
+                    var params = $location.search();
+                    params["extra"] = getFields();
+                    $productApiService.attributesInfo(params).$promise.then(
                         function (response) {
                             var result, i;
                             $scope.attributesList = [];

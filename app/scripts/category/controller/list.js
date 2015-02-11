@@ -27,7 +27,9 @@
                      * Gets list of categories
                      */
                     getCategoriesList = function () {
-                        $categoryApiService.categoryList($location.search(), {"extra": serviceList.getExtraFields()}).$promise.then(
+                        var params = $location.search();
+                        params["extra"] = serviceList.getExtraFields();
+                        $categoryApiService.categoryList(params).$promise.then(
                             function (response) {
                                 var result, i;
                                 $scope.categoriesTmp = [];
@@ -43,7 +45,7 @@
                      * Gets count of categories
                      */
                     getCategoryCount = function () {
-                        $categoryApiService.getCount($location.search(), {}).$promise.then(
+                        $categoryApiService.getCount($location.search()).$promise.then(
                             function (response) {
                                 if (response.error === null) {
                                     $scope.count = response.result;
@@ -109,7 +111,7 @@
                         _remove = function (id) {
                             var defer = $q.defer();
 
-                            $categoryApiService.remove({"id": id},
+                            $categoryApiService.remove({"categoryID": id},
                                 function (response) {
                                     if (response.result === "ok") {
                                         defer.resolve(id);

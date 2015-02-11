@@ -38,10 +38,9 @@
                      * Gets list of products
                      */
                     getProductsList = function () {
-                        $productApiService.productList(
-                            $location.search(),
-                            {"extra": serviceList.getExtraFields()}
-                        ).$promise.then(
+                        var params = $location.search();
+                        params["extra"] = serviceList.getExtraFields();
+                        $productApiService.productList(params).$promise.then(
                             function (response) {
                                 var result, i;
                                 $scope.productsTmp = [];
@@ -125,7 +124,7 @@
                         _remove = function (id) {
                             var defer = $q.defer();
 
-                            $productApiService.remove({"id": id},
+                            $productApiService.remove({"productID": id},
                                 function (response) {
                                     if (response.result === "ok") {
                                         defer.resolve(id);

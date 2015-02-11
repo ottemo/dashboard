@@ -10,24 +10,19 @@
              *  $loginApiService interaction service
              */
             .service("$loginApiService", ["$resource", "REST_SERVER_URI", function ($resource, REST_SERVER_URI) {
-
                 return $resource(REST_SERVER_URI, {},
                     {
-                        "loginPost": {
+                        "login": {
                             method: "POST",
-                            url: REST_SERVER_URI + "/visitor/login"
-                        },
-                        "loginGET": {
-                            method: "GET",
-                            url: REST_SERVER_URI + "/visitor/login"
+                            url: REST_SERVER_URI + "/visit/login"
                         },
                         "logout": {
                             method: "GET",
-                            url: REST_SERVER_URI + "/app/logout"
+                            url: REST_SERVER_URI + "/visit/logout"
                         },
                         "info": {
                             method: "GET",
-                            url: REST_SERVER_URI + "/visitor/info"
+                            url: REST_SERVER_URI + "/visit"
                         }
                     });
             }]);

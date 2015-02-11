@@ -99,10 +99,9 @@
                                 $scope.oldSearch = clone($scope.search);
 
                                 var getProductsList = function () {
-                                    $productApiService.productList(
-                                        $scope.search,
-                                        {"extra": serviceList.getExtraFields()}
-                                    ).$promise.then(
+                                    var params = $scope.search;
+                                    params["extra"] = serviceList.getExtraFields();
+                                    $productApiService.productList(params).$promise.then(
                                         function (response) {
                                             var result, i;
                                             $scope.productsTmp = [];

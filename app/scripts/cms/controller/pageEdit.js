@@ -63,7 +63,7 @@
                     );
 
                     if (null !== pageId) {
-                        $cmsApiService.pageGet({"id": pageId}).$promise.then(
+                        $cmsApiService.pageGet({"pageID": pageId}).$promise.then(
                             function (response) {
                                 var result = response.result || {};
                                 $scope.page = result;

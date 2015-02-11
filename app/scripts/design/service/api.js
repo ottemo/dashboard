@@ -10,7 +10,6 @@
              *  $productApiService interaction service
              */
             .service("$designApiService", ["$resource", "REST_SERVER_URI", function ($resource, REST_SERVER_URI) {
-
                 return $resource(REST_SERVER_URI, {}, {
                     "attributesModel": {
                         method: "GET",
@@ -25,11 +24,12 @@
                     },
                     "productList": {
                         method: "GET",
-                        url: REST_SERVER_URI + "/product/list"
+                        url: REST_SERVER_URI + "/products"
                     },
                     "getCount": {
                         method: "GET",
-                        url: REST_SERVER_URI + "/product/count"
+                        params: { action: "count" },
+                        url: REST_SERVER_URI + "/products"
                     }
                 });
             }]);

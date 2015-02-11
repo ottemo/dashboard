@@ -26,7 +26,9 @@
                      * Gets list of pages
                      */
                     getPagesList = function () {
-                        $cmsApiService.pageListP($location.search(), {"extra": "title"}).$promise.then(
+                        var params = $location.search();
+                        params["extra"] = "identifier,title";
+                        $cmsApiService.pageList(params).$promise.then(
                             function (response) {
                                 var result, i;
                                 $scope.pagesTmp = [];
@@ -42,7 +44,7 @@
                      * Gets list of pages
                      */
                     getPageCount = function () {
-                        $cmsApiService.getCountP($location.search(), {}).$promise.then(
+                        $cmsApiService.pageCount($location.search()).$promise.then(
                             function (response) {
                                 if (response.error === null) {
                                     $scope.count = response.result;
@@ -107,7 +109,7 @@
                         _remove = function (id) {
                             var defer = $q.defer();
 
-                            $cmsApiService.pageRemove({"id": id},
+                            $cmsApiService.pageRemove({"pageID": id},
                                 function (response) {
                                     if (response.result === "ok") {
                                         defer.resolve(id);

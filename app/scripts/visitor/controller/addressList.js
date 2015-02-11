@@ -45,10 +45,10 @@
                      */
                     getAddressesList = function () {
                         var params = {
-                            "visitorId": $scope.visitorId,
+                            "visitorID": $scope.visitorId,
                             "extra": serviceList.getExtraFields()
                         };
-                        $visitorApiService.addressesP(params).$promise.then(
+                        $visitorApiService.addresses(params).$promise.then(
                             function (response) {
                                 var result, i;
                                 $scope.addressesTmp = [];
@@ -63,7 +63,9 @@
                      * Gets list of addresses
                      */
                     getAddressesCount = function () {
-                        $visitorApiService.getCountAddresses($location.search(), {}).$promise.then(
+                        var params = $location.search();
+                        params["visitorID"] = $scope.visitorId;
+                        $visitorApiService.getCountAddresses(params).$promise.then(
                             function (response) {
                                 if (response.error === null) {
                                     $scope.count = response.result;
@@ -132,7 +134,7 @@
                         _remove = function (id) {
                             var defer = $q.defer();
 
-                            $visitorApiService.deleteAddress({"id": id},
+                            $visitorApiService.deleteAddress({"addressID": id},
                                 function (response) {
                                     if (response.result === "ok") {
                                         defer.resolve(id);

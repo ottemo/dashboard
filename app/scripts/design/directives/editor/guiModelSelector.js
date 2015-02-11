@@ -33,10 +33,10 @@
             switch (model) {
                 case "VisitorAddress":
                     params = {
-                        "uri_4": item._id,
-                        "uri_3": "list",
                         "uri_1": "visitor",
-                        "uri_2": "address"
+                        "uri_2": item._id,
+                        "uri_3": "addresses",
+                        "uri_4": null
                     };
                     break;
                 case "payments":
@@ -57,8 +57,7 @@
                     break;
                 default:
                     params = {
-                        "uri_1": model,
-                        "uri_2": "list"
+                        "uri_1": model + "s"
                     };
             }
             return params;
@@ -92,19 +91,21 @@
 
                             $designApiService.attributesModel(params).$promise.then(
                                 function (response) {
-                                    var result = response.result || [];
+                                    try {
+                                        var result = response.result || [];
 
-                                    result.unshift({
-                                        Desc: "",
-                                        Extra: null,
-                                        ID: "",
-                                        Image: "",
-                                        Name: ""
-                                    });
-                                    
-                                    $scope.item[$scope.attribute.Attribute] = $scope.item[$scope.attribute.Attribute] || result[0].ID;
+                                        result.unshift({
+                                            Desc: "",
+                                            Extra: null,
+                                            ID: "",
+                                            Image: "",
+                                            Name: ""
+                                        });
 
-                                    $scope.options = result;
+                                        $scope.item[$scope.attribute.Attribute] = $scope.item[$scope.attribute.Attribute] || result[0].ID;
+
+                                        $scope.options = result;
+                                    } catch (e) {}
                                 });
                         });
 

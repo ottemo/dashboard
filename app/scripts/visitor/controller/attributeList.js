@@ -42,7 +42,9 @@
                     /**
                      * Gets list all attributes of visitor
                      */
-                    $visitorApiService.attributesInfo($location.search(), {"extra": getFields()}).$promise.then(function (response) {
+                    var params = $location.search();
+                    params["extra"] = getFields();
+                    $visitorApiService.attributesInfo(params).$promise.then(function (response) {
                         var result, i;
                         $scope.attributesList = [];
                         result = response.result || [];

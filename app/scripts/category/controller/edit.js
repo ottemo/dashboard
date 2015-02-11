@@ -54,7 +54,7 @@
                     });
 
                     if (null !== categoryId) {
-                        $categoryApiService.getCategory({"id": categoryId}).$promise.then(function (response) {
+                        $categoryApiService.getCategory({"categoryID": categoryId}).$promise.then(function (response) {
                             var result = response.result || {};
                             $scope.category = result;
                             rememberProducts();
@@ -139,8 +139,8 @@
 
                                 if (-1 === getProductIds($scope.category.products).indexOf(oldProdId)) {
                                     $categoryApiService.removeProduct({
-                                        categoryId: categoryId,
-                                        productId: oldProdId
+                                        categoryID: categoryId,
+                                        productID: oldProdId
                                     }).$promise.then(function () {
                                             removeDefer.resolve(index);
                                         }

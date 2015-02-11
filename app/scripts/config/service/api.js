@@ -11,32 +11,29 @@
          *
          */
             .service("$configApiService", ["$resource", "REST_SERVER_URI", function ($resource, REST_SERVER_URI) {
-
-                var configBaseURL = REST_SERVER_URI + "/config";
-
-                return $resource(configBaseURL, {}, {
+                return $resource(REST_SERVER_URI, {}, {
                     "getGroups": {
                         method: "GET",
-                        url: configBaseURL + "/groups"
+                        url: REST_SERVER_URI + "/config/groups"
                     },
                     "getPath": {
                         method: "GET",
                         params: {"path": "@path"},
-                        url: configBaseURL + "/get/:path"
+                        url: REST_SERVER_URI + "/config/value/:path"
                     },
                     "getInfo": {
                         method: "GET",
                         params: {"path": "@path"},
-                        url: configBaseURL + "/info/:path"
+                        url: REST_SERVER_URI + "/config/item/:path"
                     },
                     "getList": {
                         method: "GET",
-                        url: configBaseURL + "/list"
+                        url: REST_SERVER_URI + "/config/values"
                     },
                     "setPath": {
-                        method: "POST",
+                        method: "PUT",
                         params: {"path": "@path"},
-                        url: configBaseURL + "/set/:path"
+                        url: REST_SERVER_URI + "/config/value/:path"
                     }
                 });
             }]);
