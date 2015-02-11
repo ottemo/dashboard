@@ -29,6 +29,20 @@
                     "getModels": {
                         method: "GET",
                         url: REST_SERVER_URI + "/impex/models"
+                    },
+                    "importTax": {
+                      method: "POST",
+                      params: {},
+                      url: REST_SERVER_URI + "/taxes/csv",
+                      headers: {"Content-Type": undefined },
+                      transformRequest: angular.identity
+                    },
+                    "importDiscount": {
+                      method: "POST",
+                      params: {},
+                      url: REST_SERVER_URI + "/discounts/csv",
+                      headers: {"Content-Type": undefined },
+                      transformRequest: angular.identity
                     }
                 });
             }]);

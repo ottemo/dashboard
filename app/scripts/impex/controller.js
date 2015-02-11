@@ -111,6 +111,58 @@
                         });
                     };
 
+
+                    $scope.exportTax = function () {
+                        $scope.exportFile = $sce.trustAsHtml("<iframe src='" + REST_SERVER_URI + "/taxes/csv' style='display: none;' ></iframe>");
+                    };
+
+                    $scope.exportDiscount = function () {
+                        $scope.exportFile = $sce.trustAsHtml("<iframe src='" + REST_SERVER_URI + "/discounts/csv' style='display: none;' ></iframe>");
+                    };
+
+                    $scope.importTaxOrDiscount = function (functionName) {
+                        $scope.taxSubmit = true;
+
+                        if ($scope.file === "" || typeof $scope.file === "undefined") {
+                            return true;
+                        }
+
+                        $('#processing').modal('show');
+                        var file, postData;
+
+                        $scope.sendRequest = true;
+                        file = document.getElementById("file");
+                        postData = new FormData();
+                        postData.append("file", file.files[0]);
+
+                        $impexApiService[functionName]({}, postData).$promise.then(function (response) {
+                            $scope.modelImportSubmit = false;
+                            $scope.sendRequest = false;
+                            $('#processing').modal('hide');
+                            // @todo: temporary fix with closing popup, while these methods not returns json in response
+                            $scope.message = $dashboardUtilsService.getMessage(null, 'success', "Operation is finished");
+
+                            try {
+                                if (response.error === null) {
+                                    $scope.message = $dashboardUtilsService.getMessage(null, 'success', response.result);
+                                } else {
+                                    $scope.message = $dashboardUtilsService.getMessage(response);
+                                }
+                            } catch(e) {}
+
+                            return true;
+                        });
+                    };
+
+                    $scope.importDiscount = function () {
+                        $scope.importTaxOrDiscount('importDiscount');
+                    };
+
+                    $scope.importTax = function () {
+                        $scope.importTaxOrDiscount('importTax');
+                    };
+
+
                 }]);
 
         return impexModule;
