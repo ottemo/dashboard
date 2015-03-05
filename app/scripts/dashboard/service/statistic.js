@@ -52,10 +52,12 @@
                         };
 
                         getVisits = function () {
-                            var defer;
+                            var defer, today, tz;
                             defer = $q.defer();
+                            today = new Date();
+                            tz = -today.getTimezoneOffset()/60;
 
-                            $api.getVisits().$promise.then(function (response) {
+                            $api.getVisits({"tz": tz}).$promise.then(function (response) {
                                 var result, visits;
 
                                 result = response.result || [];
@@ -84,10 +86,12 @@
                         };
 
                         getSales = function () {
-                            var defer;
+                            var defer, today, tz;
                             defer = $q.defer();
+                            today = new Date();
+                            tz = -today.getTimezoneOffset()/60;
 
-                            $api.getSales().$promise.then(function (response) {
+                            $api.getSales({"tz": tz}).$promise.then(function (response) {
                                 var result, sales;
 
                                 result = response.result || [];
@@ -115,13 +119,14 @@
                             return defer.promise;
                         };
 
-                        getVisitsDetail = function (from, to) {
+                        getVisitsDetail = function (from, to, tz) {
                             var defer;
                             defer = $q.defer();
 
                             $api.getVisitsDetails({
                                 "from": from,
-                                "to": to
+                                "to": to,
+                                "tz": tz
                             }).$promise.then(function (response) {
                                     var result, timestamp, dataChart;
 
@@ -144,13 +149,14 @@
                             return defer.promise;
                         };
 
-                        getSalesDetail = function (from, to) {
+                        getSalesDetail = function (from, to, tz) {
                             var defer;
                             defer = $q.defer();
 
                             $api.getSalesDetails({
                                 "from": from,
-                                "to": to
+                                "to": to,
+                                "tz": tz
                             }).$promise.then(function (response) {
                                     var result, timestamp, dataChart;
 
@@ -173,15 +179,17 @@
                             return defer.promise;
                         };
 
-                        getConversions = function () {
-                            var defer, getPercents;
+                        getConversions = function () {   
+                            var defer, getPercents, today, tz;
                             defer = $q.defer();
+                            today = new Date();
+                            tz = -today.getTimezoneOffset()/60;
 
                             getPercents = function (val, total) {
                                 return Math.round((Math.abs(val/total) * 100) * 100) / 100 || 0;
                             };
 
-                            $api.getConversions().$promise.then(function (response) {
+                            $api.getConversions({"tz": tz}).$promise.then(function (response) {
                                 var result, conversion;
 
                                 result = response.result || [];
