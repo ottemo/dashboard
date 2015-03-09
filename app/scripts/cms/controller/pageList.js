@@ -27,7 +27,7 @@
                      */
                     getPagesList = function () {
                         var params = $location.search();
-                        params["extra"] = "identifier,title,enabled";
+                        params["extra"] = "identifier,enabled,pagetitle";
                         $cmsApiService.pageList(params).$promise.then(
                             function (response) {
                                 var result, i;
