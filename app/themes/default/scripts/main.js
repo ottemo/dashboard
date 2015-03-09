@@ -119,8 +119,12 @@ $(document).ready(function () {
     });
 
     // modals table checkbox active on td click
-    $(document).on('click', '.modal-dialog table tbody td', function () {
-        $(this).parents('tr').children('td:first-child').children('input').trigger('click');
+    $(document).on('click', '.modal-dialog table tbody tr', function (event) {
+        $(this).children('td:first-child').children('input').trigger('click');
+    });
+
+    $(document).on('click', '.modal-dialog table tbody tr td:first-child input', function (event) {
+        event.stopPropagation();
     });
 
     // click on element of offcanvas
