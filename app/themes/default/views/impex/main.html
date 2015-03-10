@@ -8,6 +8,17 @@
   <!-- Error message -->
   <gui-message-manager item="message"></gui-message-manager>
 
+
+  <!-- Import Status Progressbar -->
+  <div class="col-xs-12 impex-progressbar" ng-show="importProgress">
+      <div class="outer-box">
+          <div class="title">Currently importing file: {{importFileName}}</div>
+          <div class="progress">
+              <div class="progress-bar progress-bar-success"  style="width: {{importProgress}}%"></div>
+          </div>
+      </div>
+  </div>
+
   <form class="form" role="form" class="product-tabs" name="otEditForm" novalidate>
 
     <!-- Upload file -->
