@@ -87,7 +87,7 @@
 
                                 hasName = false;
                                 for (j = 0; j < attributes.length; j += 1) {
-                                    if (-1 !== Object.keys(filters).indexOf(attributes[j].Editors)) {
+                                    if (-1 !== Object.keys(filters).indexOf(attributes[j].Editors) || attributes[j].Attribute === "grand_total") {
                                         if ("name" === attributes[j].Attribute) {
                                             hasName = true;
                                             fields.unshift({
