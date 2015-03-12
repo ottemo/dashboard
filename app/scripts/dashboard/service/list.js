@@ -14,7 +14,7 @@
              *  $dashboardListService implementation
              */
                 .service("$dashboardListService", ["$routeParams", function ($routeParams) {
-                    return function () {
+                    return function (showColumns) {
                         // Variables
                         var ID, filters, attributes, fields, isInitFields;
 
@@ -72,10 +72,18 @@
                             return filters[editor];
                         };
 
+
+                    /*  showColumns Define set of attributes that will be added to fields list value
+                        fields use to show table columns.
+                        this array contains a attribute name that will be showed and is settings that can be also specified
+                        "attribute"    "visible"    "type"   "notDisable"   "label"    "filter"   "dataType"    "filterValue"
+                    */
                         getFields = function () {
+                        /*jshint maxcomplexity:false */
                             if (isInitFields) {
                                 for (var j = 0; j < fields.length; j += 1) {
                                     fields[j].filterValue = $routeParams[fields[j].attribute];
+                                    // console.log("initet field filtevAlue " + fields[j].filterValue);
                                 }
                                 return fields;
                             }
@@ -83,53 +91,84 @@
                             fields = [];
 
                             var prepareGroups = function () {
-                                var hasName, j;
+                                var hasName, j, attributeName;
 
                                 hasName = false;
-                                for (j = 0; j < attributes.length; j += 1) {
-                                    if (-1 !== Object.keys(filters).indexOf(attributes[j].Editors) || attributes[j].Attribute === "grand_total") {
-                                        if ("name" === attributes[j].Attribute) {
-                                            hasName = true;
-                                            fields.unshift({
-                                                "attribute": attributes[j].Attribute,
-                                                "type": "select-link",
+                                if (showColumns && showColumns !== "null" && showColumns!== "undefined") {
+                                    for (j = 0; j < attributes.length; j += 1) {
+                                    attributeName = attributes[j].Attribute;
+                                        if (-1 !== Object.keys(showColumns).indexOf(attributeName)) {
+                                            // default set of params for object
+                                            var obj = {
+                                                "attribute": attributeName,
+                                                "type": "string",
                                                 "label": attributes[j].Label,
                                                 "dataType": attributes[j].Type,
                                                 "visible": true,
-                                                "notDisable": true,
+                                                "notDisable": false,
+                                                "filter": getFilter(attributes[j]),
+                                                "filterValue": $routeParams[attributes[j].Attribute]
+                                            };
+
+                                            for (var attributeKeys in showColumns[attributeName]) {
+                                                if  ( obj.hasOwnProperty(attributeKeys) ) {
+                                                    obj[attributeKeys] = showColumns[attributeName][attributeKeys];
+                                                }
+                                            }
+
+                                            if (obj['type'] !== "select-link"){
+                                                fields.push(obj);
+                                            } else {
+                                                fields.unshift(obj);
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    for (j = 0; j < attributes.length; j += 1) {
+                                        if (-1 !== Object.keys(filters).indexOf(attributes[j].Editors)) {
+                                            if ("name" === attributes[j].Attribute) {
+                                                hasName = true;
+                                                fields.unshift({
+                                                    "attribute": attributes[j].Attribute,
+                                                    "type": "select-link",
+                                                    "label": attributes[j].Label,
+                                                    "dataType": attributes[j].Type,
+                                                    "visible": true,
+                                                    "notDisable": true,
+                                                    "filter": getFilter(attributes[j]),
+                                                    "filterValue": $routeParams[attributes[j].Attribute]
+                                                });
+                                                continue;
+                                            }
+                                            fields.push({
+                                                "attribute": attributes[j].Attribute,
+                                                "type": "string",
+                                                "label": attributes[j].Label,
+                                                "dataType": attributes[j].Type,
+                                                "visible": true,
+                                                "notDisable": false,
                                                 "filter": getFilter(attributes[j]),
                                                 "filterValue": $routeParams[attributes[j].Attribute]
                                             });
-                                            continue;
                                         }
-                                        fields.push({
-                                            "attribute": attributes[j].Attribute,
-                                            "type": "string",
-                                            "label": attributes[j].Label,
-                                            "dataType": attributes[j].Type,
+                                    }
+                                    if (!hasName) {
+                                        fields.unshift({
+                                            "attribute": "Name",
+                                            "type": "select-link",
+                                            "dataType": "text",
+                                            "label": "Name",
                                             "visible": true,
-                                            "notDisable": false,
-                                            "filter": getFilter(attributes[j]),
-                                            "filterValue": $routeParams[attributes[j].Attribute]
+                                            "notDisable": true
                                         });
                                     }
                                 }
 
-                                if (!hasName) {
-                                    fields.unshift({
-                                        "attribute": "Name",
-                                        "type": "select-link",
-                                        "dataType": "text",
-                                        "label": "Name",
-                                        "visible": true,
-                                        "notDisable": true
-                                    });
-                                }
                             };
 
                             prepareGroups();
                             isInitFields = true;
-
+                            //console.log(fields);
                             return fields;
                         };
 

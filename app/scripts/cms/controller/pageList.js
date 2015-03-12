@@ -12,8 +12,18 @@
                 "$cmsApiService",
                 "COUNT_ITEMS_PER_PAGE",
                 function ($scope, $location, $routeParams, $q, DashboardListService, $cmsApiService, COUNT_ITEMS_PER_PAGE) {
-                    var serviceList, getPageCount, getAttributeList, getPagesList;
-                    serviceList = new DashboardListService();
+                    var serviceList, getPageCount, getAttributeList, getPagesList, showColumns;
+                    showColumns = {
+                        'identifier' : {
+                            'type' : 'select-link'
+                        },
+                        'enabled' : {},
+                        'pagetitle' : {
+                            'label' : 'Title'
+                        }
+                    };
+
+                    serviceList = new DashboardListService(showColumns);
 
                     // Initialize SEO
                     if (typeof $scope.initSeo === "function") {
@@ -27,7 +37,7 @@
                      */
                     getPagesList = function () {
                         var params = $location.search();
-                        params["extra"] = "identifier,title,enabled";
+                        params["extra"] = serviceList.getExtraFields();
                         $cmsApiService.pageList(params).$promise.then(
                             function (response) {
                                 var result, i;

@@ -13,8 +13,21 @@
                 "$orderApiService",
                 "COUNT_ITEMS_PER_PAGE",
                 function ($rootScope, $scope, $location, $routeParams, $q, DashboardListService, $orderApiService, COUNT_ITEMS_PER_PAGE) {
-                    var getOrdersList, serviceList, getOrderCount, getAttributeList;
-                    serviceList = new DashboardListService();
+                    var getOrdersList, serviceList, getOrderCount, getAttributeList, showColumns;
+
+                     showColumns = {
+                        'increment_id' : {
+                            'type' : 'select-link',
+                            'label' : 'Order Number',
+                            "notDisable": true
+                        },
+                        'status' : {},
+                        'customer_email' : {},
+                        'customer_name' : {},
+                        'grand_total' : {}
+                    };
+
+                    serviceList = new DashboardListService(showColumns);
 
                     $scope.idsSelectedRows = {};
 
