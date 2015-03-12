@@ -134,8 +134,8 @@
                         var date, month, day;
 
                         date = new Date($scope.order['created_at']);
-                        month = date.getMonth().toString().length < 2 ? '0' + date.getMonth() : date.getMonth();
-                        day = date.getDate().toString().length < 2 ? '0' + date.getDate() : date.getDate();
+                        month = ("0" + (date.getMonth() + 1)).slice(-2);
+                        day = ("0" + date.getDate()).slice(-2);
 
                         return date.getFullYear() + '/' + month + '/' + day;
                     };
