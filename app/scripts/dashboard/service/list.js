@@ -14,7 +14,7 @@
              *  $dashboardListService implementation
              */
                 .service("$dashboardListService", ["$routeParams", function ($routeParams) {
-                    return function (showColumns) {
+                    return function () {
                         // Variables
                         var ID, filters, attributes, fields, isInitFields;
 
@@ -74,16 +74,28 @@
 
 
                     /*  showColumns Define set of attributes that will be added to fields list value
-                        fields use to show table columns.
-                        this array contains a attribute name that will be showed and is settings that can be also specified
-                        "attribute"    "visible"    "type"   "notDisable"   "label"    "filter"   "dataType"    "filterValue"
+                        fields used to define persistence of columns in table.
+                        showColumns object of objects that contains:
+                         - key as an attribute name
+                            - object: {} when no parameters
+                              - key: custom parameters name
+                              - value: it's value
+
+                         Attributes that can be specified:
+                        "attribute"    "visible"    "type"   "notDisable"
+                        "label"    "filter"   "dataType"    "filterValue"
+
+                        Example:  showColumns = {
+                                  'identifier' : {'type' : 'select-link','notDisable' : true},
+                                  'enabled' : {}
+                                  };
+                        If showColumns not specified fields will be filled by editable attributes.
                     */
-                        getFields = function () {
+                        getFields = function (showColumns) {
                         /*jshint maxcomplexity:false */
                             if (isInitFields) {
                                 for (var j = 0; j < fields.length; j += 1) {
                                     fields[j].filterValue = $routeParams[fields[j].attribute];
-                                    // console.log("initet field filtevAlue " + fields[j].filterValue);
                                 }
                                 return fields;
                             }
@@ -91,13 +103,14 @@
                             fields = [];
 
                             var prepareGroups = function () {
-                                var hasName, j, attributeName;
+                                var hasMainColumn, j, attributeName;
 
-                                hasName = false;
+                                hasMainColumn = false;
+                                // use showColumns if it have specified attributes to show
                                 if (showColumns && showColumns !== "null" && showColumns!== "undefined") {
                                     for (j = 0; j < attributes.length; j += 1) {
                                     attributeName = attributes[j].Attribute;
-                                        if (-1 !== Object.keys(showColumns).indexOf(attributeName)) {
+                                        if (-1 !== Object.keys(showColumns).indexOf(attributeName) || (!attributes[j].IsStatic && -1 !== Object.keys(filters).indexOf(attributes[j].Editors))){
                                             // default set of params for object
                                             var obj = {
                                                 "attribute": attributeName,
@@ -109,73 +122,45 @@
                                                 "filter": getFilter(attributes[j]),
                                                 "filterValue": $routeParams[attributes[j].Attribute]
                                             };
-
+                                            // add properties defined in controller
                                             for (var attributeKeys in showColumns[attributeName]) {
                                                 if  ( obj.hasOwnProperty(attributeKeys) ) {
                                                     obj[attributeKeys] = showColumns[attributeName][attributeKeys];
                                                 }
                                             }
-
+                                            // check is it a main column type and it's persistence
                                             if (obj['type'] !== "select-link"){
                                                 fields.push(obj);
                                             } else {
+                                                obj["visible"] = true;
+                                                obj["notDisable"] = true;
                                                 fields.unshift(obj);
+                                                hasMainColumn = true;
                                             }
                                         }
-                                    }
-                                } else {
-                                    for (j = 0; j < attributes.length; j += 1) {
-                                        if (-1 !== Object.keys(filters).indexOf(attributes[j].Editors)) {
-                                            if ("name" === attributes[j].Attribute) {
-                                                hasName = true;
-                                                fields.unshift({
-                                                    "attribute": attributes[j].Attribute,
-                                                    "type": "select-link",
-                                                    "label": attributes[j].Label,
-                                                    "dataType": attributes[j].Type,
-                                                    "visible": true,
-                                                    "notDisable": true,
-                                                    "filter": getFilter(attributes[j]),
-                                                    "filterValue": $routeParams[attributes[j].Attribute]
-                                                });
-                                                continue;
-                                            }
-                                            fields.push({
-                                                "attribute": attributes[j].Attribute,
-                                                "type": "string",
-                                                "label": attributes[j].Label,
-                                                "dataType": attributes[j].Type,
-                                                "visible": true,
-                                                "notDisable": false,
-                                                "filter": getFilter(attributes[j]),
-                                                "filterValue": $routeParams[attributes[j].Attribute]
-                                            });
-                                        }
-                                    }
-                                    if (!hasName) {
-                                        fields.unshift({
-                                            "attribute": "Name",
-                                            "type": "select-link",
-                                            "dataType": "text",
-                                            "label": "Name",
-                                            "visible": true,
-                                            "notDisable": true
-                                        });
                                     }
                                 }
-
+                                // add column Name as default for non specified main column
+                                if (!hasMainColumn) {
+                                    fields.unshift({
+                                        "attribute": "Name",
+                                        "type": "select-link",
+                                        "dataType": "text",
+                                        "label": "Name",
+                                        "visible": true,
+                                        "notDisable": true
+                                    });
+                                }
                             };
 
                             prepareGroups();
                             isInitFields = true;
-                            //console.log(fields);
                             return fields;
                         };
 
                         getList = function (oldList) {
                             var getOptions, substituteKeyToValue, prepareList, regExp;
                             regExp = new RegExp("({.+})", "i");
-
                             getOptions = function (opt) {
                                 var options = {};
 

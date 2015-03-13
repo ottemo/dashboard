@@ -13,8 +13,9 @@
                 "$visitorApiService",
                 "COUNT_ITEMS_PER_PAGE",
                 function ($scope, $routeParams, $location, $q, DashboardListService, $visitorApiService, COUNT_ITEMS_PER_PAGE) {
-                    var serviceList, getAddressesList, getAddressesCount, getAttributeList;
+                    var serviceList, getAddressesList, getAddressesCount, getAttributeList, showColumns;
                     serviceList = new DashboardListService();
+                    showColumns = {};
 
                     $scope.visitorId = $routeParams.visitorId;
 
@@ -83,7 +84,7 @@
                                 serviceList.init('addresses');
                                 $scope.attributes = result;
                                 serviceList.setAttributes($scope.attributes);
-                                $scope.fields = serviceList.getFields();
+                                $scope.fields = serviceList.getFields(showColumns);
                                 getAddressesList();
                             }
                         );

@@ -27,7 +27,14 @@
                 "$designImageService",
                 "COUNT_ITEMS_PER_PAGE",
                 function ($location, $routeParams, $designService, DashboardListService, $visitorApiService, $designImageService, COUNT_ITEMS_PER_PAGE) {
-                    var serviceList = new DashboardListService();
+                    var serviceList = new DashboardListService(), showColumns;
+                    showColumns = {
+                        'name' : {'type' : 'select-link', 'label' : 'Name'},
+                        'email' : {},
+                        'first_name' : {},
+                        'last_name' : {},
+                        'is_admin' : {}
+                    };
 
                     return {
                         restrict: "E",
@@ -124,7 +131,7 @@
                                         serviceList.init('visitors');
                                         $scope.attributes = result;
                                         serviceList.setAttributes($scope.attributes);
-                                        $scope.fields = serviceList.getFields();
+                                        $scope.fields = serviceList.getFields(showColumns);
                                         getVisitorsList();
                                     }
                                 );

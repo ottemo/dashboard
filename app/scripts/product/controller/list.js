@@ -15,7 +15,7 @@
                 "COUNT_ITEMS_PER_PAGE",
                 function ($scope, $location, $routeParams, $q, DashboardListService, $productApiService,
                           $designImageService, $dashboardUtilsService, COUNT_ITEMS_PER_PAGE) {
-                    var serviceList, getProductsList, getAttributeList, getProductCount;
+                    var serviceList, getProductsList, getAttributeList, getProductCount, showColumns;
 
                     // Initialize SEO
                     if (typeof $scope.initSeo === "function") {
@@ -23,6 +23,13 @@
                     }
 
                     serviceList = new DashboardListService();
+                    showColumns = {
+                        'name' : {'type' : 'select-link', 'label' : 'Name'},
+                        'enabled' : {},
+                        'sku' : {},
+                        'price' : {},
+                        'weight' : {}
+                    };
 
                     $scope.idsSelectedRows = {};
                     $scope.fields = [
@@ -78,7 +85,7 @@
 
                             $scope.attributes = result;
                             serviceList.setAttributes($scope.attributes);
-                            $scope.fields = $scope.fields.concat(serviceList.getFields());
+                            $scope.fields = $scope.fields.concat(serviceList.getFields(showColumns));
 
                             getProductsList();
                         });

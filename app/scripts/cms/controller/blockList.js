@@ -12,8 +12,13 @@
                 "$cmsApiService",
                 "COUNT_ITEMS_PER_PAGE",
                 function ($scope, $location, $routeParams, $q, DashboardListService, $cmsApiService, COUNT_ITEMS_PER_PAGE) {
-                    var serviceList, getBlockCount, getAttributeList, getBlocksList;
+                    var serviceList, getBlockCount, getAttributeList, getBlocksList, showColumns;
                     serviceList = new DashboardListService();
+                    showColumns = {
+                        'identifier' : {'type' : 'select-link', 'label' : 'Name'},
+                        'created_at' : {'label' : 'Creation Date'},
+                        'updated_at' : {'label' : 'Last Updated'}
+                    };
 
                     $scope.idsSelectedRows = {};
 
@@ -57,7 +62,7 @@
                                 serviceList.init('blocks');
                                 $scope.attributes = result;
                                 serviceList.setAttributes($scope.attributes);
-                                $scope.fields = serviceList.getFields();
+                                $scope.fields = serviceList.getFields(showColumns);
                                 getBlocksList();
                             }
                         );

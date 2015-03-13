@@ -12,7 +12,7 @@
                 "$categoryApiService",
                 "COUNT_ITEMS_PER_PAGE",
                 function ($scope, $location, $routeParams, $q, DashboardListService, $categoryApiService, COUNT_ITEMS_PER_PAGE) {
-                    var serviceList, getCategoriesList, getCategoryCount, getAttributeList;
+                    var serviceList, getCategoriesList, getCategoryCount, getAttributeList, showColumns;
 
                     // Initialize SEO
                     if (typeof $scope.initSeo === "function") {
@@ -20,6 +20,10 @@
                     }
 
                     serviceList = new DashboardListService();
+                    showColumns = {
+                        'name' : {'type' : 'select-link', 'label' : 'Name'},
+                        'enabled' : {}
+                    };
 
                     $scope.idsSelectedRows = {};
 
@@ -63,7 +67,7 @@
                                 serviceList.init('categories');
                                 $scope.attributes = result;
                                 serviceList.setAttributes($scope.attributes);
-                                $scope.fields = serviceList.getFields();
+                                $scope.fields = serviceList.getFields(showColumns);
                                 getCategoriesList();
                             }
                         );

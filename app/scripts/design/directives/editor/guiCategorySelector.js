@@ -14,7 +14,12 @@
                 "$dashboardListService",
                 "$categoryApiService",
                 function ($location, $routeParams, $designService, DashboardListService, $categoryApiService) {
-                    var serviceList = new DashboardListService();
+                    var serviceList = new DashboardListService(), showColumns;
+                    showColumns = {
+                        'name' : {'type' : 'select-link', 'label' : 'Name'},
+                        'enabled' : {}
+                    };
+
                     return {
                         restrict: "E",
                         templateUrl: $designService.getTemplate("design/gui/editor/categorySelector.html"),
@@ -113,7 +118,7 @@
                                         serviceList.init('categories');
                                         $scope.attributes = result;
                                         serviceList.setAttributes($scope.attributes);
-                                        $scope.fields = serviceList.getFields();
+                                        $scope.fields = serviceList.getFields(showColumns);
                                         getCategoriesList();
                                     }
                                 );

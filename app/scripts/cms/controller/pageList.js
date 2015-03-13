@@ -13,17 +13,12 @@
                 "COUNT_ITEMS_PER_PAGE",
                 function ($scope, $location, $routeParams, $q, DashboardListService, $cmsApiService, COUNT_ITEMS_PER_PAGE) {
                     var serviceList, getPageCount, getAttributeList, getPagesList, showColumns;
+                    serviceList = new DashboardListService();
                     showColumns = {
-                        'identifier' : {
-                            'type' : 'select-link'
-                        },
+                        'identifier' : {'type' : 'select-link'},
                         'enabled' : {},
-                        'pagetitle' : {
-                            'label' : 'Title'
-                        }
+                        'pagetitle' : {'label' : 'Title of Page'}
                     };
-
-                    serviceList = new DashboardListService(showColumns);
 
                     // Initialize SEO
                     if (typeof $scope.initSeo === "function") {
@@ -73,7 +68,7 @@
 
                                 $scope.attributes = result;
                                 serviceList.setAttributes($scope.attributes);
-                                $scope.fields = serviceList.getFields();
+                                $scope.fields = serviceList.getFields(showColumns);
                                 getPagesList();
                             }
                         );
