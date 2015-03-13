@@ -30,6 +30,10 @@
                         method: "GET",
                         url: REST_SERVER_URI + "/impex/models"
                     },
+                    "importStatus": {
+                        method: "GET",
+                        url: REST_SERVER_URI + "/impex/importstatus"
+                    },
                     "importTax": {
                       method: "POST",
                       params: {},

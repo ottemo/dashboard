@@ -33,7 +33,7 @@
                             "id": "",
                             "url": "",
                             "identifier": "",
-                            "title": "",
+                            "pagetitle": "",
                             "content": "",
                             "meta_keywords": "",
                             "meta_description": "",

@@ -79,6 +79,10 @@
 
                             loadData = function () {
 
+                                if (typeof $scope.search === "undefined") {
+                                    $scope.search = {};
+                                }
+
                                 /**
                                  * Gets list of categories
                                  */
