@@ -32,7 +32,7 @@
                     },
                     "importStatus": {
                         method: "GET",
-                        url: REST_SERVER_URI + "/impex/importstatus"
+                        url: REST_SERVER_URI + "/impex/import/status"
                     },
                     "importTax": {
                       method: "POST",
