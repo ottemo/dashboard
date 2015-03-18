@@ -20,7 +20,7 @@
                         'status' : {},
                         'customer_email' : {},
                         'customer_name' : {},
-                        'grand_total' : {'label' : 'Total', 'filter' : "range"}
+                        'grand_total' : {'label' : 'Total', 'filter' : 'range', 'type' : 'price'}
                     };
 
                     $scope.idsSelectedRows = {};
