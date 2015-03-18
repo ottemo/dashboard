@@ -38,29 +38,31 @@
                         return (matches === null || (matches !== null && matches.join("").length < minCountSymbols));
                     };
                     var validate = function (value) {
+
+                        if(!value) return value;
                         /*jshint maxcomplexity:6 */
                         var valid = true;
                         if (value.length < minLen) {
                             valid = false;
-                            ngModel.message = passwordNotValidLength;
+                            ngModel.message2 = passwordNotValidLength;
                         }
                         if (checkLowercases(value)) {
                             valid = false;
-                            ngModel.message = passwordNotEnoughLowercases;
+                            ngModel.message2 = passwordNotEnoughLowercases;
                         }
                         if (checkUppercases(value)) {
                             valid = false;
-                            ngModel.message = passwordNotEnoughUppercases;
+                            ngModel.message2 = passwordNotEnoughUppercases;
                         }
                         if (checkNumbers(value)) {
                             valid = false;
-                            ngModel.message = passwordNotEnoughNumbers;
+                            ngModel.message2 = passwordNotEnoughNumbers;
                         }
                         if (checkSymbols(value)) {
                             valid = false;
-                            ngModel.message = passwordNotEnoughSymbols;
+                            ngModel.message2 = passwordNotEnoughSymbols;
                         }
-                        ngModel.$setValidity('ot-password', valid);
+                        ngModel.$setValidity('otpassword', valid);
                         return value;
                     };
 
