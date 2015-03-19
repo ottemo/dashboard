@@ -11,7 +11,7 @@
                 "$visitorApiService",
                 "$dashboardUtilsService",
                 function ($scope, $routeParams, $location, $visitorApiService, $dashboardUtilsService) {
-                    var formDisable, formEnable, attr;
+                    var formDisable, formEnable, formValidate, attr, requiredFields;
 
                     attr = $routeParams.attr;
                     if (!attr && attr !== "new") {
@@ -75,16 +75,34 @@
                         formEnable();
                     };
 
+                    requiredFields = ["Attribute", "Label"];
+                    formValidate = function () {
+                        var i, value;
+                        $scope.invalid = true;
+                        for (i = 0; i < requiredFields.length; i+=1) {
+                            if ($scope.attribute.hasOwnProperty(requiredFields[i])) {
+                                value = $scope.attribute[requiredFields[i]] || "";
+                                if (!value.match(/^\w+[\w*$()@^&!]*$/)) {
+                                    $scope.message = $dashboardUtilsService.getMessage(null, 'danger', 'The field '+ requiredFields[i]+' invalid');
+                                    return false;
+                                }
+                            } else {
+                                $scope.message = $dashboardUtilsService.getMessage(null, 'danger', 'The field '+ requiredFields[i]+' is not specified');
+                                return false;
+                            }
+                        }
+                        $scope.invalid = false;
+                        return true;
+                    };
+
+
                     /**
                      * Event handler to save the attribute data.
                      * Creates new attribute if ID in current visitor is empty OR updates current visitor if ID is set
                      */
                     $scope.save = function () {
                         var attribute, saveSuccess;
-
-                        if (typeof $scope.attribute !== "undefined") {
-                            attribute = $scope.attribute.Attribute;
-                        }
+                        $('[ng-click="save()"]').addClass('disabled').append('<i class="fa fa-spin fa-spinner"><i>').siblings('.btn').addClass('disabled');
 
                         /**
                          *
@@ -93,14 +111,23 @@
                         saveSuccess = function (response) {
                             if (response.error === null) {
                                 $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Attribute was created successfully');
+                            } else {
+                                $scope.message = $dashboardUtilsService.getMessage(response);
                             }
                         };
-                        if (attribute) {
+
+                        if (formValidate()) {
+                            if (typeof $scope.attribute !== "undefined") {
+                                attribute = $scope.attribute.Attribute;
+                            }
                             if (-1 !== ["multi_select"].indexOf($scope.attribute.Editors)) {
                                 $scope.attribute.Type = "[]text";
                             }
                             $visitorApiService.addAttribute($scope.attribute, saveSuccess);
                         }
+
+                        $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                        $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                     };
 
                     $scope.back = function () {
