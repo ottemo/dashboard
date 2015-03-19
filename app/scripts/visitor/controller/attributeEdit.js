@@ -83,11 +83,11 @@
                             if ($scope.attribute.hasOwnProperty(requiredFields[i])) {
                                 value = $scope.attribute[requiredFields[i]] || "";
                                 if (!value.match(/^\w+[\w*$()@^&!]*$/)) {
-                                    $scope.message = $dashboardUtilsService.getMessage(null, 'danger', 'The field '+ requiredFields[i]+' invalid');
+                                    $scope.message = $dashboardUtilsService.getMessage(null, 'warning', 'The field '+ requiredFields[i]+' invalid');
                                     return false;
                                 }
                             } else {
-                                $scope.message = $dashboardUtilsService.getMessage(null, 'danger', 'The field '+ requiredFields[i]+' is not specified');
+                                $scope.message = $dashboardUtilsService.getMessage(null, 'warning', 'The field '+ requiredFields[i]+' is not specified');
                                 return false;
                             }
                         }
