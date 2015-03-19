@@ -18,9 +18,10 @@
     <input type="hidden" name="Collection" value="product" required/>
 
     <div class="col-xs-12 col-sm-6 form-group ">
-        <label for="inpAttribute">Attribute</label>
+        <label for="inpAttribute">Attribute *</label>
         <input type="text" class="form-control" name="Attribute"
-               ng-model="attribute.Attribute"/>
+               ng-model="attribute.Attribute" required/>
+      <p ng-show="invalid && !attribute.Attribute" class="help-block">This field is required.</p>
     </div>
     <div class="col-xs-12 col-sm-6 form-group ">
         <label for="inpType">Type</label>
@@ -30,9 +31,10 @@
         </select>
     </div>
     <div class="col-xs-12 col-sm-6 form-group ">
-        <label for="inpLabel">Label</label>
+        <label for="inpLabel">Label *</label>
         <input type="text" class="form-control" name="Label"
-               ng-model="attribute.Label"/>
+               ng-model="attribute.Label" required/>
+      <p ng-show="invalid && !attribute.Label" class="help-block">This field is required.</p>
     </div>
     <div class="col-xs-12 col-sm-6 form-group ">
         <label for="inpGroup">Group</label>
