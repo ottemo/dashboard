@@ -11,7 +11,7 @@
                 "$productApiService",
                 "$dashboardUtilsService",
                 function ($scope, $routeParams, $location, $productApiService, $dashboardUtilsService) {
-                    var editableFields, formDisable, formEnable, attr;
+                    var editableFields, requiredFields, formDisable, formEnable, attr, formValidate;
 
                     attr = $routeParams.attr;
                     if (!attr && attr !== "new") {
@@ -79,39 +79,56 @@
                         formEnable();
                     };
 
+                    requiredFields = ["Attribute", "Label"];
+                    formValidate = function () {
+                        var i, value;
+                        $scope.invalid = true;
+                        for (i = 0; i < requiredFields.length; i+=1) {
+                            if ($scope.attribute.hasOwnProperty(requiredFields[i])) {
+                                value = $scope.attribute[requiredFields[i]]  || "";
+                                if (!value.match(/^\w+[\w*$()@^&!]*$/)) {
+                                    $scope.message = $dashboardUtilsService.getMessage(null, 'danger', 'The field '+ requiredFields[i]+' invalid');
+                                    return false;
+                                }
+                            } else {
+                                $scope.message = $dashboardUtilsService.getMessage(null, 'danger', 'The field '+ requiredFields[i]+' is not specified');
+                                return false;
+                            }
+                        }
+                        $scope.invalid = false;
+                        return true;
+                    };
+
                     /**
                      * Event handler to save the attribute data.
                      * Creates new attribute if ID in current product is empty OR updates current product if ID is set
                      */
                     $scope.save = function () {
                         $('[ng-click="save()"]').addClass('disabled').append('<i class="fa fa-spin fa-spinner"><i>').siblings('.btn').addClass('disabled');
-
-                        if (attr === null) {
-                            if (-1 !== ["multi_select"].indexOf($scope.attribute.Editors)) {
-                                $scope.attribute.Type = "[]text";
+                        if (formValidate()) {
+                            if (attr === null) { // it's a new attribute
+                                if (-1 !== ["multi_select"].indexOf($scope.attribute.Editors)) {
+                                    $scope.attribute.Type = "[]text";
+                                }
+                                $productApiService.addAttribute($scope.attribute).$promise.then(function (response) {
+                                    if (response.error === null) {
+                                        $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Attribute was updated successfully');
+                                    } else {
+                                        $scope.message = $dashboardUtilsService.getMessage(response);
+                                    }
+                                });
+                            } else {
+                                $productApiService.updateAttribute({"attribute": attr}, $scope.attribute).$promise.then(function (response) {
+                                    if (response.error === null) {
+                                        $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Attribute was updated successfully');
+                                    } else {
+                                        $scope.message = $dashboardUtilsService.getMessage(response);
+                                    }
+                                });
                             }
-                            $productApiService.addAttribute($scope.attribute).$promise.then(function (response) {
-                                if (response.error === null) {
-                                    $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Attribute was updated successfully');
-                                } else {
-                                    $scope.message = $dashboardUtilsService.getMessage(response);
-                                }
-                            });
-                            $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
-                            $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
-                        } else {
-                            $productApiService.updateAttribute({"attribute": attr}, $scope.attribute).$promise.then(function (response) {
-                                if (response.error === null) {
-                                    $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Attribute was updated successfully');
-                                } else {
-                                    $scope.message = $dashboardUtilsService.getMessage(response);
-                                }
-                            });
-                            $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
-                            $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                         }
-                        
-
+                        $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                        $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                     };
 
                     $scope.back = function () {

@@ -1,7 +1,7 @@
 <!-- Page title -->
 <h2 class="title label-info" ng-if="attribute.Attribute">
     <span class="fa fa-tags"></span>
-    {{attribute.Label}}
+    "{{attribute.Label}}" attribute editor
 </h2>
 <h2 class="title label-info" ng-if="!attribute.Attribute">
     <span class="fa fa-tags"></span>
@@ -18,9 +18,10 @@
     <input type="hidden" name="Collection" value="product" required/>
 
     <div class="col-xs-12 col-sm-6 form-group">
-        <label for="inp_Attribute">Attribute</label>
+        <label for="inp_Attribute">Attribute *</label>
         <input type="text" class="form-control" name="Attribute" id="inp_Attribute"
-               ng-model="attribute.Attribute"/>
+               ng-model="attribute.Attribute" required/>
+      <p ng-show="invalid && !attribute.Attribute" class="help-block">This field is required.</p>
     </div>
     <div class="col-xs-12 col-sm-6 form-group ">
         <label for="inp_Type">Type</label>
@@ -30,9 +31,10 @@
         </select>
     </div>
     <div class="col-xs-12 col-sm-6  form-group">
-        <label for="inp_Label">Label</label>
+        <label for="inp_Label">Label *</label>
         <input type="text" class="form-control" name="Label" id="inp_Label"
-               ng-model="attribute.Label"/>
+               ng-model="attribute.Label" required/>
+      <p ng-show="invalid && !attribute.Label" class="help-block">This field is required.</p>
     </div>
     <div class="col-xs-12 col-sm-6 form-group ">
         <label for="inp_Group">Group</label>
@@ -89,7 +91,7 @@
 
     <div class="col-xs-12 col-sm-6 form-group ">
         <label for="inp_Validators">Validators</label>
-        <input type="text" class="form-control" name="Default" id="inp_Validators"
+        <input type="text" class="form-control" name="Validators" id="inp_Validators"
                ng-model="attribute.Validators"/>
     </div>
     <div class="clearfix"></div>
