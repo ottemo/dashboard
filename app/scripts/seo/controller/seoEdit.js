@@ -198,9 +198,8 @@
 
                     removeAttributes = function () {
                         if (typeof $scope.attributes !== "undefined") {
-
                             for (var i = 0; i < $scope.attributes.length; i += 1) {
-                                if (seoFields.indexOf($scope.attributes[i].Attribute) !== -1) {
+                                if (seoFields.indexOf($scope.attributes[i].Attribute) !== -1 && $scope.attributes[i].Group == "SEO") {
                                     $scope.attributes.splice(i, 1);
                                 }
                             }
