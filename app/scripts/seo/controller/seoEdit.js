@@ -11,7 +11,7 @@
 
                     var isInit, seo, seoFields, itemName, hasAttribute, save, remove, isModifySave, isInitUrlRewrite,
                         modifyRemoveMethod, isModifyRemove, modifySaveMethod, addAttributes, addAttributesValue, getDefaultSeo,
-                        removeAttributes, saveSeo;
+                        removeAttributes, saveSeo, getUnigueSeoNames;
 
                     $seoService.init();
 
@@ -49,8 +49,34 @@
                         return flag;
                     };
 
+                    getUnigueSeoNames = function () {
+                        var seoUnigueNames = [];
+
+                        if (typeof $scope.attributes !== "undefined") {
+                            var i=0, existingAttributes = [];
+
+                            for (i = 0; i < $scope.attributes.length; i += 1) {
+                                if ($scope.attributes[i].Group !== "SEO") {
+                                    existingAttributes[$scope.attributes[i].Attribute] = "";
+                                }
+                            }
+
+                            for (i = 0; i < seoFields.length; i += 1) {
+                                if (existingAttributes.hasOwnProperty(seoFields[i])) {
+                                    seoUnigueNames[i]="seo_"+seoFields[i];
+                                } else {
+                                   seoUnigueNames[i] = seoFields[i];
+                                }
+                            }
+                            return seoUnigueNames;
+                        }
+                        return seoUnigueNames;
+                    };
+
                     saveSeo = function (oldSeo) {
                         var existingSeo = $seoService.find(itemName, oldSeo.rewrite);
+                        var seoUnigueFields = getUnigueSeoNames();
+
                         if (existingSeo) {
                             var callback = function (response) {
                                 seo._id = response.result[0]._id;
@@ -59,7 +85,7 @@
                                         seo = response || null;
                                         for (var i = 0; i < seoFields.length; i += 1) {
 
-                                            $scope[itemName][seoFields[i]] = seo[seoFields[i]];
+                                            $scope[itemName][seoUnigueFields[i]] = seo[seoFields[i]];
                                         }
                                         isInitUrlRewrite = true;
                                     }
@@ -72,7 +98,7 @@
                                     seo = response || null;
                                     for (var i = 0; i < seoFields.length; i += 1) {
 
-                                        $scope[itemName][seoFields[i]] = seo[seoFields[i]];
+                                        $scope[itemName][seoUnigueFields[i]] = seo[seoFields[i]];
                                     }
                                     isInitUrlRewrite = true;
                                 }
@@ -87,7 +113,7 @@
                      */
                     modifySaveMethod = function () {
                         if (!isModifySave) {
-
+                            var seoUnigueFields = getUnigueSeoNames();
                             save = $scope.save;
                             delete $scope.save;
 
@@ -95,7 +121,7 @@
                                 $seoService.get(seo.url).then(function (response) {
                                     if (response.result !== null) {
                                         for (var i = 0; i < seoFields.length; i += 1) {
-                                            $scope[itemName][seoFields[i]] = response.result[0][seoFields[i]];
+                                            $scope[itemName][seoUnigueFields[i]] = response.result[0][seoFields[i]];
                                         }
                                     }
                                 });
@@ -104,9 +130,9 @@
                             $scope.save = function () {
                                 var oldSeo = $dashboardUtilsService.clone(seo);
                                 for (var i = 0; i < seoFields.length; i += 1) {
-                                    seo[seoFields[i]] = $scope[itemName][seoFields[i]];
+                                    seo[seoFields[i]] = $scope[itemName][seoUnigueFields[i]];
 
-                                    delete $scope[itemName][seoFields[i]];
+                                    delete $scope[itemName][seoUnigueFields[i]];
                                 }
 
                                 save().then(
@@ -127,7 +153,6 @@
                      */
                     modifyRemoveMethod = function () {
                         if (!isModifyRemove) {
-
                             remove = $scope.remove;
                             delete $scope.remove;
 
@@ -154,7 +179,6 @@
                             isModifyRemove = true;
                         }
                     };
-
                     /**
                      * Initializes module
                      *
@@ -175,10 +199,11 @@
                      */
                     addAttributes = function () {
                         if (typeof $scope.attributes !== "undefined") {
-                            for (var i = 0; i < seoFields.length; i += 1) {
-                                if (!hasAttribute(seoFields[i])) {
+                        var seoUnigueFields = getUnigueSeoNames();
+                            for (var i=0; i < seoUnigueFields.length; i+=1) {
+                                if (!hasAttribute(seoUnigueFields[i])) {
                                     $scope.attributes.push({
-                                        "Attribute": seoFields[i],
+                                        "Attribute": seoUnigueFields[i],
                                         "Collection": "product",
                                         "Default": "",
                                         "Editors": "text",
@@ -198,8 +223,9 @@
 
                     removeAttributes = function () {
                         if (typeof $scope.attributes !== "undefined") {
-                            for (var i = 0; i < $scope.attributes.length; i += 1) {
-                                if (seoFields.indexOf($scope.attributes[i].Attribute) !== -1 && $scope.attributes[i].Group == "SEO") {
+                        var seoUnigueFields = getUnigueSeoNames();
+                            for (var i=0; i < $scope.attributes.length; i+=1) {
+                                if (seoUnigueFields.indexOf($scope.attributes[i].Attribute) !== -1 && $scope.attributes[i].Group == "SEO") {
                                     $scope.attributes.splice(i, 1);
                                 }
                             }
@@ -212,13 +238,13 @@
                      */
                     addAttributesValue = function () {
                         if (typeof $scope[itemName] !== "undefined" && !isInitUrlRewrite) {
-
+                        var seoUnigueFields = getUnigueSeoNames();
                             seo = $seoService.find(itemName, $scope[itemName]._id);
                             if (seo === null) {
                                 seo = getDefaultSeo();
                             }
                             for (var i = 0; i < seoFields.length; i += 1) {
-                                $scope[itemName][seoFields[i]] = seo[seoFields[i]];
+                                $scope[itemName][seoUnigueFields[i]] = seo[seoFields[i]];
                             }
                             isInitUrlRewrite = true;
                         }
