@@ -79,6 +79,8 @@
                         formEnable();
                     };
 
+                    // attr regex: allows A-Z, 0-9, _ and these *$()@^&!
+                    // label regex: same, but allows whitespace
                     requiredFields = {"Attribute": /^\w+[\w*$()@^&!]*$/, "Label": /^\w+[\w*$()@^&!\s]*$/};
                     formValidate = function () {
                         var field, value;
