@@ -79,19 +79,21 @@
                         formEnable();
                     };
 
-                    requiredFields = ["Attribute", "Label"];
+                    // attr regex: allows A-Z, 0-9, _ and these *$()@^&!
+                    // label regex: same, but allows whitespace
+                    requiredFields = {"Attribute": /^\w+[\w*$()@^&!]*$/, "Label": /^\w+[\w*$()@^&!\s]*$/};
                     formValidate = function () {
-                        var i, value;
+                        var field, value;
                         $scope.invalid = true;
-                        for (i = 0; i < requiredFields.length; i+=1) {
-                            if ($scope.attribute.hasOwnProperty(requiredFields[i])) {
-                                value = $scope.attribute[requiredFields[i]]  || "";
-                                if (!value.match(/^\w+[\w*$()@^&!]*$/)) {
-                                    $scope.message = $dashboardUtilsService.getMessage(null, 'warning', 'The field '+ requiredFields[i]+' invalid');
+                        for (field in requiredFields) {
+                            if ($scope.attribute.hasOwnProperty(field)) {
+                                value = $scope.attribute[field]  || "";
+                                if (!value.match(requiredFields[field])) {
+                                    $scope.message = $dashboardUtilsService.getMessage(null, 'warning', 'The field '+ field +' invalid');
                                     return false;
                                 }
                             } else {
-                                $scope.message = $dashboardUtilsService.getMessage(null, 'warning', 'The field '+ requiredFields[i]+' is not specified');
+                                $scope.message = $dashboardUtilsService.getMessage(null, 'warning', 'The field '+ field +' is not specified');
                                 return false;
                             }
                         }
