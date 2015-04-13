@@ -10,88 +10,67 @@
          *
          */
             .service("$cmsApiService", ["$resource", "REST_SERVER_URI", function ($resource, REST_SERVER_URI) {
-
-                var cmsBaseURL = REST_SERVER_URI + "/cms";
-
-                return $resource(cmsBaseURL, {}, {
+                return $resource(REST_SERVER_URI, {}, {
                     // Products
                     "blockAdd": {
                         method: "POST",
-                        url: cmsBaseURL + "/block/add"
+                        url: REST_SERVER_URI + "/cms/block"
                     },
                     "blockAttributes": {
                         method: "GET",
-                        url: cmsBaseURL + "/block/attributes"
+                        url: REST_SERVER_URI + "/cms/blocks/attributes"
                     },
                     "blockCount": {
-                        method: "POST",
-                        url: cmsBaseURL + "/block/count"
+                        method: "GET",
+                        params: { action: "count" },
+                        url: REST_SERVER_URI + "/cms/blocks"
                     },
                     "blockRemove": {
                         method: "DELETE",
-                        params: {id: "@id"},
-                        url: cmsBaseURL + "/block/delete/:id"
+                        url: REST_SERVER_URI + "/cms/block/:blockID"
                     },
                     "blockGet": {
                         method: "GET",
-                        params: {id: "@id"},
-                        url: cmsBaseURL + "/block/get/:id"
+                        url: REST_SERVER_URI + "/cms/block/:blockID"
                     },
-                    "blockListG": {
+                    "blockList": {
                         method: "GET",
-                        url: cmsBaseURL + "/block/list"
-                    },
-                    "blockListP": {
-                        method: "POST",
-                        url: cmsBaseURL + "/block/list"
+                        url: REST_SERVER_URI + "/cms/blocks"
                     },
                     "blockUpdate": {
                         method: "PUT",
-                        params: {id: "@id"},
-                        url: cmsBaseURL + "/block/update/:id"
-                    },
-                    "getCountB": {
-                        method: "GET",
-                        url: cmsBaseURL + "/block/count"
+                        params: { blockID: "@id" },
+                        url: REST_SERVER_URI + "/cms/block/:blockID"
                     },
                     "pageAdd": {
                         method: "POST",
-                        url: cmsBaseURL + "/page/add"
+                        url: REST_SERVER_URI + "/cms/page"
                     },
                     "pageAttributes": {
                         method: "GET",
-                        url: cmsBaseURL + "/page/attributes"
+                        url: REST_SERVER_URI + "/cms/pages/attributes"
                     },
                     "pageCount": {
-                        method: "POST",
-                        url: cmsBaseURL + "/page/count"
+                        method: "GET",
+                        params: { action: "count" },
+                        url: REST_SERVER_URI + "/cms/pages"
                     },
                     "pageRemove": {
                         method: "DELETE",
-                        params: {id: "@id"},
-                        url: cmsBaseURL + "/page/delete/:id"
+                        url: REST_SERVER_URI + "/cms/page/:pageID"
                     },
                     "pageGet": {
                         method: "GET",
-                        params: {id: "@id"},
-                        url: cmsBaseURL + "/page/get/:id"
+                        url: REST_SERVER_URI + "/cms/page/:pageID"
                     },
-                    "pageListG": {
+                    "pageList": {
                         method: "GET",
-                        url: cmsBaseURL + "/page/list"
-                    },
-                    "pageListP": {
-                        method: "POST",
-                        url: cmsBaseURL + "/page/list"
-                    },
-                    "getCountP": {
-                        method: "GET",
-                        url: cmsBaseURL + "/page/count"
+                        url: REST_SERVER_URI + "/cms/pages"
                     },
                     "pageUpdate": {
                         method: "PUT",
-                        params: {id: "@id"},
-                        url: cmsBaseURL + "/page/update/:id"
+                        params: { pageID: "@id" },
+                        url: REST_SERVER_URI + "/cms/page/:pageID"
                     }
                 });
             }]);

@@ -70,7 +70,7 @@
                      * @param id
                      */
                     if (null !== visitorId) {
-                        $visitorApiService.load({"id": visitorId}).$promise.then(
+                        $visitorApiService.load({"visitorID": visitorId}).$promise.then(
                             function (response) {
                                 var result = response.result || {};
                                 $scope.visitor = result;

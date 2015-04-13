@@ -24,79 +24,69 @@
          *      addImage(productId, mediaName)      - adds image in product
          */
             .service("$productApiService", ["$resource", "REST_SERVER_URI", function ($resource, REST_SERVER_URI) {
-
-                var productBaseURL = REST_SERVER_URI + "/product";
-
-                return $resource(productBaseURL, {}, {
+                return $resource(REST_SERVER_URI, {}, {
                     "attributesInfo": {
                         method: "GET",
-                        url: productBaseURL + "/attribute/list"
+                        url: REST_SERVER_URI + "/products/attributes"
                     },
                     "deleteAttribute": {
                         method: "DELETE",
-                        params: { attribute: "@attribute" },
-                        url: productBaseURL + "/attribute/remove/:attribute"
+                        url: REST_SERVER_URI + "/products/attribute/:attribute"
                     },
                     "addAttribute": {
                         method: "POST",
-                        url: productBaseURL + "/attribute/add"
+                        url: REST_SERVER_URI + "/products/attribute"
                     },
                     "updateAttribute": {
-                        method: "POST",
-                        params: { attribute: "@attribute" },
-                        url: productBaseURL + "/attribute/edit/:attribute"
+                        method: "PUT",
+                        url: REST_SERVER_URI + "/products/attribute/:attribute"
                     },
                     "productList": {
-                        method: "POST",
-                        url: productBaseURL + "/list"
+                        method: "GET",
+                        url: REST_SERVER_URI + "/products"
                     },
                     "getProduct": {
                         method: "GET",
-                        params: { id: "@id" },
-                        url: productBaseURL + "/get/:id"
+                        url: REST_SERVER_URI + "/product/:productID"
                     },
                     "getCount": {
                         method: "GET",
-                        url: productBaseURL + "/count"
+                        params: { action: "count" },
+                        url: REST_SERVER_URI + "/products"
                     },
                     "update": {
                         method: "PUT",
-                        params: { id: "@id" },
-                        url: productBaseURL + "/update/:id"
+                        params: { productID: "@id" },
+                        url: REST_SERVER_URI + "/product/:productID"
                     },
                     "save": {
                         method: "POST",
-                        url: productBaseURL + "/create"
+                        url: REST_SERVER_URI + "/product"
                     },
                     "remove": {
                         method: "DELETE",
-                        params: { id: "@id" },
-                        url: productBaseURL + "/delete/:id"
+                        url: REST_SERVER_URI + "/product/:productID"
                     },
                     "getImage": {
                         method: "GET",
-                        params: { productId: "@productId", mediaName: "@mediaName" },
-                        url: productBaseURL + "/media/get/:productId/image/:mediaName"
+                        url: REST_SERVER_URI + "/product/:productID/media/image/:mediaName"
                     },
                     "getImagePath": {
                         method: "GET",
-                        params: { productId: "@productId" },
-                        url: productBaseURL + "/media/path/:productId/image"
+                        url: REST_SERVER_URI + "/product/:productID/mediapath/image"
                     },
                     "listImages": {
                         method: "GET",
-                        params: { productId: "@productId" },
-                        url: productBaseURL + "/media/list/:productId/image"
+                        url: REST_SERVER_URI + "/product/:productID/media/image"
                     },
                     "removeImage": {
                         method: "DELETE",
-                        params: { productId: "@productId", mediaName: "@mediaName" },
-                        url: productBaseURL + "/media/remove/:productId/image/:mediaName"
+                        url: REST_SERVER_URI + "/product/:productID/media/image/:mediaName"
                     },
                     "addImage": { // http://stackoverflow.com/questions/13963022/angularjs-how-to-implement-a-simple-file-upload-with-multipart-form
                         method: "POST",
-                        params: { productId: "@productId", mediaName: "@mediaName" },
-                        url: productBaseURL + "/media/add/:productId/image/:mediaName",
+                        params: { productID: "@productId", mediaName: "@mediaName" },
+                        url: REST_SERVER_URI + "/product/:productID/media/image/:mediaName",
 
                         headers: {"Content-Type": undefined },
                         transformRequest: angular.identity // jshint ignore:line

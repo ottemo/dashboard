@@ -14,7 +14,12 @@
                 "$dashboardListService",
                 "$categoryApiService",
                 function ($location, $routeParams, $designService, DashboardListService, $categoryApiService) {
-                    var serviceList = new DashboardListService();
+                    var serviceList = new DashboardListService(), showColumns;
+                    showColumns = {
+                        'name' : {'type' : 'select-link', 'label' : 'Name'},
+                        'enabled' : {}
+                    };
+
                     return {
                         restrict: "E",
                         templateUrl: $designService.getTemplate("design/gui/editor/categorySelector.html"),
@@ -74,11 +79,17 @@
 
                             loadData = function () {
 
+                                if (typeof $scope.search === "undefined") {
+                                    $scope.search = {};
+                                }
+
                                 /**
                                  * Gets list of categories
                                  */
                                 var getCategoriesList = function () {
-                                    $categoryApiService.categoryList($scope.search, {"extra": serviceList.getExtraFields()}).$promise.then(
+                                    var params = $scope.search;
+                                    params["extra"] = serviceList.getExtraFields();
+                                    $categoryApiService.categoryList(params).$promise.then(
                                         function (response) {
                                             var result, i;
                                             $scope.categoriesTmp = [];
@@ -95,7 +106,7 @@
                                 /**
                                  * Gets count of categories
                                  */
-                                $categoryApiService.getCount($scope.search, {}).$promise.then(
+                                $categoryApiService.getCount($scope.search).$promise.then(
                                     function (response) {
                                         if (response.error === null) {
                                             $scope.count = response.result;
@@ -111,7 +122,7 @@
                                         serviceList.init('categories');
                                         $scope.attributes = result;
                                         serviceList.setAttributes($scope.attributes);
-                                        $scope.fields = serviceList.getFields();
+                                        $scope.fields = serviceList.getFields(showColumns);
                                         getCategoriesList();
                                     }
                                 );

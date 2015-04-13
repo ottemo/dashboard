@@ -10,63 +10,78 @@
              *  $productApiService interaction service
              */
             .service("$categoryApiService", ["$resource", "REST_SERVER_URI", function ($resource, REST_SERVER_URI) {
-
-                var categoryBaseURL = REST_SERVER_URI + "/category";
-
-                return $resource(categoryBaseURL, {}, {
+                return $resource(REST_SERVER_URI, {}, {
                     "attributesInfo": {
                         method: "GET",
-                        url: categoryBaseURL + "/attribute/list"
+                        url: REST_SERVER_URI + "/categories/attributes"
                     },
                     "getCategory": {
                         method: "GET",
-                        params: { id: "@id" },
-                        url: categoryBaseURL + "/get/:id"
+                        url: REST_SERVER_URI + "/category/:categoryID"
                     },
                     "categoryList": {
-                        method: "POST",
-                        url: categoryBaseURL + "/list"
+                        method: "GET",
+                        url: REST_SERVER_URI + "/categories"
                     },
                     "getCount": {
                         method: "GET",
-                        url: categoryBaseURL + "/count"
+                        params: { action: "count" },
+                        url: REST_SERVER_URI + "/categories"
                     },
                     "save": {
                         method: "POST",
-                        url: categoryBaseURL + "/create"
+                        url: REST_SERVER_URI + "/category"
                     },
                     "remove": {
                         method: "DELETE",
-                        params: { id: "@id" },
-                        url: categoryBaseURL + "/delete/:id"
+                        url: REST_SERVER_URI + "/category/:categoryID"
                     },
                     "update": {
                         method: "PUT",
-                        params: { id: "@id" },
-                        url: categoryBaseURL + "/update/:id"
+                        params: { categoryID: "@id" },
+                        url: REST_SERVER_URI + "/category/:categoryID"
+                    },
+                    "getImage": {
+                        method: "GET",
+                        url: REST_SERVER_URI + "/category/:categoryID/media/image/:mediaName"
+                    },
+                    "getImagePath": {
+                        method: "GET",
+                        url: REST_SERVER_URI + "/category/:categoryID/mediapath/image"
+                    },
+                    "listImages": {
+                        method: "GET",
+                        url: REST_SERVER_URI + "/category/:categoryID/media/image"
+                    },
+                    "removeImage": {
+                        method: "DELETE",
+                        url: REST_SERVER_URI + "/category/:categoryID/media/image/:mediaName"
+                    },
+                    "addImage": { // http://stackoverflow.com/questions/13963022/angularjs-how-to-implement-a-simple-file-upload-with-multipart-form
+                        method: "POST",
+                        params: { categoryID: "@categoryId", mediaName: "@mediaName" },
+                        url: REST_SERVER_URI + "/category/:categoryID/media/image/:mediaName",
+
+                        headers: {"Content-Type": undefined },
+                        transformRequest: angular.identity // jshint ignore:line
                     },
 
                     // Products
                     "addProduct": {
-                        method: "GET",
+                        method: "POST",
                         params: {
-                            categoryId: "@categoryId",
-                            productId: "@productId"
+                            categoryID: "@categoryId",
+                            productID: "@productId"
                         },
-                        url: categoryBaseURL + "/product/add/:categoryId/:productId"
+                        url: REST_SERVER_URI + "/category/:categoryID/product/:productID"
                     },
                     "removeProduct": {
-                        method: "GET",
-                        params: {
-                            categoryId: "@categoryId",
-                            productId: "@productId"
-                        },
-                        url: categoryBaseURL + "/product/remove/:categoryId/:productId"
+                        method: "DELETE",
+                        url: REST_SERVER_URI + "/category/:categoryID/product/:productID"
                     },
                     "getProducts": {
                         method: "GET",
-                        params: {id: "@id"},
-                        url: categoryBaseURL + "/product/:id"
+                        url: REST_SERVER_URI + "/category/:categoryID/products"
                     }
                 });
             }]);

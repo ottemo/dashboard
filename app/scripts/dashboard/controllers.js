@@ -138,7 +138,7 @@
                     // VISITORS CHART
                     // BY DEFAULT LAST 7 DAYS
                     (function () {
-                        var from, to, today, dd, mm, yyyy, month;
+                        var from, to, today, dd, mm, yyyy, month,  tz;
 
                         today = new Date();
                         today.setDate(today.getDate() + 1);
@@ -154,8 +154,9 @@
                         mm = month.toString().length < 2 ? '0' + month : month;
                         yyyy = today.getFullYear();
                         from = yyyy + "-" + mm + "-" + dd;
+                        tz = -today.getTimezoneOffset()/60;
 
-                        $statistic.getVisitsDetail(from, to).then(
+                        $statistic.getVisitsDetail(from, to, tz).then(
                             function (data) {
                                 renderVisitsChart(data);
                                 $scope.visitorsChartData = data;
@@ -216,7 +217,7 @@
                     // SALES CHART
                     // BY DEFAULT LAST 7 DAYS
                     (function () {
-                        var from, to, today, dd, mm, yyyy, month;
+                        var from, to, today, dd, mm, yyyy, month, tz;
 
                         today = new Date();
                         today.setDate(today.getDate() + 1);
@@ -232,8 +233,9 @@
                         mm = month.toString().length < 2 ? '0' + month : month;
                         yyyy = today.getFullYear();
                         from = yyyy + "-" + mm + "-" + dd;
+                        tz = -today.getTimezoneOffset()/60;
 
-                        $statistic.getSalesDetail(from, to).then(
+                        $statistic.getSalesDetail(from, to, tz).then(
                             function (data) {
                                 renderSalesChart(data);
                                 $scope.salesChartData = data;
@@ -242,7 +244,7 @@
                     })();
 
                     $scope.updateVisitsChart = function (period) {
-                        var from, to, today, delta, dd, mm, month, yyyy;
+                        var from, to, today, delta, dd, mm, month, yyyy, tz;
 
                         var getDeltaValueForPeriod = function (period) {
                             var delta = {};
@@ -293,8 +295,9 @@
                         mm = month.toString().length < 2 ? '0' + month : month;
                         yyyy = today.getFullYear();
                         from = yyyy + "-" + mm + "-" + dd;
+                        tz = -today.getTimezoneOffset()/60;
 
-                        $statistic.getVisitsDetail(from, to).then(
+                        $statistic.getVisitsDetail(from, to, tz).then(
                             function (data) {
                                 renderVisitsChart(data);
                                 $scope.visitorsChartData = data;
@@ -303,7 +306,7 @@
                     };
 
                     $scope.updateSalesChart = function (period) {
-                        var from, to, today, delta, dd, mm, month, yyyy;
+                        var from, to, today, delta, dd, mm, month, yyyy, tz;
 
                         var getDeltaValueForPeriod = function (period) {
                             var delta = {};
@@ -354,8 +357,9 @@
                         mm = month.toString().length < 2 ? '0' + month : month;
                         yyyy = today.getFullYear();
                         from = yyyy + "-" + mm + "-" + dd;
+                         tz = -today.getTimezoneOffset()/60;
 
-                        $statistic.getSalesDetail(from, to).then(
+                        $statistic.getSalesDetail(from, to, tz).then(
                             function (data) {
                                 renderSalesChart(data);
                                 $scope.salesChartData = data;

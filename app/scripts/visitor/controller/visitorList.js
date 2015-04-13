@@ -13,8 +13,15 @@
                 "$visitorApiService",
                 "COUNT_ITEMS_PER_PAGE",
                 function ($scope, $routeParams, $location, $q, DashboardListService, $visitorApiService, COUNT_ITEMS_PER_PAGE) {
-                    var serviceList, getVisitorsList, getVisitorCount, getAttributeList;
+                    var serviceList, getVisitorsList, getVisitorCount, getAttributeList, showColumns;
                     serviceList = new DashboardListService();
+                    showColumns = {
+                        'name' : {'type' : 'select-link', 'label' : 'Name'},
+                        'email' : {},
+                        'first_name' : {},
+                        'last_name' : {},
+                        'is_admin' : {}
+                    };
 
                     $scope.idsSelectedRows = {};
 
@@ -22,7 +29,9 @@
                      * Gets list of visitors
                      */
                     getVisitorsList = function () {
-                        $visitorApiService.visitorList($location.search(), {"extra": serviceList.getExtraFields()}).$promise.then(
+                        var params = $location.search();
+                        params["extra"] = serviceList.getExtraFields();
+                        $visitorApiService.visitorList(params).$promise.then(
                             function (response) {
                                 var result, i;
                                 $scope.visitorsTmp = [];
@@ -59,7 +68,7 @@
                                 serviceList.init('visitors');
                                 $scope.attributes = result;
                                 serviceList.setAttributes($scope.attributes);
-                                $scope.fields = serviceList.getFields();
+                                $scope.fields = serviceList.getFields(showColumns);
                                 getVisitorsList();
                             }
                         );
@@ -106,7 +115,7 @@
                         _remove = function (id) {
                             var defer = $q.defer();
 
-                            $visitorApiService.remove({"id": id},
+                            $visitorApiService.remove({"visitorID": id},
                                 function (response) {
                                     if (response.result === "ok") {
                                         defer.resolve(id);

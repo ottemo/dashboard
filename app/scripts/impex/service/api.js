@@ -10,13 +10,10 @@
          *
          */
             .service("$impexApiService", ["$resource", "REST_SERVER_URI", function ($resource, REST_SERVER_URI) {
-
-                var impexBaseURL = REST_SERVER_URI + "/impex";
-
-                return $resource(impexBaseURL, {}, {
+                return $resource(REST_SERVER_URI, {}, {
                     "importBatch": {
                         method: "POST",
-                        url: impexBaseURL + "/import",
+                        url: REST_SERVER_URI + "/impex/import",
 
                         headers: {"Content-Type": undefined },
                         transformRequest: angular.identity
@@ -24,14 +21,32 @@
                     "importModel": {
                         method: "POST",
                         params: { model: "@model" },
-                        url: impexBaseURL + "/import/:model",
+                        url: REST_SERVER_URI + "/impex/import/:model",
 
                         headers: {"Content-Type": undefined },
                         transformRequest: angular.identity
                     },
                     "getModels": {
                         method: "GET",
-                        url: impexBaseURL + "/models"
+                        url: REST_SERVER_URI + "/impex/models"
+                    },
+                    "importStatus": {
+                        method: "GET",
+                        url: REST_SERVER_URI + "/impex/import/status"
+                    },
+                    "importTax": {
+                      method: "POST",
+                      params: {},
+                      url: REST_SERVER_URI + "/taxes/csv",
+                      headers: {"Content-Type": undefined },
+                      transformRequest: angular.identity
+                    },
+                    "importDiscount": {
+                      method: "POST",
+                      params: {},
+                      url: REST_SERVER_URI + "/discounts/csv",
+                      headers: {"Content-Type": undefined },
+                      transformRequest: angular.identity
                     }
                 });
             }]);

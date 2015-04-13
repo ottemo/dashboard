@@ -75,7 +75,7 @@
                         if (!isModified(obj)) {
                             defer.resolve(obj);
                         } else {
-                            $seoApiService.update({"id": obj._id}, obj).$promise.then(
+                            $seoApiService.update({"itemID": obj._id}, obj).$promise.then(
                                 function (response) {
                                     var i;
 
@@ -117,7 +117,7 @@
 
                     remove = function (obj) {
                         var defer = $q.defer();
-                        $seoApiService.remove({"id": obj._id}, obj).$promise.then(
+                        $seoApiService.remove({"itemID": obj._id}, obj).$promise.then(
                             function (response) {
                                 if (response.error === null) {
                                     var result = response.result || null;

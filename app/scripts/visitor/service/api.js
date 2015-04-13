@@ -10,92 +10,80 @@
              *  $productApiService interaction service
              */
             .service("$visitorApiService", ["$resource", "REST_SERVER_URI", function ($resource, REST_SERVER_URI) {
-
-                var visitorBaseURL = REST_SERVER_URI + "/visitor";
-
-                return $resource(visitorBaseURL, {}, {
+                return $resource(REST_SERVER_URI, {}, {
                     "attributesInfo": {
                         method: "GET",
-                        url: visitorBaseURL + "/attribute/list"
+                        url: REST_SERVER_URI + "/visitors/attributes"
                     },
                     "addAttribute": {
                         method: "POST",
-                        url: visitorBaseURL + "/attribute/add"
+                        url: REST_SERVER_URI + "/visitors/attribute"
                     },
                     "removeAttribute": {
                         method: "DELETE",
-                        params: { attribute: "@attribute" },
-                        url: visitorBaseURL + "/attribute/remove/:attribute"
+                        url: REST_SERVER_URI + "/visitors/attribute/:attribute"
                     },
                     "visitorList": {
-                        method: "POST",
-                        url: visitorBaseURL + "/list"
+                        method: "GET",
+                        url: REST_SERVER_URI + "/visitors"
                     },
                     "save": {
                         method: "POST",
-                        url: visitorBaseURL + "/create"
+                        url: REST_SERVER_URI + "/visitor"
                     },
                     "load": {
                         method: "GET",
-                        params: { id: "@id" },
-                        url: visitorBaseURL + "/load/:id" },
+                        url: REST_SERVER_URI + "/visitor/:visitorID" },
                     "update": {
                         method: "PUT",
-                        params: { id: "@id" },
-                        url: visitorBaseURL + "/update/:id"
+                        params: { visitorID: "@id" },
+                        url: REST_SERVER_URI + "/visitor/:visitorID"
                     },
                     "remove": {
                         method: "DELETE",
-                        params: { id: "@id" },
-                        url: visitorBaseURL + "/delete/:id"
+                        url: REST_SERVER_URI + "/visitor/:visitorID"
                     },
                     "getCountVisitors": {
                         method: "GET",
-                        url: visitorBaseURL + "/count"
+                        params: { action: "count" },
+                        url: REST_SERVER_URI + "/visitors"
                     },
 
                     // Addresses API
                     "addressAttributeInfo": {
                         method: "GET",
-                        url: visitorBaseURL + "/address/attribute/list"
+                        url: REST_SERVER_URI + "/visitors/addresses/attributes"
                     },
-                    "addressesG": {
+                    "addresses": {
                         method: "GET",
-                        params: {visitorId: "@visitorId"},
-                        url: visitorBaseURL + "/address/list/:visitorId"
-                    },
-
-                    "addressesP": {
-                        method: "POST",
-                        params: {visitorId: "@visitorId"},
-                        url: visitorBaseURL + "/address/list/:visitorId"
+                        url: REST_SERVER_URI + "/visitor/:visitorID/addresses"
                     },
                     "loadAddress": {
                         method: "GET",
-                        params: {id: "@id"},
-                        url: visitorBaseURL + "/address/load/:id"
+                        url: REST_SERVER_URI + "/visitors/address/:addressID"
                     },
                     "saveAddress": {
                         method: "POST",
-                        url: visitorBaseURL + "/address/create"
+                        params: { visitorID: "@visitor_id"},
+                        url: REST_SERVER_URI + "/visitor/:visitorID/address"
                     },
                     "updateAddress": {
                         method: "PUT",
-                        params: { id: "@id" },
-                        url: visitorBaseURL + "/address/update/:id"
+                        params: { addressID: "@id" },
+                        url: REST_SERVER_URI + "/visitors/address/:addressID"
                     },
                     "getCountAddresses": {
                         method: "GET",
-                        url: visitorBaseURL + "/address/count"
+                        params: { action: "count" },
+                        url: REST_SERVER_URI + "/visitor/:visitorID/addresses"
                     },
                     "deleteAddress": {
                         method: "DELETE",
-                        params: { id: "@id" },
-                        url: visitorBaseURL + "/address/delete/:id"
+                        url: REST_SERVER_URI + "/visitors/address/:addressID"
                     },
                     "sendMail": {
                         method: "POST",
-                        url: visitorBaseURL + "/sendmail"
+                        url: REST_SERVER_URI + "/visitors/mail"
                     }
                 });
             }]);

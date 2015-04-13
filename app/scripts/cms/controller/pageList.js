@@ -12,8 +12,13 @@
                 "$cmsApiService",
                 "COUNT_ITEMS_PER_PAGE",
                 function ($scope, $location, $routeParams, $q, DashboardListService, $cmsApiService, COUNT_ITEMS_PER_PAGE) {
-                    var serviceList, getPageCount, getAttributeList, getPagesList;
+                    var serviceList, getPageCount, getAttributeList, getPagesList, showColumns;
                     serviceList = new DashboardListService();
+                    showColumns = {
+                        'identifier' : {'type' : 'select-link'},
+                        'enabled' : {},
+                        'pagetitle' : {'label' : 'Title of Page'}
+                    };
 
                     // Initialize SEO
                     if (typeof $scope.initSeo === "function") {
@@ -26,7 +31,9 @@
                      * Gets list of pages
                      */
                     getPagesList = function () {
-                        $cmsApiService.pageListP($location.search(), {"extra": "title"}).$promise.then(
+                        var params = $location.search();
+                        params["extra"] = serviceList.getExtraFields();
+                        $cmsApiService.pageList(params).$promise.then(
                             function (response) {
                                 var result, i;
                                 $scope.pagesTmp = [];
@@ -42,7 +49,7 @@
                      * Gets list of pages
                      */
                     getPageCount = function () {
-                        $cmsApiService.getCountP($location.search(), {}).$promise.then(
+                        $cmsApiService.pageCount($location.search()).$promise.then(
                             function (response) {
                                 if (response.error === null) {
                                     $scope.count = response.result;
@@ -61,7 +68,7 @@
 
                                 $scope.attributes = result;
                                 serviceList.setAttributes($scope.attributes);
-                                $scope.fields = serviceList.getFields();
+                                $scope.fields = serviceList.getFields(showColumns);
                                 getPagesList();
                             }
                         );
@@ -107,7 +114,7 @@
                         _remove = function (id) {
                             var defer = $q.defer();
 
-                            $cmsApiService.pageRemove({"id": id},
+                            $cmsApiService.pageRemove({"pageID": id},
                                 function (response) {
                                     if (response.result === "ok") {
                                         defer.resolve(id);

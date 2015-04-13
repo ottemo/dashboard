@@ -27,7 +27,15 @@
                 "$designImageService",
                 "COUNT_ITEMS_PER_PAGE",
                 function ($location, $routeParams, $designService, DashboardListService, $productApiService, $designImageService, COUNT_ITEMS_PER_PAGE) {
-                    var serviceList = new DashboardListService();
+                    var serviceList = new DashboardListService(), showColumns;
+                    showColumns = {
+                        'name' : {'type' : 'select-link', 'label' : 'Name'},
+                        'enabled' : {},
+                        'sku' : {},
+                        'price' : {},
+                        'weight' : {}
+                    };
+
                     return {
                         restrict: "E",
                         templateUrl: $designService.getTemplate("design/gui/editor/productSelector.html"),
@@ -99,10 +107,9 @@
                                 $scope.oldSearch = clone($scope.search);
 
                                 var getProductsList = function () {
-                                    $productApiService.productList(
-                                        $scope.search,
-                                        {"extra": serviceList.getExtraFields()}
-                                    ).$promise.then(
+                                    var params = $scope.search;
+                                    params["extra"] = serviceList.getExtraFields();
+                                    $productApiService.productList(params).$promise.then(
                                         function (response) {
                                             var result, i;
                                             $scope.productsTmp = [];
@@ -138,7 +145,7 @@
                                         serviceList.init('products');
                                         $scope.attributes = result;
                                         serviceList.setAttributes($scope.attributes);
-                                        $scope.fields = $scope.fields.concat(serviceList.getFields());
+                                        $scope.fields = $scope.fields.concat(serviceList.getFields(showColumns));
                                         getProductsList();
                                     });
                                 };

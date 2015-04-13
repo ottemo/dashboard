@@ -1,4 +1,4 @@
-#code_container {
+#code_container, #theme_container {
   display: none !important;
 }
 /* Login page */
@@ -734,4 +734,13 @@ body.sticky-sidebar *[data-toggle="offcanvas"] {
 .btn i.fa-spinner {
   margin-left: 7px;
   font-size: 110%;
+}
+.impex-progressbar .outer-box{
+  border: 1px #e4e4e4 solid;
+  padding: 15px 10px 5px 10px;
+  margin-bottom: 20px
+}
+.impex-progressbar .title{
+  font-size: 17px;
+  margin-bottom: 15px;
 }

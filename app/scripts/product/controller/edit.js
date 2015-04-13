@@ -81,7 +81,7 @@
                      * Gets product data
                      */
                     if (null !== productId) {
-                        $productApiService.getProduct({"id": productId}).$promise.then(
+                        $productApiService.getProduct({"productID": productId}).$promise.then(
                             function (response) {
                                 var result = response.result || {};
                                 $scope.product = result;
@@ -192,13 +192,13 @@
                     $scope.reloadImages = function () {
                         if ($scope.product !== undefined && $scope.product._id !== undefined) {
                             // taking media patch for new product
-                            $productApiService.getImagePath({"productId": $scope.product._id}).$promise.then(
+                            $productApiService.getImagePath({"productID": $scope.product._id}).$promise.then(
                                 function (response) {
                                     $scope.imagesPath = response.result || "";
                                 });
 
                             // taking registered images for product
-                            $productApiService.listImages({"productId": $scope.product._id}).$promise.then(
+                            $productApiService.listImages({"productID": $scope.product._id}).$promise.then(
                                 function (response) {
                                     $scope.productImages = response.result || [];
                                 });
@@ -223,7 +223,7 @@
                         postData.append("file", file.files[0]);
 
                         if (pid !== undefined) {
-                            $productApiService.addImage({"productId": pid, "mediaName": mediaName}, postData)
+                            $productApiService.addImage({"productID": pid, "mediaName": mediaName}, postData)
                                 .$promise.then(function () {
                                     $scope.reloadImages();
                                 });
@@ -239,7 +239,7 @@
                         var pid = $scope.product._id, mediaName = selected;
 
                         if (pid !== undefined && selected !== undefined) {
-                            $productApiService.removeImage({"productId": pid, "mediaName": mediaName})
+                            $productApiService.removeImage({"productID": pid, "mediaName": mediaName})
                                 .$promise.then(function () {
                                     $scope.selectedImage = undefined;
                                     $scope.reloadImages();

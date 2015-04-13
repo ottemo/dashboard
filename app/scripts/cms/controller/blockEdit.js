@@ -54,7 +54,7 @@
                     );
 
                     if (null !== blockId) {
-                        $cmsApiService.blockGet({"id": blockId}).$promise.then(
+                        $cmsApiService.blockGet({"blockID": blockId}).$promise.then(
                             function (response) {
                                 var result = response.result || {};
                                 $scope.block = result;

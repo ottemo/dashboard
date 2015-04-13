@@ -12,8 +12,13 @@
                 "$cmsApiService",
                 "COUNT_ITEMS_PER_PAGE",
                 function ($scope, $location, $routeParams, $q, DashboardListService, $cmsApiService, COUNT_ITEMS_PER_PAGE) {
-                    var serviceList, getBlockCount, getAttributeList, getBlocksList;
+                    var serviceList, getBlockCount, getAttributeList, getBlocksList, showColumns;
                     serviceList = new DashboardListService();
+                    showColumns = {
+                        'identifier' : {'type' : 'select-link', 'label' : 'Name'},
+                        'created_at' : {'label' : 'Creation Date'},
+                        'updated_at' : {'label' : 'Last Updated'}
+                    };
 
                     $scope.idsSelectedRows = {};
 
@@ -21,7 +26,9 @@
                      * Gets list of blocks
                      */
                     getBlocksList = function () {
-                        $cmsApiService.blockListP($location.search(), {"extra": serviceList.getExtraFields()}).$promise.then(
+                        var params = $location.search();
+                        params["extra"] = serviceList.getExtraFields();
+                        $cmsApiService.blockList(params).$promise.then(
                             function (response) {
                                 var result, i;
                                 $scope.blocksTmp = [];
@@ -37,7 +44,7 @@
                      * Gets list of blocks
                      */
                     getBlockCount = function () {
-                        $cmsApiService.getCountB($location.search(), {}).$promise.then(
+                        $cmsApiService.blockCount($location.search()).$promise.then(
                             function (response) {
                                 if (response.error === null) {
                                     $scope.count = response.result;
@@ -55,7 +62,7 @@
                                 serviceList.init('blocks');
                                 $scope.attributes = result;
                                 serviceList.setAttributes($scope.attributes);
-                                $scope.fields = serviceList.getFields();
+                                $scope.fields = serviceList.getFields(showColumns);
                                 getBlocksList();
                             }
                         );
@@ -101,7 +108,7 @@
                         _remove = function (id) {
                             var defer = $q.defer();
 
-                            $cmsApiService.blockRemove({"id": id},
+                            $cmsApiService.blockRemove({"blockID": id},
                                 function (response) {
                                     if (response.result === "ok") {
                                         defer.resolve(id);

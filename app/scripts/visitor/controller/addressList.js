@@ -13,8 +13,9 @@
                 "$visitorApiService",
                 "COUNT_ITEMS_PER_PAGE",
                 function ($scope, $routeParams, $location, $q, DashboardListService, $visitorApiService, COUNT_ITEMS_PER_PAGE) {
-                    var serviceList, getAddressesList, getAddressesCount, getAttributeList;
+                    var serviceList, getAddressesList, getAddressesCount, getAttributeList, showColumns;
                     serviceList = new DashboardListService();
+                    showColumns = {};
 
                     $scope.visitorId = $routeParams.visitorId;
 
@@ -45,10 +46,10 @@
                      */
                     getAddressesList = function () {
                         var params = {
-                            "visitorId": $scope.visitorId,
+                            "visitorID": $scope.visitorId,
                             "extra": serviceList.getExtraFields()
                         };
-                        $visitorApiService.addressesP(params).$promise.then(
+                        $visitorApiService.addresses(params).$promise.then(
                             function (response) {
                                 var result, i;
                                 $scope.addressesTmp = [];
@@ -63,7 +64,9 @@
                      * Gets list of addresses
                      */
                     getAddressesCount = function () {
-                        $visitorApiService.getCountAddresses($location.search(), {}).$promise.then(
+                        var params = $location.search();
+                        params["visitorID"] = $scope.visitorId;
+                        $visitorApiService.getCountAddresses(params).$promise.then(
                             function (response) {
                                 if (response.error === null) {
                                     $scope.count = response.result;
@@ -81,7 +84,7 @@
                                 serviceList.init('addresses');
                                 $scope.attributes = result;
                                 serviceList.setAttributes($scope.attributes);
-                                $scope.fields = serviceList.getFields();
+                                $scope.fields = serviceList.getFields(showColumns);
                                 getAddressesList();
                             }
                         );
@@ -132,7 +135,7 @@
                         _remove = function (id) {
                             var defer = $q.defer();
 
-                            $visitorApiService.deleteAddress({"id": id},
+                            $visitorApiService.deleteAddress({"addressID": id},
                                 function (response) {
                                     if (response.result === "ok") {
                                         defer.resolve(id);

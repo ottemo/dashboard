@@ -5,35 +5,60 @@
 </h2>
 
 <div class="container animated fadeIn" ng-init="init()">
-    <!-- Error message -->
-    <gui-message-manager item="message"></gui-message-manager>
+  <!-- Error message -->
+  <gui-message-manager item="message"></gui-message-manager>
 
-    <form class="form" role="form" class="product-tabs" name="otEditForm" novalidate>
 
-        <!-- Upload file -->
-        <span class="col-xs-12 col-sm-6" style="display:inline-block" ng-class="{ 'has-error' : (modelImportSubmit && !file) || (batchSubmit && !file)}">
+  <!-- Import Status Progressbar -->
+  <div class="col-xs-12 impex-progressbar" ng-show="importProgress">
+      <div class="outer-box">
+          <div class="title">Currently importing file: {{importFileName}}</div>
+          <div class="progress">
+              <div class="progress-bar progress-bar-success"  style="width: {{importProgress}}%"></div>
+          </div>
+      </div>
+  </div>
+
+  <form class="form" role="form" class="product-tabs" name="otEditForm" novalidate>
+
+    <!-- Upload file -->
+        <span class="col-xs-12 col-sm-6" style="display:inline-block"
+              ng-class="{ 'has-error' : (modelImportSubmit && !file) || (batchSubmit && !file) || (taxSubmit && !file)}">
             <label for="file">File</label>
             <span class="clearfix"></span>
             <input class="btn btn-success" style="display:inline-block" type="file" id="file" name="file" ng-model="file"/>
             <span class="btn btn-primary" ng-click="importBatch()">Import csv script</span>
-            <p ng-show="(modelImportSubmit && !file) || (batchSubmit && !file)" class="help-block">This field is required.</p>
+            <p ng-show="(modelImportSubmit && !file) || (batchSubmit && !file) || ((taxSubmit && !file))" class="help-block">This field is required.</p>
         </span>
-        
-        <!-- Select model -->
-        <div class="col-xs-12 col-sm-6" ng-class="{ 'has-error' : (modelImportSubmit || modelExportSubmit) && !model}">
-            <label for="model">Model</label>
-            <select class="form-control" name="model" id="model" data-ng-model="model" required
-                    data-ng-options="value as value for value in modelList"></select>
-            <p ng-show="(modelImportSubmit || modelExportSubmit) && !model" class="help-block">This field is required.</p>
-            <br>
-            <div class="text-center animated fadeIn">
-                <div class="btn btn-primary" ng-click="exportModel()">Export Model</div>
-                <div class="btn btn-default" ng-click="importModel()">Import Model</div>
-            </div>
-        </div>
 
-        <div class="clearfix"></div>
-    </form>
+    <!-- Select model -->
+    <div class="col-xs-12 col-sm-6" ng-class="{ 'has-error' : (modelImportSubmit || modelExportSubmit) && !model}">
+      <label for="model">Model</label>
+      <select class="form-control" name="model" id="model" data-ng-model="model" required
+              data-ng-options="value as value for value in modelList"></select>
+      <p ng-show="(modelImportSubmit || modelExportSubmit) && !model" class="help-block">This field is required.</p>
+      <br>
+      <div class="text-center animated fadeIn">
+        <div class="btn btn-primary" ng-click="exportModel()">Export Model</div>
+        <div class="btn btn-default" ng-click="importModel()">Import Model</div>
+      </div>
+    </div>
+
+    <!-- Taxes & Discounts -->
+    <div class="col-xs-12 col-sm-6 ">
+      <label>Taxes & Discounts</label>
+      <span class="clearfix"></span>
+      <div class="btn btn-primary" ng-click="exportTax()">Export Taxes</div>
+      <div class="btn btn-default" ng-click="importTax()">Import Taxes</div>
+      <br>
+      <br>
+      <div class="btn btn-primary" ng-click="exportDiscount()">Export Discounts</div>
+      <div class="btn btn-default" ng-click="importDiscount()">Import Discounts</div>
+    </div>
+
+
+    <div class="clearfix"></div>
+  </form>
 </div>
 
 <br>

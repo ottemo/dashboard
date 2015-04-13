@@ -13,8 +13,15 @@
                 "$orderApiService",
                 "COUNT_ITEMS_PER_PAGE",
                 function ($rootScope, $scope, $location, $routeParams, $q, DashboardListService, $orderApiService, COUNT_ITEMS_PER_PAGE) {
-                    var getOrdersList, serviceList, getOrderCount, getAttributeList;
+                    var getOrdersList, serviceList, getOrderCount, getAttributeList, showColumns;
                     serviceList = new DashboardListService();
+                    showColumns = {
+                        'increment_id' : {'type' : 'select-link', 'label' : 'Order Number'},
+                        'status' : {},
+                        'customer_email' : {},
+                        'customer_name' : {},
+                        'grand_total' : {'label' : 'Total', 'filter' : 'range', 'type' : 'price'}
+                    };
 
                     $scope.idsSelectedRows = {};
 
@@ -22,7 +29,9 @@
                      * Gets list of categories
                      */
                     getOrdersList = function () {
-                        $orderApiService.orderList($location.search(), {"extra": serviceList.getExtraFields()}).$promise.then(
+                        var params = $location.search();
+                        params["extra"] = serviceList.getExtraFields();
+                        $orderApiService.orderList(params).$promise.then(
                             function (response) {
                                 var result, i;
                                 $scope.ordersTmp = [];
@@ -57,7 +66,7 @@
                                 serviceList.init('orders');
                                 $scope.attributes = result;
                                 serviceList.setAttributes($scope.attributes);
-                                $scope.fields = serviceList.getFields();
+                                $scope.fields = serviceList.getFields(showColumns);
                                 getOrdersList();
                             }
                         );
@@ -103,7 +112,7 @@
                         _remove = function (id) {
                             var defer = $q.defer();
 
-                            $orderApiService.remove({"id": id},
+                            $orderApiService.remove({"orderID": id},
                                 function (response) {
                                     if (response.result === "ok") {
                                         defer.resolve(id);
@@ -151,7 +160,7 @@
 
                     $scope.init = (function () {
                         if (JSON.stringify({}) === JSON.stringify($location.search())) {
-                            $location.search("limit", "0," + COUNT_ITEMS_PER_PAGE);
+                            $location.search("sort", "^increment_id", "limit", "0," + COUNT_ITEMS_PER_PAGE);
                             return;
                         }
                         getOrderCount();

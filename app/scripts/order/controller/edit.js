@@ -87,7 +87,7 @@
                     );
 
                     if (null !== orderId) {
-                        $orderApiService.getOrder({"id": orderId}).$promise.then(
+                        $orderApiService.getOrder({"orderID": orderId}).$promise.then(
                             function (response) {
                                 var result = response.result || {};
                                 $scope.order = result;
@@ -110,7 +110,7 @@
 
                         delete $scope.order["updated_at"];
                         if (orderId !== null && JSON.stringify(oldString) !== JSON.stringify($scope.order)) {
-                            $orderApiService.update({"id": orderId}, $scope.order).$promise.then(function (response) {
+                            $orderApiService.update({"orderID": orderId}, $scope.order).$promise.then(function (response) {
                                 if (response.error === null) {
                                     $scope.message = $dashboardUtilsService.getMessage(null , 'success', 'Order was updated successfully');
                                     for (var field in response.result) {
@@ -134,8 +134,8 @@
                         var date, month, day;
 
                         date = new Date($scope.order['created_at']);
-                        month = date.getMonth().toString().length < 2 ? '0' + date.getMonth() : date.getMonth();
-                        day = date.getDate().toString().length < 2 ? '0' + date.getDate() : date.getDate();
+                        month = ("0" + (date.getMonth() + 1)).slice(-2);
+                        day = ("0" + date.getDate()).slice(-2);
 
                         return date.getFullYear() + '/' + month + '/' + day;
                     };
