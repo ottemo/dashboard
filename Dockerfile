@@ -7,13 +7,13 @@
 FROM ubuntu:latest
 
 RUN apt-get update
-RUN apt-get install -y nginx git curl python-software-properties python software-properties-common
+RUN apt-get install -y openssh-server nginx git curl python-software-properties python software-properties-common
 RUN add-apt-repository ppa:chris-lea/node.js
 RUN apt-get update
 RUN apt-get install -y nodejs
-RUN npm update -g npm
+RUN git clone https://github.com/ottemo/dash.git -b develop /opt/dashboard
 WORKDIR /opt/dashboard
-RUN git clone https://ottemo-dev:freshbox111222333@github.com/ottemo/dashboard.git -b develop /opt/dashboard
+RUN npm update -g npm
 RUN npm install
 RUN npm install -g bower
 RUN bower install --allow-root
@@ -24,5 +24,3 @@ ADD ./config/dashboard.conf /etc/nginx/conf.d/
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 
 EXPOSE 80
-
-CMD service nginx start
