@@ -10,7 +10,9 @@
     define([
             "seo/service/api",
             "seo/service/seo",
+            "seo/controller/list",
             "seo/controller/seoEdit"
+
         ],
         function (seoModule) {
 
