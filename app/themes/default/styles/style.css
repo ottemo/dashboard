@@ -155,6 +155,12 @@ table th.checkboxes-column {
 .table-pagination-row .pagination {
   margin: 0;
 }
+.table-statistic > tbody > tr > td:first-child  {
+  word-break: break-all;
+}
+.table-statistic > tbody > tr > td:last-child  {
+  width: 10px;
+}
 #filters {
   display: none;
 }
