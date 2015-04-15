@@ -55,23 +55,23 @@
     <!-- ship to info -->
     <table class="table table-bordered order-details">
         <tr>
-            <td><strong>Company:</strong></td>
+            <td style="width: 60%"><strong>Company:</strong></td>
             <td>{{order.shipping_address.company}}</td>
         </tr>
         <tr>
-            <td><strong>Name:</strong></td>
+            <td style="width: 60%"><strong>Name:</strong></td>
             <td>{{order.shipping_address.last_name}} {{order.shipping_address.first_name}}</td>
         </tr>
         <tr>
-            <td><strong>Address:</strong></td>
+            <td style="width: 60%"><strong>Address:</strong></td>
             <td>{{order.shipping_address.address_line1}} {{order.shipping_address.address_line2}}, {{order.shipping_address.city}},</td>
         </tr>
         <tr>
-            <td><strong>Zip,state,country:</strong></td>
+            <td style="width: 60%"><strong>Zip,state,country:</strong></td>
             <td>{{order.shipping_address.zip_code}}, {{order.shipping_address.state}}, {{order.shipping_address.country}}</td>
         </tr>
         <tr>
-            <td><strong>Phone:</strong></td>
+            <td style="width: 60%"><strong>Phone:</strong></td>
             <td>{{order.shipping_address.phone}}</td>
         </tr>
     </table>
@@ -94,7 +94,7 @@
             <td class="text-center">{{product.Qty}}</td>
 
             <!-- product price -->
-            <td class="text-center">{{product.Price | currency}}</td>
+            <td class="text-right">{{product.Price | currency}}</td>
         </tr>
     </table>
 </div>
@@ -103,20 +103,20 @@
 <div class="col-sm-5 col-xs-12">
     <table class="table table-bordered text-left order-details">
         <tr>
-            <td class="text-left"><strong>Subtotal:</strong></td>
-            <td>{{order.subtotal | currency}}</td>
+            <td class="text-left" style="width: 60%"><strong>Subtotal:</strong></td>
+            <td class="text-right">{{order.subtotal | currency}}</td>
         </tr>
         <tr>
             <td><strong>Shipping</strong></td>
-            <td>{{order.shipping_amount | currency}}</td>
+            <td class="text-right" style="width: 60%">{{order.shipping_amount | currency}}</td>
         </tr>
         <tr>
             <td class="text-left"><strong>Tax:</strong></td>
-            <td>{{order.tax_amount | currency}}</td>
+            <td class="text-right" style="width: 60%">{{order.tax_amount | currency}}</td>
         </tr>
         <tr>
             <td class="text-left"><strong>Order Total:</strong></td>
-            <td>{{order.grand_total | currency}}</td>
+            <td class="text-right" style="width: 60%">{{order.grand_total | currency}}</td>
         </tr>
     </table>
 </div>
