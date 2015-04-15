@@ -18,9 +18,10 @@
                     serviceList = new DashboardListService();
 
                     showColumns = {
-                        'last_name' : {},
-                        'first_name' : {},
+                        'name' : {'type' : 'select-link', 'label' : 'Name'},
                         'email' : {},
+                        'first_name' : {},
+                        'last_name' : {},
                         'is_admin' : {}
                     };
 
