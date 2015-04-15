@@ -56,7 +56,7 @@
                      * unique fields are saved in seoUniqueFields variable
                      *
                      */
-                    getUniqueSeoNames = function () {
+                    getUniqueSeoNames = function () { /*jshint maxcomplexity:6 */
                         if (typeof $scope.attributes !== "undefined" && seoUniqueFields.length < 1) {
                             var seoUniqueNames = seoUniqueFields;
                             var i, uniqueSeoFirstWord = "seo_", existingAttributes = [];
@@ -223,7 +223,7 @@
                     removeAttributes = function () {
                         if (typeof $scope.attributes !== "undefined") {
                             for (var i=0; i < $scope.attributes.length; i+=1) {
-                                if (seoUniqueFields.indexOf($scope.attributes[i].Attribute) !== -1 && $scope.attributes[i].Group == "SEO") {
+                                if (seoUniqueFields.indexOf($scope.attributes[i].Attribute) !== -1 && $scope.attributes[i].Group === "SEO") {
                                     $scope.attributes.splice(i, 1);
                                 }
                             }

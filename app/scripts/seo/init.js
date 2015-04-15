@@ -20,10 +20,10 @@
                             templateUrl: angular.getTheme("seo/list.html"),
                             controller: "seoListController"
                         })
-//                        .when("/order/:id", {
-//                            templateUrl: angular.getTheme("order/edit.html"),
-//                            controller: "orderEditController"
-//                        });
+                        .when("/seo/:id", {
+                            templateUrl: angular.getTheme("seo/edit.html"),
+                            controller: "seoIndependentEditController"
+                        });
                     }
                 ])
 
@@ -39,9 +39,9 @@
 
                         // NAVIGATION
                         // Adds item in the left top-menu
-                        $dashboardHeaderService.addMenuItem("/seo", "seo", "/seo");
+                        $dashboardHeaderService.addMenuItem("/seo", "URL Rewrite", "/seo");
                         // Adds item in the left sidebar
-                        $dashboardSidebarService.addItem("/seo", "seo", "/seo", "fa fa-exchange", 6);
+                        $dashboardSidebarService.addItem("/seo", "URL Rewrite", "/seo", "fa fa-random", 3);
                     }
                 ]);
 
