@@ -12,18 +12,20 @@
                 "$dashboardUtilsService",
                 function ($scope, $routeParams, $location, $q, $seoApiService, $dashboardUtilsService) {
                     // Functions
-                    var getAttributeList, getDefaultSEO;
+                    var getAttributeList, getDefaultSEO, checkAttributePosition, getRewriteList;
                     // Variables
-                    var seoURL, seoAttributes;
+                    var seoURL, seoAttributes, seoRewriteNum, seoRewriteList;
 
+
+                    seoRewriteNum = 5;
                     seoAttributes = {"url":{"IsRequired": true, "Label": "URL"},
                         "title":{},
                         "meta_keywords":{},
                         "meta_description":{},
-                        "rewrite":{"IsRequired": true},
-                        "type":{"IsRequired": true, "Editors": "select", "Options": "page,category,product"}
+                        "type":{"IsRequired": true, "Editors": "select", "Options": "page,category,product"},
+                        "rewrite":{"IsRequired": true, "Editors": "seo_selector", "Label": "Object"}
                     };
-                    // not_editable, seo_selector, product_selector, selector : Options: "new,pending,canceled,complete"
+                    // not_editable, seo_selector, product_selector, "Options": "page,category,product"
 
                     seoURL = $routeParams.id;
 
@@ -79,6 +81,31 @@
 
                     getAttributeList();
 
+                     /**
+                     * Gets values for url rewrites :(
+                     */
+                    var getSeoValues = function(url) {
+                            $seoApiService.get({"url": url}).$promise.then(
+                                function (response) {
+                                    seoRewriteList[response.result[0]["rewrite"]] = response.result[0]["_id"];
+                                }
+                            );
+                    };
+
+                    getRewriteList = function () {
+                        $seoApiService.list().$promise.then(
+                            function (response) {
+                                seoRewriteList = {};
+                                var i, seoList = response.result || [];
+                                for (i = 0; i < seoList.length; i += 1) {
+                                    getSeoValues(seoList[i]["url"]);
+                                }
+                            }
+                        );
+                    };
+
+                    getRewriteList();
+
                     if (null !== seoURL) {
                         $seoApiService.get({"url": seoURL}).$promise.then(function (response) {
                             var result = response.result[0] || {};
@@ -97,7 +124,7 @@
                     $scope.save = function () {
                         $('[ng-click="save()"]').addClass('disabled').append('<i class="fa fa-spin fa-spinner"><i>').siblings('.btn').addClass('disabled');
 
-                        var id, defer, saveSuccess, saveError, updateSuccess, updateError;
+                        var id, defer, saveSuccess, saveError, existingSeo, updateSuccess, updateError, regexp = /^\w*/;
                         defer = $q.defer();
 
                         if (typeof $scope.seo !== "undefined") {
@@ -152,16 +179,79 @@
                             $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                         };
 
-                        if (!id) {
-                            if ($scope.seo.url !== "" && $scope.seo.rewrite !== "" ) {
+                        if (!regexp.test($scope.seo.url)) {
+                            $scope.message = $dashboardUtilsService.getMessage(null, 'warning', 'The field url invalid');
+                            updateError();
+                        }
+
+                        /**
+                        * Check for existing rewrite and drop a message for it
+                        * if no so we creating new one and make save of it
+                        */
+
+                        if ($scope.seo.rewrite.length < 4) {
+                            $scope.message = $dashboardUtilsService.getMessage(null, 'warning', 'Need to specify object to rewrite');
+                            updateError();
+                        }
+
+                        if (typeof seoRewriteList[$scope.seo.rewrite] === "undefined") {
+                            if (typeof id !== "undefined") {
+                                $seoApiService.update({"itemID": id}, $scope.seo, updateSuccess, updateError);
+                            } else {
                                 $seoApiService.add($scope.seo, saveSuccess, saveError);
                             }
-                        } else {
-                            $seoApiService.update({"itemID": id}, $scope.seo, updateSuccess, updateError);
+                        }
+                        else {
+                            if (id === seoRewriteList[$scope.seo.rewrite]) {
+                                $seoApiService.update({"itemID": id}, $scope.seo, updateSuccess, updateError);
+                            }
+                            $scope.message = $dashboardUtilsService.getMessage(null, 'warning', 'Rewrite for this object is already exist');
+                            saveError();
                         }
 
                         return defer.promise;
                     };
+
+                    checkAttributePosition = function () {
+                        if ($scope.attributes[seoRewriteNum]["Attribute"] = "rewrite") {
+                            return seoRewriteNum;
+                        } else {
+                            for (var i=0; i < $scope.attributes.length; i+=1){
+                                if ($scope.attributes[i]["Attribute"] = "rewrite") {
+                                    seoRewriteNum = i;
+                                    return i;
+                                }
+                            }
+                        }
+                    }
+
+                    $scope.$watch(function () {
+                            return $scope.seo.type;
+
+                    }, function (newVal, oldVal) {
+                        if (typeof $scope.attributes !== "undefined") {
+                            checkAttributePosition();
+                            if (typeof newVal !== "undefined" && typeof oldVal !== "undefined"){
+                                $scope.seo.rewrite = "";
+                            }
+                            switch (newVal) {
+                                case "category":
+                                    $scope.attributes[seoRewriteNum]["Editors"] = "category_selector";
+                                    break;
+
+                                case "product":
+                                    $scope.attributes[seoRewriteNum]["Editors"] = "products_selector";
+                                    break;
+
+                                case "page":
+                                    $scope.attributes[seoRewriteNum]["Editors"] = "page_selector";
+                                    break;
+
+                                default:
+                                    $scope.attributes[seoRewriteNum]["Editors"] = "not_editable";
+                            }
+                        }
+                    }, true);
                 }
             ]
         );

@@ -18,7 +18,7 @@
         /**
          *  Directive used for automatic attribute editor creation
          */
-            .directive("guiProductSelector", [
+            .directive("guiProductsSelector", [
                 "$location",
                 "$routeParams",
                 "$designService",
@@ -37,7 +37,7 @@
 
                     return {
                         restrict: "E",
-                        templateUrl: $designService.getTemplate("design/gui/editor/productSelector.html"),
+                        templateUrl: $designService.getTemplate("design/gui/editor/productsSelector.html"),
 
                         scope: {
                             "attribute": "=editorScope",
@@ -56,21 +56,32 @@
                             var oldWidth, getCountItems;
 
                             /**
-                             * Gets count items
+                             * Get Name of selected object
                              *
-                             * @returns {number}
+                             * @returns string
                              */
-                            getCountItems = function () {
-                                $scope.countSelected = 0;
+                            $scope.getParentName = function () {
+                                var name = "";
                                 if (typeof $scope.item !== "undefined" &&
-                                    typeof $scope.item[$scope.attribute.Attribute] !== "undefined" &&
-                                    $scope.item[$scope.attribute.Attribute].length) {
-                                    $scope.item[$scope.attribute.Attribute].map(function (val) {
-                                        if ("" !== val && typeof val !== "undefined") {
-                                            $scope.countSelected += 1;
+                                    typeof $scope.items !== "undefined" &&
+                                    typeof $scope.item[$scope.attribute.Attribute] !== "undefined") {
+
+                                    for (var i = 0; i < $scope.items.length; i += 1) {
+
+                                        if ($scope.items[i].ID === $scope.item[$scope.attribute.Attribute] ||
+                                            $scope.items[i].ID === $scope.item.parent) {
+                                            name = $scope.items[i].Name;
+                                            break;
                                         }
-                                    });
+                                    }
                                 }
+
+                                return name;
+                            };
+
+                            $scope.select = function (id) {
+                                $scope.item[$scope.attribute.Attribute] = id;
+                                $scope.hide($scope.attribute.Attribute);
                             };
 
                             $scope.show = function (id) {
@@ -81,6 +92,12 @@
                             $scope.hide = function (id) {
                                 $("#" + id).modal("hide");
                             };
+
+                            $scope.clear = function () {
+                                $scope.item[$scope.attribute.Attribute] = "";
+                                $scope.item.parent = "";
+                            };
+
 
                             loadData = function () {
                                 $scope.fields = [
@@ -167,38 +184,12 @@
                                 })();
                             };
 
-                            $scope.$watch("item", function () {
-                                $scope.selected = {};
-
-                                if (typeof $scope.item !== "undefined" &&
-                                    $scope.item._id &&
-                                    $scope.item[$scope.attribute.Attribute] instanceof Array) {
-                                    for (var i = 0; i < $scope.item[$scope.attribute.Attribute].length; i += 1) {
-                                        if (typeof $scope.item[$scope.attribute.Attribute][i] === "object") {
-                                            $scope.selected[$scope.item[$scope.attribute.Attribute][i]._id] = true;
-                                        } else {
-                                            $scope.selected[$scope.item[$scope.attribute.Attribute][i]] = true;
-                                        }
-                                    }
-                                    getCountItems();
-                                }
-                            });
-
                             $scope.$watch("search", function () {
                                 delete $scope.productsTmp;
                                 loadData();
                             });
 
-                            $scope.$watch("selected", function () {
-                                var id;
-                                $scope.item[$scope.attribute.Attribute] = [];
-                                for (id in $scope.selected) {
-                                    if ($scope.selected.hasOwnProperty(id) && $scope.selected[id] === true) {
-                                        $scope.item[$scope.attribute.Attribute].push(id);
-                                    }
-                                }
-                                getCountItems();
-                            }, true);
+
 
                             /**
                              * Returns full path to image

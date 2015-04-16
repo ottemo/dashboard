@@ -7,22 +7,23 @@
         /**
          *  Directive used for automatic attribute editor creation
          */
-            .directive("guiCategorySelector", [
+            .directive("guiPageSelector", [
                 "$location",
                 "$routeParams",
                 "$designService",
                 "$dashboardListService",
-                "$categoryApiService",
-                function ($location, $routeParams, $designService, DashboardListService, $categoryApiService) {
+                "$cmsApiService",
+                function ($location, $routeParams, $designService, DashboardListService, $cmsApiService) {
                     var serviceList = new DashboardListService(), showColumns;
                     showColumns = {
-                        'name' : {'type' : 'select-link', 'label' : 'Name'},
-                        'enabled' : {}
+                        'identifier' : {'type' : 'select-link'},
+                        'enabled' : {},
+                        'title' : {}
                     };
 
                     return {
                         restrict: "E",
-                        templateUrl: $designService.getTemplate("design/gui/editor/categorySelector.html"),
+                        templateUrl: $designService.getTemplate("design/gui/editor/pageSelector.html"),
 
                         scope: {
                             "attribute": "=editorScope",
@@ -35,9 +36,8 @@
                             $scope.oldSearch = {};
 
                             /**
-                             * Gets count items
+                             * ??
                              *
-                             * @returns {number}
                              */
                             $scope.getParentName = function () {
                                 var name = "";
@@ -64,7 +64,7 @@
                             };
 
                             $scope.show = function (id) {
-                                serviceList.init('categories');
+                                serviceList.init('pages');
                                 $("#" + id).modal("show");
                             };
 
@@ -84,19 +84,19 @@
                                 }
 
                                 /**
-                                 * Gets list of categories
+                                 * Gets list of pages
                                  */
-                                var getCategoriesList = function () {
+                                var getPagesList = function () {
                                     var params = $scope.search;
                                     params["extra"] = serviceList.getExtraFields();
-                                    $categoryApiService.categoryList(params).$promise.then(
+                                    $cmsApiService.pageList(params).$promise.then(
                                         function (response) {
                                             var result, i;
-                                            $scope.categoriesTmp = [];
+                                            $scope.pagesTmp = [];
                                             result = response.result || [];
                                             for (i = 0; i < result.length; i += 1) {
                                                 if (result[i].ID !== $scope.item._id) {
-                                                    $scope.categoriesTmp.push(result[i]);
+                                                    $scope.pagesTmp.push(result[i]);
                                                 }
                                             }
                                         }
@@ -106,7 +106,7 @@
                                 /**
                                  * Gets count of categories
                                  */
-                                $categoryApiService.getCount($scope.search).$promise.then(
+                                $cmsApiService.pageCount($scope.search).$promise.then(
                                     function (response) {
                                         if (response.error === null) {
                                             $scope.count = response.result;
@@ -116,26 +116,26 @@
                                     }
                                 );
 
-                                $categoryApiService.attributesInfo().$promise.then(
+                                $cmsApiService.pageAttributes().$promise.then(
                                     function (response) {
                                         var result = response.result || [];
-                                        serviceList.init('categories');
+                                        serviceList.init('pages');
                                         $scope.attributes = result;
                                         serviceList.setAttributes($scope.attributes);
                                         $scope.fields = serviceList.getFields(showColumns);
-                                        getCategoriesList();
+                                        getPagesList();
                                     }
                                 );
 
                                 var prepareList = function () {
-                                    if (typeof $scope.attributes === "undefined" || typeof $scope.categoriesTmp === "undefined") {
+                                    if (typeof $scope.attributes === "undefined" || typeof $scope.pagesTmp === "undefined") {
                                         return false;
                                     }
 
-                                    $scope.items = serviceList.getList($scope.categoriesTmp);
+                                    $scope.items = serviceList.getList($scope.pagesTmp);
                                 };
 
-                                $scope.$watch("categoriesTmp", prepareList);
+                                $scope.$watch("pagesTmp", prepareList);
                                 $scope.$watch("attributes", prepareList);
                             };
 
