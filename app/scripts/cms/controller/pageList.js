@@ -17,7 +17,7 @@
                     showColumns = {
                         'identifier' : {'type' : 'select-link'},
                         'enabled' : {},
-                        'pagetitle' : {'label' : 'Title of Page'}
+                        'title' : {}
                     };
 
                     // Initialize SEO
