@@ -104,7 +104,7 @@
                                 };
 
                                 /**
-                                 * Gets count of categories
+                                 * Gets count of pages
                                  */
                                 $cmsApiService.pageCount($scope.search).$promise.then(
                                     function (response) {

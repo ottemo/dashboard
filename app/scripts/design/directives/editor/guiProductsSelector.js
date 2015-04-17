@@ -53,7 +53,7 @@
                             $scope.isExpand = false;
                             $scope.countSelected = 0;
 
-                            var oldWidth, getCountItems;
+                            var oldWidth;
 
                             /**
                              * Get Name of selected object

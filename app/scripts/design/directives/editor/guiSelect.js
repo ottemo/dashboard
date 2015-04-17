@@ -52,6 +52,7 @@
                             $scope.options = [];
                             options = getOptions($scope.attribute.Options);
 
+
                             for (field in options) {
                                 if (options.hasOwnProperty(field)) {
                                     $scope.options.push({
@@ -64,13 +65,15 @@
                                 }
                             }
 
-                            $scope.options.unshift({
-                                Desc: "",
-                                Extra: null,
-                                Id: "",
-                                Image: "",
-                                Name: ""
-                            });
+                            if ($scope.attribute.Default === ""){
+                                $scope.options.unshift({
+                                    Desc: "",
+                                    Extra: null,
+                                    Id: "",
+                                    Image: "",
+                                    Name: ""
+                                });
+                            }
                         });
                     }
                 };

@@ -22,10 +22,9 @@
                         "title":{},
                         "meta_keywords":{},
                         "meta_description":{},
-                        "type":{"IsRequired": true, "Editors": "select", "Options": "page,category,product"},
-                        "rewrite":{"IsRequired": true, "Editors": "seo_selector", "Label": "Object"}
+                        "type":{"IsRequired": true, "Editors": "select", "Options": "page,category,product", "Default": "page"},
+                        "rewrite":{"IsRequired": true, "Label": "Object"}
                     };
-                    // not_editable, seo_selector, product_selector, "Options": "page,category,product"
 
                     seoURL = $routeParams.id;
 
@@ -121,10 +120,10 @@
                      * Event handler to save the seo data.
                      * Creates new seo if ID in current seo is empty OR updates current seo if ID is set
                      */
-                    $scope.save = function () {
+                    $scope.save = function () { /*jshint maxcomplexity:9 */
                         $('[ng-click="save()"]').addClass('disabled').append('<i class="fa fa-spin fa-spinner"><i>').siblings('.btn').addClass('disabled');
 
-                        var id, defer, saveSuccess, saveError, existingSeo, updateSuccess, updateError, regexp = /^\w*/;
+                        var id, defer, saveSuccess, saveError, updateSuccess, updateError, regexp = /^\w*/;
                         defer = $q.defer();
 
                         if (typeof $scope.seo !== "undefined") {
@@ -179,56 +178,50 @@
                             $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                         };
 
-                        if (!regexp.test($scope.seo.url)) {
-                            $scope.message = $dashboardUtilsService.getMessage(null, 'warning', 'The field url invalid');
-                            updateError();
-                        }
-
                         /**
-                        * Check for existing rewrite and drop a message for it
-                        * if no so we creating new one and make save of it
+                        * Check for valid rewrite and url if not, drop a message for it
+                        * checking is rewrite don't replace existing
                         */
-
-                        if ($scope.seo.rewrite.length < 4) {
-                            $scope.message = $dashboardUtilsService.getMessage(null, 'warning', 'Need to specify object to rewrite');
+                        if ($scope.seo.rewrite.length < 4 || $scope.seo.rewrite === "" || !regexp.test($scope.seo.url)) {
+                            $scope.message = $dashboardUtilsService.getMessage(null, 'warning', 'Need to specify object to rewrite and valid url');
                             updateError();
-                        }
-
-                        if (typeof seoRewriteList[$scope.seo.rewrite] === "undefined") {
-                            if (typeof id !== "undefined") {
-                                $seoApiService.update({"itemID": id}, $scope.seo, updateSuccess, updateError);
-                            } else {
-                                $seoApiService.add($scope.seo, saveSuccess, saveError);
+                        } else {
+                            if (typeof seoRewriteList[$scope.seo.rewrite] === "undefined") {
+                                if (typeof id !== "undefined") {
+                                    $seoApiService.update({"itemID": id}, $scope.seo, updateSuccess, updateError);
+                                } else {
+                                    $seoApiService.add($scope.seo, saveSuccess, saveError);
+                                }
                             }
-                        }
-                        else {
-                            if (id === seoRewriteList[$scope.seo.rewrite]) {
-                                $seoApiService.update({"itemID": id}, $scope.seo, updateSuccess, updateError);
+                            else {
+                                if (id === seoRewriteList[$scope.seo.rewrite]) {
+                                    $seoApiService.update({"itemID": id}, $scope.seo, updateSuccess, updateError);
+                                }
+                                $scope.message = $dashboardUtilsService.getMessage(null, 'warning', 'Rewrite for this object is already exist');
+                                saveError();
                             }
-                            $scope.message = $dashboardUtilsService.getMessage(null, 'warning', 'Rewrite for this object is already exist');
-                            saveError();
                         }
 
                         return defer.promise;
                     };
 
                     checkAttributePosition = function () {
-                        if ($scope.attributes[seoRewriteNum]["Attribute"] = "rewrite") {
+                        if ($scope.attributes[seoRewriteNum]["Attribute"] === "rewrite") {
                             return seoRewriteNum;
                         } else {
                             for (var i=0; i < $scope.attributes.length; i+=1){
-                                if ($scope.attributes[i]["Attribute"] = "rewrite") {
+                                if ($scope.attributes[i]["Attribute"] === "rewrite") {
                                     seoRewriteNum = i;
                                     return i;
                                 }
                             }
                         }
-                    }
+                    };
 
                     $scope.$watch(function () {
                             return $scope.seo.type;
 
-                    }, function (newVal, oldVal) {
+                    }, function (newVal, oldVal) {/*jshint maxcomplexity:6 */
                         if (typeof $scope.attributes !== "undefined") {
                             checkAttributePosition();
                             if (typeof newVal !== "undefined" && typeof oldVal !== "undefined"){

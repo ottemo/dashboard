@@ -85,7 +85,6 @@
                                     function (response) {
                                         seo = response || null;
                                         for (var i = 0; i < seoFields.length; i += 1) {
-
                                             $scope[itemName][seoUniqueFields[i]] = seo[seoFields[i]];
                                         }
                                         isInitUrlRewrite = true;
@@ -98,7 +97,6 @@
                                 function (response) {
                                     seo = response || null;
                                     for (var i = 0; i < seoFields.length; i += 1) {
-
                                         $scope[itemName][seoUniqueFields[i]] = seo[seoFields[i]];
                                     }
                                     isInitUrlRewrite = true;
