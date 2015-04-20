@@ -7,6 +7,7 @@
      */
     define([
             "cms/service/api",
+            "cms/service/gallery",
             "cms/controller/pageList",
             "cms/controller/pageEdit",
             "cms/controller/blockList",

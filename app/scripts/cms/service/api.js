@@ -71,6 +71,27 @@
                         method: "PUT",
                         params: { pageID: "@id" },
                         url: REST_SERVER_URI + "/cms/page/:pageID"
+                    },
+
+                    "galleryList": {
+                        method: "GET",
+                        url: REST_SERVER_URI + "/cms/gallery/images"
+                    },
+                    "galleryPath": {
+                        method: "GET",
+                        url: REST_SERVER_URI + "/cms/gallery/path"
+                    },
+                    "galleryGet": {
+                        method: "GET",
+                        url: REST_SERVER_URI + "/cms/gallery/image/:mediaName"
+                    },
+                    "galleryAdd": {
+                        method: "POST",
+                        url: REST_SERVER_URI + "/cms/gallery/image/:mediaName"
+                    },
+                    "galleryRemove": {
+                        method: "DELETE",
+                        url: REST_SERVER_URI + "/cms/gallery/image/:mediaName"
                     }
                 });
             }]);
