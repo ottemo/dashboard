@@ -10,11 +10,11 @@
         minCountNumbers = 1;
         minCountSymbols = 1;
 
-        passwordNotValidLength = "password should have " + minLen + " char or more";
-        passwordNotEnoughLowercases = "password should have not less " + minCountUppercase + " lowercase";
-        passwordNotEnoughUppercases = "password should have not less " + minCountUppercase + " uppercase";
-        passwordNotEnoughNumbers = "password should have not less " + minCountNumbers + " numbers";
-        passwordNotEnoughSymbols = "password should have not less " + minCountSymbols + " symbols";
+        passwordNotValidLength = "password should have " + minLen + " characters or more";
+        passwordNotEnoughLowercases = "password should have at least " + minCountUppercase + " lowercase";
+        passwordNotEnoughUppercases = "password should have at least " + minCountUppercase + " uppercase";
+        passwordNotEnoughNumbers = "password should have at least " + minCountNumbers + " numbers";
+        passwordNotEnoughSymbols = "password should have at least " + minCountSymbols + " symbols";
 
         designModule.directive("otPassword", function () {
             return {

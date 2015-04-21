@@ -14,7 +14,9 @@
                 "COUNT_ITEMS_PER_PAGE",
                 function ($scope, $routeParams, $location, $q, DashboardListService, $visitorApiService, COUNT_ITEMS_PER_PAGE) {
                     var serviceList, getVisitorsList, getVisitorCount, getAttributeList, showColumns;
+
                     serviceList = new DashboardListService();
+
                     showColumns = {
                         'name' : {'type' : 'select-link', 'label' : 'Name'},
                         'email' : {},
