@@ -11,7 +11,8 @@
             "cms/controller/pageList",
             "cms/controller/pageEdit",
             "cms/controller/blockList",
-            "cms/controller/blockEdit"
+            "cms/controller/blockEdit",
+            "cms/controller/gallery"
         ],
         function (cmsModule) {
 

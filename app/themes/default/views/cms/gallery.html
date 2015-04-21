@@ -1,0 +1,39 @@
+<!-- Page title -->
+<h2 class="title label-info">
+  <span class="fa fa-th-list"></span>
+  Gallery
+</h2>
+
+<div class="col-xs-12">
+
+  <gui-message-manager item="message"></gui-message-manager>
+
+        <div class="container text-center">
+
+          <!-- Main image -->
+          <img ng-src="{{redyImages[selectedImage]}}" ng-if="showAdditional" alt="selected image" class="main-image">
+          <!-- Image previews -->
+          <div class="text-center" ng-repeat="row in splitedImages">
+              <span ng-click="selectImage(image)" ng-repeat="image in row track by $index">
+                  <img class="thum" ng-src="{{redyImages[image]}}">
+              </span>
+          </div>
+          <br>
+          <!-- Upload file -->
+          <div class="btn-group">
+              <input type="file" class="hidden upl-input" id="uploadfile" name="uploadfile" ng-model="uploadfile" ng-change="imageAdd('uploadfile')">
+              <div class="btn btn-success upl-btn" aria-label="Left Align">
+                  <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span>
+                  Upload file
+              </div>
+              <!-- Remove button -->
+              <button class="btn btn-danger" ng-click="imageRemove(selectedImage)" aria-label="Left Align">
+                  <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                  Remove
+              </button>
+              <!-- Default button -->
+              <button class="btn btn-info" ng-if="!showAdditional" ng-click="imageInsert(selectedImage)">Input</button>
+          </div>
+          <hr>
+        </div>
+</div>

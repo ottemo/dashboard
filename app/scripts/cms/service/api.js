@@ -87,7 +87,9 @@
                     },
                     "galleryAdd": {
                         method: "POST",
-                        url: REST_SERVER_URI + "/cms/gallery/image/:mediaName"
+                        url: REST_SERVER_URI + "/cms/gallery/image/:mediaName",
+                        headers: {"Content-Type": undefined },
+                        transformRequest: angular.identity // jshint ignore:line
                     },
                     "galleryRemove": {
                         method: "DELETE",
