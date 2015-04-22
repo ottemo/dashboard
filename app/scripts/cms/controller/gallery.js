@@ -1,4 +1,4 @@
-(function (define, $) {
+(function (define) {
     "use strict";
 
     define(["cms/init"], function (cmsModule) {
@@ -10,22 +10,14 @@
                 "$q",
                 "$cmsApiService",
                 "$designImageService",
-                "$dashboardUtilsService",
-                function ($scope, $routeParams, $location, $q, $cmsApiService, $designImageService, $dashboardUtilsService) {
+                function ($scope, $routeParams, $location, $q, $cmsApiService, $designImageService) {
 
                     // functions
-                    var splitBy, start, addPath;
+                    var splitBy, addPath;
                     // variables
-                    var galleryImages;
+                    var galleryImages, imagesPerRow;
 
-                    $scope.showAdditional = true;
-                    if (typeof $routeParams["mini"] !== "undefined"){
-                        $scope.showAdditional = false;
-                    }
-
-                    start = function () {
-                        $scope.reloadImages();
-                    };
+                    imagesPerRow = 6;
 
                     addPath = function(images) {
                         var i, result = {};
@@ -59,9 +51,15 @@
                     };
 
                     $scope.selectImage = function (filename) {
-                        if (typeof filename !== "undefined" && filename !== "") {
+                    if (typeof filename !== "undefined" && filename !== "") {
                             $scope.selectedImage = filename;
+                            if(!$scope.fullVersion) {
+                                var args = {};
+                                args[filename] = $scope.redyImages[filename];
+                                top.tinymce.activeEditor.windowManager.setParams(args);
+                            }
                         }
+
                     };
 
                     //-----------------
@@ -77,7 +75,7 @@
                         $cmsApiService.galleryList().$promise.then(
                             function (response) {
                                 galleryImages = response.result || [];
-                                $scope.splitedImages = splitBy(galleryImages, 4);
+                                $scope.splitedImages = splitBy(galleryImages, imagesPerRow);
 
                                 $scope.selectedImage = galleryImages[0] || "undefined";
 
@@ -98,7 +96,7 @@
                             var postData = new FormData();
                             postData.append("file", file.files[0]);
                             $cmsApiService.galleryAdd({"mediaName": mediaName}, postData)
-                                .$promise.then(function (response) {
+                                .$promise.then(function () {
                                     $scope.reloadImages();
                             });
                         }
@@ -118,17 +116,25 @@
                                 });
                         }
                     };
-                    /**
-                     * Sets image as image default
-                     *
-                     * @param {string} selected - image name
-                     */
-                    $scope.imageInsert = function (selected) {
-                        $scope.galleryImage = selected;
+
+                    $scope.loadMini = function () {
+                        if (!$scope.fullVersion){
+                            var deletedId = ["header_sidebar", "header_no_sidebar", "theme_container", "code_container"];
+                            for (var i = 0; i < deletedId.length; i+= 1){
+                                if (document.getElementById(deletedId[i]) !== null) {
+                                    document.getElementById(deletedId[i]).remove();
+                                }
+                            }
+                        }
                     };
 
+                    // for mini version of page
+                    $scope.fullVersion = true;
+                        if (typeof $routeParams["mini"] !== "undefined"){
+                            $scope.fullVersion = false;
+                        }
 
-                    start();
+                    $scope.reloadImages();
                 }
             ]
         );

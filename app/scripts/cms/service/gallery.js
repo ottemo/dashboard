@@ -30,7 +30,7 @@
                     getPath = function () {
                         var defer = $q.defer();
 
-                        $cmsApiService.galleryList().$promise.then(
+                        $cmsApiService.galleryPath().$promise.then(
                             function (response) {
                                 path = response.result || "";
                                 defer.resolve(path);

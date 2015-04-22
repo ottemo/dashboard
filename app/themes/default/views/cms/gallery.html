@@ -11,10 +11,10 @@
         <div class="container text-center">
 
           <!-- Main image -->
-          <img ng-src="{{redyImages[selectedImage]}}" ng-if="showAdditional" alt="selected image" class="main-image">
+          <img ng-src="{{redyImages[selectedImage]}}" ng-if="fullVersion" alt="selected image" class="main-image">
           <!-- Image previews -->
           <div class="text-center" ng-repeat="row in splitedImages">
-              <span ng-click="selectImage(image)" ng-repeat="image in row track by $index">
+              <span ng-click="selectImage(image)" ng-repeat="image in row">
                   <img class="thum" ng-src="{{redyImages[image]}}">
               </span>
           </div>
@@ -31,8 +31,6 @@
                   <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                   Remove
               </button>
-              <!-- Default button -->
-              <button class="btn btn-info" ng-if="!showAdditional" ng-click="imageInsert(selectedImage)">Input</button>
           </div>
           <hr>
         </div>
