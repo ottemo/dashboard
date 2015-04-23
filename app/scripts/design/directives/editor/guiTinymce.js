@@ -12,7 +12,7 @@
                     "template paste textcolor colorpicker textpattern"
                 ],
                 "menubar": false,
-                "toolbar1": "blocks  | undo redo | styleselect | bold italic | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image gallery",
+                "toolbar1": "blocks | undo redo | styleselect | bold italic | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image gallery galleryUpload",
                 "image_advtab": true
             })
             .directive('guiTinymce', ['uiTinymceConfig', function (uiTinymceConfig) {
