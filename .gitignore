@@ -6,5 +6,6 @@ app/bower_components
 app/media
 .idea
 .vagrant
+tags
 
 dashboard.iml
