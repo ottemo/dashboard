@@ -1,95 +1,107 @@
 (function (define, $) {
     "use strict";
 
-    define(["visitor/init"], function (visitorModule) {
-
-        visitorModule
-            .controller("visitorListController", [
+    define(["seo/init"], function (seoModule) {
+        seoModule
+            .controller("seoListController", [
+                "$rootScope",
                 "$scope",
-                "$routeParams",
                 "$location",
+                "$routeParams",
                 "$q",
                 "$dashboardListService",
-                "$visitorApiService",
+                "$seoService",
+                "$seoApiService",
                 "COUNT_ITEMS_PER_PAGE",
-                function ($scope, $routeParams, $location, $q, DashboardListService, $visitorApiService, COUNT_ITEMS_PER_PAGE) {
-                    var serviceList, getVisitorsList, getVisitorCount, getAttributeList, showColumns;
+                function ($rootScope, $scope, $location, $routeParams, $q, DashboardListService, $seoService, $seoApiService, COUNT_ITEMS_PER_PAGE) {
+                    var getSeoList, serviceList, getAttributeList, showColumns, seoList, seoIdToUrl;
 
                     serviceList = new DashboardListService();
-
                     showColumns = {
-                        'name' : {'type' : 'select-link', 'label' : 'Name'},
-                        'email' : {},
-                        'first_name' : {},
-                        'last_name' : {},
-                        'is_admin' : {}
+                        'url' : {'type' : 'select-link', 'label' : 'URL'},
+                        'type' : {'label' : 'Type', 'filter' : 'text'},
+                        'title': {}
                     };
 
                     $scope.idsSelectedRows = {};
+                    $scope.fields = [];
+
 
                     /**
-                     * Gets list of visitors
+                     * Gets values for url rewrites
                      */
-                    getVisitorsList = function () {
-                        var params = $location.search();
-                        params["extra"] = serviceList.getExtraFields();
-                        $visitorApiService.visitorList(params).$promise.then(
+                    var getSeoValues = function(url) {
+                            $seoApiService.get({"url": url}).$promise.then(
+                                function (response) {
+                                    response.result[0]["ID"] = response.result[0]["_id"];
+                                    seoIdToUrl[response.result[0]["_id"]] = response.result[0]["url"];
+                                    $scope.rewritesTmp.push(response.result[0]);
+                                }
+                            );
+                    };
+
+                    /**
+                     * Gets list and count of url rewrites
+                     */
+                    getSeoList = function() {
+                        $seoApiService.list().$promise.then(
                             function (response) {
-                                var result, i;
-                                $scope.visitorsTmp = [];
-                                result = response.result || [];
-                                for (i = 0; i < result.length; i += 1) {
-                                    $scope.visitorsTmp.push(result[i]);
+                                seoList = response.result || [];
+                                $scope.count = seoList.length;
+                                $scope.rewritesTmp = [];
+                                seoIdToUrl = {};
+
+                                for (var i = 0; i < seoList.length; i += 1) {
+                                    getSeoValues(seoList[i]["url"]);
                                 }
                             }
                         );
                     };
 
-                    /**
-                     * Gets count visitors
-                     */
-                    getVisitorCount = function() {
-                        $visitorApiService.getCountVisitors($location.search(), {}).$promise.then(
-                            function (response) {
-                                if (response.error === null) {
-                                    $scope.count = response.result;
-                                } else {
-                                    $scope.count = 0;
-                                }
-                            }
-                        );
-                    };
+
 
                     /**
-                     * Gets visitor attributes
+                     * Gets list of attributes for url rewrites
                      */
                     getAttributeList = function() {
-                        $visitorApiService.attributesInfo().$promise.then(
-                            function (response) {
-                                var result = response.result || [];
-                                serviceList.init('visitors');
-                                $scope.attributes = result;
-                                serviceList.setAttributes($scope.attributes);
-                                $scope.fields = serviceList.getFields(showColumns);
-                                getVisitorsList();
-                            }
-                        );
+                        var fields = ["url", "title", "meta_keywords", "meta_description", "type"];
+                        $scope.attributes = [];
+
+                        for (var i = 0; i < fields.length; i+=1) {
+                            $scope.attributes.push({
+                                "Attribute": fields[i],
+                                "Collection": "seo",
+                                "Default": "",
+                                "Editors": "text",
+                                "Group": "SEO",
+                                "IsRequired": false,
+                                "IsStatic": true,
+                                "Label": fields[i].charAt(0).toUpperCase() + fields[i].slice(1),
+                                "Model": "Seo",
+                                "Options": "",
+                                "Type": "text",
+                                "Value": ""
+                            });
+                        }
+                        serviceList.init('seo');
+                        serviceList.setAttributes($scope.attributes);
+                        $scope.fields = $scope.fields.concat(serviceList.getFields(showColumns));
                     };
 
                     /**
-                     * Handler event when selecting the visitor in the list
+                     * Handler event when selecting the seo in the list
                      *
                      * @param id
                      */
                     $scope.select = function (id) {
-                        $location.path("/visitor/" + id);
+                        $location.path("/seo/" + seoIdToUrl[id]);
                     };
 
                     /**
                      *
                      */
                     $scope.create = function () {
-                        $location.path("/visitor/new");
+                        $location.path("/seo/new");
                     };
 
                     var hasSelectedRows = function () {
@@ -103,7 +115,7 @@
                     };
 
                     /**
-                     * Removes visitor
+                     * Removes seo by ID
                      *
                      */
                     $scope.remove = function () {
@@ -113,11 +125,11 @@
                         }
 
                         var i, answer, _remove;
-                        answer = window.confirm("Please confirm you want to remove this visitor.");
+                        answer = window.confirm("Please confirm you want to remove this url rewrite.");
                         _remove = function (id) {
                             var defer = $q.defer();
 
-                            $visitorApiService.remove({"visitorID": id},
+                            $seoApiService.remove({"itemID": id},
                                 function (response) {
                                     if (response.result === "ok") {
                                         defer.resolve(id);
@@ -133,9 +145,9 @@
                             $('[ng-click="parent.remove()"]').addClass('disabled').append('<i class="fa fa-spin fa-spinner"><i>').siblings('.btn').addClass('disabled');
                             var callback = function (response) {
                                 if (response) {
-                                    for (i = 0; i < $scope.visitors.length; i += 1) {
-                                        if ($scope.visitors[i].ID === response) {
-                                            $scope.visitors.splice(i, 1);
+                                    for (i = 0; i < $scope.rewrites.length; i += 1) {
+                                        if ($scope.rewrites[i].ID === response) {
+                                            $scope.rewrites.splice(i, 1);
                                         }
                                     }
                                 }
@@ -149,17 +161,18 @@
                         }
                         $('[ng-click="parent.remove()"]').removeClass('disabled').children('i').remove();
                         $('[ng-click="parent.remove()"]').siblings('.btn').removeClass('disabled');
+
                     };
 
                     $scope.$watch(function () {
-                        if (typeof $scope.attributes !== "undefined" && typeof $scope.visitorsTmp !== "undefined") {
-                            return true;
+                        if (typeof $scope.attributes !== "undefined" && typeof $scope.rewritesTmp !== "undefined") {
+                            return ($scope.rewritesTmp.length === $scope.count);
                         }
 
                         return false;
                     }, function (isInitAll) {
                         if(isInitAll) {
-                            $scope.visitors = serviceList.getList($scope.visitorsTmp);
+                            $scope.rewrites = serviceList.getList($scope.rewritesTmp);
                         }
                     });
 
@@ -168,13 +181,13 @@
                             $location.search("limit", "0," + COUNT_ITEMS_PER_PAGE);
                             return;
                         }
-                        getVisitorCount();
                         getAttributeList();
+                        getSeoList();
                     })();
                 }
             ]
         );
 
-        return visitorModule;
+        return seoModule;
     });
 })(window.define, jQuery);

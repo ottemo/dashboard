@@ -45,6 +45,8 @@
             "design/directives/editor/guiModelSelector",
             "design/directives/editor/guiArrayModelSelector",
             "design/directives/editor/guiVisitorSelector",
+            "design/directives/editor/guiPageSelector",
+            "design/directives/editor/guiProductsSelector",
             "design/directives/editor/guiProductSelector",
             "design/directives/editor/guiCategorySelector",
             "design/directives/editor/guiNotEditable",
@@ -60,7 +62,8 @@
             "design/directives/editor/guiThemesManager",
             "design/directives/editor/guiThemesManager",
 
-            "design/tinymce/blockSelector"
+            "design/tinymce/blockSelector",
+            "design/tinymce/gallerySelector"
         ],
         function (designModule) {
 

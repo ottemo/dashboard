@@ -91,8 +91,11 @@
                                   };
                         If showColumns not specified fields will be filled by editable attributes.
                     */
+                        // TODO: Refactor, too complex
+                        // also if we could pass in an array we could control the order of the fields
+                        // from the request.
                         getFields = function (showColumns) {
-                        /*jshint maxcomplexity:false */
+
                             if (isInitFields) {
                                 for (var j = 0; j < fields.length; j += 1) {
                                     fields[j].filterValue = $routeParams[fields[j].attribute];

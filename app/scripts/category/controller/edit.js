@@ -79,6 +79,7 @@
                             $scope.category = result;
                             rememberProducts();
                             $scope.category.parent = $scope.category['parent_id'];
+                            $scope.selectedImage = result['image'];
                             addImageManagerAttribute();
                         });
                     }
