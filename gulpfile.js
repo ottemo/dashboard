@@ -140,7 +140,7 @@
                 baseDir: './app',
                 middleware: [
                     modRewrite([
-                        '!\\.\\w+$ /index.html [L]'
+                        '!\\. /index.html [L]'
                     ])
                 ]
             },
