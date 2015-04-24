@@ -1,8 +1,7 @@
 (function () {
     'use strict';
 
-    var gulp, minifyHTML, concat, stripDebug, uglify, jshint, changed, imagemin, autoprefix, sass, rjs, minifyCSS,
-        browserSync, pngquant, del, paths, host, themes;
+    var gulp, minifyHTML, concat, stripDebug, uglify, jshint, changed, imagemin, autoprefix, sass, rjs, minifyCSS, browserSync, pngquant, del, paths, host, themes;
 
     gulp = require('gulp');
     minifyHTML = require('gulp-minify-html');
@@ -143,25 +142,6 @@
             .pipe(gulp.dest(paths.themeDest));
     });
 
-    // Protractor tests
-    // gulp.task('protractorUpdate', protractor.webdriverUpdate);
-    // gulp.task('protractor', ['protractorUpdate'], function (cb) {
-    //     gulp.src(['tests/e2e/**/*.js']).pipe(protractor.protractor({
-    //         configFile: 'protractor.conf.js'
-    //     })).on('error', function (e) {
-    //         console.log(e);
-    //     }).on('end', cb);
-    // });
-    //
-    // // Jasmine test
-    // gulp.task('jasmine', function() {
-    //     gulp.src('spec/**/*.js')
-    //         .pipe(jasmine({verbose:true, includeStackTrace: true}));
-    // });
-    //
-    // gulp.task('test', ['protractor', 'jasmine'], function () {});
-
-    // browser-sync task for starting server
     gulp.task('browser-sync', function () {
         browserSync({
             server: {
@@ -178,10 +158,9 @@
     // run in development mode with easy browser reloading
     gulp.task('dev', ['browser-sync'], function () {
 
-        gulp.watch('app/views/**/*.html', [browserSync.reload]);
-        gulp.watch('app/styles/**/*.css', [browserSync.reload]);
-        gulp.watch('app/styles/**/*.scss', ['sass', browserSync.reload]);
-        gulp.watch('app/scripts/**/*.js', ['jshint', browserSync.reload]);
+        gulp.watch('app/**/*.html', [browserSync.reload]);
+        gulp.watch('app/**/*.css', [browserSync.reload]);
+        gulp.watch('app/**/*.scss', ['sass', browserSync.reload]);
     });
 
     gulp.task('serve', ['dev']);
