@@ -62,7 +62,8 @@
             "design/directives/editor/guiThemesManager",
             "design/directives/editor/guiThemesManager",
 
-            "design/tinymce/blockSelector"
+            "design/tinymce/blockSelector",
+            "design/tinymce/gallerySelector"
         ],
         function (designModule) {
 

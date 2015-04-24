@@ -1,18 +1,18 @@
 (function (define) {
     "use strict";
 
-    define(["angular", "design/init", "tinymce", "design/tinymce/blockSelector"], function (angular, designModule, tinymce) {
+    define(["angular", "design/init", "tinymce", "design/tinymce/blockSelector", "design/tinymce/gallerySelector"], function (angular, designModule, tinymce) {
         designModule
             .value('uiTinymceConfig', {
                 "theme": "modern",
                 "plugins": [
-                    "blocks advlist autolink lists link image charmap preview hr anchor pagebreak",
+                    "blocks gallery advlist autolink lists link image charmap preview hr anchor pagebreak",
                     "visualblocks visualchars code fullscreen",
                     "media nonbreaking save table contextmenu directionality",
                     "template paste textcolor colorpicker textpattern"
                 ],
                 "menubar": false,
-                "toolbar1": "blocks | insertfile undo redo | styleselect | bold italic | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+                "toolbar1": "blocks | undo redo | styleselect | bold italic | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image gallery galleryUpload",
                 "image_advtab": true
             })
             .directive('guiTinymce', ['uiTinymceConfig', function (uiTinymceConfig) {
