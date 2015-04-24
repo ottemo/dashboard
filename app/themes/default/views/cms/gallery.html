@@ -11,12 +11,13 @@
         <div class="container text-center">
 
           <!-- Main image -->
-          <img ng-src="{{redyImages[selectedImage]}}" ng-if="fullVersion" alt="selected image" class="main-image">
+          <img ng-src="{{selectedImage}}" alt="selected image" class="main-image">
           <!-- Image previews -->
-          <div class="text-center" ng-repeat="row in splitedImages">
-              <span ng-click="selectImage(image)" ng-repeat="image in row">
-                  <img class="thum" ng-src="{{redyImages[image]}}">
+          <div class="text-center" >
+              <span class="col-xs-12 col-sm-6 col-md-3" ng-click="selectImage(image)" ng-repeat="image in imgPaths">
+                  <img class="img-responsive" ng-src="{{image}}">
               </span>
+            <div class="clearfix"></div>
           </div>
           <br>
           <!-- Upload file -->

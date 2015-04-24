@@ -12,54 +12,13 @@
                 "$designImageService",
                 function ($scope, $routeParams, $location, $q, $cmsApiService, $designImageService) {
 
-                    // functions
-                    var splitBy, addPath;
                     // variables
-                    var galleryImages, imagesPerRow;
+                    var galleryImages, imagesBasePath;
 
-                    imagesPerRow = 6;
-
-                    addPath = function(images) {
-                        var i, result = {};
-
-                        for (i=0; i<images.length; i+=1){
-                            result[images[i]] = $designImageService.getFullImagePath($scope.imagesPath, images[i]);
+                    $scope.selectImage = function (filePath) {
+                        if (typeof filePath !== "undefined" && filePath !== "") {
+                            $scope.selectedImage = filePath;
                         }
-
-                        return result;
-                    };
-
-                    // function to split array on rows by x-elements
-                    splitBy = function (arr, x) {
-                        var result = [], row = [], i = 0;
-
-                        for (var idx in arr) {
-                            if (arr.hasOwnProperty(idx)) {
-                                i += 1;
-                                row.push(arr[idx]);
-                                if (i % x === 0) {
-                                    result.push(row);
-                                    i = 0;
-                                    row = [];
-                                }
-                            }
-                        }
-                        if (i !== 0) {
-                            result.push(row);
-                        }
-                        return result;
-                    };
-
-                    $scope.selectImage = function (filename) {
-                    if (typeof filename !== "undefined" && filename !== "") {
-                            $scope.selectedImage = filename;
-                            if(!$scope.fullVersion) {
-                                var args = {};
-                                args[filename] = $scope.redyImages[filename];
-                                top.tinymce.activeEditor.windowManager.setParams(args);
-                            }
-                        }
-
                     };
 
                     //-----------------
@@ -69,17 +28,20 @@
                         // taking media patch for gallery
                         $cmsApiService.galleryPath().$promise.then(
                             function (response) {
-                                $scope.imagesPath = response.result || "";
+                                imagesBasePath = response.result || "";
                         });
                         // taking registered images for gallery
                         $cmsApiService.galleryList().$promise.then(
                             function (response) {
                                 galleryImages = response.result || [];
-                                $scope.splitedImages = splitBy(galleryImages, imagesPerRow);
+                                $scope.imgPaths = [];
 
-                                $scope.selectedImage = galleryImages[0] || "undefined";
+                                // set paths to all images and default image value
+                                for (var i=0; i<galleryImages.length; i+=1){
+                                    $scope.imgPaths[[i]] = $designImageService.getFullImagePath(imagesBasePath, galleryImages[i]);
+                                }
 
-                                $scope.redyImages = addPath(galleryImages);
+                                $scope.selectedImage = $scope.imgPaths[0] || "undefined";
                         });
                     };
 
@@ -89,7 +51,6 @@
                      * @param fileElementId
                      */
                     $scope.imageAdd = function (fileElementId) {
-
                         var file = document.getElementById(fileElementId);
                         if (file !== undefined){
                             var mediaName = file.files[0].name;
@@ -107,32 +68,15 @@
                      * @param {string} selected - image name
                      */
                     $scope.imageRemove = function (selected) {
-                        var mediaName = selected;
+                        var mediaName = selected.split(imagesBasePath)[1];
                         if (selected !== undefined) {
                             $cmsApiService.galleryRemove({"mediaName": mediaName})
                                 .$promise.then(function () {
-                                    $scope.selectedImage = undefined;
+                                    $scope.selectedImage = $scope.imgPaths[0];
                                     $scope.reloadImages();
                                 });
                         }
                     };
-
-                    $scope.loadMini = function () {
-                        if (!$scope.fullVersion){
-                            var deletedId = ["header_sidebar", "header_no_sidebar", "theme_container", "code_container"];
-                            for (var i = 0; i < deletedId.length; i+= 1){
-                                if (document.getElementById(deletedId[i]) !== null) {
-                                    document.getElementById(deletedId[i]).remove();
-                                }
-                            }
-                        }
-                    };
-
-                    // for mini version of page
-                    $scope.fullVersion = true;
-                        if (typeof $routeParams["mini"] !== "undefined"){
-                            $scope.fullVersion = false;
-                        }
 
                     $scope.reloadImages();
                 }
