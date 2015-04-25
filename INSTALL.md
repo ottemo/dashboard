@@ -33,6 +33,12 @@
     or 
     gulp build && gulp serve
 
+Note: The password to login to the dashboard will be whatever was set in the ['gulp build' step](https://github.com/ottemo/store-ng/blob/develop/INSTALL.md#build-ottemo-store-ng) for store-ng. By default this is:
+```
+username: admin
+password: admin
+```
+
 ## How to set up Git Flow on Mac/Linux
 
 #### OSX

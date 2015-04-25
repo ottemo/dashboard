@@ -1,34 +1,31 @@
 (function () {
     'use strict';
 
-    var gulp, minifyHTML, concat, stripDebug, uglify, jshint, changed, imagemin, autoprefix, sass, rjs, minifyCSS,
-        browserSync, pngquant, del, paths, host, themes;
+    var gulp = require('gulp');
+    var minifyHTML = require('gulp-minify-html');
+    var stripDebug = require('gulp-strip-debug');
+    var uglify = require('gulp-uglify');
+    var jshint = require('gulp-jshint');
+    var changed = require('gulp-changed');
+    var imagemin = require('gulp-imagemin');
+    var autoprefix = require('gulp-autoprefixer');
+    var rjs = require('gulp-requirejs');
+    var minifyCSS = require('gulp-minify-css');
+    var browserSync = require('browser-sync');
+    var modRewrite = require('connect-modrewrite');
+    var del = require('del');
+    var reload = browserSync.reload;
 
-    gulp = require('gulp');
-    minifyHTML = require('gulp-minify-html');
-    concat = require('gulp-concat');
-    stripDebug = require('gulp-strip-debug');
-    uglify = require('gulp-uglify');
-    jshint = require('gulp-jshint');
-    changed = require('gulp-changed');
-    imagemin = require('gulp-imagemin');
-    autoprefix = require('gulp-autoprefixer');
-    sass = require('gulp-sass');
-    rjs = require('gulp-requirejs');
-    minifyCSS = require('gulp-minify-css');
-    browserSync = require('browser-sync');
-    pngquant = require('imagemin-pngquant');
-    del = require('del');
-    paths = {
+
+    var paths = {
         "app": require('./bower.json').appPath || 'app',
         "dist": 'dist',
         "themes": 'themes',
-        "js": ['app/scripts/*.js', 'app/scripts/**/*.js'],
+        "js": ['app/themes/default/scripts/**/*.js'],
         "vendor": 'app/lib/**/*',
         "vendorTheme": 'app/themes/**/lib/**/*',
-        "sass": 'app/styles/sass/**/*.scss',
-        "css": 'app/themes/**/styles/**/*.css',
-        "images": 'app/themes/**/images/**/*',
+        "css": 'app/themes/default/styles/**/*.css',
+        "images": 'app/**/*.{jpg,png,jpeg}',
         "fonts": 'app/themes/**/styles/fonts/**/*',
         "html": 'app/**/*.html',
         "misc": 'app/*.{txt,htaccess,ico}',
@@ -36,7 +33,7 @@
 
     };
 
-    host = {
+    var host = {
         port: '9000',
         lrPort: '35729'
     };
@@ -82,7 +79,7 @@
             .pipe(jshint.reporter(require('jshint-stylish')));
     });
 
-    gulp.task('requirejs', ['clean', 'jshint'], function () {
+    gulp.task('requirejs', ['clean'], function () {
         rjs({
             out: 'main.js',
             name: 'main',
@@ -97,16 +94,6 @@
             .pipe(stripDebug())
             .pipe(uglify({mangle: false}))
             .pipe(gulp.dest(paths.dist + '/scripts/'));
-    });
-
-    // Sass task, will run when any SCSS files change & BrowserSync
-    // will auto-update browsers
-    gulp.task('sass', function () {
-        return gulp.src(paths.sass)
-            .pipe(sass({imagePath: '../../images'}))
-            .pipe(autoprefix('last 1 version'))
-            .pipe(gulp.dest(paths.dist + '/styles'))
-            .pipe(gulp.dest(paths.app + '/styles'));
     });
 
     // minify new images
@@ -134,7 +121,7 @@
     });
 
     // CSS auto-prefix and minify
-    gulp.task('autoprefixer', ['clean', 'sass'], function () {
+    gulp.task('autoprefixer', ['clean'], function () {
         gulp.src(paths.css)
             .pipe(autoprefix('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
             .pipe(minifyCSS())
@@ -143,48 +130,27 @@
             .pipe(gulp.dest(paths.themeDest));
     });
 
-    // Protractor tests
-    // gulp.task('protractorUpdate', protractor.webdriverUpdate);
-    // gulp.task('protractor', ['protractorUpdate'], function (cb) {
-    //     gulp.src(['tests/e2e/**/*.js']).pipe(protractor.protractor({
-    //         configFile: 'protractor.conf.js'
-    //     })).on('error', function (e) {
-    //         console.log(e);
-    //     }).on('end', cb);
-    // });
-    //
-    // // Jasmine test
-    // gulp.task('jasmine', function() {
-    //     gulp.src('spec/**/*.js')
-    //         .pipe(jasmine({verbose:true, includeStackTrace: true}));
-    // });
-    //
-    // gulp.task('test', ['protractor', 'jasmine'], function () {});
+    // gulp.task('html-watch', ['html'], reload);
 
-    // browser-sync task for starting server
-    gulp.task('browser-sync', function () {
-        browserSync({
+
+    // run in development mode with easy browser reloading
+    gulp.task('serve', function () {
+        browserSync.init(["app/**/*.css", "app/**/*.html", "app/**/*.js"],{
             server: {
-                baseDir: './app'
+                baseDir: './app',
+                middleware: [
+                    modRewrite([
+                        '!\\. /index.html [L]'
+                    ])
+                ]
             },
             port: host.port
         });
+
+        gulp.watch("app/**/*.html").on("change", reload);
+        gulp.watch("app/**/*.css").on("change", reload);
+        gulp.watch("app/**/*.js").on("change", reload);
     });
-
-    gulp.task('bs-reload', function () {
-        browserSync.reload();
-    });
-
-    // run in development mode with easy browser reloading
-    gulp.task('dev', ['browser-sync'], function () {
-
-        gulp.watch('app/views/**/*.html', [browserSync.reload]);
-        gulp.watch('app/styles/**/*.css', [browserSync.reload]);
-        gulp.watch('app/styles/**/*.scss', ['sass', browserSync.reload]);
-        gulp.watch('app/scripts/**/*.js', ['jshint', browserSync.reload]);
-    });
-
-    gulp.task('serve', ['dev']);
 
     gulp.task('build', ['requirejs', 'vendor', 'misc', 'html', 'autoprefixer', 'imagemin']);
 
