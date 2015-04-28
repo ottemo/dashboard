@@ -16,13 +16,10 @@
     var del = require('del');
     var reload = browserSync.reload;
 
-    var watchify = require('watchify');
-    var browserify = require('browserify');
-    var source = require('vinyl-source-stream');
-    var buffer = require('vinyl-buffer');
-    var gutil = require('gulp-util');
-    // var sourcemaps = require('gulp-sourcemaps');
-    var assign = require('lodash.assign');
+    var concat = require('gulp-concat');
+    var sourcemaps = require('gulp-sourcemaps');
+    var ngAnnotate = require('gulp-ng-annotate');
+
 
     var paths = {
         "app": require('./bower.json').appPath || 'app',
@@ -36,8 +33,8 @@
         "fonts": 'app/themes/**/styles/fonts/**/*',
         "html": 'app/**/*.html',
         "misc": 'app/*.{txt,htaccess,ico}',
-        "themeDest": "dist/themes"
-
+        "themeDest": "dist/themes",
+        "scripts": ['app/scripts/main.js','app/scripts/**/module.js', 'app/scripts/**/*.js']
     };
 
     var env = process.env.NODE_ENV || 'development';
@@ -69,6 +66,20 @@
             .pipe(gulp.dest(paths.themeDest));
     });
 
+    //  task for compilling angular application scripts
+    //  -------------------------------
+     
+    gulp.task('scripts', function () {
+      return gulp.src(['app/scripts/main.js','app/scripts/**/module.js', 'app/scripts/**/*.js'])
+        .pipe(sourcemaps.init())
+        .pipe(concat('app.js'))
+        .pipe(ngAnnotate())
+        .pipe(uglify())
+        .pipe(sourcemaps.write('./maps'))
+        .pipe(gulp.dest(paths.dist+'/scripts'))
+    })
+
+
     // copy vendor js 
     gulp.task('vendor', ['clean', 'vendorTheme'], function () {
         return gulp.src(paths.vendor)
@@ -89,71 +100,23 @@
     });
 
 
-    // ---------------
-    // Browserify init
-    // ---------------
-    if (env == 'development'){
-        // Development config
 
-        // watchify
-        // only in dev
-        var watchifyOpts = {
-            entries: ['./app/scripts/main.js'],
-            debug: false
-        } 
-        var b = watchify(browserify( assign({}, watchify.args, watchifyOpts) ));
-
-
-        var bundle = function(){
-            return b.bundle()
-                // log errors if they happen
-                .on('error', gutil.log.bind(gutil, 'Browserify Error'))
-                .pipe(source('bundle.js'))
-                // optional, remove if you don't need to buffer file contents
-                .pipe(buffer())
-                // optional, remove if you dont want sourcemaps
-                // .pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
-                   // Add transformation tasks to the pipeline here.
-                // .pipe(sourcemaps.write('./')) // writes .map file
-                .pipe(gulp.dest('./dist/scripts'))
-        }
-
-        b.on('update', bundle);
-        b.on('log', gutil.log);
-
-        gulp.task('browserify', bundle);
-
-    } else {
-        // Production config
-
-        gulp.task('browserify', function(){
-            return browserify()
-                .add('./app/scripts/main.js')
-                .bundle()
-                .on('error', gutil.log.bind(gutil, 'Browserify Error'))
-                .pipe(source('bundle.js'))
-                .pipe(buffer())
-                .pipe(uglify({mangle: false}))
-                .pipe(gulp.dest('./dist/scripts'));
-        });
-    }
-
-    gulp.task('requirejs', ['clean'], function () {
-        rjs({
-            out: 'main.js',
-            name: 'main',
-            preserveLicenseComments: false, // remove all comments
-            removeCombined: true,
-            paths: {
-                "tinymce" : "empty:"
-            },
-            baseUrl: paths.app + '/scripts',
-            mainConfigFile: 'app/scripts/main.js'
-        })
-            .pipe(stripDebug())
-            .pipe(uglify({mangle: false}))
-            .pipe(gulp.dest(paths.dist + '/scripts/'));
-    });
+    // gulp.task('requirejs', ['clean'], function () {
+    //     rjs({
+    //         out: 'main.js',
+    //         name: 'main',
+    //         preserveLicenseComments: false, // remove all comments
+    //         removeCombined: true,
+    //         paths: {
+    //             "tinymce" : "empty:"
+    //         },
+    //         baseUrl: paths.app + '/scripts',
+    //         mainConfigFile: 'app/scripts/main.js'
+    //     })
+    //         .pipe(stripDebug())
+    //         .pipe(uglify({mangle: false}))
+    //         .pipe(gulp.dest(paths.dist + '/scripts/'));
+    // });
 
     // minify new images
     gulp.task('imagemin', ['clean'], function () {
@@ -190,47 +153,38 @@
     });
 
     // gulp.task('html-watch', ['html'], reload);
+    
+    // gulp.task('express', function(){
+    //     var express = require('express'),
+    //     app = express(),
+    //     path = require('path');
+        
+    //     if (env == 'development'){
+    //         app.use(require('connect-livereload')());
+    //     }
 
+    //     app.use(express.static(path.join(__dirname, 'dist')));
 
-    gulp.task('serve', ['build','browser-sync','watch']);
+    //     app.listen(host.port, function(){
+    //         console.log('server started, port %s',host.port);
+            
+    //         refresh.listen({ basePath: 'dist' });
+    //     })
+    // });
+
+    // gulp.task('serve', ['build','browser-sync','watch']);
     
     
     gulp.task('watch', function(){
-        gulp.watch("app/**/*.html").on("change", reload);
-        gulp.watch("app/**/*.css").on("change", reload);
-        gulp.watch("app/**/*.js").on("change", reload);
+        // gulp.watch(["app/**/*.html"],[]);
+        // gulp.watch(["app/**/*.css"],[]);
+        // gulp.watch(["app/**/*.js"],[]);
     })
     
-    gulp.task('browser-sync', function(){
-        if (env === 'production') {
-            browserSync.init(["dist/**/*.css", "dist/**/*.html", "dist/**/*.js"],{
-                server: {
-                    baseDir: './dist',
-                    middleware: [
-                        modRewrite([
-                            '!\\. /index.html [L]'
-                        ])
-                    ]
-                },
-                port: host.port
 
-            });
-        } else {
-            browserSync.init(["app/**/*.css", "app/**/*.html", "app/**/*.js"],{
-                server: {
-                    baseDir: './app',
-                    middleware: [
-                        modRewrite([
-                            '!\\. /index.html [L]'
-                        ])
-                    ]
-                },
-                port: host.port
-            });
-        }
-    });
 
-    gulp.task('build', ['requirejs', 'vendor', 'misc', 'html', 'autoprefixer', 'imagemin']);
+    gulp.task('build', ['scripts', 'vendor', 'misc', 'html', 'autoprefixer', 'imagemin']);
 
     gulp.task('default',['build']);
+
 })();
