@@ -16,6 +16,13 @@
     var del = require('del');
     var reload = browserSync.reload;
 
+    var watchify = require('watchify');
+    var browserify = require('browserify');
+    var source = require('vinyl-source-stream');
+    var buffer = require('vinyl-buffer');
+    var gutil = require('gulp-util');
+    // var sourcemaps = require('gulp-sourcemaps');
+    var assign = require('lodash.assign');
 
     var paths = {
         "app": require('./bower.json').appPath || 'app',
@@ -81,6 +88,56 @@
             .pipe(jshint.reporter(require('jshint-stylish')));
     });
 
+
+    // ---------------
+    // Browserify init
+    // ---------------
+    if (env == 'development'){
+        // Development config
+
+        // watchify
+        // only in dev
+        var watchifyOpts = {
+            entries: ['./app/scripts/main.js'],
+            debug: false
+        } 
+        var b = watchify(browserify( assign({}, watchify.args, watchifyOpts) ));
+
+
+        var bundle = function(){
+            return b.bundle()
+                // log errors if they happen
+                .on('error', gutil.log.bind(gutil, 'Browserify Error'))
+                .pipe(source('bundle.js'))
+                // optional, remove if you don't need to buffer file contents
+                .pipe(buffer())
+                // optional, remove if you dont want sourcemaps
+                // .pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
+                   // Add transformation tasks to the pipeline here.
+                // .pipe(sourcemaps.write('./')) // writes .map file
+                .pipe(gulp.dest('./dist/scripts'))
+        }
+
+        b.on('update', bundle);
+        b.on('log', gutil.log);
+
+        gulp.task('browserify', bundle);
+
+    } else {
+        // Production config
+
+        gulp.task('browserify', function(){
+            return browserify()
+                .add('./app/scripts/main.js')
+                .bundle()
+                .on('error', gutil.log.bind(gutil, 'Browserify Error'))
+                .pipe(source('bundle.js'))
+                .pipe(buffer())
+                .pipe(uglify({mangle: false}))
+                .pipe(gulp.dest('./dist/scripts'));
+        });
+    }
+
     gulp.task('requirejs', ['clean'], function () {
         rjs({
             out: 'main.js',
@@ -135,9 +192,16 @@
     // gulp.task('html-watch', ['html'], reload);
 
 
-    // TODO: upgrade browser-sycn initialization or replace with live-reload
-    // run in development mode with easy browser reloading
-    gulp.task('serve', ['build'], function () {
+    gulp.task('serve', ['build','browser-sync','watch']);
+    
+    
+    gulp.task('watch', function(){
+        gulp.watch("app/**/*.html").on("change", reload);
+        gulp.watch("app/**/*.css").on("change", reload);
+        gulp.watch("app/**/*.js").on("change", reload);
+    })
+    
+    gulp.task('browser-sync', function(){
         if (env === 'production') {
             browserSync.init(["dist/**/*.css", "dist/**/*.html", "dist/**/*.js"],{
                 server: {
@@ -162,12 +226,7 @@
                     ]
                 },
                 port: host.port
-
             });
-            
-            gulp.watch("app/**/*.html").on("change", reload);
-            gulp.watch("app/**/*.css").on("change", reload);
-            gulp.watch("app/**/*.js").on("change", reload);
         }
     });
 
