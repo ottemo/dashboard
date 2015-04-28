@@ -135,10 +135,11 @@
     // gulp.task('html-watch', ['html'], reload);
 
 
+    // TODO: upgrade browser-sycn initialization or replace with live-reload
     // run in development mode with easy browser reloading
-    gulp.task('serve', function () {
+    gulp.task('serve', ['build'], function () {
         if (env === 'production') {
-            browserSync.init(["app/**/*.css", "app/**/*.html", "app/**/*.js"],{
+            browserSync.init(["dist/**/*.css", "dist/**/*.html", "dist/**/*.js"],{
                 server: {
                     baseDir: './dist',
                     middleware: [
