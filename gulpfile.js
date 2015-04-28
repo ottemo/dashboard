@@ -21,17 +21,19 @@
         "app": require('./bower.json').appPath || 'app',
         "dist": 'dist',
         "themes": 'themes',
-        "js": ['app/themes/default/scripts/**/*.js'],
+        "js": ['app/scripts/*.js', 'app/scripts/**/*.js'],
         "vendor": 'app/lib/**/*',
         "vendorTheme": 'app/themes/**/lib/**/*',
-        "css": 'app/themes/default/styles/**/*.css',
-        "images": 'app/**/*.{jpg,png,jpeg}',
+        "css": 'app/themes/**/styles/**/*.css',
+        "images": 'app/themes/**/images/**/*',
         "fonts": 'app/themes/**/styles/fonts/**/*',
         "html": 'app/**/*.html',
         "misc": 'app/*.{txt,htaccess,ico}',
         "themeDest": "dist/themes"
 
     };
+
+    var env = process.env.NODE_ENV || 'development';
 
     var host = {
         port: '9000',
@@ -135,17 +137,33 @@
 
     // run in development mode with easy browser reloading
     gulp.task('serve', function () {
-        browserSync.init(["app/**/*.css", "app/**/*.html", "app/**/*.js"],{
-            server: {
-                baseDir: './app',
-                middleware: [
-                    modRewrite([
-                        '!\\. /index.html [L]'
-                    ])
-                ]
-            },
-            port: host.port
-        });
+        if (env === 'production') {
+            browserSync.init(["app/**/*.css", "app/**/*.html", "app/**/*.js"],{
+                server: {
+                    baseDir: './dist',
+                    middleware: [
+                        modRewrite([
+                            '!\\. /index.html [L]'
+                        ])
+                    ]
+                },
+                port: host.port
+
+            });
+        } else {
+            browserSync.init(["app/**/*.css", "app/**/*.html", "app/**/*.js"],{
+                server: {
+                    baseDir: './app',
+                    middleware: [
+                        modRewrite([
+                            '!\\. /index.html [L]'
+                        ])
+                    ]
+                },
+                port: host.port
+
+            });
+        }
 
         gulp.watch("app/**/*.html").on("change", reload);
         gulp.watch("app/**/*.css").on("change", reload);
