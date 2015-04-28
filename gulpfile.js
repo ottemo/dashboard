@@ -164,11 +164,11 @@
                 port: host.port
 
             });
+            
+            gulp.watch("app/**/*.html").on("change", reload);
+            gulp.watch("app/**/*.css").on("change", reload);
+            gulp.watch("app/**/*.js").on("change", reload);
         }
-
-        gulp.watch("app/**/*.html").on("change", reload);
-        gulp.watch("app/**/*.css").on("change", reload);
-        gulp.watch("app/**/*.js").on("change", reload);
     });
 
     gulp.task('build', ['requirejs', 'vendor', 'misc', 'html', 'autoprefixer', 'imagemin']);
