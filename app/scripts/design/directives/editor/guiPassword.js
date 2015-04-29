@@ -1,102 +1,96 @@
-(function (define, $) {
-    "use strict";
+angular.module("designModule")
 
-    define(["design/init"], function (designModule) {
-        designModule
-        /**
-         *  For activating a confirm field,  attributes  password should have property 'Confirm' = true
-         *  Example:
-         *  scope.attribute = {
-         *      Attribute: "password"
-         *      Collection: "visitor"
-         *      Confirm: true           // For this editor will be added a field confirm
-         *      Default: ""
-         *      Editors: "password"
-         *      Group: "Password"
-         *      IsLayered: false
-         *      IsRequired: false
-         *      IsStatic: true
-         *      Label: "Password"
-         *      Model: "Visitor"
-         *      Options: ""
-         *      Type: "text"
-         *      Validators: ""
-         *  }
-         */
-            .directive("guiPassword", ["$designService", function ($designService) {
-                return {
-                    restrict: "EA",
-                    scope: {
-                        "attribute": "=editorScope",
-                        "item": "=item"
-                    },
-                    templateUrl: $designService.getTemplate("design/gui/editor/password.html")
-                };
-            }])
+/**
+*  For activating a confirm field,  attributes  password should have property 'Confirm' = true
+*  Example:
+*  scope.attribute = {
+*      Attribute: "password"
+*      Collection: "visitor"
+*      Confirm: true           // For this editor will be added a field confirm
+*      Default: ""
+*      Editors: "password"
+*      Group: "Password"
+*      IsLayered: false
+*      IsRequired: false
+*      IsStatic: true
+*      Label: "Password"
+*      Model: "Visitor"
+*      Options: ""
+*      Type: "text"
+*      Validators: ""
+*  }
+*/
 
-            .directive('password', [function () {
-                var passwordDontMatch = "Passwords don't match.";
+.directive("guiPassword", ["$designService", function ($designService) {
+    return {
+        restrict: "EA",
+        scope: {
+            "attribute": "=editorScope",
+            "item": "=item"
+        },
+        templateUrl: $designService.getTemplate("design/gui/editor/password.html")
+    };
+}])
 
-                return {
-                    restrict: 'A',
-                    require: '?ngModel',
-                    link: function (scope, elem, attrs, ngModel) {
-                        var firstPassword, confirmPassword;
+.directive('password', [function () {
+    var passwordDontMatch = "Passwords don't match.";
 
-                        if (!scope.attribute.Confirm) {
-                            return true;
-                        }
+    return {
+        restrict: 'A',
+        require: '?ngModel',
+        link: function (scope, elem, attrs, ngModel) {
+            var firstPassword, confirmPassword;
 
-                        firstPassword = '#' + attrs.id;
-                        confirmPassword = '#' + attrs.id + "_confirm";
+            if (!scope.attribute.Confirm) {
+                return true;
+            }
 
-                        elem.add(firstPassword).on('keyup', function () {
-                            scope.$apply(function () {
-                                var valid;
-                                valid = elem.val() === $(confirmPassword).val();
+            firstPassword = '#' + attrs.id;
+            confirmPassword = '#' + attrs.id + "_confirm";
 
-                                if (!valid) {
-                                    ngModel.message = passwordDontMatch;
-                                }
+            elem.add(firstPassword).on('keyup', function () {
+                scope.$apply(function () {
+                    var valid;
+                    valid = elem.val() === $(confirmPassword).val();
 
-                                ngModel.$setValidity("pwmatch", valid);
-                            });
-                        });
+                    if (!valid) {
+                        ngModel.message = passwordDontMatch;
                     }
-                };
-            }])
 
-            .directive('passwordConfirm', ["$parse", function ($parse) {
-                var passwordDontMatch = "Passwords don't match.";
+                    ngModel.$setValidity("pwmatch", valid);
+                });
+            });
+        }
+    };
+}])
 
-                return {
-                    restrict: 'A',
-                    require: 'ngModel',
-                    link: function (scope, elem, attrs, ngModel) {
-                        var passwordId, firstPassword;
+.directive('passwordConfirm', ["$parse", function ($parse) {
+    var passwordDontMatch = "Passwords don't match.";
 
-                        passwordId = $parse(elem.attr('password-confirm'))(scope) || "";
-                        firstPassword = '#inp_' + passwordId;
+    return {
+        restrict: 'A',
+        require: 'ngModel',
+        link: function (scope, elem, attrs, ngModel) {
+            var passwordId, firstPassword;
 
-                        elem.add(firstPassword).on('keyup', function () {
-                            scope.$apply(function () {
-                                var valid;
+            passwordId = $parse(elem.attr('password-confirm'))(scope) || "";
+            firstPassword = '#inp_' + passwordId;
 
-                                valid = elem.val() === $(firstPassword).val();
+            elem.add(firstPassword).on('keyup', function () {
+                scope.$apply(function () {
+                    var valid;
 
-                                if (!valid) {
-                                    ngModel.message = passwordDontMatch;
-                                    scope.passwordForm[passwordId].message = passwordDontMatch;
-                                }
+                    valid = elem.val() === $(firstPassword).val();
 
-                                scope.passwordForm[passwordId].$setValidity("pwmatch", valid);
-                                ngModel.$setValidity("pwmatch", valid);
-                            });
-                        });
+                    if (!valid) {
+                        ngModel.message = passwordDontMatch;
+                        scope.passwordForm[passwordId].message = passwordDontMatch;
                     }
-                };
-            }]);
 
-        return designModule;
-    });
-})(window.define, jQuery);
+                    scope.passwordForm[passwordId].$setValidity("pwmatch", valid);
+                    ngModel.$setValidity("pwmatch", valid);
+                });
+            });
+        }
+    };
+}]);

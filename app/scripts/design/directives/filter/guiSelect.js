@@ -1,101 +1,92 @@
-(function (define) {
-    "use strict";
+angular.module("designModule")
+/**
+*  Directive used for automatic attribute editor creation
+*/
+.directive("guiFilterSelect", ["$designService", function ($designService) {
+    return {
+        restrict: "E",
+        templateUrl: $designService.getTemplate("design/gui/filter/select.html"),
 
-    define(["design/init"], function (designModule) {
+        scope: {
+            "parent": "=object",
+            "attribute": "=editorScope",
+            "item": "=item"
+        },
 
-        designModule
-        /**
-         *  Directive used for automatic attribute editor creation
-         */
-            .directive("guiFilterSelect", ["$designService", function ($designService) {
-                return {
-                    restrict: "E",
-                    templateUrl: $designService.getTemplate("design/gui/filter/select.html"),
+        controller: function ($scope) {
+            var getOptions;
+            var isInit = false;
 
-                    scope: {
-                        "parent": "=object",
-                        "attribute": "=editorScope",
-                        "item": "=item"
-                    },
+            $scope.options = [];
 
-                    controller: function ($scope) {
-                        var getOptions;
-                        var isInit = false;
+            getOptions = function (opt) {
+                var options = {};
 
-                        $scope.options = [];
+                if (typeof $scope.attribute.Options === "string") {
+                    try {
+                        options = JSON.parse(opt.replace(/'/g, "\""));
 
-                        getOptions = function (opt) {
-                            var options = {};
+                    }
+                    catch (e) {
+                        var parts = $scope.attribute.Options.replace(/[{}]/g, "").split(",");
+                        for (var i = 0; i < parts.length; i += 1) {
+                            options[parts[i]] = parts[i];
+                        }
+                    }
+                } else {
+                    options = opt;
+                }
 
-                            if (typeof $scope.attribute.Options === "string") {
-                                try {
-                                    options = JSON.parse(opt.replace(/'/g, "\""));
+                return options;
+            };
 
-                                }
-                                catch (e) {
-                                    var parts = $scope.attribute.Options.replace(/[{}]/g, "").split(",");
-                                    for (var i = 0; i < parts.length; i += 1) {
-                                        options[parts[i]] = parts[i];
-                                    }
-                                }
-                            } else {
-                                options = opt;
-                            }
+            $scope.submit = function (id) {
+                $scope.item[$scope.attribute.Attribute] = id;
+                $scope.parent.newFilters[$scope.attribute.Attribute.toLowerCase()] = id.split(" ");
+                if (-1 !== ['text', 'string'].indexOf($scope.item.dataType)) {
+                    $scope.parent.newFilters[$scope.attribute.Attribute.toLowerCase()] = id.split(" ");
+                } else {
+                    $scope.parent.newFilters[$scope.attribute.Attribute.toLowerCase()] = id;
+                }
+            };
 
-                            return options;
-                        };
+            $scope.$watch("item", function () {
+                if (typeof $scope.item === "undefined" || isInit) {
+                    return false;
+                }
 
-                        $scope.submit = function (id) {
-                            $scope.item[$scope.attribute.Attribute] = id;
-                            $scope.parent.newFilters[$scope.attribute.Attribute.toLowerCase()] = id.split(" ");
-                            if (-1 !== ['text', 'string'].indexOf($scope.item.dataType)) {
-                                $scope.parent.newFilters[$scope.attribute.Attribute.toLowerCase()] = id.split(" ");
-                            } else {
-                                $scope.parent.newFilters[$scope.attribute.Attribute.toLowerCase()] = id;
-                            }
-                        };
+                var options, field, setNewFilterValues;
 
-                        $scope.$watch("item", function () {
-                            if (typeof $scope.item === "undefined" || isInit) {
-                                return false;
-                            }
+                setNewFilterValues = function () {
+                    if (-1 !== ['text', 'string'].indexOf($scope.item.dataType)) {
+                        $scope.item[$scope.attribute.Attribute] = $scope.item[$scope.attribute.Attribute].replace(/~/g, "");
+                        $scope.parent.newFilters[$scope.attribute.Attribute] = $scope.item[$scope.attribute.Attribute].replace(/~/g, "").split(" ");
+                    } else {
+                        $scope.item[$scope.attribute.Attribute] = $scope.item[$scope.attribute.Attribute].replace(/~/g, "");
+                        $scope.parent.newFilters[$scope.attribute.Attribute] = $scope.item[$scope.attribute.Attribute].replace(/~/g, "");
+                    }
 
-                            var options, field, setNewFilterValues;
+                };
 
-                            setNewFilterValues = function () {
-                                if (-1 !== ['text', 'string'].indexOf($scope.item.dataType)) {
-                                    $scope.item[$scope.attribute.Attribute] = $scope.item[$scope.attribute.Attribute].replace(/~/g, "");
-                                    $scope.parent.newFilters[$scope.attribute.Attribute] = $scope.item[$scope.attribute.Attribute].replace(/~/g, "").split(" ");
-                                } else {
-                                    $scope.item[$scope.attribute.Attribute] = $scope.item[$scope.attribute.Attribute].replace(/~/g, "");
-                                    $scope.parent.newFilters[$scope.attribute.Attribute] = $scope.item[$scope.attribute.Attribute].replace(/~/g, "");
-                                }
+                $scope.options = [];
+                options = getOptions($scope.attribute.Options);
 
-                            };
-
-                            $scope.options = [];
-                            options = getOptions($scope.attribute.Options);
-
-                            for (field in options) {
-                                if (options.hasOwnProperty(field)) {
-                                    $scope.options.unshift({
-                                        Desc: "",
-                                        Extra: null,
-                                        Id: field,
-                                        Image: "",
-                                        Name: options[field]
-                                    });
-                                }
-                            }
-
-                            setNewFilterValues();
-
-                            isInit = true;
+                for (field in options) {
+                    if (options.hasOwnProperty(field)) {
+                        $scope.options.unshift({
+                            Desc: "",
+                            Extra: null,
+                            Id: field,
+                            Image: "",
+                            Name: options[field]
                         });
                     }
-                };
-            }]);
+                }
 
-        return designModule;
-    });
-})(window.define);
+                setNewFilterValues();
+
+                isInit = true;
+            });
+        }
+    };
+}]);

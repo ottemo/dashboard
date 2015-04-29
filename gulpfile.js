@@ -19,7 +19,9 @@
     var concat = require('gulp-concat');
     var sourcemaps = require('gulp-sourcemaps');
     var ngAnnotate = require('gulp-ng-annotate');
-
+    var notify = require('gulp-notify');
+    var refresh = require('gulp-livereload');
+    var order = require('gulp-order');
 
     var paths = {
         "app": require('./bower.json').appPath || 'app',
@@ -50,7 +52,7 @@
     });
 
     // Actions with js-files from theme
-    gulp.task('vendorTheme', ['clean'], function () {
+    gulp.task('vendorTheme', function () {
         /**
          * Minify and uglify the custom scripts in folder 'scripts' in each theme
          */
@@ -70,24 +72,45 @@
     //  -------------------------------
      
     gulp.task('scripts', function () {
-      return gulp.src(['app/scripts/main.js','app/scripts/**/module.js', 'app/scripts/**/*.js'])
+      return gulp.src([
+        'app/scripts/config.js',
+        'app/scripts/main.js',
+        'app/scripts/**/init.js',
+        'app/scripts/**/*.js'
+         ])
         .pipe(sourcemaps.init())
-        .pipe(concat('app.js'))
-        .pipe(ngAnnotate())
-        .pipe(uglify())
-        .pipe(sourcemaps.write('./maps'))
+        .pipe(concat('main.js'))
+        // .pipe(ngAnnotate())
+        // .pipe(uglify())
+        // .pipe(sourcemaps.write('./maps'))
         .pipe(gulp.dest(paths.dist+'/scripts'))
+        .pipe(refresh())
+        .pipe(notify({ message: 'Task Script completed' }))
     })
 
-
     // copy vendor js 
-    gulp.task('vendor', ['clean', 'vendorTheme'], function () {
-        return gulp.src(paths.vendor)
-            .pipe(gulp.dest(paths.dist + '/lib'));
+    gulp.task('vendor.copy',  function () {
+        return gulp.src(['app/lib/tinymce/**/*'])
+            .pipe(gulp.dest(paths.dist + '/lib/tinymce'));
     });
 
+    // compile vendor js 
+    gulp.task('vendor.js', function () {
+        return gulp.src([
+                'app/lib/angular/angular.min.js',
+                'app/lib/angular/*.js',
+                'app/lib/jquery*.js',
+                'app/lib/*.js'
+            ])
+            .pipe(concat('lib.js'))
+            .pipe(gulp.dest(paths.dist + '/lib'))
+            .pipe(refresh())
+            .pipe(notify({ message: 'Task Script completed' }))
+    });
+
+
     // copy misc assets
-    gulp.task('misc', ['clean'], function () {
+    gulp.task('misc', function () {
         return gulp.src(paths.misc)
             .pipe(gulp.dest(paths.dist));
     });
@@ -99,27 +122,8 @@
             .pipe(jshint.reporter(require('jshint-stylish')));
     });
 
-
-
-    // gulp.task('requirejs', ['clean'], function () {
-    //     rjs({
-    //         out: 'main.js',
-    //         name: 'main',
-    //         preserveLicenseComments: false, // remove all comments
-    //         removeCombined: true,
-    //         paths: {
-    //             "tinymce" : "empty:"
-    //         },
-    //         baseUrl: paths.app + '/scripts',
-    //         mainConfigFile: 'app/scripts/main.js'
-    //     })
-    //         .pipe(stripDebug())
-    //         .pipe(uglify({mangle: false}))
-    //         .pipe(gulp.dest(paths.dist + '/scripts/'));
-    // });
-
     // minify new images
-    gulp.task('imagemin', ['clean'], function () {
+    gulp.task('imagemin', function () {
         return gulp.src(paths.images)
             .pipe(changed(paths.themeDest))
             .pipe(imagemin())
@@ -127,7 +131,7 @@
     });
 
     // minify new or changed HTML pages
-    gulp.task('html', ['clean'], function () {
+    gulp.task('html', function () {
         return gulp.src(paths.html)
             .pipe(changed(paths.dist))
             .pipe(minifyHTML({
@@ -139,11 +143,13 @@
                 quotes: true,
                 empty: true
             }))
-            .pipe(gulp.dest(paths.dist));
+            .pipe(gulp.dest(paths.dist))
+            .pipe(refresh())
+            .pipe(notify({ message: 'Task html completed' }));
     });
 
     // CSS auto-prefix and minify
-    gulp.task('autoprefixer', ['clean'], function () {
+    gulp.task('autoprefixer', function () {
         gulp.src(paths.css)
             .pipe(autoprefix('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
             .pipe(minifyCSS())
@@ -152,33 +158,33 @@
             .pipe(gulp.dest(paths.themeDest));
     });
 
-    // gulp.task('html-watch', ['html'], reload);
     
-    // gulp.task('express', function(){
-    //     var express = require('express'),
-    //     app = express(),
-    //     path = require('path');
-        
-    //     if (env == 'development'){
-    //         app.use(require('connect-livereload')());
-    //     }
+    gulp.task('livereload', function(){
+        // init express server
+        var path = require('path'),
+            express = require('express'),
+            app = express();
 
-    //     app.use(express.static(path.join(__dirname, 'dist')));
+        var static_folder = path.join(__dirname, 'dist');
 
-    //     app.listen(host.port, function(){
-    //         console.log('server started, port %s',host.port);
-            
-    //         refresh.listen({ basePath: 'dist' });
-    //     })
-    // });
+        app.use(express.static(static_folder));
+        app.listen( host.port, function() {
+
+            console.log('server started, port '+host.port);
+
+            refresh.listen({ basePath: 'dist' });
+
+        });
+    })
 
     // gulp.task('serve', ['build','browser-sync','watch']);
     
     
-    gulp.task('watch', function(){
-        // gulp.watch(["app/**/*.html"],[]);
+    gulp.task('watch',['livereload'] ,function(){
+        gulp.watch(["app/**/*.html"],['html']);
         // gulp.watch(["app/**/*.css"],[]);
-        // gulp.watch(["app/**/*.js"],[]);
+        gulp.watch(["app/scripts/**/*.js"],['scripts']);
+        gulp.watch(["app/lib/**/*.js"],['vendor.js']);
     })
     
 

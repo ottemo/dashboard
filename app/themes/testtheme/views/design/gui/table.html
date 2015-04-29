@@ -1,0 +1,119 @@
+<section ng-init="init()">
+    <form role="form" class="form-group">
+
+        <!-- Pagination -->
+        <gui-paginator object="this"></gui-paginator>
+
+        <br>
+       
+        <div class="table-pagination-row">
+
+            <!-- Delete/New buttons -->
+            <div class="pull-left">
+                <button class="btn btn-primary" ng-click="parent.remove()" ng-if="buttons.delete">Delete</button>
+                <button class="btn btn-primary" ng-click="parent.create()" ng-if="buttons.new">New</button>
+            </div>
+
+
+            <!-- Filters -->
+            <div class="btn-group pull-right">
+                <button class="filters btn btn-primary" ng-if="parent.fields.length > 1" >Filters</button>
+            </div>
+
+            <div class="text-center hidden-xs hidden-sm" ng-if="parent.fields.length > 1">
+                <label class="checkbox-inline" ng-repeat="field in parent.fields" ng-hide="field.notDisable">
+                    <input type="checkbox" ng-model="field.visible" ng-hide="field.notDisable">
+                    {{field.label || field.attribute}} &nbsp;&nbsp;&nbsp;
+                </label>
+            </div>
+
+            <div class="col-xs-12 text-center visible-xs visible-sm" ng-if="parent.fields.length > 1">
+                <br>
+                <label class="checkbox-inline" ng-repeat="field in parent.fields" ng-hide="field.notDisable">
+                    <input type="checkbox" ng-model="field.visible" ng-hide="field.notDisable">
+                    {{field.label || field.attribute}}&nbsp;&nbsp;&nbsp;
+                </label>
+            </div>
+            
+            <div class="clearfix"></div>
+        </div>
+        
+        <br>
+
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered table-striped" id="table_manager">
+                <!-- Labels -->
+                <thead>
+                    <tr>
+                        <th class="checkboxes-column">
+                            <input type="checkbox" id="selectAll" ng-click="selectAll()">
+                        </th>
+                        <th ng-repeat="field in parent.fields" ng-show="field.visible" ng-class="{'text-uppercase': field.label}" ng-click="field.label ? setSort(field.attribute) : ''">
+                            {{field.label}}
+                            <span ng-class="getSortClass(field.attribute)"></span>
+                        </th>
+                    </tr>
+                    <!-- Filters -->
+                    <tr id="filters" ng-hide="filters.length <= 1 && !filters[0].visible">
+                        <th>&nbsp;</th>
+                        <th ng-repeat="filter in filters" ng-switch="filter.type" ng-show="parent.fields[$index].visible">
+                            <div ng-switch-when="text">
+                                <gui-filter-text editor-scope="filter.attributes" item="filter" object="this"></gui-filter-text>
+                            </div>
+
+                            <div ng-switch-when="range">
+                                <gui-filter-range editor-scope="filter.attributes" item="filter" object="this"></gui-filter-range>
+                            </div>
+
+                            <div ng-switch-when="select">
+                                <gui-filter-select editor-scope="filter.attributes" item="filter" object="this"></gui-filter-select>
+                            </div>
+                            <div ng-switch-default="">
+                                &nbsp;
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="_item in items">
+                        <td class="checkboxes-column">
+                            <input type="checkbox" ng-if="!_item.IsStatic" ng-model="parent.idsSelectedRows[_item[map.id]]">
+                        </td>
+                        <td ng-click="parent.select(_item[map.id])" ng-repeat="field in parent.fields" ng-show="field.visible" 
+                        ng-class="{'select-link': field.type ==='select-link'}">
+                            <span ng-switch="field.type">
+
+                                <!-- Image -->
+                                <span ng-switch-when="image">
+                                    <img class="media-object" ng-src="{{parent.getImage(_item[field.attribute])}}"
+                                         alt="{{item[map.name]}}" style="max-width: 75px; max-height: 75px;">
+                                </span>
+
+                                <!-- Currency -->
+                                <span ng-switch-when="price">{{_item[field.attribute] | currency}}</span>
+                                <span ng-switch-when="currency">{{_item[field.attribute] | currency}}</span>
+
+                                <!-- Link -->
+                                <span ng-switch-when="select-link">
+                                    <div>{{_item[field.attribute]}}</div>
+                                </span>
+
+                                <!-- String, text -->
+                                <span ng-switch-default="">{{_item[field.attribute]}}</span>
+
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        <gui-paginator object="this"></gui-paginator>
+        <!-- button group -->
+        <div class="text-center">
+            <button class="btn btn-primary" ng-click="parent.remove()" ng-if="buttons.delete">Delete</button>
+            <button class="btn btn-primary" ng-click="parent.create()" ng-if="buttons.new">New</button>
+        </div>
+    </form>
+</section>
