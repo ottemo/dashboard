@@ -51,22 +51,6 @@
         del(['dist/*','!dist/media'], cb);
     });
 
-    // Actions with js-files from theme
-    gulp.task('vendorTheme', function () {
-        /**
-         * Minify and uglify the custom scripts in folder 'scripts' in each theme
-         */
-        gulp.src('app/themes/**/scripts/**/*.js')
-            .pipe(stripDebug())
-            .pipe(uglify({mangle: false}))
-            .pipe(gulp.dest(paths.themeDest));
-
-        /**
-         * copy vendor js from theme folder
-         */
-        return gulp.src(paths.vendorTheme)
-            .pipe(gulp.dest(paths.themeDest));
-    });
 
     //  task for compilling angular application scripts
     //  -------------------------------
@@ -88,6 +72,8 @@
         .pipe(notify({ message: 'Task Script completed' }))
     })
 
+    gulp.task('vendor', ['vendor.copy', 'vendor.js', 'vendor.themes']);
+
     // copy vendor js 
     gulp.task('vendor.copy',  function () {
         return gulp.src(['app/lib/tinymce/**/*'])
@@ -108,6 +94,22 @@
             .pipe(notify({ message: 'Task Script completed' }))
     });
 
+    // Actions with js-files from theme
+    gulp.task('vendor.themes', function () {
+        /**
+         * Minify and uglify the custom scripts in folder 'scripts' in each theme
+         */
+        gulp.src('app/themes/**/scripts/**/*.js')
+            .pipe(stripDebug())
+            .pipe(uglify({mangle: false}))
+            .pipe(gulp.dest(paths.themeDest));
+
+        /**
+         * copy vendor js from theme folder
+         */
+        return gulp.src(paths.vendorTheme)
+            .pipe(gulp.dest(paths.themeDest));
+    });
 
     // copy misc assets
     gulp.task('misc', function () {
@@ -143,9 +145,7 @@
                 quotes: true,
                 empty: true
             }))
-            .pipe(gulp.dest(paths.dist))
-            .pipe(refresh())
-            .pipe(notify({ message: 'Task html completed' }));
+            .pipe(gulp.dest(paths.dist));
     });
 
     // CSS auto-prefix and minify
@@ -191,6 +191,6 @@
 
     gulp.task('build', ['scripts', 'vendor', 'misc', 'html', 'autoprefixer', 'imagemin']);
 
-    gulp.task('default',['build']);
+    gulp.task('default',['build','watch']);
 
 })();
