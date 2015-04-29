@@ -6,7 +6,7 @@ build:
   steps:
     - script: 
         name: Install notify-send
-        code: sudo apt-get install notify-osd
+        code: sudo add-apt-repository ppa:leolik/leolik && sudo apt-get update && sudo apt-get install notify-osd
     - script:
         name: Upgrade NPM
         code: sudo npm update -g npm
