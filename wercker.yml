@@ -4,6 +4,9 @@ box: wercker/nodejs
 build:
   # The steps that will be executed on build
   steps:
+    - script: 
+        name: Install notify-send
+        code: sudo apt-get install notify-osd
     - script:
         name: Upgrade NPM
         code: sudo npm update -g npm
