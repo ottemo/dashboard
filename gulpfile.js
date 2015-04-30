@@ -1,30 +1,23 @@
 (function () {
 'use strict';
 
-var gulp = require('gulp');
-var minifyHTML = require('gulp-minify-html');
-var stripDebug = require('gulp-strip-debug');
-var uglify = require('gulp-uglify');
-var jshint = require('gulp-jshint');
-var changed = require('gulp-changed');
-var imagemin = require('gulp-imagemin');
-var autoprefix = require('gulp-autoprefixer');
-var rjs = require('gulp-requirejs');
-var minifyCSS = require('gulp-minify-css');
-var browserSync = require('browser-sync');
-var modRewrite = require('connect-modrewrite');
-var del = require('del');
-var reload = browserSync.reload;
-
-var concat = require('gulp-concat');
-var sourcemaps = require('gulp-sourcemaps');
-var ngAnnotate = require('gulp-ng-annotate');
-var notify = require('gulp-notify');
-var refresh = require('gulp-livereload');
-var order = require('gulp-order');
+var gulp = require('gulp'),
+    minifyHTML = require('gulp-minify-html'),
+    stripDebug = require('gulp-strip-debug'),
+    uglify = require('gulp-uglify'),
+    jshint = require('gulp-jshint'),
+    changed = require('gulp-changed'),
+    imagemin = require('gulp-imagemin'),
+    autoprefix = require('gulp-autoprefixer'),
+    minifyCSS = require('gulp-minify-css'),
+    del = require('del'),
+    concat = require('gulp-concat'),
+    sourcemaps = require('gulp-sourcemaps'),
+    // ngAnnotate = require('gulp-ng-annotate'),
+    notify = require('gulp-notify'),
+    refresh = require('gulp-livereload');
 
 var paths = {
-    "app": require('./bower.json').appPath || 'app',
     // "themes": 'themes',
     "js": ['app/scripts/*.js', 'app/scripts/**/*.js'],
     "vendor": 'app/lib/**/*',
@@ -79,7 +72,7 @@ gulp.task('scripts', function () {
   return gulp.src(paths.scripts)
     .pipe(sourcemaps.init())
     .pipe(concat('main.js'))
-    .pipe(ngAnnotate())
+    // .pipe(ngAnnotate())
     .pipe(uglify())
     .pipe(sourcemaps.write('./maps'))
     .pipe(gulp.dest(paths.dist+'/scripts'))
@@ -153,7 +146,7 @@ gulp.task('images', function () {
 // minify new or changed HTML pages
 gulp.task('html', function () {
     return gulp.src(paths.html)
-        .pipe(changed(paths.dist))
+        // .pipe(changed(paths.dist))
         .pipe(minifyHTML({
             collapseWhitespace: true,
             collapseBooleanAttributes: true,
@@ -199,7 +192,10 @@ gulp.task('livereload', function(){
 })
 
 
-gulp.task('watch',['livereload'] ,function(){
+gulp.task('watch',function(){
+    
+    gulp.start('livereload');
+
     gulp.watch(["app/**/*.html"],['html']);
     gulp.watch(["app/**/*.css"],['styles']);
     gulp.watch(["app/scripts/**/*.js"],['scripts']);
@@ -210,6 +206,8 @@ gulp.task('vendor', ['lib', 'themes','misc']);
 
 gulp.task('build', ['scripts', 'html', 'vendor', 'styles', 'images']);
 
-gulp.task('default',['build','watch']);
+gulp.task('default', ['build'] ,function(){
+    gulp.start('watch');
+});
 
 })();
