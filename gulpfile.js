@@ -84,7 +84,7 @@ gulp.task('scripts', function () {
     .pipe(sourcemaps.write('./maps'))
     .pipe(gulp.dest(paths.dist+'/scripts'))
     .pipe(refresh())
-    .pipe(notify({ message: 'Task Script completed' }))
+    .pipe(notify({ message: 'Script compilation completed' }))
 })
 
 gulp.task('lib', ['lib.copy','lib.scripts']);
@@ -101,7 +101,7 @@ gulp.task('lib.scripts', function () {
         .pipe(concat('lib.js'))
         .pipe(gulp.dest(paths.lib.dist))
         .pipe(refresh())
-        .pipe(notify({ message: 'Task Script completed' }))
+        .pipe(notify({ message: 'Lib compilation completed' }))
 });
 
 gulp.task('themes', ['themes.copy','themes.scripts']);
@@ -137,7 +137,7 @@ gulp.task('misc', function () {
 
 // Run JSHint 
 gulp.task('jshint', function () {
-    gulp.src(paths.js)
+    return gulp.src(paths.js)
         .pipe(jshint())
         .pipe(jshint.reporter(require('jshint-stylish')));
 });
@@ -172,7 +172,7 @@ gulp.task('styles', function () {
         .pipe(autoprefix('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
         .pipe(minifyCSS())
         .pipe(gulp.dest(paths.themeDest));
-    gulp.src(paths.fonts)
+    return gulp.src(paths.fonts)
         .pipe(gulp.dest(paths.themeDest));
 });
 
@@ -194,6 +194,7 @@ gulp.task('livereload', function(){
 
         refresh.listen({ basePath: 'dist' });
 
+        return gulp;
     });
 })
 
