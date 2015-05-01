@@ -22,7 +22,7 @@
     "gulp-notify": "^2.2.0",
     "gulp-sourcemaps": "^1.5.2",
     "gulp-strip-debug": "^1.0.2",
-    "gulp-uglify": "^0.3.2",
+    "gulp-uglify": "^0.3.2"
   },
   "dependencies": {}
 }

@@ -1,6 +1,3 @@
-(function () {
-'use strict';
-
 var gulp = require('gulp'),
     minifyHTML = require('gulp-minify-html'),
     stripDebug = require('gulp-strip-debug'),
@@ -13,38 +10,36 @@ var gulp = require('gulp'),
     del = require('del'),
     concat = require('gulp-concat'),
     sourcemaps = require('gulp-sourcemaps'),
-    // ngAnnotate = require('gulp-ng-annotate'),
+    ngAnnotate = require('gulp-ng-annotate'),
     notify = require('gulp-notify'),
     refresh = require('gulp-livereload');
 
 var paths = {
-    // "themes": 'themes',
-    "js": ['app/scripts/*.js', 'app/scripts/**/*.js'],
-    "vendor": 'app/lib/**/*',
-    "vendorTheme": 'app/themes/**/lib/**/*',
-    "css": 'app/themes/**/styles/**/*.css',
-    "fonts": 'app/themes/**/styles/fonts/**/*',
-    "html": 'app/**/*.html',
-    "misc": 'app/*.{txt,htaccess,ico}',
-    "themeDest": "dist/themes",
+    html: 'app/**/*.html',
+    misc: 'app/*.{txt,htaccess,ico}',
     images: ['app/themes/**/images/**/*'],
     dist: 'dist',
+    jshint: 'app/scripts/**/*.js',
     scripts: [
         'app/scripts/config.js',
         'app/scripts/main.js',
         'app/scripts/**/init.js',
         'app/scripts/**/*.js'
-     ],
+    ],
     themes: {
         copy: 'app/themes/**/lib/**/*',
         scripts: ['app/themes/**/scripts/**/*.js'],
-        dist: "dist/themes"
+        styles: 'app/themes/**/styles/**/*.css',
+        dist: 'dist/themes',
+        fonts: 'app/themes/**/styles/fonts/**/*',
+        images: 'app/themes/**/images/**/*'
     },
     lib:{
         scripts: [
             'app/lib/angular/angular.min.js',
             'app/lib/angular/*.js',
             'app/lib/jquery*.js',
+            // 'tinymce.min.js',
             'app/lib/*.js'
         ],
         copy: ['app/lib/tinymce/**/*'],
@@ -64,15 +59,15 @@ gulp.task('clean', function (cb) {
     del(['dist/*','!dist/media'], cb);
 });
 
-
-//  task for compilling angular application scripts
+//  -------------------------------
+//  task for compilling angular modules
 //  -------------------------------
  
 gulp.task('scripts', function () {
   return gulp.src(paths.scripts)
     .pipe(sourcemaps.init())
     .pipe(concat('main.js'))
-    // .pipe(ngAnnotate())
+    .pipe(ngAnnotate())
     .pipe(uglify())
     .pipe(sourcemaps.write('./maps'))
     .pipe(gulp.dest(paths.dist+'/scripts'))
@@ -80,15 +75,17 @@ gulp.task('scripts', function () {
     .pipe(notify({ message: 'Script compilation completed' }))
 })
 
-gulp.task('lib', ['lib.copy','lib.scripts']);
-
-// copy vendor js 
+// 
+// app/lib copy task
+// 
 gulp.task('lib.copy',  function () {
     return gulp.src(paths.lib.copy,{ base: 'app/lib' })
         .pipe(gulp.dest(paths.lib.dist));
 });
 
-// compile vendor js 
+// 
+// app/lib js task
+// 
 gulp.task('lib.scripts', function () {
     return gulp.src(paths.lib.scripts)
         .pipe(concat('lib.js'))
@@ -97,19 +94,19 @@ gulp.task('lib.scripts', function () {
         .pipe(notify({ message: 'Lib compilation completed' }))
 });
 
-gulp.task('themes', ['themes.copy','themes.scripts']);
-
+// 
+// app/themes copy task 
+//
 gulp.task('themes.copy', function(){
 
-    /** 
-     * copy vendor js from theme folder
-     */
     return gulp.src(paths.themes.copy,{ base: 'app/themes' })
         .pipe(gulp.dest(paths.themes.dist));
 
 });
 
-// Actions with js-files from theme
+// 
+// app/themes js task
+// 
 gulp.task('themes.scripts', function () {
 
     /**
@@ -122,28 +119,54 @@ gulp.task('themes.scripts', function () {
 
 });
 
-// copy misc assets
+// 
+// app/themes css task
+// 
+gulp.task('themes.styles', function () {
+    return gulp.src(paths.themes.styles)
+        .pipe(autoprefix('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
+        .pipe(minifyCSS())
+        .pipe(gulp.dest(paths.themes.dist));
+});
+
+// 
+// app/themes images task
+// 
+gulp.task('themes.images', function () {
+    return gulp.src(paths.themes.images)
+        // .pipe(changed(paths.themeDest))
+        // .pipe(imagemin())
+        .pipe(gulp.dest(paths.themes.dist));
+});
+
+// 
+// app/themes fonts task
+// 
+gulp.task('themes.fonts', function () {
+    return gulp.src(paths.themes.fonts)
+        .pipe(gulp.dest(paths.themes.dist));
+});
+
+// 
+// app misc task (txt,htaccess,ico) 
+// 
 gulp.task('misc', function () {
     return gulp.src(paths.misc)
         .pipe(gulp.dest(paths.dist));
 });
 
+//
 // Run JSHint 
+//
 gulp.task('jshint', function () {
-    return gulp.src(paths.js)
+    return gulp.src(paths.jshint)
         .pipe(jshint())
         .pipe(jshint.reporter(require('jshint-stylish')));
 });
 
-// minify new images
-gulp.task('images', function () {
-    return gulp.src(paths.images)
-        // .pipe(changed(paths.themeDest))
-        // .pipe(imagemin())
-        .pipe(gulp.dest(paths.themeDest));
-});
-
-// minify new or changed HTML pages
+// 
+// app html task (index, themes views)
+// 
 gulp.task('html', function () {
     return gulp.src(paths.html)
         // .pipe(changed(paths.dist))
@@ -159,19 +182,9 @@ gulp.task('html', function () {
         .pipe(gulp.dest(paths.dist));
 });
 
-// CSS auto-prefix and minify
-gulp.task('styles', function () {
-    gulp.src(paths.css)
-        .pipe(autoprefix('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
-        .pipe(minifyCSS())
-        .pipe(gulp.dest(paths.themeDest));
-    return gulp.src(paths.fonts)
-        .pipe(gulp.dest(paths.themeDest));
-});
-
-
+// 
 // Start livereload server
-
+// 
 gulp.task('livereload', function(){
     // init express server
     var path = require('path'),
@@ -185,14 +198,16 @@ gulp.task('livereload', function(){
 
         console.log('server started, port '+host.port);
 
-        refresh.listen({ basePath: 'dist' });
 
         return gulp;
     });
 })
 
 
+
 gulp.task('watch',function(){
+    
+    refresh.listen({ basePath: 'dist' });
     
     gulp.start('livereload');
 
@@ -202,12 +217,12 @@ gulp.task('watch',function(){
     gulp.watch(["app/lib/**/*.js"],['lib.scripts']);
 })
 
-gulp.task('vendor', ['lib', 'themes','misc']);
+gulp.task('lib', ['lib.copy','lib.scripts']);
 
-gulp.task('build', ['scripts', 'html', 'vendor', 'styles', 'images']);
+gulp.task('themes', ['themes.copy','themes.scripts','themes.styles','themes.fonts','themes.images']);
+
+gulp.task('build', ['scripts', 'html','lib','themes','misc']);
 
 gulp.task('default', ['build'] ,function(){
     gulp.start('watch');
 });
-
-})();

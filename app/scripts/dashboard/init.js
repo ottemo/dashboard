@@ -22,7 +22,7 @@ angular.module("dashboardModule", [
 /*
  *  Basic routing configuration
  */
-.config(["$routeProvider", "$httpProvider", function ($routeProvider, $httpProvider) {
+.config(["$routeProvider", "$httpProvider",'$locationProvider', function ($routeProvider, $httpProvider,$locationProvider) {
     $httpProvider.interceptors.push(function ($q) {
         return {
             'response': function (response) {
@@ -54,6 +54,8 @@ angular.module("dashboardModule", [
         .when("/help", { templateUrl: angular.getTheme("help.html")})
 
         .otherwise({ redirectTo: "/"});
+        
+    $locationProvider.html5Mode(true);
 }])
 
 .run([
