@@ -11,7 +11,7 @@ var gulp = require('gulp'),
     concat = require('gulp-concat'),
     sourcemaps = require('gulp-sourcemaps'),
     ngAnnotate = require('gulp-ng-annotate'),
-    notify = require('gulp-notify'),
+    // notify = require('gulp-notify'),
     refresh = require('gulp-livereload');
 
 var paths = {
@@ -72,7 +72,7 @@ gulp.task('scripts', function () {
     .pipe(sourcemaps.write('./maps'))
     .pipe(gulp.dest(paths.dist+'/scripts'))
     .pipe(refresh())
-    .pipe(notify({ message: 'Script compilation completed' }))
+    // .pipe(notify({ message: 'Script compilation completed' }))
 })
 
 // 
@@ -91,7 +91,7 @@ gulp.task('lib.scripts', function () {
         .pipe(concat('lib.js'))
         .pipe(gulp.dest(paths.lib.dist))
         .pipe(refresh())
-        .pipe(notify({ message: 'Lib compilation completed' }))
+        // .pipe(notify({ message: 'Lib compilation completed' }))
 });
 
 // 

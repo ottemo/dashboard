@@ -4,9 +4,6 @@ box: wercker/nodejs
 build:
   # The steps that will be executed on build
   steps:
-    - script: 
-        name: Install notify-send
-        code: sudo add-apt-repository ppa:leolik/leolik -y && sudo apt-get update && sudo apt-get install notify-osd -y
     - script:
         name: Upgrade NPM
         code: sudo npm update -g npm
