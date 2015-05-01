@@ -12,10 +12,7 @@ build:
         code: sudo npm update -g npm
     - script:
         name: Install bower/gulp
-        code: sudo npm install -g bower gulp && sudo npm install
-    - script:
-        name: Run Bower Install
-        code: bower install
+        code: sudo npm install -g gulp && sudo npm install
     - script:
         name: Build & Minify Dashboard
         code: gulp build

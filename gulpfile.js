@@ -125,7 +125,9 @@ gulp.task('themes.scripts', function () {
 gulp.task('themes.styles', function () {
     return gulp.src(paths.themes.styles)
         .pipe(autoprefix('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
-        .pipe(minifyCSS())
+        .pipe(minifyCSS({
+            processImport: false
+        }))
         .pipe(gulp.dest(paths.themes.dist));
 });
 
