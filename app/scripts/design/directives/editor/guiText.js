@@ -1,25 +1,19 @@
-(function (define) {
-    "use strict";
+angular.module("designModule")
 
-    define(["design/init"], function (designModule) {
-        designModule
-            /**
-             *  Directive used for automatic attribute editor creation
-             */
-            .directive("guiText", ["$designService", function ($designService) {
-                return {
-                    restrict: "E",
-                    scope: {
-                        "attribute": "=editorScope",
-                        "item": "=item"
-                    },
-                    templateUrl: $designService.getTemplate("design/gui/editor/text.html"),
+/**
+ *  Directive used for automatic attribute editor creation
+ */
 
-                    controller: ["$scope", function() {
-                    }]
-                };
-            }]);
+.directive("guiText", ["$designService", function ($designService) {
+    return {
+        restrict: "E",
+        scope: {
+            "attribute": "=editorScope",
+            "item": "=item"
+        },
+        templateUrl: $designService.getTemplate("design/gui/editor/text.html"),
 
-        return designModule;
-    });
-})(window.define);
+        controller: ["$scope", function() {
+        }]
+    };
+}]);
