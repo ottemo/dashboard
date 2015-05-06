@@ -91,6 +91,18 @@ function ($scope, $routeParams, $location, $q, $productApiService, $designImageS
                 addImageManagerAttribute();
             }
         );
+        $productApiService.getStock({"productID": productId}).$promise.then(
+            function (response) {
+                var result = response.result || {};
+                for (var i = 0; i < result.length; i+=1) {
+                    for (var option in result[i].options) {
+                        if ($scope.product.options[option] !== "undefined") {
+                            $scope.product.options[option].options[result[i].options[option]]["qty"] = result[i].qty;
+                        }
+                    }
+                }
+            }
+        );
     }
     /**
      * Clears the form to create a new product

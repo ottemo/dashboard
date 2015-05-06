@@ -49,6 +49,10 @@ angular.module("productModule")
             params: { action: "count" },
             url: REST_SERVER_URI + "/products"
         },
+        "getStock": {
+            method: "GET",
+            url: REST_SERVER_URI + "/stock/:productID"
+        },
         "update": {
             method: "PUT",
             params: { productID: "@id" },
