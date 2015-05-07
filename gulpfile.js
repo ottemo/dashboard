@@ -196,6 +196,12 @@ gulp.task('livereload', function(){
     var static_folder = path.join(__dirname, 'dist');
 
     app.use(express.static(static_folder));
+
+    // single page response 
+    app.get('*',function(req,res){
+        res.sendFile(__dirname + '/dist/index.html');
+    });
+
     app.listen( host.port, function() {
 
         console.log('server started, port '+host.port);
