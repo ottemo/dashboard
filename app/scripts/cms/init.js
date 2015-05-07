@@ -21,10 +21,6 @@ angular.module("cmsModule", ["ngRoute", "ngResource", "designModule"])
             templateUrl: angular.getTheme("cms/block-edit.html"),
             controller: "cmsBlockEditController"
         })
-        // .when("/cms/gallery", {
-        //     templateUrl: angular.getTheme("cms/gallery.html"),
-        //     controller: "cmsGalleryController"
-        // });
 }])
 
 .run(["$designService", "$route", "$dashboardSidebarService",
@@ -37,6 +33,5 @@ angular.module("cmsModule", ["ngRoute", "ngResource", "designModule"])
         $dashboardSidebarService.addItem("/cms", "CMS", null, "fa fa-indent", 60);
         $dashboardSidebarService.addItem("/cms/pages", "Page", "/cms/pages", "", 2);
         $dashboardSidebarService.addItem("/cms/blocks", "Block", "/cms/blocks", "", 1);
-        // $dashboardSidebarService.addItem("/cms/gallery", "Gallery", "/cms/gallery", "", 3);
     }
 ]);
