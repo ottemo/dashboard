@@ -19,13 +19,11 @@ angular.module("seoModule", ["ngRoute", "ngResource"])
     "$designService",
     "$route",
     "$dashboardSidebarService",
-    "$dashboardHeaderService",
-    function ($loginService, $rootScope, $designService, $route, $dashboardSidebarService, $dashboardHeaderService) {
+    function ($loginService, $rootScope, $designService, $route, $dashboardSidebarService) {
         $designService.setTopPage("seo/index.html");
 
         // NAVIGATION
-        // Adds item in the left top-menu
-        $dashboardHeaderService.addMenuItem("/seo", "URL Rewrite", "/seo");
+        
         // Adds item in the left sidebar
         $dashboardSidebarService.addItem("/seo", "URL Rewrite", "/seo", "fa fa-random", 3);
     }

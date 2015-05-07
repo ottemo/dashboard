@@ -22,9 +22,8 @@ angular.module("loginModule", ["ngRoute", "ngResource", "ngCookies"])
     "$loginLoginService",
     "$rootScope",
     "$designService",
-    "$dashboardHeaderService",
-    "$route",
-    function ($loginLoginService, $rootScope, $designService, $dashboardHeaderService) {
+    "$dashboardSidebarService",
+    function ($loginLoginService, $rootScope, $designService,$dashboardSidebarService) {
 
         $rootScope.$on("$locationChangeStart", function () {
             $loginLoginService.init().then(
@@ -36,10 +35,8 @@ angular.module("loginModule", ["ngRoute", "ngResource", "ngCookies"])
             );
         });
 
-        // NAVIGATION
-        // Adds item in the right top-menu
-        $dashboardHeaderService.addMenuRightItem("/logout", "Log Out", "/logout");
 
+        $dashboardSidebarService.addMenuItem("/logout", "Log Out", "/logout");
     }
 ]
 );

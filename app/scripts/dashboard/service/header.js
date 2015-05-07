@@ -72,64 +72,64 @@ fullUrlRegex = new RegExp("^http|https.", "i");
 if (fullUrlRegex.test(link)) {
     href = link;
 } else {
-    href = (link !== null ? "#" + link : null);
+    href = (link !== null ? link : null);
 }
 
 return href;
 };
 
-angular.module("dashboardModule")
-/*
- *  $pageHeaderService implementation
- */
-.service("$dashboardHeaderService", ["$loginLoginService", function ($loginLoginService) {
+// angular.module("dashboardModule")
+// /*
+//  *  $pageHeaderService implementation
+//  */
+// .service("$dashboardHeaderService", ["$loginLoginService", function ($loginLoginService) {
 
-    var it = {
-        menuLeft: [],
-        menuRight: []
-    };
+//     var it = {
+//         menuLeft: [],
+//         menuRight: []
+//     };
 
-    return {
+//     return {
 
-        getUsername: function () {
-            return $loginLoginService.getFullName() || "root";
-        },
+//         getUsername: function () {
+//             return $loginLoginService.getFullName() || "root";
+//         },
 
-        getAvatar: function () {
-            return $loginLoginService.getAvatar();
-        },
+//         getAvatar: function () {
+//             return $loginLoginService.getAvatar();
+//         },
 
 
-        /**
-         * Adds the item to the right(user) menu
-         *
-         * @param {string} path
-         * @param {string} label
-         * @param {string} link
-         */
-        addMenuRightItem: function (path, label, link) {
-            var item = {path: path, label: label, link: prepareLink(link)};
-            it.menuRight.push(item);
-        },
+//         /**
+//          * Adds the item to the right(user) menu
+//          *
+//          * @param {string} path
+//          * @param {string} label
+//          * @param {string} link
+//          */
+//         addMenuRightItem: function (path, label, link) {
+//             var item = {path: path, label: label, link: prepareLink(link)};
+//             it.menuRight.push(item);
+//         },
 
-        getMenuRight: function () {
-            return transformMenu(it.menuRight);
-        },
+//         getMenuRight: function () {
+//             return transformMenu(it.menuRight);
+//         },
 
-        /**
-         * Adds the item to the top menu
-         *
-         * @param {string} path
-         * @param {string} label
-         * @param {string} link
-         */
-        addMenuItem: function (path, label, link) {
-            var item = {path: path, label: label, link: prepareLink(link)};
-            it.menuLeft.push(item);
-        },
+//         /**
+//          * Adds the item to the top menu
+//          *
+//          * @param {string} path
+//          * @param {string} label
+//          * @param {string} link
+//          */
+//         addMenuItem: function (path, label, link) {
+//             var item = {path: path, label: label, link: prepareLink(link)};
+//             it.menuLeft.push(item);
+//         },
 
-        getMenuLeft: function () {
-            return transformMenu(it.menuLeft);
-        }
-    };
-}]);
+//         getMenuLeft: function () {
+//             return transformMenu(it.menuLeft);
+//         }
+//     };
+// }]);

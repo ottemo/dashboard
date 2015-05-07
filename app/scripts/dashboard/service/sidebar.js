@@ -72,9 +72,10 @@ angular.module("dashboardModule")
  */
 .service("$dashboardSidebarService", [function () {
     var addItem, getItems, getType, items, isImagePathRegex, transformedItems;
-    items = [];
-    transformedItems = null;
-    isImagePathRegex = new RegExp(".gif|png|jpg|ico$", "i");
+    var items = [];
+    var menuItems = [];
+    var transformedItems = null;
+    var isImagePathRegex = new RegExp(".gif|png|jpg|ico$", "i");
 
     /**
      * Adds item in the left sidebar
@@ -84,23 +85,19 @@ angular.module("dashboardModule")
      * @param {string} _class
      * @param {number} sort - The list will be displayed in descending order by this field
      */
-    addItem = function (path, title, link, icon, sort) {
+    var addItem = function (path, title, link, icon, sort) {
         var prepareLink;
 
         prepareLink = function (p) {
-            var result;
 
-            if(null === p){
+            if(null === p)
                 return p;
-            }
-
-            if ("/" !== p[0]) {
-                result = "#/" + p;
-            } else {
-                result = "#" + p;
-            }
-
-            return result;
+            
+            if ("/" !== p[0]) 
+               return "/" + p;
+            else 
+               return p;
+            
         };
 
         sort = ( sort || 0 );
@@ -118,7 +115,7 @@ angular.module("dashboardModule")
      *
      * @returns {Array}
      */
-    getItems = function () {
+    var getItems = function () {
         if(transformedItems !== null){
             return transformedItems;
         }
@@ -147,7 +144,7 @@ angular.module("dashboardModule")
      * @param {string} icon
      * @returns {string}
      */
-    getType = function (icon) {
+    var getType = function (icon) {
         var type;
         type = "class";
 
@@ -161,9 +158,23 @@ angular.module("dashboardModule")
         return type;
     };
 
+    var addMenuItem = function (path, label, link) {
+        menuItems.push({
+            path: path, 
+            label: label, 
+            link: prepareLink(link)
+        });
+    };
+
+    var getMenuItems = function (){
+        return menuItems;
+    };
+
     return {
         addItem: addItem,
         getItems: getItems,
-        getType: getType
+        getType: getType,
+        addMenuItem: addMenuItem,
+        getMenuItems: getMenuItems
     };
 }]);

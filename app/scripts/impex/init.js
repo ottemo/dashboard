@@ -11,13 +11,11 @@ angular.module("impexModule", ["ngRoute", "ngResource"])
         });
 }])
 
-.run(["$designService", "$route", "$dashboardSidebarService", "$dashboardHeaderService",
+.run(["$designService", "$route", "$dashboardSidebarService",
 
-    function ($designService, $route, $dashboardSidebarService, $dashboardHeaderService) {
+    function ($designService, $route, $dashboardSidebarService) {
 
         // NAVIGATION
-        // Adds item in the left top-menu
-        $dashboardHeaderService.addMenuItem("/impex", "Import / Export", "/impex");
 
         // Adds item in the left sidebar
         $dashboardSidebarService.addItem("/impex", "Import / Export", "/impex", "fa fa-exchange", 3);
