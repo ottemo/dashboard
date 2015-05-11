@@ -16,6 +16,10 @@ angular.appConfigValue = function (valueName) {
     return "";
 };
 
+angular.getTheme = function(theme){
+  return '/themes/views/'+ theme.replace(/^[/]*/,'');
+}
+
 angular.element(document).ready(function () {
         var modules = Object.keys( angular.module );
 
@@ -23,4 +27,5 @@ angular.element(document).ready(function () {
             return false;
         };
         angular.resumeBootstrap( modules );
+        console.log( modules );
     });

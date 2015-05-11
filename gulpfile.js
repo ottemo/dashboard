@@ -27,12 +27,17 @@ var paths = {
         'app/scripts/**/*.js'
     ],
     themes: {
-        copy: 'app/themes/**/lib/**/*',
-        scripts: ['app/themes/**/scripts/**/*.js'],
-        styles: 'app/themes/**/styles/**/*.css',
+        copy: 'app/themes/lib/**/*',
+        scripts: [ 
+            'app/themes/scripts/**/excanvas.js',
+            'app/themes/scripts/**/jquery.flot.js',
+            'app/themes/scripts/**/*.js'
+        ],
+        styles: 'app/themes/styles/**/*.css',
         dist: 'dist/themes',
-        fonts: 'app/themes/**/styles/fonts/**/*',
-        images: 'app/themes/**/images/**/*'
+        fonts: 'app/themes/styles/fonts/**/*',
+        images: 'app/themes/images/**/*',
+        base: 'app/themes'
     },
     lib:{
         scripts: [
@@ -44,6 +49,12 @@ var paths = {
         ],
         copy: ['app/lib/tinymce/**/*'],
         dist: 'dist/lib'
+    },
+    watch:{
+        html: ["app/**/*.html"],
+        css: ["app/**/*.css"],
+        js: ["app/scripts/**/*.js"],
+        lib: ["app/lib/**/*.js"]
     }
 };
 
@@ -99,7 +110,7 @@ gulp.task('lib.scripts', function () {
 //
 gulp.task('themes.copy', function(){
 
-    return gulp.src(paths.themes.copy,{ base: 'app/themes' })
+    return gulp.src(paths.themes.copy,{ base: paths.themes.base })
         .pipe(gulp.dest(paths.themes.dist));
 
 });
@@ -112,10 +123,11 @@ gulp.task('themes.scripts', function () {
     /**
      * Minify and uglify the custom scripts in folder 'scripts' in each theme
      */
-    return gulp.src(paths.themes.scripts)
+    return gulp.src(paths.themes.scripts,{ base: paths.themes.base })
         .pipe(stripDebug())
         .pipe(uglify({mangle: false}))
-        .pipe(gulp.dest(paths.themes.dist));
+        .pipe(concat('main.js'))
+        .pipe(gulp.dest(paths.themes.dist+'/scripts'));
 
 });
 
@@ -123,7 +135,7 @@ gulp.task('themes.scripts', function () {
 // app/themes css task
 // 
 gulp.task('themes.styles', function () {
-    return gulp.src(paths.themes.styles)
+    return gulp.src(paths.themes.styles,{ base: paths.themes.base })
         .pipe(autoprefix('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
         .pipe(minifyCSS({
             processImport: false
@@ -135,7 +147,7 @@ gulp.task('themes.styles', function () {
 // app/themes images task
 // 
 gulp.task('themes.images', function () {
-    return gulp.src(paths.themes.images)
+    return gulp.src(paths.themes.images,{ base: paths.themes.base })
         // .pipe(changed(paths.themeDest))
         // .pipe(imagemin())
         .pipe(gulp.dest(paths.themes.dist));
@@ -145,7 +157,7 @@ gulp.task('themes.images', function () {
 // app/themes fonts task
 // 
 gulp.task('themes.fonts', function () {
-    return gulp.src(paths.themes.fonts)
+    return gulp.src(paths.themes.fonts,{ base: paths.themes.base })
         .pipe(gulp.dest(paths.themes.dist));
 });
 
@@ -219,10 +231,10 @@ gulp.task('watch',function(){
     
     gulp.start('livereload');
 
-    gulp.watch(["app/**/*.html"],['html']);
-    gulp.watch(["app/**/*.css"],['styles']);
-    gulp.watch(["app/scripts/**/*.js"],['scripts']);
-    gulp.watch(["app/lib/**/*.js"],['lib.scripts']);
+    gulp.watch(paths.watch.html,  ['html']);
+    gulp.watch(paths.watch.css,   ['styles']);
+    gulp.watch(paths.watch.js,    ['scripts']);
+    gulp.watch(paths.watch.libs,  ['lib.scripts']);
 })
 
 gulp.task('lib', ['lib.copy','lib.scripts']);

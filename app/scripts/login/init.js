@@ -26,13 +26,7 @@ angular.module("loginModule", ["ngRoute", "ngResource", "ngCookies"])
     function ($loginLoginService, $rootScope, $designService,$dashboardSidebarService) {
 
         $rootScope.$on("$locationChangeStart", function () {
-            $loginLoginService.init().then(
-                function(){
-                    if (!$loginLoginService.isLoggedIn()) {
-                        $designService.setTopPage("login.html");
-                    }
-                }
-            );
+            $loginLoginService.init();
         });
 
 

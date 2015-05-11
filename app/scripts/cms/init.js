@@ -23,9 +23,9 @@ angular.module("cmsModule", ["ngRoute", "ngResource", "designModule"])
         })
 }])
 
-.run(["$designService", "$route", "$dashboardSidebarService",
+.run([ "$route", "$dashboardSidebarService",
 
-    function ($designService, $route, $dashboardSidebarService) {
+    function ( $route, $dashboardSidebarService) {
 
         // NAVIGATION
 

@@ -20,7 +20,7 @@ angular.module("seoModule", ["ngRoute", "ngResource"])
     "$route",
     "$dashboardSidebarService",
     function ($loginService, $rootScope, $designService, $route, $dashboardSidebarService) {
-        $designService.setTopPage("seo/index.html");
+        // $designService.setTopPage("seo/index.html");
 
         // NAVIGATION
         

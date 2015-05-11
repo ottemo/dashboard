@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js lt-ie9 lt-ie8" id="ng-app" ng-app="dashboardModule">
+<html class="no-js lt-ie9 lt-ie8" id="ng-app" ng-app="dashboardModule" ng-strict-di>
     <head>
         <base href="/" />
         <meta charset="utf-8">
@@ -15,10 +15,13 @@
         <title>Ottemo Dashboard</title>
 
         <!-- style sheets from theme -->
-        <link ng-repeat="stylesheet in getCss()" ng-href="{{stylesheet}}" type="text/css" rel="stylesheet"/>
+        <!-- <link ng-repeat="stylesheet in getCss()" ng-href="{{stylesheet}}" type="text/css" rel="stylesheet"/> -->
         
         <!-- custom remote css -->
-        <link href="themes/default/styles/font-awesome.css" rel="stylesheet">
+        <link href="themes/styles/bootstrap.css" rel="stylesheet">
+        <link href="themes/styles/style.css" rel="stylesheet">
+        <link href="themes/styles/animate.css" rel="stylesheet">
+        <link href="themes/styles/font-awesome.css" rel="stylesheet">
 
         <!-- favicon -->
         <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
@@ -43,28 +46,17 @@
     
         <!-- main content -->
         <div id="content" ng-hide="true">
-            <ng-include src="getTopPage()" ></ng-include>
+            <ng-include src="content.url" ></ng-include>
         </div>
         
         <!-- JS libs -->
         <!-- <script src="lib/require.js"></script> -->
         <script src="scripts/main.js"></script>
 
-        <script src="themes/default/scripts/main.js"></script>
+        <script src="themes/scripts/main.js"></script>
 
-        <!-- jQuery Flot Chart-->
-        <script src="themes/default/scripts/flot-chart/jquery.flot.js"></script>
-        <script src="themes/default/scripts/flot-chart/jquery.flot.tooltip.js"></script>
-        <script src="themes/default/scripts/flot-chart/jquery.flot.resize.js"></script>
-        <script src="themes/default/scripts/flot-chart/jquery.flot.pie.resize.js"></script>
-        <script src="themes/default/scripts/flot-chart/jquery.flot.selection.js"></script>
-        <script src="themes/default/scripts/flot-chart/jquery.flot.stack.js"></script>
-        <script src="themes/default/scripts/flot-chart/jquery.flot.time.js"></script>
 
-        <div id="theme_container"></div>
-        <style id="code_container">
-            #code_container {display: none !important;}
-        </style>
+        
 
         <script>
             $(window).load(function() {

@@ -13,11 +13,10 @@ angular.module("configModule", ["ngRoute", "ngResource", "designModule"])
 }])
 
 .run([
-    "$designService",
     "$route",
     "$dashboardSidebarService",
     "$configService",
-    function ($designService, $route, $dashboardSidebarService, $configService) {
+    function ( $route, $dashboardSidebarService, $configService) {
 
         // Adds item in the left sidebar
         $dashboardSidebarService.addItem("/settings", "Settings", null, "fa fa-cogs", 2);

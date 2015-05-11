@@ -15,8 +15,8 @@ angular.module("categoryModule", ["ngRoute", "ngResource", "designModule"])
         });
 }])
 
-.run(["$designService", "$route", "$dashboardSidebarService",
-    function ($designService, $route, $dashboardSidebarService) {
+.run([ "$route", "$dashboardSidebarService",
+    function ( $route, $dashboardSidebarService) {
 
         // Adds item in the left sidebar
         $dashboardSidebarService.addItem("/categories", "Categories", "/categories", "fa fa-th-list", 6);

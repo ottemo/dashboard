@@ -62,10 +62,9 @@ angular.module("dashboardModule", [
     "$rootScope",
     "$route",
     "$http",
-    "$designService",
     "$dashboardSidebarService",
     "$dashboardListService",
-    function ($rootScope, $route, $http, $designService, $dashboardSidebarService, DashboardListService) {
+    function ($rootScope, $route, $http,  $dashboardSidebarService, DashboardListService) {
         // ajax cookies support fix
         $http.defaults.withCredentials = true;
         delete $http.defaults.headers.common["X-Requested-With"];

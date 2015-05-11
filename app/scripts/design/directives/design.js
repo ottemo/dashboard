@@ -1,20 +1,6 @@
 angular.module("designModule")
 
-/**
-*  Directive that allows to declare CSS inside module templates
-*  (TODO: not working currently as html creation going before)
-*/
-.directive("addCss", ["$designService", function ($designService) {
-    return {
-        restrict: "E",
-        link: function (scope, elem, attrs) {
-            var cssFile = attrs.src;
-            if (typeof cssFile !== "undefined" && cssFile !== "") {
-                $designService.addCss(cssFile);
-            }
-        }
-    };
-}])
+
 
 /**
 *  Directive to solve browser auto-fill issue on model
@@ -90,7 +76,7 @@ angular.module("designModule")
         restrict: "E",
         scope: false,
         templateUrl: function (element, attr) {
-            return $designService.getTemplate(attr.src);
+            return '/themes/views/' + attr.src;
         }
         // controller: function (element, attr) { return attr.controller; }
     };
@@ -101,7 +87,7 @@ angular.module("designModule")
         link: function (scope, element, attrs) {
             element.bind('error', function () {
                 if (attrs.src !== attrs.errSrc) {
-                    attrs.$set('src', $rootScope.getImg(attrs.errSrc));
+                    attrs.$set('src', "/themes/images/" + attrs.errSrc );
                 }
             });
         }

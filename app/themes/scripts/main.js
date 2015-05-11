@@ -19,44 +19,9 @@ $(document).ready(function () {
         $('.offcanvas-wrapper').toggleClass('active');
     });
 
-    //theme switcher
-    $(document).on('click', '#switcher .preview', function () {
-
-        // clear the containers and storage
-        $('#code_container').html('');
-        $('#theme_container').html('');
-        localStorage.setItem("cssCode", '');
-        localStorage.setItem("activeTheme", '');
-
-        // get new theme
-        var thisId = $(this).attr('id');
-        var link = '<link rel="stylesheet" href="themes/default/styles/themes/' + thisId + '.css" type="text/css" />';
-
-        // set theme and storage
-        $('#theme_container').append(link);
-        localStorage.setItem("activeTheme", link);
-    });
-
-    // apply the code
-    $(document).on('click', '#apply', function () {
-
-        // clear the containers and storage
-        $('#code_container').html('');
-        $('#theme_container').html('');
-        localStorage.setItem("cssCode", '');
-        localStorage.setItem("activeTheme", '');
-
-        // get new theme
-        var thisCode = $('#code_area').val();
-        $('#code_container').text(thisCode);
-
-        // set theme and storage
-        localStorage.setItem("cssCode", thisCode);
-    });
-
+    
     // set theme from storage
-    document.getElementById("code_container").innerHTML = localStorage.getItem("cssCode");
-    document.getElementById("theme_container").innerHTML = localStorage.getItem("activeTheme");
+
     var navbarTop = localStorage.getItem('navbarTop');
 
     setTimeout(function () {
@@ -83,12 +48,7 @@ $(document).ready(function () {
     }, 2500);
 
 
-    $(document).on('click', '#switcher-toogle', function () {
-        $('#theme_switcher > span.btn').toggleClass('active');
-        if (($('#theme_switcher').hasClass('active')) === true) {
-            $('#theme_switcher').removeClass('active');
-        }
-    });
+    
 
     // clickable scroll bottom
     $(document).on('click', '#theme_switcher .scroll-down', function scrollDown() {
@@ -106,11 +66,6 @@ $(document).ready(function () {
             scrollTop: "-=" + step + "px"
         }, 400);
         event.preventDefault();
-    });
-
-    // toggle theme_switcher
-    $(document).on('click', '#theme_switcher > span.btn', function () {
-        $('#theme_switcher').toggleClass('active');
     });
 
     // uploading files
