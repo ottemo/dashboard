@@ -8,7 +8,7 @@ build_image: shippableimages/ubuntu1404_nodejs
 env: 
   global:
     - PROJECT=Dashboard HIPCHAT_ROOM=announce
-    - REMOTE_HOST=https://admin.blitz.ottemo.io FOUNDATION_URI=https://api.blitz.ottemo.io
+    - REMOTE_HOST=admin.blitz.ottemo.io FOUNDATION_URI=https://api.blitz.ottemo.io
     - secure: JePvX8e49vPPWRLagd9lvuwV8wRBUD1EDkHnANJ8bTzfnDiAPBgqrgocliz7KR6F5ZPHBAvRkrIa6ZP1PVLdC/LeOzoojFyPzU7iiKxkatT2+Ry+QKnH603UGJzIfui1bLQ/eZT2D8wOjMggs4z8DXH62HCmzl+ovhboU1XBYRBuYVMZBKKN/2kcz8LVTZ0BP9jLLMJ5xHb9PDOX7fwBREnjn0dN2yy6uNpz9t7rKJCxNf4uk7+M6AHrryU4mEHpEfu9wbUhMGve5Del78YcZfc5PMDtmKqvamUDICOMCzHRFdl3kpkNsr72ynoZ3s0Vus/3cH9hShCfHNacVk4xQA==
 
 before_install:
