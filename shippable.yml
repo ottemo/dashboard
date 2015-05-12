@@ -16,12 +16,11 @@ before_install:
     - source ~/.nvm/nvm.sh && nvm install $SHIPPABLE_NODE_VERSION
     - npm update -g npm 
     - npm version
-    - npm install -g gulp bower
+    - npm install -g gulp
 
 install: 
     # install the required dependencies
     - npm install
-    - bower install --allow-root
         
 script: 
     - NODE_ENV=production gulp build
