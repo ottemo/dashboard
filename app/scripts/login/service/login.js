@@ -98,11 +98,17 @@ angular.module("loginModule")
         logout = function () {
             deferLogOut = $q.defer();
 
-            $cookieStore.remove(LOGIN_COOKIE);
+            $loginApiService.logout().$promise.then(function(res){
+                if (res.error === null){
+                    isLoggedIn = false;
+                    login = getDefaultLogin();
+                    deferLogOut.resolve(true);
+                } else {
+                    deferLogOut.reject();
+                }
+            })
 
-            isLoggedIn = false;
-            login = getDefaultLogin();
-            deferLogOut.resolve(true);
+            $cookieStore.remove(LOGIN_COOKIE);
 
             return deferLogOut.promise;
         };

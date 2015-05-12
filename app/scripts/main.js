@@ -1,6 +1,6 @@
 "use strict";
 
-window.name = "NG_DEFER_BOOTSTRAP!"; // http://code.angularjs.org/1.2.1/docs/guide/bootstrap#overview_deferred-bootstrap
+// window.name = "NG_DEFER_BOOTSTRAP!"; // http://code.angularjs.org/1.2.1/docs/guide/bootstrap#overview_deferred-bootstrap
 
 angular.appConfig = {
   "general.app.foundation_url": "http://foundation.kg.dev.ottemo.io",
@@ -20,12 +20,12 @@ angular.getTheme = function(theme){
   return '/themes/views/'+ theme.replace(/^[/]*/,'');
 }
 
-angular.element(document).ready(function () {
-        var modules = Object.keys( angular.module );
+// angular.element(document).ready(function () {
+//         var modules = Object.keys( angular.module );
 
-        angular.isExistFile = function () {
-            return false;
-        };
-        angular.resumeBootstrap( modules );
-        console.log( modules );
-    });
+//         angular.isExistFile = function () {
+//             return false;
+//         };
+//         angular.resumeBootstrap( modules );
+//         console.log( modules );
+//     });

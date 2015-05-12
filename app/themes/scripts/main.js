@@ -26,11 +26,6 @@ $(document).ready(function () {
 
     setTimeout(function () {
 
-        // set the theme
-        $('#switcher .preview').each(function () {
-            var thisId = $(this).attr('id');
-            $(this).children('img').attr('src', 'themes/default/images/themes/' + thisId + '.jpg');
-        });
 
         //set sidebar position
         if (navbarTop === '1') {

@@ -33,9 +33,6 @@ function ($scope, $location, $statistic, $designImageService, $dashboardUtilsSer
     $scope.salesChartData = [];
     $scope.salesPeriod = 'week';
 
-    $scope.content = {
-        url: '/themes/views/index.html'
-    };
 
     var renderVisitsChart = function (data) {
         if ($scope.visitorsCharts) {
