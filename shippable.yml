@@ -1,0 +1,35 @@
+language: node_js
+
+node_js: 
+    - 0.12
+
+# build image
+build_image: shippableimages/ubuntu1404_nodejs
+env: 
+  global:
+    - PROJECT=RichKids HIPCHAT_ROOM=RichKids
+    - REMOTE_HOST=richkids.dev.ottemo.io FOUNDATION_URI=http://foundation.richkids.dev.ottemo.io
+    - secure: JePvX8e49vPPWRLagd9lvuwV8wRBUD1EDkHnANJ8bTzfnDiAPBgqrgocliz7KR6F5ZPHBAvRkrIa6ZP1PVLdC/LeOzoojFyPzU7iiKxkatT2+Ry+QKnH603UGJzIfui1bLQ/eZT2D8wOjMggs4z8DXH62HCmzl+ovhboU1XBYRBuYVMZBKKN/2kcz8LVTZ0BP9jLLMJ5xHb9PDOX7fwBREnjn0dN2yy6uNpz9t7rKJCxNf4uk7+M6AHrryU4mEHpEfu9wbUhMGve5Del78YcZfc5PMDtmKqvamUDICOMCzHRFdl3kpkNsr72ynoZ3s0Vus/3cH9hShCfHNacVk4xQA==
+
+before_install:
+    # install NodeJS v0.12
+    - source ~/.nvm/nvm.sh && nvm install $SHIPPABLE_NODE_VERSION
+    - npm update -g npm 
+    - npm version
+    - npm install -g gulp bower
+
+install: 
+    # install the required dependencies
+    - npm install
+    - bower install --allow-root
+        
+script: 
+    - NODE_ENV=production gulp build
+    # deploy if branch == 'develop'
+    - bash deploy.sh
+
+after_failure:
+    - python hipchat_notifier.py --project $PROJECT --room $HIPCHAT_ROOM --token $HIPCHAT_TOKEN
+
+after_success:
+    - python hipchat_notifier.py --project $PROJECT --room $HIPCHAT_ROOM --token $HIPCHAT_TOKEN -s
