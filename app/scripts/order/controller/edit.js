@@ -55,7 +55,7 @@ function ($scope, $routeParams, $location, $q, $orderApiService, $dashboardUtils
             "label": "Pending"
         },
         {
-            "value": "canceled",
+            "value": "cancelled",
             "label": "Cancel Order"
         }
     ];
