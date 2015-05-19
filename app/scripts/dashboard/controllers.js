@@ -13,6 +13,7 @@ $scope.it = {
         },
     }
     $scope.rightMenu = $dashboardSidebarService.getMenuItems();
+    $scope.isLoggedIn = $loginLoginService.isLoggedIn;
 }])
 
 .controller("dashboardSidebarController", ["$scope", "$dashboardSidebarService", function ($scope, $dashboardSidebarService) {

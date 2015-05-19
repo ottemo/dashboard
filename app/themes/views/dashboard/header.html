@@ -1,6 +1,6 @@
 <!-- Navigation bar -->
 <nav class="navbar navbar-default hidden-xs" id="header_sidebar" ng-controller="dashboardHeaderController">
-    <div class="container-fluid text-center">
+    <div class="container-fluid text-center" ng-show='isLoggedIn()'>
 
         <!-- sidebar toggler -->
         <ul class="nav navbar-nav navbar-left"  data-toggle="offcanvas" >
@@ -45,7 +45,7 @@
 
 <!-- Navigation bar -->
 <nav class="navbar navbar-default hidden-sm" id="header_no_sidebar" ng-controller="dashboardHeaderController">
-    <div class="container-fluid">
+    <div class="container-fluid" ng-show='isLoggedIn()'>
         <div class="navbar-header">
 
             <!-- Logo -->

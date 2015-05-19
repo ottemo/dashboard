@@ -22,22 +22,22 @@
   opacity: 1;
 }
 
-#loading-bar .bar {
-  -webkit-transition: width 350ms;
-  -moz-transition: width 350ms;
-  -o-transition: width 350ms;
-  transition: width 350ms;
-
-  background: #29d;
+#loading-bar {
   position: fixed;
   z-index: 10002;
   top: 0;
   left: 0;
   width: 100%;
-  height: 2px;
-  border-bottom-right-radius: 1px;
-  border-top-right-radius: 1px;
+  height: inherit;
 }
+
+#loading-bar .progress-bar {
+  -webkit-transition: width 350ms;
+  -moz-transition: width 350ms;
+  -o-transition: width 350ms;
+  transition: width 350ms;
+}
+
 
 /* Fancy blur effect */
 #loading-bar .peg {
