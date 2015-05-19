@@ -7,15 +7,11 @@
         <meta name="description" content="">
         <meta name="keywords" content="">
         <meta name="viewport" content="width=device-width, maximum-scale=1, minimum-scale=1", initial-scale=1, user-scalable=0 />
-        <!-- <script src="lib/jquery-1.11.1.min.js"></script> -->
-        <!-- <script src="lib/bootstrap.js"></script> -->
 
         <script src="lib/lib.js"></script>
         <script src="lib/tinymce/tinymce.min.js"></script>
         <title>Ottemo Dashboard</title>
 
-        <!-- style sheets from theme -->
-        <!-- <link ng-repeat="stylesheet in getCss()" ng-href="{{stylesheet}}" type="text/css" rel="stylesheet"/> -->
         
         <!-- custom remote css -->
         <link href="themes/styles/bootstrap.css" rel="stylesheet">
@@ -28,64 +24,22 @@
         <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 
         <!--[if lt IE 9]>
-        <script src="lib/html5shiv.js"></script>
-        <script src="lib/respond.min.js"></script>
+            <script src="lib/html5shiv.js"></script>
+            <script src="lib/respond.min.js"></script>
         <![endif]-->
     </head>
 
     <body ng-controller="dashboardController" >
         <!--[if lt IE 7]>
-        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-
-        
-<!--         <div id="loader"> 
-            <div class="progress">
-                <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="100" style="width: 12%;">
-                </div>
-            </div>
-        </div> -->
        
-    
         <!-- main content -->
         <content id="content" src="/themes/views/index.html" ng-show='contentLoaded'/>
-            <!-- <ng-include src="content.url" ></ng-include> -->
-        <!-- </div> -->
         
         <!-- JS libs -->
-        <!-- <script src="lib/require.js"></script> -->
         <script src="scripts/main.js"></script>
-
         <script src="themes/scripts/main.js"></script>
-
-
-        
-        <!--
-        <script>
-            $(window).load(function() {
-                setTimeout(function(){
-                    $('#loader .progress-bar').animate({
-                        width: '60%'},
-                        200, function() {
-                        setTimeout(function(){
-                            $('#loader .progress-bar').animate({
-                                width: '100%'},
-                                200, function() {
-                                    $('#loader').animate({
-                                        opacity: 0},
-                                        400, function() {
-                                        $(this).css('display', 'none');
-                                        setTimeout(function(){
-                                            $('#content').removeClass('ng-hide');
-                                        },100)
-                                    });
-                            });
-                        },500)
-                    });
-                },200)
-            });
-        </script>
-        -->
     
     </body>
 </html>

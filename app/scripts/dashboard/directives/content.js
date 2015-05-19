@@ -5,11 +5,6 @@ angular.module("dashboardModule")
     restrict: 'E',
     templateUrl: function(elem,attr){
       return attr.src || "/themes/views/index.html"
-    },
-    link: function (scope, elem, attr) {
-      // console.log('scope',scope);
-
-
     }
   };
 }])
