@@ -90,5 +90,10 @@ angular.module("dashboardModule", [
 
         $route.reload();
 
+
+        // content loaded handler
+        $rootScope.$on('LoadingBar:loaded', function(res){
+            $rootScope.contentLoaded = true;
+        });
     }
 ]);
