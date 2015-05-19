@@ -21,7 +21,7 @@ angular.module("loginModule", ["ngRoute", "ngResource", "ngCookies"])
                     var def = $q.defer();
                     
                     $loginLoginService.init().then(function(auth){
-                        console.log('auth',auth);
+                        
                         if (auth)
                             $location.url('/');
                         else {

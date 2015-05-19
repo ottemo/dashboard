@@ -13,7 +13,11 @@ $scope.it = {
         },
     }
     $scope.rightMenu = $dashboardSidebarService.getMenuItems();
-    $scope.isLoggedIn = $loginLoginService.isLoggedIn;
+
+    $scope.isNavVisible = function(){
+        // if location path is /login - hidden 
+        return window.location.pathname !== '/login'
+    }
 }])
 
 .controller("dashboardSidebarController", ["$scope", "$dashboardSidebarService", function ($scope, $dashboardSidebarService) {
@@ -33,8 +37,6 @@ function ($scope, $location, $statistic, $designImageService, $dashboardUtilsSer
     $scope.visitsPeriod = 'week';
     $scope.salesChartData = [];
     $scope.salesPeriod = 'week';
-
-
     var renderVisitsChart = function (data) {
         if ($scope.visitorsCharts) {
             $scope.visitorsCharts.setData([data]);
