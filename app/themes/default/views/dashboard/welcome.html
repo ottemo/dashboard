@@ -1,158 +1,155 @@
-<h2 class="title label-info">
-    <span class="fa fa-home"></span>
-    Dashboard
-</h2>
-
-<section class="welcome container-fluid">
-    <div class="row">
-        <div class="col-sm-6">
-            <div class="panel panel-widget">
-                <div class="panel-heading"><h2 class="panel-title">Sales</h2></div>
-                <table class="table table-dashboard">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Sales</th>
-                            <th>Orders</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th>Today</th>
-                            <td>1</td>
-                            <td>2</td>
-                        </tr>
-                        <tr>
-                            <th>Yesterday</th>
-                            <td>1</td>
-                            <td>2</td>
-                        </tr>
-                        <tr>
-                            <th>Last 7 Days</th>
-                            <td>1</td>
-                            <td>2</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <div id="visitors-chart">
-                    <div id="visitors-container" style="width: 100%; height:155px; text-align: center; margin:0 auto;">
-                        {{initVisitorsChart()}}
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6">
-            <div class="panel panel-widget">
-                <div class="panel-heading"><h2 class="panel-title">Visits</h2></div>
-                <table class="table table-widget">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Total Visitors</th>
-                            <th>Unique Visitors</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th>Today</th>
-                            <td>1</td>
-                            <td>2</td>
-                        </tr>
-                        <tr>
-                            <th>Yesterday</th>
-                            <td>1</td>
-                            <td>2</td>
-                        </tr>
-                        <tr>
-                            <th>Last 7 Days</th>
-                            <td>1</td>
-                            <td>2</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <div id="sales-chart">
-                    <div id="sales-container" style="width: 100%; height:155px; text-align: center; margin:0 auto;">
-                        {{initSalesChart()}}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div><!-- /.row -->
-
-    <div class="row">
-        <div class="col-md-8">
-            <div class="panel panel-widget">
-                <div class="panel-heading"><h2 class="panel-title">Conversions</h2></div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <h4>
-                                <i class="glyphicon glyphicon-shopping-cart"></i>
-                                Added to cart
-                            </h4>
-                            {{conversions.addedToCartPercent | number:2}}%
-                            ({{conversions.addedToCart}})
-                        </div>
-                        <div class="col-md-4">
-                            <h4>
-                                <i class="glyphicon glyphicon-cloud-download"></i>
-                                Reached Checkout
-                            </h4>
-                            {{conversions.reachedCheckoutPercent | number:2}}%
-                            ({{conversions.reachedCheckout}})
-                        </div>
-                        <div class="col-md-4">
-                            <h4>
-                                <i class="glyphicon glyphicon-usd"></i>
-                                Purchased
-                            </h4>
-                            {{conversions.purchasedPercent | number:2}}%
-                            ({{conversions.purchased}})
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="panel panel-widget">
-                <div class="panel-heading"><h2 class="panel-title">Top Referrals</h2></div>
-                <table class="table table-striped table-statistic">
-                    <tbody>
-                        <tr ng-repeat="item in referrers | limitTo:10">
-                            <td>
-                                <div class="text-left">{{item.url}}</div>
-                            </td>
-                            <td class="text-right">
-                                <div class="text-right">{{item.count}}</div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+<div class="container-fluid">
+    <div class="page-header">
+        <h1>
+            <span class="fa fa-home"></span> Dashboard
+        </h1>
     </div>
 
-    <!-- Top Sellers -->
-    <div class="">
-        <h3>Top Products</h3>
-        <table class="table table-striped">
-            <tbody>
-                <tr ng-repeat="item in topSellers">
-                    <td>
-                        <img ng-src="{{getProductImage(item.image)}}" alt="">
-                    </td>
-                    <td>
-                        {{item.name}}
-                    </td>
-                    <td>
-                        {{item.count}}
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    <section class="welcome">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading"><h3 class="panel-title">Sales</h3></div>
+                    <table class="table table-dashboard">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Sales</th>
+                                <th>Orders</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>Today</th>
+                                <td>1</td>
+                                <td>2</td>
+                            </tr>
+                            <tr>
+                                <th>Yesterday</th>
+                                <td>1</td>
+                                <td>2</td>
+                            </tr>
+                            <tr>
+                                <th>Last 7 Days</th>
+                                <td>1</td>
+                                <td>2</td>
+                            </tr>
+                        </tbody>
+                    </table>
 
+                    <div id="visitors-chart">
+                        <div id="visitors-container" style="width: 100%; height:155px; text-align: center; margin:0 auto;">
+                            {{initVisitorsChart()}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading"><h3 class="panel-title">Visits</h3></div>
+                    <table class="table table-widget">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Total Visitors</th>
+                                <th>Unique Visitors</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>Today</th>
+                                <td>{{visits.visitsToday}}</td>
+                                <td>2</td>
+                            </tr>
+                            <tr>
+                                <th>Yesterday</th>
+                                <td>1</td>
+                                <td>2</td>
+                            </tr>
+                            <tr>
+                                <th>Last 7 Days</th>
+                                <td>1</td>
+                                <td>2</td>
+                            </tr>
+                        </tbody>
+                    </table>
 
-</section>
+                    <div id="sales-chart">
+                        <div id="sales-container" style="width: 100%; height:155px; text-align: center; margin:0 auto;">
+                            {{initSalesChart()}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.row -->
+
+        <div class="row">
+            <div class="col-md-8">
+                <div class="panel panel-default">
+                    <div class="panel-heading"><h3 class="panel-title">Conversions</h3></div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="conversion-widget">
+                                    <h4 class="conversion-widget__header">Added to cart</h4>
+                                    <div class="conversion-widget__percent">{{conversions.addedToCartPercent | number:2}}%</div>
+                                    <div class="conversion-widget__count">{{conversions.addedToCart}} customers</div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="conversion-widget">
+                                    <h4 class="conversion-widget__header">Reached Checkout</h4>
+                                    <div class="conversion-widget__percent">{{conversions.reachedCheckoutPercent | number:2}}%</div>
+                                    <div class="conversion-widget__count">{{conversions.reachedCheckout}} customers</div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="conversion-widget">
+                                    <h4 class="conversion-widget__header">Purchased</h4>
+                                    <div class="conversion-widget__percent">{{conversions.purchasedPercent | number:2}}%</div>
+                                    <div class="conversion-widget__count">{{conversions.purchased}} customers</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading"><h3 class="panel-title">Top Referrals</h3></div>
+                    <table class="table table-striped table-statistic">
+                        <tbody>
+                            <tr ng-repeat="item in referrers | limitTo:10">
+                                <td>
+                                    <div class="text-left">{{item.url}}</div>
+                                </td>
+                                <td class="text-right">
+                                    <div class="text-right">{{item.count}}</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top Sellers -->
+        <div class="panel panel-default">
+            <div class="panel-heading"><h3 class="panel-title">Top Products</h3></div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-2" ng-repeat="item in topSellers">
+                        <div class="thumbnail">
+                            <img ng-src="{{getProductImage(item.image)}}" class="img-responsive">
+                            <div class="caption">
+                                <h5>{{item.name}}</h5>
+                                <div>sold: {{item.count}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</div>

@@ -101,6 +101,10 @@
 // watch it go full width.
 
 .panel {
+  > .table td,
+  > .table th {
+    padding: 10px 15px;
+  }
   > .table,
   > .table-responsive > .table,
   > .panel-collapse > .table {
