@@ -1,8 +1,6 @@
 <div class="container-fluid">
     <div class="page-header">
-        <h1>
-            <span class="fa fa-home"></span> Dashboard
-        </h1>
+        <h1><span class="fa fa-home"></span> Dashboard</h1>
     </div>
 
     <section class="welcome">
@@ -14,25 +12,25 @@
                         <thead>
                             <tr>
                                 <th></th>
-                                <th>Sales</th>
-                                <th>Orders</th>
+                                <th>Total Sales</th>
+                                <th>Order Count</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
+                            <tr class="table-dashboard-highlight">
                                 <th>Today</th>
-                                <td>1</td>
-                                <td>2</td>
+                                <td>{{salesTable.sales.today}}</td>
+                                <td>{{salesTable.orders.today}}</td>
                             </tr>
                             <tr>
                                 <th>Yesterday</th>
-                                <td>1</td>
-                                <td>2</td>
+                                <td>{{salesTable.sales.yesterday}}</td>
+                                <td>{{salesTable.orders.yesterday}}</td>
                             </tr>
                             <tr>
                                 <th>Last 7 Days</th>
-                                <td>1</td>
-                                <td>2</td>
+                                <td>{{salesTable.sales.sevenDay}}</td>
+                                <td>{{salesTable.orders.sevenDay}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -47,7 +45,7 @@
             <div class="col-sm-6">
                 <div class="panel panel-default">
                     <div class="panel-heading"><h3 class="panel-title">Visits</h3></div>
-                    <table class="table table-widget">
+                    <table class="table table-dashboard">
                         <thead>
                             <tr>
                                 <th></th>
@@ -56,20 +54,20 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
+                            <tr class="table-dashboard-highlight">
                                 <th>Today</th>
-                                <td>{{visits.visitsToday}}</td>
-                                <td>2</td>
+                                <td>{{visitsTable.total.today}}</td>
+                                <td>{{visitsTable.unique.today}}</td>
                             </tr>
                             <tr>
                                 <th>Yesterday</th>
-                                <td>1</td>
-                                <td>2</td>
+                                <td>{{visitsTable.total.yesterday}}</td>
+                                <td>{{visitsTable.unique.yesterday}}</td>
                             </tr>
                             <tr>
                                 <th>Last 7 Days</th>
-                                <td>1</td>
-                                <td>2</td>
+                                <td>{{visitsTable.total.sevenDay}}</td>
+                                <td>{{visitsTable.unique.sevenDay}}</td>
                             </tr>
                         </tbody>
                     </table>
