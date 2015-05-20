@@ -8,6 +8,7 @@
     "url": "git://github.com/ottemo/dashboard.git"
   },
   "devDependencies": {
+    "connect-modrewrite": "^0.8.1",
     "del": "^0.1.3",
     "express": "^4.12.3",
     "gulp": "^3.8.11",
