@@ -1,222 +1,126 @@
-<!-- Page title -->
 <h2 class="title label-info">
     <span class="fa fa-home"></span>
     Dashboard
 </h2>
 
-<section class="welcome">
-    
-    <!-- Today Visits -->
-    <div class="col-xs-12 col-sm-4">
-        <div class="today-visits">
-            <div class="col-xs-6">
-                <div class="number">{{visits.visitsToday}}</div>
-                <div class="title">Today visits</div>
-            </div>
-            <div class="col-xs-6 text-right">
-                <div class="percents">
-                    <i class="fa fa-arrow-circle-o-up" ng-if="visits.higher"></i>
-                    <i class="fa fa-arrow-circle-o-down" ng-if="visits.lower"></i>
-                    {{visits.ratio}} %
-                </div>
-                   
-                <div ng-if="visits.higher && visits.ratio>0">higher than<br>yesterday</div>
-                <div ng-if="visits.lower && visits.ratio>0">lower than<br>yesterday</div>
-            </div>
-
-            <div class="clearfix"></div>
-
-            <div class="progress">
-                <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="{{visits.ratio}}" aria-valuemin="0" aria-valuemax="100" style="width: {{visits.ratio}}%"></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Today sales -->
-    <div class="col-xs-12 col-sm-4">
-        <div class="today-sales">
-            <div class="col-xs-6">
-                <div class="number">{{sales.salesToday}}</div>
-                <div class="title">Today sales</div>
-            </div>
-            <div class="col-xs-6 text-right">
-                <div class="percents">
-                    <i class="fa fa-arrow-circle-o-up" ng-if="sales.higher"></i>
-                    <i class="fa fa-arrow-circle-o-down" ng-if="sales.lower"></i>
-                    {{sales.ratio}} %
-                </div>
-                   
-                <div ng-if="sales.higher && sales.ratio>0">higher than<br>yesterday</div>
-                <div ng-if="sales.lower && sales.ratio>0">lower than<br>yesterday</div>
-            </div>
-
-            <div class="clearfix"></div>
-
-            <div class="progress">
-                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{sales.ratio}}" aria-valuemin="0" aria-valuemax="100" style="width: {{sales.ratio}}%"></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Pageviews Realtime -->
-    <div class="col-xs-12 col-sm-4">
-        <div class="real-time">
-            <div class="title text-center">
-                Real-Time Page Views
-            </div>
-                    
-            <!-- Visitors online -->
-            <div class="col-xs-12">
-                <div class="title">{{visitorsOnline.online}} visitors online</div>
-                
-                <div class="progress">
-                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="{{visitorsOnline.onlineRatio}}" aria-valuemin="0" aria-valuemax="100" style="width:{{visitorsOnline.onlineRatio}}%;">
-                        <span class="sr-only">{{visitorsOnline.siteRatio}}%</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Directs -->
-            <div class="col-xs-12 col-sm-4">
-                <div class="title">{{visitorsOnline.direct}}</div>
-                <div class="progress">
-                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="{{visitorsOnline.directRatio}}" aria-valuemin="0" aria-valuemax="100" style="width: {{visitorsOnline.directRatio}}%;">
-                    </div>
-                </div>
-                <div class="text-center">Direct</div>
-            </div>
-
-
-            <!-- Site -->
-            <div class="col-xs-12 col-sm-4">
-                <div class="title">{{visitorsOnline.site}}</div>
-                <div class="progress">
-                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="{{visitorsOnline.siteRatio}}" aria-valuemin="0" aria-valuemax="100" style="width: {{visitorsOnline.siteRatio}}%;">
-                        <span class="sr-only">{{visitorsOnline.siteRatio}}%</span>
-                    </div>
-                </div>
-                <div class="text-center">Site</div>
-            </div>
-
-            <!-- Search -->
-            <div class="col-xs-12 col-sm-4">
-                <div class="title">{{visitorsOnline.search}}</div>
-                <div class="progress progress-xs">
-                    <div class="progress-bar" role="progressbar" aria-valuenow="{{visitorsOnline.searchRatio}}" aria-valuemin="0" aria-valuemax="100" style="width: {{visitorsOnline.searchRatio}}%;">
-                        <span class="sr-only">{{visitorsOnline.searchRatio}}%</span>
-                    </div>
-                </div>
-                <div class="text-center">Search</div>
-            </div>
-            <div class="clearfix"></div>
-        </div>
-    </div>
-
-    <div class="col-md-10 row">
-        <!-- Visitors -->
-        <div class="col-xs-12 col-sm-6">
-            <div class="panel panel-primary d-visitors">
-                <div class="panel-heading">
-                    <h3 class="panel-title text-center">Visitors</h3>
-                </div>
-                <div class="panel-body">
-                    <div id="visitors-chart">
-                        <div id="visitors-container" style="width: 100%; height:155px; text-align: center; margin:0 auto;">
-                            {{initVisitorsChart()}}
-                        </div>
-                    </div>
-
-                    <br> 
-
-                    <div class="text-center hidden-xs">
-                        <span class="btn btn-primary" ng-class="{'disabled ': visitsPeriod === 'today'}" ng-click="updateVisitsChart('today')">today</span>
-                        <span class="btn btn-primary" ng-class="{'disabled ': visitsPeriod === 'yesterday'}" ng-click="updateVisitsChart('yesterday')">yesterday</span>
-                        <span class="btn btn-primary" ng-class="{'disabled ': visitsPeriod === 'week'}" ng-click="updateVisitsChart('week')">last 7 days</span>
-                        <span class="btn btn-primary" ng-class="{'disabled ': visitsPeriod === 'month'}" ng-click="updateVisitsChart('month')">last 30 days</span>    
-                    </div>
-                    <div class="text-center visible-xs">
-                        <div>
-                            <span class="btn btn-primary" ng-class="{'disabled ': visitsPeriod === 'today'}" ng-click="updateVisitsChart('today')">today</span>
-                            <span class="btn btn-primary" ng-class="{'disabled ': visitsPeriod === 'yesterday'}" ng-click="updateVisitsChart('yesterday')">yesterday</span>
-                        </div>
-                        <br>
-                        <div>
-                            <span class="btn btn-primary" ng-class="{'disabled ': visitsPeriod === 'week'}" ng-click="updateVisitsChart('week')">last 7 days</span>
-                            <span class="btn btn-primary" ng-class="{'disabled ': visitsPeriod === 'month'}" ng-click="updateVisitsChart('month')">last 30 days</span>    
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- block chart for Total Sales -->
-        <div class="col-xs-12 col-sm-6">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title text-center">Total Sales</h3>
-                </div>
-                <div class="panel-body">
-                    <div id="sales-chart">
-                        <div id="sales-container" style="width: 100%; height:155px; text-align: center; margin:0 auto;">
-                            {{initSalesChart()}}
-                        </div>
-                    </div>
-                    <br>
-                    <div class="text-center hidden-xs">
-                        <span class="btn btn-primary" ng-class="{'disabled': salesPeriod === 'today'}" ng-click="updateSalesChart('today')">today</span>
-                        <span class="btn btn-primary" ng-class="{'disabled': salesPeriod === 'yesterday'}" ng-click="updateSalesChart('yesterday')">yesterday</span>
-                        <span class="btn btn-primary" ng-class="{'disabled': salesPeriod === 'week'}" ng-click="updateSalesChart('week')">last 7 days</span>
-                        <span class="btn btn-primary" ng-class="{'disabled': salesPeriod === 'month'}" ng-click="updateSalesChart('month')">last 30 days</span>
-                    </div>
-                    <div class="text-center visible-xs">
-                        <div>
-                            <span class="btn btn-primary" ng-class="{'disabled': salesPeriod === 'today'}" ng-click="updateSalesChart('today')">today</span>
-                            <span class="btn btn-primary" ng-class="{'disabled': salesPeriod === 'yesterday'}" ng-click="updateSalesChart('yesterday')">yesterday</span>
-                        </div>
-                        <br>
-                        <span class="btn btn-primary" ng-class="{'disabled': salesPeriod === 'week'}" ng-click="updateSalesChart('week')">last 7 days</span>
-                        <span class="btn btn-primary" ng-class="{'disabled': salesPeriod === 'month'}" ng-click="updateSalesChart('month')">last 30 days</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="clearfix"></div>
-        
-        <!-- Top Sellers -->
-        <div class="col-xs-12 col-lg-6 sellers-referrs">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Top Sellers</h3>
-                </div>
-                <table class="table table-striped">
+<section class="welcome container-fluid">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="panel panel-widget">
+                <div class="panel-heading"><h2 class="panel-title">Sales</h2></div>
+                <table class="table table-dashboard">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Sales</th>
+                            <th>Orders</th>
+                        </tr>
+                    </thead>
                     <tbody>
-                        <tr ng-repeat="item in topSellers">
-                            <td>
-                                <img ng-src="{{getProductImage(item.image)}}" alt="">
-                            </td>
-                            <td>
-                                {{item.name}}
-                            </td>
-                            <td>
-                                {{item.count}}
-                            </td>
+                        <tr>
+                            <th>Today</th>
+                            <td>1</td>
+                            <td>2</td>
+                        </tr>
+                        <tr>
+                            <th>Yesterday</th>
+                            <td>1</td>
+                            <td>2</td>
+                        </tr>
+                        <tr>
+                            <th>Last 7 Days</th>
+                            <td>1</td>
+                            <td>2</td>
                         </tr>
                     </tbody>
                 </table>
+
+                <div id="visitors-chart">
+                    <div id="visitors-container" style="width: 100%; height:155px; text-align: center; margin:0 auto;">
+                        {{initVisitorsChart()}}
+                    </div>
+                </div>
             </div>
         </div>
-        
-        
-        <!-- Top Referrals -->
-        <div class="col-xs-12 col-lg-6">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Top Referrals</h3>
+        <div class="col-sm-6">
+            <div class="panel panel-widget">
+                <div class="panel-heading"><h2 class="panel-title">Visits</h2></div>
+                <table class="table table-widget">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Total Visitors</th>
+                            <th>Unique Visitors</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Today</th>
+                            <td>1</td>
+                            <td>2</td>
+                        </tr>
+                        <tr>
+                            <th>Yesterday</th>
+                            <td>1</td>
+                            <td>2</td>
+                        </tr>
+                        <tr>
+                            <th>Last 7 Days</th>
+                            <td>1</td>
+                            <td>2</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div id="sales-chart">
+                    <div id="sales-container" style="width: 100%; height:155px; text-align: center; margin:0 auto;">
+                        {{initSalesChart()}}
+                    </div>
                 </div>
+            </div>
+        </div>
+    </div><!-- /.row -->
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="panel panel-widget">
+                <div class="panel-heading"><h2 class="panel-title">Conversions</h2></div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h4>
+                                <i class="glyphicon glyphicon-shopping-cart"></i>
+                                Added to cart
+                            </h4>
+                            {{conversions.addedToCartPercent | number:2}}%
+                            ({{conversions.addedToCart}})
+                        </div>
+                        <div class="col-md-4">
+                            <h4>
+                                <i class="glyphicon glyphicon-cloud-download"></i>
+                                Reached Checkout
+                            </h4>
+                            {{conversions.reachedCheckoutPercent | number:2}}%
+                            ({{conversions.reachedCheckout}})
+                        </div>
+                        <div class="col-md-4">
+                            <h4>
+                                <i class="glyphicon glyphicon-usd"></i>
+                                Purchased
+                            </h4>
+                            {{conversions.purchasedPercent | number:2}}%
+                            ({{conversions.purchased}})
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-widget">
+                <div class="panel-heading"><h2 class="panel-title">Top Referrals</h2></div>
                 <table class="table table-striped table-statistic">
                     <tbody>
-                        <tr ng-repeat="item in referrers">
+                        <tr ng-repeat="item in referrers | limitTo:10">
                             <td>
                                 <div class="text-left">{{item.url}}</div>
                             </td>
@@ -228,85 +132,27 @@
                 </table>
             </div>
         </div>
-
-        <div class="clearfix"></div>
     </div>
 
-    <!-- Website Conversions -->
-    <div class="col-md-2 hidden-sm hidden-xs">
-        <div class="conversions">
-            <div class="title">Website<br>Conversions</div>
-
-            <div class="circle btn-info">
-                <span class="glyphicon glyphicon-shopping-cart"></span>
-            </div>
-
-            <p>
-                Added<br>to cart<br>
-            </p>
-            <h3>
-                {{conversions.addedToCartPercent}}%
-                <span>({{conversions.addedToCart}})</span>
-            </h3>
-
-            <div class="circle btn-info">
-                <span class="glyphicon glyphicon-cloud-download"></span>
-            </div>
-
-            <p>
-                Reached<br>Checkout<br>
-            </p>
-            <h3>
-                {{conversions.reachedCheckoutPercent}}%
-                <span>({{conversions.reachedCheckout}})</span>
-            </h3>
-
-            <div class="circle btn-info">
-                <span class="glyphicon glyphicon-usd"></span>
-            </div>
-
-            <p>
-                Purchased<br>
-            </p>
-            <h3>
-                {{conversions.purchasedPercent}}%
-                <span>({{conversions.purchased}})</span>
-            </h3>
-        </div>
+    <!-- Top Sellers -->
+    <div class="">
+        <h3>Top Products</h3>
+        <table class="table table-striped">
+            <tbody>
+                <tr ng-repeat="item in topSellers">
+                    <td>
+                        <img ng-src="{{getProductImage(item.image)}}" alt="">
+                    </td>
+                    <td>
+                        {{item.name}}
+                    </td>
+                    <td>
+                        {{item.count}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
-    <div class="clearfix"></div>
-
-    <!-- Website Conversions -->
-    <div class="col-xs-12 col-sm-6 col-md-4 visible-xs visible-sm">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <h2 class="panel-title">
-                    Website Conversions
-                </h2>
-            </div>
-            <div class="panel-body">
-                <h4>
-                    <span class="glyphicon glyphicon-shopping-cart"></span>
-                    Added to cart 
-                    {{conversions.addedToCartPercent | number:2}}%
-                    ({{conversions.addedToCart}})
-                </h4>
-                <h4>
-                    <span class="glyphicon glyphicon-cloud-download"></span>
-                    Reached Checkout 
-                    {{conversions.reachedCheckoutPercent | number:2}}%
-                    ({{conversions.reachedCheckout}})
-                </h4>
-                <h4>
-                    <span class="glyphicon glyphicon-usd"></span>
-                    Purchased
-                    {{conversions.purchasedPercent | number:2}}%
-                    ({{conversions.purchased}})
-                </h4>
-            </div>
-        </div>
-    </div>
-    <div class="clearfix"></div>
 
 </section>

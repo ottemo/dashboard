@@ -14,11 +14,8 @@
         <script src="lib/tinymce/tinymce.min.js"></script>
         <title>Ottemo Dashboard</title>
 
-        <!-- style sheets from theme -->
-        <link ng-repeat="stylesheet in getCss()" ng-href="{{stylesheet}}" type="text/css" rel="stylesheet"/>
-        
-        <!-- custom remote css -->
-        <link href="themes/default/styles/font-awesome.css" rel="stylesheet">
+
+        <link href="themes/default/styles/style.css" rel="stylesheet">
 
         <!-- favicon -->
         <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
@@ -40,12 +37,12 @@
                 </div>
             </div>
         </div>
-    
+
         <!-- main content -->
         <div id="content" ng-hide="true">
             <ng-include src="getTopPage()" ></ng-include>
         </div>
-        
+
         <!-- JS libs -->
         <!-- <script src="lib/require.js"></script> -->
         <script src="scripts/main.js"></script>
