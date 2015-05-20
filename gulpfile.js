@@ -62,7 +62,7 @@ gulp.task('clean', function (cb) {
 //  -------------------------------
 //  task for compilling angular modules
 //  -------------------------------
- 
+
 gulp.task('scripts', function () {
   return gulp.src(paths.scripts)
     .pipe(sourcemaps.init())
@@ -75,17 +75,17 @@ gulp.task('scripts', function () {
     // .pipe(notify({ message: 'Script compilation completed' }))
 })
 
-// 
+//
 // app/lib copy task
-// 
+//
 gulp.task('lib.copy',  function () {
     return gulp.src(paths.lib.copy,{ base: 'app/lib' })
         .pipe(gulp.dest(paths.lib.dist));
 });
 
-// 
+//
 // app/lib js task
-// 
+//
 gulp.task('lib.scripts', function () {
     return gulp.src(paths.lib.scripts)
         .pipe(concat('lib.js'))
@@ -94,8 +94,8 @@ gulp.task('lib.scripts', function () {
         // .pipe(notify({ message: 'Lib compilation completed' }))
 });
 
-// 
-// app/themes copy task 
+//
+// app/themes copy task
 //
 gulp.task('themes.copy', function(){
 
@@ -104,9 +104,9 @@ gulp.task('themes.copy', function(){
 
 });
 
-// 
+//
 // app/themes js task
-// 
+//
 gulp.task('themes.scripts', function () {
 
     /**
@@ -119,9 +119,9 @@ gulp.task('themes.scripts', function () {
 
 });
 
-// 
+//
 // app/themes css task
-// 
+//
 gulp.task('themes.styles', function () {
     return gulp.src(paths.themes.styles)
         .pipe(autoprefix('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
@@ -131,9 +131,9 @@ gulp.task('themes.styles', function () {
         .pipe(gulp.dest(paths.themes.dist));
 });
 
-// 
+//
 // app/themes images task
-// 
+//
 gulp.task('themes.images', function () {
     return gulp.src(paths.themes.images)
         // .pipe(changed(paths.themeDest))
@@ -141,24 +141,24 @@ gulp.task('themes.images', function () {
         .pipe(gulp.dest(paths.themes.dist));
 });
 
-// 
+//
 // app/themes fonts task
-// 
+//
 gulp.task('themes.fonts', function () {
     return gulp.src(paths.themes.fonts)
         .pipe(gulp.dest(paths.themes.dist));
 });
 
-// 
-// app misc task (txt,htaccess,ico) 
-// 
+//
+// app misc task (txt,htaccess,ico)
+//
 gulp.task('misc', function () {
     return gulp.src(paths.misc)
         .pipe(gulp.dest(paths.dist));
 });
 
 //
-// Run JSHint 
+// Run JSHint
 //
 gulp.task('jshint', function () {
     return gulp.src(paths.jshint)
@@ -166,9 +166,9 @@ gulp.task('jshint', function () {
         .pipe(jshint.reporter(require('jshint-stylish')));
 });
 
-// 
+//
 // app html task (index, themes views)
-// 
+//
 gulp.task('html', function () {
     return gulp.src(paths.html)
         // .pipe(changed(paths.dist))
@@ -184,9 +184,9 @@ gulp.task('html', function () {
         .pipe(gulp.dest(paths.dist));
 });
 
-// 
+//
 // Start livereload server
-// 
+//
 gulp.task('livereload', function(){
     // init express server
     var path = require('path'),
@@ -198,7 +198,7 @@ gulp.task('livereload', function(){
     app.use(express.static(static_folder));
     app.listen( host.port, function() {
 
-        console.log('server started, port '+host.port);
+        console.log('server started: http://localhost:'+host.port);
 
 
         return gulp;
@@ -208,13 +208,13 @@ gulp.task('livereload', function(){
 
 
 gulp.task('watch',function(){
-    
+
     refresh.listen({ basePath: 'dist' });
-    
+
     gulp.start('livereload');
 
     gulp.watch(["app/**/*.html"],['html']);
-    gulp.watch(["app/**/*.css"],['styles']);
+    gulp.watch(["app/**/*.css"],['themes.styles']);
     gulp.watch(["app/scripts/**/*.js"],['scripts']);
     gulp.watch(["app/lib/**/*.js"],['lib.scripts']);
 })
