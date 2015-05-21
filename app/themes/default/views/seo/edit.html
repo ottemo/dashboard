@@ -1,12 +1,13 @@
-<!-- Page title -->
-<h2 class="title label-info" ng-if="seo._id">
-	<span class="fa fa-th-list"></span>
-	SEO: {{seo.title}}
-</h2>
-<h2 class="title label-info" ng-if="!seo._id">
-	<span class="fa fa-th-list"></span>
-	New SEO
-</h2>
+<div class="page-header">
+	<h1 ng-if="seo._id">
+		<span class="fa fa-th-list"></span>
+		SEO: {{seo.title}}
+	</h1>
+	<h1 ng-if="!seo._id">
+		<span class="fa fa-th-list"></span>
+		New SEO
+	</h1>
+</div>
 
 <div class="col-xs-12">
 

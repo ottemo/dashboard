@@ -1,16 +1,17 @@
-<!-- Page title -->
-<h2 class="title label-info">
-	<span class="fa fa-cogs"></span>
-	{{getGroupName()}}
-</h2>
+<div class="page-header">
+	<h1>
+		<span class="fa fa-cogs"></span>
+		{{getGroupName()}}
+	</h1>
+</div>
 
-<div class="col-xs-12" ng-init="init()">
+<div ng-init="init()">
 	<!-- Error message -->
     <gui-message-manager item="message"></gui-message-manager>
-	
+
 	<!-- Tabs editor -->
     <gui-config-editor-form attributes-list="sections" object="this" item="items" ng-if="!isThemeManager()"></gui-config-editor-form>
-	
+
 	<!-- Theme manager -->
     <gui-themes-manager ng-if="isThemeManager()"></gui-themes-manager>
 </div>
