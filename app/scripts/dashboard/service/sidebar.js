@@ -1,145 +1,129 @@
-
-var getParentItem, parentItem, transformMenu;
-
-getParentItem = function (data, field, value) {
-for (var i in data) {
-    if (data.hasOwnProperty(i)) {
-        if (data[i][field] === value) {
-            parentItem = data[i];
-        }
-        var $subList = data[i].items;
-        if ($subList) {
-            getParentItem($subList, field, value);
-        }
-    }
-}
-
-return parentItem;
-};
-
-/**
-* Transforms simple array with menu items to the object array which includes array subitems
-* and returns this array
-*
-* @param menu
-* @returns {Array}
-*/
-transformMenu = function (menu) {// jshint ignore:line
-var i, item, parentPath, tmpMenu;
-tmpMenu = [];
-menu.sort(function (obj1, obj2) {
-    return obj2.path < obj1.path;
-});
-
-for (i in menu) {
-    if (menu.hasOwnProperty(i)) {
-        parentItem = undefined;
-        item = menu[i];
-        /**
-         * Item belongs to the upper level.
-         * He has only one level in path
-         */
-        if (item.path.split("/").length <= 2) {
-            tmpMenu.push(item);
-        } else {
-            /**
-             * Gets from path parent path
-             * Exaample:
-             * for this item with path
-             * /item_1/sub_item_1/sub_item_1_1
-             *
-             * parent item should have path
-             * /item_1/sub_item_1
-             *
-             * @type {string}
-             */
-            parentPath = item.path.substr(0, item.path.lastIndexOf("/"));
-            if (getParentItem(menu, "path", parentPath)) {
-                if (typeof parentItem.items === "undefined") {
-                    parentItem.items = [];
-                }
-                parentItem.items.push(item);
-            }
-        }
-    }
-}
-return tmpMenu;
-};
-
 angular.module("dashboardModule")
-/*
- *  $pageSidebarService implementation
- */
-.service("$dashboardSidebarService", [function () {
-    var addItem, getItems, getType, items, isImagePathRegex, transformedItems;
-    items = [];
-    transformedItems = null;
+  /*
+   *  $pageSidebarService implementation
+   */
+  .service("$dashboardSidebarService", [function () {
+    var addItem, getItems, getType, isImagePathRegex;
+
     isImagePathRegex = new RegExp(".gif|png|jpg|ico$", "i");
 
-    /**
-     * Adds item in the left sidebar
-     *
-     * @param {string} title
-     * @param {string} link
-     * @param {string} _class
-     * @param {number} sort - The list will be displayed in descending order by this field
-     */
-    addItem = function (path, title, link, icon, sort) {
-        var prepareLink;
 
-        prepareLink = function (p) {
-            var result;
+    addItem = function (path, title, link, icon, sort) {};
 
-            if(null === p){
-                return p;
-            }
 
-            if ("/" !== p[0]) {
-                result = "#/" + p;
-            } else {
-                result = "#" + p;
-            }
 
-            return result;
-        };
-
-        sort = ( sort || 0 );
-
-        items.push({
-            "path": path,
-            "title": title,
-            "link": prepareLink(link),
-            "icon": icon,
-            "sort": sort});
-    };
-
-    /**
-     * Gets items for left sidebar
-     *
-     * @returns {Array}
-     */
     getItems = function () {
-        if(transformedItems !== null){
-            return transformedItems;
-        }
-
-        transformedItems = transformMenu(items);
-
-        var recursiveSort = function(arr){
-            arr.sort(function (a, b) {
-                if(typeof a.items !== "undefined" && a.items.length > 0){
-                    recursiveSort(a.items);
-                }
-                if(typeof b.items !== "undefined" && b.items.length > 0){
-                    recursiveSort(b.items);
-                }
-                return a.sort < b.sort;
-            });
-        };
-
-        recursiveSort(transformedItems);
-
-        return transformedItems;
+      return [
+        {
+          "path": "/dashboard",
+          "title": "Dashboard",
+          "link": "#/",
+          "icon": "fa fa-home"
+        }, {
+          "path": "/order",
+          "title": "Orders",
+          "link": "#/orders",
+          "icon": "fa fa-list-alt"
+        }, {
+          "path": "/product",
+          "title": "Products",
+          "link": null,
+          "icon": "fa fa-tags",
+          "items": [{
+            "path": "/product/products",
+            "title": "Products",
+            "link": "#/products",
+            "icon": ""
+          }, {
+            "path": "/product/attributes",
+            "title": "Attributes",
+            "link": "#/attributes",
+            "icon": ""
+          }]
+        }, {
+          "path": "/categories",
+          "title": "Categories",
+          "link": "#/categories",
+          "icon": "fa fa-th-list"
+        }, {
+          "path": "/cms",
+          "title": "CMS",
+          "link": null,
+          "icon": "fa fa-indent",
+          "items": [{
+            "path": "/cms/pages",
+            "title": "Page",
+            "link": "#/cms/pages",
+            "icon": ""
+          }, {
+            "path": "/cms/gallery",
+            "title": "Gallery",
+            "link": "#/cms/gallery",
+            "icon": ""
+          }, {
+            "path": "/cms/blocks",
+            "title": "Block",
+            "link": "#/cms/blocks",
+            "icon": ""
+          }]
+        }, {
+          "path": "/impex",
+          "title": "Import / Export",
+          "link": "#/impex",
+          "icon": "fa fa-exchange"
+        }, {
+          "path": "/seo",
+          "title": "URL Rewrite",
+          "link": "#/seo",
+          "icon": "fa fa-random"
+        }, {
+          "path": "/visitors",
+          "title": "Visitors",
+          "link": null,
+          "icon": "fa fa-users",
+          "items": [{
+            "path": "/visitors/attributes",
+            "title": "Attributes",
+            "link": "#/v/attributes",
+            "icon": ""
+          }, {
+            "path": "/visitors/email",
+            "title": "Email",
+            "link": "#/emails",
+            "icon": ""
+          }, {
+            "path": "/visitors/list",
+            "title": "Visitors",
+            "link": "#/visitors",
+            "icon": ""
+          }]
+        }, {
+          "path": "/settings",
+          "title": "Settings",
+          "link": null,
+          "icon": "fa fa-cogs",
+          "items": [{
+            "path": "/settings/general",
+            "title": "General",
+            "link": "#/settings/general",
+            "icon": ""
+          }, {
+            "path": "/settings/payment",
+            "title": "Payment",
+            "link": "#/settings/payment",
+            "icon": ""
+          }, {
+            "path": "/settings/shipping",
+            "title": "Shipping",
+            "link": "#/settings/shipping",
+            "icon": ""
+          }, {
+            "path": "/settings/themes",
+            "title": "Themes",
+            "link": "#/settings/themes",
+            "icon": ""
+          }]
+        }]
     };
 
     /**
@@ -148,22 +132,22 @@ angular.module("dashboardModule")
      * @returns {string}
      */
     getType = function (icon) {
-        var type;
-        type = "class";
+      var type;
+      type = "class";
 
-        if (isImagePathRegex.test(icon) === true) {
-            type = "image";
-        }
-        if (icon.indexOf("glyphicon") !== -1) {
-            type = "glyphicon";
-        }
+      if (isImagePathRegex.test(icon) === true) {
+        type = "image";
+      }
+      if (icon.indexOf("glyphicon") !== -1) {
+        type = "glyphicon";
+      }
 
-        return type;
+      return type;
     };
 
     return {
-        addItem: addItem,
-        getItems: getItems,
-        getType: getType
+      addItem: addItem,
+      getItems: getItems,
+      getType: getType
     };
-}]);
+  }]);

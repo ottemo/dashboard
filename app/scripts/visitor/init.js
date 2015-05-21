@@ -53,22 +53,4 @@ angular.module("visitorModule", ["ngRoute", "ngResource", "designModule"])
                 controller: "visitorEmailController"
             });
     }]
-)
-
-.run([
-    "$designService", 
-    "$route", 
-    "$dashboardSidebarService", 
-    "VISITOR_LIST_URL",
-    "VISITOR_ATTRIBUTES_URL",
-    "VISITOR_EMAILS",
-
-    function ($designService, $route, $dashboardSidebarService, VISITOR_LIST_URL, VISITOR_ATTRIBUTES_URL, VISITOR_EMAILS) {
-
-        // Adds item in the left sidebar
-        $dashboardSidebarService.addItem("/visitors", "Visitors", null, "fa fa-users", 10);
-        $dashboardSidebarService.addItem("/visitors/list", "Visitors", VISITOR_LIST_URL, "", 3);
-        $dashboardSidebarService.addItem("/visitors/attributes", "Attributes", VISITOR_ATTRIBUTES_URL, "", 2);
-        $dashboardSidebarService.addItem("/visitors/email", "Email", VISITOR_EMAILS, "", 1);
-    }
-]);
+);

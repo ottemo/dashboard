@@ -21,17 +21,4 @@ angular.module("productModule", ["ngRoute", "ngResource", "designModule"])
             templateUrl: angular.getTheme("product/attribute/edit.html"),
             controller: "productAttributeEditController"
         });
-}])
-
-.run([
-    "$designService",
-    "$route",
-    "$dashboardSidebarService",
-    function ($designService, $route, $dashboardSidebarService) {
-
-        // Adds item in the left sidebar
-        $dashboardSidebarService.addItem("/product", "Products", null, "fa fa-tags", 8);
-        $dashboardSidebarService.addItem("/product/products", "Products", "/products", "", 2);
-        $dashboardSidebarService.addItem("/product/attributes", "Attributes", "/attributes", "", 1);
-    }
-]);
+}]);

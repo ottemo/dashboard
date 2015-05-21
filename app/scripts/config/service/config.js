@@ -11,24 +11,11 @@ angular.module("configModule")
         var isInit, configGroups, configTabs, items, itemsOld, isLoaded;
 
         // Functions
-        var init, load, save, getConfigGroups, getConfigTabs, getItems, addTab, addGroup, checkOnDups;
+        var init, load, save, getConfigTabs, getItems, addTab, addGroup, checkOnDups;
 
         items = {};
         itemsOld = {};
         isLoaded = {};
-
-        getConfigGroups = function () {
-            return configGroups.sort(function(a, b){
-                if (a.Name.toString() < b.Name.toString()) {
-                    return 1;
-                }
-                if (a.Name.toString() > b.Name.toString()) {
-                    return -1;
-                }
-
-                return 0;
-            });
-        };
 
         getConfigTabs = function (group) {
             if (typeof group !== "undefined" && typeof configTabs[group] !== "undefined") {
@@ -226,7 +213,6 @@ angular.module("configModule")
             "load": load,
             "save": save,
             "getItems": getItems,
-            "getConfigGroups": getConfigGroups,
             "getConfigTabs": getConfigTabs
         };
     }]);

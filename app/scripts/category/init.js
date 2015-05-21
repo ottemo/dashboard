@@ -13,12 +13,4 @@ angular.module("categoryModule", ["ngRoute", "ngResource", "designModule"])
             templateUrl: angular.getTheme("category/edit.html"),
             controller: "categoryEditController"
         });
-}])
-
-.run(["$designService", "$route", "$dashboardSidebarService",
-    function ($designService, $route, $dashboardSidebarService) {
-
-        // Adds item in the left sidebar
-        $dashboardSidebarService.addItem("/categories", "Categories", "/categories", "fa fa-th-list", 6);
-    }
-]);
+}]);
