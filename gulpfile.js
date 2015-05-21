@@ -11,7 +11,7 @@ var sass = require('gulp-sass');
 var del = require('del');
 var concat = require('gulp-concat');
 var sourcemaps = require('gulp-sourcemaps');
-var ngAnnotate = require('gulp-ng-annotate');
+// var ngAnnotate = require('gulp-ng-annotate');
 // var notify = require('gulp-notify');
 var refresh = require('gulp-livereload');
 
@@ -68,7 +68,7 @@ gulp.task('scripts', function () {
   return gulp.src(paths.scripts)
     .pipe(sourcemaps.init())
     .pipe(concat('main.js'))
-    .pipe(ngAnnotate())
+    // .pipe(ngAnnotate())
     .pipe(uglify())
     .pipe(sourcemaps.write('./maps'))
     .pipe(gulp.dest(paths.dist+'/scripts'))
