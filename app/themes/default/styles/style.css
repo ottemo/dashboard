@@ -739,3 +739,8 @@ body *[data-toggle="offcanvas"] {
   height: 60px;
   width: 100%;
 }
+#loader {
+  margin-left: -230px;
+  position: absolute;
+  width: 100%;
+}
