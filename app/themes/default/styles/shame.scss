@@ -383,7 +383,6 @@ body {
 }
 #content {
   min-height: 100%;
-  margin-left: 230px;
 }
 body.sticky-sidebar {
   padding-left: 300px;
@@ -414,7 +413,7 @@ body.sticky-sidebar *[data-toggle="offcanvas"] {
   width: 230px;
   height: 100%;
   position: fixed;
-  left: 0;
+  left: -300px;
   top: 0;
   overflow: hidden;
   z-index: 20;

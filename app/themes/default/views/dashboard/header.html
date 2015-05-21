@@ -1,5 +1,5 @@
 <!-- Navigation bar -->
-<nav class="navbar navbar-default hidden-xs" id="header_sidebar" ng-controller="dashboardHeaderController">
+<nav class="navbar navbar-default navbar-static-top hidden-xs" id="header_sidebar" ng-controller="dashboardHeaderController">
     <div class="container-fluid text-center">
 
         <!-- sidebar toggler -->
@@ -7,8 +7,8 @@
             <li>
                 <a href="" class="sidebar-toggler">
                     <span class="fa fa-bars"></span>
-                </a>    
-            </li>            
+                </a>
+            </li>
         </ul>
 
         <!-- Logo -->
@@ -20,7 +20,7 @@
 
         <!-- Right side -->
         <div class="collapse navbar-collapse pull-right">
-            
+
             <!-- Account menu -->
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
@@ -36,7 +36,7 @@
                         <li ng-repeat="item in rightMenu" ng-include="getTemplate('dashboard/header/menuItem.html')"></li>
                     </ul>
                 </li>
-            </ul>  
+            </ul>
         </div>
         <div class="clearfix"></div>
     </div>
@@ -57,13 +57,13 @@
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
-                <span class="icon-bar"></span>                        
+                <span class="icon-bar"></span>
             </button>
         </div>
 
         <!-- Right side -->
         <div class="collapse navbar-collapse" id="myNavbar">
-            
+
             <!-- Account menu -->
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
@@ -80,9 +80,9 @@
                     </ul>
                 </li>
             </ul>
-            
+
             <!-- Main menu -->
-            
+
             <ul class="nav navbar-nav text-center main-menu" ng-controller="dashboardSidebarController">
                 <li ng-repeat="item in items track by $index"
                 ng-include="getTemplate('dashboard/header/sidebarItem.html')" class="dropdown visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block text-left">
