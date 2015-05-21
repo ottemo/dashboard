@@ -69,7 +69,7 @@ gulp.task('scripts', function () {
     .pipe(sourcemaps.init())
     .pipe(concat('main.js'))
     // .pipe(ngAnnotate())
-    .pipe(uglify())
+    .pipe(uglify({mangle:false}))
     .pipe(sourcemaps.write('./maps'))
     .pipe(gulp.dest(paths.dist+'/scripts'))
     .pipe(refresh())
