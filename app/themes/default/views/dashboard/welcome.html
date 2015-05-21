@@ -9,34 +9,34 @@
                 <div class="panel panel-default">
                     <div class="panel-heading"><h3 class="panel-title">Sales</h3></div>
                     <table class="table table-dashboard">
-                        <thead>
+                        <!-- <thead>
                             <tr>
                                 <th></th>
                                 <th>Total Sales</th>
                                 <th>Order Count</th>
                             </tr>
-                        </thead>
+                        </thead> -->
                         <tbody>
-                            <tr class="table-dashboard-highlight">
+                            <tr class="table-dashboard__highlight">
                                 <th>Today</th>
-                                <td>{{salesTable.sales.today}}</td>
-                                <td>{{salesTable.orders.today}}</td>
+                                <td>${{sales.today}}</td>
+                                <!-- <td>{{sales.orders.today}}</td> -->
                             </tr>
                             <tr>
                                 <th>Yesterday</th>
-                                <td>{{salesTable.sales.yesterday}}</td>
-                                <td>{{salesTable.orders.yesterday}}</td>
+                                <td>${{sales.yesterday}}</td>
+                                <!-- <td>{{sales.orders.yesterday}}</td> -->
                             </tr>
-                            <tr>
+                            <!-- <tr>
                                 <th>Last 7 Days</th>
-                                <td>{{salesTable.sales.sevenDay}}</td>
-                                <td>{{salesTable.orders.sevenDay}}</td>
-                            </tr>
+                                <td>{{sales.sales.sevenDay}}</td>
+                                <td>{{sales.orders.sevenDay}}</td>
+                            </tr> -->
                         </tbody>
                     </table>
 
                     <div id="visitors-chart">
-                        <div id="visitors-container" style="width: 100%; height:155px; text-align: center; margin:0 auto;">
+                        <div id="visitors-container" style="width: 100%; height:155px;">
                             {{initVisitorsChart()}}
                         </div>
                     </div>
@@ -46,34 +46,34 @@
                 <div class="panel panel-default">
                     <div class="panel-heading"><h3 class="panel-title">Visits</h3></div>
                     <table class="table table-dashboard">
-                        <thead>
+                        <!-- <thead>
                             <tr>
                                 <th></th>
                                 <th>Total Visitors</th>
                                 <th>Unique Visitors</th>
                             </tr>
-                        </thead>
+                        </thead> -->
                         <tbody>
-                            <tr class="table-dashboard-highlight">
+                            <tr class="table-dashboard__highlight">
                                 <th>Today</th>
-                                <td>{{visitsTable.total.today}}</td>
-                                <td>{{visitsTable.unique.today}}</td>
+                                <td>{{visits.today}} total visits</td>
+                                <!-- <td>{{visits.unique.today}}</td> -->
                             </tr>
                             <tr>
                                 <th>Yesterday</th>
-                                <td>{{visitsTable.total.yesterday}}</td>
-                                <td>{{visitsTable.unique.yesterday}}</td>
+                                <td>{{visits.yesterday}} total visits</td>
+                                <!-- <td>{{visits.unique.yesterday}}</td> -->
                             </tr>
-                            <tr>
+                            <!-- <tr>
                                 <th>Last 7 Days</th>
-                                <td>{{visitsTable.total.sevenDay}}</td>
-                                <td>{{visitsTable.unique.sevenDay}}</td>
-                            </tr>
+                                <td>{{visits.total.sevenDay}}</td>
+                                <td>{{visits.unique.sevenDay}}</td>
+                            </tr> -->
                         </tbody>
                     </table>
 
                     <div id="sales-chart">
-                        <div id="sales-container" style="width: 100%; height:155px; text-align: center; margin:0 auto;">
+                        <div id="sales-container" style="width: 100%; height:155px;">
                             {{initSalesChart()}}
                         </div>
                     </div>
@@ -118,12 +118,8 @@
                     <table class="table table-striped table-statistic">
                         <tbody>
                             <tr ng-repeat="item in referrers | limitTo:10">
-                                <td>
-                                    <div class="text-left">{{item.url}}</div>
-                                </td>
-                                <td class="text-right">
-                                    <div class="text-right">{{item.count}}</div>
-                                </td>
+                                <td>{{item.url}}</td>
+                                <td class="text-right">{{item.count}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -132,15 +128,15 @@
         </div>
 
         <!-- Top Sellers -->
-        <div class="panel panel-default">
+        <div class="panel panel-default top-p-widget">
             <div class="panel-heading"><h3 class="panel-title">Top Products</h3></div>
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-sm-2" ng-repeat="item in topSellers">
+                    <div class="col-sm-2" ng-repeat="item in topSellers | limitTo:6">
                         <div class="thumbnail">
                             <img ng-src="{{getProductImage(item.image)}}" class="img-responsive">
                             <div class="caption">
-                                <h5>{{item.name}}</h5>
+                                <h5 class="top-p-widget__name">{{item.name}}</h5>
                                 <div>sold: {{item.count}}</div>
                             </div>
                         </div>

@@ -9,4 +9,6 @@
 
 // Components
 @import 'components/_panels';
-@import 'components/conversion-widget';
+@import 'dashboard/conversion-widget';
+@import 'dashboard/dashboard-table';
+@import 'dashboard/top-p-widget';

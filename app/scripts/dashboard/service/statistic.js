@@ -41,21 +41,76 @@ function ($api, $q) {
     };
 
     getVisits = function () {
-        var today = new Date();
-        var tz = -today.getTimezoneOffset()/60;
+        var defer, today, tz;
+        defer = $q.defer();
+        today = new Date();
+        tz = -today.getTimezoneOffset()/60;
 
-        return $api.getVisits({"tz": tz}).$promise.then(function (response) {
-           return {total: response.result};
+        $api.getVisits({"tz": tz}).$promise.then(function (response) {
+            var result, visits;
+            console.log(response);
+
+            result = response.result || [];
+            visits = {
+                "today": 0,
+                "yesterday": 0,
+                "ratio": 0,
+                "higher": true,
+                "lower": false
+            };
+
+            if (null === response.error) {
+                visits = {
+                    "today": result.visitsToday,
+                    "yesterday": result.visitsYesterday,
+                    "ratio": Math.round((Math.abs(result.ratio) * 100) * 100) / 100,
+                    "higher": result.ratio >= 0,
+                    "lower": result.ratio < 0
+                };
+
+                defer.resolve(visits);
+            } else {
+                defer.resolve(visits);
+            }
         });
+
+        return defer.promise;
     };
 
     getSales = function () {
-        var today = new Date();
-        var tz = -today.getTimezoneOffset()/60;
+        var defer, today, tz;
+        defer = $q.defer();
+        today = new Date();
+        tz = -today.getTimezoneOffset()/60;
 
-        return $api.getSales({"tz": tz}).$promise.then(function (response) {
-            return {sales: response.result};
+        $api.getSales({"tz": tz}).$promise.then(function (response) {
+            var result, sales;
+            console.log(response);
+            result = response.result || [];
+            sales = {
+                "today": 0,
+                "yesterday": 0,
+                "ratio": 0,
+                "higher": true,
+                "lower": false
+            };
+
+            if (null === response.error) {
+                sales = {
+                    "today": result.today,
+                    'yesterday': result.yesterday,
+                    "ratio": Math.round((Math.abs(result.ratio) * 100) * 100) / 100,
+                    "higher": result.ratio >= 0,
+                    "lower": result.ratio < 0
+                };
+
+                defer.resolve(sales);
+            } else {
+                defer.resolve(sales);
+            }
         });
+
+        return defer.promise;
     };
 
     getVisitsDetail = function (from, to, tz) {
