@@ -67,19 +67,6 @@ $(document).ready(function () {
             $(this).children('img').attr('src', 'themes/default/images/themes/' + thisId + '.jpg');
         });
 
-        //set sidebar position
-        if (navbarTop === '1') {
-            $('#header_sidebar').css('display', 'none');
-            $('#header_no_sidebar').css('display', 'block');
-            $('#offcanvas').removeClass('active');
-            $('body').removeClass('sticky-sidebar');
-        }
-        else {
-            $('#header_no_sidebar').css('display', 'none');
-            $('body').css('paddingTop', 0).removeClass('have-fixed-sidebar');
-            $('#header_no_sidebar').removeClass('navbar-fixed-top');
-            $('#header_sidebar').css('display', 'block');
-        }
     }, 2500);
 
 
@@ -142,60 +129,6 @@ $(document).ready(function () {
             $('#offcanvas a.menu-item').removeClass('active');
             $(this).addClass('active');
         }
-    });
-
-    //navtop function
-    function goTopNavbarMode() {
-        $('#header_sidebar').fadeOut(500, function () {
-            $('#header_no_sidebar').fadeIn(500);
-            $('#offcanvas').removeClass('active');
-            $('body').removeClass('sticky-sidebar');
-        });
-
-    }
-
-    // go to 'no_sidebar' mode
-    $(document).on('click', '#navbar_switch_top', function () {
-        goTopNavbarMode();
-        localStorage.removeItem('navbarTop');
-        localStorage.setItem('navbarTop', '1');
-    });
-
-    //sidebar function
-    function goSideBarMode() {
-        $('#header_no_sidebar').fadeOut(500, function () {
-            $('body').css('paddingTop', 0).removeClass('have-fixed-sidebar');
-            $('#header_no_sidebar').removeClass('navbar-fixed-top');
-            $('#header_sidebar').fadeIn(500);
-            $('#offcanvas').addClass('active');
-        });
-
-    }
-
-    // go to 'sidebar' mode
-    $(document).on('click', '#navbar_switch_side', function () {
-        goSideBarMode();
-        localStorage.removeItem('navbarTop');
-        localStorage.setItem('navbarTop', '0');
-    });
-
-    // fix the navbar in the top
-    $(document).on('click', '#fix_navbar', function () {
-        var navbarFixed = $('#header_no_sidebar').hasClass('navbar-fixed-top');
-        if (navbarFixed === true) {
-            $('body').animate({paddingTop: 0}, 400);
-        }
-        else {
-            var navbarHeight = $('#header_no_sidebar').outerHeight(true);
-            $('body').animate({paddingTop: navbarHeight}, 400);
-        }
-        $('#header_no_sidebar').toggleClass('navbar-fixed-top');
-    });
-
-    //make the sidebar sticky
-    $(document).on('click', '#static_sidebar', function (event) {
-        event.preventDefault();
-        $('body').toggleClass('sticky-sidebar');
     });
 
 });

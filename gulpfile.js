@@ -219,7 +219,7 @@ gulp.task('watch',function(){
     gulp.start('livereload');
 
     gulp.watch(["app/**/*.html"],['html']);
-    gulp.watch(["app/**/*.css"],['styles']);
+    gulp.watch(["app/**/*.css"],['themes.styles']);
     gulp.watch(["app/scripts/**/*.js"],['scripts']);
     gulp.watch(["app/lib/**/*.js"],['lib.scripts']);
 })

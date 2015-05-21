@@ -384,29 +384,13 @@ body {
 #content {
   min-height: 100%;
 }
-body.sticky-sidebar {
+body {
   padding-left: 300px;
-  -webkit-transition: all 0.4s ease;
-  /* Safari 3.2+, Chrome */
-  -moz-transition: all 0.4s ease;
-  /* Firefox 4-15 */
-  -o-transition: all 0.4s ease;
-  /* Opera 10.5-12.00 */
-  transition: all 0.4s ease;
-  /* Firefox 16+, Opera 12.50+ */
 }
-body.sticky-sidebar #offcanvas {
+body #offcanvas {
   left: 0;
-  -webkit-transition: all 0.4s ease;
-  /* Safari 3.2+, Chrome */
-  -moz-transition: all 0.4s ease;
-  /* Firefox 4-15 */
-  -o-transition: all 0.4s ease;
-  /* Opera 10.5-12.00 */
-  transition: all 0.4s ease;
-  /* Firefox 16+, Opera 12.50+ */
 }
-body.sticky-sidebar *[data-toggle="offcanvas"] {
+body *[data-toggle="offcanvas"] {
   display: none;
 }
 #offcanvas {
