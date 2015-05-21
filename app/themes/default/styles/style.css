@@ -385,7 +385,7 @@ body {
   min-height: 100%;
 }
 body {
-  padding-left: 300px;
+  padding-left: 230px;
 }
 body #offcanvas {
   left: 0;
@@ -394,7 +394,7 @@ body *[data-toggle="offcanvas"] {
   display: none;
 }
 #offcanvas {
-  width: 300px;
+  width: 230px;
   height: 100%;
   position: fixed;
   left: -300px;
@@ -522,11 +522,11 @@ body *[data-toggle="offcanvas"] {
   display: block;
   height: auto;
   line-height: 1;
-  font-size: 20px;
+  font-size: 16px;
   text-decoration: none;
   font-weight: 300 !important;
   color: #fff;
-  padding: 22px 24px 22px 20px;
+  padding: 10px 24px 10px 20px;
   border-bottom: 1px #343438 solid;
   background: #23212c;
   position: relative;
@@ -563,12 +563,10 @@ body *[data-toggle="offcanvas"] {
   transition: all 0.4s ease;
   /* Firefox 16+, Opera 12.50+ */
 }
-#offcanvas a .fa-chevron-down {
+#offcanvas a .fa-angle-right {
   position: absolute;
-  font-size: 10px;
+  font-size: 14px;
   right: 20px;
-  top: 50%;
-  margin-top: -3px;
 }
 #offcanvas .sub-menu {
   background: #292b3d;
