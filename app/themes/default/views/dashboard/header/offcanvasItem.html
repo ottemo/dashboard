@@ -1,5 +1,5 @@
 <!-- Menu title -->
-<a class="menu-item" href="{{item.link === null ? '' : item.link}}" target="{{item.link != null ? '' : '_self'}}" ng-class="(item.items.length &gt 0) ? dropdown-toggle : ''" ng-switch="it.getType(item.icon)">
+<a class="menu-item" href="{{item.link === null ? '' : item.link}}" target="{{item.link != null ? '' : '_self'}}" ng-class="(item.items.length &gt 0) ? dropdown-toggle : ''">
     <i class="{{item.icon}}"></i>&nbsp;
     <span>{{item.title}}</span>&nbsp;
     <span class="fa-angle-right fa" ng-if="item.items.length &gt 0"></span>

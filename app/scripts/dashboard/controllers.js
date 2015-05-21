@@ -14,9 +14,8 @@ $scope.rightMenu = $dashboardHeaderService.getMenuRight();
 // $scope.rightMenu = $dashboardHeaderService.getMenuRight();
 // }])
 
-.controller("dashboardSidebarController", ["$scope", "$dashboardSidebarService", function ($scope, $dashboardSidebarService) {
-$scope.it = $dashboardSidebarService;
-$scope.items = $dashboardSidebarService.getItems();
+.controller("dashboardSidebarController", ["$scope", "$menuService", function ($scope, $menuService) {
+  $scope.items = $menuService;
 }])
 
 .controller("dashboardController", [

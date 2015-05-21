@@ -2,27 +2,18 @@ angular.module("dashboardModule")
   /*
    *  $pageSidebarService implementation
    */
-  .service("$dashboardSidebarService", [function () {
-    var addItem, getItems, getType, isImagePathRegex;
+  .service("$menuService", [function () {
 
-    isImagePathRegex = new RegExp(".gif|png|jpg|ico$", "i");
-
-
-    addItem = function (path, title, link, icon, sort) {};
-
-
-
-    getItems = function () {
       return [
         {
           "path": "/dashboard",
           "title": "Dashboard",
-          "link": "#/",
+          "link": "/",
           "icon": "fa fa-home"
         }, {
           "path": "/order",
           "title": "Orders",
-          "link": "#/orders",
+          "link": "/orders",
           "icon": "fa fa-list-alt"
         }, {
           "path": "/product",
@@ -32,18 +23,18 @@ angular.module("dashboardModule")
           "items": [{
             "path": "/product/products",
             "title": "Products",
-            "link": "#/products",
+            "link": "/products",
             "icon": ""
           }, {
             "path": "/product/attributes",
             "title": "Attributes",
-            "link": "#/attributes",
+            "link": "/attributes",
             "icon": ""
           }]
         }, {
           "path": "/categories",
           "title": "Categories",
-          "link": "#/categories",
+          "link": "/categories",
           "icon": "fa fa-th-list"
         }, {
           "path": "/cms",
@@ -53,28 +44,28 @@ angular.module("dashboardModule")
           "items": [{
             "path": "/cms/pages",
             "title": "Page",
-            "link": "#/cms/pages",
+            "link": "/cms/pages",
             "icon": ""
           }, {
             "path": "/cms/gallery",
             "title": "Gallery",
-            "link": "#/cms/gallery",
+            "link": "/cms/gallery",
             "icon": ""
           }, {
             "path": "/cms/blocks",
             "title": "Block",
-            "link": "#/cms/blocks",
+            "link": "/cms/blocks",
             "icon": ""
           }]
         }, {
           "path": "/impex",
           "title": "Import / Export",
-          "link": "#/impex",
+          "link": "/impex",
           "icon": "fa fa-exchange"
         }, {
           "path": "/seo",
           "title": "URL Rewrite",
-          "link": "#/seo",
+          "link": "/seo",
           "icon": "fa fa-random"
         }, {
           "path": "/visitors",
@@ -84,17 +75,17 @@ angular.module("dashboardModule")
           "items": [{
             "path": "/visitors/attributes",
             "title": "Attributes",
-            "link": "#/v/attributes",
+            "link": "/v/attributes",
             "icon": ""
           }, {
             "path": "/visitors/email",
             "title": "Email",
-            "link": "#/emails",
+            "link": "/emails",
             "icon": ""
           }, {
             "path": "/visitors/list",
             "title": "Visitors",
-            "link": "#/visitors",
+            "link": "/visitors",
             "icon": ""
           }]
         }, {
@@ -105,49 +96,24 @@ angular.module("dashboardModule")
           "items": [{
             "path": "/settings/general",
             "title": "General",
-            "link": "#/settings/general",
+            "link": "/settings/general",
             "icon": ""
           }, {
             "path": "/settings/payment",
             "title": "Payment",
-            "link": "#/settings/payment",
+            "link": "/settings/payment",
             "icon": ""
           }, {
             "path": "/settings/shipping",
             "title": "Shipping",
-            "link": "#/settings/shipping",
+            "link": "/settings/shipping",
             "icon": ""
           }, {
             "path": "/settings/themes",
             "title": "Themes",
-            "link": "#/settings/themes",
+            "link": "/settings/themes",
             "icon": ""
           }]
         }]
-    };
 
-    /**
-     *
-     * @param {string} icon
-     * @returns {string}
-     */
-    getType = function (icon) {
-      var type;
-      type = "class";
-
-      if (isImagePathRegex.test(icon) === true) {
-        type = "image";
-      }
-      if (icon.indexOf("glyphicon") !== -1) {
-        type = "glyphicon";
-      }
-
-      return type;
-    };
-
-    return {
-      addItem: addItem,
-      getItems: getItems,
-      getType: getType
-    };
   }]);

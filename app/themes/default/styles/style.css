@@ -45,9 +45,6 @@ h2.title span {
   height: auto !important;
   min-height: 0 !important;
 }
-.navbar-brand {
-  padding: 5px 15px !important;
-}
 .main-menu {
   float: none !important;
   width: 100% !important;
@@ -731,4 +728,14 @@ body *[data-toggle="offcanvas"] {
 .impex-progressbar .title{
   font-size: 17px;
   margin-bottom: 15px;
+}
+#offcanvas .navbar-user{
+  position: absolute;
+  bottom: 0;
+  height: 60px;
+  width: 100%;
+}
+#offcanvas .navbar-top{
+  height: 60px;
+  width: 100%;
 }
