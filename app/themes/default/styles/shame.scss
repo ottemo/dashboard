@@ -427,6 +427,17 @@ body.sticky-sidebar *[data-toggle="offcanvas"] {
   transition: all 0.4s ease;
   /* Firefox 16+, Opera 12.50+ */
 }
+#offcanvas.active {
+  left: 0;
+  -webkit-transition: all 0.4s ease;
+  /* Safari 3.2+, Chrome */
+  -moz-transition: all 0.4s ease;
+  /* Firefox 4-15 */
+  -o-transition: all 0.4s ease;
+  /* Opera 10.5-12.00 */
+  transition: all 0.4s ease;
+  /* Firefox 16+, Opera 12.50+ */
+}
 #offcanvas .sidebar-wrapper {
   position: absolute;
   top: 0px;
@@ -602,121 +613,7 @@ body.sticky-sidebar *[data-toggle="offcanvas"] {
     display: none !important;
   }
 }
-// .welcome .sellers-referrs table td {
-//   width: auto !important;
-// }
-// .welcome .sellers-referrs table td {
-//   text-align: left;
-// }
-// .welcome .sellers-referrs table td:first-child {
-//   text-align: center;
-//   width: 50px !important;
-// }
-// .welcome .sellers-referrs table td:last-child {
-//   text-align: center;
-//   width: 50px !important;
-// }
-// .welcome .sellers-referrs table td img {
-//   max-height: 50px;
-//   max-width: 50px;
-// }
-// .welcome .today-visits .col-xs-6,
-// .welcome .today-sales .col-xs-6,
-// .welcome .real-time .progrcol-xs-6ess {
-//   padding-left: 0;
-//   padding-right: 0;
-// }
-// .welcome .today-visits,
-// .welcome .today-sales,
-// .welcome .real-time {
-//   height: auto;
-//   border: 1px #e4e4e4 solid;
-//   padding: 20px;
-//   font-size: 11px;
-//   font-weight: 300;
-//   margin-bottom: 20px;
-// }
-// .welcome .title {
-//   font-size: 17px;
-//   line-height: 1;
-//   font-weight: 300;
-// }
-// .welcome .today-visits .number,
-// .welcome .today-sales .number,
-// .welcome .real-time .number {
-//   font-size: 45px;
-//   line-height: 1;
-//   font-weight: 300;
-// }
-// .welcome .today-visits .percents,
-// .welcome .today-sales .percents,
-// .welcome .real-time .percents {
-//   text-align: right;
-//   font-size: 28px;
-//   line-height: 1;
-//   font-weight: 300;
-// }
-// .welcome .today-visits .progress,
-// .welcome .today-sales .progress,
-// .welcome .real-time .progress {
-//   margin-top: 10px;
-//   height: 8px;
-// }
-// .welcome .today-visits .fa {
-//   color: #1a598f;
-// }
-// .welcome .today-sales .fa {
-//   color: #70be06;
-// }
-// .welcome .real-time > .title,
-// .welcome .real-time .text-center {
-//   margin-top: -10px;
-//   margin-bottom: 5px;
-// }
-// .welcome .real-time .progress {
-//   margin-top: 4px;
-//   margin-bottom: 10px;
-// }
-// .welcome .conversions {
-//   border: 1px #e4e4e4 solid;
-//   padding-top: 10px;
-//   text-align: center;
-//   margin-bottom: 20px;
-// }
-// .welcome .conversions .title {
-//   font-size: 25px;
-//   margin-bottom: 5px;
-// }
-// .welcome .conversions p {
-//   line-height: 1;
-//   margin: 5px 0;
-//   font-size: 16px;
-// }
-// .welcome .conversions h3 {
-//   font-size: 25px;
-//   margin: 5px 0 15px;
-//   font-weight: bold;
-// }
-// .welcome .conversions h3 span {
-//   font-weight: 300;
-//   font-size: 15px;
-//   position: relative;
-//   top: -2px;
-// }
-// .welcome .circle {
-//   width: 100px;
-//   height: 100px;
-//   margin: 0 auto;
-//   border-radius: 50%;
-// }
-// .welcome .circle span {
-//   font-size: 45px;
-//   line-height: 2.2;
-// }
-// .welcome .panel-title {
-//   font-weight: 300;
-//   font-size: 20px;
-// }
+
 #processing * {
   pointer-events: none;
 }
@@ -738,10 +635,4 @@ body.sticky-sidebar *[data-toggle="offcanvas"] {
 .impex-progressbar .title{
   font-size: 17px;
   margin-bottom: 15px;
-}
-
-
-/*Dashboard*/
-.panel-widget {
-
 }
