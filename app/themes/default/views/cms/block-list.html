@@ -1,10 +1,9 @@
-<!-- Page title -->
-<h2 class="title label-info text-center">
-	<span class="fa fa-indent"></span>
-	Blocks
-</h2>
+<div class="page-header">
+	<h1 ng-if="block._id">
+		<span class="fa fa-indent"></span>
+		Blocks
+	</h1>
+</div>
 
 <!-- Table -->
-<div class="col-xs-12">
-	<gui-table-manager items="blocks" object="this"></gui-table-manager>
-</div>
+<gui-table-manager items="blocks" object="this"></gui-table-manager>

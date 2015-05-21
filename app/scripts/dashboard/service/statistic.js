@@ -51,7 +51,8 @@ function ($api, $q) {
 
             result = response.result || [];
             visits = {
-                "visitsToday": 0,
+                "today": 0,
+                "yesterday": 0,
                 "ratio": 0,
                 "higher": true,
                 "lower": false
@@ -59,7 +60,8 @@ function ($api, $q) {
 
             if (null === response.error) {
                 visits = {
-                    "visitsToday": result.visitsToday,
+                    "today": result.visitsToday,
+                    "yesterday": result.visitsYesterday,
                     "ratio": Math.round((Math.abs(result.ratio) * 100) * 100) / 100,
                     "higher": result.ratio >= 0,
                     "lower": result.ratio < 0
@@ -85,7 +87,8 @@ function ($api, $q) {
 
             result = response.result || [];
             sales = {
-                "salesToday": 0,
+                "today": 0,
+                "yesterday": 0,
                 "ratio": 0,
                 "higher": true,
                 "lower": false
@@ -93,7 +96,8 @@ function ($api, $q) {
 
             if (null === response.error) {
                 sales = {
-                    "salesToday": result.today,
+                    "today": result.today,
+                    'yesterday': result.yesterday,
                     "ratio": Math.round((Math.abs(result.ratio) * 100) * 100) / 100,
                     "higher": result.ratio >= 0,
                     "lower": result.ratio < 0
@@ -168,7 +172,7 @@ function ($api, $q) {
         return defer.promise;
     };
 
-    getConversions = function () {   
+    getConversions = function () {
         var defer, getPercents, today, tz;
         defer = $q.defer();
         today = new Date();

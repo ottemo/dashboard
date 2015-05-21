@@ -7,10 +7,11 @@ var changed = require('gulp-changed');
 var imagemin = require('gulp-imagemin');
 var autoprefix = require('gulp-autoprefixer');
 var minifyCSS = require('gulp-minify-css');
+var sass = require('gulp-sass');
 var del = require('del');
 var concat = require('gulp-concat');
 var sourcemaps = require('gulp-sourcemaps');
-var ngAnnotate = require('gulp-ng-annotate');
+// var ngAnnotate = require('gulp-ng-annotate');
 // var notify = require('gulp-notify');
 var refresh = require('gulp-livereload');
 var modRewrite = require('connect-modrewrite');
@@ -31,7 +32,7 @@ var paths = {
     themes: {
         copy: 'app/themes/**/lib/**/*',
         scripts: ['app/themes/**/scripts/**/*.js'],
-        styles: 'app/themes/**/styles/**/*.css',
+        styles: 'app/themes/default/styles/style.scss',
         dist: 'dist/themes',
         fonts: 'app/themes/**/styles/fonts/**/*',
         images: 'app/themes/**/images/**/*'
@@ -69,8 +70,8 @@ gulp.task('scripts', function () {
   return gulp.src(paths.scripts)
     .pipe(sourcemaps.init())
     .pipe(concat('main.js'))
-    .pipe(ngAnnotate())
-    .pipe(uglify())
+    // .pipe(ngAnnotate())
+    .pipe(uglify({mangle:false}))
     .pipe(sourcemaps.write('./maps'))
     .pipe(gulp.dest(paths.dist+'/scripts'))
     .pipe(refresh())
@@ -126,11 +127,12 @@ gulp.task('themes.scripts', function () {
 //
 gulp.task('themes.styles', function () {
     return gulp.src(paths.themes.styles)
+        .pipe(sass().on('error', sass.logError))
         .pipe(autoprefix('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
-        .pipe(minifyCSS({
-            processImport: false
-        }))
-        .pipe(gulp.dest(paths.themes.dist));
+        // .pipe(minifyCSS({
+        //     processImport: false
+        // }))
+        .pipe(gulp.dest(paths.themes.dist + '/default/styles'));
 });
 
 //
@@ -203,7 +205,7 @@ gulp.task('livereload', function(){
     .use(express.static(static_folder));
     app.listen( host.port, function() {
 
-        console.log('server started, port '+host.port);
+        console.log('server started: http://localhost:'+host.port);
 
 
         return gulp;
@@ -219,7 +221,7 @@ gulp.task('watch',function(){
     gulp.start('livereload');
 
     gulp.watch(["app/**/*.html"],['html']);
-    gulp.watch(["app/**/*.css"],['styles']);
+    gulp.watch(["app/**/*.scss"],['themes.styles']);
     gulp.watch(["app/scripts/**/*.js"],['scripts']);
     gulp.watch(["app/lib/**/*.js"],['lib.scripts']);
 })
