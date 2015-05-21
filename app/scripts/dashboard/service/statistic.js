@@ -48,7 +48,6 @@ function ($api, $q) {
 
         $api.getVisits({"tz": tz}).$promise.then(function (response) {
             var result, visits;
-            console.log(response);
 
             result = response.result || [];
             visits = {
@@ -85,7 +84,7 @@ function ($api, $q) {
 
         $api.getSales({"tz": tz}).$promise.then(function (response) {
             var result, sales;
-            console.log(response);
+
             result = response.result || [];
             sales = {
                 "today": 0,
