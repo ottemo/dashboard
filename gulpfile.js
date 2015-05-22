@@ -55,7 +55,7 @@ var paths = {
     },
     watch:{
         html: ["app/**/*.html"],
-        css: ["app/**/*.css"],
+        css: ["app/**/*.scss"],
         js: ["app/scripts/**/*.js"],
         lib: ["app/lib/**/*.js"]
     }
