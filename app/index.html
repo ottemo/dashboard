@@ -12,12 +12,7 @@
         <script src="lib/tinymce/tinymce.min.js"></script>
         <title>Ottemo Dashboard</title>
 
-        
-        <!-- custom remote css -->
-        <link href="themes/styles/bootstrap.css" rel="stylesheet">
-        <link href="themes/styles/style.css" rel="stylesheet">
-        <link href="themes/styles/animate.css" rel="stylesheet">
-        <link href="themes/styles/font-awesome.css" rel="stylesheet">
+        <link href="themes/default/styles/style.css" rel="stylesheet">
         <link href="themes/styles/loading-bar.css" rel="stylesheet">
 
         <!-- favicon -->
@@ -29,17 +24,17 @@
         <![endif]-->
     </head>
 
-    <body ng-controller="dashboardController" >
+    <body>
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-       
+
         <!-- main content -->
         <content id="content" src="/themes/views/index.html" ng-show='contentLoaded'/>
-        
+
         <!-- JS libs -->
         <script src="scripts/main.js"></script>
         <script src="themes/scripts/main.js"></script>
-    
+
     </body>
 </html>

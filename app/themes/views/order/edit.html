@@ -1,12 +1,14 @@
-<!-- Page title -->
-<h2 class="title label-info" ng-if="order._id">
-    <span class="fa fa-list-alt"></span>
-    Order <strong>№{{order.increment_id}}</strong>
-</h2>
-<h2 class="title label-info" ng-if="!order._id">
-    <span class="fa fa-list-alt"></span>
-    New order
-</h2>
+<div class="page-header">
+    <h1 ng-if="order._id">
+        <span class="fa fa-list-alt"></span>
+        Order <strong>№{{order.increment_id}}</strong>
+    </h1>
+    <h1 ng-if="!order._id">
+        <span class="fa fa-list-alt"></span>
+        New order
+    </h1>
+</div>
+
 
 <!-- Error message -->
 <gui-message-manager item="message"></gui-message-manager>
@@ -78,7 +80,7 @@
 </div>
 
 <div class="clearfix"></div>
-    
+
 <!-- order table -->
 <div class="col-sm-5 col-sm-offset-1 col-xs-12 col-xs-offset-0">
     <h3 class="text-center">
@@ -104,7 +106,7 @@
 
             <!-- product size -->
             <td class="text-center" ng-show="product.Options.Size.value != null">{{product.Options.Size.value}}</td>
-            
+
             <!-- product quantity -->
             <td class="text-center">{{product.Qty}}</td>
 
@@ -149,9 +151,9 @@
 </label>
 
 <div class="clearfix"></div>
-<br>    
+<br>
 <div class="text-center">
     <a class="btn btn-default" ng-click="save()">Save</a>
     <a class="btn btn-primary" href="#/orders/">Back to orders</a>
 </div>
-<br>            
+<br>

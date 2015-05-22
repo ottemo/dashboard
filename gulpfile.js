@@ -7,12 +7,15 @@ var changed = require('gulp-changed');
 var imagemin = require('gulp-imagemin');
 var autoprefix = require('gulp-autoprefixer');
 var minifyCSS = require('gulp-minify-css');
+var sass = require('gulp-sass');
 var del = require('del');
 var concat = require('gulp-concat');
 var sourcemaps = require('gulp-sourcemaps');
-var ngAnnotate = require('gulp-ng-annotate');
+// var ngAnnotate = require('gulp-ng-annotate');
 // var notify = require('gulp-notify');
 var refresh = require('gulp-livereload');
+var modRewrite = require('connect-modrewrite');
+
 
 var paths = {
     html: 'app/**/*.html',
@@ -28,12 +31,12 @@ var paths = {
     ],
     themes: {
         copy: 'app/themes/lib/**/*',
-        scripts: [ 
+        scripts: [
             'app/themes/scripts/**/excanvas.js',
             'app/themes/scripts/**/jquery.flot.js',
             'app/themes/scripts/**/*.js'
         ],
-        styles: 'app/themes/styles/**/*.css',
+        styles: 'app/themes/default/styles/style.scss',
         dist: 'dist/themes',
         fonts: 'app/themes/styles/fonts/**/*',
         images: 'app/themes/images/**/*',
@@ -73,31 +76,30 @@ gulp.task('clean', function (cb) {
 //  -------------------------------
 //  task for compilling angular modules
 //  -------------------------------
- 
+
 gulp.task('scripts', function () {
   return gulp.src(paths.scripts)
     .pipe(sourcemaps.init())
     .pipe(concat('main.js'))
     .pipe(gulp.dest(paths.dist+'/scripts/raw'))
-    .pipe(ngAnnotate())
-    .pipe(uglify())
+    .pipe(uglify({mangle:false}))
     .pipe(sourcemaps.write('./maps'))
     .pipe(gulp.dest(paths.dist+'/scripts'))
     .pipe(refresh())
     // .pipe(notify({ message: 'Script compilation completed' }))
 })
 
-// 
+//
 // app/lib copy task
-// 
+//
 gulp.task('lib.copy',  function () {
     return gulp.src(paths.lib.copy,{ base: 'app/lib' })
         .pipe(gulp.dest(paths.lib.dist));
 });
 
-// 
+//
 // app/lib js task
-// 
+//
 gulp.task('lib.scripts', function () {
     return gulp.src(paths.lib.scripts)
         .pipe(concat('lib.js'))
@@ -106,8 +108,8 @@ gulp.task('lib.scripts', function () {
         // .pipe(notify({ message: 'Lib compilation completed' }))
 });
 
-// 
-// app/themes copy task 
+//
+// app/themes copy task
 //
 gulp.task('themes.copy', function(){
 
@@ -116,9 +118,9 @@ gulp.task('themes.copy', function(){
 
 });
 
-// 
+//
 // app/themes js task
-// 
+//
 gulp.task('themes.scripts', function () {
 
     /**
@@ -132,21 +134,22 @@ gulp.task('themes.scripts', function () {
 
 });
 
-// 
+//
 // app/themes css task
-// 
+//
 gulp.task('themes.styles', function () {
     return gulp.src(paths.themes.styles,{ base: paths.themes.base })
+        .pipe(sass().on('error', sass.logError))
         .pipe(autoprefix('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
-        .pipe(minifyCSS({
-            processImport: false
-        }))
-        .pipe(gulp.dest(paths.themes.dist));
+        // .pipe(minifyCSS({
+        //     processImport: false
+        // }))
+        .pipe(gulp.dest(paths.themes.dist + '/default/styles'));
 });
 
-// 
+//
 // app/themes images task
-// 
+//
 gulp.task('themes.images', function () {
     return gulp.src(paths.themes.images,{ base: paths.themes.base })
         // .pipe(changed(paths.themeDest))
@@ -154,24 +157,24 @@ gulp.task('themes.images', function () {
         .pipe(gulp.dest(paths.themes.dist));
 });
 
-// 
+//
 // app/themes fonts task
-// 
+//
 gulp.task('themes.fonts', function () {
     return gulp.src(paths.themes.fonts,{ base: paths.themes.base })
         .pipe(gulp.dest(paths.themes.dist));
 });
 
-// 
-// app misc task (txt,htaccess,ico) 
-// 
+//
+// app misc task (txt,htaccess,ico)
+//
 gulp.task('misc', function () {
     return gulp.src(paths.misc)
         .pipe(gulp.dest(paths.dist));
 });
 
 //
-// Run JSHint 
+// Run JSHint
 //
 gulp.task('jshint', function () {
     return gulp.src(paths.jshint)
@@ -179,9 +182,9 @@ gulp.task('jshint', function () {
         .pipe(jshint.reporter(require('jshint-stylish')));
 });
 
-// 
+//
 // app html task (index, themes views)
-// 
+//
 gulp.task('html', function () {
     return gulp.src(paths.html)
         // .pipe(changed(paths.dist))
@@ -197,9 +200,9 @@ gulp.task('html', function () {
         .pipe(gulp.dest(paths.dist));
 });
 
-// 
+//
 // Start livereload server
-// 
+//
 gulp.task('livereload', function(){
     // init express server
     var path = require('path'),
@@ -208,16 +211,19 @@ gulp.task('livereload', function(){
 
     var static_folder = path.join(__dirname, 'dist');
 
-    app.use(express.static(static_folder));
-
-    // single page response 
+    // single page response
     app.get('*',function(req,res){
         res.sendFile(__dirname + '/dist/index.html');
     });
 
+    app.use(modRewrite([
+      '!\\. /index.html [L]'
+    ]))
+    .use(express.static(static_folder));
+
     app.listen( host.port, function() {
 
-        console.log('server started, port '+host.port);
+        console.log('server started: http://localhost:'+host.port);
 
 
         return gulp;
@@ -227,16 +233,16 @@ gulp.task('livereload', function(){
 
 
 gulp.task('watch',function(){
-    
+
     refresh.listen({ basePath: 'dist' });
-    
+
     gulp.start('livereload');
 
     gulp.watch(paths.watch.html,  ['html']);
     gulp.watch(paths.watch.css,   ['themes.styles']);
     gulp.watch(paths.watch.js,    ['scripts']);
     gulp.watch(paths.watch.libs,  ['lib.scripts']);
-})
+});
 
 gulp.task('lib', ['lib.copy','lib.scripts']);
 
@@ -247,3 +253,5 @@ gulp.task('build', ['scripts', 'html','lib','themes','misc']);
 gulp.task('default', ['build'] ,function(){
     gulp.start('watch');
 });
+
+gulp.task('serve', ['default']);
