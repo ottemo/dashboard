@@ -3,7 +3,6 @@
 angular.appConfig = {
   "general.app.foundation_url": "https://api.blitz.ottemo.io",
   "general.app.media_path": "//blitz.ottemo.io/media/",
-  "themes.list.active": "default",
   "general.app.item_per_page": 15
 };
 
