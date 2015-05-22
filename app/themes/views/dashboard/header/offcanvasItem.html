@@ -3,7 +3,7 @@
    href="{{item.link === null ? '' : item.link}}"
    target="{{item.link != null ? '' : '_self'}}"
    ng-class="item.items.length ? dropdown-toggle : ''">
-    <i class="fa fa-fw {{item.icon}}"></i>
+    <i class="fa fa-fw {{item.icon}}" ng-if="item.icon"></i>
     <span>{{item.title}}</span>
     <i class="fa fa-angle-down children-icon" ng-if="item.items.length"></i>
 </a>

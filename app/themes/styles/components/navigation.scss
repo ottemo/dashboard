@@ -35,6 +35,7 @@ body {
     transition: all 0.4s ease;
   }
 
+
   .navbar-user {
     position: absolute;
     bottom: 0;
@@ -62,12 +63,6 @@ body {
     }
   }
 
-  .navbar-top{
-    height: 60px;
-  }
-  .navbar-top span {
-    padding: 0 15px;
-  }
 }
 
 .nav-menu h4 {
@@ -78,9 +73,7 @@ body {
   line-height: 1.8;
 }
 .nav-menu a {
-  width: 100%;
   display: block;
-  height: auto;
   line-height: 1;
   font-size: 16px;
   text-decoration: none;
@@ -102,6 +95,20 @@ body {
     color: $navbar-default-link-active-color;
     transition: all 0.4s ease;
   }
+  &.navbar-branding {
+    height: 60px;
+    line-height: 60px;
+    padding: 1px 0 0 15px;
+    font-size: 22px;
+    color: #fff;
+
+    img {
+      width: 20px;
+      margin-right: 10px;
+      vertical-align: baseline;
+    }
+  }
+
   .fa {
     margin-right: 15px;
   }
@@ -117,12 +124,6 @@ body {
   display: none;
 
   a {
-    background: inherit;
-    padding-left: 30px;
-
-    &:hover {
-      color: #fff;
-      background: #a0caeb;
-    }
+    padding-left: 70px;
   }
 }
