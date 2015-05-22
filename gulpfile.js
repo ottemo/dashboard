@@ -36,7 +36,7 @@ var paths = {
             'app/themes/scripts/**/jquery.flot.js',
             'app/themes/scripts/**/*.js'
         ],
-        styles: 'app/themes/default/styles/style.scss',
+        styles: 'app/themes/styles/style.scss',
         dist: 'dist/themes',
         fonts: 'app/themes/styles/fonts/**/*',
         images: 'app/themes/images/**/*',
@@ -144,7 +144,7 @@ gulp.task('themes.styles', function () {
         // .pipe(minifyCSS({
         //     processImport: false
         // }))
-        .pipe(gulp.dest(paths.themes.dist + '/default/styles'));
+        .pipe(gulp.dest(paths.themes.dist));
 });
 
 //
@@ -211,21 +211,13 @@ gulp.task('livereload', function(){
 
     var static_folder = path.join(__dirname, 'dist');
 
-    // single page response
-    app.get('*',function(req,res){
-        res.sendFile(__dirname + '/dist/index.html');
-    });
-
     app.use(modRewrite([
       '!\\. /index.html [L]'
     ]))
     .use(express.static(static_folder));
 
     app.listen( host.port, function() {
-
         console.log('server started: http://localhost:'+host.port);
-
-
         return gulp;
     });
 })
