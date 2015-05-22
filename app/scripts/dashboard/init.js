@@ -48,10 +48,27 @@ angular.module("dashboardModule", [
     });
     $routeProvider
         .when("/", {
-            templateUrl: angular.getTheme("dashboard/welcome.html"),
-            controller: "dashboardController"
+            templateUrl: "/themes/views/dashboard/welcome.html",
+            controller: "dashboardController",
+            resolve: {
+                'auth' : function($loginLoginService,$q,$location){
+                    var def = $q.defer();
+
+                    $loginLoginService.init().then(function(auth){
+                        console.log('auth',auth);
+                        if (auth)
+                            return def.resolve()
+                        else {
+                            $location.url('/login');
+                        }
+                    })
+                    return def.promise
+                }
+            }
         })
-        .when("/help", { templateUrl: angular.getTheme("help.html")})
+        .when("/help", {
+            templateUrl: "/themes/views/help.html"
+        })
 
         .otherwise({ redirectTo: "/"});
 
@@ -71,5 +88,11 @@ angular.module("dashboardModule", [
         $rootScope.$list = new DashboardListService();
 
         $route.reload();
+
+
+        // content loaded handler
+        $rootScope.$on('LoadingBar:loaded', function(res){
+            $rootScope.contentLoaded = true;
+        });
     }
 ]);

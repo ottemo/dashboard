@@ -1,0 +1,9 @@
+// Variables
+$pwidget-border: #ddd;
+$pwidget-text: #222;
+$pwidget-heading-bg: #fff;
+
+// Styles
+.panel-widget {
+  @include panel-variant($pwidget-border, $pwidget-text, $pwidget-heading-bg, $pwidget-border);
+}

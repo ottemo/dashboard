@@ -14,26 +14,22 @@ angular.module("loginModule", ["ngRoute", "ngResource", "ngCookies"])
             controller: "loginLogoutController"
         })
         .when("/login", {
-            templateUrl: angular.getTheme("login.html"),
-            controller: "loginLoginController"
-        });
-}])
-.run([
-    "$loginLoginService",
-    "$rootScope",
-    "$designService",
-    "$route",
-    function ($loginLoginService, $rootScope, $designService) {
+            templateUrl: "/themes/views/login.html",
+            controller: "loginLoginController",
+            resolve: {
+                'auth' : function($loginLoginService,$q,$location){
+                    var def = $q.defer();
 
-        $rootScope.$on("$locationChangeStart", function () {
-            $loginLoginService.init().then(
-                function(){
-                    if (!$loginLoginService.isLoggedIn()) {
-                        $designService.setTopPage("login.html");
-                    }
+                    $loginLoginService.init().then(function(auth){
+
+                        if (auth)
+                            $location.url('/');
+                        else {
+                            return def.resolve();
+                        }
+                    })
+                    return def.promise
                 }
-            );
+            }
         });
-    }
-]
-);
+}]);

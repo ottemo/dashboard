@@ -10,7 +10,7 @@ angular.module("productModule")
 "$dashboardUtilsService",
 function ($scope, $routeParams, $location, $q, $productApiService, $designImageService, $dashboardUtilsService) {
 
-    var productId, getDefaultProduct, addImageManagerAttribute;
+    var productId, getDefaultProduct, addImageManagerAttribute, addStockValues;
 
     productId = $routeParams.id;
 
@@ -74,6 +74,22 @@ function ($scope, $routeParams, $location, $q, $productApiService, $designImageS
             addImageManagerAttribute();
         });
 
+    addStockValues = function () {
+        $productApiService.getStock({"productID": productId}).$promise.then(
+            function (response) {
+                var result = response.result || {};
+                for (var i = 0; i < result.length; i+=1) {
+                    for (var option in result[i].options) {
+                        if ($scope.product.options[option] !== "undefined") {
+                            $scope.product.options[option].options[result[i].options[option]]["qty"] = result[i].qty;
+                        }
+                    }
+                }
+            }
+        );
+    };
+
+
     /**
      * Gets product data
      */
@@ -88,19 +104,8 @@ function ($scope, $routeParams, $location, $q, $productApiService, $designImageS
                 if (typeof $scope.product.options === "undefined") {
                     $scope.product.options = {};
                 }
+                addStockValues();
                 addImageManagerAttribute();
-            }
-        );
-        $productApiService.getStock({"productID": productId}).$promise.then(
-            function (response) {
-                var result = response.result || {};
-                for (var i = 0; i < result.length; i+=1) {
-                    for (var option in result[i].options) {
-                        if ($scope.product.options[option] !== "undefined") {
-                            $scope.product.options[option].options[result[i].options[option]]["qty"] = result[i].qty;
-                        }
-                    }
-                }
             }
         );
     }

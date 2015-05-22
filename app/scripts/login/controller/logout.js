@@ -7,7 +7,6 @@ angular.module("loginModule")
 function ($scope, $loginLoginService, $location) {
 
     if ($loginLoginService.isLoggedIn()) {
-
         $loginLoginService.logout().then(
             function () {
                 $location.path("/");

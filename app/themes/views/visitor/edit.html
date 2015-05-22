@@ -1,0 +1,23 @@
+<div class="page-header">
+	<h1 ng-if="visitor._id">
+		<span class="fa fa-users"></span>
+		Visitor: {{visitor.first_name}} {{visitor.last_name}}
+	</h1>
+	<h1 ng-if="!visitor._id">
+		<span class="fa fa-users"></span>
+		New visitor
+	</h1>
+</div>
+
+<!-- Message -->
+<gui-message-manager item="message"></gui-message-manager>
+
+<!-- Atributes -->
+<gui-attributes-editor-form-tabs attributes-list="attributes" object="this" item="visitor"></gui-attributes-editor-form-tabs>
+
+<br>
+
+
+<div class="text-center" ng-hide="!visitor._id">
+	<div class="btn btn-primary" ng-click="addressForm()">Addresses</div>
+</div>

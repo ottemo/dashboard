@@ -1,0 +1,22 @@
+<!-- Sidebar -->
+<ng-include src="getTemplate('dashboard/sidebar/view.html')"></ng-include>
+
+<!-- Header view -->
+<ng-include src="getTemplate('dashboard/header.html')"></ng-include>
+
+<!-- Main content -->
+<section class="container-fluid">
+    <ng-view></ng-view>
+</section><!-- main content end-->
+
+<!-- Theme-switcher -->
+<!-- <ng-include src="getTemplate('dashboard/themeSwitcher/view.html')"></ng-include> -->
+
+<!-- Theme-switcher by code -->
+<!-- <ng-include src="getTemplate('dashboard/themeSwitcher/view2.html')"></ng-include> -->
+
+<!-- Scripts -->
+<script src="themes/scripts/main.js"></script>
+
+<!-- processing -->
+<ng-include src="getTemplate('dashboard/processing/view.html')"></ng-include>

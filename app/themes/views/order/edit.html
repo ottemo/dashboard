@@ -1,0 +1,159 @@
+<div class="page-header">
+    <h1 ng-if="order._id">
+        <span class="fa fa-list-alt"></span>
+        Order <strong>№{{order.increment_id}}</strong>
+    </h1>
+    <h1 ng-if="!order._id">
+        <span class="fa fa-list-alt"></span>
+        New order
+    </h1>
+</div>
+
+
+<!-- Error message -->
+<gui-message-manager item="message"></gui-message-manager>
+
+<br>
+<h3 class="text-center">Date: <strong>{{getDate();}}</strong></h3>
+<hr>
+
+<!-- bill to table -->
+<div class="col-sm-5 col-sm-offset-1 col-xs-12 col-xs-offset-0">
+    <h3 class="text-center">
+        Billing Address
+    </h3>
+
+    <!-- bill to info -->
+    <table class="table table-bordered order-details">
+        <tr class="text-left">
+            <td><strong>Company:</strong></td>
+            <td>{{order.billing_address.company}}</td>
+        </tr>
+        <tr class="text-left">
+            <td><strong>Name:</strong></td>
+            <td>{{order.billing_address.last_name}} {{order.billing_address.first_name}}</td>
+        </tr>
+        <tr class="text-left">
+            <td><strong>Address:</strong></td>
+            <td>{{order.billing_address.address_line1}} {{order.billing_address.address_line2}}, {{order.billing_address.city}}</td>
+        </tr>
+        <tr class="text-left">
+            <td><strong>Zip,state,country:</strong></td>
+            <td>{{order.billing_address.zip_code}}, {{order.billing_address.state}}, {{order.billing_address.country}}</td>
+        </tr>
+        <tr class="text-left">
+            <td><strong>Phone:</strong></td>
+            <td>{{order.billing_address.phone}}</td>
+        </tr>
+    </table>
+</div>
+
+<!-- ship to table -->
+<div class="col-sm-5 col-xs-12">
+    <h3 class="text-center">
+        Shipping Address
+    </h3>
+
+    <!-- ship to info -->
+    <table class="table table-bordered order-details">
+        <tr>
+            <td style="width: 60%"><strong>Company:</strong></td>
+            <td>{{order.shipping_address.company}}</td>
+        </tr>
+        <tr>
+            <td style="width: 60%"><strong>Name:</strong></td>
+            <td>{{order.shipping_address.last_name}} {{order.shipping_address.first_name}}</td>
+        </tr>
+        <tr>
+            <td style="width: 60%"><strong>Address:</strong></td>
+            <td>{{order.shipping_address.address_line1}} {{order.shipping_address.address_line2}}, {{order.shipping_address.city}},</td>
+        </tr>
+        <tr>
+            <td style="width: 60%"><strong>Zip,state,country:</strong></td>
+            <td>{{order.shipping_address.zip_code}}, {{order.shipping_address.state}}, {{order.shipping_address.country}}</td>
+        </tr>
+        <tr>
+            <td style="width: 60%"><strong>Phone:</strong></td>
+            <td>{{order.shipping_address.phone}}</td>
+        </tr>
+    </table>
+</div>
+
+<div class="clearfix"></div>
+
+<!-- order table -->
+<div class="col-sm-5 col-sm-offset-1 col-xs-12 col-xs-offset-0">
+    <h3 class="text-center">
+       Order Items
+    </h3>
+
+    <table class="table table-bordered text-left order-details">
+        <tr >
+            <td class="text-left" style="width: 25%"><strong>Name</strong></td>
+            <td class="text-left" style="width: 20%"><strong>SKU</strong></td>
+            <td class="text-center"><strong>Size</strong></td>
+            <td class="text-center"><strong>Quantity</strong></td>
+            <td class="text-center"><strong>Price</strong></td>
+
+        </tr>
+        <tr ng-repeat="product in order.items">
+
+            <!-- product name -->
+            <td class="text-left" style="width: 25%">{{product.Name}}</td>
+
+            <!-- product sku -->
+            <td class="text-left" style="width: 20%">{{product.Sku}}</td>
+
+            <!-- product size -->
+            <td class="text-center" ng-show="product.Options.Size.value != null">{{product.Options.Size.value}}</td>
+
+            <!-- product quantity -->
+            <td class="text-center">{{product.Qty}}</td>
+
+            <!-- product price -->
+            <td class="text-right">{{product.Price | currency}}</td>
+        </tr>
+    </table>
+</div>
+
+<!-- total table -->
+<div class="col-sm-5 col-xs-12">
+    <h3 class="text-center">
+       Order Totals
+    </h3>
+
+    <table class="table table-bordered text-left order-details">
+        <tr>
+            <td class="text-left" style="width: 60%"><strong>Subtotal:</strong></td>
+            <td class="text-right">{{order.subtotal | currency}}</td>
+        </tr>
+        <tr>
+            <td><strong>Shipping:</strong></td>
+            <td class="text-right" style="width: 60%">{{order.shipping_amount | currency}}</td>
+        </tr>
+        <tr>
+            <td class="text-left"><strong>Tax:</strong></td>
+            <td class="text-right" style="width: 60%">{{order.tax_amount | currency}}</td>
+        </tr>
+        <tr>
+            <td class="text-left"><strong>Order Total:</strong></td>
+            <td class="text-right" style="width: 60%">{{order.grand_total | currency}}</td>
+        </tr>
+    </table>
+</div>
+
+<div class="clearfix"></div>
+
+<label class="col-xs-12 col-sm-4 col-sm-offset-4">Change status
+    <select class="form-control" name="status" id="status" ng-model="order.status"
+    ng-init="order.status"
+    ng-options="obj.value as obj.label for obj in statuses"></select>
+</label>
+
+<div class="clearfix"></div>
+<br>
+<div class="text-center">
+    <a class="btn btn-default" ng-click="save()">Save</a>
+    <a class="btn btn-primary" href="#/orders/">Back to orders</a>
+</div>
+<br>

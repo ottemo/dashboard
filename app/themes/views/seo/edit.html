@@ -1,0 +1,19 @@
+<div class="page-header">
+	<h1 ng-if="seo._id">
+		<span class="fa fa-th-list"></span>
+		SEO: {{seo.title}}
+	</h1>
+	<h1 ng-if="!seo._id">
+		<span class="fa fa-th-list"></span>
+		New SEO
+	</h1>
+</div>
+
+<div class="col-xs-12">
+
+	<!-- Error message -->
+    <gui-message-manager item="message"></gui-message-manager>
+
+    <!-- Tabs editor -->
+    <gui-attributes-editor-form-tabs attributes-list="attributes" object="this" item="seo"></gui-attributes-editor-form-tabs>
+</div>
