@@ -1,3 +1,4 @@
+//TODO: GLOBALS! CLEAN UP
 
 var getParentItem, parentItem, transformMenu, prepareLink;
 getParentItem = function (data, field, value) {

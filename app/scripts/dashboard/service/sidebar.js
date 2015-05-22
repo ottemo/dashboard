@@ -1,3 +1,4 @@
+//TODO: GLOBALS! CLEAN UP
 
 var getParentItem, parentItem, transformMenu;
 
@@ -92,12 +93,12 @@ angular.module("dashboardModule")
 
             if(null === p)
                 return p;
-            
-            if ("/" !== p[0]) 
+
+            if ("/" !== p[0])
                return "/" + p;
-            else 
+            else
                return p;
-            
+
         };
 
         sort = ( sort || 0 );
@@ -160,8 +161,8 @@ angular.module("dashboardModule")
 
     var addMenuItem = function (path, label, link) {
         menuItems.push({
-            path: path, 
-            label: label, 
+            path: path,
+            label: label,
             link: prepareLink(link)
         });
     };
