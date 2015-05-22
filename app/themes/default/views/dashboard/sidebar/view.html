@@ -1,19 +1,21 @@
 <!-- Sidebar view -->
-<nav id="offcanvas" class="navmenu hidden-xs" ng-controller="dashboardHeaderController">
+<nav id="offcanvas" class="navmenu hidden-xs" ng-controller="dashboardMenuController">
   <div class="sidebar-wrapper">
     <div class="navbar-user">
-      <img ng-src="{{it.getAvatar()}}" alt="" class="pull-left avatar">
-      <h4 class="pull-left">{{it.getUsername()}}</h4>
+      <img ng-src="{{avatar}}" alt="" class="pull-left avatar">
+      <h4 class="pull-left">{{userName}}</h4>
+      <button class="fa fa-sign-out logout"></button>
     </div>
 
     <div class="navbar-top">
       <a href="/">
         <img ng-src="{{getImg('logo.png')}}" alt=""/>
+        <span>Ottemo</span>
       </a>
     </div>
 
     <!-- Main menu -->
-    <div ng-controller="dashboardSidebarController">
+    <div>
       <div ng-repeat="item in items track by $index"
            ng-include="getTemplate('dashboard/header/offcanvasItem.html')"></div>
     </div>

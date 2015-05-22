@@ -2,19 +2,10 @@ angular.module("dashboardModule")
 /*
 *  HTML top page header manipulator (direct service mapping)
 */
-.controller("dashboardHeaderController", ["$scope", "$dashboardHeaderService", function ($scope, $dashboardHeaderService) {
-$scope.it = $dashboardHeaderService;
-$scope.leftMenu = $dashboardHeaderService.getMenuLeft();
-$scope.rightMenu = $dashboardHeaderService.getMenuRight();
-}])
 
-// .controller("dashboardHeaderController", ["$scope", "$dashboardHeaderService", function ($scope, $dashboardHeaderService) {
-// $scope.it = $dashboardHeaderService;
-// $scope.leftMenu = $dashboardHeaderService.getMenuLeft();
-// $scope.rightMenu = $dashboardHeaderService.getMenuRight();
-// }])
-
-.controller("dashboardSidebarController", ["$scope", "$menuService", function ($scope, $menuService) {
+.controller("dashboardMenuController", ["$scope", "$menuService", "$loginLoginService", function ($scope, $menuService, $loginLoginService) {
+  $scope.avatar = $loginLoginService.getAvatar();
+  $scope.userName = $loginLoginService.getFullName() || "root";
   $scope.items = $menuService;
 }])
 

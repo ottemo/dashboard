@@ -39,26 +39,23 @@ angular.module("dashboardModule")
             "link": "/cms/pages",
             "icon": ""
           }, {
-            "title": "Gallery",
-            "link": "/cms/gallery",
-            "icon": "",
-            "disabled": true
-          }, {
+          //  "title": "Gallery",
+          //  "link": "/cms/gallery",
+          //  "icon": ""
+          //}, {
             "title": "Block",
             "link": "/cms/blocks",
             "icon": ""
           }]
         }, {
-          "title": "Import / Export",
-          "link": "/impex",
-          "icon": "fa fa-exchange",
-          "disabled": true
-        }, {
-          "title": "URL Rewrite",
-          "link": "/seo",
-          "icon": "fa fa-random",
-          "disabled": true
-        }, {
+        //  "title": "Import / Export",
+        //  "link": "/impex",
+        //  "icon": "fa fa-exchange"
+        //}, {
+        //  "title": "URL Rewrite",
+        //  "link": "/seo",
+        //  "icon": "fa fa-random",
+        //}, {
           "title": "Visitors",
           "link": null,
           "icon": "fa fa-users",

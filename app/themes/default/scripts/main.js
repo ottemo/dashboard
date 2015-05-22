@@ -69,6 +69,10 @@ $(document).ready(function () {
 
     }, 2500);
 
+    // logout button on menu bottom
+    $(document).on('click', '#offcanvas .logout', function () {
+        window.location="/logout";
+    });
 
     $(document).on('click', '#switcher-toogle', function () {
         $('#theme_switcher > span.btn').toggleClass('active');
