@@ -2,13 +2,16 @@
 <a class="menu-item"
    href="{{item.link === null ? '' : item.link}}"
    target="{{item.link != null ? '' : '_self'}}"
-   ng-class="(item.items.length &gt 0) ? dropdown-toggle : ''">
-    <i class="{{item.icon}}"></i>&nbsp;
-    <span>{{item.title}}</span>&nbsp;
-    <span class="fa-angle-right fa" ng-if="item.items.length &gt 0"></span>
+   ng-class="item.items.length ? dropdown-toggle : ''">
+    <i class="fa fa-fw {{item.icon}}"></i>
+    <span>{{item.title}}</span>
+    <i class="fa fa-angle-down children-icon" ng-if="item.items.length"></i>
 </a>
 
 <!-- Sub menu -->
-<div class="sub-menu" ng-if="item.items.length &gt 0">
-    <div class="menu-list" ng-repeat="item in item.items track by $index" ng-include="getTemplate('dashboard/header/offcanvasItem.html')"></div>
+<div class="sub-menu" ng-if="item.items.length">
+    <div
+    class="menu-list"
+    ng-repeat="item in item.items track by $index"
+    ng-include="getTemplate('dashboard/header/offcanvasItem.html')"></div>
 </div>

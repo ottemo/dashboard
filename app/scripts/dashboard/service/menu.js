@@ -6,15 +6,15 @@ angular.module("dashboardModule")
         {
           "title": "Dashboard",
           "link": "/",
-          "icon": "fa fa-home"
+          "icon": "fa-home"
         }, {
           "title": "Orders",
           "link": "/orders",
-          "icon": "fa fa-list-alt"
+          "icon": "fa-list-alt"
         }, {
           "title": "Products",
           "link": null,
-          "icon": "fa fa-tags",
+          "icon": "fa-tags",
           "items": [{
             "title": "Products",
             "link": "/products",
@@ -27,11 +27,11 @@ angular.module("dashboardModule")
         }, {
           "title": "Categories",
           "link": "/categories",
-          "icon": "fa fa-th-list"
+          "icon": "fa-th-list"
         }, {
           "title": "CMS",
           "link": null,
-          "icon": "fa fa-indent",
+          "icon": "fa-indent",
           "items": [{
             "title": "Page",
             "link": "/cms/pages",
@@ -48,15 +48,15 @@ angular.module("dashboardModule")
         }, {
         //  "title": "Import / Export",
         //  "link": "/impex",
-        //  "icon": "fa fa-exchange"
+        //  "icon": "fa-exchange"
         //}, {
         //  "title": "URL Rewrite",
         //  "link": "/seo",
-        //  "icon": "fa fa-random",
+        //  "icon": "fa-random",
         //}, {
           "title": "Visitors",
           "link": null,
-          "icon": "fa fa-users",
+          "icon": "fa-users",
           "items": [{
             "title": "Attributes",
             "link": "/v/attributes",
@@ -73,7 +73,7 @@ angular.module("dashboardModule")
         }, {
           "title": "Settings",
           "link": null,
-          "icon": "fa fa-cogs",
+          "icon": "fa-cogs",
           "items": [{
             "title": "General",
             "link": "/settings/general",

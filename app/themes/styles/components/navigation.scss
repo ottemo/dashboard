@@ -12,69 +12,72 @@ body {
 #content {
   min-height: 100%;
 }
-body #offcanvas {
-  left: 0;
-}
-#offcanvas {
-  width: 230px;
-  height: 100%;
-  position: fixed;
-  left: -300px;
-  top: 0;
-  overflow: hidden;
-  z-index: 20;
-  background: #23212c;
-  transition: all 0.4s ease;
-}
-
-#offcanvas.active {
-  left: 0;
-  -webkit-transition: all 0.4s ease;
-  transition: all 0.4s ease;
-}
-#offcanvas .navbar-user{
-  position: absolute;
-  bottom: 0;
-  height: 60px;
-  width: 100%;
-}
-#offcanvas .navbar-top{
-  height: 60px;
-}
-#offcanvas .navbar-top span {
-  padding: 0 15px;
-}
 #loader {
   margin-left: -230px;
   position: absolute;
   width: 100%;
 }
-#offcanvas .logout{
-  display: block;
-  color: #fff;
-  border: none;
-  background: 0 0;
-  font-size: 25px;
-  margin-top: 16px;
-  float: right;
+
+.nav-menu {
+  width: 230px;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  overflow: hidden;
+  z-index: 20;
+  background: $navbar-default-bg;
+  transition: all 0.4s ease;
+
+  &.active {
+    left: 0;
+    -webkit-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+  }
+
+  .navbar-user {
+    position: absolute;
+    bottom: 0;
+    height: 60px;
+    width: 100%;
+
+    .logout{
+      display: block;
+      color: #fff;
+      border: none;
+      background: 0 0;
+      font-size: 25px;
+      margin-top: 16px;
+      float: right;
+    }
+
+    .avatar {
+      border-radius: 50% !important;
+      width: 50px;
+      height: 50px;
+      position: relative;
+      top: 5px;
+      margin-left: 10px;
+      margin-bottom: 5px;
+    }
+  }
+
+  .navbar-top{
+    height: 60px;
+  }
+  .navbar-top span {
+    padding: 0 15px;
+  }
 }
-#offcanvas img.avatar {
-  border-radius: 50% !important;
-  width: 50px;
-  height: 50px;
-  position: relative;
-  top: 5px;
-  margin-left: 10px;
-  margin-bottom: 5px;
-}
-#offcanvas h4 {
+
+.nav-menu h4 {
   color: #fff;
   font-size: 20px;
   font-weight: 300;
   margin-left: 15px;
   line-height: 1.8;
 }
-#offcanvas a {
+.nav-menu a {
   width: 100%;
   display: block;
   height: auto;
@@ -82,41 +85,44 @@ body #offcanvas {
   font-size: 16px;
   text-decoration: none;
   font-weight: 300 !important;
-  color: #fff;
-  padding: 10px 24px 10px 20px;
+  color: $navbar-default-link-color;
+  padding: 15px 0px 15px 15px;
   border-bottom: 1px #343438 solid;
-  background: #23212c;
   position: relative;
   transition: all 0.4s ease;
+
+  &:hover {
+    background: $navbar-default-link-hover-bg;
+    color: $navbar-default-link-hover-color;
+    transition: all 0.4s ease;
+  }
+
+  &.active {
+    background: $navbar-default-link-active-bg;
+    color: $navbar-default-link-active-color;
+    transition: all 0.4s ease;
+  }
+  .fa {
+    margin-right: 15px;
+  }
+  .children-icon {
+    position: absolute;
+    font-size: 14px;
+    right: 0;
+  }
 }
-#offcanvas a:hover {
-  background: #a0caeb;
-  color: #34374a;
-  transition: all 0.4s ease;
-}
-#offcanvas a.active {
-  background: #839caf !important;
-  color: #fff !important;
-  transition: all 0.4s ease;
-}
-#offcanvas a .fa-angle-right {
-  position: absolute;
-  font-size: 14px;
-  right: 20px;
-}
-#offcanvas .sub-menu {
-  background: #292b3d;
-  list-style: none;
-  padding-left: 0;
-  margin-bottom: 0;
+
+.nav-menu .sub-menu {
+  // hidden by default
   display: none;
-}
-#offcanvas .sub-menu a {
-  background: inherit;
-  padding-left: 70px;
-  color: #5a5a5a;
-}
-#offcanvas .sub-menu a:hover {
-  color: #fff;
-  background: #a0caeb;
+
+  a {
+    background: inherit;
+    padding-left: 30px;
+
+    &:hover {
+      color: #fff;
+      background: #a0caeb;
+    }
+  }
 }
