@@ -3,11 +3,11 @@ angular.module("seoModule", ["ngRoute", "ngResource"])
 .config(["$routeProvider", function ($routeProvider) {
     $routeProvider
         .when("/seo", {
-            templateUrl: angular.getTheme("seo/list.html"),
+            templateUrl: "/themes/views/seo/list.html",
             controller: "seoListController"
         })
         .when("/seo/:id", {
-            templateUrl: angular.getTheme("seo/edit.html"),
+            templateUrl: "/themes/views/seo/edit.html",
             controller: "seoIndependentEditController"
         });
     }
@@ -19,13 +19,9 @@ angular.module("seoModule", ["ngRoute", "ngResource"])
     "$designService",
     "$route",
     "$dashboardSidebarService",
-    "$dashboardHeaderService",
-    function ($loginService, $rootScope, $designService, $route, $dashboardSidebarService, $dashboardHeaderService) {
-        $designService.setTopPage("seo/index.html");
-
+    function ($loginService, $rootScope, $designService, $route, $dashboardSidebarService) {
         // NAVIGATION
-        // Adds item in the left top-menu
-        $dashboardHeaderService.addMenuItem("/seo", "URL Rewrite", "/seo");
+        
         // Adds item in the left sidebar
         $dashboardSidebarService.addItem("/seo", "URL Rewrite", "/seo", "fa fa-random", 3);
     }

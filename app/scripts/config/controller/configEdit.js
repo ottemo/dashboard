@@ -79,12 +79,4 @@ angular.module("configModule")
                 return parts[0] + "." + parts[1];
             }
         };
-
-        $scope.isThemeManager = function () {
-            if ("themes" === $scope.currentGroup && "themes_manager" === $scope.sections[0].Editor) {
-                return true;
-            }
-
-            return false;
-        };
 }]);

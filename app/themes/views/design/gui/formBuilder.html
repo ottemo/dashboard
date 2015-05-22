@@ -231,9 +231,11 @@
         </div>
 
         <!-- Pictures manager -->
-        <div class="container text-center" ng-switch-when="picture_manager">
+        <!-- Currently disabled option -->
+
+        <!-- <div class="container text-center" ng-switch-when="picture_manager">
             <gui-picture-manager item="item" parent="parent"></gui-picture-manager>
-        </div>
+        </div> -->
 
         <div class="form-group col-xs-12 col-sm-6" ng-switch-default
              ng-class="{ 'has-error' : (parent.form.submitted && parent.form.{{attribute.Attribute}}.$invalid) ||

@@ -1,20 +1,3 @@
-
-angular.getTheme = function (path) {
-
-return function () {
-    var template, tpl;
-    tpl = "/views/" + path;
-
-    if (angular.isExistFile) {
-        template = "themes/" + angular.appConfigValue("themes.list.active") + tpl;
-    } else {
-        template = "themes/default" + tpl;
-    }
-
-    return template;
-};
-};
-
 /**
 *  Angular "designModule" allows to use themes
 *
@@ -38,10 +21,8 @@ angular.module("designModule",[])
     /**
      *  Global functions you can use in any angular template
      */
-    $rootScope.setTheme = $designService.setTheme;
     $rootScope.getTemplate = $designService.getTemplate;
     $rootScope.getTopPage = $designService.getTopPage;
-    $rootScope.getCss = $designService.getCssList;
     $rootScope.getImg = $designService.getImage;
 
 }]);

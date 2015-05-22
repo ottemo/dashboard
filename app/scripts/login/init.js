@@ -14,32 +14,39 @@ angular.module("loginModule", ["ngRoute", "ngResource", "ngCookies"])
             controller: "loginLogoutController"
         })
         .when("/login", {
-            templateUrl: angular.getTheme("login.html"),
-            controller: "loginLoginController"
+            templateUrl: "/themes/views/login.html",
+            controller: "loginLoginController",
+            resolve: {
+                'auth' : function($loginLoginService,$q,$location){
+                    var def = $q.defer();
+                    
+                    $loginLoginService.init().then(function(auth){
+                        
+                        if (auth)
+                            $location.url('/');
+                        else {
+                            return def.resolve();
+                        }
+                    })
+                    return def.promise
+                }
+            }
         });
 }])
 .run([
     "$loginLoginService",
     "$rootScope",
     "$designService",
-    "$dashboardHeaderService",
-    "$route",
-    function ($loginLoginService, $rootScope, $designService, $dashboardHeaderService) {
+    "$dashboardSidebarService",
+    function ($loginLoginService, $rootScope, $designService,$dashboardSidebarService) {
 
-        $rootScope.$on("$locationChangeStart", function () {
-            $loginLoginService.init().then(
-                function(){
-                    if (!$loginLoginService.isLoggedIn()) {
-                        $designService.setTopPage("login.html");
-                    }
-                }
-            );
-        });
+        // $rootScope.$on("$locationChangeStart", function () {
+            // console.log('$loginLoginService init')
+            // $loginLoginService.init(true);
+        // });
 
-        // NAVIGATION
-        // Adds item in the right top-menu
-        $dashboardHeaderService.addMenuRightItem("/logout", "Log Out", "/logout");
 
+        $dashboardSidebarService.addMenuItem("/logout", "Log Out", "/logout");
     }
 ]
 );

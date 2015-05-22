@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js lt-ie9 lt-ie8" id="ng-app" ng-app="dashboardModule">
+<html class="no-js lt-ie9 lt-ie8" id="ng-app" ng-app="dashboardModule" ng-strict-di>
     <head>
         <base href="/" />
         <meta charset="utf-8">
@@ -7,85 +7,33 @@
         <meta name="description" content="">
         <meta name="keywords" content="">
         <meta name="viewport" content="width=device-width, maximum-scale=1, minimum-scale=1", initial-scale=1, user-scalable=0 />
-        <!-- <script src="lib/jquery-1.11.1.min.js"></script> -->
-        <!-- <script src="lib/bootstrap.js"></script> -->
 
         <script src="lib/lib.js"></script>
         <script src="lib/tinymce/tinymce.min.js"></script>
         <title>Ottemo Dashboard</title>
 
-
-        <link href="themes/default/styles/style.css" rel="stylesheet">
+        <link href="themes/styles/style.css" rel="stylesheet">
 
         <!-- favicon -->
         <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 
         <!--[if lt IE 9]>
-        <script src="lib/html5shiv.js"></script>
-        <script src="lib/respond.min.js"></script>
+            <script src="lib/html5shiv.js"></script>
+            <script src="lib/respond.min.js"></script>
         <![endif]-->
     </head>
 
     <body>
         <!--[if lt IE 7]>
-        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
-        <div id="loader">
-            <div class="progress">
-                <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="100" style="width: 12%">
-                </div>
-            </div>
-        </div>
-
         <!-- main content -->
-        <div id="content" ng-hide="true">
-            <ng-include src="getTopPage()" ></ng-include>
-        </div>
+        <content id="content" src="/themes/views/index.html" ng-show='contentLoaded'/>
 
         <!-- JS libs -->
-        <!-- <script src="lib/require.js"></script> -->
         <script src="scripts/main.js"></script>
+        <script src="themes/scripts/main.js"></script>
 
-        <script src="themes/default/scripts/main.js"></script>
-
-        <!-- jQuery Flot Chart-->
-        <script src="themes/default/scripts/flot-chart/jquery.flot.js"></script>
-        <script src="themes/default/scripts/flot-chart/jquery.flot.tooltip.js"></script>
-        <script src="themes/default/scripts/flot-chart/jquery.flot.resize.js"></script>
-        <script src="themes/default/scripts/flot-chart/jquery.flot.pie.resize.js"></script>
-        <script src="themes/default/scripts/flot-chart/jquery.flot.selection.js"></script>
-        <script src="themes/default/scripts/flot-chart/jquery.flot.stack.js"></script>
-        <script src="themes/default/scripts/flot-chart/jquery.flot.time.js"></script>
-
-        <div id="theme_container"></div>
-        <style id="code_container">
-            #code_container {display: none !important;}
-        </style>
-
-        <script>
-            $(window).load(function() {
-                setTimeout(function(){
-                    $('#loader .progress-bar').animate({
-                        width: '60%'},
-                        200, function() {
-                        setTimeout(function(){
-                            $('#loader .progress-bar').animate({
-                                width: '100%'},
-                                200, function() {
-                                    $('#loader').animate({
-                                        opacity: 0},
-                                        400, function() {
-                                        $(this).css('display', 'none');
-                                        setTimeout(function(){
-                                            $('#content').removeClass('ng-hide');
-                                        },100)
-                                    });
-                            });
-                        },500)
-                    });
-                },200)
-            });
-        </script>
     </body>
 </html>

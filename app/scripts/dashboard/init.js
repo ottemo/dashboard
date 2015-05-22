@@ -48,10 +48,27 @@ angular.module("dashboardModule", [
     });
     $routeProvider
         .when("/", {
-            templateUrl: angular.getTheme("dashboard/welcome.html"),
-            controller: "dashboardController"
+            templateUrl: "/themes/views/dashboard/welcome.html",
+            controller: "dashboardController",
+            resolve: {
+                'auth' : function($loginLoginService,$q,$location){
+                    var def = $q.defer();
+
+                    $loginLoginService.init().then(function(auth){
+                        console.log('auth',auth);
+                        if (auth)
+                            return def.resolve()
+                        else {
+                            $location.url('/login');
+                        }
+                    })
+                    return def.promise
+                }
+            }
         })
-        .when("/help", { templateUrl: angular.getTheme("help.html")})
+        .when("/help", { 
+            templateUrl: "/themes/views/help.html"
+        })
 
         .otherwise({ redirectTo: "/"});
         
@@ -62,10 +79,9 @@ angular.module("dashboardModule", [
     "$rootScope",
     "$route",
     "$http",
-    "$designService",
     "$dashboardSidebarService",
     "$dashboardListService",
-    function ($rootScope, $route, $http, $designService, $dashboardSidebarService, DashboardListService) {
+    function ($rootScope, $route, $http,  $dashboardSidebarService, DashboardListService) {
         // ajax cookies support fix
         $http.defaults.withCredentials = true;
         delete $http.defaults.headers.common["X-Requested-With"];
@@ -75,5 +91,11 @@ angular.module("dashboardModule", [
         $rootScope.$list = new DashboardListService();
 
         $route.reload();
+
+
+        // content loaded handler
+        $rootScope.$on('LoadingBar:loaded', function(res){
+            $rootScope.contentLoaded = true;
+        });
     }
 ]);
