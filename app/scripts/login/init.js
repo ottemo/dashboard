@@ -14,7 +14,7 @@ angular.module("loginModule", ["ngRoute", "ngResource", "ngCookies"])
             controller: "loginLogoutController"
         })
         .when("/login", {
-            templateUrl: angular.getTheme("login.html"),
+            templateUrl: "/themes/views/login.html",
             controller: "loginLoginController",
             resolve: {
                 'auth' : function($loginLoginService,$q,$location){

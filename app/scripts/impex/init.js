@@ -6,7 +6,7 @@ angular.module("impexModule", ["ngRoute", "ngResource"])
 .config(["$routeProvider", function ($routeProvider) {
     $routeProvider
         .when("/impex", {
-            templateUrl: angular.getTheme("impex/main.html"),
+            templateUrl: "/themes/views/impex/main.html",
             controller: "impexController"
         });
 }])

@@ -21,10 +21,8 @@ angular.module("designModule",[])
     /**
      *  Global functions you can use in any angular template
      */
-    // $rootScope.setTheme = $designService.setTheme;
     $rootScope.getTemplate = $designService.getTemplate;
     $rootScope.getTopPage = $designService.getTopPage;
-    // $rootScope.getCss = $designService.getCssList;
     $rootScope.getImg = $designService.getImage;
 
 }]);

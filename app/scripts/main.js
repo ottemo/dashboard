@@ -8,13 +8,8 @@ angular.appConfig = {
 };
 
 angular.appConfigValue = function (valueName) {
-    if (typeof angular.appConfig[valueName] !== "undefined") {
-        return angular.appConfig[valueName];
-    } 
-    return "";
+    if (typeof angular.appConfig[valueName] !== "undefined")
+      return angular.appConfig[valueName];
+    else
+      return ""
 };
-
-angular.getTheme = function(theme){
-  return '/themes/views/'+ theme.replace(/^[/]*/,'');
-}
-

@@ -25,31 +25,31 @@ angular.module("visitorModule", ["ngRoute", "ngResource", "designModule"])
               VISITOR_ATTRIBUTES_URL, VISITOR_ATTRIBUTE_DETAIL_URL,VISITOR_EMAILS) {
         $routeProvider
             .when(VISITOR_LIST_URL, {
-                templateUrl: angular.getTheme("visitor/list.html"),
+                templateUrl: "/themes/views/visitor/list.html",
                 controller: "visitorListController"
             })
             .when(VISITOR_DETAIL_URL, {
-                templateUrl: angular.getTheme("visitor/edit.html"),
+                templateUrl: "/themes/views/visitor/edit.html",
                 controller: "visitorEditController"
             })
             .when(VISITOR_ADDRESSES_URL, {
-                templateUrl: angular.getTheme("visitor/address/list.html"),
+                templateUrl: "/themes/views/visitor/address/list.html",
                 controller: "visitorAddressListController"
             })
             .when(VISITOR_ADDRESSES_DETAIL_URL, {
-                templateUrl: angular.getTheme("visitor/address/edit.html"),
+                templateUrl: "/themes/views/visitor/address/edit.html",
                 controller: "visitorAddressEditController"
             })
             .when(VISITOR_ATTRIBUTES_URL, {
-                templateUrl: angular.getTheme("visitor/attribute/list.html"),
+                templateUrl: "/themes/views/visitor/attribute/list.html",
                 controller: "visitorAttributeListController"
             })
             .when(VISITOR_ATTRIBUTE_DETAIL_URL, {
-                templateUrl: angular.getTheme("visitor/attribute/edit.html"),
+                templateUrl: "/themes/views/visitor/attribute/edit.html",
                 controller: "visitorAttributeEditController"
             })
             .when(VISITOR_EMAILS, {
-                templateUrl: angular.getTheme("visitor/send-email.html"),
+                templateUrl: "/themes/views/visitor/send-email.html",
                 controller: "visitorEmailController"
             });
     }]

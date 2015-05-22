@@ -7,10 +7,6 @@ angular.module("dashboardModule")
     this.latencyThreshold = 100;
     this.startSize = 0.02;
     this.parentSelector = 'body';
-    // defaul 
-    // this.spinnerTemplate = '<div id="loading-bar-spinner"><div class="spinner-icon"></div></div>';
-    // this.loadingBarTemplate = '<div id="loading-bar" ><div class="bar"><div class="peg"></div></div></div>';
-
     this.spinnerTemplate = '<div id="loading-bar-spinner"><div class="spinner-icon"></div></div>';
     this.loadingBarTemplate = '<div id="loading-bar">'+
       '<div class="progress">'+
@@ -26,10 +22,6 @@ angular.module("dashboardModule")
         // loadingBar = loadingBarContainer.find('div').eq(0),
         loadingBar = loadingBarContainer.find('div').eq(1),
         spinner = angular.element(this.spinnerTemplate);
-
-      console.log('loadingBarContainer', loadingBarContainer);
-      console.log('loadingBar', loadingBar);
-
 
       var incTimeout,
         completeTimeout,

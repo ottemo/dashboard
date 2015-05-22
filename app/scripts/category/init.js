@@ -6,11 +6,11 @@ angular.module("categoryModule", ["ngRoute", "ngResource", "designModule"])
 .config(["$routeProvider", function ($routeProvider) {
     $routeProvider
         .when("/categories", {
-            templateUrl: angular.getTheme("category/list.html"),
+            templateUrl: "/themes/views/category/list.html",
             controller: "categoryListController"
         })
         .when("/category/:id", {
-            templateUrl: angular.getTheme("category/edit.html"),
+            templateUrl: "/themes/views/category/edit.html",
             controller: "categoryEditController"
         });
 }])

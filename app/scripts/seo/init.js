@@ -3,11 +3,11 @@ angular.module("seoModule", ["ngRoute", "ngResource"])
 .config(["$routeProvider", function ($routeProvider) {
     $routeProvider
         .when("/seo", {
-            templateUrl: angular.getTheme("seo/list.html"),
+            templateUrl: "/themes/views/seo/list.html",
             controller: "seoListController"
         })
         .when("/seo/:id", {
-            templateUrl: angular.getTheme("seo/edit.html"),
+            templateUrl: "/themes/views/seo/edit.html",
             controller: "seoIndependentEditController"
         });
     }
@@ -20,8 +20,6 @@ angular.module("seoModule", ["ngRoute", "ngResource"])
     "$route",
     "$dashboardSidebarService",
     function ($loginService, $rootScope, $designService, $route, $dashboardSidebarService) {
-        // $designService.setTopPage("seo/index.html");
-
         // NAVIGATION
         
         // Adds item in the left sidebar

@@ -78,6 +78,7 @@ gulp.task('scripts', function () {
   return gulp.src(paths.scripts)
     .pipe(sourcemaps.init())
     .pipe(concat('main.js'))
+    .pipe(gulp.dest(paths.dist+'/scripts/raw'))
     .pipe(ngAnnotate())
     .pipe(uglify())
     .pipe(sourcemaps.write('./maps'))

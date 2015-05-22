@@ -48,7 +48,7 @@ angular.module("dashboardModule", [
     });
     $routeProvider
         .when("/", {
-            templateUrl: angular.getTheme("dashboard/welcome.html"),
+            templateUrl: "/themes/views/dashboard/welcome.html",
             controller: "dashboardController",
             resolve: {
                 'auth' : function($loginLoginService,$q,$location){
@@ -66,7 +66,9 @@ angular.module("dashboardModule", [
                 }
             }
         })
-        .when("/help", { templateUrl: angular.getTheme("help.html")})
+        .when("/help", { 
+            templateUrl: "/themes/views/help.html"
+        })
 
         .otherwise({ redirectTo: "/"});
         
