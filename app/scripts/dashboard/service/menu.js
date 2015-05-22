@@ -1,7 +1,5 @@
 angular.module("dashboardModule")
-  /*
-   *  $pageSidebarService implementation
-   */
+
   .service("$menuService", [function () {
 
       return [
