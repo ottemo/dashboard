@@ -13,8 +13,8 @@ function ($scope, $location, $routeParams, $q, DashboardListService, $cmsApiServ
     serviceList = new DashboardListService();
     showColumns = {
         'identifier' : {'type' : 'select-link', 'label' : 'Name'},
-        'created_at' : {'label' : 'Creation Date'},
-        'updated_at' : {'label' : 'Last Updated'}
+        'created_at' : {'label' : 'Creation Date', 'type' : 'date'},
+        'updated_at' : {'label' : 'Last Updated', 'type' : 'date'}
     };
 
     $scope.idsSelectedRows = {};
