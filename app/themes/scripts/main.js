@@ -25,4 +25,17 @@ $(document).ready(function () {
     $(document).on('click', '.modal-dialog table tbody tr td:first-child input', function (event) {
         event.stopPropagation();
     });
+
+    // click on element of offcanvas
+    $(document).on('click', '#offcanvas a.menu-item', function (event) {
+        if ($(this).attr('href') === '') {
+            event.preventDefault();
+            $('#offcanvas .sub-menu').not($(this).next()).slideUp(300);
+            $(this).next('.sub-menu').slideToggle(300);
+        } else {
+            $('#offcanvas a.menu-item').removeClass('active');
+            $(this).addClass('active');
+        }
+    });
+
 });
