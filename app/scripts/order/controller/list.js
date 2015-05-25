@@ -17,7 +17,8 @@ function ($rootScope, $scope, $location, $routeParams, $q, DashboardListService,
         'status' : {},
         'customer_email' : {},
         'customer_name' : {},
-        'grand_total' : {'label' : 'Total', 'filter' : 'range', 'type' : 'price'}
+        'grand_total' : {'label' : 'Total', 'filter' : 'range', 'type' : 'price'},
+        'created_at' : {'label' : 'Date', 'type' : 'date'}
     };
 
     $scope.idsSelectedRows = {};

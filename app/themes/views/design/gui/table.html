@@ -5,7 +5,7 @@
         <gui-paginator object="this"></gui-paginator>
 
         <br>
-       
+
         <div class="table-pagination-row">
 
             <!-- Delete/New buttons -->
@@ -34,10 +34,10 @@
                     {{field.label || field.attribute}}&nbsp;&nbsp;&nbsp;
                 </label>
             </div>
-            
+
             <div class="clearfix"></div>
         </div>
-        
+
         <br>
 
         <div class="table-responsive">
@@ -79,7 +79,7 @@
                         <td class="checkboxes-column">
                             <input type="checkbox" ng-if="!_item.IsStatic" ng-model="parent.idsSelectedRows[_item[map.id]]">
                         </td>
-                        <td ng-click="parent.select(_item[map.id])" ng-repeat="field in parent.fields" ng-show="field.visible" 
+                        <td ng-click="parent.select(_item[map.id])" ng-repeat="field in parent.fields" ng-show="field.visible"
                         ng-class="{'select-link': field.type ==='select-link'}">
                             <span ng-switch="field.type">
 
@@ -92,6 +92,9 @@
                                 <!-- Currency -->
                                 <span ng-switch-when="price">{{_item[field.attribute] | currency}}</span>
                                 <span ng-switch-when="currency">{{_item[field.attribute] | currency}}</span>
+
+                                <!-- Date -->
+                                <span ng-switch-when="date">{{_item[field.attribute] | date:"MM/dd/yyyy h:mma"}}</span>
 
                                 <!-- Link -->
                                 <span ng-switch-when="select-link">
