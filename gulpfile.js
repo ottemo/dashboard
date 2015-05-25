@@ -233,7 +233,7 @@ gulp.task('watch',function(){
     gulp.watch(paths.watch.html,  ['html']);
     gulp.watch(paths.watch.css,   ['themes.styles']);
     gulp.watch(paths.watch.js,    ['scripts']);
-    gulp.watch(paths.watch.libs,  ['lib.scripts']);
+    gulp.watch(paths.watch.lib,  ['lib.scripts']);
 });
 
 gulp.task('lib', ['lib.copy','lib.scripts']);

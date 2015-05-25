@@ -55,7 +55,7 @@ angular.module("dashboardModule", [
                     var def = $q.defer();
 
                     $loginLoginService.init().then(function(auth){
-                        console.log('auth',auth);
+
                         if (auth)
                             return def.resolve()
                         else {
