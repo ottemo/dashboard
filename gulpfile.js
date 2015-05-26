@@ -57,6 +57,7 @@ var paths = {
         html: ["app/**/*.html"],
         css: ["app/**/*.scss"],
         js: ["app/scripts/**/*.js"],
+        jsThemes: ["app/themes/**/*.js"],
         lib: ["app/lib/**/*.js"]
     }
 };
@@ -139,11 +140,13 @@ gulp.task('themes.scripts', function () {
 //
 gulp.task('themes.styles', function () {
     return gulp.src(paths.themes.styles,{ base: paths.themes.base })
+        .pipe(sourcemaps.init())
         .pipe(sass().on('error', sass.logError))
         .pipe(autoprefix('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
         // .pipe(minifyCSS({
         //     processImport: false
         // }))
+        .pipe(sourcemaps.write('./maps'))
         .pipe(gulp.dest(paths.themes.dist));
 });
 
@@ -230,10 +233,11 @@ gulp.task('watch',function(){
 
     gulp.start('livereload');
 
-    gulp.watch(paths.watch.html,  ['html']);
-    gulp.watch(paths.watch.css,   ['themes.styles']);
-    gulp.watch(paths.watch.js,    ['scripts']);
-    gulp.watch(paths.watch.lib,  ['lib.scripts']);
+    gulp.watch(paths.watch.html,     ['html']);
+    gulp.watch(paths.watch.css,      ['themes.styles']);
+    gulp.watch(paths.watch.js,       ['scripts']);
+    gulp.watch(paths.watch.jsThemes, ['themes.scripts']);
+    gulp.watch(paths.watch.lib,      ['lib.scripts']);
 });
 
 gulp.task('lib', ['lib.copy','lib.scripts']);
