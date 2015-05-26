@@ -1,3 +1,8 @@
+// TODO:
+// * monitor route change:
+//   * update visibility toggle for xs, and sm
+//   * add "active:true" to matching menu item
+//
 angular.module("dashboardModule")
 
   .service("$menuService", [function () {
