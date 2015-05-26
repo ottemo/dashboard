@@ -19,9 +19,9 @@ angular.module("loginModule", ["ngRoute", "ngResource", "ngCookies"])
             resolve: {
                 'auth' : function($loginLoginService,$q,$location){
                     var def = $q.defer();
-                    
+
                     $loginLoginService.init().then(function(auth){
-                        
+
                         if (auth)
                             $location.url('/');
                         else {
@@ -32,21 +32,4 @@ angular.module("loginModule", ["ngRoute", "ngResource", "ngCookies"])
                 }
             }
         });
-}])
-.run([
-    "$loginLoginService",
-    "$rootScope",
-    "$designService",
-    "$dashboardSidebarService",
-    function ($loginLoginService, $rootScope, $designService,$dashboardSidebarService) {
-
-        // $rootScope.$on("$locationChangeStart", function () {
-            // console.log('$loginLoginService init')
-            // $loginLoginService.init(true);
-        // });
-
-
-        $dashboardSidebarService.addMenuItem("/logout", "Log Out", "/logout");
-    }
-]
-);
+}]);

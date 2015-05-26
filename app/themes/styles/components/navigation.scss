@@ -1,0 +1,165 @@
+$nav-width: 230px;
+html,
+body {
+  overflow-x: hidden;
+  height: auto;
+  min-height: 100%;
+}
+body {
+  height: auto;
+  min-height: 100%;
+  @media (min-width: 769px) {
+    padding-left: $nav-width;
+  }
+}
+#content {
+  min-height: 100%;
+}
+#loader {
+  margin-left: -$nav-width;
+  position: absolute;
+  width: 100%;
+}
+
+.navbar-brand {
+  font-size: 22px;
+}
+.navbar-brand > img {
+  display: inline-block;
+  height: 20px;
+  vertical-align: top;
+  position: relative;
+  top: -2px;
+  margin-right: 10px;
+}
+
+.nav-menu {
+  position: fixed;
+  right: -$nav-width;
+  top: 0;
+
+  width: $nav-width;
+  height: 100%;
+
+  overflow: hidden;
+  z-index: 20;
+  background: $navbar-default-bg;
+  transition: all 0.4s ease;
+
+  &.nav-menu--active {
+    right:0;
+    -webkit-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+  }
+  @media (min-width: 769px) {
+    left:0;
+    right: auto;
+  }
+
+
+  .navbar-user {
+    position: absolute;
+    bottom: 0;
+    height: 60px;
+    width: 100%;
+
+    .logout{
+      display: block;
+      color: #fff;
+      border: none;
+      background: 0 0;
+      font-size: 25px;
+      margin-top: 16px;
+      float: right;
+    }
+
+    .avatar {
+      border-radius: 50% !important;
+      width: 50px;
+      height: 50px;
+      position: relative;
+      top: 5px;
+      margin-left: 10px;
+      margin-bottom: 5px;
+    }
+  }
+
+}
+
+.nav-menu h4 {
+  color: #fff;
+  font-size: 20px;
+  font-weight: 300;
+  margin-left: 15px;
+  line-height: 1.8;
+}
+.nav-menu {
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+
+  a {
+    display: block;
+    line-height: 1;
+    font-size: 16px;
+    text-decoration: none;
+    font-weight: 300 !important;
+    color: $navbar-default-link-color;
+    padding: 15px 0px 15px 15px;
+    border-bottom: 1px #343438 solid;
+    position: relative;
+    transition: all 0.4s ease;
+
+    &:hover {
+      background: $navbar-default-link-hover-bg;
+      color: $navbar-default-link-hover-color;
+      transition: all 0.4s ease;
+    }
+    &.active {
+      background: $navbar-default-link-active-bg;
+      color: $navbar-default-link-active-color;
+      transition: all 0.4s ease;
+    }
+  }
+
+
+  .navbar-branding {
+    height: 59px;
+    line-height: 59px;
+    padding: 1px 0 0 15px;
+    font-size: 22px;
+    color: #fff;
+
+    img {
+      width: 20px;
+      margin-right: 10px;
+      vertical-align: baseline;
+    }
+  }
+
+  .fa {
+    margin-right: 15px;
+  }
+  .children-icon {
+    position: absolute;
+    font-size: 14px;
+    right: 0;
+  }
+}
+
+.nav-menu {
+  .sub-menu {
+    // hidden by default, playing with max-height lets us animate it
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .5s;
+
+    a {
+      padding-left: 70px;
+    }
+  }
+  .open .sub-menu {
+    max-height: 400px;
+  }
+}

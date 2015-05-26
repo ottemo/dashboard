@@ -21,17 +21,4 @@ angular.module("cmsModule", ["ngRoute", "ngResource", "designModule"])
             templateUrl: "/themes/views/cms/block-edit.html",
             controller: "cmsBlockEditController"
         })
-}])
-
-.run([ "$route", "$dashboardSidebarService",
-
-    function ( $route, $dashboardSidebarService) {
-
-        // NAVIGATION
-
-        // Adds item in the left sidebar
-        $dashboardSidebarService.addItem("/cms", "CMS", null, "fa fa-indent", 60);
-        $dashboardSidebarService.addItem("/cms/pages", "Page", "/cms/pages", "", 2);
-        $dashboardSidebarService.addItem("/cms/blocks", "Block", "/cms/blocks", "", 1);
-    }
-]);
+}]);

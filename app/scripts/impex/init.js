@@ -9,15 +9,4 @@ angular.module("impexModule", ["ngRoute", "ngResource"])
             templateUrl: "/themes/views/impex/main.html",
             controller: "impexController"
         });
-}])
-
-.run(["$designService", "$route", "$dashboardSidebarService",
-
-    function ($designService, $route, $dashboardSidebarService) {
-
-        // NAVIGATION
-
-        // Adds item in the left sidebar
-        $dashboardSidebarService.addItem("/impex", "Import / Export", "/impex", "fa fa-exchange", 3);
-    }
-]);
+}]);

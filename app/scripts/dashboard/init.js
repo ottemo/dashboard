@@ -55,7 +55,7 @@ angular.module("dashboardModule", [
                     var def = $q.defer();
 
                     $loginLoginService.init().then(function(auth){
-                        console.log('auth',auth);
+
                         if (auth)
                             return def.resolve()
                         else {
@@ -66,12 +66,12 @@ angular.module("dashboardModule", [
                 }
             }
         })
-        .when("/help", { 
+        .when("/help", {
             templateUrl: "/themes/views/help.html"
         })
 
         .otherwise({ redirectTo: "/"});
-        
+
     $locationProvider.html5Mode(true);
 }])
 
@@ -79,14 +79,11 @@ angular.module("dashboardModule", [
     "$rootScope",
     "$route",
     "$http",
-    "$dashboardSidebarService",
     "$dashboardListService",
-    function ($rootScope, $route, $http,  $dashboardSidebarService, DashboardListService) {
+    function ($rootScope, $route, $http, DashboardListService) {
         // ajax cookies support fix
         $http.defaults.withCredentials = true;
         delete $http.defaults.headers.common["X-Requested-With"];
-
-        $dashboardSidebarService.addItem("/dashboard", "Dashboard", "", "fa fa-home", 100);
 
         $rootScope.$list = new DashboardListService();
 

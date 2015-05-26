@@ -137,7 +137,7 @@ mark,
 
 .page-header {
   padding-bottom: (($line-height-computed / 2) - 1);
-  margin: $line-height-computed 0;
+  margin: ($line-height-computed / 2) 0 $line-height-computed 0;
   border-bottom: 1px solid $page-header-border-color;
 
   h1 {

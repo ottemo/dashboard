@@ -1,27 +1,9 @@
 angular.module("dashboardModule")
 
-.controller("dashboardHeaderController", ["$scope","$loginLoginService","$dashboardSidebarService",  function ($scope,$loginLoginService,$dashboardSidebarService) {
-    $scope.it = {
-
-        getUsername: function () {
-            return $loginLoginService.getFullName() || "root";
-        },
-
-        getAvatar: function () {
-            return $loginLoginService.getAvatar();
-        },
-    }
-    $scope.rightMenu = $dashboardSidebarService.getMenuItems();
-
-    $scope.isNavVisible = function(){
-        // if location path is /login - hidden
-        return window.location.pathname !== '/login'
-    }
-}])
-
-.controller("dashboardSidebarController", ["$scope", "$dashboardSidebarService", function ($scope, $dashboardSidebarService) {
-    $scope.it = $dashboardSidebarService;
-    $scope.items = $dashboardSidebarService.getItems();
+.controller("dashboardMenuController", ["$scope", "$menuService", "$loginLoginService", function ($scope, $menuService, $loginLoginService) {
+    $scope.avatar = $loginLoginService.getAvatar();
+    $scope.userName = $loginLoginService.getFullName() || "root";
+    $scope.items = $menuService;
 }])
 
 .controller("dashboardController", [

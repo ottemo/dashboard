@@ -13,16 +13,4 @@ angular.module("orderModule", ["ngRoute", "ngResource", "designModule"])
             templateUrl: "/themes/views/order/edit.html",
             controller: "orderEditController"
         });
-}])
-
-.run(["$designService", "$route", "$dashboardSidebarService",
-
-    function ($designService, $route, $dashboardSidebarService) {
-
-        // NAVIGATION
-       
-        // Adds item in the left sidebar
-        $dashboardSidebarService.addItem("/order", "Orders", "/orders", "fa fa-list-alt", 5);
-    }
-]);
-
+}]);

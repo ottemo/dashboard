@@ -1,8 +1,8 @@
 "use strict";
 
 angular.appConfig = {
-  "general.app.foundation_url": "https://api.blitz.ottemo.io",
-  "general.app.media_path": "//blitz.ottemo.io/media/",
+  "general.app.foundation_url": "https://foundation.richkids.dev.ottemo.io",
+  "general.app.media_path": "//richkidsbrand.com/media/",
   "general.app.item_per_page": 15
 };
 

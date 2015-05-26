@@ -11,18 +11,4 @@ angular.module("seoModule", ["ngRoute", "ngResource"])
             controller: "seoIndependentEditController"
         });
     }
-])
-
-.run([
-    "$loginLoginService",
-    "$rootScope",
-    "$designService",
-    "$route",
-    "$dashboardSidebarService",
-    function ($loginService, $rootScope, $designService, $route, $dashboardSidebarService) {
-        // NAVIGATION
-        
-        // Adds item in the left sidebar
-        $dashboardSidebarService.addItem("/seo", "URL Rewrite", "/seo", "fa fa-random", 3);
-    }
 ]);

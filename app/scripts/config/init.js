@@ -10,24 +10,4 @@ angular.module("configModule", ["ngRoute", "ngResource", "designModule"])
             templateUrl: "/themes/views/config/edit.html",
             controller: "configEditController"
         });
-}])
-
-.run([
-    "$route",
-    "$dashboardSidebarService",
-    "$configService",
-    function ( $route, $dashboardSidebarService, $configService) {
-
-        // Adds item in the left sidebar
-        $dashboardSidebarService.addItem("/settings", "Settings", null, "fa fa-cogs", 2);
-
-        $configService.init().then(
-            function () {
-                var sections = $configService.getConfigGroups();
-                for (var i = 0; i < sections.length; i += 1) {
-                    $dashboardSidebarService.addItem("/settings/" + sections[i].Id, sections[i].Name, "/settings/" + sections[i].Id, "", i);
-                }
-            }
-        );
-    }
-]);
+}]);
