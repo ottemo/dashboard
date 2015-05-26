@@ -27,14 +27,19 @@ $(document).ready(function () {
     });
 
     // click on element of offcanvas
-    $(document).on('click', '#offcanvas a.menu-item', function (event) {
-        if ($(this).attr('href') === '') {
+    $(document).on('click', '#offcanvas .menu-item a', function (event) {
+        // toggle active state
+        $('#offcanvas .active').removeClass('active');
+        $(this).addClass('active');
+
+        // toggle open state
+        var isParentOpen = $(this).parents('.menu-item.open').length;
+        if (!isParentOpen) {
+            $('#offcanvas .menu-item.open').removeClass('open');
+        }
+        if ($(this).is('.dropdown-toggle')) {
             event.preventDefault();
-            $('#offcanvas .sub-menu').not($(this).next()).slideUp(300);
-            $(this).next('.sub-menu').slideToggle(300);
-        } else {
-            $('#offcanvas a.menu-item').removeClass('active');
-            $(this).addClass('active');
+            $(this).parents('.menu-item').addClass('open');
         }
     });
 

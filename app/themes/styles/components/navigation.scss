@@ -72,29 +72,37 @@ body {
   margin-left: 15px;
   line-height: 1.8;
 }
-.nav-menu a {
-  display: block;
-  line-height: 1;
-  font-size: 16px;
-  text-decoration: none;
-  font-weight: 300 !important;
-  color: $navbar-default-link-color;
-  padding: 15px 0px 15px 15px;
-  border-bottom: 1px #343438 solid;
-  position: relative;
-  transition: all 0.4s ease;
-
-  &:hover {
-    background: $navbar-default-link-hover-bg;
-    color: $navbar-default-link-hover-color;
-    transition: all 0.4s ease;
+.nav-menu {
+  ul {
+    margin: 0;
+    padding: 0;
   }
 
-  &.active {
-    background: $navbar-default-link-active-bg;
-    color: $navbar-default-link-active-color;
+  a {
+    display: block;
+    line-height: 1;
+    font-size: 16px;
+    text-decoration: none;
+    font-weight: 300 !important;
+    color: $navbar-default-link-color;
+    padding: 15px 0px 15px 15px;
+    border-bottom: 1px #343438 solid;
+    position: relative;
     transition: all 0.4s ease;
+
+    &:hover {
+      background: $navbar-default-link-hover-bg;
+      color: $navbar-default-link-hover-color;
+      transition: all 0.4s ease;
+    }
+    &.active {
+      background: $navbar-default-link-active-bg;
+      color: $navbar-default-link-active-color;
+      transition: all 0.4s ease;
+    }
   }
+
+
   &.navbar-branding {
     height: 60px;
     line-height: 60px;
@@ -119,11 +127,18 @@ body {
   }
 }
 
-.nav-menu .sub-menu {
-  // hidden by default
-  display: none;
+.nav-menu {
+  .sub-menu {
+    // hidden by default, playing with max-height lets us animate it
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .5s;
 
-  a {
-    padding-left: 70px;
+    a {
+      padding-left: 70px;
+    }
+  }
+  .open .sub-menu {
+    max-height: 400px;
   }
 }
