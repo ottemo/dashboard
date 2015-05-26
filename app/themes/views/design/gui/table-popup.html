@@ -3,7 +3,7 @@
 
         <!-- Pagination -->
         <gui-paginator object="this"></gui-paginator>
-        
+
         <!-- Columns filter -->
         <div class="text-center" ng-if="parent.fields.length > 1">
             <label class="checkbox-inline" ng-repeat="field in parent.fields" ng-hide="field.notDisable">
@@ -13,9 +13,9 @@
                 &nbsp;&nbsp;&nbsp;
             </label>
         </div>
-        
+
         <br>
-        
+
         <div class="table-responsive">
             <table class="table table-hover table-bordered table-striped">
                 <thead>
@@ -75,6 +75,9 @@
                                 <span ng-switch-when="price">{{_item[field.attribute] | currency}}</span>
                                 <span ng-switch-when="currency">{{_item[field.attribute] | currency}}</span>
 
+                                <!-- Date -->
+                                <span ng-switch-when="date">{{_item[field.attribute] | date:"MM/dd/yyyy h:mma"}}</span>
+
                                 <!-- Link -->
                                 <span ng-switch-when="select-link">
                                     <div ng-click="parent.select(_item[map.id])">{{_item[field.attribute]}}</div>
@@ -91,7 +94,7 @@
 
         <!-- Pagination -->
         <gui-paginator object="this"></gui-paginator>
-        
+
         <div class="text-center">
             <div class="btn btn-primary" ng-click="parent.remove()" ng-if="buttons.delete">Delete</div>
             <div class="btn btn-primary" ng-click="parent.create()" ng-if="buttons.new">New</div>
