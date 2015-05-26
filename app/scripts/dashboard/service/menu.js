@@ -2,6 +2,8 @@
 // * monitor route change:
 //   * update visibility toggle for xs, and sm
 //   * add "active:true" to matching menu item
+// * add "afix" class to body when menu is open, so that the body doesn't scroll
+// * let the menu scroll
 //
 angular.module("dashboardModule")
 
@@ -90,10 +92,6 @@ angular.module("dashboardModule")
           }, {
             "title": "Shipping",
             "link": "/settings/shipping",
-            "icon": ""
-          }, {
-            "title": "Themes",
-            "link": "/settings/themes",
             "icon": ""
           }]
         }]
