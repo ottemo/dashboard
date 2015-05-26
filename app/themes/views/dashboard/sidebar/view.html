@@ -24,7 +24,7 @@ class="nav-menu"
 ng-class="{'nav-menu--active': isMenuActive}"
 ng-controller="dashboardMenuController">
 	<div class="sidebar-wrapper">
-		<div class="navbar-user">
+		<div class="navbar-user hidden-xs">
 			<img ng-src="{{avatar}}" alt="" class="pull-left avatar">
 			<h4 class="pull-left">{{userName}}</h4>
 			<button class="fa fa-sign-out logout"></button>
@@ -41,6 +41,12 @@ ng-controller="dashboardMenuController">
 			class="menu-item"
 			ng-repeat="item in items"
 			ng-include="getTemplate('dashboard/header/offcanvasItem.html')"></li>
+
+			<li class="visible-xs">
+				<a class="menu-item" href="/logout">
+					<i class="fa fa-fw fa-sign-out"></i> Log Out
+				</a>
+			</li>
 		</ul>
 	</div>
 </nav>
