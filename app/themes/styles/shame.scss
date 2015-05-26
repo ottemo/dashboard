@@ -41,25 +41,7 @@ h2.title span {
   position: relative;
   top: 2px;
 }
-.navbar {
-  height: auto !important;
-  min-height: 0 !important;
-}
-.main-menu {
-  float: none !important;
-  width: 100% !important;
-  text-align: center !important;
-}
-.main-menu > li {
-  float: none !important;
-  display: inline-block;
-}
-.main-menu > li > a > i,
-.navbar-right li a .fa {
-  font-size: 20px !important;
-  position: relative !important;
-  top: 3px !important;
-}
+
 input.range {
   width: 80px !important;
 }
