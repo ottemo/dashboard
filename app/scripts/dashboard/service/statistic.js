@@ -75,8 +75,8 @@ function ($api, $q, moment) {
     var getVisitsDetail = function () {
 
         var options = {
-            "from": moment().subtract(1, 'day').format('YYYY-MM-DD'),
-            "to": moment().format('YYYY-MM-DD'),
+            "from": moment().format('YYYY-MM-DD'),
+            "to": moment().add(1,'day').format('YYYY-MM-DD'),
             "tz": _getTz()
         }
 
@@ -91,8 +91,8 @@ function ($api, $q, moment) {
 
     var getSalesDetail = function () {
         var options = {
-            "from": moment().subtract(1, 'day').format('YYYY-MM-DD'),
-            "to": moment().format('YYYY-MM-DD'),
+            "from": moment().format('YYYY-MM-DD'),
+            "to": moment().add(1,'day').format('YYYY-MM-DD'),
             "tz": _getTz()
         }
 
