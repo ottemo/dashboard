@@ -65,7 +65,13 @@ function ($scope, $location, $statistic, $designImageService, $dashboardUtilsSer
           spacingRight: 0,
           backgroundColor: 'rgba(0,0,0,0)'
       },
-
+      plotOptions: {
+          series: {
+            marker: {
+                enabled: false
+            }
+          }
+      },
       yAxis: {
         labels: {
           style: {
@@ -77,7 +83,12 @@ function ($scope, $location, $statistic, $designImageService, $dashboardUtilsSer
         '#325D88',
         '#DFD7CA'
       ],
-      legend: { enabled: false }
+      legend: { enabled: false },
+      tooltip: {
+          formatter: function() {
+              return this.series.name + ' @ ' + moment(this.x).format('ha') + ': ' + this.y;
+          }
+      }
     });
 
     var graphSettings = {
@@ -105,27 +116,28 @@ function ($scope, $location, $statistic, $designImageService, $dashboardUtilsSer
         size: { height: 260 }
     }
 
-    function formatTimeSeries(payload) {
-        return payload.map(function(point){
-            var pointTime = point[0];
-            pointTime = moment.unix(pointTime).valueOf();
-
-            return [pointTime, point[1]];
-        });
-    }
-
+    // Copy these settings over
     $scope.salesGraph = angular.copy(graphSettings);
     $scope.visitorGraph = angular.copy(graphSettings);
 
+    // Sales is in dollars, so update that label
     $scope.salesGraph.yAxis.labels = {format : '${value}'};
-    $statistic.getSalesDetail().then(function(data){
-        var formattedData = formatTimeSeries(data);
-        $scope.salesGraph.series = [{data: formattedData, name: 'Total Sales'}];
-    });
 
-    $statistic.getVisitsDetail().then(function(data){
-        var formattedData = formatTimeSeries(data);
-        $scope.visitorGraph.series = [{data: formattedData, name: 'Total Visitors'}];
-    });
+    // Poll for data, commented out for now until we are sure we are reporting on
+    // good data, maybe we want to only poll for today too...
+
+    // (function tick(){
+        $statistic.getSalesDetail().then(function(dataSets){
+            $scope.salesGraph.series = dataSets;
+            // $timeout(tick, pollingRate);
+        });
+    // })();
+
+    // (function tick(){
+        $statistic.getVisitsDetail().then(function(dataSets){
+            $scope.visitorGraph.series = dataSets;
+            // $timeout(tick, pollingRate);
+        });
+    // })();
 
 }]);

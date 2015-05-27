@@ -72,36 +72,58 @@ function ($api, $q, moment) {
         });
     };
 
+    var _processDetailResponse = function(points) {
+        // TODO: sorting should be done on the server
+        var points = points.sort(function(a,b){
+            return (a[0] > b[0]) ? 1 : -1;
+        });
+
+        // Split into two sets
+        var set1 = points.splice(0,24).map(function(point){
+            var pointTime = point[0];
+            pointTime = moment.unix(pointTime).add(1,'day').valueOf();
+
+            return [pointTime, point[1]];
+        });
+
+        var set2 = points.map(function(point){
+            var pointTime = point[0];
+            pointTime = moment.unix(pointTime).valueOf();
+
+            return [pointTime, point[1]];
+        });
+
+        // z-index insures that today is on top
+        var dataSets = [
+            {name: 'Today', data: set2, zIndex: 2},
+            {name: 'Yesterday', data: set1, zIndex: 1},
+        ];
+
+        return dataSets;
+    }
+
     var getVisitsDetail = function () {
 
         var options = {
-            "from": moment().format('YYYY-MM-DD'),
+            "from": moment().subtract(1,'day').format('YYYY-MM-DD'),
             "to": moment().add(1,'day').format('YYYY-MM-DD'),
             "tz": _getTz()
-        }
+        };
 
         return $api.getVisitsDetails(options).$promise.then(function (response) {
-            // TODO: sorting should be done on the server
-            var result = response.result.sort(function(a,b){
-                return (a[0] > b[0]) ? 1 : -1;
-            })
-            return result
+            return _processDetailResponse(response.result);
         });
     };
 
     var getSalesDetail = function () {
         var options = {
-            "from": moment().format('YYYY-MM-DD'),
+            "from": moment().subtract(1,'day').format('YYYY-MM-DD'),
             "to": moment().add(1,'day').format('YYYY-MM-DD'),
             "tz": _getTz()
-        }
+        };
 
         return $api.getSalesDetails(options).$promise.then(function (response) {
-            // TODO: sorting should be done on the server
-            var result = response.result.sort(function(a,b){
-                return (a[0] > b[0]) ? 1 : -1;
-            })
-            return result
+            return _processDetailResponse(response.result);
         });
     };
 
