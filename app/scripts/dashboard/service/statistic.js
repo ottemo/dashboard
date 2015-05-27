@@ -13,34 +13,9 @@ function ($api, $q, moment) {
     }
 
     var getReferrers = function () {
-        var defer;
-        defer = $q.defer();
-
-        $api.getReferrers().$promise.then(function (response) {
-            var result, url, referrers;
-
-            result = response.result || [];
-            referrers = [];
-
-            if (null === response.error) {
-                for (url in result) {
-                    if (result.hasOwnProperty(url)) {
-                        referrers.push({
-                            "url": url,
-                            "count": result[url]
-                        });
-                    }
-                }
-                referrers = referrers.sort(function (a, b) {
-                    return a.count < b.count;
-                });
-                defer.resolve(referrers);
-            } else {
-                defer.resolve(referrers);
-            }
+        return $api.getReferrers().$promise.then(function (response) {
+            return response.result;
         });
-
-        return defer.promise;
     };
 
     var getVisits = function () {
@@ -127,21 +102,17 @@ function ($api, $q, moment) {
         });
     };
 
-    var getConversions = function () {
-        var defer, getPercents, today, tz;
-        defer = $q.defer();
-        today = new Date();
-        tz = -today.getTimezoneOffset()/60;
 
-        getPercents = function (val, total) {
+    var getConversions = function () {
+        var tz = _getTz()
+
+        var getPercents = function (val, total) {
             return Math.round((Math.abs(val/total) * 100) * 100) / 100 || 0;
         };
 
-        $api.getConversions({"tz": tz}).$promise.then(function (response) {
-            var result, conversion;
-
-            result = response.result || [];
-            conversion = {};
+        return $api.getConversions({"tz": tz}).$promise.then(function (response) {
+            var result = response.result || [];
+            var conversion = {};
 
             if (null === response.error) {
                 conversion.addedToCart = result["addedToCart"];
@@ -156,10 +127,8 @@ function ($api, $q, moment) {
                 conversion.totalVisitors = result["totalVisitors"];
             }
 
-            defer.resolve(conversion);
+            return conversion;
         });
-
-        return defer.promise;
     };
 
     var getTopSellers = function () {
