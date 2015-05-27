@@ -58,7 +58,7 @@ function ($scope, $location, $statistic, $designImageService, $dashboardUtilsSer
         });
     })();
 
-    // UTC messes us up because we are realtime
+    // Highcharts settings that we can't adjust from ngHighcharts
     Highcharts.setOptions({
       chart: {
           spacingLeft: 15,
@@ -79,43 +79,6 @@ function ($scope, $location, $statistic, $designImageService, $dashboardUtilsSer
       ],
       legend: { enabled: false }
     });
-
-    function formatPayload(payload) {
-        return payload.map(function(point){
-            var pointTime = point[0];
-            pointTime = moment.unix(pointTime).valueOf();
-
-            // return [pointTime, point[1]]
-            return [pointTime,  Math.floor(Math.random() * 500 + 500) ];
-        });
-    }
-
-    var yesterday = [
-        [1432684800,0],
-        [1432688400,0],
-        [1432692000,0],
-        [1432695600,0],
-        [1432699200,0],
-        [1432702800,0],
-        [1432706400,0],
-        [1432710000,0],
-        [1432713600,0],
-        [1432717200,0],
-        [1432720800,0],
-        [1432724400,0],
-        [1432728000,0],
-        [1432731600,0],
-        [1432735200,0],
-        [1432738800,0],
-        [1432742400,1],
-        [1432746000,0],
-        [1432749600,0],
-        [1432753200,0],
-        [1432756800,0],
-        [1432760400,0],
-        [1432764000,0],
-        [1432767600,0],
-    ];
 
     var graphSettings = {
         options: {
@@ -142,11 +105,27 @@ function ($scope, $location, $statistic, $designImageService, $dashboardUtilsSer
         size: { height: 260 }
     }
 
+    function formatTimeSeries(payload) {
+        return payload.map(function(point){
+            var pointTime = point[0];
+            pointTime = moment.unix(pointTime).valueOf();
+
+            return [pointTime, point[1]];
+        });
+    }
+
     $scope.salesGraph = angular.copy(graphSettings);
     $scope.visitorGraph = angular.copy(graphSettings);
 
     $scope.salesGraph.yAxis.labels = {format : '${value}'};
-    $scope.salesGraph.series = [{data: formatPayload(yesterday), name: 'Total Sales'}];
-    $scope.visitorGraph.series = [{data: formatPayload(yesterday), name: 'Total Visitors'}];
+    $statistic.getSalesDetail().then(function(data){
+        var formattedData = formatTimeSeries(data);
+        $scope.salesGraph.series = [{data: formattedData, name: 'Total Sales'}];
+    });
+
+    $statistic.getVisitsDetail().then(function(data){
+        var formattedData = formatTimeSeries(data);
+        $scope.visitorGraph.series = [{data: formattedData, name: 'Total Visitors'}];
+    });
 
 }]);
