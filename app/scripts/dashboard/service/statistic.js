@@ -163,36 +163,9 @@ function ($api, $q, moment) {
     };
 
     var getTopSellers = function () {
-        var defer;
-        defer = $q.defer();
-
-        $api.getTopSellers().$promise.then(function (response) {
-            var result, topSellers;
-
-            result = response.result || [];
-            topSellers = [];
-
-            if (null === response.error) {
-                for (var productId in result) {
-                    if (result.hasOwnProperty(productId)) {
-                        topSellers.push({
-                            "id": productId,
-                            "name": result[productId]["Name"],
-                            "image": result[productId]["Image"],
-                            "count": result[productId]["Count"]
-                        });
-                    }
-                }
-                topSellers = topSellers.sort(function (a, b) {
-                    return (a.count < b.count);
-                });
-                defer.resolve(topSellers);
-            } else {
-                defer.resolve(topSellers);
-            }
+        return $api.getTopSellers().$promise.then(function (response) {
+            return response.result;
         });
-
-        return defer.promise;
     };
 
     var getVisitorsOnline = function () {

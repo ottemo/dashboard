@@ -16,6 +16,11 @@ angular.module("dashboardModule")
 "moment",
 function ($scope, $location, $statistic, $designImageService, $dashboardUtilsService, $timeout, moment) {
 
+    //TODO: delete this when images are attached to products
+    $scope.getProductImage = function (image) {
+        return $designImageService.getFullImagePath("", image);
+    };
+
     /*
     Static Data Points
      */
@@ -32,14 +37,14 @@ function ($scope, $location, $statistic, $designImageService, $dashboardUtilsSer
 
     // TOP SELLERS
     $statistic.getTopSellers().then(function (data) {
-        // $scope.topSellers = $dashboardUtilsService.sortObjectsArrayByField(data, 'count', 'int', "DESC");
+        $scope.topSellers = data;
     });
 
 
     /*
     Live Data Points
      */
-    var pollingRate = 10 * 1000; // ms
+    var pollingRate = 10 * 1000; // 10s
 
 
     // Visit Stats
@@ -123,7 +128,7 @@ function ($scope, $location, $statistic, $designImageService, $dashboardUtilsSer
     // Sales is in dollars, so update that label
     $scope.salesGraph.yAxis.labels = {format : '${value}'};
 
-    // Poll for data, commented out for now until we are sure we are reporting on
+    // TODO: Poll for data, commented out for now until we are sure we are reporting on
     // good data, maybe we want to only poll for today too...
 
     // (function tick(){
