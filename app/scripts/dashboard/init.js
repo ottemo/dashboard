@@ -1,9 +1,15 @@
 angular.module("dashboardModule", [
+    // Angular
     "ngRoute",
     "ngResource",
     "ngSanitize",
     "ngAnimate",
     "ngCookies",
+
+    // Lib
+    "ui.odometer",
+
+    // Ottemo
     "loginModule",
     "designModule",
     "categoryModule",
