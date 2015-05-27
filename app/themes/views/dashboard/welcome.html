@@ -30,16 +30,14 @@
                         </tr>
                         <tr>
                             <th>Last 7 Days</th>
-                            <td>{{salesStats.sales.sales.week | currency}}</td>
+                            <td>{{salesStats.sales.week | currency}}</td>
                             <td>{{salesStats.orders.week}}</td>
                         </tr>
                     </tbody>
                 </table>
 
-                <div id="visitors-chart">
-                    <div id="visitors-container" style="width: 100%; height:155px;">
-                        {{initVisitorsChart()}}
-                    </div>
+                <div class="chart-widget">
+                    <highchart config="salesGraph"></highchart>
                 </div>
             </div>
         </div>
@@ -57,26 +55,24 @@
                     <tbody>
                         <tr class="table-dashboard__highlight">
                             <th>Today</th>
-                            <td><span odometer="visitStats.visits.today"></span> views</td>
-                            <td><span odometer="visitStats.unique.today"></span> visitors</td>
+                            <td><span odometer="visitStats.total.today"></span></td>
+                            <td><span odometer="visitStats.unique.today"></span></td>
                         </tr>
                         <tr>
                             <th>Yesterday</th>
-                            <td>{{visitStats.visits.yesterday}} views</td>
-                            <td>{{visitStats.unique.yesterday}} visitors</td>
+                            <td>{{visitStats.total.yesterday}}</td>
+                            <td>{{visitStats.unique.yesterday}}</td>
                         </tr>
                         <tr>
                             <th>Last 7 Days</th>
-                            <td>{{visitStats.visits.week}} views</td>
-                            <td>{{visitStats.unique.week}} visitors</td>
+                            <td>{{visitStats.total.week}}</td>
+                            <td>{{visitStats.unique.week}}</td>
                         </tr>
                     </tbody>
                 </table>
 
-                <div id="sales-chart">
-                    <div id="sales-container" style="width: 100%; height:155px;">
-                        {{initSalesChart()}}
-                    </div>
+                <div class="chart-widget">
+                    <highchart config="visitorGraph" class="chart"></highchart>
                 </div>
             </div>
         </div>

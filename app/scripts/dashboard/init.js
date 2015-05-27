@@ -8,6 +8,8 @@ angular.module("dashboardModule", [
 
     // Lib
     "ui.odometer",
+    "highcharts-ng",
+    "moment",
 
     // Ottemo
     "loginModule",

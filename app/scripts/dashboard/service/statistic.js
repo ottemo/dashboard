@@ -5,11 +5,14 @@ angular.module("dashboardModule")
 .service("$dashboardStatisticService", [
 "$dashboardApiService",
 "$q",
-function ($api, $q) {
+"moment",
+function ($api, $q, moment) {
 
-    var getVisitorsOnline, getTopSellers, getReferrers, getVisits, getSales, getVisitsDetail, getSalesDetail, getConversions;
+    var _getTz = function() {
+        return moment().utcOffset() / 60;
+    }
 
-    getReferrers = function () {
+    var getReferrers = function () {
         var defer;
         defer = $q.defer();
 
@@ -40,79 +43,32 @@ function ($api, $q) {
         return defer.promise;
     };
 
-    getVisits = function () {
-        var defer, today, tz;
-        defer = $q.defer();
-        today = new Date();
-        tz = -today.getTimezoneOffset()/60;
+    var getVisits = function () {
+        var tz = _getTz();
 
-        $api.getVisits({"tz": tz}).$promise.then(function (response) {
-            var result, visits;
+        return $api.getVisits({"tz": tz}).$promise.then(function (response) {
 
-            result = response.result || [];
-            visits = {
-                "today": 0,
-                "yesterday": 0,
-                "ratio": 0,
-                "higher": true,
-                "lower": false
+            var defaults = {
+                visits: {today: 0, yesterday: 0, week: 0},
+                unique: {today: 0, yesterday: 0, week: 0}
             };
-
-            if (null === response.error) {
-                visits = {
-                    "today": result.visitsToday,
-                    "yesterday": result.visitsYesterday,
-                    "ratio": Math.round((Math.abs(result.ratio) * 100) * 100) / 100,
-                    "higher": result.ratio >= 0,
-                    "lower": result.ratio < 0
-                };
-
-                defer.resolve(visits);
-            } else {
-                defer.resolve(visits);
-            }
+            return response.result || defaults;
         });
-
-        return defer.promise;
     };
 
-    getSales = function () {
-        var defer, today, tz;
-        defer = $q.defer();
-        today = new Date();
-        tz = -today.getTimezoneOffset()/60;
+    var getSales = function () {
+        var tz = _getTz();
 
-        $api.getSales({"tz": tz}).$promise.then(function (response) {
-            var result, sales;
-
-            result = response.result || [];
-            sales = {
-                "today": 0,
-                "yesterday": 0,
-                "ratio": 0,
-                "higher": true,
-                "lower": false
+        return $api.getSales({"tz": tz}).$promise.then(function (response) {
+            var defaults = {
+                sales: {today: 0, yesterday: 0, week: 0},
+                orders: {today: 0, yesterday: 0, week: 0}
             };
-
-            if (null === response.error) {
-                sales = {
-                    "today": result.today,
-                    'yesterday': result.yesterday,
-                    "ratio": Math.round((Math.abs(result.ratio) * 100) * 100) / 100,
-                    "higher": result.ratio >= 0,
-                    "lower": result.ratio < 0
-                };
-
-                defer.resolve(sales);
-            } else {
-                defer.resolve(sales);
-            }
+            return response.result || defaults;
         });
-
-        return defer.promise;
     };
 
-    getVisitsDetail = function (from, to, tz) {
+    var getVisitsDetail = function (from, to, tz) {
         var defer;
         defer = $q.defer();
 
@@ -142,7 +98,7 @@ function ($api, $q) {
         return defer.promise;
     };
 
-    getSalesDetail = function (from, to, tz) {
+    var getSalesDetail = function (from, to, tz) {
         var defer;
         defer = $q.defer();
 
@@ -172,7 +128,7 @@ function ($api, $q) {
         return defer.promise;
     };
 
-    getConversions = function () {
+    var getConversions = function () {
         var defer, getPercents, today, tz;
         defer = $q.defer();
         today = new Date();
@@ -207,7 +163,7 @@ function ($api, $q) {
         return defer.promise;
     };
 
-    getTopSellers = function () {
+    var getTopSellers = function () {
         var defer;
         defer = $q.defer();
 
@@ -240,7 +196,7 @@ function ($api, $q) {
         return defer.promise;
     };
 
-    getVisitorsOnline = function () {
+    var getVisitorsOnline = function () {
         var defer;
         defer = $q.defer();
 
@@ -269,6 +225,7 @@ function ($api, $q) {
 
         return defer.promise;
     };
+
     return {
         getReferrers: getReferrers,
         getVisits: getVisits,
