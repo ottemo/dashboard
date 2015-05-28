@@ -156,10 +156,15 @@ body {
     transition: max-height .5s;
 
     a {
-      padding-left: 70px;
+      padding-left: 55px;
     }
   }
-  .open .sub-menu {
-    max-height: 400px;
+  .open {
+    a {
+      background: $navbar-default-link-active-bg;
+    }
+    .sub-menu {
+      max-height: 400px;
+    }
   }
 }
