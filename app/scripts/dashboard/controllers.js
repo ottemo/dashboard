@@ -91,7 +91,7 @@ function ($scope, $location, $statistic, $designImageService, $dashboardUtilsSer
       legend: { enabled: false },
       tooltip: {
           formatter: function() {
-              return this.series.name + ' @ ' + moment(this.x).format('ha') + ': ' + this.y;
+              return this.series.name + ' @ ' + moment.utc(this.x).format('ha') + ': ' + this.y;
           }
       }
     });
