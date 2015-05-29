@@ -1,4 +1,6 @@
 $nav-width: 230px;
+$nav-break: 991px;
+
 html,
 body {
   overflow-x: hidden;
@@ -8,7 +10,7 @@ body {
 body {
   height: auto;
   min-height: 100%;
-  @media (min-width: 769px) {
+  @media (min-width: $nav-break) {
     padding-left: $nav-width;
   }
 }
@@ -51,7 +53,7 @@ body {
     -webkit-transition: all 0.4s ease;
     transition: all 0.4s ease;
   }
-  @media (min-width: 769px) {
+  @media (min-width: $nav-break) {
     left:0;
     right: auto;
   }

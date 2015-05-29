@@ -5,188 +5,114 @@ angular.module("dashboardModule")
 .service("$dashboardStatisticService", [
 "$dashboardApiService",
 "$q",
-function ($api, $q) {
+"moment",
+function ($api, $q, moment) {
 
-    var getVisitorsOnline, getTopSellers, getReferrers, getVisits, getSales, getVisitsDetail, getSalesDetail, getConversions;
+    var _getTz = function() {
+        return moment().utcOffset() / 60;
+    }
 
-    getReferrers = function () {
-        var defer;
-        defer = $q.defer();
-
-        $api.getReferrers().$promise.then(function (response) {
-            var result, url, referrers;
-
-            result = response.result || [];
-            referrers = [];
-
-            if (null === response.error) {
-                for (url in result) {
-                    if (result.hasOwnProperty(url)) {
-                        referrers.push({
-                            "url": url,
-                            "count": result[url]
-                        });
-                    }
-                }
-                referrers = referrers.sort(function (a, b) {
-                    return a.count < b.count;
-                });
-                defer.resolve(referrers);
-            } else {
-                defer.resolve(referrers);
-            }
+    var getReferrers = function () {
+        return $api.getReferrers().$promise.then(function (response) {
+            return response.result;
         });
-
-        return defer.promise;
     };
 
-    getVisits = function () {
-        var defer, today, tz;
-        defer = $q.defer();
-        today = new Date();
-        tz = -today.getTimezoneOffset()/60;
+    var getVisits = function () {
+        var tz = _getTz();
 
-        $api.getVisits({"tz": tz}).$promise.then(function (response) {
-            var result, visits;
+        return $api.getVisits({"tz": tz}).$promise.then(function (response) {
 
-            result = response.result || [];
-            visits = {
-                "today": 0,
-                "yesterday": 0,
-                "ratio": 0,
-                "higher": true,
-                "lower": false
+            var defaults = {
+                // total: {today: 0, yesterday: 0, week: 0},
+                total: {today: moment().milliseconds(), yesterday: 0, week: 0},
+                unique: {today: 0, yesterday: 0, week: 0}
             };
-
-            if (null === response.error) {
-                visits = {
-                    "today": result.visitsToday,
-                    "yesterday": result.visitsYesterday,
-                    "ratio": Math.round((Math.abs(result.ratio) * 100) * 100) / 100,
-                    "higher": result.ratio >= 0,
-                    "lower": result.ratio < 0
-                };
-
-                defer.resolve(visits);
-            } else {
-                defer.resolve(visits);
-            }
+            // return defaults
+            return response.result || defaults;
         });
-
-        return defer.promise;
     };
 
-    getSales = function () {
-        var defer, today, tz;
-        defer = $q.defer();
-        today = new Date();
-        tz = -today.getTimezoneOffset()/60;
+    var getSales = function () {
+        var tz = _getTz();
 
-        $api.getSales({"tz": tz}).$promise.then(function (response) {
-            var result, sales;
-
-            result = response.result || [];
-            sales = {
-                "today": 0,
-                "yesterday": 0,
-                "ratio": 0,
-                "higher": true,
-                "lower": false
+        return $api.getSales({"tz": tz}).$promise.then(function (response) {
+            var defaults = {
+                // sales: {today: 0, yesterday: 0, week: 0},
+                sales: {today: moment().milliseconds() * 102, yesterday: 0, week: 0},
+                orders: {today: 0, yesterday: 0, week: 0}
             };
+            // return defaults
+            return response.result || defaults;
+        });
+    };
 
-            if (null === response.error) {
-                sales = {
-                    "today": result.today,
-                    'yesterday': result.yesterday,
-                    "ratio": Math.round((Math.abs(result.ratio) * 100) * 100) / 100,
-                    "higher": result.ratio >= 0,
-                    "lower": result.ratio < 0
-                };
-
-                defer.resolve(sales);
-            } else {
-                defer.resolve(sales);
-            }
+    var _processDetailResponse = function(points) {
+        // TODO: sorting should be done on the server
+        var points = points.sort(function(a,b){
+            return (a[0] > b[0]) ? 1 : -1;
         });
 
-        return defer.promise;
+        // Split into two sets
+        var set1 = points.splice(0,24).map(function(point){
+            var pointTime = point[0];
+            pointTime = moment.unix(pointTime).add(1,'day').valueOf();
+
+            return [pointTime, point[1]];
+        });
+
+        var set2 = points.map(function(point){
+            var pointTime = point[0];
+            pointTime = moment.unix(pointTime).valueOf();
+
+            return [pointTime, point[1]];
+        });
+
+        // z-index insures that today is on top
+        var dataSets = [
+            {name: 'Today', data: set2, zIndex: 2},
+            {name: 'Yesterday', data: set1, zIndex: 1},
+        ];
+
+        return dataSets;
+    }
+
+    var getVisitsDetail = function () {
+
+        var options = {
+            "from": moment().subtract(1,'day').format('YYYY-MM-DD'),
+            "to": moment().add(1,'day').format('YYYY-MM-DD'),
+            "tz": _getTz()
+        };
+
+        return $api.getVisitsDetails(options).$promise.then(function (response) {
+            return _processDetailResponse(response.result);
+        });
     };
 
-    getVisitsDetail = function (from, to, tz) {
-        var defer;
-        defer = $q.defer();
+    var getSalesDetail = function () {
+        var options = {
+            "from": moment().subtract(1,'day').format('YYYY-MM-DD'),
+            "to": moment().add(1,'day').format('YYYY-MM-DD'),
+            "tz": _getTz()
+        };
 
-        $api.getVisitsDetails({
-            "from": from,
-            "to": to,
-            "tz": tz
-        }).$promise.then(function (response) {
-                var result, timestamp, dataChart;
-
-                result = response.result || [];
-                dataChart = [];
-
-                if (null === response.error) {
-                    for (timestamp in result) {
-                        if (result.hasOwnProperty(timestamp)) {
-                            dataChart.push([timestamp * 1000, result[timestamp]]);
-                        }
-                    }
-
-                    defer.resolve(dataChart);
-                } else {
-                    defer.resolve(dataChart);
-                }
-            });
-
-        return defer.promise;
+        return $api.getSalesDetails(options).$promise.then(function (response) {
+            return _processDetailResponse(response.result);
+        });
     };
 
-    getSalesDetail = function (from, to, tz) {
-        var defer;
-        defer = $q.defer();
 
-        $api.getSalesDetails({
-            "from": from,
-            "to": to,
-            "tz": tz
-        }).$promise.then(function (response) {
-                var result, timestamp, dataChart;
+    var getConversions = function () {
+        var tz = _getTz()
 
-                result = response.result || [];
-                dataChart = [];
-
-                if (null === response.error) {
-                    for (timestamp in result) {
-                        if (result.hasOwnProperty(timestamp)) {
-                            dataChart.push([timestamp * 1000, result[timestamp]]);
-                        }
-                    }
-
-                    defer.resolve(dataChart);
-                } else {
-                    defer.resolve(dataChart);
-                }
-            });
-
-        return defer.promise;
-    };
-
-    getConversions = function () {
-        var defer, getPercents, today, tz;
-        defer = $q.defer();
-        today = new Date();
-        tz = -today.getTimezoneOffset()/60;
-
-        getPercents = function (val, total) {
+        var getPercents = function (val, total) {
             return Math.round((Math.abs(val/total) * 100) * 100) / 100 || 0;
         };
 
-        $api.getConversions({"tz": tz}).$promise.then(function (response) {
-            var result, conversion;
-
-            result = response.result || [];
-            conversion = {};
+        return $api.getConversions({"tz": tz}).$promise.then(function (response) {
+            var result = response.result || [];
+            var conversion = {};
 
             if (null === response.error) {
                 conversion.addedToCart = result["addedToCart"];
@@ -201,46 +127,17 @@ function ($api, $q) {
                 conversion.totalVisitors = result["totalVisitors"];
             }
 
-            defer.resolve(conversion);
+            return conversion;
         });
-
-        return defer.promise;
     };
 
-    getTopSellers = function () {
-        var defer;
-        defer = $q.defer();
-
-        $api.getTopSellers().$promise.then(function (response) {
-            var result, topSellers;
-
-            result = response.result || [];
-            topSellers = [];
-
-            if (null === response.error) {
-                for (var productId in result) {
-                    if (result.hasOwnProperty(productId)) {
-                        topSellers.push({
-                            "id": productId,
-                            "name": result[productId]["Name"],
-                            "image": result[productId]["Image"],
-                            "count": result[productId]["Count"]
-                        });
-                    }
-                }
-                topSellers = topSellers.sort(function (a, b) {
-                    return (a.count < b.count);
-                });
-                defer.resolve(topSellers);
-            } else {
-                defer.resolve(topSellers);
-            }
+    var getTopSellers = function () {
+        return $api.getTopSellers().$promise.then(function (response) {
+            return response.result;
         });
-
-        return defer.promise;
     };
 
-    getVisitorsOnline = function () {
+    var getVisitorsOnline = function () {
         var defer;
         defer = $q.defer();
 
@@ -269,6 +166,7 @@ function ($api, $q) {
 
         return defer.promise;
     };
+
     return {
         getReferrers: getReferrers,
         getVisits: getVisits,

@@ -1,9 +1,17 @@
 angular.module("dashboardModule", [
+    // Angular
     "ngRoute",
     "ngResource",
     "ngSanitize",
     "ngAnimate",
     "ngCookies",
+
+    // Lib
+    "ui.odometer",
+    "highcharts-ng",
+    "moment",
+
+    // Ottemo
     "loginModule",
     "designModule",
     "categoryModule",

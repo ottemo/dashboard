@@ -6,77 +6,73 @@
 
 <section class="welcome">
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-xs-12 col-sm-6">
             <div class="panel panel-default">
                 <div class="panel-heading"><h3 class="panel-title">Sales</h3></div>
                 <table class="table table-dashboard">
-                    <!-- <thead>
+                    <thead>
                         <tr>
                             <th></th>
                             <th>Total Sales</th>
                             <th>Order Count</th>
                         </tr>
-                    </thead> -->
+                    </thead>
                     <tbody>
                         <tr class="table-dashboard__highlight">
                             <th>Today</th>
-                            <td>${{sales.today}}</td>
-                            <!-- <td>{{sales.orders.today}}</td> -->
+                            <td>$<span odometer="salesStats.sales.today"></span></td>
+                            <td><span odometer="salesStats.orders.today"></span></td>
                         </tr>
                         <tr>
                             <th>Yesterday</th>
-                            <td>${{sales.yesterday}}</td>
-                            <!-- <td>{{sales.orders.yesterday}}</td> -->
+                            <td>{{salesStats.sales.yesterday | currency}}</td>
+                            <td>{{salesStats.orders.yesterday}}</td>
                         </tr>
-                        <!-- <tr>
+                        <tr>
                             <th>Last 7 Days</th>
-                            <td>{{sales.sales.sevenDay}}</td>
-                            <td>{{sales.orders.sevenDay}}</td>
-                        </tr> -->
+                            <td>{{salesStats.sales.week | currency}}</td>
+                            <td>{{salesStats.orders.week}}</td>
+                        </tr>
                     </tbody>
                 </table>
 
-                <div id="visitors-chart">
-                    <div id="visitors-container" style="width: 100%; height:155px;">
-                        {{initVisitorsChart()}}
-                    </div>
+                <div class="chart-widget">
+                    <highchart config="salesGraph"></highchart>
                 </div>
             </div>
         </div>
-        <div class="col-sm-6">
+        <div class="col-xs-12 col-sm-6">
             <div class="panel panel-default">
                 <div class="panel-heading"><h3 class="panel-title">Visits</h3></div>
                 <table class="table table-dashboard">
-                    <!-- <thead>
+                    <thead>
                         <tr>
                             <th></th>
-                            <th>Total Visitors</th>
+                            <th>Total Page Views</th>
                             <th>Unique Visitors</th>
                         </tr>
-                    </thead> -->
+                    </thead>
                     <tbody>
                         <tr class="table-dashboard__highlight">
                             <th>Today</th>
-                            <td>{{visits.today}} total visits</td>
-                            <!-- <td>{{visits.unique.today}}</td> -->
+                            <td><span odometer="visitStats.total.today"></span></td>
+                            <td><span odometer="visitStats.unique.today"></span></td>
                         </tr>
                         <tr>
                             <th>Yesterday</th>
-                            <td>{{visits.yesterday}} total visits</td>
-                            <!-- <td>{{visits.unique.yesterday}}</td> -->
+                            <td>{{visitStats.total.yesterday}}</td>
+                            <td>{{visitStats.unique.yesterday}}</td>
                         </tr>
-                        <!-- <tr>
+                        <tr>
                             <th>Last 7 Days</th>
-                            <td>{{visits.total.sevenDay}}</td>
-                            <td>{{visits.unique.sevenDay}}</td>
-                        </tr> -->
+                            <td>{{visitStats.total.week}}</td>
+                            <td>{{visitStats.unique.week}}</td>
+                        </tr>
                     </tbody>
                 </table>
 
-                <div id="sales-chart">
-                    <div id="sales-container" style="width: 100%; height:155px;">
-                        {{initSalesChart()}}
-                    </div>
+                <div class="chart-widget">
+                    <highchart config="visitorGraph" class="chart"></highchart>
                 </div>
             </div>
         </div>
@@ -88,21 +84,21 @@
                 <div class="panel-heading"><h3 class="panel-title">Conversions</h3></div>
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-sm-4">
                             <div class="conversion-widget">
                                 <h4 class="conversion-widget__header">Added to cart</h4>
                                 <div class="conversion-widget__percent">{{conversions.addedToCartPercent | number:2}}%</div>
                                 <div class="conversion-widget__count">{{conversions.addedToCart}} customers</div>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-sm-4">
                             <div class="conversion-widget">
                                 <h4 class="conversion-widget__header">Reached Checkout</h4>
                                 <div class="conversion-widget__percent">{{conversions.reachedCheckoutPercent | number:2}}%</div>
                                 <div class="conversion-widget__count">{{conversions.reachedCheckout}} customers</div>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-sm-4">
                             <div class="conversion-widget">
                                 <h4 class="conversion-widget__header">Purchased</h4>
                                 <div class="conversion-widget__percent">{{conversions.purchasedPercent | number:2}}%</div>
@@ -133,7 +129,7 @@
         <div class="panel-heading"><h3 class="panel-title">Top Products</h3></div>
         <div class="panel-body">
             <div class="row">
-                <div class="col-sm-2" ng-repeat="item in topSellers | limitTo:6">
+                <div class="col-xs-6 col-sm-3 col-lg-2" ng-repeat="item in topSellers">
                     <div class="thumbnail">
                         <img ng-src="{{getProductImage(item.image)}}" class="img-responsive">
                         <div class="caption">

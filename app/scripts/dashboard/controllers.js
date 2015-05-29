@@ -12,39 +12,22 @@ angular.module("dashboardModule")
 "$dashboardStatisticService",
 "$designImageService",
 "$dashboardUtilsService",
-function ($scope, $location, $statistic, $designImageService, $dashboardUtilsService) {
-    $scope.visitorsChartData = [];
-    $scope.salesChartData = [];
+"$timeout",
+"moment",
+function ($scope, $location, $statistic, $designImageService, $dashboardUtilsService, $timeout, moment) {
 
-    var renderVisitsChart = function (data) {
-        if ($scope.visitorsCharts) {
-            $scope.visitorsCharts.setData([data]);
-            $scope.visitorsCharts.setupGrid();
-            $scope.visitorsCharts.draw();
-        }
+    //TODO: delete this when images are attached to products
+    $scope.getProductImage = function (image) {
+        return $designImageService.getFullImagePath("", image);
     };
 
-    var renderSalesChart = function (data) {
-        if ($scope.salesCharts) {
-            $scope.salesCharts.setData([data]);
-            $scope.salesCharts.setupGrid();
-            $scope.salesCharts.draw();
-        }
-    };
+    /*
+    Static Data Points
+     */
 
     // TOP REFERRERS
     $statistic.getReferrers().then(function (data) {
-        $scope.referrers = $dashboardUtilsService.sortObjectsArrayByField(data, 'count', 'int', "DESC");
-    });
-
-    // VISITS TODAY
-    $statistic.getVisits().then(function (data) {
-        $scope.visits = data;
-    });
-
-    // SALES TODAY
-    $statistic.getSales().then(function (data) {
-        $scope.sales = data;
+        // $scope.referrers = $dashboardUtilsService.sortObjectsArrayByField(data, 'count', 'int', "DESC");
     });
 
     // Website Conversions
@@ -54,119 +37,112 @@ function ($scope, $location, $statistic, $designImageService, $dashboardUtilsSer
 
     // TOP SELLERS
     $statistic.getTopSellers().then(function (data) {
-        $scope.topSellers = $dashboardUtilsService.sortObjectsArrayByField(data, 'count', 'int', "DESC");
+        $scope.topSellers = data;
     });
 
-    // VISITORS ONLINE
-    // $statistic.getVisitorsOnline().then(function (data) {
-    //     $scope.visitorsOnline = data;
-    // });
 
-    var plotSettings = {
-        series: {
-            lines: {
-                show: true,
-                fill: false
-            },
-            shadowSize: 0
-        },
-        grid: {
-            hoverable: true,
-            clickable: true,
-            tickColor: "#f9f9f9",
-            borderWidth: 1,
-            borderColor: "#eeeeee"
-        },
-        colors: ["#65CEA7", "#424F63"],
-        xaxis: {
-            mode: "time",
-            timeformat: "%I%p"
-            // tickLength: 5,
-            // timezone: "browser" // "browser" for local to the client or timezone for timezone-js
-        },
-        yaxis: {
-            min: 0
+    /*
+    Live Data Points
+     */
+    var pollingRate = 10 * 1000; // 10s
+
+
+    // Visit Stats
+    (function tick(){
+        $statistic.getVisits().then(function (data) {
+            $scope.visitStats = data;
+            $timeout(tick, pollingRate);
+        });
+    })();
+
+    // Sales Stats
+    (function tick(){
+        $statistic.getSales().then(function (data) {
+            $scope.salesStats = data;
+            $timeout(tick, pollingRate);
+        });
+    })();
+
+    // Highcharts settings that we can't adjust from ngHighcharts
+    Highcharts.setOptions({
+      chart: {
+          spacingLeft: 15,
+          spacingRight: 0,
+          backgroundColor: 'rgba(0,0,0,0)'
+      },
+      plotOptions: {
+          series: {
+            marker: {
+                enabled: false
+            }
+          }
+      },
+      yAxis: {
+        labels: {
+          style: {
+              color: '#98978B'
+          }
         }
+      },
+      colors: [
+        '#325D88',
+        '#DFD7CA'
+      ],
+      legend: { enabled: false },
+      tooltip: {
+          formatter: function() {
+              return this.series.name + ' @ ' + moment.utc(this.x).format('ha') + ': ' + this.y;
+          }
+      }
+    });
+
+    var graphSettings = {
+        options: {
+            chart: { type: 'line'}
+        },
+        xAxis: {
+            type: 'datetime',
+            minTickInterval: moment.duration(1, 'hour').asMilliseconds(),
+            labels: {
+                formatter: function () {
+                    return moment.utc(this.value).format('ha');
+                }
+            }
+        },
+        yAxis: {
+            min: 0,
+            allowDecimals: false,
+            title: { enabled: false },
+        },
+        series: [],
+        title: { text: '' },
+
+        loading: false,
+        size: { height: 260 }
     }
 
-    $scope.initVisitorsChart = function () {
-        if (!$scope.visitorsCharts) {
-            $scope.visitorsCharts = $.plot(
-                $('#visitors-chart #visitors-container'),
-                [{'label': 'visits', data: $scope.visitorsChartData}],
-                plotSettings
-            );
-        }
-    };
+    // Copy these settings over
+    $scope.salesGraph = angular.copy(graphSettings);
+    $scope.visitorGraph = angular.copy(graphSettings);
 
-    // VISITORS CHART
-    (function () {
-        var from, to, today, dd, mm, yyyy, month,  tz;
+    // Sales is in dollars, so update that label
+    $scope.salesGraph.yAxis.labels = {format : '${value}'};
 
-        today = new Date();
-        today.setDate(today.getDate() + 1);
-        dd = today.getDate().toString().length < 2 ? '0' + today.getDate() : today.getDate();
-        month = today.getMonth() + 1; //January is 0!
-        mm = month.toString().length < 2 ? '0' + month : month;
-        yyyy = today.getFullYear();
-        to = yyyy + "-" + mm + "-" + dd;
+    // TODO: Poll for data, commented out for now until we are sure we are reporting on
+    // good data, maybe we want to only poll for today too...
 
-        today.setDate(today.getDate() - 1);
-        dd = today.getDate().toString().length < 2 ? '0' + today.getDate() : today.getDate();
-        month = today.getMonth() + 1; //January is 0!
-        mm = month.toString().length < 2 ? '0' + month : month;
-        yyyy = today.getFullYear();
-        from = yyyy + "-" + mm + "-" + dd;
-        tz = -today.getTimezoneOffset()/60;
+    // (function tick(){
+        $statistic.getSalesDetail().then(function(dataSets){
+            $scope.salesGraph.series = dataSets;
+            // $timeout(tick, pollingRate);
+        });
+    // })();
 
-        $statistic.getVisitsDetail(from, to, tz).then(
-            function (data) {
-                renderVisitsChart(data);
-                $scope.visitorsChartData = data;
-            }
-        );
-    })();
-
-    $scope.initSalesChart = function () {
-        if (!$scope.salesCharts) {
-            $scope.salesCharts = $.plot(
-                $('#sales-chart #sales-container'),
-                [{'label': 'sales', data: $scope.salesChartData}],
-                plotSettings
-            );
-        }
-    };
-
-    // SALES CHART
-    (function () {
-        var from, to, today, dd, mm, yyyy, month, tz;
-
-        today = new Date();
-        today.setDate(today.getDate() + 1);
-        dd = today.getDate().toString().length < 2 ? '0' + today.getDate() : today.getDate();
-        month = today.getMonth() + 1; //January is 0!
-        mm = month.toString().length < 2 ? '0' + month : month;
-        yyyy = today.getFullYear();
-        to = yyyy + "-" + mm + "-" + dd;
-
-        today.setDate(today.getDate() - 1);
-        dd = today.getDate().toString().length < 2 ? '0' + today.getDate() : today.getDate();
-        month = today.getMonth() + 1; //January is 0!
-        mm = month.toString().length < 2 ? '0' + month : month;
-        yyyy = today.getFullYear();
-        from = yyyy + "-" + mm + "-" + dd;
-        tz = -today.getTimezoneOffset()/60;
-
-        $statistic.getSalesDetail(from, to, tz).then(
-            function (data) {
-                renderSalesChart(data);
-                $scope.salesChartData = data;
-            }
-        );
-    })();
-
-    $scope.getProductImage = function (image) {
-        return $designImageService.getFullImagePath("", image);
-    };
+    // (function tick(){
+        $statistic.getVisitsDetail().then(function(dataSets){
+            $scope.visitorGraph.series = dataSets;
+            // $timeout(tick, pollingRate);
+        });
+    // })();
 
 }]);
