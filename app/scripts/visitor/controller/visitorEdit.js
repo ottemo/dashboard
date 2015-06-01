@@ -7,7 +7,8 @@ angular.module("visitorModule")
 "$q",
 "$visitorApiService",
 "$dashboardUtilsService",
-function ($scope, $routeParams, $location, $q, $visitorApiService, $dashboardUtilsService) {
+"$orderApiService",
+function ($scope, $routeParams, $location, $q, $visitorApiService, $dashboardUtilsService, $orderApiService) {
     var visitorId, getDefaultVisitor;
 
     visitorId = $routeParams.id;
@@ -163,4 +164,18 @@ function ($scope, $routeParams, $location, $q, $visitorApiService, $dashboardUti
         return defer.promise;
     };
 
+
+    // Fetch the users orders if we have a user
+    $scope.orders = [];
+    if (visitorId) {
+        var orderParams = {
+            extra: ['increment_id', 'status', 'grand_total', 'created_at', 'visitor_id'].join(','),
+            sort: '^created_at',
+            visitor_id: visitorId
+        };
+
+        $orderApiService.orderList(orderParams).$promise.then(function(response) {
+            $scope.orders = response.result;
+        });
+    }
 }]);
