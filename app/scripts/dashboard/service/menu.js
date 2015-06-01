@@ -62,6 +62,10 @@ angular.module("dashboardModule")
 			"icon": "fa-users",
 			"children": [
 				{
+					"title": "Visitors",
+					"link": "/visitors"
+				},
+				{
 					"title": "Attributes",
 					"link": "/v/attributes"
 				},
@@ -69,10 +73,6 @@ angular.module("dashboardModule")
 					"title": "Email",
 					"link": "/emails"
 				},
-				{
-					"title": "Visitors",
-					"link": "/visitors"
-				}
 			]
 		},
 		{
