@@ -9,11 +9,7 @@ angular.module("dashboardModule")
 .service("$menuService", [function () {
 
 	// We have these routes and pages floating around as well
-	// {
-	// 	"title": "Import / Export",
-	// 	"link": "/impex",
-	// 	"icon": "fa-exchange"
-	// }
+
 	// {
 	// 	"title": "URL Rewrite",
 	// 	"link": "/seo",
@@ -106,6 +102,10 @@ angular.module("dashboardModule")
 				{
 					"title": "Shipping",
 					"link": "/settings/shipping"
+				},
+				{
+					"title": "Import / Export",
+					"link": "/impex"
 				}
 			]
 		}
