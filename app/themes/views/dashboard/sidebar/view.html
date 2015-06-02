@@ -24,12 +24,6 @@ class="nav-menu"
 ng-class="{'nav-menu--active': isMenuActive}"
 ng-controller="dashboardMenuController">
 	<div class="sidebar-wrapper">
-		<div class="navbar-user hidden-xs">
-			<img ng-src="{{avatar}}" alt="" class="pull-left avatar">
-			<h4 class="pull-left">{{userName}}</h4>
-			<button class="fa fa-sign-out logout"></button>
-		</div>
-
 		<a href="/" class="navbar-branding">
 			<img ng-src="{{getImg('logo.png')}}" alt=""/>
 			<span>Ottemo</span>
@@ -42,9 +36,9 @@ ng-controller="dashboardMenuController">
 			ng-repeat="item in items"
 			ng-include="getTemplate('dashboard/header/offcanvasItem.html')"></li>
 
-			<li class="visible-xs">
+			<li class="navbar-user">
 				<a class="menu-item" href="/logout">
-					<i class="fa fa-fw fa-sign-out"></i> Log Out
+					<i class="fa fa-fw fa-sign-out"></i> Log Out ({{userName}})
 				</a>
 			</li>
 		</ul>
