@@ -96,6 +96,12 @@ function ($scope, $routeParams, $location, $q, $orderApiService, $dashboardUtils
                 // Success
                 if (response.error === null) {
                     $scope.message = $dashboardUtilsService.getMessage(null , 'success', 'Order was updated successfully');
+
+                    // Update the notes list with whatever is on the server.
+                    // we get the whole order back, so we could set the entire thing
+                    $scope.order.note = '';
+                    $scope.order.notes = response.result.notes || [];
+
                     for (var field in response.result) {
                         if (response.result.hasOwnProperty(field) && "updated_at" !== field) {
                             oldString[field] = response.result[field];

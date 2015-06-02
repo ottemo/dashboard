@@ -151,6 +151,13 @@
 </label>
 
 <div class="clearfix"></div>
+
+<h3>Notes</h3>
+<ul ng-if="order.notes">
+    <li ng-repeat="note in order.notes">{{ note }}</li>
+</ul>
+<textarea name="newNote" id="newNote" rows="5" class="form-control" ng-model="order.note"></textarea>
+
 <br>
 <div class="text-center">
     <a class="btn btn-default" href="/orders">Back to orders</a>
