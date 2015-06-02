@@ -10,7 +10,7 @@ angular.module("dashboardModule")
     this.spinnerTemplate = '<div id="loading-bar-spinner"><div class="spinner-icon"></div></div>';
     this.loadingBarTemplate = '<div id="loading-bar">'+
       '<div class="progress">'+
-        '<div class="progress-bar progress-bar-striped active" >'+
+        '<div class="progress-bar active" >'+
         '</div>'+
       '</div>'+
     '</div>';
