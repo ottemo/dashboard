@@ -1,0 +1,37 @@
+<div class="page-header">
+	<a ng-href="/discounts/new" class="btn btn-primary pull-right">Add a discount</a>
+	<h1>
+		<span class="fa fa-scissors"></span>
+		Discounts
+	</h1>
+</div>
+
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>Details</th>
+			<th>Times</th>
+			<th>Start / End</th>
+			<th><!-- actions --></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="discount in discounts">
+			<td>
+				<h4><a ng-href="/discounts/{{discount._id}}">{{ discount.name }}: {{ discount.code }}</a></h4>
+				<div>{{ discount.amount }}{{ discount.percent }} off all orders</div>
+			</td>
+			<td>
+				<span ng-if="discount.times === -1">no limit</span>
+				<span ng-if="discount.times !== -1">{{ discount.times }}</span>
+			</td>
+			<td>
+				<div>Start: {{ discount.since }}</div>
+				<div>End: {{ discount.until }}</div>
+			</td>
+			<td>
+				<a ng-click="discount.delete()" class="btn btn-default">Delete</a>
+			</td>
+		</tr>
+	</tbody>
+</table>
