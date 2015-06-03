@@ -1,0 +1,26 @@
+<div class="form-control">
+    <button class="btn-primary btn btn-xs" ng-click="show(attribute.Attribute)">Select</button>
+    <span ng-if="getParentName()"> Selected:</span>
+    <strong>{{getParentName()}}</strong>
+    <span class="fa fa-times" style="cursor:pointer" ng-click="clear(attribute.Attribute)" ng-if="getParentName()"></span>
+</div>
+
+<div class="modal fade" id="{{attribute.Attribute}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h2 class="modal-title text-center">Pages</h2>
+            </div>
+
+            <div class="modal-body">
+                <!-- Table -->
+                <gui-table-manager-popup items="items" object="this" buttons="{'new':false,'delete':false,'checkbox': false}"></gui-table-manager-popup>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" ng-click="hide(attribute.Attribute)">Save</button>
+                <button class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

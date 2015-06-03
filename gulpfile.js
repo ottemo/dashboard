@@ -1,192 +1,257 @@
-(function () {
-    'use strict';
+var gulp = require('gulp');
+var minifyHTML = require('gulp-minify-html');
+var stripDebug = require('gulp-strip-debug');
+var uglify = require('gulp-uglify');
+var jshint = require('gulp-jshint');
+var changed = require('gulp-changed');
+var imagemin = require('gulp-imagemin');
+var autoprefix = require('gulp-autoprefixer');
+var minifyCSS = require('gulp-minify-css');
+var sass = require('gulp-sass');
+var del = require('del');
+var concat = require('gulp-concat');
+var sourcemaps = require('gulp-sourcemaps');
+// var ngAnnotate = require('gulp-ng-annotate');
+// var notify = require('gulp-notify');
+var refresh = require('gulp-livereload');
+var modRewrite = require('connect-modrewrite');
 
-    var gulp, minifyHTML, concat, stripDebug, uglify, jshint, changed, imagemin, autoprefix, sass, rjs, minifyCSS,
-        browserSync, pngquant, del, paths, host, themes;
 
-    gulp = require('gulp');
-    minifyHTML = require('gulp-minify-html');
-    concat = require('gulp-concat');
-    stripDebug = require('gulp-strip-debug');
-    uglify = require('gulp-uglify');
-    jshint = require('gulp-jshint');
-    changed = require('gulp-changed');
-    imagemin = require('gulp-imagemin');
-    autoprefix = require('gulp-autoprefixer');
-    sass = require('gulp-sass');
-    rjs = require('gulp-requirejs');
-    minifyCSS = require('gulp-minify-css');
-    browserSync = require('browser-sync');
-    pngquant = require('imagemin-pngquant');
-    del = require('del');
-    paths = {
-        "app": require('./bower.json').appPath || 'app',
-        "dist": 'dist',
-        "themes": 'themes',
-        "js": ['app/scripts/*.js', 'app/scripts/**/*.js'],
-        "vendor": 'app/lib/**/*',
-        "vendorTheme": 'app/themes/**/lib/**/*',
-        "sass": 'app/styles/sass/**/*.scss',
-        "css": 'app/themes/**/styles/**/*.css',
-        "images": 'app/themes/**/images/**/*',
-        "fonts": 'app/themes/**/styles/fonts/**/*',
-        "html": 'app/**/*.html',
-        "misc": 'app/*.{txt,htaccess,ico}',
-        "themeDest": "dist/themes"
+var paths = {
+    html: 'app/**/*.html',
+    misc: 'app/*.{txt,htaccess,ico}',
+    images: ['app/themes/**/images/**/*'],
+    dist: 'dist',
+    jshint: 'app/scripts/**/*.js',
+    scripts: [
+        'app/scripts/config.js',
+        'app/scripts/main.js',
+        'app/scripts/**/init.js',
+        'app/scripts/**/*.js'
+    ],
+    themes: {
+        copy: 'app/themes/lib/**/*',
+        scripts: [
+            'app/themes/scripts/**/excanvas.js',
+            'app/themes/scripts/**/jquery.flot.js',
+            'app/themes/scripts/**/*.js'
+        ],
+        styles: 'app/themes/styles/style.scss',
+        dist: 'dist/themes',
+        fonts: 'app/themes/styles/fonts/**/*',
+        images: 'app/themes/images/**/*',
+        base: 'app/themes'
+    },
+    lib:{
+        scripts: [
+            'app/lib/angular/angular.min.js',
+            'app/lib/angular/*.js',
+            'app/lib/jquery*.js',
+            // 'tinymce.min.js',
+            'app/lib/*.js'
+        ],
+        copy: ['app/lib/tinymce/**/*'],
+        dist: 'dist/lib'
+    },
+    watch:{
+        html: ["app/**/*.html"],
+        css: ["app/**/*.scss"],
+        js: ["app/scripts/**/*.js"],
+        jsThemes: ["app/themes/**/*.js"],
+        lib: ["app/lib/**/*.js"]
+    }
+};
 
-    };
+var env = process.env.NODE_ENV || 'development';
 
-    host = {
-        port: '9000',
-        lrPort: '35729'
-    };
+var host = {
+    port: '9000',
+    lrPort: '35729'
+};
 
-    // Empties folders to start fresh
-    gulp.task('clean', function (cb) {
-        del(['dist/*','!dist/media'], cb);
-    });
+// Empties folders to start fresh
+gulp.task('clean', function (cb) {
+    del(['dist/*','!dist/media'], cb);
+});
 
-    // Actions with js-files from theme
-    gulp.task('vendorTheme', ['clean'], function () {
-        /**
-         * Minify and uglify the custom scripts in folder 'scripts' in each theme
-         */
-        gulp.src('app/themes/**/scripts/**/*.js')
-            .pipe(stripDebug())
-            .pipe(uglify({mangle: false}))
-            .pipe(gulp.dest(paths.themeDest));
+//  -------------------------------
+//  task for compilling angular modules
+//  -------------------------------
 
-        /**
-         * copy vendor js from theme folder
-         */
-        return gulp.src(paths.vendorTheme)
-            .pipe(gulp.dest(paths.themeDest));
-    });
+gulp.task('scripts', function () {
+  return gulp.src(paths.scripts)
+    .pipe(sourcemaps.init())
+    .pipe(concat('main.js'))
+    .pipe(gulp.dest(paths.dist+'/scripts/raw'))
+    .pipe(uglify({mangle:false}))
+    .pipe(sourcemaps.write('./maps'))
+    .pipe(gulp.dest(paths.dist+'/scripts'))
+    .pipe(refresh())
+    // .pipe(notify({ message: 'Script compilation completed' }))
+})
 
-    // copy vendor js 
-    gulp.task('vendor', ['clean', 'vendorTheme'], function () {
-        return gulp.src(paths.vendor)
-            .pipe(gulp.dest(paths.dist + '/lib'));
-    });
+//
+// app/lib copy task
+//
+gulp.task('lib.copy',  function () {
+    return gulp.src(paths.lib.copy,{ base: 'app/lib' })
+        .pipe(gulp.dest(paths.lib.dist));
+});
 
-    // copy misc assets
-    gulp.task('misc', ['clean'], function () {
-        return gulp.src(paths.misc)
-            .pipe(gulp.dest(paths.dist));
-    });
+//
+// app/lib js task
+//
+gulp.task('lib.scripts', function () {
+    return gulp.src(paths.lib.scripts)
+        .pipe(concat('lib.js'))
+        .pipe(gulp.dest(paths.lib.dist))
+        .pipe(refresh())
+        // .pipe(notify({ message: 'Lib compilation completed' }))
+});
 
-    // Run JSHint 
-    gulp.task('jshint', function () {
-        gulp.src(paths.js)
-            .pipe(jshint())
-            .pipe(jshint.reporter(require('jshint-stylish')));
-    });
+//
+// app/themes copy task
+//
+gulp.task('themes.copy', function(){
 
-    gulp.task('requirejs', ['clean', 'jshint'], function () {
-        rjs({
-            out: 'main.js',
-            name: 'main',
-            preserveLicenseComments: false, // remove all comments
-            removeCombined: true,
-            paths: {
-                "tinymce" : "empty:"
-            },
-            baseUrl: paths.app + '/scripts',
-            mainConfigFile: 'app/scripts/main.js'
+    return gulp.src(paths.themes.copy,{ base: paths.themes.base })
+        .pipe(gulp.dest(paths.themes.dist));
+
+});
+
+//
+// app/themes js task
+//
+gulp.task('themes.scripts', function () {
+
+    /**
+     * Minify and uglify the custom scripts in folder 'scripts' in each theme
+     */
+    return gulp.src(paths.themes.scripts,{ base: paths.themes.base })
+        .pipe(stripDebug())
+        .pipe(uglify({mangle: false}))
+        .pipe(concat('main.js'))
+        .pipe(gulp.dest(paths.themes.dist+'/scripts'));
+
+});
+
+//
+// app/themes css task
+//
+gulp.task('themes.styles', function () {
+    return gulp.src(paths.themes.styles,{ base: paths.themes.base })
+        .pipe(sourcemaps.init())
+        .pipe(sass())
+        .on('error', function (error) {
+            console.error(error);
+            this.emit('end');
         })
-            .pipe(stripDebug())
-            .pipe(uglify({mangle: false}))
-            .pipe(gulp.dest(paths.dist + '/scripts/'));
+        .pipe(autoprefix('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
+        // .pipe(minifyCSS({
+        //     processImport: false
+        // }))
+        .pipe(sourcemaps.write('./maps'))
+        .pipe(gulp.dest(paths.themes.dist));
+});
+
+//
+// app/themes images task
+//
+gulp.task('themes.images', function () {
+    return gulp.src(paths.themes.images,{ base: paths.themes.base })
+        // .pipe(changed(paths.themeDest))
+        // .pipe(imagemin())
+        .pipe(gulp.dest(paths.themes.dist));
+});
+
+//
+// app/themes fonts task
+//
+gulp.task('themes.fonts', function () {
+    return gulp.src(paths.themes.fonts,{ base: paths.themes.base })
+        .pipe(gulp.dest(paths.themes.dist));
+});
+
+//
+// app misc task (txt,htaccess,ico)
+//
+gulp.task('misc', function () {
+    return gulp.src(paths.misc)
+        .pipe(gulp.dest(paths.dist));
+});
+
+//
+// Run JSHint
+//
+gulp.task('jshint', function () {
+    return gulp.src(paths.jshint)
+        .pipe(jshint())
+        .pipe(jshint.reporter(require('jshint-stylish')));
+});
+
+//
+// app html task (index, themes views)
+//
+gulp.task('html', function () {
+    return gulp.src(paths.html)
+        // .pipe(changed(paths.dist))
+        .pipe(minifyHTML({
+            collapseWhitespace: true,
+            collapseBooleanAttributes: true,
+            removeCommentsFromCDATA: true,
+            removeOptionalTags: true,
+            conditionals: true,
+            quotes: true,
+            empty: true
+        }))
+        .pipe(gulp.dest(paths.dist));
+});
+
+//
+// Start livereload server
+//
+gulp.task('livereload', function(){
+    // init express server
+    var path = require('path'),
+        express = require('express'),
+        app = express();
+
+    var static_folder = path.join(__dirname, 'dist');
+
+    app.use(modRewrite([
+      '!\\. /index.html [L]'
+    ]))
+    .use(express.static(static_folder));
+
+    app.listen( host.port, function() {
+        console.log('server started: http://localhost:'+host.port);
+        return gulp;
     });
+})
 
-    // Sass task, will run when any SCSS files change & BrowserSync
-    // will auto-update browsers
-    gulp.task('sass', function () {
-        return gulp.src(paths.sass)
-            .pipe(sass({imagePath: '../../images'}))
-            .pipe(autoprefix('last 1 version'))
-            .pipe(gulp.dest(paths.dist + '/styles'))
-            .pipe(gulp.dest(paths.app + '/styles'));
-    });
 
-    // minify new images
-    gulp.task('imagemin', ['clean'], function () {
-        return gulp.src(paths.images)
-            .pipe(changed(paths.themeDest))
-            .pipe(imagemin())
-            .pipe(gulp.dest(paths.themeDest));
-    });
 
-    // minify new or changed HTML pages
-    gulp.task('html', ['clean'], function () {
-        return gulp.src(paths.html)
-            .pipe(changed(paths.dist))
-            .pipe(minifyHTML({
-                collapseWhitespace: true,
-                collapseBooleanAttributes: true,
-                removeCommentsFromCDATA: true,
-                removeOptionalTags: true,
-                conditionals: true,
-                quotes: true,
-                empty: true
-            }))
-            .pipe(gulp.dest(paths.dist));
-    });
+gulp.task('watch',function(){
 
-    // CSS auto-prefix and minify
-    gulp.task('autoprefixer', ['clean', 'sass'], function () {
-        gulp.src(paths.css)
-            .pipe(autoprefix('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
-            .pipe(minifyCSS())
-            .pipe(gulp.dest(paths.themeDest));
-        gulp.src(paths.fonts)
-            .pipe(gulp.dest(paths.themeDest));
-    });
+    refresh.listen({ basePath: 'dist' });
 
-    // Protractor tests
-    // gulp.task('protractorUpdate', protractor.webdriverUpdate);
-    // gulp.task('protractor', ['protractorUpdate'], function (cb) {
-    //     gulp.src(['tests/e2e/**/*.js']).pipe(protractor.protractor({
-    //         configFile: 'protractor.conf.js'
-    //     })).on('error', function (e) {
-    //         console.log(e);
-    //     }).on('end', cb);
-    // });
-    //
-    // // Jasmine test
-    // gulp.task('jasmine', function() {
-    //     gulp.src('spec/**/*.js')
-    //         .pipe(jasmine({verbose:true, includeStackTrace: true}));
-    // });
-    //
-    // gulp.task('test', ['protractor', 'jasmine'], function () {});
+    gulp.start('livereload');
 
-    // browser-sync task for starting server
-    gulp.task('browser-sync', function () {
-        browserSync({
-            server: {
-                baseDir: './app'
-            },
-            port: host.port
-        });
-    });
+    gulp.watch(paths.watch.html,     ['html']);
+    gulp.watch(paths.watch.css,      ['themes.styles']);
+    gulp.watch(paths.watch.js,       ['scripts']);
+    gulp.watch(paths.watch.jsThemes, ['themes.scripts']);
+    gulp.watch(paths.watch.lib,      ['lib.scripts']);
+});
 
-    gulp.task('bs-reload', function () {
-        browserSync.reload();
-    });
+gulp.task('lib', ['lib.copy','lib.scripts']);
 
-    // run in development mode with easy browser reloading
-    gulp.task('dev', ['browser-sync'], function () {
+gulp.task('themes', ['themes.copy','themes.scripts','themes.styles','themes.fonts','themes.images']);
 
-        gulp.watch('app/views/**/*.html', [browserSync.reload]);
-        gulp.watch('app/styles/**/*.css', [browserSync.reload]);
-        gulp.watch('app/styles/**/*.scss', ['sass', browserSync.reload]);
-        gulp.watch('app/scripts/**/*.js', ['jshint', browserSync.reload]);
-    });
+gulp.task('build', ['scripts', 'html','lib','themes','misc']);
 
-    gulp.task('serve', ['dev']);
+gulp.task('default', ['build'] ,function(){
+    gulp.start('watch');
+});
 
-    gulp.task('build', ['requirejs', 'vendor', 'misc', 'html', 'autoprefixer', 'imagemin']);
-
-    gulp.task('default',['build']);
-})();
+gulp.task('serve', ['default']);

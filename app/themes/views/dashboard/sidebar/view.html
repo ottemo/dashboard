@@ -1,0 +1,46 @@
+<!-- Sidebar view -->
+<div class="navbar navbar-default navbar-static-top visible-xs visible-sm">
+	<div class="container-fluid">
+		<div class="navbar-header pull-left">
+			<a class="navbar-brand" href="/">
+				<img ng-src="{{getImg('logo.png')}}" class=""/>
+				<span>Ottemo</span>
+			</a>
+		</div>
+
+		<ul class="nav navbar-nav pull-right">
+			<li>
+				<a ng-click="isMenuActive = !isMenuActive" class="nav-menu__expand">
+					<i class="fa fa-bars"></i> Menu
+				</a>
+			</li>
+		</ul>
+	</div>
+
+</div>
+
+<nav id="offcanvas"
+class="nav-menu"
+ng-class="{'nav-menu--active': isMenuActive}"
+ng-controller="dashboardMenuController">
+	<div class="sidebar-wrapper">
+		<a href="/" class="navbar-branding">
+			<img ng-src="{{getImg('logo.png')}}" alt=""/>
+			<span>Ottemo</span>
+		</a>
+
+		<!-- Main menu -->
+		<ul>
+			<li
+			class="menu-item"
+			ng-repeat="item in items"
+			ng-include="getTemplate('dashboard/header/offcanvasItem.html')"></li>
+
+			<li class="navbar-user">
+				<a class="menu-item" href="/logout">
+					<i class="fa fa-fw fa-sign-out"></i> Log Out ({{userName}})
+				</a>
+			</li>
+		</ul>
+	</div>
+</nav>

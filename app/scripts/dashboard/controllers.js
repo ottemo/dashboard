@@ -1,379 +1,154 @@
-(function (define, $) {
-    "use strict";
+angular.module("dashboardModule")
 
-    define(["dashboard/init"], function (dashboardModule) {
+.controller("dashboardMenuController", ["$scope", "$menuService", "$loginLoginService", function ($scope, $menuService, $loginLoginService) {
+    $scope.avatar = $loginLoginService.getAvatar();
+    $scope.userName = $loginLoginService.getFullName() || "root";
+    $scope.items = $menuService;
+}])
 
-        dashboardModule
-            /*
-             *  HTML top page header manipulator (direct service mapping)
-             */
-            .controller("dashboardHeaderController", ["$scope", "$dashboardHeaderService", function ($scope, $dashboardHeaderService) {
-                $scope.it = $dashboardHeaderService;
-                $scope.leftMenu = $dashboardHeaderService.getMenuLeft();
-                $scope.rightMenu = $dashboardHeaderService.getMenuRight();
-            }])
+.controller("dashboardController", [
+"$scope",
+"$location",
+"$dashboardStatisticService",
+"$designImageService",
+"$dashboardUtilsService",
+"$timeout",
+"moment",
+function ($scope, $location, $statistic, $designImageService, $dashboardUtilsService, $timeout, moment) {
 
-            .controller("dashboardHeaderController", ["$scope", "$dashboardHeaderService", function ($scope, $dashboardHeaderService) {
-                $scope.it = $dashboardHeaderService;
-                $scope.leftMenu = $dashboardHeaderService.getMenuLeft();
-                $scope.rightMenu = $dashboardHeaderService.getMenuRight();
-            }])
+    //TODO: delete this when images are attached to products
+    $scope.getProductImage = function (image) {
+        return $designImageService.getFullImagePath("", image);
+    };
 
-            .controller("dashboardSidebarController", ["$scope", "$dashboardSidebarService", function ($scope, $dashboardSidebarService) {
-                $scope.it = $dashboardSidebarService;
-                $scope.items = $dashboardSidebarService.getItems();
-            }])
+    /*
+    Static Data Points
+     */
 
-            .controller("dashboardController", [
-                "$scope",
-                "$location",
-                "$dashboardStatisticService",
-                "$designImageService",
-                "$dashboardUtilsService",
-                function ($scope, $location, $statistic, $designImageService, $dashboardUtilsService) {
-                    $scope.x = "dashboardController";
-                    $scope.visitorsChartData = [];
-                    $scope.visitsPeriod = 'week';
-                    $scope.salesChartData = [];
-                    $scope.salesPeriod = 'week';
-
-                    var renderVisitsChart = function (data) {
-                        if ($scope.visitorsCharts) {
-                            $scope.visitorsCharts.setData([data]);
-                            $scope.visitorsCharts.setupGrid();
-                            $scope.visitorsCharts.draw();
-                        }
-                    };
-
-                    var renderSalesChart = function (data) {
-                        if ($scope.salesCharts) {
-                            $scope.salesCharts.setData([data]);
-                            $scope.salesCharts.setupGrid();
-                            $scope.salesCharts.draw();
-                        }
-                    };
-
-
-
-                    // TOP REFERRERS
-                    $statistic.getReferrers().then(function (data) {
-                        $scope.referrers = $dashboardUtilsService.sortObjectsArrayByField(data, 'count', 'int', "DESC");
-                    });
-
-                    // VISITS TODAY
-                    $statistic.getVisits().then(function (data) {
-                        $scope.visits = data;
-                    });
-
-                    // SALES TODAY
-                    $statistic.getSales().then(function (data) {
-                        $scope.sales = data;
-                    });
-
-                    // Website Conversions
-                    $statistic.getConversions().then(function (data) {
-                        $scope.conversions = data;
-                    });
-
-                    // TOP SELLERS
-                    $statistic.getTopSellers().then(function (data) {
-                        $scope.topSellers = $dashboardUtilsService.sortObjectsArrayByField(data, 'count', 'int', "DESC");
-                    });
-
-                    // VISITORS ONLINE
-                    $statistic.getVisitorsOnline().then(function (data) {
-                        $scope.visitorsOnline = data;
-                    });
-
-                    $scope.initVisitorsChart = function () {
-                        if (!$scope.visitorsCharts) {
-                            $scope.visitorsCharts = $.plot(
-                                $('#visitors-chart #visitors-container'), [
-                                    {
-                                        data: $scope.visitorsChartData,
-                                        label: "Page View",
-                                        lines: {
-                                            fill: true
-                                        }
-                                    }
-                                ],
-                                {
-                                    series: {
-                                        lines: {
-                                            show: true,
-                                            fill: false
-                                        },
-                                        points: {
-                                            show: true,
-                                            lineWidth: 2,
-                                            fill: true,
-                                            fillColor: "#ffffff",
-                                            symbol: "circle",
-                                            radius: 5
-                                        },
-                                        shadowSize: 0
-                                    },
-                                    grid: {
-                                        hoverable: true,
-                                        clickable: true,
-                                        tickColor: "#f9f9f9",
-                                        borderWidth: 1,
-                                        borderColor: "#eeeeee"
-                                    },
-                                    colors: ["#65CEA7", "#424F63"],
-                                    tooltip: true,
-                                    tooltipOpts: {
-                                        defaultTheme: false
-                                    },
-                                    xaxis: {
-                                        mode:   "time",
-                                        tickLength: 5,
-                                        timezone: "browser" // "browser" for local to the client or timezone for timezone-js
-                                    }
-                                }
-                            );
-                        }
-                    };
-
-                    // VISITORS CHART
-                    // BY DEFAULT LAST 7 DAYS
-                    (function () {
-                        var from, to, today, dd, mm, yyyy, month,  tz;
-
-                        today = new Date();
-                        today.setDate(today.getDate() + 1);
-                        dd = today.getDate().toString().length < 2 ? '0' + today.getDate() : today.getDate();
-                        month = today.getMonth() + 1; //January is 0!
-                        mm = month.toString().length < 2 ? '0' + month : month;
-                        yyyy = today.getFullYear();
-                        to = yyyy + "-" + mm + "-" + dd;
-
-                        today.setDate(today.getDate() - 7);
-                        dd = today.getDate().toString().length < 2 ? '0' + today.getDate() : today.getDate();
-                        month = today.getMonth() + 1; //January is 0!
-                        mm = month.toString().length < 2 ? '0' + month : month;
-                        yyyy = today.getFullYear();
-                        from = yyyy + "-" + mm + "-" + dd;
-                        tz = -today.getTimezoneOffset()/60;
-
-                        $statistic.getVisitsDetail(from, to, tz).then(
-                            function (data) {
-                                renderVisitsChart(data);
-                                $scope.visitorsChartData = data;
-                            }
-                        );
-                    })();
-
-                    $scope.initSalesChart = function () {
-                        if (!$scope.salesCharts) {
-                            $scope.salesCharts = $.plot(
-                                $('#sales-chart #sales-container'), [
-                                    {
-                                        data: $scope.salesChartData,
-                                        label: "Page View",
-                                        lines: {
-                                            fill: true
-                                        }
-                                    }
-                                ],
-                                {
-                                    series: {
-                                        lines: {
-                                            show: true,
-                                            fill: false
-                                        },
-                                        points: {
-                                            show: true,
-                                            lineWidth: 2,
-                                            fill: true,
-                                            fillColor: "#ffffff",
-                                            symbol: "circle",
-                                            radius: 5
-                                        },
-                                        shadowSize: 0
-                                    },
-                                    grid: {
-                                        hoverable: true,
-                                        clickable: true,
-                                        tickColor: "#f9f9f9",
-                                        borderWidth: 1,
-                                        borderColor: "#eeeeee"
-                                    },
-                                    colors: ["#65CEA7", "#424F63"],
-                                    tooltip: true,
-                                    tooltipOpts: {
-                                        defaultTheme: false
-                                    },
-                                    xaxis: {
-                                        mode:   "time",
-                                        tickLength: 5,
-                                        timezone: "browser" // "browser" for local to the client or timezone for timezone-js
-                                    }
-                                }
-                            );
-                        }
-                    };
-
-                    // SALES CHART
-                    // BY DEFAULT LAST 7 DAYS
-                    (function () {
-                        var from, to, today, dd, mm, yyyy, month, tz;
-
-                        today = new Date();
-                        today.setDate(today.getDate() + 1);
-                        dd = today.getDate().toString().length < 2 ? '0' + today.getDate() : today.getDate();
-                        month = today.getMonth() + 1; //January is 0!
-                        mm = month.toString().length < 2 ? '0' + month : month;
-                        yyyy = today.getFullYear();
-                        to = yyyy + "-" + mm + "-" + dd;
-
-                        today.setDate(today.getDate() - 7);
-                        dd = today.getDate().toString().length < 2 ? '0' + today.getDate() : today.getDate();
-                        month = today.getMonth() + 1; //January is 0!
-                        mm = month.toString().length < 2 ? '0' + month : month;
-                        yyyy = today.getFullYear();
-                        from = yyyy + "-" + mm + "-" + dd;
-                        tz = -today.getTimezoneOffset()/60;
-
-                        $statistic.getSalesDetail(from, to, tz).then(
-                            function (data) {
-                                renderSalesChart(data);
-                                $scope.salesChartData = data;
-                            }
-                        );
-                    })();
-
-                    $scope.updateVisitsChart = function (period) {
-                        var from, to, today, delta, dd, mm, month, yyyy, tz;
-
-                        var getDeltaValueForPeriod = function (period) {
-                            var delta = {};
-
-                            switch (period) {
-                                case "today":
-                                    $scope.visitsPeriod = 'today';
-                                    delta["to"] = 1;
-                                    delta["from"] = 1;
-                                    break;
-                                case "yesterday":
-                                    $scope.visitsPeriod = 'yesterday';
-                                    delta["to"] = 0;
-                                    delta["from"] = 1;
-                                    break;
-                                case "week":
-                                    $scope.visitsPeriod = 'week';
-                                    delta["to"] = 1;
-                                    delta["from"] = 7;
-                                    break;
-                                case "month":
-                                    $scope.visitsPeriod = 'month';
-                                    delta["to"] = 1;
-                                    delta["from"] = 31;
-                                    break;
-                                default:
-                                    $scope.visitsPeriod = 'week';
-                                    delta["to"] = 1;
-                                    delta["from"] = 7;
-                            }
-
-                            return delta;
-                        };
-
-                        delta = getDeltaValueForPeriod(period);
-
-                        today = new Date();
-                        today.setDate(today.getDate() + delta["to"]);
-                        dd = today.getDate().toString().length < 2 ? '0' + today.getDate() : today.getDate();
-                        month = today.getMonth() + 1; //January is 0!
-                        mm = month.toString().length < 2 ? '0' + month : month;
-                        yyyy = today.getFullYear();
-                        to = yyyy + "-" + mm + "-" + dd;
-
-                        today.setDate(today.getDate() - delta["from"]);
-                        dd = today.getDate().toString().length < 2 ? '0' + today.getDate() : today.getDate();
-                        month = today.getMonth() + 1; //January is 0!
-                        mm = month.toString().length < 2 ? '0' + month : month;
-                        yyyy = today.getFullYear();
-                        from = yyyy + "-" + mm + "-" + dd;
-                        tz = -today.getTimezoneOffset()/60;
-
-                        $statistic.getVisitsDetail(from, to, tz).then(
-                            function (data) {
-                                renderVisitsChart(data);
-                                $scope.visitorsChartData = data;
-                            }
-                        );
-                    };
-
-                    $scope.updateSalesChart = function (period) {
-                        var from, to, today, delta, dd, mm, month, yyyy, tz;
-
-                        var getDeltaValueForPeriod = function (period) {
-                            var delta = {};
-
-                            switch (period) {
-                                case "today":
-                                    $scope.salesPeriod = 'today';
-                                    delta["to"] = 1;
-                                    delta["from"] = 1;
-                                    break;
-                                case "yesterday":
-                                    $scope.salesPeriod = 'yesterday';
-                                    delta["to"] = 0;
-                                    delta["from"] = 1;
-                                    break;
-                                case "week":
-                                    $scope.salesPeriod = 'week';
-                                    delta["to"] = 1;
-                                    delta["from"] = 7;
-                                    break;
-                                case "month":
-                                    $scope.salesPeriod = 'month';
-                                    delta["to"] = 1;
-                                    delta["from"] = 31;
-                                    break;
-                                default:
-                                    $scope.salesPeriod = 'week';
-                                    delta["to"] = 1;
-                                    delta["from"] = 7;
-                            }
-
-                            return delta;
-                        };
-
-                        delta = getDeltaValueForPeriod(period);
-
-                        today = new Date();
-                        today.setDate(today.getDate() + delta["to"]);
-                        dd = today.getDate().toString().length < 2 ? '0' + today.getDate() : today.getDate();
-                        month = today.getMonth() + 1; //January is 0!
-                        mm = month.toString().length < 2 ? '0' + month : month;
-                        yyyy = today.getFullYear();
-                        to = yyyy + "-" + mm + "-" + dd;
-
-                        today.setDate(today.getDate() - delta["from"]);
-                        dd = today.getDate().toString().length < 2 ? '0' + today.getDate() : today.getDate();
-                        month = today.getMonth() + 1; //January is 0!
-                        mm = month.toString().length < 2 ? '0' + month : month;
-                        yyyy = today.getFullYear();
-                        from = yyyy + "-" + mm + "-" + dd;
-                         tz = -today.getTimezoneOffset()/60;
-
-                        $statistic.getSalesDetail(from, to, tz).then(
-                            function (data) {
-                                renderSalesChart(data);
-                                $scope.salesChartData = data;
-                            }
-                        );
-                    };
-
-                    $scope.getProductImage = function (image) {
-                        return $designImageService.getFullImagePath("", image);
-                    };
-
-                }
-            ]);
-
-        return dashboardModule;
+    // TOP REFERRERS
+    $statistic.getReferrers().then(function (data) {
+        // $scope.referrers = $dashboardUtilsService.sortObjectsArrayByField(data, 'count', 'int', "DESC");
     });
-})(window.define, jQuery);
+
+    // Website Conversions
+    $statistic.getConversions().then(function (data) {
+        $scope.conversions = data;
+    });
+
+    // TOP SELLERS
+    $statistic.getTopSellers().then(function (data) {
+        $scope.topSellers = data;
+    });
+
+
+    /*
+    Live Data Points
+     */
+    var pollingRate = 10 * 1000; // 10s
+
+
+    // Visit Stats
+    (function tick(){
+        $statistic.getVisits().then(function (data) {
+            $scope.visitStats = data;
+            $scope.visitTimeout = $timeout(tick, pollingRate);
+        });
+    })();
+    $scope.$on('$locationChangeStart', function() {
+      $timeout.cancel($scope.visitTimeout);
+    });
+
+    // Sales Stats
+    (function tick(){
+        $statistic.getSales().then(function (data) {
+            $scope.salesStats = data;
+            $scope.salesTimeout = $timeout(tick, pollingRate);
+        });
+    })();
+    $scope.$on('$locationChangeStart', function() {
+      $timeout.cancel($scope.salesTimeout);
+    });
+
+    // Highcharts settings that we can't adjust from ngHighcharts
+    Highcharts.setOptions({
+      chart: {
+          spacingLeft: 15,
+          spacingRight: 0,
+          backgroundColor: 'rgba(0,0,0,0)'
+      },
+      plotOptions: {
+          series: {
+            marker: {
+                enabled: false
+            }
+          }
+      },
+      yAxis: {
+        labels: {
+          style: {
+              color: '#98978B'
+          }
+        }
+      },
+      colors: [
+        '#325D88',
+        '#DFD7CA'
+      ],
+      legend: { enabled: false },
+      tooltip: {
+          formatter: function() {
+              return this.series.name + ' @ ' + moment.utc(this.x).format('ha') + ': ' + this.y;
+          }
+      }
+    });
+
+    var graphSettings = {
+        options: {
+            chart: { type: 'line'}
+        },
+        xAxis: {
+            type: 'datetime',
+            minTickInterval: moment.duration(1, 'hour').asMilliseconds(),
+            labels: {
+                formatter: function () {
+                    return moment.utc(this.value).format('ha');
+                }
+            }
+        },
+        yAxis: {
+            min: 0,
+            allowDecimals: false,
+            title: { enabled: false },
+        },
+        series: [],
+        title: { text: '' },
+
+        loading: false,
+        size: { height: 260 }
+    }
+
+    // Copy these settings over
+    $scope.salesGraph = angular.copy(graphSettings);
+    $scope.visitorGraph = angular.copy(graphSettings);
+
+    // Sales is in dollars, so update that label
+    $scope.salesGraph.yAxis.labels = {format : '${value}'};
+
+    // TODO: Poll for data, commented out for now until we are sure we are reporting on
+    // good data, maybe we want to only poll for today too...
+
+    // (function tick(){
+        $statistic.getSalesDetail().then(function(dataSets){
+            $scope.salesGraph.series = dataSets;
+            // $timeout(tick, pollingRate);
+        });
+    // })();
+
+    // (function tick(){
+        $statistic.getVisitsDetail().then(function(dataSets){
+            $scope.visitorGraph.series = dataSets;
+            // $timeout(tick, pollingRate);
+        });
+    // })();
+
+}]);

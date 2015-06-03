@@ -2,9 +2,9 @@ node_modules
 dist
 .tmp
 .sass-cache
-app/bower_components
 app/media
 .idea
 .vagrant
+tags
 
 dashboard.iml
