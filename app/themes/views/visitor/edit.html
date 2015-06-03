@@ -29,6 +29,7 @@
 		<tr>
 			<th>Date (yyyy/mm/dd)</th>
 			<th>Order Number</th>
+			<th>Notes</th>
 			<th>Total</th>
 			<th>Status</th>
 			<th>Actions</th>
@@ -38,6 +39,13 @@
 		<tr ng-repeat="order in orders">
 			<td>{{ order.Extra.created_at | date: 'yyyy/MM/dd'}}</td>
 			<td>{{ order.Extra.increment_id }}</td>
+			<td>
+				<div ng-if="order.notes">
+					<p ng-repeat="note in order.notes">
+						{{ note }}
+					</p>
+				</div>
+			</td>
 			<td>{{ order.Extra.grand_total | currency}}</td>
 			<td>{{ order.Extra.status }}</td>
 			<td>
