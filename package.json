@@ -7,10 +7,7 @@
     "type": "git",
     "url": "git://github.com/ottemo/dashboard.git"
   },
-  "license": [{
-          "type": "MIT",
-              "url": "https://github.com/caolan/async/raw/master/LICENSE"
-  }],
+  "license": "MIT",
   "devDependencies": {
     "connect-modrewrite": "^0.8.1",
     "del": "^0.1.3",
