@@ -3,12 +3,21 @@ angular.module("discountsModule")
 .controller("discountsEditController", [
 "$scope",
 "$discountsService",
-function($scope, $discountsService){
+"$routeParams",
+function($scope, $discountsService, $routeParams){
 
-	$scope.discount = {
-		noLimit: true,
-		noExpiry: true,
-		type: 'amount'
+	// Edit Page
+	if ($routeParams.id) {
+		$discountsService.get({id: $routeParams.id}, function(response) {
+			$scope.discount = response.result;
+		});
+	} else {
+		// New Page
+		$scope.discount = {
+			noLimit: true,
+			noExpiry: true,
+			type: 'amount'
+		}
 	}
 
 	$scope.clearDiscountValues = function() {
