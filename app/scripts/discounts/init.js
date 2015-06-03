@@ -11,11 +11,11 @@ function ($routeProvider) {
         templateUrl: "/themes/views/discounts/list.html",
         controller: "discountsListController"
     })
-    .when("/discounts/:id", {
+    .when("/discounts/new", {
         templateUrl: "/themes/views/discounts/edit.html",
         controller: "discountsEditController"
     })
-    .when("/discounts/new", {
+    .when("/discounts/:id", {
         templateUrl: "/themes/views/discounts/edit.html",
         controller: "discountsEditController"
     });
