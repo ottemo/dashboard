@@ -51,17 +51,23 @@ function ($scope, $location, $statistic, $designImageService, $dashboardUtilsSer
     (function tick(){
         $statistic.getVisits().then(function (data) {
             $scope.visitStats = data;
-            $timeout(tick, pollingRate);
+            $scope.visitTimeout = $timeout(tick, pollingRate);
         });
     })();
+    $scope.$on('$locationChangeStart', function() {
+      $timeout.cancel($scope.visitTimeout);
+    });
 
     // Sales Stats
     (function tick(){
         $statistic.getSales().then(function (data) {
             $scope.salesStats = data;
-            $timeout(tick, pollingRate);
+            $scope.salesTimeout = $timeout(tick, pollingRate);
         });
     })();
+    $scope.$on('$locationChangeStart', function() {
+      $timeout.cancel($scope.salesTimeout);
+    });
 
     // Highcharts settings that we can't adjust from ngHighcharts
     Highcharts.setOptions({
