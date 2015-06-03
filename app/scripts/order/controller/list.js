@@ -76,7 +76,7 @@ function ($rootScope, $scope, $location, $routeParams, $q, DashboardListService,
      * @param id
      */
     $scope.select = function (id) {
-        $location.path("/order/" + id);
+        $location.path("/order/" + id).search('');
     };
 
     /**

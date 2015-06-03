@@ -82,10 +82,6 @@ function ($scope, $routeParams, $location, $q, $orderApiService, $dashboardUtils
         );
     }
 
-    $scope.back = function () {
-        $location.path("/orders");
-    };
-
     /**
      * Event handler to save the order data.
      * Creates new order if ID in current order is empty OR updates current order if ID is set
@@ -96,18 +92,25 @@ function ($scope, $routeParams, $location, $q, $orderApiService, $dashboardUtils
         delete $scope.order["updated_at"];
         if (orderId !== null && JSON.stringify(oldString) !== JSON.stringify($scope.order)) {
             $orderApiService.update({"orderID": orderId}, $scope.order).$promise.then(function (response) {
+
+                // Success
                 if (response.error === null) {
                     $scope.message = $dashboardUtilsService.getMessage(null , 'success', 'Order was updated successfully');
+
+                    // Update the notes list with whatever is on the server.
+                    // we get the whole order back, so we could set the entire thing
+                    $scope.order.note = '';
+                    $scope.order.notes = response.result.notes || [];
+
                     for (var field in response.result) {
                         if (response.result.hasOwnProperty(field) && "updated_at" !== field) {
                             oldString[field] = response.result[field];
-
                         }
                     }
                 } else {
                     $scope.message = $dashboardUtilsService.getMessage(response);
                 }
-                                      $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
                 $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
             });
 
