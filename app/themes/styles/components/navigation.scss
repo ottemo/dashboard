@@ -25,14 +25,15 @@ body {
 
 .navbar-brand {
   font-size: 22px;
-}
-.navbar-brand > img {
-  display: inline-block;
-  height: 20px;
-  vertical-align: top;
-  position: relative;
-  top: -2px;
-  margin-right: 10px;
+
+  > img {
+    display: inline-block;
+    height: 20px;
+    vertical-align: top;
+    position: relative;
+    top: -2px;
+    margin-right: 10px;
+  }
 }
 
 .nav-menu {
@@ -53,48 +54,23 @@ body {
     -webkit-transition: all 0.4s ease;
     transition: all 0.4s ease;
   }
+
   @media (min-width: $nav-break) {
     left:0;
     right: auto;
   }
 
-
-  .navbar-user {
-    position: absolute;
-    bottom: 0;
-    height: 60px;
-    width: 100%;
-
-    .logout{
-      display: block;
-      color: #fff;
-      border: none;
-      background: 0 0;
-      font-size: 25px;
-      margin-top: 16px;
-      float: right;
-    }
-
-    .avatar {
-      border-radius: 50% !important;
-      width: 50px;
-      height: 50px;
-      position: relative;
-      top: 5px;
-      margin-left: 10px;
-      margin-bottom: 5px;
+  @media (min-width: $nav-break) {
+    .navbar-user {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      border-bottom: 0;
+      border-top: 1px #343438 solid;
     }
   }
-
 }
 
-.nav-menu h4 {
-  color: #fff;
-  font-size: 20px;
-  font-weight: 300;
-  margin-left: 15px;
-  line-height: 1.8;
-}
 .nav-menu {
   ul {
     margin: 0;
