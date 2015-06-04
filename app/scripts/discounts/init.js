@@ -9,14 +9,14 @@ function ($routeProvider) {
     $routeProvider
     .when("/discounts", {
         templateUrl: "/themes/views/discounts/list.html",
-        controller: "discountsListController"
+        controller: "listController"
     })
     .when("/discounts/new", {
         templateUrl: "/themes/views/discounts/edit.html",
-        controller: "discountsEditController"
+        controller: "editController"
     })
     .when("/discounts/:id", {
         templateUrl: "/themes/views/discounts/edit.html",
-        controller: "discountsEditController"
+        controller: "editController"
     });
 }]);

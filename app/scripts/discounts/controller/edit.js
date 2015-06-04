@@ -1,6 +1,6 @@
 angular.module("discountsModule")
 
-.controller("discountsEditController", [
+.controller("editController", [
 "$scope",
 "$discountsService",
 "$routeParams",
@@ -15,7 +15,7 @@ function($scope, $discountsService, $routeParams){
 		// New Page
 		$scope.discount = {
 			noLimit: true,
-			noExpiry: true,
+			// noExpiry: true,
 			type: 'amount'
 		}
 	}
@@ -29,12 +29,13 @@ function($scope, $discountsService, $routeParams){
 		if ($scope.discount.noLimit) {
 			$scope.discount.times = -1;
 		}
-		if ($scope.discount.noExpiry) {
-			$scope.discount.until = -1;
-		}
+		// if ($scope.discount.noExpiry) {
+		// 	$scope.discount.until = -1;
+		// }
 
-		$discountsService.save($scope.discount, function() {
-			$location.path('/discounts/' + discount._id );
+		$discountsService.save($scope.discount, function(response) {
+			var id = response.result._id;
+			$location.path('/discounts/' + id );
 		});
 	}
 }]);
