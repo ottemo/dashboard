@@ -48,10 +48,6 @@ function ($api, $q, moment) {
     };
 
     var _processDetailResponse = function(points) {
-        // TODO: sorting should be done on the server
-        var points = points.sort(function(a,b){
-            return (a[0] > b[0]) ? 1 : -1;
-        });
 
         // Split into two sets
         var set1 = points.splice(0,24).map(function(point){

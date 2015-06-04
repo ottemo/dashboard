@@ -97,7 +97,7 @@ function ($scope, $location, $statistic, $designImageService, $dashboardUtilsSer
       legend: { enabled: false },
       tooltip: {
           formatter: function() {
-              return this.series.name + ' @ ' + moment.utc(this.x).format('ha') + ': ' + this.y;
+              return this.series.name + ' @ ' + moment(this.x).format('ha') + ': ' + this.y;
           }
       }
     });
@@ -111,7 +111,7 @@ function ($scope, $location, $statistic, $designImageService, $dashboardUtilsSer
             minTickInterval: moment.duration(1, 'hour').asMilliseconds(),
             labels: {
                 formatter: function () {
-                    return moment.utc(this.value).format('ha');
+                    return moment(this.value).format('ha');
                 }
             }
         },
