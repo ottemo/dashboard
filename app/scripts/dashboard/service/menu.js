@@ -53,6 +53,11 @@ angular.module("dashboardModule")
 			"icon": "fa-list"
 		},
 		{
+			"title": "Discounts",
+			"link": "/discounts",
+			"icon": "fa-scissors"
+		},
+		{
 			"title": "Visitors",
 			"link": null,
 			"icon": "fa-users",

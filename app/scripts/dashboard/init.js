@@ -12,12 +12,13 @@ angular.module("dashboardModule", [
     "moment",
 
     // Ottemo
-    "loginModule",
-    "designModule",
     "categoryModule",
     "cmsModule",
     "configModule",
+    "designModule",
+    "discountsModule",
     "impexModule",
+    "loginModule",
     "orderModule",
     "productModule",
     "seoModule",

@@ -1,0 +1,38 @@
+<div class="page-header">
+	<a ng-href="/discounts/new" class="btn btn-primary pull-right">Add a discount</a>
+	<h1>
+		<span class="fa fa-scissors"></span>
+		Discounts
+	</h1>
+</div>
+
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>Details</th>
+			<th>Usage Limits</th>
+			<th>Start / End</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-if="!discounts">
+			<td colspan="100" class="text-center">
+				You don't have any discounts <a href="/discounts/new">create a discount</a> to get started.
+			</td>
+		</tr>
+		<tr ng-repeat="discount in discounts">
+			<td>
+				<h4 class="td__title"><a ng-href="/discounts/{{discount._id}}">{{ discount.name }} ({{ discount.code }})</a></h4>
+				<div>{{ discount.amount | currency}}{{ discount.percent }} off all orders</div>
+			</td>
+			<td>
+				<span ng-if="discount.times === -1">no limit</span>
+				<span ng-if="discount.times !== -1">{{ discount.times }}</span>
+			</td>
+			<td>
+				<div>Start: {{ discount.since | date:"MM/dd/yyyy" }}</div>
+				<div>End: {{ discount.until | date:"MM/dd/yyyy" }}</div>
+			</td>
+		</tr>
+	</tbody>
+</table>
