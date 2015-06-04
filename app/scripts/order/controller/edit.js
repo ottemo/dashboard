@@ -89,7 +89,9 @@ function ($scope, $routeParams, $location, $q, $orderApiService, $dashboardUtils
     $scope.save = function () {
         $('[ng-click="save()"]').addClass('disabled').append('<i class="fa fa-spin fa-spinner"><i>').siblings('.btn').addClass('disabled');
 
-        delete $scope.order["updated_at"];
+        delete $scope.order.updated_at;
+        delete $scope.order.notes; // if you submit notes it will replace all notes
+
         if (orderId !== null && JSON.stringify(oldString) !== JSON.stringify($scope.order)) {
             $orderApiService.update({"orderID": orderId}, $scope.order).$promise.then(function (response) {
 
