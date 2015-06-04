@@ -10,28 +10,33 @@
 	<thead>
 		<tr>
 			<th>Details</th>
-			<th>Times</th>
+			<th>Usage Limits</th>
 			<th>Start / End</th>
-			<th><!-- actions --></th>
+			<!-- <th>actions</th> -->
 		</tr>
 	</thead>
 	<tbody>
+		<tr ng-if="!discounts">
+			<td colspan="100" class="text-center">
+				You don't have any discounts <a href="/discounts/new">create a discount</a> to get started.
+			</td>
+		</tr>
 		<tr ng-repeat="discount in discounts">
 			<td>
-				<h4><a ng-href="/discounts/{{discount._id}}">{{ discount.name }}: {{ discount.code }}</a></h4>
-				<div>{{ discount.amount }}{{ discount.percent }} off all orders</div>
+				<h4><a ng-href="/discounts/{{discount._id}}">{{ discount.name }} ({{ discount.code }})</a></h4>
+				<div>{{ discount.amount | currency}}{{ discount.percent }} off all orders</div>
 			</td>
 			<td>
 				<span ng-if="discount.times === -1">no limit</span>
 				<span ng-if="discount.times !== -1">{{ discount.times }}</span>
 			</td>
 			<td>
-				<div>Start: {{ discount.since }}</div>
-				<div>End: {{ discount.until }}</div>
+				<div>Start: {{ discount.since | date:"MM/dd/yyyy" }}</div>
+				<div>End: {{ discount.until | date:"MM/dd/yyyy" }}</div>
 			</td>
-			<td>
+			<!-- <td>
 				<a ng-click="discount.delete()" class="btn btn-default">Delete</a>
-			</td>
+			</td> -->
 		</tr>
 	</tbody>
 </table>
