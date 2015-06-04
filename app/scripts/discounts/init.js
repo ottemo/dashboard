@@ -1,4 +1,4 @@
-angular.module("discountsModule", ["ngRoute", "ngResource"])
+angular.module("discountsModule", ["ngRoute", "moment"])
 
 /*
  *  Basic routing configuration
