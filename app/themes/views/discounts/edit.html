@@ -29,7 +29,7 @@
 					<div class="row">
 						<div class="col-sm-6">
 							<div class="form-group">
-								<label for="">Discount Name</label>
+								<label>Discount Name</label>
 								<input
 								type="text"
 								name="discountName"
@@ -40,7 +40,7 @@
 						</div>
 						<div class="col-sm-6">
 							<div class="form-group">
-								<label for="">Discount Code</label>
+								<label>Discount Code</label>
 								<input
 								type="text"
 								name="code"
@@ -51,7 +51,7 @@
 						</div>
 						<div class="col-sm-12 col-md-6">
 							<div class="form-group">
-								<label for="">How many times can this discount be used?</label>
+								<label>How many times can this discount be used?</label>
 								<div class="input-group">
 									<input
 									type="text"
@@ -87,7 +87,7 @@
 				<div class="panel-body">
 					<div class="form-inline">
 						<div class="form-group">
-							<label for="" class="sr-only"></label>
+							<label class="sr-only"></label>
 							<select
 							class="form-control"
 							name="type"
@@ -100,7 +100,7 @@
 						</div>
 
 						<div class="form-group" ng-if="discount.type == 'percent'">
-							<label for="">Take </label>
+							<label>Take </label>
 							<div class="input-group">
 								<input
 								type="text"
@@ -112,7 +112,7 @@
 							</div>
 						</div>
 						<div class="form-group" ng-if="discount.type == 'amount'">
-							<label for="">Take </label>
+							<label>Take </label>
 							<div class="input-group">
 								<span class="input-group-addon">$</span>
 								<input
@@ -145,7 +145,7 @@
 					<div class="row">
 						<div class="col-sm-6">
 							<div class="form-group">
-								<label for="">Begins</label>
+								<label>Begins</label>
 								<input
 								type="date"
 								class="form-control"
@@ -157,7 +157,7 @@
 						</div>
 						<div class="col-sm-6">
 							<div class="form-group">
-								<label for="">Expires</label>
+								<label>Expires</label>
 								<input
 								type="date"
 								class="form-control"
@@ -165,19 +165,6 @@
 								placeholder="mm/dd/yyyy"
 								required
 								ng-model="discount.until">
-								<!-- <div class="input-group">
-									<input
-									type="text"
-									class="form-control"
-									name="until"
-									placeholder="mm/dd/yyyy"
-									ng-model="discount.until"
-									ng-required="!discount.noExpiry"
-									ng-disabled="discount.noExpiry">
-									<label class="input-group-addon">
-										<input type="checkbox" name="noExpiry" ng-model="discount.noExpiry"> never
-									</label>
-								</div> -->
 							</div>
 						</div>
 					</div>
