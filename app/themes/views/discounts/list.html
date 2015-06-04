@@ -23,7 +23,7 @@
 		</tr>
 		<tr ng-repeat="discount in discounts">
 			<td>
-				<h4><a ng-href="/discounts/{{discount._id}}">{{ discount.name }} ({{ discount.code }})</a></h4>
+				<h4 class="td__title"><a ng-href="/discounts/{{discount._id}}">{{ discount.name }} ({{ discount.code }})</a></h4>
 				<div>{{ discount.amount | currency}}{{ discount.percent }} off all orders</div>
 			</td>
 			<td>

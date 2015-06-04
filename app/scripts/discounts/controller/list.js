@@ -4,8 +4,8 @@ angular.module("discountsModule")
 	"$scope",
 	"$discountsService",
 	function($scope, $discountsService){
-		$discountsService.getList().then(function(response) {
-			$scope.discounts = response.result;
+		$discountsService.getList().then(function(discounts) {
+			$scope.discounts = discounts;
 		});
 	}
 ]);

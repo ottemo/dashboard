@@ -6,11 +6,11 @@
 
 	    <h1 ng-if="discount._id">
 	        <span class="fa fa-scissors"></span>
-	        <a href="/discounts">Discounts</a> / {{discount.increment_id}}
+	        <a href="/discounts">Discounts</a> / {{discount.code}}
 	    </h1>
 	    <h1 ng-if="!discount._id">
 	        <span class="fa fa-scissors"></span>
-	        <a href="/discounts">Discounts</a> / New
+	        <a href="/discounts">Discounts</a> / {{ discount.code || 'New'}}
 	    </h1>
 	</div>
 
@@ -147,7 +147,7 @@
 							<div class="form-group">
 								<label for="">Begins</label>
 								<input
-								type="text"
+								type="date"
 								class="form-control"
 								name="since"
 								placeholder="mm/dd/yyyy"
@@ -159,7 +159,7 @@
 							<div class="form-group">
 								<label for="">Expires</label>
 								<input
-								type="text"
+								type="date"
 								class="form-control"
 								name="until"
 								placeholder="mm/dd/yyyy"

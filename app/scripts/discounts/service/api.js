@@ -35,7 +35,7 @@ angular.module("discountsModule")
 
 		this.getList = function() {
 			return $http.get(_url).then(function(response){
-				return response.data;
+				return response.data.result || [];
 			});
 		}
 
