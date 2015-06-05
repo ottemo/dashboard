@@ -11,10 +11,10 @@ var sass = require('gulp-sass');
 var del = require('del');
 var concat = require('gulp-concat');
 var sourcemaps = require('gulp-sourcemaps');
-// var ngAnnotate = require('gulp-ng-annotate');
-// var notify = require('gulp-notify');
 var refresh = require('gulp-livereload');
 var modRewrite = require('connect-modrewrite');
+var RevAll = require('gulp-rev-all');
+var runSequence = require('run-sequence');
 
 
 var paths = {
@@ -244,11 +244,32 @@ gulp.task('watch',function(){
     gulp.watch(paths.watch.lib,      ['lib.scripts']);
 });
 
+gulp.task('revision', function(){
+	if(env === 'production') {
+		var revAll = new RevAll({
+			dontUpdateReference: [/^((?!.js|.css).)*$/g],
+			dontRenameFile: [/^((?!.js|.css).)*$/g]
+		});
+		gulp.src('dist/**')
+			.pipe(revAll.revision())
+			.pipe(gulp.dest('dist'));
+	}
+});
+
+
 gulp.task('lib', ['lib.copy','lib.scripts']);
 
 gulp.task('themes', ['themes.copy','themes.scripts','themes.styles','themes.fonts','themes.images']);
 
-gulp.task('build', ['scripts', 'html','lib','themes','misc']);
+gulp.task('build', function(){
+	runSequence('clean', [
+		'scripts',
+		'html',
+		'lib',
+		'themes',
+		'misc'
+	], 'revision');
+});
 
 gulp.task('default', ['build'] ,function(){
     gulp.start('watch');
