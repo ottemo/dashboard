@@ -139,6 +139,10 @@
                 <th>Tax:</th>
                 <td class="text-right">{{order.tax_amount | currency}}</td>
             </tr>
+            <tr ng-if="order.discount">
+                <th>Discounts:</th>
+                <td class="text-right">({{order.discount | currency}})</td>
+            </tr>
             <tr>
                 <th>Order Total:</th>
                 <td class="text-right"><strong>{{order.grand_total | currency}}</strong></td>
