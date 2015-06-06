@@ -7,7 +7,7 @@ node_js:
 build_image: shippableimages/ubuntu1404_nodejs
 env: 
   global:
-    - SLACK_ORG=Ottemo Project=Dash
+    - SLACK_ORG=Ottemo PROJECT=Dashboard
     - REMOTE_HOST=admin.blitz.ottemo.io FOUNDATION_URI=https://api.blitz.ottemo.io
     - secure: a4YfZamJBJfWvkjgrJpucsoWaWrtrd3OmnmTuVNFL5vFndg1EDmxjHxn3UT4W9so4BIlSA0TH+f5AL2Nw5dGLB/R9gWe+ub3f3ENbI9FclmZpzU232jLKfLb+/C0EFYHKSvdTEITejgDsN47c27yOruobzJXfN/dTwy1YFq4liegcbOdvpeQ3Katv+TVavYQGQwjG5FDGGD47eyJ2ptT4AqH2o0hQUozO5KH2vKEY6XWQZuKF9AZNujAoN8tMWG0KMTPOLLOxvpAT1KP61dHYSvdDrvhjMnowLrSzCKE2cCDxR03rEnWvESz2zvfl2czG9+X5WWlU591cFwqJSveZQ==
 
