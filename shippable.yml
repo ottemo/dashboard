@@ -7,9 +7,9 @@ node_js:
 build_image: shippableimages/ubuntu1404_nodejs
 env: 
   global:
-    - SLACK_ORG=Ottemo Project=Dashboard
+    - SLACK_ORG=Ottemo Project=Dash
     - REMOTE_HOST=admin.blitz.ottemo.io FOUNDATION_URI=https://api.blitz.ottemo.io
-    - secure: E5KMgEfDJ7QcMF4vEG3eiayrs+BUI/EQvrewOW66D3ZIy0cB5xZYrsSsft4TVxr3os+1geUmLMjL+g/O8Sg89o+yG5qlbdodOLBT9qRXjlGEAVh3dlJuTSOFV0t4hNIP8vBtdgitLKQwzg3QBmJRjjEh734vjjT7SnS6jXiCHb2s81H+QD0dZTnIgg3b3m2nbKpm5TfgCjI0t4810+zPU/L3uV7mWbX6s77iWlPafIlYgXZxY7hMViSavlbbLwTAr3T08iu7mB/3Ti2CxxI6MQB9jxFiFP9yvKKVmF9plmpjqzumZ/Pd3q6wxBdk6gkLmGWyDWM/mtpanp9zTW2DNQ==
+    - secure: a4YfZamJBJfWvkjgrJpucsoWaWrtrd3OmnmTuVNFL5vFndg1EDmxjHxn3UT4W9so4BIlSA0TH+f5AL2Nw5dGLB/R9gWe+ub3f3ENbI9FclmZpzU232jLKfLb+/C0EFYHKSvdTEITejgDsN47c27yOruobzJXfN/dTwy1YFq4liegcbOdvpeQ3Katv+TVavYQGQwjG5FDGGD47eyJ2ptT4AqH2o0hQUozO5KH2vKEY6XWQZuKF9AZNujAoN8tMWG0KMTPOLLOxvpAT1KP61dHYSvdDrvhjMnowLrSzCKE2cCDxR03rEnWvESz2zvfl2czG9+X5WWlU591cFwqJSveZQ==
 
 before_install:
     # install NodeJS v0.12
