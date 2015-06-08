@@ -74,6 +74,9 @@ function ($scope, $routeParams, $location, $q, $productApiService, $designImageS
             addImageManagerAttribute();
         });
 
+	// Getting stock values for a product and assign qty values from response to current
+	// options of this product checking is the "Options" from response are present
+	// Map "$scope.product.options" with product options is to complicated and need to be simplified in future
     addStockValues = function () {
         $productApiService.getStock({"productID": productId}).$promise.then(
             function (response) {
