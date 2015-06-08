@@ -23,7 +23,11 @@
 		<tr ng-repeat="discount in discounts">
 			<td>
 				<h4 class="td__title"><a ng-href="/discounts/{{discount._id}}">{{ discount.name }} ({{ discount.code }})</a></h4>
-				<div>{{ discount.amount | currency}}{{ discount.percent }} off all orders</div>
+				<div>
+					<span ng-if="discount.amount > 0">{{ discount.amount | currency}}</span>
+					<span ng-if="discount.percent > 0">{{ discount.percent }}%</span>
+					off all orders
+				</div>
 			</td>
 			<td>
 				<span ng-if="discount.times === -1">no limit</span>
