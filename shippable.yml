@@ -7,9 +7,9 @@ node_js:
 build_image: shippableimages/ubuntu1404_nodejs
 env: 
   global:
-    - PROJECT=Dashboard HIPCHAT_ROOM=announce
+    - SLACK_ORG=Ottemo PROJECT=Dashboard
     - REMOTE_HOST=admin.blitz.ottemo.io FOUNDATION_URI=https://api.blitz.ottemo.io
-    - secure: JePvX8e49vPPWRLagd9lvuwV8wRBUD1EDkHnANJ8bTzfnDiAPBgqrgocliz7KR6F5ZPHBAvRkrIa6ZP1PVLdC/LeOzoojFyPzU7iiKxkatT2+Ry+QKnH603UGJzIfui1bLQ/eZT2D8wOjMggs4z8DXH62HCmzl+ovhboU1XBYRBuYVMZBKKN/2kcz8LVTZ0BP9jLLMJ5xHb9PDOX7fwBREnjn0dN2yy6uNpz9t7rKJCxNf4uk7+M6AHrryU4mEHpEfu9wbUhMGve5Del78YcZfc5PMDtmKqvamUDICOMCzHRFdl3kpkNsr72ynoZ3s0Vus/3cH9hShCfHNacVk4xQA==
+    - secure: a4YfZamJBJfWvkjgrJpucsoWaWrtrd3OmnmTuVNFL5vFndg1EDmxjHxn3UT4W9so4BIlSA0TH+f5AL2Nw5dGLB/R9gWe+ub3f3ENbI9FclmZpzU232jLKfLb+/C0EFYHKSvdTEITejgDsN47c27yOruobzJXfN/dTwy1YFq4liegcbOdvpeQ3Katv+TVavYQGQwjG5FDGGD47eyJ2ptT4AqH2o0hQUozO5KH2vKEY6XWQZuKF9AZNujAoN8tMWG0KMTPOLLOxvpAT1KP61dHYSvdDrvhjMnowLrSzCKE2cCDxR03rEnWvESz2zvfl2czG9+X5WWlU591cFwqJSveZQ==
 
 before_install:
     # install NodeJS v0.12
@@ -28,7 +28,7 @@ script:
     - bash deploy.sh
 
 after_failure:
-    - python hipchat_notifier.py --project $PROJECT --room $HIPCHAT_ROOM --token $HIPCHAT_TOKEN
+    - python slack_notifier.py --org $SLACK_ORG --project $PROJECT --token $SLACK_TOKEN
 
 after_success:
-    - python hipchat_notifier.py --project $PROJECT --room $HIPCHAT_ROOM --token $HIPCHAT_TOKEN -s
+    - python slack_notifier.py --org $SLACK_ORG --project $PROJECT --token $SLACK_TOKEN -s
