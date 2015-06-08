@@ -80,8 +80,8 @@ function ($scope, $routeParams, $location, $q, $productApiService, $designImageS
                 var result = response.result || {};
                 for (var i = 0; i < result.length; i+=1) {
                     for (var option in result[i].options) {
-                        if ($scope.product.options[option] !== "undefined") {
-                            $scope.product.options[option].options[result[i].options[option]]["qty"] = result[i].qty;
+                        if (typeof $scope.product.options[option] !== "undefined" && typeof $scope.product.options[option].options[result[i].options[option]] !== "undefined") {
+                        	$scope.product.options[option].options[result[i].options[option]]["qty"] = result[i].qty;
                         }
                     }
                 }
