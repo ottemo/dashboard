@@ -74,14 +74,17 @@ function ($scope, $routeParams, $location, $q, $productApiService, $designImageS
             addImageManagerAttribute();
         });
 
+	// Getting stock values for a product and assign qty values from response to current
+	// options of this product checking is the "Options" from response are present
+	// Map "$scope.product.options" with product options is to complicated and need to be simplified in future
     addStockValues = function () {
         $productApiService.getStock({"productID": productId}).$promise.then(
             function (response) {
                 var result = response.result || {};
                 for (var i = 0; i < result.length; i+=1) {
                     for (var option in result[i].options) {
-                        if ($scope.product.options[option] !== "undefined") {
-                            $scope.product.options[option].options[result[i].options[option]]["qty"] = result[i].qty;
+                        if (typeof $scope.product.options[option] !== "undefined" && typeof $scope.product.options[option].options[result[i].options[option]] !== "undefined") {
+                        	$scope.product.options[option].options[result[i].options[option]]["qty"] = result[i].qty;
                         }
                     }
                 }
