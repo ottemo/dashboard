@@ -40,10 +40,10 @@
 			<td>{{ order.Extra.created_at | date: 'yyyy/MM/dd'}}</td>
 			<td>{{ order.Extra.increment_id }}</td>
 			<td>
-				<div ng-if="order.notes">
-					<p ng-repeat="note in order.notes">
+				<div ng-if="order.Extra.notes">
+					<div ng-repeat="note in order.Extra.notes">
 						{{ note }}
-					</p>
+					</div>
 				</div>
 			</td>
 			<td>{{ order.Extra.grand_total | currency}}</td>
