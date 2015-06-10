@@ -13,17 +13,17 @@ env:
 
 before_install:
     # install NodeJS v0.12
-    - source ~/.nvm/nvm.sh && nvm install $SHIPPABLE_NODE_VERSION
-    - npm update -g npm 
+    - source ~/.nvm/nvm.sh && shippable_retry nvm install $SHIPPABLE_NODE_VERSION
+    - shippable_retry npm update -g npm 
     - npm version
-    - npm install -g gulp
+    - shippable_retry npm install -g gulp
 
 install: 
     # install the required dependencies
-    - npm install
+    - shippable_retry npm install
         
 script: 
-    - NODE_ENV=production gulp build
+    - NODE_ENV=production shippable_retry gulp build
     # deploy if branch == 'develop'
     - bash deploy.sh
 
