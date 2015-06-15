@@ -27,12 +27,11 @@ angular.module("seoModule")
         /**
          * Gets values for url rewrites
          */
-        var getSeoValues = function(url) {
-                $seoApiService.get({"url": url}).$promise.then(
+        var getSeoValues = function(id) {
+                $seoApiService.canonical({"id": id}).$promise.then(
                     function (response) {
-                        response.result[0]["ID"] = response.result[0]["_id"];
-                        seoIdToUrl[response.result[0]["_id"]] = response.result[0]["url"];
-                        $scope.rewritesTmp.push(response.result[0]);
+                        seoIdToUrl[response.result["_id"]] = response.result["url"];
+                        $scope.rewritesTmp.push(response.result);
                     }
                 );
         };
@@ -49,7 +48,7 @@ angular.module("seoModule")
                     seoIdToUrl = {};
 
                     for (var i = 0; i < seoList.length; i += 1) {
-                        getSeoValues(seoList[i]["url"]);
+                        getSeoValues(seoList[i]["_id"]);
                     }
                 }
             );

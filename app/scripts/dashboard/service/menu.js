@@ -11,11 +11,6 @@ angular.module("dashboardModule")
 	// We have these routes and pages floating around as well
 
 	// {
-	// 	"title": "URL Rewrite",
-	// 	"link": "/seo",
-	// 	"icon": "fa-random",
-	// }
-	// {
 	// 	"title": "Gallery",
 	// 	"link": "/cms/gallery",
 	// 	"icon": ""
@@ -90,6 +85,11 @@ angular.module("dashboardModule")
 					"link": "/cms/blocks"
 				}
 			]
+		},
+		{
+			"title": "URL Rewrite",
+			"link": "/seo",
+			"icon": "fa-random"
 		},
 		{
 			"title": "Settings",
