@@ -15,6 +15,11 @@ angular.module("seoModule")
             params: { url: "@url"},
             url: REST_SERVER_URI + "/seo/url/:url"
         },
+		"canonical": {
+			method: "GET",
+			params: { id: "@id"},
+			url: REST_SERVER_URI + "/seo/canonical/:id"
+		},
         "list": {
             method: "GET",
             url: REST_SERVER_URI + "/seo/items"

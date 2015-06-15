@@ -21,7 +21,9 @@ a:active {
 }
 /* Index page */
 .modal:not(#processing):not(#parent_id) .modal-dialog {
-  min-width: 90% !important;
+  width: 70% !important;
+  z-index: 2000;
+  margin-left: 300px;
 }
 .navbar {
   margin-bottom: 0 !important;
