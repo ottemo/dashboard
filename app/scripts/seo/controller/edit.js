@@ -179,7 +179,7 @@ angular.module("seoModule")
             * Check for valid rewrite and url if not, drop a message for it
             * checking is rewrite don't replace existing
             */
-            if ($scope.seo.rewrite.length < 4 || $scope.seo.rewrite === "" || !regexp.test($scope.seo.url)) {
+            if (!$scope.seo.rewrite || $scope.seo.rewrite === "" || $scope.seo.rewrite.length < 4 || !regexp.test($scope.seo.url)) {
                 $scope.message = $dashboardUtilsService.getMessage(null, 'warning', 'Need to specify object to rewrite and valid url');
                 updateError();
             } else {
