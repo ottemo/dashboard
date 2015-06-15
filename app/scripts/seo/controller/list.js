@@ -30,6 +30,7 @@ angular.module("seoModule")
         var getSeoValues = function(id) {
                 $seoApiService.canonical({"id": id}).$promise.then(
                     function (response) {
+						response.result["ID"] = response.result["_id"];
                         seoIdToUrl[response.result["_id"]] = response.result["url"];
                         $scope.rewritesTmp.push(response.result);
                     }
@@ -90,7 +91,7 @@ angular.module("seoModule")
          * @param id
          */
         $scope.select = function (id) {
-            $location.path("/seo/" + seoIdToUrl[id]);
+            $location.path("/seo/" + id);
         };
 
         /**

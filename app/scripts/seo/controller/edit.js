@@ -11,7 +11,7 @@ angular.module("seoModule")
         // Functions
         var getAttributeList, getDefaultSEO, checkAttributePosition, getRewriteList;
         // Variables
-        var seoURL, seoAttributes, seoRewriteNum, seoRewriteList;
+        var seoId, seoAttributes, seoRewriteNum, seoRewriteList;
 
 
         seoRewriteNum = 5;
@@ -23,14 +23,14 @@ angular.module("seoModule")
             "rewrite":{"IsRequired": true, "Label": "Object"}
         };
 
-        seoURL = $routeParams.id;
+		seoId = $routeParams.id;
 
-        if (!seoURL && seoURL !== "new") {
+        if (!seoId && seoId !== "new") {
             $location.path("/seo");
         }
 
-        if (seoURL === "new") {
-            seoURL = null;
+        if (seoId === "new") {
+			seoId = null;
         }
 
         getDefaultSEO = function () {
@@ -80,10 +80,10 @@ angular.module("seoModule")
          /**
          * Gets values for url rewrites :(
          */
-        var getSeoValues = function(url) {
-                $seoApiService.get({"url": url}).$promise.then(
+        var getSeoValues = function(id) {
+                $seoApiService.canonical({"id": id}).$promise.then(
                     function (response) {
-                        seoRewriteList[response.result[0]["rewrite"]] = response.result[0]["_id"];
+                        seoRewriteList[response.result["rewrite"]] = response.result["_id"];
                     }
                 );
         };
@@ -94,7 +94,7 @@ angular.module("seoModule")
                     seoRewriteList = {};
                     var i, seoList = response.result || [];
                     for (i = 0; i < seoList.length; i += 1) {
-                        getSeoValues(seoList[i]["url"]);
+                        getSeoValues(seoList[i]["_id"]);
                     }
                 }
             );
@@ -102,9 +102,9 @@ angular.module("seoModule")
 
         getRewriteList();
 
-        if (null !== seoURL) {
-            $seoApiService.get({"url": seoURL}).$promise.then(function (response) {
-                var result = response.result[0] || {};
+        if (null !== seoId) {
+            $seoApiService.canonical({"id": seoId}).$promise.then(function (response) {
+                var result = response.result || {};
                 $scope.seo = result;
             });
         }
