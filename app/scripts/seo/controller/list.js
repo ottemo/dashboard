@@ -23,20 +23,6 @@ angular.module("seoModule")
         $scope.idsSelectedRows = {};
         $scope.fields = [];
 
-
-        /**
-         * Gets values for url rewrites
-         */
-        var getSeoValues = function(id) {
-                $seoApiService.canonical({"id": id}).$promise.then(
-                    function (response) {
-						response.result["ID"] = response.result["_id"];
-                        seoIdToUrl[response.result["_id"]] = response.result["url"];
-                        $scope.rewritesTmp.push(response.result);
-                    }
-                );
-        };
-
         /**
          * Gets list and count of url rewrites
          */
@@ -49,7 +35,9 @@ angular.module("seoModule")
                     seoIdToUrl = {};
 
                     for (var i = 0; i < seoList.length; i += 1) {
-                        getSeoValues(seoList[i]["_id"]);
+						seoList[i]["ID"] = seoList[i]["_id"];
+						seoIdToUrl[seoList[i]["_id"]] =  seoList[i]["url"];
+						$scope.rewritesTmp.push(seoList[i]);
                     }
                 }
             );
