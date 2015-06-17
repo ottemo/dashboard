@@ -157,8 +157,12 @@ function ($rootScope, $scope, $location, $routeParams, $q, DashboardListService,
     });
 
     $scope.init = (function () {
+        // test if it is an empty object
         if (JSON.stringify({}) === JSON.stringify($location.search())) {
-            $location.search("sort", "^increment_id", "limit", "0," + COUNT_ITEMS_PER_PAGE);
+            $location.search({
+                sort: "^increment_id",
+                limit: "0," + COUNT_ITEMS_PER_PAGE
+            });
             return;
         }
         getOrderCount();
