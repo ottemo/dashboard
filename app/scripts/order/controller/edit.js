@@ -120,14 +120,4 @@ function ($scope, $routeParams, $location, $q, $orderApiService, $dashboardUtils
 
     };
 
-    $scope.getDate = function () {
-        var date, month, day;
-
-        date = new Date($scope.order['created_at']);
-        month = ("0" + (date.getMonth() + 1)).slice(-2);
-        day = ("0" + date.getDate()).slice(-2);
-
-        return date.getFullYear() + '/' + month + '/' + day;
-    };
-
 }]);

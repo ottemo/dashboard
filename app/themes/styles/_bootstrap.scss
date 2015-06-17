@@ -4,7 +4,7 @@
 
 // Reset and dependencies
 @import "bootstrap/normalize";
-@import "bootstrap/print";
+
 @import "bootstrap/glyphicons";
 
 // Core CSS
@@ -48,3 +48,6 @@
 // Utility classes
 @import "bootstrap/utilities";
 @import "bootstrap/responsive-utilities";
+
+// Print should over-ride everything
+@import "bootstrap/print";
