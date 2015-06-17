@@ -96,6 +96,24 @@ function ($rootScope, $scope, $location, $routeParams, $q, DashboardListService,
         return result;
     };
 
+    $scope.print = function() {
+        // The ids are stored in an object where the key is the id
+        // and whether it is currently active is the value
+        // so we have a bit of manipulation to perform
+        if (!hasSelectedRows()) {
+            return true;
+        }
+
+        var ids = [];
+        angular.forEach($scope.idsSelectedRows, function(active, id) {
+            if (active) {
+                ids.push(id);
+            }
+        });
+
+        window.open( '/orders/print?ids=' + ids.join(',') );
+    }
+
     /**
      * Removes order by ID
      *

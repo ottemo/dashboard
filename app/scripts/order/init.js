@@ -12,5 +12,9 @@ angular.module("orderModule", ["ngRoute", "ngResource", "designModule"])
         .when("/order/:id", {
             templateUrl: "/themes/views/order/edit.html",
             controller: "orderEditController"
+        })
+        .when("/orders/print", {
+            templateUrl: "/themes/views/order/print.html",
+            controller: "orderPrintController"
         });
 }]);

@@ -57,7 +57,7 @@ angular.module("designModule")
 
                 isInit = false;
                 isSelectedAll = false;
-                possibleButtons = ["new", "delete"];
+                possibleButtons = ["new", "delete", "print"];
                 activeFilters = {};
 
                 // Scope data
