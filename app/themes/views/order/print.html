@@ -1,0 +1,19 @@
+<div ng-repeat="order in orders">
+	<div class="page-header">
+		<h1 ng-if="order._id">
+			<!-- <span class="fa fa-list-alt"></span> -->
+			Order №{{order.increment_id}}
+			<!-- ({{order._id}}) -->
+		</h1>
+	</div>
+	<ng-include src="'/themes/views/order/order-details.html'"></ng-include>
+
+	<h3>Order Status: {{order.status}}</h3>
+
+	<h3>Notes</h3>
+	<ul ng-if="order.notes">
+		<li ng-repeat="note in order.notes">{{ note }}</li>
+	</ul>
+
+	<p style="page-break-after:always;"></p>
+</div>

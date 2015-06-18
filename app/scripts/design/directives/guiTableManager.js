@@ -49,7 +49,7 @@ angular.module("designModule")
             templateUrl: $designService.getTemplate("design/gui/table.html"),
             controller: function ($scope) {
                 // Variables
-                var isInit, isSelectedAll, activeFilters, possibleButtons;
+                var isInit, isSelectedAll, activeFilters;
 
                 // Functions
                 var prepareFilters, getOptions, getFilterStr, compareFilters, saveCurrentActiveFilters,
@@ -57,31 +57,28 @@ angular.module("designModule")
 
                 isInit = false;
                 isSelectedAll = false;
-                possibleButtons = ["new", "delete"];
                 activeFilters = {};
 
                 // Scope data
                 $scope.map = assignMapping($scope.mapping);
                 $scope.filters = [];
                 $scope.newFilters = {};
+                $scope.buttons = {
+                    // name: isActive
+                    new: true,
+                    delete: true,
+                    print: false
+                }
 
-                $scope.init = function () {
-                    var i, search;
-                    search = $location.search();
+                // If we have any buttonData set on the directive, let it override our defaults
+                angular.forEach($scope.buttonData, function(isActive, btnName) {
+                    $scope.buttons[btnName] = isActive;
+                });
 
-                    // Init buttons
-                    if (typeof $scope.buttons === "undefined") {
-                        $scope.buttons = {};
-                        for (i = 0; i < possibleButtons.length; i += 1) {
-                            $scope.buttons[possibleButtons[i]] = typeof $scope.buttonData !== "undefined" ? $scope.buttonData[possibleButtons[i]] : true;
-                        }
-                    }
-
-                    // Init sorting
-                    $scope.sort = {
-                        "currentValue": search.sort,
-                        "newValue": null
-                    };
+                var search = $location.search()
+                $scope.sort = {
+                    "currentValue": search.sort,
+                    "newValue": null
                 };
 
                 getOptions = function (opt) {
