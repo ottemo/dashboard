@@ -24,14 +24,14 @@
 			<td>
 				<h4 class="td__title"><a ng-href="/discounts/{{discount._id}}">{{ discount.name }} ({{ discount.code }})</a></h4>
 				<div>
-					<span ng-if="discount.amount > 0">{{ discount.amount | currency}}</span>
-					<span ng-if="discount.percent > 0">{{ discount.percent }}%</span>
+					<span ng-if="discount.type === 'amount'">{{ discount.amount | currency}}</span>
+					<span ng-if="discount.type === 'percent'">{{ discount.percent }}%</span>
 					off all orders
 				</div>
 			</td>
 			<td>
-				<span ng-if="discount.times === -1">no limit</span>
-				<span ng-if="discount.times !== -1">{{ discount.times }}</span>
+				<span ng-if="discount.isNoLimit">no limit</span>
+				<span ng-if="!discount.isNoLimit">{{ discount.times }}</span>
 			</td>
 			<td>
 				<div>Start: {{ discount.since | date:"MM/dd/yyyy" }}</div>
