@@ -221,6 +221,7 @@
 
 // Hide tabbable panes to start, show them when `.active`
 .tab-content {
+  margin-top: 15px;
   > .tab-pane {
     display: none;
   }
