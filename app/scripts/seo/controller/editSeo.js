@@ -4,7 +4,8 @@ angular.module("seoModule")
 		"$scope",
 		"$seoService",
 		"$dashboardUtilsService",
-		function ($scope, $seoService, $dashboardUtilsService) {
+		"$timeout",
+		function ($scope, $seoService, $dashboardUtilsService, $timeout) {
 
 			var isInit, seo, seoFields, seoUniqueFields, itemName, hasAttribute, save, remove, isModifySave, isInitUrlRewrite,
 				modifyRemoveMethod, isModifyRemove, modifySaveMethod, addAttributes, addAttributesValue, getDefaultSeo,
@@ -230,16 +231,18 @@ angular.module("seoModule")
 			 * Filling attributes for seo
 			 */
 			addAttributesValue = function () {
-				if (typeof $scope[itemName] !== "undefined" && !isInitUrlRewrite) {
-					seo = $seoService.find(itemName, $scope[itemName]._id);
-					if (seo === null) {
-						seo = getDefaultSeo();
+				$timeout(function() {
+					if (typeof $scope[itemName] !== "undefined" && !isInitUrlRewrite) {
+						seo = $seoService.find(itemName, $scope[itemName]._id);
+						if (seo === null) {
+							seo = getDefaultSeo();
+						}
+						for (var i = 0; i < seoFields.length; i += 1) {
+							$scope[itemName][seoUniqueFields[i]] = seo[seoFields[i]];
+						}
+						isInitUrlRewrite = true;
 					}
-					for (var i = 0; i < seoFields.length; i += 1) {
-						$scope[itemName][seoUniqueFields[i]] = seo[seoFields[i]];
-					}
-					isInitUrlRewrite = true;
-				}
+				}, 1000);
 			};
 
 			/**
