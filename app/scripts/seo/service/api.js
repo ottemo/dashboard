@@ -10,11 +10,12 @@ angular.module("seoModule")
             method: "DELETE",
             url: REST_SERVER_URI + "/seo/item/:itemID"
         },
-        "get": {
-            method: "GET",
-            params: { url: "@url"},
-            url: REST_SERVER_URI + "/seo/url/:url"
-        },
+		//  Dashboard don't use get SEO by URL anymore
+        //"get": {
+        //    method: "GET",
+        //    params: { url: "@url"},
+        //    url: REST_SERVER_URI + "/seo/url&url=:url"
+        //},
 		"canonical": {
 			method: "GET",
 			params: { id: "@id"},

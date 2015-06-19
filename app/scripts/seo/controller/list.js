@@ -7,10 +7,9 @@ angular.module("seoModule")
     "$routeParams",
     "$q",
     "$dashboardListService",
-    "$seoService",
     "$seoApiService",
     "COUNT_ITEMS_PER_PAGE",
-    function ($rootScope, $scope, $location, $routeParams, $q, DashboardListService, $seoService, $seoApiService, COUNT_ITEMS_PER_PAGE) {
+    function ($rootScope, $scope, $location, $routeParams, $q, DashboardListService, $seoApiService, COUNT_ITEMS_PER_PAGE) {
         var getSeoList, serviceList, getAttributeList, showColumns, seoList, seoIdToUrl;
 
         serviceList = new DashboardListService();

@@ -10,7 +10,7 @@ angular.module("seoModule")
             // Variables
             var list, oldValue, seoFields;
             // Functions
-            var init, find, save, update, remove, isModified, getDefaultSeo, getSeoFields, getByUrl;
+            var init, find, save, update, remove, isModified, getDefaultSeo, getSeoFields, canonical;
 
             list = [];
             seoFields = ["url", "title", "meta_keywords", "meta_description"];
@@ -49,10 +49,10 @@ angular.module("seoModule")
                 return null;
             };
 
-            getByUrl = function (url) {
+			canonical = function (id) {
                 var defer = $q.defer();
 
-                $seoApiService.get({"url": url}).$promise.then(
+                $seoApiService.canonical({"id": id}).$promise.then(
                     function (response) {
                         defer.resolve(response);
                     }
@@ -158,7 +158,7 @@ angular.module("seoModule")
                 "update": update,
                 "save": save,
                 "remove": remove,
-                "get": getByUrl,
+                "get": canonical,
                 "getDefaultSeo": getDefaultSeo,
                 "getSeoFields": getSeoFields
             };

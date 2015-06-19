@@ -77,7 +77,7 @@ angular.module("seoModule")
 				var existingSeo = $seoService.find(itemName, oldSeo.rewrite);
 				if (existingSeo) {
 					var callback = function (response) {
-						seo._id = response.result[0]._id;
+						seo._id = response.result._id;
 						$seoService.update(seo).then(
 							function (response) {
 								seo = response || null;
@@ -88,7 +88,7 @@ angular.module("seoModule")
 							}
 						);
 					};
-					$seoService.get(oldSeo.url).then(callback);
+					$seoService.get(oldSeo._id).then(callback);
 				} else {
 					$seoService.save(seo).then(
 						function (response) {
@@ -113,10 +113,10 @@ angular.module("seoModule")
 					delete $scope.save;
 
 					if (typeof seo._id === "undefined" && seo.url !== "") {
-						$seoService.get(seo.url).then(function (response) {
+						$seoService.get(seo._id).then(function (response) {
 							if (response.result !== null) {
 								for (var i = 0; i < seoFields.length; i += 1) {
-									$scope[itemName][seoUniqueFields[i]] = response.result[0][seoFields[i]];
+									$scope[itemName][seoUniqueFields[i]] = response.result[seoFields[i]];
 								}
 							}
 						});
@@ -155,14 +155,14 @@ angular.module("seoModule")
 						var seo;
 						var callback = function (response) {
 							if (response.result !== null) {
-								$seoService.remove(response.result[0]);
+								$seoService.remove(response.result);
 							}
 						};
 						for (var id in $scope.idsSelectedRows) {
 							if ($scope.idsSelectedRows.hasOwnProperty(id) && true === $scope.idsSelectedRows[id]) {
 								seo = $seoService.find(itemName, id);
 								if (seo !== null) {
-									$seoService.get(seo.url).then(callback);
+									$seoService.get(seo._id).then(callback);
 								}
 							}
 						}
@@ -188,7 +188,6 @@ angular.module("seoModule")
 				isInit = true;
 				seo = getDefaultSeo();
 			};
-			$scope.initSeo('product');
 
 			/**
 			 * Adds attributes for seo
