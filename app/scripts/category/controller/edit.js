@@ -9,7 +9,7 @@ angular.module("categoryModule")
 "$designImageService",
 "$dashboardUtilsService",
 function ($scope, $routeParams, $location, $q, $categoryApiService, $designImageService, $dashboardUtilsService) {
-    var categoryId, rememberProducts, oldProducts, getDefaultCategory, addImageManagerAttribute;
+    var categoryId, rememberProducts, oldProducts, getDefaultCategory;
 
     // Initialize SEO
     if (typeof $scope.initSeo === "function") {
@@ -27,24 +27,6 @@ function ($scope, $routeParams, $location, $q, $categoryApiService, $designImage
     }
 
     oldProducts = [];
-
-    addImageManagerAttribute = function () {
-        if(typeof $scope.attributes !== "undefined" && typeof $scope.category._id !== "undefined") {
-            $scope.attributes.unshift({
-                Attribute: "image",
-                Collection: "category",
-                Default: "",
-                Editors: "picture_manager",
-                Group: "Picture",
-                IsRequired: false,
-                IsStatic: false,
-                Label: "Image",
-                Model: "Category",
-                Options: "",
-                Type: "text"
-            });
-        }
-    };
 
     getDefaultCategory = function () {
         return {
@@ -67,7 +49,6 @@ function ($scope, $routeParams, $location, $q, $categoryApiService, $designImage
     $categoryApiService.attributesInfo().$promise.then(function (response) {
         var result = response.result || [];
         $scope.attributes = result;
-        addImageManagerAttribute();
     });
 
     if (null !== categoryId) {
@@ -77,7 +58,6 @@ function ($scope, $routeParams, $location, $q, $categoryApiService, $designImage
             rememberProducts();
             $scope.category.parent = $scope.category['parent_id'];
             $scope.selectedImage = result['image'];
-            addImageManagerAttribute();
         });
     }
 
@@ -202,7 +182,6 @@ function ($scope, $routeParams, $location, $q, $categoryApiService, $designImage
             if (response.error === null) {
                 $scope.category = response.result || getDefaultCategory();
                 $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Category was created successfully');
-                addImageManagerAttribute();
                 defer.resolve(true);
             }
             $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
