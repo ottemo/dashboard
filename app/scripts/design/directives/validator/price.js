@@ -1,14 +1,12 @@
-
-var re = new RegExp("^\\d*\\.*\\d{0,2}$", "");
-var priceNotValid = "not valid price";
-
 angular.module("designModule")
-
     .directive("otPrice", function () {
         return {
             restrict: 'A',
             require: '?ngModel',
             link: function (scope, elem, attrs, ngModel) {
+
+				var re = new RegExp("^\\d*\\.*\\d{0,2}$", "");
+				var priceNotValid = "not valid price";
 
                 var validate = function (value) {
                     var valid = re.test(value);
