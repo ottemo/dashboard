@@ -1,9 +1,3 @@
-
-
-var re = new RegExp("^[\\-]*[\\d]+[\\.\\d]*$", "");
-var integerNotValid = "not valid number";
-var positiveNotValid = "value should be more than zero";
-
 angular.module("designModule")
 
 .directive("otPositive", function () {
@@ -11,6 +5,9 @@ angular.module("designModule")
         restrict: 'A',
         require: '?ngModel',
         link: function (scope, elem, attrs, ngModel) {
+			var re = new RegExp("^[\\-]*[\\d]+[\\.\\d]*$", "");
+			var integerNotValid = "not valid number";
+			var positiveNotValid = "value should be more than zero";
 
             var validate = function (value) {
                 var valid;

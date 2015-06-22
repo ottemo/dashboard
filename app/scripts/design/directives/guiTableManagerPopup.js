@@ -1,45 +1,3 @@
-
-var assignMapping;
-
-var clone = function (obj) {
-    if (null === obj || "object" !== typeof obj) {
-        return obj;
-    }
-    var copy = obj.constructor();
-    for (var attr in obj) {
-        if (obj.hasOwnProperty(attr)) {
-            copy[attr] = obj[attr];
-        }
-    }
-    return copy;
-};
-
-assignMapping = function (mapping) {
-    var defaultMapping;
-
-    /**
-     * Default mapping
-     * @type {object}
-     */
-    defaultMapping = {
-        "id": "ID",
-        "name": "Name",
-        "image": "Image",
-        "shortDesc": "Desc",
-        "additionalName": "additional"
-    };
-
-    for (var field in mapping) {
-        if (mapping.hasOwnProperty(field)) {
-            if (typeof defaultMapping[field] !== "undefined") {
-                defaultMapping[field] = mapping[field];
-            }
-        }
-    }
-
-    return defaultMapping;
-};
-
 angular.module("designModule")
 
 /**
@@ -71,6 +29,45 @@ angular.module("designModule")
                 isInit = false;
                 isSelectedAll = false;
                 activeFilters = {};
+
+				var clone = function (obj) {
+					if (null === obj || "object" !== typeof obj) {
+						return obj;
+					}
+					var copy = obj.constructor();
+					for (var attr in obj) {
+						if (obj.hasOwnProperty(attr)) {
+							copy[attr] = obj[attr];
+						}
+					}
+					return copy;
+				};
+
+				var assignMapping = function (mapping) {
+					var defaultMapping;
+
+					/**
+					 * Default mapping
+					 * @type {object}
+					 */
+					defaultMapping = {
+						"id": "ID",
+						"name": "Name",
+						"image": "Image",
+						"shortDesc": "Desc",
+						"additionalName": "additional"
+					};
+
+					for (var field in mapping) {
+						if (mapping.hasOwnProperty(field)) {
+							if (typeof defaultMapping[field] !== "undefined") {
+								defaultMapping[field] = mapping[field];
+							}
+						}
+					}
+
+					return defaultMapping;
+				};
 
                 // Scope data
                 $scope.map = assignMapping($scope.mapping);

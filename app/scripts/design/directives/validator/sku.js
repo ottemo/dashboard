@@ -1,9 +1,3 @@
-
-var maxLength = 150;
-var re = new RegExp("^[\\w\\d\\_\\-]{1," + maxLength + "}$", "i");
-var skuNotValid = "Please use only letters (a-z, A-Z), numbers (0-9) or underscore(_) in this field, first character should be a letter. Max length " + maxLength;
-var skuTooMuchLong = "Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter. Max length " + maxLength;
-
 angular.module("designModule")
 
 .directive("otSku", function () {
@@ -11,6 +5,10 @@ angular.module("designModule")
         restrict: 'A',
         require: '?ngModel',
         link: function (scope, elem, attrs, ngModel) {
+			var maxLength = 150;
+			var re = new RegExp("^[\\w\\d\\_\\-]{1," + maxLength + "}$", "i");
+			var skuNotValid = "Please use only letters (a-z, A-Z), numbers (0-9) or underscore(_) in this field, first character should be a letter. Max length " + maxLength;
+			var skuTooMuchLong = "Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter. Max length " + maxLength;
 
             var validate = function (value) {
                 if (typeof value !== "undefined" && value.length > maxLength) {

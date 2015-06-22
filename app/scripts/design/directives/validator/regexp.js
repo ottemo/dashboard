@@ -1,6 +1,3 @@
-
-var notValid = "The field is not valid";
-
 angular.module("designModule")
 
 .directive("otRegexp", function () {
@@ -9,7 +6,7 @@ angular.module("designModule")
         require: 'ngModel',
         link: function (scope, elem, attrs, ngModel) {
             var regexpValue = elem.attr('ot-regexp');
-
+			var notValid = "The field is not valid";
 
             var validate = function (value) {
                 try {

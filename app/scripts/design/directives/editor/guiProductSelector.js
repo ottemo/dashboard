@@ -1,17 +1,3 @@
-
-var clone = function (obj) {
-if (null === obj || "object" !== typeof obj) {
-return obj;
-}
-var copy = obj.constructor();
-for (var attr in obj) {
-if (obj.hasOwnProperty(attr)) {
-    copy[attr] = obj[attr];
-}
-}
-return copy;
-};
-
 angular.module("designModule")
 /**
 *  Directive used for automatic attribute editor creation
@@ -52,6 +38,19 @@ function ($location, $routeParams, $designService, DashboardListService, $produc
             $scope.countSelected = 0;
 
             var oldWidth, getCountItems;
+
+			var clone = function (obj) {
+				if (null === obj || "object" !== typeof obj) {
+					return obj;
+				}
+				var copy = obj.constructor();
+				for (var attr in obj) {
+					if (obj.hasOwnProperty(attr)) {
+						copy[attr] = obj[attr];
+					}
+				}
+				return copy;
+			};
 
             /**
              * Gets count items

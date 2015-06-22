@@ -1,8 +1,3 @@
-
-
-var numberToLess = "The value is not within the specified range.";
-var numberToMore = "The value is not within the specified range.";
-
 angular.module("designModule")
 
     .directive("otBetween", function () {
@@ -10,6 +5,8 @@ angular.module("designModule")
             restrict: 'A',
             require: '?ngModel',
             link: function (scope, elem, attrs, ngModel) {
+				var numberToLess = "The value is not within the specified range.";
+				var numberToMore = "The value is not within the specified range.";
                 var params = elem.attr('ot-between').split(",");
 
                 var validate = function (value) {
