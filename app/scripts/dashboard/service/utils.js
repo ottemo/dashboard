@@ -1,45 +1,45 @@
-
-/**
-* Extends String object
-*
-* @param {string} charlist
-* @returns {string}
-*/
-String.prototype.trimLeft = function (charlist) {
-    if (typeof charlist === "undefined") {
-        charlist = "\\s";
-    }
-
-    return this.replace(new RegExp("^[" + charlist + "]+"), "");
-};
-
-/**
-* Extends String object
-*
-* @param {string} charlist
-* @returns {string}
-*/
-String.prototype.trimRight = function (charlist) {
-    if (typeof charlist === "undefined") {
-        charlist = "\\s";
-    }
-
-    return this.replace(new RegExp("[" + charlist + "]+$"), "");
-};
-
-/**
-* Extends String object
-*
-* @param {string} charlist
-* @returns {string}
-*/
-String.prototype.trim = function (charlist) {
-    return this.trimLeft(charlist).trimRight(charlist);
-};
-
 angular.module("dashboardModule")
 
 .service("$dashboardUtilsService", function () {
+
+/**
+ * Extends String object
+ *
+ * @param {string} charlist
+ * @returns {string}
+ */
+String.prototype.trimLeft = function (charlist) {
+	if (typeof charlist === "undefined") {
+		charlist = "\\s";
+	}
+
+	return this.replace(new RegExp("^[" + charlist + "]+"), "");
+};
+
+/**
+ * Extends String object
+ *
+ * @param {string} charlist
+ * @returns {string}
+ */
+String.prototype.trimRight = function (charlist) {
+	if (typeof charlist === "undefined") {
+		charlist = "\\s";
+	}
+
+	return this.replace(new RegExp("[" + charlist + "]+$"), "");
+};
+
+/**
+ * Extends String object
+ *
+ * @param {string} charlist
+ * @returns {string}
+ */
+String.prototype.trim = function (charlist) {
+	return this.trimLeft(charlist).trimRight(charlist);
+};
+
 var clone, getMessage, getMessageByCode, isJson, sortObjectsArrayByField;
 
 clone = function (obj) {

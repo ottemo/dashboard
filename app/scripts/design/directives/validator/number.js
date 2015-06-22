@@ -1,6 +1,3 @@
-var re = new RegExp("^[\\-]*[\\d]+$", "");
-var integerNotValid = "Please enter a valid number in this field.";
-
 angular.module("designModule")
 
 .directive("otNumber", function () {
@@ -8,6 +5,8 @@ angular.module("designModule")
         restrict: 'A',
         require: '?ngModel',
         link: function (scope, elem, attrs, ngModel) {
+			var re = new RegExp("^[\\-]*[\\d]+$", "");
+			var integerNotValid = "Please enter a valid number in this field.";
 
             var validate = function (value) {
                 var valid = re.test(value);

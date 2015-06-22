@@ -1,32 +1,3 @@
-
-var assignMapping;
-
-assignMapping = function (mapping) {
-var defaultMapping;
-
-/**
- * Default mapping
- * @type {object}
- */
-defaultMapping = {
-    "id": "ID",
-    "name": "Name",
-    "image": "Image",
-    "shortDesc": "Desc",
-    "additionalName": "additional"
-};
-
-for (var field in mapping) {
-    if (mapping.hasOwnProperty(field)) {
-        if (typeof defaultMapping[field] !== "undefined") {
-            defaultMapping[field] = mapping[field];
-        }
-    }
-}
-
-return defaultMapping;
-};
-
 angular.module("designModule")
 
 /**
@@ -58,6 +29,32 @@ angular.module("designModule")
                 isInit = false;
                 isSelectedAll = false;
                 activeFilters = {};
+
+				var assignMapping = function (mapping) {
+					var defaultMapping;
+
+					/**
+					 * Default mapping
+					 * @type {object}
+					 */
+					defaultMapping = {
+						"id": "ID",
+						"name": "Name",
+						"image": "Image",
+						"shortDesc": "Desc",
+						"additionalName": "additional"
+					};
+
+					for (var field in mapping) {
+						if (mapping.hasOwnProperty(field)) {
+							if (typeof defaultMapping[field] !== "undefined") {
+								defaultMapping[field] = mapping[field];
+							}
+						}
+					}
+
+					return defaultMapping;
+				};
 
                 // Scope data
                 $scope.map = assignMapping($scope.mapping);

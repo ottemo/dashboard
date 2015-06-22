@@ -1,52 +1,3 @@
-
-var assignMapping;
-
-assignMapping = function (mapping) {
-    var unsupportedAttr, supportedAttr, defaultMapping;
-
-    /**
-     * Unsupported attributes
-     *
-     * @type {string[]}
-     */
-    unsupportedAttr = [];
-
-    /**
-     * supported attributes
-     *
-     * @type {string[]}
-     */
-    supportedAttr = ["id", "name", "image", "shortDesc", "additionalName"];
-
-    /**
-     * Default mapping
-     * @type {object}
-     */
-    defaultMapping = {
-        "id": "Id",
-        "name": "Name",
-        "image": "Image",
-        "shortDesc": "Desc",
-        "additionalName": "additional"
-    };
-
-    for (var field in mapping) {
-        if (mapping.hasOwnProperty(field)) {
-            if (typeof defaultMapping[field] !== "undefined") {
-                defaultMapping[field] = mapping[field];
-            } else {
-                unsupportedAttr.push("'" + field + "'");
-            }
-        }
-    }
-    if (unsupportedAttr.length > 0) {
-        console.warn("\nUnsupported attributes for list:\n   " + unsupportedAttr.join("\n   ") +
-            "\n" + "List of available attributes for setting:\n   " + supportedAttr.join("\n   "));
-    }
-
-    return defaultMapping;
-};
-
 angular.module("designModule")
 
 /**
@@ -80,6 +31,52 @@ angular.module("designModule")
         },
         templateUrl: $designService.getTemplate("design/gui/list.html"),
         controller: function ($scope) {
+
+			var assignMapping = function (mapping) {
+				var unsupportedAttr, supportedAttr, defaultMapping;
+
+				/**
+				 * Unsupported attributes
+				 *
+				 * @type {string[]}
+				 */
+				unsupportedAttr = [];
+
+				/**
+				 * supported attributes
+				 *
+				 * @type {string[]}
+				 */
+				supportedAttr = ["id", "name", "image", "shortDesc", "additionalName"];
+
+				/**
+				 * Default mapping
+				 * @type {object}
+				 */
+				defaultMapping = {
+					"id": "Id",
+					"name": "Name",
+					"image": "Image",
+					"shortDesc": "Desc",
+					"additionalName": "additional"
+				};
+
+				for (var field in mapping) {
+					if (mapping.hasOwnProperty(field)) {
+						if (typeof defaultMapping[field] !== "undefined") {
+							defaultMapping[field] = mapping[field];
+						} else {
+							unsupportedAttr.push("'" + field + "'");
+						}
+					}
+				}
+				if (unsupportedAttr.length > 0) {
+					console.warn("\nUnsupported attributes for list:\n   " + unsupportedAttr.join("\n   ") +
+						"\n" + "List of available attributes for setting:\n   " + supportedAttr.join("\n   "));
+				}
+
+				return defaultMapping;
+			};
 
             $scope.map = assignMapping($scope.mapping);
 

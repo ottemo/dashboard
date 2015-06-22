@@ -1,6 +1,3 @@
-
-var dateNotValid = "Please enter a valid date (mm/dd/yyyy)";
-
 angular.module("designModule")
 
 .directive("otDate", function () {
@@ -8,6 +5,7 @@ angular.module("designModule")
         restrict: 'A',
         require: '?ngModel',
         link: function (scope, elem, attrs, ngModel) {
+			var dateNotValid = "Please enter a valid date (mm/dd/yyyy)";
 
             var validate = function (value) {
                 var date = new Date(value);
