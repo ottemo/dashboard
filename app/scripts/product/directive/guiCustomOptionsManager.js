@@ -17,7 +17,9 @@ angular.module("productModule")
             $scope.types = [
                 "field",
                 "select",
-                "multi_select"
+                "multi_select",
+				"radio",
+				"checkbox"
             ];
 
             getOptionLength = function (obj) {
