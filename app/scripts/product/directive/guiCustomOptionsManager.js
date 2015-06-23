@@ -158,7 +158,8 @@ angular.module("productModule")
                 var options = $scope.item.options[label];
                 for (var field in options) {
                     if (options.hasOwnProperty(field) && -1 === optionsFields.indexOf(field)) {
-                        delete options[field];
+						// TODO: for some period need ability switch to Radio and Checkbox without options loss
+                        //delete options[field];
                     }
                 }
                 delete $scope.item.options[""];
