@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-sm-4">
+    <div class="col-sm-6">
         <h3>Shipping Address</h3>
 
         <div>
@@ -17,9 +17,10 @@
             {{order.shipping_address.city}} {{order.shipping_address.state}}
             {{order.shipping_address.zip_code}} {{order.shipping_address.country}}
             <div>Ph: {{order.shipping_address.phone}}</div>
+            <div>Em: {{order.customer_email}}</div>
         </div>
     </div>
-    <div class="col-sm-4">
+    <div class="col-sm-6">
         <h3>Billing Address</h3>
 
         <div>
@@ -38,13 +39,6 @@
             {{order.billing_address.zip_code}} {{order.billing_address.country}}
             <div>Ph: {{order.billing_address.phone}}</div>
         </div>
-    </div>
-    <div class="col-sm-4">
-        <h3>Order Details</h3>
-
-        <div>Date: {{order.created_at | date:"MM/dd/yyyy h:mma"}}</div>
-        <div>Shipping Method: {{order.shipping_method}}</div>
-        <div>Payment Method: {{order.payment_method}}</div>
     </div>
 </div>
 
@@ -103,9 +97,18 @@
         </table>
     </div>
 
-    <div class="col-md-4">
+
+    <div class="col-sm-4">
+        <h3>Order Details</h3>
+
+        <div>Date: {{order.created_at | date:"MM/dd/yyyy h:mma"}}</div>
+        <div>Shipping Method: {{order.shipping_method}}</div>
+        <div>Payment Method: {{order.payment_method}}</div>
+    </div>
+    <div class="col-sm-8 col-md-4">
         <h3>Shipping Notes</h3>
         <!-- TODO: pull in shipping notes here -->
+        <p>None.</p>
     </div>
 
 </div>
