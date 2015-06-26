@@ -9,7 +9,8 @@ env:
   global:
     - SLACK_ORG=Ottemo PROJECT=Dashboard
     - REMOTE_HOST=admin.blitz.ottemo.io FOUNDATION_URI=https://api.blitz.ottemo.io
-    - secure: a4YfZamJBJfWvkjgrJpucsoWaWrtrd3OmnmTuVNFL5vFndg1EDmxjHxn3UT4W9so4BIlSA0TH+f5AL2Nw5dGLB/R9gWe+ub3f3ENbI9FclmZpzU232jLKfLb+/C0EFYHKSvdTEITejgDsN47c27yOruobzJXfN/dTwy1YFq4liegcbOdvpeQ3Katv+TVavYQGQwjG5FDGGD47eyJ2ptT4AqH2o0hQUozO5KH2vKEY6XWQZuKF9AZNujAoN8tMWG0KMTPOLLOxvpAT1KP61dHYSvdDrvhjMnowLrSzCKE2cCDxR03rEnWvESz2zvfl2czG9+X5WWlU591cFwqJSveZQ==
+    - secure: LzKm/EnFUlWGxf3LHhnmaV9w1OajVFuZLBkbF3rFJi93p5QFsd5OqDT6eoj4zZOBkCdAK6yFbLajzc8X/xQfl0ULytbMmTaU28WeF/Rvc3YVjsoNgvtLHc5mrRzBLeO1wSw5cg04bRmHVAZok53e2iPcIOnU4ycpJ3y+Z6i5fTvMDPlGqQOIP5XuX3GkbFmyWHUTYKOWn/qXUlvU6Olo/z4SEilaI+XIi7PdKT289xT+GZx+0UtAzNB7cTTkk9Bp0g1EvIlz3YUxRAHefpjNZfDfaq1xxrdoA7DitqEoBN453JkzM4klfuZA+Kim1YicAuJbr5lljhFnGavq5o31Tg==
+
 
 before_install:
     # install NodeJS v0.12
