@@ -1,12 +1,14 @@
 <!-- Page title -->
-<h2 class="label-info title" ng-if="attribute.Attribute">
-    <span class="fa fa-users"></span>
-    "{{attribute.Label}}" attribute editor
-</h2>
-<h2 class="label-info title" ng-if="!attribute.Attribute">
-    <span class="fa fa-users"></span>
-    New Attribute
-</h2>
+<div class="page-header">
+	<h1 ng-if="attribute.Attribute">
+		<i class="fa fa-users"></i>
+		"{{attribute.Label}}" attribute editor
+	</h1>
+	<h1 ng-if="!attribute.Attribute">
+		<i class="fa fa-tags"></i>
+		New Attribute
+	</h1>
+</div>
 
 <!-- Error message -->
 <gui-message-manager item="message"></gui-message-manager>

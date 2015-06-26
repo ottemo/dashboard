@@ -6,7 +6,7 @@ angular.module("visitorModule")
 "$visitorApiService",
 "$dashboardUtilsService",
 function ($scope, $routeParams, $location, $visitorApiService, $dashboardUtilsService) {
-    var formDisable, formEnable, formValidate, attr, requiredFields;
+    var formDisable, formEnable, formValidate, attr, requiredFields, editableFields;
 
     attr = $routeParams.attr;
     if (!attr && attr !== "new") {
@@ -17,9 +17,15 @@ function ($scope, $routeParams, $location, $visitorApiService, $dashboardUtilsSe
         attr = null;
     }
 
-    formDisable = function () {
+	editableFields = ["Label", "Group", "Editors", "Options", "Default", "Validators", "IsRequired", "IsLayered", "IsPublic", "Validators"];
+
+	formDisable = function () {
         $("form.container").find("input").attr("disabled", true);
         $("form.container").find("select").attr("disabled", true);
+		for (var i = 0; i < editableFields.length; i += 1) {
+			$("form.container").find("input[name=" + editableFields[i] + "]").removeAttr("disabled");
+			$("form.container").find("select[name=" + editableFields[i] + "]").removeAttr("disabled");
+		}
     };
 
     formEnable = function () {
