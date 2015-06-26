@@ -8,12 +8,5 @@
 	</div>
 	<ng-include src="'/themes/views/order/order-details.html'"></ng-include>
 
-	<h3>Order Status: {{order.status}}</h3>
-
-	<h3>Notes</h3>
-	<ul ng-if="order.notes">
-		<li ng-repeat="note in order.notes">{{ note }}</li>
-	</ul>
-
 	<p style="page-break-after:always;"></p>
 </div>
