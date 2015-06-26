@@ -29,7 +29,7 @@ function ($scope, $routeParams, $location, $visitorApiService, $dashboardUtilsSe
 
     $scope.attribute = {};
     $scope.attributesList = [];
-    $scope.typesAttribute = ["integer", "real", "text"];
+    $scope.typesAttribute = ["int", "float", "text"];
     $scope.editorsList = [
         "not_editable",
         "text",
