@@ -20,7 +20,7 @@
 
 				{{order.billing_address.city}}, {{order.billing_address.state}}
 				{{order.billing_address.zip_code}} {{order.billing_address.country}}
-				<div>Ph: {{order.billing_address.phone}}</div>
+				<div>Phone: {{order.billing_address.phone}}</div>
 			</div>
 		</div>
 		<div class="col-sm-6">
@@ -39,8 +39,8 @@
 
 				{{order.shipping_address.city}}, {{order.shipping_address.state}}
 				{{order.shipping_address.zip_code}} {{order.shipping_address.country}}
-				<div>Ph: {{order.shipping_address.phone}}</div>
-				<div>Em: {{order.customer_email}}</div>
+				<div>Phone: {{order.shipping_address.phone}}</div>
+				<div>Email: {{order.customer_email}}</div>
 			</div>
 		</div>
 	</div>
@@ -80,7 +80,7 @@
 					</div>
 				</td>
 				<td>{{product.Qty}}</td>
-				<td>{{product.Price | currency}}</td>
+				<td class="text-right">{{product.Price | currency}}</td>
 			</tr>
 		</tbody>
 		<tbody>
