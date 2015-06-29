@@ -5,7 +5,8 @@ angular.module("orderModule")
 "$location",
 "$q",
 "$orderApiService",
-function($scope, $location, $q, $orderApiService) {
+"$cmsApiService",
+function($scope, $location, $q, $orderApiService, $cmsApiService) {
 	var search = $location.search();
 
 	var params = {
@@ -21,17 +22,21 @@ function($scope, $location, $q, $orderApiService) {
 		allPromises.push(promise);
 	});
 
-	// Update the title so that we have a nice file name on the print
-	var pageTitle = "orders " + (new Date().toString());
-	pageTitle = pageTitle.toLowerCase().replace(/ /g, '_');
-	document.title = pageTitle;
-
+	// Give time for angular to apply
 	$q.all(allPromises)
 	.then(function(/*results*/){
-		// Give time for angular to apply
 		setTimeout(function(){
 			window.print();
 		}, 1000);
 	});
 
+	$scope.cms = {};
+
+	$cmsApiService.blockList({'identifier':'dash-order-print-header', 'extra':'content'}).$promise
+	.then(function(resp){
+		if (resp.result) {
+			var cmsBlock = resp.result[0];
+			$scope.cms.header = cmsBlock.Extra.content;
+		}
+	});
 }]);
