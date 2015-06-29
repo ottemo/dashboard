@@ -7,6 +7,26 @@
 	</div>
 	<div class="row">
 		<div class="col-sm-6">
+			<h3>Billing Address</h3>
+
+			<div>
+				<div>{{order.billing_address.first_name}} {{order.billing_address.last_name}}</div>
+
+				<div ng-if="order.billing_address.company">
+					<th>Company:</th>
+					<td>{{order.billing_address.company}}</td>
+				</div>
+
+				{{order.billing_address.address_line1}} <br>
+				{{order.billing_address.address_line2}}
+				<br ng-if="order.billing_address.address_line2">
+
+				{{order.billing_address.city}} {{order.billing_address.state}}
+				{{order.billing_address.zip_code}} {{order.billing_address.country}}
+				<div>Ph: {{order.billing_address.phone}}</div>
+			</div>
+		</div>
+		<div class="col-sm-6">
 			<h3>Shipping Address</h3>
 
 			<div>
@@ -25,26 +45,6 @@
 				{{order.shipping_address.zip_code}} {{order.shipping_address.country}}
 				<div>Ph: {{order.shipping_address.phone}}</div>
 				<div>Em: {{order.customer_email}}</div>
-			</div>
-		</div>
-		<div class="col-sm-6">
-			<h3>Billing Address</h3>
-
-			<div>
-				<div>{{order.billing_address.first_name}} {{order.billing_address.last_name}}</div>
-
-				<div ng-if="order.billing_address.company">
-					<th>Company:</th>
-					<td>{{order.billing_address.company}}</td>
-				</div>
-
-				{{order.billing_address.address_line1}} <br>
-				{{order.billing_address.address_line2}}
-				<br ng-if="order.billing_address.address_line2">
-
-				{{order.billing_address.city}} {{order.billing_address.state}}
-				{{order.billing_address.zip_code}} {{order.billing_address.country}}
-				<div>Ph: {{order.billing_address.phone}}</div>
 			</div>
 		</div>
 	</div>
