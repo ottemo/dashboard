@@ -1,4 +1,4 @@
-angular.module("orderModule", ["ngRoute", "ngResource", "designModule"])
+angular.module("orderModule", ["ngRoute", "ngResource", "designModule", "cmsModule"])
 
 /**
  *  Basic routing configuration
