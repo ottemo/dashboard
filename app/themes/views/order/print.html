@@ -13,15 +13,14 @@
 				<div>{{order.billing_address.first_name}} {{order.billing_address.last_name}}</div>
 
 				<div ng-if="order.billing_address.company">
-					<th>Company:</th>
-					<td>{{order.billing_address.company}}</td>
+					{{order.billing_address.company}}
 				</div>
 
 				{{order.billing_address.address_line1}} <br>
 				{{order.billing_address.address_line2}}
 				<br ng-if="order.billing_address.address_line2">
 
-				{{order.billing_address.city}} {{order.billing_address.state}}
+				{{order.billing_address.city}}, {{order.billing_address.state}}
 				{{order.billing_address.zip_code}} {{order.billing_address.country}}
 				<div>Ph: {{order.billing_address.phone}}</div>
 			</div>
@@ -33,15 +32,14 @@
 				<div>{{order.shipping_address.first_name}} {{order.shipping_address.last_name}}</div>
 
 				<div ng-if="order.shipping_address.company">
-					<th>Company:</th>
-					<td>{{order.shipping_address.company}}</td>
+					{{order.shipping_address.company}}
 				</div>
 
 				{{order.shipping_address.address_line1}} <br>
 				{{order.shipping_address.address_line2}}
 				<br ng-if="order.shipping_address.address_line2">
 
-				{{order.shipping_address.city}} {{order.shipping_address.state}}
+				{{order.shipping_address.city}}, {{order.shipping_address.state}}
 				{{order.shipping_address.zip_code}} {{order.shipping_address.country}}
 				<div>Ph: {{order.shipping_address.phone}}</div>
 				<div>Em: {{order.customer_email}}</div>
