@@ -49,10 +49,22 @@
 		</div>
 	</div>
 
+	<div class="row">
+		<div class="col-sm-6">
+			<h3>Order Details</h3>
+			<div>Date: {{order.created_at | date:"MM/dd/yyyy h:mma"}}</div>
+			<div>Shipping Method: {{order.shipping_method}}</div>
+			<div>Payment Method: {{order.payment_method}}</div>
+		</div>
+		<div class="col-sm-6">
+			<h3>Shipping Notes</h3>
+			<!-- TODO: pull in shipping notes here -->
+			<p>None.</p>
+		</div>
+	</div>
 
 	<h3>Order Items</h3>
-
-	<table class="table table-bordered table-striped order-details">
+	<table class="table table-bordered order-details">
 		<thead>
 			<tr>
 				<th>Name</th>
@@ -95,23 +107,6 @@
 			</tr>
 		</tbody>
 	</table>
-
-
-
-	<div class="row">
-		<div class="col-sm-6">
-			<h3>Order Details</h3>
-			<div>Date: {{order.created_at | date:"MM/dd/yyyy h:mma"}}</div>
-			<div>Shipping Method: {{order.shipping_method}}</div>
-			<div>Payment Method: {{order.payment_method}}</div>
-		</div>
-		<div class="col-sm-6">
-			<h3>Shipping Notes</h3>
-			<!-- TODO: pull in shipping notes here -->
-			<p>None.</p>
-		</div>
-
-	</div>
 
 	<p style="page-break-after:always;"></p>
 </div>
