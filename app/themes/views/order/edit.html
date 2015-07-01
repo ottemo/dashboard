@@ -23,7 +23,14 @@
         <table class="table table-bordered order-details">
             <tr>
                 <th>Name:</th>
-                <td>{{order.billing_address.last_name}}, {{order.billing_address.first_name}}</td>
+                <td ng-if="!order.visitor_id">
+                    {{order.billing_address.last_name}}, {{order.billing_address.first_name}}
+                </td>
+                <td ng-if="order.visitor_id">
+                    <a ng-href="/visitor/{{order.visitor_id}}">
+                        {{order.billing_address.last_name}}, {{order.billing_address.first_name}}
+                    </a>
+                </td>
             </tr>
             <tr>
                 <th>Company:</th>
