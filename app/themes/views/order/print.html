@@ -1,4 +1,4 @@
-<div ng-repeat="order in orders">
+<div ng-repeat="order in orders" class="page-break-after">
 	<div class="page-header">
 		<h1 ng-if="!cms.header">Order ID: {{order.increment_id}}</h1>
 		<div ng-bind-html="cms.header"></div>
@@ -50,12 +50,12 @@
 			<h3>Order Details</h3>
 			<div>Order ID: {{order.increment_id}}</div>
 			<div>Date: {{order.created_at | date:"MM/dd/yyyy h:mma"}}</div>
-			<div>Shipping Method: {{order.shipping_method}}</div>
-			<div>Payment Method: {{order.payment_method}}</div>
+			<div>Payment Method: {{order.payment_method_label}}</div>
 		</div>
 		<div class="col-sm-6">
-			<h3>Shipping Notes</h3>
-			<p>{{order.shipping_notes || 'None.'}}</p>
+			<h3>Shipping Info</h3>
+			<div>Shipping Method: {{order.shipping_method_label}}</div>
+			<div>Shipping Notes: {{order.shipping_info.notes || 'n/a'}}</div>
 		</div>
 	</div>
 
@@ -103,6 +103,4 @@
 			</tr>
 		</tbody>
 	</table>
-
-	<p style="page-break-after:always;"></p>
 </div>
