@@ -1,4 +1,4 @@
-<div ng-repeat="order in orders">
+<div ng-repeat="order in orders" class="page-break-after">
 	<div class="page-header">
 		<h1 ng-if="!cms.header">Order ID: {{order.increment_id}}</h1>
 		<div ng-bind-html="cms.header"></div>
@@ -103,6 +103,4 @@
 			</tr>
 		</tbody>
 	</table>
-
-	<div style="page-break-after:always;"></div>
 </div>
