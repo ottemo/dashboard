@@ -16,6 +16,11 @@
 .panel-body {
   padding: $panel-body-padding;
   @include clearfix;
+
+  // Strip the heading off of leading header tags in bodies
+  > h4 {
+    margin-top: 0;
+  }
 }
 .panel-body + .panel-body {
   border-top: 1px solid transparent;
