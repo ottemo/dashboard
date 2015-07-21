@@ -27,8 +27,8 @@
 <table class="table table-bordered table-striped" ng-if="orders">
 	<thead>
 		<tr>
-			<th>Date (yyyy/mm/dd)</th>
-			<th>Order Number</th>
+			<th>Date</th>
+			<th>Order ID</th>
 			<th>Notes</th>
 			<th>Total</th>
 			<th>Status</th>
@@ -37,8 +37,8 @@
 	</thead>
 	<tbody>
 		<tr ng-repeat="order in orders">
-			<td>{{ order.Extra.created_at | date: 'yyyy/MM/dd'}}</td>
-			<td>{{ order.Extra.increment_id }}</td>
+			<td>{{ order.Extra.created_at | date: 'MM/dd/yyyy'}}</td>
+			<td>{{ order.Extra._id }}</td>
 			<td>
 				<div ng-if="order.Extra.notes">
 					<div ng-repeat="note in order.Extra.notes">
