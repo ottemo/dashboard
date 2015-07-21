@@ -169,7 +169,7 @@ function ($scope, $routeParams, $location, $q, $visitorApiService, $dashboardUti
     $scope.orders = [];
     if (visitorId) {
         var orderParams = {
-            extra: ['increment_id', 'status', 'grand_total', 'created_at', 'visitor_id', 'notes'].join(','),
+            extra: ['_id', 'status', 'grand_total', 'created_at', 'visitor_id', 'notes'].join(','),
             sort: '^created_at',
             visitor_id: visitorId
         };
