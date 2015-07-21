@@ -50,11 +50,11 @@
 			<h3>Order Details</h3>
 			<div>Order ID: {{order.increment_id}}</div>
 			<div>Date: {{order.created_at | date:"MM/dd/yyyy h:mma"}}</div>
-			<div>Payment Method: {{order.payment_method_label}}</div>
+			<div>Payment Method: {{order.payment_info.payment_method_name}}</div>
 		</div>
 		<div class="col-sm-6">
 			<h3>Shipping Info</h3>
-			<div>Shipping Method: {{order.shipping_method_label}}</div>
+			<div>Shipping Method: {{order.shipping_info.shipping_method_name}}</div>
 			<div>Shipping Notes: {{order.shipping_info.notes || 'n/a'}}</div>
 		</div>
 	</div>
