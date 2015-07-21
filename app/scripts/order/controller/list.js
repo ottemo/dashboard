@@ -13,7 +13,7 @@ function ($rootScope, $scope, $location, $routeParams, $q, DashboardListService,
     var getOrdersList, serviceList, getOrderCount, getAttributeList, showColumns;
     serviceList = new DashboardListService();
     showColumns = {
-        'increment_id' : {'type' : 'select-link', 'label' : 'Order Number'},
+        '_id' : {'type' : 'select-link', 'label' : 'Order ID'},
         'status' : {},
         'customer_email' : {},
         'customer_name' : {},
@@ -178,8 +178,8 @@ function ($rootScope, $scope, $location, $routeParams, $q, DashboardListService,
         // test if it is an empty object
         if (JSON.stringify({}) === JSON.stringify($location.search())) {
             $location.search({
-                sort: "^increment_id",
-                limit: "0,25"
+                sort: "^created_at",
+                limit: "0,50"
             });
             return;
         }
