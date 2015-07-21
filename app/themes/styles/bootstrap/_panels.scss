@@ -16,6 +16,14 @@
 .panel-body {
   padding: $panel-body-padding;
   @include clearfix;
+
+  // Strip the heading off of leading header tags in bodies
+  > h4 {
+    margin-top: 0;
+  }
+}
+.panel-body + .panel-body {
+  border-top: 1px solid transparent;
 }
 
 // Optional heading
@@ -27,6 +35,9 @@
   > .dropdown .dropdown-toggle {
     color: inherit;
   }
+}
+.panel-body + .panel-heading {
+  border-top: 1px solid transparent;
 }
 
 // Within heading, strip any `h*` tag of its default margins for spacing.

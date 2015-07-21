@@ -16,6 +16,9 @@
       background-color: $heading-text-color;
     }
   }
+  & .panel-body {
+    border-color: $border;
+  }
   & > .panel-footer {
     + .panel-collapse > .panel-body {
       border-bottom-color: $border;
