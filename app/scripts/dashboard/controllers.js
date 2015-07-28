@@ -71,9 +71,12 @@ function ($scope, $location, $statistic, $designImageService, $dashboardUtilsSer
 
     // Highcharts settings that we can't adjust from ngHighcharts
     Highcharts.setOptions({
+      global: {
+        timezoneOffset: 0 //default
+	    },
       chart: {
           spacingLeft: 15,
-          spacingRight: 0,
+          spacingRight: 15,
           backgroundColor: 'rgba(0,0,0,0)'
       },
       plotOptions: {
@@ -97,21 +100,26 @@ function ($scope, $location, $statistic, $designImageService, $dashboardUtilsSer
       legend: { enabled: false },
       tooltip: {
           formatter: function() {
-              return this.series.name + ' @ ' + moment(this.x).format('ha') + ': ' + this.y;
+              return this.series.name + ' @ ' + moment.utc(this.x).format('HH:mm') + ': ' + this.y+'$';
           }
       }
     });
 
     var graphSettings = {
         options: {
-            chart: { type: 'line'}
+            chart: {
+              type: 'line'
+            }
         },
         xAxis: {
             type: 'datetime',
-            minTickInterval: moment.duration(1, 'hour').asMilliseconds(),
+            tickInterval: moment.duration(1, 'hour').asMilliseconds(),
+            tickAmount: 24,
             labels: {
                 formatter: function () {
-                    return moment(this.value).format('ha');
+                    // return moment(this.value).format('ha');
+                    // console.log('moment',this.value, moment(this.value).format('HH:mm') );
+                    return moment.utc(this.value).format('HH:mm')
                 }
             }
         },
@@ -140,6 +148,7 @@ function ($scope, $location, $statistic, $designImageService, $dashboardUtilsSer
     // (function tick(){
         $statistic.getSalesDetail().then(function(dataSets){
             $scope.salesGraph.series = dataSets;
+            console.log('SALES DATA', dataSets);
             // $timeout(tick, pollingRate);
         });
     // })();
@@ -147,6 +156,7 @@ function ($scope, $location, $statistic, $designImageService, $dashboardUtilsSer
     // (function tick(){
         $statistic.getVisitsDetail().then(function(dataSets){
             $scope.visitorGraph.series = dataSets;
+            console.log('VISITOR DATA', dataSets);
             // $timeout(tick, pollingRate);
         });
     // })();
