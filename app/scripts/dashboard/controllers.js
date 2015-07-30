@@ -71,6 +71,9 @@ function ($scope, $location, $statistic, $designImageService, $dashboardUtilsSer
 
     // Highcharts settings that we can't adjust from ngHighcharts
     Highcharts.setOptions({
+      global: {
+        timezoneOffset: 0 //default
+	    },
       chart: {
           spacingLeft: 15,
           spacingRight: 0,
@@ -97,34 +100,44 @@ function ($scope, $location, $statistic, $designImageService, $dashboardUtilsSer
       legend: { enabled: false },
       tooltip: {
           formatter: function() {
-              return this.series.name + ' @ ' + moment(this.x).format('ha') + ': ' + this.y;
+              return this.series.name + ' @ ' + moment.utc(this.x).format('ha') + ': ' + this.y;
           }
       }
     });
 
     var graphSettings = {
         options: {
-            chart: { type: 'line'}
+            chart: {
+              type: 'line',
+              style: {
+                  width: '100%'
+              }
+            }
         },
         xAxis: {
             type: 'datetime',
-            minTickInterval: moment.duration(1, 'hour').asMilliseconds(),
+            tickInterval: moment.duration(2, 'hour').asMilliseconds(),
+            tickAmount: 24,
             labels: {
                 formatter: function () {
-                    return moment(this.value).format('ha');
+                    // return moment(this.value).format('ha');
+                    // console.log('moment',this.value, moment(this.value).format('HH:mm') );
+                    return moment.utc(this.value).format('ha')
                 }
             }
         },
         yAxis: {
             min: 0,
+            minRange: 3,
             allowDecimals: false,
             title: { enabled: false },
         },
         series: [],
         title: { text: '' },
-
         loading: false,
-        size: { height: 260 }
+        size: { 
+          height: 260
+        }
     }
 
     // Copy these settings over
@@ -133,6 +146,7 @@ function ($scope, $location, $statistic, $designImageService, $dashboardUtilsSer
 
     // Sales is in dollars, so update that label
     $scope.salesGraph.yAxis.labels = {format : '${value}'};
+      
 
     // TODO: Poll for data, commented out for now until we are sure we are reporting on
     // good data, maybe we want to only poll for today too...
@@ -140,6 +154,7 @@ function ($scope, $location, $statistic, $designImageService, $dashboardUtilsSer
     // (function tick(){
         $statistic.getSalesDetail().then(function(dataSets){
             $scope.salesGraph.series = dataSets;
+            console.log('SALES DATA', dataSets);
             // $timeout(tick, pollingRate);
         });
     // })();
@@ -147,6 +162,7 @@ function ($scope, $location, $statistic, $designImageService, $dashboardUtilsSer
     // (function tick(){
         $statistic.getVisitsDetail().then(function(dataSets){
             $scope.visitorGraph.series = dataSets;
+            console.log('VISITOR DATA', dataSets);
             // $timeout(tick, pollingRate);
         });
     // })();
