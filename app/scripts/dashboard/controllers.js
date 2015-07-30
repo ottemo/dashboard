@@ -76,7 +76,7 @@ function ($scope, $location, $statistic, $designImageService, $dashboardUtilsSer
 	    },
       chart: {
           spacingLeft: 15,
-          spacingRight: 15,
+          spacingRight: 0,
           backgroundColor: 'rgba(0,0,0,0)'
       },
       plotOptions: {
@@ -100,7 +100,7 @@ function ($scope, $location, $statistic, $designImageService, $dashboardUtilsSer
       legend: { enabled: false },
       tooltip: {
           formatter: function() {
-              return this.series.name + ' @ ' + moment.utc(this.x).format('HH:mm') + ': ' + this.y+'$';
+              return this.series.name + ' @ ' + moment.utc(this.x).format('ha') + ': ' + this.y;
           }
       }
     });
@@ -108,31 +108,36 @@ function ($scope, $location, $statistic, $designImageService, $dashboardUtilsSer
     var graphSettings = {
         options: {
             chart: {
-              type: 'line'
+              type: 'line',
+              style: {
+                  width: '100%'
+              }
             }
         },
         xAxis: {
             type: 'datetime',
-            tickInterval: moment.duration(1, 'hour').asMilliseconds(),
+            tickInterval: moment.duration(2, 'hour').asMilliseconds(),
             tickAmount: 24,
             labels: {
                 formatter: function () {
                     // return moment(this.value).format('ha');
                     // console.log('moment',this.value, moment(this.value).format('HH:mm') );
-                    return moment.utc(this.value).format('HH:mm')
+                    return moment.utc(this.value).format('ha')
                 }
             }
         },
         yAxis: {
             min: 0,
+            minRange: 3,
             allowDecimals: false,
             title: { enabled: false },
         },
         series: [],
         title: { text: '' },
-
         loading: false,
-        size: { height: 260 }
+        size: { 
+          height: 260
+        }
     }
 
     // Copy these settings over
@@ -141,6 +146,7 @@ function ($scope, $location, $statistic, $designImageService, $dashboardUtilsSer
 
     // Sales is in dollars, so update that label
     $scope.salesGraph.yAxis.labels = {format : '${value}'};
+      
 
     // TODO: Poll for data, commented out for now until we are sure we are reporting on
     // good data, maybe we want to only poll for today too...
