@@ -203,7 +203,9 @@ table th.checkboxes-column {
   font-size: 17px;
   margin-bottom: 15px;
 }
-input[type="text"].ng-invalid, select.ng-invalid, textarea.ng-invalid{
+input[type="text"].ng-invalid.ng-dirty,
+select.ng-invalid.ng-dirty,
+textarea.ng-invalid.ng-dirty {
   box-shadow: 0 0 10px rgba(255,0,0,0.5);
   border: 1px solid red;
 }
