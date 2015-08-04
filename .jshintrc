@@ -26,5 +26,6 @@
     "unused": true,
     "strict": true,
     "sub": true,
-    "trailing": true
+    "trailing": true,
+    "predef": [ "angular"  ]
 }
