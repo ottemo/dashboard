@@ -186,7 +186,7 @@ gulp.task('misc', function () {
 gulp.task('jshint', function () {
     return gulp.src(paths.jshint)
         .pipe(jshint())
-        .pipe(jshint.reporter(require('jshint-stylish')));
+        .pipe(jshint.reporter('jshint-stylish'));
 });
 
 //

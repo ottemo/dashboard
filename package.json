@@ -27,6 +27,7 @@
     "gulp-sourcemaps": "^1.5.2",
     "gulp-strip-debug": "^1.0.2",
     "gulp-uglify": "^0.3.2",
+    "jshint-stylish": "^2.0.1",
     "run-sequence": "^1.1.0"
   },
   "dependencies": {}
