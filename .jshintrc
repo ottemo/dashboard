@@ -24,7 +24,8 @@
     "regexp": true,
     "undef": true,
     "unused": true,
-    "strict": true,
+    "strict": false, // we don't do this currently, the errors litter our hint
     "sub": true,
-    "trailing": true
+    "trailing": true,
+    "predef": [ "angular", "JSON", "Highcharts" ]
 }
