@@ -21,7 +21,19 @@ function ($rootScope, $scope, $location, $routeParams, $q, DashboardListService,
         'created_at' : {'label' : 'Date', 'type' : 'date'}
     };
 
+    // REFACTOR: I only want to work with the selected ids
+    // instead of an object of ids where the value was the selected state
+    $scope.selectedIds = [];
     $scope.idsSelectedRows = {};
+    $scope.$watch('idsSelectedRows', function(newVal, oldVal){
+        var ids = [];
+        angular.forEach($scope.idsSelectedRows, function(active, id) {
+            if (active) {
+                ids.push(id);
+            }
+        });
+        $scope.selectedIds = ids;
+    }, true);
 
     /**
      * Gets list of categories
@@ -87,32 +99,19 @@ function ($rootScope, $scope, $location, $routeParams, $q, DashboardListService,
     };
 
     var hasSelectedRows = function () {
-        var result = false;
-        for (var _id in $scope.idsSelectedRows) {
-            if ($scope.idsSelectedRows.hasOwnProperty(_id) && $scope.idsSelectedRows[_id]) {
-                result = true;
-            }
-        }
-        return result;
+        return $scope.selectedIds.length;
     };
 
-    $scope.print = function() {
-        // The ids are stored in an object where the key is the id
-        // and whether it is currently active is the value
-        // so we have a bit of manipulation to perform
-        if (!hasSelectedRows()) {
-            return true;
-        }
 
-        var ids = [];
-        angular.forEach($scope.idsSelectedRows, function(active, id) {
-            if (active) {
-                ids.push(id);
-            }
-        });
+    $scope.print = function() {
+        var ids = $scope.selectedIds;
+        if (!ids) return true;
 
         window.open( '/orders/print?ids=' + ids.join(',') );
     }
+
+    $scope.export = {};
+    $scope.export.action = angular.appConfigValue('general.app.foundation_url') +'/quickbooks/export';
 
     /**
      * Removes order by ID

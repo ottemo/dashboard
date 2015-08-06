@@ -8,6 +8,11 @@
 <!-- Error message -->
 <gui-message-manager item="message"></gui-message-manager>
 
+<form action="{{ export.action }}" >
+	<input type="text" ng-model="selectedIds" style="display: none;">
+	<button type="submit" class="btn btn-primary">Export (.iif)</button>
+</form>
+
 <!-- Table -->
 <gui-table-manager items="orders"
 object="this"
