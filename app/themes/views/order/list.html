@@ -10,14 +10,14 @@
 
 
 <!-- export -->
-<form action="{{ export.action }}" class="pull-right">
+<form class="pull-right" action="{{ export.action }}" method="POST">
 	<button type="submit"
 	class="btn btn-default"
 	ng-disabled="!selectedIds.length">
 		Export
 		<span style="text-transform:lowercase !important">.iif</span>
 	</button>
-	<input type="text" ng-model="selectedIds" style="display: none;">
+	<input type="text" name="orders" ng-model="selectedIds" style="display: none;">
 
 	<!-- print -->
 	<a class="btn btn-default"
