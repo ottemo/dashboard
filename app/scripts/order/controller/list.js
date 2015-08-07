@@ -103,11 +103,8 @@ function ($rootScope, $scope, $location, $routeParams, $q, DashboardListService,
     };
 
 
-    $scope.print = function() {
-        var ids = $scope.selectedIds;
-        if (!ids) return true;
-
-        window.open( '/orders/print?ids=' + ids.join(',') );
+    $scope.printUrl = function() {
+        return '/orders/print?ids=' + $scope.selectedIds.join(',');
     }
 
     $scope.export = {};
