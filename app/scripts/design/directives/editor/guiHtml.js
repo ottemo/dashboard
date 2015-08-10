@@ -9,33 +9,6 @@ angular.module("designModule")
             "attribute": "=editorScope",
             "item": "=item"
         },
-        templateUrl: $designService.getTemplate("design/gui/editor/html.html"),
-
-        controller: ["$scope", function ($scope) {
-            $scope.type = 'html';
-
-            $scope.switchView = function (id, type) {
-                var parent;
-                if ('source' === type) {
-                    document.getElementById(id).style.display = 'block';
-                    parent = document.getElementById(id).parentNode;
-                    parent.getElementsByTagName("div")[0].style.display = 'none';
-
-                } else {
-                    document.getElementById(id).style.display = 'none';
-                    parent = document.getElementById(id).parentNode;
-                    parent.getElementsByTagName("div")[0].style.display = 'block';
-                }
-                $scope.type = type;
-            };
-
-            $scope.isSource = function () {
-                return 'source' === $scope.type;
-            };
-
-            $scope.isHtml = function () {
-                return 'html' === $scope.type;
-            };
-        }]
+        templateUrl: $designService.getTemplate("design/gui/editor/html.html")
     };
 }]);

@@ -9,10 +9,6 @@ angular.module("designModule")
             "attribute": "=editorScope",
             "item": "=item"
         },
-        templateUrl: $designService.getTemplate("design/gui/editor/multilineText.html"),
-
-        controller: ["$scope", function() {
-
-        }]
+        templateUrl: $designService.getTemplate("design/gui/editor/multilineText.html")
     };
 }]);
