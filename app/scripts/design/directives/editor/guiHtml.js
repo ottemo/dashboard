@@ -22,9 +22,6 @@ angular.module("designModule")
                     parent.getElementsByTagName("div")[0].style.display = 'none';
 
                 } else {
-                    if ($scope.tinyInstance) {
-                        $scope.tinyInstance.setContent(document.getElementById(id).value);
-                    }
                     document.getElementById(id).style.display = 'none';
                     parent = document.getElementById(id).parentNode;
                     parent.getElementsByTagName("div")[0].style.display = 'block';
