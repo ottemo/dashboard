@@ -47,10 +47,8 @@ var paths = {
             'app/lib/angular/angular.min.js',
             'app/lib/angular/*.js',
             'app/lib/jquery*.js',
-            // 'tinymce.min.js',
             'app/lib/*.js'
         ],
-        copy: ['app/lib/tinymce/**/*'],
         dist: 'dist/lib'
     },
     watch:{
@@ -89,14 +87,6 @@ gulp.task('scripts', function () {
     .pipe(refresh())
     // .pipe(notify({ message: 'Script compilation completed' }))
 })
-
-//
-// app/lib copy task
-//
-gulp.task('lib.copy',  function () {
-    return gulp.src(paths.lib.copy,{ base: 'app/lib' })
-        .pipe(gulp.dest(paths.lib.dist));
-});
 
 //
 // app/lib js task
@@ -257,7 +247,7 @@ gulp.task('revision', function(){
 });
 
 
-gulp.task('lib', ['lib.copy','lib.scripts']);
+gulp.task('lib', ['lib.scripts']);
 
 gulp.task('themes', ['themes.copy','themes.scripts','themes.styles','themes.fonts','themes.images']);
 
