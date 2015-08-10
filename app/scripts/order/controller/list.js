@@ -108,7 +108,7 @@ function ($rootScope, $scope, $location, $routeParams, $q, DashboardListService,
     }
 
     $scope.export = {};
-    $scope.export.action = angular.appConfigValue('general.app.foundation_url') +'/quickbooks/export';
+    $scope.export.action = angular.appConfigValue('general.app.foundation_url') +'/export/quickbooks';
 
     /**
      * Removes order by ID
