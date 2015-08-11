@@ -63,8 +63,7 @@ angular.module("designModule")
                 $scope.buttons = {
                     // name: isActive
                     new: true,
-                    delete: true,
-                    print: false
+                    delete: true
                 }
 
                 // If we have any buttonData set on the directive, let it override our defaults

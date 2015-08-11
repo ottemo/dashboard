@@ -31,7 +31,9 @@ angular.module("dashboardModule", [
 /*
  *  Basic routing configuration
  */
-.config(["$routeProvider", "$httpProvider",'$locationProvider', function ($routeProvider, $httpProvider,$locationProvider) {
+.config(["$routeProvider", "$httpProvider",'$locationProvider','$sceDelegateProvider',
+    function ($routeProvider, $httpProvider, $locationProvider, $sceDelegateProvider) {
+
     $httpProvider.interceptors.push(function ($q) {
         return {
             'response': function (response) {
@@ -55,6 +57,12 @@ angular.module("dashboardModule", [
             }
         };
     });
+
+    $sceDelegateProvider.resourceUrlWhitelist([
+        'self',
+        angular.appConfigValue("general.app.foundation_url") + '/**'
+    ]);
+
     $routeProvider
         .when("/", {
             templateUrl: "/themes/views/dashboard/welcome.html",

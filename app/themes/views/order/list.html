@@ -8,7 +8,26 @@
 <!-- Error message -->
 <gui-message-manager item="message"></gui-message-manager>
 
+
+<!-- export -->
+<form class="pull-right" action="{{ export.action }}" method="POST">
+	<button type="submit"
+	class="btn btn-default"
+	ng-disabled="!selectedIds.length">
+		Export
+		<span style="text-transform:lowercase !important">.iif</span>
+	</button>
+	<input type="text" name="orders" ng-model="selectedIds" style="display: none;">
+
+	<!-- print -->
+	<a class="btn btn-default"
+	ng-class="{disabled: !selectedIds.length}"
+	ng-href="{{ selectedIds.length ? printUrl() : '' }}">
+		Print
+	</a>
+</form>
+
 <!-- Table -->
 <gui-table-manager items="orders"
 object="this"
-buttons="{'new':false,'delete':false,'print': true}"></gui-table-manager>
+buttons="{'new':false,'delete':false}"></gui-table-manager>
