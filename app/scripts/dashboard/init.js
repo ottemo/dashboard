@@ -4,7 +4,6 @@ angular.module("dashboardModule", [
     "ngResource",
     "ngSanitize",
     "ngAnimate",
-    "ngCookies",
 
     // Lib
     "ui.odometer",
