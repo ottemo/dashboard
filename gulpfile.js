@@ -15,7 +15,7 @@ var refresh = require('gulp-livereload');
 var modRewrite = require('connect-modrewrite');
 var RevAll = require('gulp-rev-all');
 var runSequence = require('run-sequence');
-var util = require('gulp-util');
+var gutil = require('gulp-util');
 var plumber = require('gulp-plumber');
 
 
@@ -64,9 +64,8 @@ var paths = {
 
 var handleError = function(err) {
     gutil.log(gutil.colors.red('# Error in ' + err.plugin));
-    gutil.log('fileName : %s', err.fileName);
-    gutil.log('lineName : %s', err.lineName);
-    gutil.log('message : %s', err.message);
+    gutil.log('File: %s:%s', err.fileName, err.lineNumber);
+    gutil.log('Error Message: %s', err.message);
     gutil.beep();
 }
 
