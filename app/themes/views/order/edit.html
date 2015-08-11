@@ -130,6 +130,12 @@
             <div class="panel-body">
                 <h4>Order Details</h4>
                 <div>Order ID: {{order._id}}</div>
+                <div ng-if="order.payment_info.transactionID">Transaction ID: {{order.payment_info.transactionID || 'n/a'}}
+                </div>
+                <div ng-if="order.payment_info.creditCardType">
+                    Credit Card - {{order.payment_info.creditCardType}} :
+                    xxx - {{order.payment_info.creditCardNumbers}}
+                </div>
                 <div>Order Date: {{order.created_at | date:"MM/dd/yyyy h:mma"}}</div>
                 <div>Payment Method: {{order.payment_info.payment_method_name}}</div>
                 <div>Shipping Method: {{order.shipping_info.shipping_method_name}}</div>

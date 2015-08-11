@@ -76,7 +76,7 @@ function ($scope, $routeParams, $location, $q, $orderApiService, $dashboardUtils
             function (response) {
                 var result = response.result || {};
                 $scope.order = result;
-                oldString = clone($scope.order);
+                oldString = $.extend({}, $scope.order);
                 delete oldString["updated_at"];
             }
         );
