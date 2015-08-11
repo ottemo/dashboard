@@ -46,10 +46,10 @@ var paths = {
     },
     lib:{
         scripts: [
-            'app/lib/angular/angular.min.js',
-            'app/lib/angular/*.js',
             'app/lib/jquery*.js',
-            'app/lib/*.js'
+            'app/lib/angular/angular.min.js',
+            'app/lib/angular/*.min.js',
+            'app/lib/*.min.js'
         ],
         dist: 'dist/lib'
     },
@@ -106,7 +106,7 @@ gulp.task('scripts', function () {
 //
 gulp.task('lib.scripts', function () {
     return gulp.src(paths.lib.scripts)
-        .pipe(concat('lib.js'))
+        .pipe(concat('scripts.min.js'))
         .pipe(gulp.dest(paths.lib.dist))
         .pipe(refresh())
         // .pipe(notify({ message: 'Lib compilation completed' }))
