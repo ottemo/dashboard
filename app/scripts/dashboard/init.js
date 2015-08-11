@@ -33,29 +33,32 @@ angular.module("dashboardModule", [
 .config(["$routeProvider", "$httpProvider",'$locationProvider','$sceDelegateProvider',
     function ($routeProvider, $httpProvider, $locationProvider, $sceDelegateProvider) {
 
-    $httpProvider.interceptors.push(function ($q) {
-        return {
-            'response': function (response) {
-                if (typeof response.data.error !== "undefined" &&
-                    response.data.error !== null &&
-                    response.data.error.code === "0bc07b3d-1443-4594-af82-9d15211ed179") {
-                    location.replace('/');
-                }
-                return response;
-            },
-            'responseError': function (rejection) {
-                switch (rejection.status) {
-                    case 401:
-                        location.reload();
-                        break;
-                    case 404:
-                        console.warn("The server is unable to process this request - " + rejection.config.url);
-                        break;
-                }
-                return $q.reject(rejection);
-            }
-        };
-    });
+        var otInterceptor = ['$q',
+            function ($q) {
+                return {
+                    response: function (response) {
+                        if (typeof response.data.error !== "undefined" &&
+                            response.data.error !== null &&
+                            response.data.error.code === "0bc07b3d-1443-4594-af82-9d15211ed179") {
+                            location.replace('/');
+                        }
+                        return response;
+                    },
+                    responseError: function (rejection) {
+                        switch (rejection.status) {
+                            case 401:
+                                location.reload();
+                                break;
+                            case 404:
+                                console.warn("The server is unable to process this request - " + rejection.config.url);
+                                break;
+                        }
+                        return $q.reject(rejection);
+                    }
+                };
+        }];
+
+    $httpProvider.interceptors.push(otInterceptor);
 
     $sceDelegateProvider.resourceUrlWhitelist([
         'self',
