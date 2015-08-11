@@ -15,6 +15,8 @@ var refresh = require('gulp-livereload');
 var modRewrite = require('connect-modrewrite');
 var RevAll = require('gulp-rev-all');
 var runSequence = require('run-sequence');
+var util = require('gulp-util');
+var plumber = require('gulp-plumber');
 
 
 var paths = {
@@ -60,6 +62,14 @@ var paths = {
     }
 };
 
+var handleError = function(err) {
+    gutil.log(gutil.colors.red('# Error in ' + err.plugin));
+    gutil.log('fileName : %s', err.fileName);
+    gutil.log('lineName : %s', err.lineName);
+    gutil.log('message : %s', err.message);
+    gutil.beep();
+}
+
 var env = process.env.NODE_ENV || 'development';
 
 var host = {
@@ -79,9 +89,13 @@ gulp.task('clean', function (cb) {
 gulp.task('scripts', function () {
   return gulp.src(paths.scripts)
     .pipe(sourcemaps.init())
-    .pipe(concat('main.js'))
+    .pipe(plumber(handleError))
     .pipe(gulp.dest(paths.dist+'/scripts/raw'))
-    .pipe(uglify({mangle:false}))
+    .pipe(uglify({
+        mangle:false
+    }))
+    .pipe(plumber.stop())
+    .pipe(concat('main.js'))
     .pipe(sourcemaps.write('./maps'))
     .pipe(gulp.dest(paths.dist+'/scripts'))
     .pipe(refresh())
@@ -119,7 +133,11 @@ gulp.task('themes.scripts', function () {
      */
     return gulp.src(paths.themes.scripts,{ base: paths.themes.base })
         .pipe(stripDebug())
-        .pipe(uglify({mangle: false}))
+        .pipe(plumber(handleError))
+        .pipe(uglify({
+            mangle: false
+        }))
+        .pipe(plumber.stop())
         .pipe(concat('main.js'))
         .pipe(gulp.dest(paths.themes.dist+'/scripts'));
 
