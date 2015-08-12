@@ -8,11 +8,11 @@
 
     <h1 ng-if="order._id">
         <span class="fa fa-list-alt"></span>
-        <a href="/order">Orders</a> / {{order._id}}
+        <a href="/orders">Orders</a> / {{order._id}}
     </h1>
     <h1 ng-if="!order._id">
         <span class="fa fa-list-alt"></span>
-        <a href="/order">Orders</a> / New
+        <a href="/orders">Orders</a> / New
     </h1>
 </div>
 
@@ -132,6 +132,13 @@
                 <div>Order ID: {{order._id}}</div>
                 <div>Order Date: {{order.created_at | date:"MM/dd/yyyy h:mma"}}</div>
                 <div>Payment Method: {{order.payment_info.payment_method_name}}</div>
+                <div ng-if="order.payment_info.creditCardType">
+                    {{order.payment_info.creditCardType}}:
+                    xxx - {{order.payment_info.creditCardNumbers}}
+                </div>
+                <div ng-if="order.payment_info.transactionID">
+                    Transaction ID: {{order.payment_info.transactionID || 'n/a'}}
+                </div>
                 <div>Shipping Method: {{order.shipping_info.shipping_method_name}}</div>
                 <div>Shipping Notes: {{order.shipping_info.notes || 'n/a'}}</div>
             </div>
