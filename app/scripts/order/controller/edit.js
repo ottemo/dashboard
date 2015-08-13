@@ -47,12 +47,16 @@ function ($scope, $routeParams, $location, $q, $orderApiService, $dashboardUtils
             "label": "New"
         },
         {
-            "value": "completed",
-            "label": "Completed"
-        },
-        {
             "value": "pending",
             "label": "Pending"
+        },
+        {
+            "value": "processed"
+            "label": "Processed"
+        },
+        {
+            "value": "completed",
+            "label": "Completed"
         },
         {
             "value": "cancelled",
