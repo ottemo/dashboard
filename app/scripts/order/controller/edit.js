@@ -51,7 +51,7 @@ function ($scope, $routeParams, $location, $q, $orderApiService, $dashboardUtils
             "label": "Pending"
         },
         {
-            "value": "processed"
+            "value": "processed",
             "label": "Processed"
         },
         {
