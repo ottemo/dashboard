@@ -40,7 +40,7 @@ String.prototype.trim = function (charlist) {
 	return this.trimLeft(charlist).trimRight(charlist);
 };
 
-var clone, getMessage, getMessageByCode, isJson, sortObjectsArrayByField;
+var clone, getMessage, getMessageByCode, isJson;
 
 clone = function (obj) {
 if (null === obj || "object" !== typeof obj) {
@@ -63,52 +63,6 @@ try {
 }
 return true;
 };
-
-/**
-* Sorts objects array by the field. By default sorting ascending a strings
-*
-* @param {object} array - [Object_1, Object_2...Object_N]
-* @param {string} field - Field from object
-* @param {string} type - Field type
-* @param {string} order - Ыort order
-* @returns {array}
-*/
-sortObjectsArrayByField = function (array, field, type, order) {
-
-/**
- * Converts the value of the type
- *
- * @param {*} val
- * @param {string} type
- * @returns {*}
- */
-var getInType = function (val, type) {
-    var integerTypes = ['int', 'integer', 'numeric', 'number'];
-    var floatTypes = ['float', 'real'];
-    var result = val.toString();
-
-    if (integerTypes.indexOf(type) >= 0) {
-        result = parseInt(val, 10);
-    } else if (floatTypes.indexOf(type) >= 0) {
-        result = parseFloat(val);
-    }
-
-    return result;
-};
-
-
-return array.sort(function (a, b) {
-    if (getInType(a[field], type) < getInType(b[field], type)) {
-        return order === "ASC" ? -1 : 1;
-    }
-    if (getInType(a[field], type) > getInType(b[field], type)) {
-        return order === "ASC" ? 1 : -1;
-    }
-
-    return 0;
-});
-};
-
 
 /**
 * Gets message text by code. If message by code not exist, returns default message from  error object

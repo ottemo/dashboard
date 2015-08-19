@@ -27,7 +27,9 @@ function ($scope, $location, $statistic, $designImageService, $dashboardUtilsSer
 
     // TOP REFERRERS
     $statistic.getReferrers().then(function (data) {
-        // $scope.referrers = $dashboardUtilsService.sortObjectsArrayByField(data, 'count', 'int', "DESC");
+        if (angular.isArray(data)) {
+          $scope.referrers = data;
+        }
     });
 
     // Website Conversions
@@ -135,7 +137,7 @@ function ($scope, $location, $statistic, $designImageService, $dashboardUtilsSer
         series: [],
         title: { text: '' },
         loading: false,
-        size: { 
+        size: {
           height: 260
         }
     }
@@ -146,7 +148,7 @@ function ($scope, $location, $statistic, $designImageService, $dashboardUtilsSer
 
     // Sales is in dollars, so update that label
     $scope.salesGraph.yAxis.labels = {format : '${value}'};
-      
+
 
     // TODO: Poll for data, commented out for now until we are sure we are reporting on
     // good data, maybe we want to only poll for today too...
