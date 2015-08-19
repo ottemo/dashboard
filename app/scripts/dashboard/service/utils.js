@@ -115,8 +115,7 @@ angular.module("dashboardModule")
     return {
         "clone": clone,
         "getMessage": getMessage,
-        "isJson": isJson,
-        "sortObjectsArrayByField": sortObjectsArrayByField
+        "isJson": isJson
     };
 
 });
