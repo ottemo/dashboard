@@ -442,6 +442,7 @@ angular.module("designModule")
                     if (limit) {
                         parts = limit.split(",");
                         page = Math.floor(parts[0] / countPerPage) + 1;
+                        countPerPage = parts[1];
                     }
                     $scope.paginator = {
                         "page": page,
