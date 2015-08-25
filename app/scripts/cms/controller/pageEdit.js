@@ -18,9 +18,7 @@ function (
 ) {
 
     // Initialize SEO
-    if (typeof $scope.initSeo === "function") {
-        $scope.initSeo("page");
-    }
+    $scope.initSeo("page");
 
     // Retrieve page id from url
     var pageId = $routeParams.id;
