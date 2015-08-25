@@ -1,11 +1,7 @@
 <div class="page-header">
-	<h1 ng-if="page._id">
+	<h1>
 		<span class="fa fa-indent"></span>
-		<a href="/cms/pages">Pages</a> / {{page.identifier}}
-	</h1>
-	<h1 ng-if="!page._id">
-		<span class="fa fa-indent"></span>
-		<a href="/cms/pages">Pages</a> / New
+		<a href="/cms/pages">Pages</a> / {{page._id ? page.identifier : 'New'}}
 	</h1>
 </div>
 

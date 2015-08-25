@@ -8,143 +8,124 @@ angular.module("cmsModule")
 "$q",
 "$cmsApiService",
 "$dashboardUtilsService",
-function ($scope, $routeParams, $location, $q, $cmsApiService, $dashboardUtilsService) {
-    var pageId, getDefaultPage;
+function (
+    $scope,
+    $routeParams,
+    $location,
+    $q,
+    $cmsApiService,
+    $dashboardUtilsService
+) {
 
     // Initialize SEO
-    if (typeof $scope.initSeo === "function") {
-        $scope.initSeo("page");
-    }
+    $scope.initSeo("page");
 
-    pageId = $routeParams.id;
+    // Retrieve page id from url
+    var pageId = $routeParams.id;
 
-    if (!pageId && pageId !== "new") {
+    // Redirect to pages list if no page id
+    if (!pageId) {
         $location.path("/cms/pages");
     }
 
-    if (pageId === "new") {
-        pageId = null;
-    }
-
-    getDefaultPage = function () {
-        return {
-            "id": "",
-            "url": "",
-            "identifier": "",
-            "title": "",
-            "content": "",
-            "meta_keywords": "",
-            "meta_description": "",
-            "created_at": "",
-            "updated_at": ""
-        };
-    };
-
-    $scope.count = 100;
-
-    /**
-     * Current selected cms
-     *
-     * @type {Object}
-     */
-    $scope.page = getDefaultPage();
-
-
-    /**
-     * Gets list all attributes of cms
-     */
+    // Get page attributes
     $cmsApiService.pageAttributes().$promise.then(
         function (response) {
-            var result = response.result || [];
-            $scope.attributes = result;
+            $scope.attributes = response.result;
         }
     );
 
-    if (null !== pageId) {
+    // Default page values
+    function getDefaultPage() {
+        return {
+            _id: null
+        };
+    }
+
+    // Init page
+    if (pageId === 'new') {
+        $scope.page = getDefaultPage();
+    } else {
         $cmsApiService.pageGet({"pageID": pageId}).$promise.then(
             function (response) {
-                var result = response.result || {};
-                $scope.page = result;
+                // If we pass incorrect page ID
+                // we don't have an error from server
+                // instead we have empty page here (_id === '')
+                if (response.result._id !== '') {
+                    $scope.page = response.result;
+                // so we redirect to new page page
+                } else {
+                    $location.path('/cms/page/new')
+                }
             }
         );
     }
 
+    // Action Back
     $scope.back = function () {
         $location.path("/cms/pages");
     };
 
-    /**
-     * Event handler to save the cms data.
-     * Creates new cms if ID in current cms is empty OR updates current cms if ID is set
-     */
+    // Action Save
     $scope.save = function () {
-        //disable buttons
+
+        // Disable buttons while saving/updating
         $('[ng-click="save()"]').addClass('disabled').append('<i class="fa fa-spin fa-spinner"><i>').siblings('.btn').addClass('disabled');
 
-        var id, defer, saveSuccess, saveError, updateSuccess, updateError;
-        defer = $q.defer();
-        if (typeof $scope.page !== "undefined") {
-            id = $scope.page.id || $scope.page._id;
-        }
+        var defer = $q.defer();
 
-        /**
-         *
-         * @param response
-         */
-        saveSuccess = function (response) {
-            if (response.error === null) {
-                var result = response.result || getDefaultPage();
-                $scope.page._id = response.result._id;
-                $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Page was created successfully');
-                defer.resolve(result);
+        // If page._id !== null update existing page 
+        if ($scope.page._id !== null) {
+            var promise = $cmsApiService.pageUpdate($scope.page).$promise;
 
-                $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
-                $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
-            }
-        };
+            promise.then(updateSuccess, updateError);
+            // Enable buttons in any case
+            promise.finally(function() {
+                    $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                    $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
+                });
 
-        /**
-         *
-         * @param response
-         */
-        saveError = function () {
-            $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
-            $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
-            defer.resolve(false);
-        };
-
-        /**
-         *
-         * @param response
-         */
-        updateSuccess = function (response) {
-            if (response.error === null) {
-                var result = response.result || getDefaultPage();
-                $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Page was updated successfully');
-                $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
-                $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
-                defer.resolve(result);
-            }
-        };
-
-        /**
-         *
-         * @param response
-         */
-        updateError = function () {
-            $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
-            $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
-            defer.resolve(false);
-        };
-
-        if (!id) {
-            $cmsApiService.pageAdd($scope.page, saveSuccess, saveError);
+        // else save new page
         } else {
-            $scope.page.id = id;
-            $cmsApiService.pageUpdate($scope.page, updateSuccess, updateError);
+            var promise = $cmsApiService.pageAdd($scope.page).$promise;
+
+            promise.then(saveSuccess, saveError);
+            // Enable buttons in any case
+            promise.finally(function() {
+                    $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                    $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
+                });
         }
 
         return defer.promise;
+
+        function updateSuccess(response) {
+            // Update page data
+            $scope.page = response.result;
+            // Show message
+            $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Page was updated successfully');
+
+            defer.resolve(response);
+        }
+
+        function updateError(response) {
+            $scope.message = $dashboardUtilsService.getMessage(response);
+            defer.reject(response);
+        }
+
+        function saveSuccess(response) {
+            // Update page data
+            $scope.page = response.result;
+            // Show message
+            $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Page was created successfully');
+
+            defer.resolve(response);
+        }
+
+        function saveError(response) {
+            $scope.message = $dashboardUtilsService.getMessage(response);
+            defer.reject(response);
+        }
     };
 
 }]);
