@@ -3,12 +3,10 @@ angular.module("loginModule")
 .service('$loginLoginService', [
     '$resource',
     '$loginApiService',
-    '$cookieStore',
     '$q',
     '$designService',
     'VISITOR_DEFAULT_AVATAR',
-    'LOGIN_COOKIE',
-    function ($resource, $loginApiService, $cookieStore, $q, $designService, VISITOR_DEFAULT_AVATAR, LOGIN_COOKIE) {
+    function ($resource, $loginApiService, $q, $designService, VISITOR_DEFAULT_AVATAR) {
 
         /** Variables */
         var login, isAdmin, isLoggedIn, deferIsLoggedIn , mapFields, deferLogOut;
@@ -108,8 +106,6 @@ angular.module("loginModule")
                 }
             })
 
-            $cookieStore.remove(LOGIN_COOKIE);
-
             return deferLogOut.promise;
         };
 
@@ -147,7 +143,7 @@ angular.module("loginModule")
             avatar = $designService.getImage(VISITOR_DEFAULT_AVATAR);
 
             if ('' !== login['facebook_id']) {
-                avatar = 'http://' + fb.getAvatar(login['facebook_id'], 'large');      
+                avatar = 'http://' + fb.getAvatar(login['facebook_id'], 'large');
             } else if (login['google_id'] !== '') {
                 avatar = gl.getAvatar(login['google_id']);
             }

@@ -1,6 +1,5 @@
-angular.module("loginModule", ["ngRoute", "ngResource", "ngCookies"])
+angular.module("loginModule", ["ngRoute", "ngResource"])
 
-.constant("LOGIN_COOKIE", "OTTEMOSESSION")
 .constant("VISITOR_DEFAULT_AVATAR", "avatar-placeholder.png")
 
 /**
