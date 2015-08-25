@@ -1,11 +1,7 @@
 <div class="page-header">
-	<h1 ng-if="block._id">
+	<h1>
 		<span class="fa fa-indent"></span>
-		Block: {{block.identifier}}
-	</h1>
-	<h1 ng-if="!block._id">
-		<span class="fa fa-indent"></span>
-		New block
+		<a href="/cms/blocks">Blocks</a> / <span>{{block._id ? block.identifier : 'New'}}</span>
 	</h1>
 </div>
 

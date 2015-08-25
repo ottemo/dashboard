@@ -34,11 +34,7 @@ function (
     // Default block values
     function getDefaultBlock() {
         return {
-            _id: null,
-            identifier: '',
-            content: '',
-            created_at: '',
-            updated_at: ''
+            _id: null
         };
     }
 
@@ -50,10 +46,10 @@ function (
             function (response) {
                 // If we pass incorrect block ID
                 // we don't have an error from server
-                // instead we have empty block here
-                // so we redirect to new block page
+                // instead we have empty block here (_id === '')
                 if (response.result._id !== '') {
                     $scope.block = response.result;
+                // so we redirect to new block page
                 } else {
                     $location.path('/cms/block/new')
                 }
@@ -67,25 +63,30 @@ function (
     };
 
     // Action Save
-    // If block._id === null then add new block, else update existing block
     $scope.save = function () {
 
+        // Disable buttons while saving/updating
         $('[ng-click="save()"]').addClass('disabled').append('<i class="fa fa-spin fa-spinner"><i>').siblings('.btn').addClass('disabled');
 
         var defer = $q.defer();
 
+        // If block._id !== null update existing block 
         if ($scope.block._id !== null) {
             var promise = $cmsApiService.blockUpdate($scope.block).$promise;
 
             promise.then(updateSuccess, updateError);
+            // Enable buttons in any case
             promise.finally(function() {
                     $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
                     $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                 });
+
+        // else save new block
         } else {
-            var promise = $cmsApiService.blockAdd($scope.block, saveSuccess, saveError).$promise;
+            var promise = $cmsApiService.blockAdd($scope.block).$promise;
 
             promise.then(saveSuccess, saveError);
+            // Enable buttons in any case
             promise.finally(function() {
                     $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
                     $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
@@ -95,27 +96,30 @@ function (
         return defer.promise;
 
         function updateSuccess(response) {
+            // Update block data
             $scope.block = response.result;
+            // Show message
             $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Block was updated successfully');
 
             defer.resolve(response);
         }
 
         function updateError(response) {
-            $scope.message = $dashboardUtilsService.getMessage(reponse, 'error', 'Update error');
-
+            $scope.message = $dashboardUtilsService.getMessage(response);
             defer.reject(response);
         }
 
         function saveSuccess(response) {
-            defer.resolve(response);
+            // Update block data
+            $scope.block = response.result;
+            // Show message
+            $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Block was created successfully');
 
-            $location.path('/cms/block/' + response.result._id);
+            defer.resolve(response);
         }
 
         function saveError(response) {
-            $scope.message = $dashboardUtilsService.getMessage(response, 'error', 'Save error');
-
+            $scope.message = $dashboardUtilsService.getMessage(response);
             defer.reject(response);
         }
     };
