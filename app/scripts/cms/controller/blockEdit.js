@@ -75,11 +75,21 @@ function (
         var defer = $q.defer();
 
         if ($scope.block._id !== null) {
-            $cmsApiService.blockUpdate($scope.block).$promise
-                .then(updateSuccess, updateError);
+            var promise = $cmsApiService.blockUpdate($scope.block).$promise;
+
+            promise.then(updateSuccess, updateError);
+            promise.finally(function() {
+                    $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                    $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
+                });
         } else {
-            $cmsApiService.blockAdd($scope.block, saveSuccess, saveError).$promise
-                .then(saveSuccess, saveError);
+            var promise = $cmsApiService.blockAdd($scope.block, saveSuccess, saveError).$promise;
+
+            promise.then(saveSuccess, saveError);
+            promise.finally(function() {
+                    $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+                    $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
+                });
         }
 
         return defer.promise;
@@ -87,25 +97,27 @@ function (
         function updateSuccess(response) {
             $scope.block = response.result;
             $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Block was updated successfully');
-            $('[ng-click="save()"]').removeClass('disabled').append('<i class="fa fa-spin fa-spinner"><i>').siblings('.btn').addClass('disabled');
+
             defer.resolve(response);
         }
 
         function updateError(response) {
-            $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Update error');
+            $scope.message = $dashboardUtilsService.getMessage(reponse, 'error', 'Update error');
+
             defer.reject(response);
         }
 
         function saveSuccess(response) {
             defer.resolve(response);
+
             $location.path('/cms/block/' + response.result._id);
         }
 
         function saveError(response) {
-            defer.reject(response);
-            $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Save error');
-        }
+            $scope.message = $dashboardUtilsService.getMessage(response, 'error', 'Save error');
 
+            defer.reject(response);
+        }
     };
 
 }]);
