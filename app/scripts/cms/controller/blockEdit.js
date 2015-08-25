@@ -7,132 +7,105 @@ angular.module("cmsModule")
 "$q",
 "$cmsApiService",
 "$dashboardUtilsService",
-function ($scope, $routeParams, $location, $q, $cmsApiService, $dashboardUtilsService) {
-    var blockId, getDefaultBlock;
+function (
+    $scope,
+    $routeParams,
+    $location,
+    $q,
+    $cmsApiService,
+    $dashboardUtilsService
+) {
 
-    blockId = $routeParams.id;
+    // Retrieve block id from url
+    var blockId = $routeParams.id;
 
-    if (!blockId && blockId !== "new") {
+    // Redirect to blocks list if no block id
+    if (!blockId) {
         $location.path("/cms/blocks");
     }
 
-    if (blockId === "new") {
-        blockId = null;
-    }
-
-    getDefaultBlock = function () {
-        return {
-            "id": "",
-            "url": "",
-            "identifier": "",
-            "content": "",
-            "created_at": "",
-            "updated_at": ""
-        };
-    };
-
-    $scope.count = 100;
-
-    /**
-     * Current selected cms
-     *
-     * @type {Object}
-     */
-    $scope.block = getDefaultBlock();
-
-    /**
-     * Gets list all attributes of cms
-     */
+    // Get block attributes
     $cmsApiService.blockAttributes().$promise.then(
         function (response) {
-            var result = response.result || [];
-            $scope.attributes = result;
+            $scope.attributes = response.result;
         }
     );
 
-    if (null !== blockId) {
+    // Default block values
+    function getDefaultBlock() {
+        return {
+            _id: null,
+            identifier: '',
+            content: '',
+            created_at: '',
+            updated_at: ''
+        };
+    }
+
+    // Init block
+    if (blockId === 'new') {
+        $scope.block = getDefaultBlock();
+    } else {
         $cmsApiService.blockGet({"blockID": blockId}).$promise.then(
             function (response) {
-                var result = response.result || {};
-                $scope.block = result;
+                // If we pass incorrect block ID
+                // we don't have an error from server
+                // instead we have empty block here
+                // so we redirect to new block page
+                if (response.result._id !== '') {
+                    $scope.block = response.result;
+                } else {
+                    $location.path('/cms/block/new')
+                }
             }
         );
     }
 
+    // Action Back
     $scope.back = function () {
         $location.path("/cms/blocks");
     };
 
-    /**
-     * Event handler to save the cms data.
-     * Creates new cms if ID in current cms is empty OR updates current cms if ID is set
-     */
+    // Action Save
+    // If block._id === null then add new block, else update existing block
     $scope.save = function () {
+
         $('[ng-click="save()"]').addClass('disabled').append('<i class="fa fa-spin fa-spinner"><i>').siblings('.btn').addClass('disabled');
-        var id, defer, saveSuccess, saveError, updateSuccess, updateError;
-        defer = $q.defer();
 
-        if (typeof $scope.block !== "undefined") {
-            id = $scope.block.id || $scope.block._id;
-        }
+        var defer = $q.defer();
 
-        /**
-         *
-         * @param response
-         */
-        saveSuccess = function (response) {
-            if (response.error === null) {
-                var result = response.result || getDefaultBlock();
-                $scope.block._id = response.result._id;
-                $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Block was saved successfully');
-                defer.resolve(result);
-
-                $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
-                $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
-            }
-        };
-
-        /**
-         *
-         */
-        saveError = function () {
-            $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
-            $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
-            defer.resolve(false);
-        };
-
-        /**
-         *
-         * @param response
-         */
-        updateSuccess = function (response) {
-            if (response.error === null) {
-                var result = response.result || getDefaultBlock();
-                $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Block was updated successfully');
-                $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
-                $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
-                defer.resolve(result);
-            }
-        };
-
-        /**
-         *
-         */
-        updateError = function () {
-            $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
-            $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
-            defer.resolve(false);
-        };
-
-
-        if (!id) {
-            $cmsApiService.blockAdd($scope.block, saveSuccess, saveError);
+        if ($scope.block._id !== null) {
+            $cmsApiService.blockUpdate($scope.block).$promise
+                .then(updateSuccess, updateError);
         } else {
-            $scope.block.id = id;
-            $cmsApiService.blockUpdate($scope.block, updateSuccess, updateError);
+            $cmsApiService.blockAdd($scope.block, saveSuccess, saveError).$promise
+                .then(saveSuccess, saveError);
         }
 
         return defer.promise;
+
+        function updateSuccess(response) {
+            $scope.block = response.result;
+            $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Block was updated successfully');
+            $('[ng-click="save()"]').removeClass('disabled').append('<i class="fa fa-spin fa-spinner"><i>').siblings('.btn').addClass('disabled');
+            defer.resolve(response);
+        }
+
+        function updateError(response) {
+            $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Update error');
+            defer.reject(response);
+        }
+
+        function saveSuccess(response) {
+            defer.resolve(response);
+            $location.path('/cms/block/' + response.result._id);
+        }
+
+        function saveError(response) {
+            defer.reject(response);
+            $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Save error');
+        }
+
     };
 
 }]);

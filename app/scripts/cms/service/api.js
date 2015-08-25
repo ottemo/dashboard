@@ -32,7 +32,7 @@ angular.module("cmsModule")
         },
         "blockUpdate": {
             method: "PUT",
-            params: { blockID: "@id" },
+            params: { blockID: "@_id" },
             url: REST_SERVER_URI + "/cms/block/:blockID"
         },
         "pageAdd": {
@@ -62,7 +62,7 @@ angular.module("cmsModule")
         },
         "pageUpdate": {
             method: "PUT",
-            params: { pageID: "@id" },
+            params: { pageID: "@_id" },
             url: REST_SERVER_URI + "/cms/page/:pageID"
         },
 
