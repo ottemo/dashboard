@@ -1,65 +1,84 @@
 <div class="page-header">
-	<h1>
-		<span class="fa fa-exchange"></span>
-		Import / Export
-	</h1>
+    <h1>
+        <span class="fa fa-exchange"></span>
+        Import / Export
+    </h1>
 </div>
 
 <div class="row animated fadeIn" ng-init="init()">
-	<!-- Error message -->
-	<gui-message-manager item="message"></gui-message-manager>
 
+    <!-- Error message -->
+    <gui-message-manager item="message"></gui-message-manager>
 
-	<!-- Import Status Progressbar -->
-	<div class="col-xs-12 impex-progressbar" ng-show="importProgress">
-			<div class="outer-box">
-					<div class="title">Currently importing file: {{importFileName}}</div>
-					<div class="progress">
-							<div class="progress-bar progress-bar-success"  style="width: {{importProgress}}%"></div>
-					</div>
-			</div>
-	</div>
+    <!-- Import Status Progressbar -->
+    <div class="col-xs-12 impex-progressbar" ng-show="importProgress">
+        <div class="outer-box">
+            <div class="title">Currently importing file: {{file}}</div>
+            <div class="progress">
+                <div class="progress-bar progress-bar-success"  style="width: {{importProgress}}%"></div>
+            </div>
+        </div>
+    </div>
 
-	<form class="form" role="form" class="product-tabs" name="otEditForm" novalidate>
+    <form class="form" role="form" class="product-tabs" name="otEditForm" novalidate>
 
-		<!-- Upload file -->
-				<span class="col-xs-12 col-sm-6" style="display:inline-block"
-							ng-class="{ 'has-error' : (modelImportSubmit && !file) || (batchSubmit && !file) || (taxSubmit && !file)}">
-						<label for="file">File</label>
-						<span class="clearfix"></span>
-						<input class="btn btn-success" style="display:inline-block" type="file" id="file" name="file" ng-model="file"/>
-						<span class="btn btn-primary" ng-click="importBatch()">Import csv script</span>
-						<p ng-show="(modelImportSubmit && !file) || (batchSubmit && !file) || ((taxSubmit && !file))" class="help-block">This field is required.</p>
-				</span>
+        <!-- Upload file -->
+        <div class="col-xs-12 col-sm-6 form-group"
+            ng-class="{ 'has-error' : (modelImportSubmit && !file) || (batchSubmit && !file) || (taxSubmit && !file)}">
+            <label for="file">File</label>
+            <input class="btn btn-success" style="visibility: hidden; height: 0; width: 0; padding:0; margin: 0" type="file" id="file" name="file" ot-file-reader file="file"/>
+            <div class="btn-group">
+                <button class="btn btn-success" ng-click="chooseFile()">File: {{file ? file : 'Choose file'}}</button>
+                <button class="btn btn-primary" ng-click="importBatch()">Import csv script</button>
+            </div>
+            <p ng-show="(modelImportSubmit && !file) || (batchSubmit && !file) || ((taxSubmit && !file))" class="help-block">This field is required.</p>
+        </div>
 
-		<!-- Select model -->
-		<div class="col-xs-12 col-sm-6" ng-class="{ 'has-error' : (modelImportSubmit || modelExportSubmit) && !model}">
-			<label for="model">Model</label>
-			<select class="form-control" name="model" id="model" data-ng-model="model" required
-							data-ng-options="value as value for value in modelList"></select>
-			<p ng-show="(modelImportSubmit || modelExportSubmit) && !model" class="help-block">This field is required.</p>
-			<br>
-			<div class="text-center animated fadeIn">
-				<div class="btn btn-primary" ng-click="exportModel()">Export Model</div>
-				<div class="btn btn-default" ng-click="importModel()">Import Model</div>
-			</div>
-		</div>
+        <div class="clearfix"></div>
 
-		<!-- Taxes & Discounts -->
-		<div class="col-xs-12 col-sm-6 ">
-			<label>Taxes & Discounts</label>
-			<span class="clearfix"></span>
-			<div class="btn btn-primary" ng-click="exportTax()">Export Taxes</div>
-			<div class="btn btn-default" ng-click="importTax()">Import Taxes</div>
-			<br>
-			<br>
-			<div class="btn btn-primary" ng-click="exportDiscount()">Export Discounts</div>
-			<div class="btn btn-default" ng-click="importDiscount()">Import Discounts</div>
-		</div>
+        <!-- Select model -->
+        <div class="col-xs-12 col-sm-6 form-group clearfix" ng-class="{ 'has-error' : (modelImportSubmit || modelExportSubmit) && !model}">
+            <label for="model">Model</label>
+            <p ng-show="(modelImportSubmit || modelExportSubmit) && !model" class="help-block">This field is required.</p>
+            <br>
+            <div class="input-group">
+                <select
+                    class="form-control"
+                    name="model"
+                    id="model"
+                    ng-model="model"
+                    required
+                    ng-options="value as value for value in modelList">
+                </select>
+                <div class="input-group-btn">
+                    <button class="btn btn-primary" ng-click="exportModel()">Export Model</button>
+                    <button class="btn btn-default" ng-click="importModel()">Import Model</button>
+                </div>
+            </div>
+        </div>
 
+        <div class="clearfix"></div>
 
-		<div class="clearfix"></div>
-	</form>
+        <!-- Taxes & Discounts -->
+        <div class="col-xs-12 col-sm-6 form-group">
+            <label>Taxes & Discounts</label>
+            <span class="clearfix"></span>
+            <div class="form-group">
+                <div class="btn-group">
+                    <button class="btn btn-primary" ng-click="exportTax()">Export Taxes</button>
+                    <button class="btn btn-default" ng-click="importTax()">Import Taxes</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="btn-group">
+                    <button class="btn btn-primary" ng-click="exportDiscount()">Export Discounts</button>
+                    <button class="btn btn-default" ng-click="importDiscount()">Import Discounts</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
+    </form>
 </div>
 
 <br>

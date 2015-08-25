@@ -3,11 +3,12 @@ angular.module("impexModule")
 .controller("impexController", [
 "$scope",
 "$timeout",
+"$interval",
 "$sce",
 "$impexApiService",
 "$dashboardUtilsService",
 "REST_SERVER_URI",
-function ($scope, $timeout, $sce, $impexApiService, $dashboardUtilsService, REST_SERVER_URI) {
+function ($scope, $timeout, $interval, $sce, $impexApiService, $dashboardUtilsService, REST_SERVER_URI) {
 
 $scope.sendRequest = false;
 $scope.modelImportSubmit = false;
@@ -23,32 +24,37 @@ $scope.init = function () {
         }
     });
 
-    $scope.checkStatus()
     $scope.$on('$destroy', function(){
-        $timeout.cancel($scope.activeProgressPromise);
+        $scope.cancelImportCheck();
     });
 };
 
+$scope.chooseFile = function() {
+    $('#file').click();
+}
 
-$scope.checkStatus = function(){
-    $impexApiService.importStatus().$promise.then(function (response) {
-        var run = response.result.position ? true : false
-        var timeLimit = (run) ? 1000 : 5000
-        $scope.importProgress = (run) ? parseInt( parseInt(response.result.position) / parseInt(response.result.size) *100 ) : 0
-        $scope.importFileName = response.result.name
-        var promise = $timeout(function(){
-            $scope.checkStatus()
-        }, timeLimit);
-        $scope.activeProgressPromise = promise
-    });
+$scope.startImportCheck = function() {
+    $scope.importProgress = 0;
+
+    $scope.checkTimer = $interval(function() {
+
+        $impexApiService.importStatus().$promise.then(function(response) {
+            if (!response.result.position) return;
+
+            $scope.importProgress = parseInt(response.result.position) / parseInt(response.result.size) * 100;
+            console.log('pos: %s, size: %s', response.result.position, response.result.size);
+        });
+
+    }, 1000);
+};
+
+$scope.cancelImportCheck = function() {
+    $interval.cancel($scope.checkTimer);
+    $scope.importProgress = 100;
 }
 
 $scope.importModel = function () {
     $scope.modelImportSubmit = true;
-
-    if ($scope.model === "" || typeof $scope.model === "undefined") {
-        return true;
-    }
 
     $scope.batchSubmit = true;
 
@@ -63,7 +69,11 @@ $scope.importModel = function () {
     postData = new FormData();
     postData.append("file", file.files[0]);
 
+    $scope.startImportCheck();
+
     $impexApiService.importModel({"model": $scope.model}, postData).$promise.then(function (response) {
+
+        $scope.cancelImportCheck();
         $scope.modelImportSubmit = false;
         $scope.sendRequest = false;
 
@@ -88,7 +98,6 @@ $scope.exportModel = function () {
 };
 
 $scope.importBatch = function () {
-    var file, postData;
     $scope.batchSubmit = true;
 
     if ($scope.file === "" || typeof $scope.file === "undefined") {
@@ -96,11 +105,16 @@ $scope.importBatch = function () {
     }
 
     $scope.sendRequest = true;
-    file = document.getElementById("file");
-    postData = new FormData();
+
+    var file = document.getElementById("file");
+    var postData = new FormData();
     postData.append("file", file.files[0]);
 
+    $scope.startImportCheck();
+
     $impexApiService.importBatch({}, postData).$promise.then(function (response) {
+
+        $scope.cancelImportCheck();
         $scope.batchSubmit = false;
         $scope.sendRequest = false;
 
@@ -132,20 +146,20 @@ $scope.importTaxOrDiscount = function (functionName) {
         return true;
     }
 
-    $('#processing').modal('show');
-    var file, postData;
-
     $scope.sendRequest = true;
-    file = document.getElementById("file");
-    postData = new FormData();
+
+    var file = document.getElementById("file");
+    var postData = new FormData();
     postData.append("file", file.files[0]);
+
+    $scope.startImportCheck();
 
     $impexApiService[functionName]({}, postData).$promise.then(function (response) {
         $scope.modelImportSubmit = false;
         $scope.sendRequest = false;
-        $('#processing').modal('hide');
-        // @todo: temporary fix with closing popup, while these methods not returns json in response
         $scope.message = $dashboardUtilsService.getMessage(null, 'success', "Operation is finished");
+
+        $scope.cancelImportCheck();
 
         try {
             if (response.error === null) {
