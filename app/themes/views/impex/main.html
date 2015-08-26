@@ -29,7 +29,13 @@
             ng-class="{ 'has-error': importMethod && !file }">
             <label for="file">File</label>
             <div class="input-group">
-                <gui-input-file class="form-control" file="file" input-id="file" input-name="file" input-placeholder="Choose file"></gui-input-file>
+                <gui-input-file
+                    class="form-control"
+                    file="file"
+                    input-id="'file'"
+                    input-name="'file'"
+                    input-placeholder="'Choose file'">
+                </gui-input-file>
                 <div class="input-group-btn">
                     <button class="btn btn-primary" ng-click="import('batch')">Import csv script</button>
                 </div>
@@ -37,11 +43,10 @@
             <p ng-show="importMethod && !file" class="help-block">This field is required.</p>
         </div>
 
-
         <!-- Select model -->
-        <div class="col-xs-12 col-sm-6 form-group clearfix" ng-class="{ 'has-error' : (importMethod == 'model' || modelExportSubmit) && !model}">
+        <div class="col-xs-12 col-sm-6 form-group" ng-class="{ 'has-error' : (importMethod == 'model' || exportMethod == 'model') && !model}">
             <label for="model">Model</label>
-            <p ng-show="(importMethod == 'model' || modelExportSubmit) && !model" class="help-block">This field is required.</p>
+            <p ng-show="(importMethod == 'model' || exportMethod == 'model') && !model" class="help-block">This field is required.</p>
             <div class="input-group">
                 <select
                     class="form-control"
@@ -52,7 +57,7 @@
                     ng-options="value as value for value in modelList">
                 </select>
                 <div class="input-group-btn">
-                    <button class="btn btn-info" ng-click="exportModel()">Export Model</button>
+                    <button class="btn btn-info" ng-click="export('model')">Export Model</button>
                     <button class="btn btn-primary" ng-click="import('model')">Import Model</button>
                 </div>
             </div>
@@ -60,13 +65,13 @@
 
         <div class="clearfix"></div>
 
-        <!-- Taxes & Discounts -->
+        <!-- Taxes -->
         <div class="col-xs-12 col-sm-6 form-group">
             <label>Taxes</label>
             <span class="clearfix"></span>
             <div class="form-group">
                 <div class="btn-group">
-                    <button class="btn btn-info" ng-click="exportTax()">Export Taxes</button>
+                    <button class="btn btn-info" ng-click="export('tax')">Export Taxes</button>
                     <button class="btn btn-primary" ng-click="import('tax')">Import Taxes</button>
                 </div>
             </div>
@@ -74,20 +79,17 @@
 
         <div class="clearfix"></div>
 
+        <!-- Discounts -->
         <div class="col-xs-12 col-sm-6 form-group">
             <label>Discounts</label>
             <div class="form-group">
                 <div class="btn-group">
-                    <button class="btn btn-info" ng-click="exportDiscount()">Export Discounts</button>
+                    <button class="btn btn-info" ng-click="export('discount')">Export Discounts</button>
                     <button class="btn btn-primary" ng-click="import('discount')">Import Discounts</button>
                 </div>
             </div>
         </div>
-
-        <div class="clearfix"></div>
     </form>
 </div>
-
-<br>
 
 <span ng-bind-html="exportFile"></span>

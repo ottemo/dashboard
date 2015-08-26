@@ -8,9 +8,9 @@ angular.module('designModule')
         restrict: 'E',
         scope: {
             'file': '=', // bind file input value to outer scope
-            'id': '@inputId', // file input id
-            'name': '@inputName', // file input name attribute
-            'placeholder': '@inputPlaceholder', // placeholder text when no file selected
+            'id': '=inputId', // file input id
+            'name': '=inputName', // file input name attribute
+            'placeholder': '=inputPlaceholder', // placeholder text when no file selected
         },
         templateUrl: $designService.getTemplate("design/gui/inputFile.html"),
         replace: true,
@@ -29,7 +29,7 @@ angular.module('designModule')
                 e.stopPropagation();
             });
 
-            // Click event on outer element triggers click on file input
+            // Click event on button triggers click on file input
             // to open file dialog
             element.on('click', function() {
                 fileInput.trigger('click');

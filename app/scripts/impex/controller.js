@@ -44,22 +44,23 @@ $scope.cancelImportTrack = function() {
     $interval.cancel($scope.importTrackInterval);
     $scope.importProgress = 100;
 
+    // Show progress bar at least for one second for small files
     $scope.importTrackTimeout = $timeout(function() {
         $scope.isImportRun = false;
     }, 1000);
 }
 
+
 $scope.import = function(method) {
     $scope.importMethod = method;
+    $scope.exportMethod = null;
 
-    if (
-        !$scope.file || 
-        (method == 'model' && !$scope.model)
-        ) return;
-
+    if (!$scope.file ||
+        (method == 'model' && !$scope.model))
+        return;
 
     var postData = new FormData();
-    postdata.append('file', $scope.file);
+    postData.append('file', $scope.file);
 
     var apiMethodName,
         methodOptions = {};
@@ -95,25 +96,26 @@ $scope.import = function(method) {
 
 $scope.export = function(method) {
     $scope.exportMethod = method;
+    $scope.importMethod = null;
 
     if (method == 'model' && !$scope.model) return;
 
-    var apiUri = '';
+    var apiUrl = '';
 
     switch (method) {
         case 'model':
-            apiUri = '/impex/export/' + $scope.model;
+            apiUrl = '/impex/export/' + $scope.model;
             break;
         case 'tax':
-            apiUri = '/taxes/csv';
+            apiUrl = '/taxes/csv';
             break;
         case 'discount':
-            apiUri = '/discounts/csv';
+            apiUrl = '/discounts/csv';
             break;
     }
 
     $scope.exportFile = $sce.trustAsHtml("<iframe src ='" +
-        REST_SERVER_URI + apiUri +
+        REST_SERVER_URI + apiUrl +
         "' style='display:none;'></iframe");
 }
 
