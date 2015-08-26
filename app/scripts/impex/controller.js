@@ -33,6 +33,10 @@ $scope.chooseFile = function() {
     $('#file').click();
 }
 
+$scope.logFile = function() {
+    console.log($scope.file);
+}
+
 $scope.startImportCheck = function() {
     $scope.importProgress = 0;
 
@@ -66,6 +70,8 @@ $scope.importModel = function () {
 
     $scope.sendRequest = true;
     file = document.getElementById("file");
+    console.log('1: ' + file);
+
     postData = new FormData();
     postData.append("file", file.files[0]);
 
@@ -107,6 +113,8 @@ $scope.importBatch = function () {
     $scope.sendRequest = true;
 
     var file = document.getElementById("file");
+    console.log('2: ' + file);
+
     var postData = new FormData();
     postData.append("file", file.files[0]);
 
@@ -149,6 +157,7 @@ $scope.importTaxOrDiscount = function (functionName) {
     $scope.sendRequest = true;
 
     var file = document.getElementById("file");
+    console.log('3: ' + file);
     var postData = new FormData();
     postData.append("file", file.files[0]);
 

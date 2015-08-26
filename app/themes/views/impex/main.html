@@ -8,12 +8,14 @@
 <div class="row animated fadeIn" ng-init="init()">
 
     <!-- Error message -->
-    <gui-message-manager item="message"></gui-message-manager>
+    <div class="col-xs-12">
+        <gui-message-manager item="message"></gui-message-manager>
+    </div>
 
     <!-- Import Status Progressbar -->
     <div class="col-xs-12 impex-progressbar" ng-show="importProgress">
         <div class="outer-box">
-            <div class="title">Currently importing file: {{file}}</div>
+            <div class="title">Currently importing file: {{file.name}}</div>
             <div class="progress">
                 <div class="progress-bar progress-bar-success"  style="width: {{importProgress}}%"></div>
             </div>
@@ -26,21 +28,21 @@
         <div class="col-xs-12 col-sm-6 form-group"
             ng-class="{ 'has-error' : (modelImportSubmit && !file) || (batchSubmit && !file) || (taxSubmit && !file)}">
             <label for="file">File</label>
-            <input class="btn btn-success" style="visibility: hidden; height: 0; width: 0; padding:0; margin: 0" type="file" id="file" name="file" ot-file-reader file="file"/>
-            <div class="btn-group">
-                <button class="btn btn-success" ng-click="chooseFile()">File: {{file ? file : 'Choose file'}}</button>
-                <button class="btn btn-primary" ng-click="importBatch()">Import csv script</button>
+            <div class="input-group">
+                <gui-input-file class="form-control" file="file" input-id="file" input-name="file" input-placeholder="Choose file"></gui-input-file>
+                <div class="input-group-btn">
+                    <button class="btn btn-primary" ng-click="importBatch()">Import csv script</button>
+                    <button class="btn btn-info" ng-click="logFile()">Log file</button>
+                </div>
             </div>
             <p ng-show="(modelImportSubmit && !file) || (batchSubmit && !file) || ((taxSubmit && !file))" class="help-block">This field is required.</p>
         </div>
 
-        <div class="clearfix"></div>
 
         <!-- Select model -->
         <div class="col-xs-12 col-sm-6 form-group clearfix" ng-class="{ 'has-error' : (modelImportSubmit || modelExportSubmit) && !model}">
             <label for="model">Model</label>
             <p ng-show="(modelImportSubmit || modelExportSubmit) && !model" class="help-block">This field is required.</p>
-            <br>
             <div class="input-group">
                 <select
                     class="form-control"
@@ -51,8 +53,8 @@
                     ng-options="value as value for value in modelList">
                 </select>
                 <div class="input-group-btn">
-                    <button class="btn btn-primary" ng-click="exportModel()">Export Model</button>
-                    <button class="btn btn-default" ng-click="importModel()">Import Model</button>
+                    <button class="btn btn-info" ng-click="exportModel()">Export Model</button>
+                    <button class="btn btn-primary" ng-click="importModel()">Import Model</button>
                 </div>
             </div>
         </div>
@@ -61,18 +63,24 @@
 
         <!-- Taxes & Discounts -->
         <div class="col-xs-12 col-sm-6 form-group">
-            <label>Taxes & Discounts</label>
+            <label>Taxes</label>
             <span class="clearfix"></span>
             <div class="form-group">
                 <div class="btn-group">
-                    <button class="btn btn-primary" ng-click="exportTax()">Export Taxes</button>
-                    <button class="btn btn-default" ng-click="importTax()">Import Taxes</button>
+                    <button class="btn btn-info" ng-click="exportTax()">Export Taxes</button>
+                    <button class="btn btn-primary" ng-click="importTax()">Import Taxes</button>
                 </div>
             </div>
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div class="col-xs-12 col-sm-6 form-group">
+            <label>Discounts</label>
             <div class="form-group">
                 <div class="btn-group">
-                    <button class="btn btn-primary" ng-click="exportDiscount()">Export Discounts</button>
-                    <button class="btn btn-default" ng-click="importDiscount()">Import Discounts</button>
+                    <button class="btn btn-info" ng-click="exportDiscount()">Export Discounts</button>
+                    <button class="btn btn-primary" ng-click="importDiscount()">Import Discounts</button>
                 </div>
             </div>
         </div>
