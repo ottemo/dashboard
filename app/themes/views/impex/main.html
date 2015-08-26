@@ -13,7 +13,7 @@
     </div>
 
     <!-- Import Status Progressbar -->
-    <div class="col-xs-12 impex-progressbar" ng-show="importProgress">
+    <div class="col-xs-12 impex-progressbar" ng-show="isImportRun">
         <div class="outer-box">
             <div class="title">Currently importing file: {{file.name}}</div>
             <div class="progress">
@@ -32,7 +32,6 @@
                 <gui-input-file class="form-control" file="file" input-id="file" input-name="file" input-placeholder="Choose file"></gui-input-file>
                 <div class="input-group-btn">
                     <button class="btn btn-primary" ng-click="importBatch()">Import csv script</button>
-                    <button class="btn btn-info" ng-click="logFile()">Log file</button>
                 </div>
             </div>
             <p ng-show="(modelImportSubmit && !file) || (batchSubmit && !file) || ((taxSubmit && !file))" class="help-block">This field is required.</p>

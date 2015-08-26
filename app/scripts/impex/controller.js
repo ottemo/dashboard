@@ -25,61 +25,56 @@ $scope.init = function () {
     });
 
     $scope.$on('$destroy', function(){
-        $scope.cancelImportCheck();
+        $interval.cancel($scope.importTrackInterval);
+        $timeout.cancel($scope.importTrackTimeout);
     });
 };
 
-$scope.chooseFile = function() {
-    $('#file').click();
-}
-
-$scope.logFile = function() {
-    console.log($scope.file);
-}
-
-$scope.startImportCheck = function() {
+$scope.startImportTrack = function() {
+    $scope.isImportRun = true;
     $scope.importProgress = 0;
 
-    $scope.checkTimer = $interval(function() {
+    $scope.importTrackInterval = $interval(function() {
 
         $impexApiService.importStatus().$promise.then(function(response) {
             if (!response.result.position) return;
 
-            $scope.importProgress = parseInt(response.result.position) / parseInt(response.result.size) * 100;
-            console.log('pos: %s, size: %s', response.result.position, response.result.size);
+            $scope.importProgress = Math.round(response.result.position / response.result.size * 100);
         });
 
     }, 1000);
 };
 
-$scope.cancelImportCheck = function() {
-    $interval.cancel($scope.checkTimer);
+$scope.cancelImportTrack = function() {
+    $interval.cancel($scope.importTrackInterval);
     $scope.importProgress = 100;
+
+    $scope.importTrackTimeout = $timeout(function() {
+        $scope.isImportRun = false;
+    }, 1000);
+}
+
+$scope.import = function(method) {
+    if (!$scope.file) return;
+
+    
 }
 
 $scope.importModel = function () {
+    if (!$scope.file) return;
+
     $scope.modelImportSubmit = true;
-
     $scope.batchSubmit = true;
-
-    if ($scope.file === "" || typeof $scope.file === "undefined") {
-        return true;
-    }
-
-    var file, postData;
-
     $scope.sendRequest = true;
-    file = document.getElementById("file");
-    console.log('1: ' + file);
 
-    postData = new FormData();
-    postData.append("file", file.files[0]);
+    var postData = new FormData();
+    postData.append("file", $scope.file);
 
-    $scope.startImportCheck();
+    $scope.startImportTrack();
 
     $impexApiService.importModel({"model": $scope.model}, postData).$promise.then(function (response) {
 
-        $scope.cancelImportCheck();
+        $scope.cancelImportTrack();
         $scope.modelImportSubmit = false;
         $scope.sendRequest = false;
 
@@ -90,8 +85,6 @@ $scope.importModel = function () {
                 $scope.message = $dashboardUtilsService.getMessage(response);
             }
         } catch(e) {}
-
-        return true;
     });
 };
 
@@ -104,25 +97,19 @@ $scope.exportModel = function () {
 };
 
 $scope.importBatch = function () {
+    if (!$scope.file) return;
+
     $scope.batchSubmit = true;
-
-    if ($scope.file === "" || typeof $scope.file === "undefined") {
-        return true;
-    }
-
     $scope.sendRequest = true;
 
-    var file = document.getElementById("file");
-    console.log('2: ' + file);
-
     var postData = new FormData();
-    postData.append("file", file.files[0]);
+    postData.append("file", $scope.file);
 
-    $scope.startImportCheck();
+    $scope.startImportTrack();
 
     $impexApiService.importBatch({}, postData).$promise.then(function (response) {
 
-        $scope.cancelImportCheck();
+        $scope.cancelImportTrack();
         $scope.batchSubmit = false;
         $scope.sendRequest = false;
 
@@ -133,8 +120,6 @@ $scope.importBatch = function () {
                 $scope.message = $dashboardUtilsService.getMessage(response);
             }
         } catch(e) {}
-
-        return true;
     });
 };
 
@@ -148,27 +133,22 @@ $scope.exportDiscount = function () {
 };
 
 $scope.importTaxOrDiscount = function (functionName) {
+    if (!$scope.file) return;
+
     $scope.taxSubmit = true;
-
-    if ($scope.file === "" || typeof $scope.file === "undefined") {
-        return true;
-    }
-
     $scope.sendRequest = true;
 
-    var file = document.getElementById("file");
-    console.log('3: ' + file);
     var postData = new FormData();
-    postData.append("file", file.files[0]);
+    postData.append("file", $scope.file);
 
-    $scope.startImportCheck();
+    $scope.startImportTrack();
 
     $impexApiService[functionName]({}, postData).$promise.then(function (response) {
+        $scope.cancelImportTrack();
         $scope.modelImportSubmit = false;
         $scope.sendRequest = false;
         $scope.message = $dashboardUtilsService.getMessage(null, 'success', "Operation is finished");
 
-        $scope.cancelImportCheck();
 
         try {
             if (response.error === null) {
@@ -189,6 +169,4 @@ $scope.importDiscount = function () {
 $scope.importTax = function () {
     $scope.importTaxOrDiscount('importTax');
 };
-
-
 }]);
