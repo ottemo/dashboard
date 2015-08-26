@@ -26,22 +26,22 @@
 
         <!-- Upload file -->
         <div class="col-xs-12 col-sm-6 form-group"
-            ng-class="{ 'has-error' : (modelImportSubmit && !file) || (batchSubmit && !file) || (taxSubmit && !file)}">
+            ng-class="{ 'has-error': importMethod && !file }">
             <label for="file">File</label>
             <div class="input-group">
                 <gui-input-file class="form-control" file="file" input-id="file" input-name="file" input-placeholder="Choose file"></gui-input-file>
                 <div class="input-group-btn">
-                    <button class="btn btn-primary" ng-click="importBatch()">Import csv script</button>
+                    <button class="btn btn-primary" ng-click="import('batch')">Import csv script</button>
                 </div>
             </div>
-            <p ng-show="(modelImportSubmit && !file) || (batchSubmit && !file) || ((taxSubmit && !file))" class="help-block">This field is required.</p>
+            <p ng-show="importMethod && !file" class="help-block">This field is required.</p>
         </div>
 
 
         <!-- Select model -->
-        <div class="col-xs-12 col-sm-6 form-group clearfix" ng-class="{ 'has-error' : (modelImportSubmit || modelExportSubmit) && !model}">
+        <div class="col-xs-12 col-sm-6 form-group clearfix" ng-class="{ 'has-error' : (importMethod == 'model' || modelExportSubmit) && !model}">
             <label for="model">Model</label>
-            <p ng-show="(modelImportSubmit || modelExportSubmit) && !model" class="help-block">This field is required.</p>
+            <p ng-show="(importMethod == 'model' || modelExportSubmit) && !model" class="help-block">This field is required.</p>
             <div class="input-group">
                 <select
                     class="form-control"
@@ -53,7 +53,7 @@
                 </select>
                 <div class="input-group-btn">
                     <button class="btn btn-info" ng-click="exportModel()">Export Model</button>
-                    <button class="btn btn-primary" ng-click="importModel()">Import Model</button>
+                    <button class="btn btn-primary" ng-click="import('model')">Import Model</button>
                 </div>
             </div>
         </div>
@@ -67,7 +67,7 @@
             <div class="form-group">
                 <div class="btn-group">
                     <button class="btn btn-info" ng-click="exportTax()">Export Taxes</button>
-                    <button class="btn btn-primary" ng-click="importTax()">Import Taxes</button>
+                    <button class="btn btn-primary" ng-click="import('tax')">Import Taxes</button>
                 </div>
             </div>
         </div>
@@ -79,7 +79,7 @@
             <div class="form-group">
                 <div class="btn-group">
                     <button class="btn btn-info" ng-click="exportDiscount()">Export Discounts</button>
-                    <button class="btn btn-primary" ng-click="importDiscount()">Import Discounts</button>
+                    <button class="btn btn-primary" ng-click="import('discount')">Import Discounts</button>
                 </div>
             </div>
         </div>
