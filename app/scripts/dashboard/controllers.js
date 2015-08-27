@@ -165,8 +165,6 @@ function ($scope, $location, $statistic, $designImageService, $dashboardUtilsSer
         $statistic.getSalesDetail().then(function(dataSets){
             $scope.salesGraph.series = dataSets;
             console.log('SALES DATA', dataSets);
-            $timeout(function() {
-            });
             // $timeout(tick, pollingRate);
         });
     // })();
