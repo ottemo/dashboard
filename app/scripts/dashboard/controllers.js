@@ -110,10 +110,18 @@ function ($scope, $location, $statistic, $designImageService, $dashboardUtilsSer
     var graphSettings = {
         options: {
             chart: {
-              type: 'line',
-              style: {
-                  width: '100%'
-              }
+                events: {
+                    load: function() {
+                        var self = this;
+                        setTimeout(function() {
+                            self.reflow();
+                        }, 0);
+                    }
+                },
+                type: 'line',
+                style: {
+                    width: '100%'
+                }
             }
         },
         xAxis: {
@@ -157,6 +165,8 @@ function ($scope, $location, $statistic, $designImageService, $dashboardUtilsSer
         $statistic.getSalesDetail().then(function(dataSets){
             $scope.salesGraph.series = dataSets;
             console.log('SALES DATA', dataSets);
+            $timeout(function() {
+            });
             // $timeout(tick, pollingRate);
         });
     // })();
