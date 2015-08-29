@@ -3,16 +3,12 @@ angular.module("impexModule")
 .controller("impexController", [
 "$scope",
 "$timeout",
+"$interval",
 "$sce",
 "$impexApiService",
 "$dashboardUtilsService",
 "REST_SERVER_URI",
-function ($scope, $timeout, $sce, $impexApiService, $dashboardUtilsService, REST_SERVER_URI) {
-
-$scope.sendRequest = false;
-$scope.modelImportSubmit = false;
-$scope.modelExportSubmit = false;
-$scope.batchSubmit = false;
+function ($scope, $timeout, $interval, $sce, $impexApiService, $dashboardUtilsService, REST_SERVER_URI) {
 
 $scope.init = function () {
     $impexApiService.getModels().$promise.then(function (response) {
@@ -23,149 +19,104 @@ $scope.init = function () {
         }
     });
 
-    $scope.checkStatus()
     $scope.$on('$destroy', function(){
-        $timeout.cancel($scope.activeProgressPromise);
+        $interval.cancel($scope.importTrackInterval);
+        $timeout.cancel($scope.importTrackTimeout);
     });
 };
 
+$scope.startImportTrack = function() {
+    $scope.isImportRun = true;
+    $scope.importProgress = 0;
 
-$scope.checkStatus = function(){
-    $impexApiService.importStatus().$promise.then(function (response) {
-        var run = response.result.position ? true : false
-        var timeLimit = (run) ? 1000 : 5000
-        $scope.importProgress = (run) ? parseInt( parseInt(response.result.position) / parseInt(response.result.size) *100 ) : 0
-        $scope.importFileName = response.result.name
-        var promise = $timeout(function(){
-            $scope.checkStatus()
-        }, timeLimit);
-        $scope.activeProgressPromise = promise
-    });
+    $scope.importTrackInterval = $interval(function() {
+
+        $impexApiService.importStatus().$promise.then(function(response) {
+            if (!response.result.position) return;
+
+            $scope.importProgress = Math.round(response.result.position / response.result.size * 100);
+        });
+
+    }, 1000);
+};
+
+$scope.cancelImportTrack = function() {
+    $interval.cancel($scope.importTrackInterval);
+    $scope.importProgress = 100;
+
+    // Show progress bar at least for one second for small files
+    $scope.importTrackTimeout = $timeout(function() {
+        $scope.isImportRun = false;
+    }, 1000);
 }
 
-$scope.importModel = function () {
-    $scope.modelImportSubmit = true;
 
-    if ($scope.model === "" || typeof $scope.model === "undefined") {
-        return true;
+$scope.import = function(method) {
+    $scope.importMethod = method;
+    $scope.exportMethod = null;
+
+    if (!$scope.file ||
+        (method == 'model' && !$scope.model))
+        return;
+
+    var postData = new FormData();
+    postData.append('file', $scope.file);
+
+    var apiMethodName,
+        methodOptions = {};
+
+    switch (method) {
+        case 'model':
+            apiMethodName = 'importModel';
+            methodOptions = { 'model': $scope.model };
+            break;
+        case 'batch':
+            apiMethodName = 'importBatch';
+            break;
+        case 'tax':
+            apiMethodName = 'importTax';
+            break;
+        case 'discount':
+            apiMethodName = 'importDiscount';
+            break;
     }
 
-    $scope.batchSubmit = true;
+    $scope.startImportTrack();
 
-    if ($scope.file === "" || typeof $scope.file === "undefined") {
-        return true;
-    }
+    $impexApiService[apiMethodName](methodOptions, postData).$promise
+        .then(function(response) {
+            $scope.importMethod = null;
+            $scope.cancelImportTrack();
 
-    var file, postData;
-
-    $scope.sendRequest = true;
-    file = document.getElementById("file");
-    postData = new FormData();
-    postData.append("file", file.files[0]);
-
-    $impexApiService.importModel({"model": $scope.model}, postData).$promise.then(function (response) {
-        $scope.modelImportSubmit = false;
-        $scope.sendRequest = false;
-
-        try {
-            if (response.error === null) {
-                $scope.message = $dashboardUtilsService.getMessage(null, 'success', response.result);
-            } else {
-                $scope.message = $dashboardUtilsService.getMessage(response);
-            }
-        } catch(e) {}
-
-        return true;
+            $scope.message = (response.error === null) ?
+                $dashboardUtilsService.getMessage(null, 'success', response.result) :
+                $dashboardUtilsService.getMessage(response);
     });
 };
 
-$scope.exportModel = function () {
-    $scope.modelExportSubmit = true;
-    if ($scope.model === "" || typeof $scope.model === "undefined") {
-        return true;
-    }
-    $scope.exportFile = $sce.trustAsHtml("<iframe src='" + REST_SERVER_URI + "/impex/export/" + $scope.model + "' style='display: none;' ></iframe>");
-};
+$scope.export = function(method) {
+    $scope.exportMethod = method;
+    $scope.importMethod = null;
 
-$scope.importBatch = function () {
-    var file, postData;
-    $scope.batchSubmit = true;
+    if (method == 'model' && !$scope.model) return;
 
-    if ($scope.file === "" || typeof $scope.file === "undefined") {
-        return true;
-    }
+    var apiUrl = '';
 
-    $scope.sendRequest = true;
-    file = document.getElementById("file");
-    postData = new FormData();
-    postData.append("file", file.files[0]);
-
-    $impexApiService.importBatch({}, postData).$promise.then(function (response) {
-        $scope.batchSubmit = false;
-        $scope.sendRequest = false;
-
-        try {
-            if (response.error === null) {
-                $scope.message = $dashboardUtilsService.getMessage(null, 'success', response.result);
-            } else {
-                $scope.message = $dashboardUtilsService.getMessage(response);
-            }
-        } catch(e) {}
-
-        return true;
-    });
-};
-
-
-$scope.exportTax = function () {
-    $scope.exportFile = $sce.trustAsHtml("<iframe src='" + REST_SERVER_URI + "/taxes/csv' style='display: none;' ></iframe>");
-};
-
-$scope.exportDiscount = function () {
-    $scope.exportFile = $sce.trustAsHtml("<iframe src='" + REST_SERVER_URI + "/discounts/csv' style='display: none;' ></iframe>");
-};
-
-$scope.importTaxOrDiscount = function (functionName) {
-    $scope.taxSubmit = true;
-
-    if ($scope.file === "" || typeof $scope.file === "undefined") {
-        return true;
+    switch (method) {
+        case 'model':
+            apiUrl = '/impex/export/' + $scope.model;
+            break;
+        case 'tax':
+            apiUrl = '/taxes/csv';
+            break;
+        case 'discount':
+            apiUrl = '/discounts/csv';
+            break;
     }
 
-    $('#processing').modal('show');
-    var file, postData;
-
-    $scope.sendRequest = true;
-    file = document.getElementById("file");
-    postData = new FormData();
-    postData.append("file", file.files[0]);
-
-    $impexApiService[functionName]({}, postData).$promise.then(function (response) {
-        $scope.modelImportSubmit = false;
-        $scope.sendRequest = false;
-        $('#processing').modal('hide');
-        // @todo: temporary fix with closing popup, while these methods not returns json in response
-        $scope.message = $dashboardUtilsService.getMessage(null, 'success', "Operation is finished");
-
-        try {
-            if (response.error === null) {
-                $scope.message = $dashboardUtilsService.getMessage(null, 'success', response.result);
-            } else {
-                $scope.message = $dashboardUtilsService.getMessage(response);
-            }
-        } catch(e) {}
-
-        return true;
-    });
-};
-
-$scope.importDiscount = function () {
-    $scope.importTaxOrDiscount('importDiscount');
-};
-
-$scope.importTax = function () {
-    $scope.importTaxOrDiscount('importTax');
-};
-
+    $scope.exportFile = $sce.trustAsHtml("<iframe src ='" +
+        REST_SERVER_URI + apiUrl +
+        "' style='display:none;'></iframe");
+}
 
 }]);
