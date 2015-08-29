@@ -34,23 +34,12 @@ angular.module("categoryModule")
             params: { categoryID: "@id" },
             url: REST_SERVER_URI + "/category/:categoryID"
         },
-        "getImage": {
-            method: "GET",
-            url: REST_SERVER_URI + "/category/:categoryID/media/image/:mediaName"
-        },
-        "getImagePath": {
-            method: "GET",
-            url: REST_SERVER_URI + "/category/:categoryID/mediapath/image"
-        },
-        "listImages": {
-            method: "GET",
-            url: REST_SERVER_URI + "/category/:categoryID/media/image"
-        },
         "removeImage": {
             method: "DELETE",
             url: REST_SERVER_URI + "/category/:categoryID/media/image/:mediaName"
         },
-        "addImage": { // http://stackoverflow.com/questions/13963022/angularjs-how-to-implement-a-simple-file-upload-with-multipart-form
+        // http://stackoverflow.com/questions/13963022/angularjs-how-to-implement-a-simple-file-upload-with-multipart-form
+        "addImage": {
             method: "POST",
             params: { categoryID: "@categoryId", mediaName: "@mediaName" },
             url: REST_SERVER_URI + "/category/:categoryID/media/image/:mediaName",

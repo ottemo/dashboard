@@ -85,8 +85,10 @@
 
                                 <!-- Image -->
                                 <span ng-switch-when="image">
-                                    <img class="media-object" ng-src="{{parent.getImage(_item[field.attribute])}}"
-                                         alt="{{item[map.name]}}" style="max-width: 75px; max-height: 75px;">
+                                    <img
+                                    class="media-object"
+                                    ng-src="{{ _item.Images[0].thumb }}"
+                                    style="max-width: 75px; max-height: 75px;">
                                 </span>
 
                                 <!-- Currency -->

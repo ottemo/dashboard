@@ -7,11 +7,10 @@ angular.module("productModule")
 "$q",
 "$dashboardListService",
 "$productApiService",
-"$designImageService",
 "$dashboardUtilsService",
 "COUNT_ITEMS_PER_PAGE",
 function ($scope, $location, $routeParams, $q, DashboardListService, $productApiService,
-          $designImageService, $dashboardUtilsService, COUNT_ITEMS_PER_PAGE) {
+          $dashboardUtilsService, COUNT_ITEMS_PER_PAGE) {
     var serviceList, getProductsList, getAttributeList, getProductCount, showColumns;
 
     // Initialize SEO
@@ -162,16 +161,6 @@ function ($scope, $location, $routeParams, $q, DashboardListService, $productApi
         }
         $('[ng-click="parent.remove()"]').removeClass('disabled').children('i').remove();
         $('[ng-click="parent.remove()"]').siblings('.btn').removeClass('disabled');
-    };
-
-    /**
-     * Returns full path to image
-     *
-     * @param {string} image    - image name
-     * @returns {string}        - full path to image
-     */
-    $scope.getImage = function (image) {
-        return $designImageService.getFullImagePath("", image);
     };
 
     $scope.$watch(function () {

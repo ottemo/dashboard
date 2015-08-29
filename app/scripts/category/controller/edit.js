@@ -6,9 +6,8 @@ angular.module("categoryModule")
 "$location",
 "$q",
 "$categoryApiService",
-"$designImageService",
 "$dashboardUtilsService",
-function ($scope, $routeParams, $location, $q, $categoryApiService, $designImageService, $dashboardUtilsService) {
+function ($scope, $routeParams, $location, $q, $categoryApiService, $dashboardUtilsService) {
     var categoryId, rememberProducts, oldProducts, getDefaultCategory;
 
     // Initialize SEO
@@ -57,7 +56,6 @@ function ($scope, $routeParams, $location, $q, $categoryApiService, $designImage
             $scope.category = result;
             rememberProducts();
             $scope.category.parent = $scope.category['parent_id'];
-            $scope.selectedImage = result['image'];
         });
     }
 
@@ -241,6 +239,7 @@ function ($scope, $routeParams, $location, $q, $categoryApiService, $designImage
         return defer.promise;
     };
 
+    // REFACTOR: this can't be right
     rememberProducts = function () {
         var i, prod;
         oldProducts = [];
@@ -252,80 +251,6 @@ function ($scope, $routeParams, $location, $q, $categoryApiService, $designImage
                 oldProducts.push(prod._id);
             }
         }
-    };
-
-    //-----------------
-    // IMAGE FUNCTIONS
-    //-----------------
-    $scope.reloadImages = function () {
-        if ($scope.category !== undefined && $scope.category._id !== undefined) {
-            // taking media patch for new category
-            $categoryApiService.getImagePath({"categoryID": $scope.category._id}).$promise.then(
-                function (response) {
-                    $scope.imagesPath = response.result || "";
-                });
-            // taking registered images for category
-            $categoryApiService.listImages({"categoryID": $scope.category._id}).$promise.then(
-                function (response) {
-                    $scope.productImages = response.result || [];
-                });
-                $scope.category['default_image'] = $scope.category['image'];
-        }
-    };
-    $scope.$watch("category", function () {
-        $scope.reloadImages();
-    });
-    /**
-     * Adds file to category
-     *
-     * @param fileElementId
-     */
-    $scope.imageAdd = function (fileElementId) {
-        var file = document.getElementById(fileElementId);
-        var pid = $scope.category._id, mediaName = file.files[0].name;
-        var postData = new FormData();
-        postData.append("file", file.files[0]);
-        if (pid !== undefined) {
-            $categoryApiService.addImage({"categoryID": pid, "mediaName": mediaName}, postData)
-                .$promise.then(function () {
-                    $scope.reloadImages();
-                });
-        }
-    };
-    /**
-     * Removes image from category (from category folder) and sends request to saves
-     *
-     * @param {string} selected - image name
-     */
-    $scope.imageRemove = function (selected) {
-        var pid = $scope.category._id, mediaName = selected;
-        if (pid !== undefined && selected !== undefined) {
-            $categoryApiService.removeImage({"categoryID": pid, "mediaName": mediaName})
-                .$promise.then(function () {
-                    $scope.selectedImage = undefined;
-                    $scope.reloadImages();
-                    $scope.category['image'] = "";
-                    $scope.save();
-                });
-        }
-    };
-    /**
-     * Sets image as image default
-     *
-     * @param {string} selected - image name
-     */
-    $scope.imageDefault = function (selected) {
-        $scope.category['image'] = selected;
-    };
-    /**
-     * Returns full path to image
-     *
-     * @param {string} path     - the destination path to category folder
-     * @param {string} image    - image name
-     * @returns {string}        - full path to image
-     */
-    $scope.getImage = function (image) {
-        return $designImageService.getFullImagePath("", image);
     };
 
 }]);
