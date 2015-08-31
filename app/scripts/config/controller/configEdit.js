@@ -8,7 +8,6 @@ angular.module("configModule")
     "$dashboardUtilsService",
     function ($scope, $routeParams, $configApiService, $configService, $dashboardUtilsService) {
 
-        $scope.currentGroup = null;
         $scope.items = {};
         $scope.currentGroup = $routeParams.group;
         $scope.currentPath = "";
@@ -33,7 +32,7 @@ angular.module("configModule")
                             tabs[attr.Group].push(attr);
                         }
                     }
-                    activeTab = Object.keys(tabs).sort()[0];
+                    activeTab = Object.keys(tabs)[0];
                     parts = tabs[activeTab][0].Path.match(regExp);
 
                     if (parts instanceof Array) {
