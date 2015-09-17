@@ -58,7 +58,16 @@ angular.module("designModule")
                         groups[attr.Group].push(attr);
                     }
                 }
-                $scope.attributeGroups = groups;
+
+                // Sort groups in alphabetical order
+                var sortedGroupNames = Object.keys(groups).sort();
+                var sortedGroups = {};
+                for (var i = 0; i < sortedGroupNames.length; i++) {
+                    var groupName = sortedGroupNames[i];
+                    sortedGroups[groupName] = groups[groupName];
+                }
+
+                $scope.attributeGroups = sortedGroups;
             };
 
             $scope.$watchCollection("attributes", updateAttributes);
