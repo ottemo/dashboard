@@ -10,17 +10,21 @@ angular.module('designModule')
             'file': '=', // bind file input value to outer scope
             'id': '=inputId', // file input id
             'name': '=inputName', // file input name attribute
-            'placeholder': '=inputPlaceholder', // placeholder text when no file selected
+            'onChange': '&' // On change event listener
         },
         templateUrl: $designService.getTemplate("design/gui/inputFile.html"),
         replace: true,
-        link: function(scope, element) {
+        transclude: true,
+
+        link: function(scope, element, attr, ctrl, transclude) {
             var fileInput = element.find('input');
 
-            // Update scope.file when file input changes
             fileInput.on('change', function(event) {
                 scope.$apply(function() {
+                    // Update scope.file when file input changes
                     scope.file = event.target.files[0];
+                    // Run onChange listener
+                    if (scope.onChange) scope.onChange();
                 });
             });
 
@@ -34,6 +38,6 @@ angular.module('designModule')
             element.on('click', function() {
                 fileInput.trigger('click');
             });
-        },
+        }
    }
 }]);
