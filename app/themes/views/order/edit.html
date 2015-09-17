@@ -31,8 +31,9 @@
                         <th>Name</th>
                         <th>SKU</th>
                         <th>Options</th> <!-- dynamic options -->
-                        <th>Quantity</th>
                         <th>Price</th>
+                        <th>Quantity</th>
+                        <th class="text-right">Totals</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -44,13 +45,14 @@
                                 {{ option.label }}: {{ option.value }}
                             </div>
                         </td>
+                        <td>{{product.Price | currency}}</td>
                         <td>{{product.Qty}}</td>
-                        <td class="text-right">{{product.Price | currency}}</td>
+                        <td class="text-right">{{product.Qty * product.Price | currency}}</td>
                     </tr>
                 </tbody>
                 <tbody>
                     <tr>
-                        <td colspan="2"></td>
+                        <td colspan="3"></td>
                         <td colspan="2">
                             <div>Subtotal:</div>
                             <div>Shipping:</div>

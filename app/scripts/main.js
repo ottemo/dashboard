@@ -1,7 +1,7 @@
 "use strict";
 
 angular.appConfig = {
-  "general.app.foundation_url": "http://foundation.kg.dev.ottemo.io",
+  "general.app.foundation_url": "http://api.kg.dev.ottemo.io",
   "general.app.media_path": "//kg.dev.ottemo.io/media/",
   "general.app.item_per_page": 15
 };
