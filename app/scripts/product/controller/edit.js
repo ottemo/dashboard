@@ -130,6 +130,9 @@ function ($scope, $routeParams, $location, $q, $productApiService, $designImageS
 
         if (typeof $scope.product !== "undefined") {
             id = $scope.product.id || $scope.product._id;
+
+            // Don't send images as product attribute
+            delete $scope.product.images;
         }
 
         /**

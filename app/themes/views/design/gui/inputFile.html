@@ -1,6 +1,6 @@
 <button type="button">
-    {{ (file && file.name) ? file.name : placeholder }}
-    <span style="width: 0; height: 0; display: inline-block; overflow: hidden;">
+    <div ng-transclude></div>
+    <span style="width: 0; height: 0; display: block; overflow: hidden;">
         <input type="file" id="{{id}}" name="{{name}}"/>
     </span>
 </button>

@@ -33,8 +33,9 @@
                     class="form-control"
                     file="file"
                     input-id="'file'"
-                    input-name="'file'"
-                    input-placeholder="'Choose file'">
+                    input-name="'file'">
+
+                    {{ (file && file.name) ? file.name : 'Choose file' }}
                 </gui-input-file>
                 <div class="input-group-btn">
                     <button class="btn btn-primary" ng-click="import('batch')">Import csv script</button>
