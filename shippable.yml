@@ -8,25 +8,17 @@ build_image: shippableimages/ubuntu1404_nodejs
 env: 
   global:
     - SLACK_ORG=Ottemo PROJECT=Dashboard
-    - REMOTE_HOST=kg.dev.ottemo.io FOUNDATION_URI=http://foundation.kg.dev.ottemo.io
     - secure: LzKm/EnFUlWGxf3LHhnmaV9w1OajVFuZLBkbF3rFJi93p5QFsd5OqDT6eoj4zZOBkCdAK6yFbLajzc8X/xQfl0ULytbMmTaU28WeF/Rvc3YVjsoNgvtLHc5mrRzBLeO1wSw5cg04bRmHVAZok53e2iPcIOnU4ycpJ3y+Z6i5fTvMDPlGqQOIP5XuX3GkbFmyWHUTYKOWn/qXUlvU6Olo/z4SEilaI+XIi7PdKT289xT+GZx+0UtAzNB7cTTkk9Bp0g1EvIlz3YUxRAHefpjNZfDfaq1xxrdoA7DitqEoBN453JkzM4klfuZA+Kim1YicAuJbr5lljhFnGavq5o31Tg==
 
+# only build/deploy the develop branch
+branch:
+    only:
+        - develop
 
-before_install:
-    # install NodeJS v0.12
-    - source ~/.nvm/nvm.sh && shippable_retry nvm install $SHIPPABLE_NODE_VERSION
-    - shippable_retry npm update -g npm 
-    - npm version
-    - shippable_retry npm install -g gulp
-
-install: 
-    # install the required dependencies
-    - shippable_retry npm install
-        
 script: 
-    - NODE_ENV=production shippable_retry gulp build
     # deploy if branch == 'develop'
-    - bash deploy.sh
+    - REMOTE_HOST=kg.dev.ottemo.io bash deploy.sh
+    - REMOTE_HOST=rk.dev.ottemo.io bash deploy.sh
 
 after_failure:
     - python slack_notifier.py --org $SLACK_ORG --project $PROJECT --token $SLACK_TOKEN

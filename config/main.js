@@ -1,9 +1,9 @@
 "use strict";
 
 angular.appConfig = {
-  "general.app.foundation_url": "https://api.karigran.com",
-  "general.app.media_path": "media/",
-  "general.app.item_per_page": 15
+  "general.app.foundation_url": "@@apiUrl",
+  "general.app.media_path": "@@mediaPath",
+  "general.app.item_per_page": @@itemsPerPage
 };
 
 angular.appConfigValue = function (valueName) {

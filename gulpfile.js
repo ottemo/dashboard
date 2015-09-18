@@ -1,31 +1,30 @@
-var gulp = require('gulp');
-var minifyHTML = require('gulp-minify-html');
-var stripDebug = require('gulp-strip-debug');
-var uglify = require('gulp-uglify');
-var jshint = require('gulp-jshint');
-var changed = require('gulp-changed');
-var imagemin = require('gulp-imagemin');
-var autoprefix = require('gulp-autoprefixer');
-var minifyCSS = require('gulp-minify-css');
-var sass = require('gulp-sass');
-var del = require('del');
-var concat = require('gulp-concat');
-var sourcemaps = require('gulp-sourcemaps');
-var refresh = require('gulp-livereload');
-var modRewrite = require('connect-modrewrite');
-var RevAll = require('gulp-rev-all');
+var gulp        = require('gulp');
+var fs          = require('fs');
+var minifyHTML  = require('gulp-minify-html');
+var stripDebug  = require('gulp-strip-debug');
+var uglify      = require('gulp-uglify');
+var jshint      = require('gulp-jshint');
+var autoprefix  = require('gulp-autoprefixer');
+var sass        = require('gulp-sass');
+var del         = require('del');
+var concat      = require('gulp-concat');
+var sourcemaps  = require('gulp-sourcemaps');
+var refresh     = require('gulp-livereload');
+var replace     = require('gulp-replace-task');
+var modRewrite  = require('connect-modrewrite');
+var RevAll      = require('gulp-rev-all');
 var runSequence = require('run-sequence');
-var gutil = require('gulp-util');
-var plumber = require('gulp-plumber');
+var gutil       = require('gulp-util');
+var plumber     = require('gulp-plumber');
 
 
 var paths = {
-    html: 'app/**/*.html',
-    misc: 'app/*.{txt,htaccess,ico}',
-    images: ['app/themes/**/images/**/*'],
-    dist: 'dist',
-    jshint: 'app/scripts/**/*.js',
-    scripts: [
+    html    : 'app/**/*.html',
+    misc    : 'app/*.{txt,htaccess,ico}',
+    images  : ['app/themes/**/images/**/*'],
+    dist    : 'dist',
+    jshint  : 'app/scripts/**/*.js',
+    scripts : [
         'app/scripts/config.js',
         'app/scripts/main.js',
         'app/scripts/**/init.js',
@@ -69,16 +68,43 @@ var handleError = function(err) {
     gutil.beep();
 }
 
-var env = process.env.NODE_ENV || 'development';
+var env     = process.env.NODE_ENV || 'development';
+var envHost = process.env.HOST || 'localhost';
 
 var host = {
-    port: '9000',
-    lrPort: '35729'
+    port   : '9000',
+    lrPort : '35729'
 };
 
+gulp.task('replace', ['clean'], function () {  
+    // Read the settings from the right file
+    var filename = envHost + '.json';
+    var settings = JSON.parse(fs.readFileSync('./config/' + filename, 'utf8'));
+
+    // Replace each placeholder with the correct value for the variable.  
+    return gulp.src('config/main.js')  
+    .pipe(replace({
+        patterns: [
+            {
+                match       : 'apiUrl',
+                replacement : settings.apiUrl
+            },
+            {
+                match       : 'mediaPath',
+                replacement : settings.mediaPath
+            },
+            {
+                match       : 'itemsPerPage',
+                replacement : settings.itemsPerPage
+            }
+        ]
+    }))
+    .pipe(gulp.dest('app/scripts'));
+});
+
 // Empties folders to start fresh
-gulp.task('clean', function (cb) {
-    del(['dist/*','!dist/media'], cb);
+gulp.task('clean', function () {
+    return del(['dist']);
 });
 
 //  -------------------------------
@@ -97,7 +123,7 @@ gulp.task('scripts', function () {
     .pipe(concat('main.js'))
     .pipe(sourcemaps.write('./maps'))
     .pipe(gulp.dest(paths.dist+'/scripts'))
-    .pipe(refresh())
+    .pipe(refresh());
     // .pipe(notify({ message: 'Script compilation completed' }))
 })
 
@@ -269,13 +295,11 @@ gulp.task('lib', ['lib.scripts']);
 gulp.task('themes', ['themes.copy','themes.scripts','themes.styles','themes.fonts','themes.images']);
 
 gulp.task('build', function(){
-	runSequence('clean', [
-		'scripts',
-		'html',
-		'lib',
-		'themes',
-		'misc'
-	], 'revision');
+	runSequence('clean', 
+                'replace', 
+                'scripts',
+                [ 'html', 'lib', 'themes', 'misc' ], 
+                'revision');
 });
 
 gulp.task('default', ['build'] ,function(){
