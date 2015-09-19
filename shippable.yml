@@ -14,7 +14,6 @@ env:
 branch:
     only:
         - develop
-
 script: 
     # deploy if branch == 'develop'
     - REMOTE_HOST=kg.dev.ottemo.io bash deploy.sh
@@ -25,3 +24,5 @@ after_failure:
 
 after_success:
     - python slack_notifier.py --org $SLACK_ORG --project $PROJECT --token $SLACK_TOKEN -s
+notifications:
+    email: false
