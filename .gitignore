@@ -4,6 +4,7 @@ dist.*
 .tmp
 .sass-cache
 app/media
+app/scripts/main.js
 .idea
 .vagrant
 tags
