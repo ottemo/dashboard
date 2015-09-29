@@ -1,7 +1,7 @@
 "use strict";
 
 angular.appConfig = {
-  "general.app.foundation_url": "https://api.karigran.com",
+  "general.app.foundation_url": "http://api.kg.dev.ottemo.io",
   "general.app.media_path": "media/",
   "general.app.item_per_page": 15
 };

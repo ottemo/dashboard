@@ -133,16 +133,16 @@ angular.module("dashboardModule")
                     }
                 }
                 // add column Name as default for non specified main column
-                if (!hasMainColumn) {
-                    fields.unshift({
-                        "attribute": "Name",
-                        "type": "select-link",
-                        "dataType": "text",
-                        "label": "Name",
-                        "visible": true,
-                        "notDisable": true
-                    });
-                }
+                // if (!hasMainColumn) {
+                //     fields.unshift({
+                //         "attribute": "Name",
+                //         "type": "select-link",
+                //         "dataType": "text",
+                //         "label": "Name",
+                //         "visible": true,
+                //         "notDisable": true
+                //     });
+                // }
             };
 
             prepareGroups();

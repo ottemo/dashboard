@@ -47,9 +47,8 @@ function ($rootScope, $scope, $location, $routeParams, $q, DashboardListService,
                 $scope.ordersTmp = [];
 
                 result = response.result || [];
-                for (i = 0; i < result.length; i += 1) {
-                    $scope.ordersTmp.push(result[i]);
-                }
+                $scope.orders = serviceList.getList(result)
+ 
             }
         );
     };
@@ -158,24 +157,24 @@ function ($rootScope, $scope, $location, $routeParams, $q, DashboardListService,
 
     };
 
-    $scope.$watch(function () {
-        if (typeof $scope.attributes !== "undefined" && typeof $scope.ordersTmp !== "undefined") {
-            return true;
-        }
+    // $scope.$watch(function () {
+    //     if (typeof $scope.attributes !== "undefined" && typeof $scope.ordersTmp !== "undefined") {
+    //         return true;
+    //     }
 
-        return false;
-    }, function (isInitAll) {
-        if(isInitAll) {
-            $scope.orders = serviceList.getList($scope.ordersTmp);
-        }
-    });
+    //     return false;
+    // }, function (isInitAll) {
+    //     if(isInitAll) {
+    //         $scope.orders = serviceList.getList($scope.ordersTmp);
+    //     }
+    // });
 
     $scope.init = (function () {
         // test if it is an empty object
         if (JSON.stringify({}) === JSON.stringify($location.search())) {
             $location.search({
                 sort: "^created_at",
-                limit: "0,50"
+                limit: "0,"+COUNT_ITEMS_PER_PAGE
             });
             return;
         }

@@ -15,9 +15,7 @@ angular.module("designModule")
         templateUrl: $designService.getTemplate('design/gui/paginator.html'),
         controller: ["$scope",
             function ($scope) {
-
-                $scope.pages = $scope.parent.getPages();
-
+                
                 var countNeighbors = 2;
                 $scope.leftBreak = false;
                 $scope.rightBreak = false;
@@ -43,13 +41,14 @@ angular.module("designModule")
                     var leftBorder = $scope.parent.paginator.page - countNeighbors;
                     var rightBorder = $scope.parent.paginator.page + countNeighbors;
 
-                    if (leftBorder > $scope.parent.getPages()[0] + 1 ) {
+                    if (leftBorder > 2 ) {
                         $scope.leftBreak = true;
                     }
 
-                    if (rightBorder < $scope.parent.getPages()[$scope.parent.getPages().length-1]-1) {
+                    if (rightBorder < $scope.parent.paginator.countPages - 1 ) {
                         $scope.rightBreak = true;
                     }
+
                 }, true);
             }
         ]

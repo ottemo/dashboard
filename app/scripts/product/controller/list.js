@@ -21,10 +21,10 @@ function ($scope, $location, $routeParams, $q, DashboardListService, $productApi
     serviceList = new DashboardListService();
     showColumns = {
         'name' : {'type' : 'select-link', 'label' : 'Name'},
-        'enabled' : {},
         'sku' : {},
-        'price' : {},
-        'weight' : {}
+        'enabled' : {}
+        // 'price' : {},
+        // 'weight' : {}
     };
 
     $scope.idsSelectedRows = {};

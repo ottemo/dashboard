@@ -14,10 +14,10 @@ angular.module("visitorModule")
         serviceList = new DashboardListService();
 
         showColumns = {
-            'name' : {'type' : 'select-link', 'label' : 'Name'},
-            'email' : {},
-            'first_name' : {},
+            // 'name' : {'type' : 'select-link', 'label' : 'Name'},
             'last_name' : {},
+            'first_name' : {},
+            'email' : {},
             'is_admin' : {}
         };
 

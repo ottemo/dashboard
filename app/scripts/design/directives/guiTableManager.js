@@ -21,7 +21,7 @@ angular.module("designModule")
             controller: function ($scope) {
                 // Variables
                 var isInit, isSelectedAll, activeFilters;
-
+                console.log('guiTableManager scope', $scope);
                 // Functions
                 var prepareFilters, getOptions, getFilterStr, compareFilters, saveCurrentActiveFilters,
                     getFilterDetails, getQueryStr, getLimitStr, getSortStr;
@@ -251,6 +251,7 @@ angular.module("designModule")
                     }
 
                     $location.search(getQueryStr());
+                    console.log('paginator after set page', $scope.paginator)
                 };
 
                 /**
