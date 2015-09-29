@@ -21,7 +21,7 @@ angular.module("designModule")
             controller: function ($scope) {
                 // Variables
                 var isInit, isSelectedAll, activeFilters;
-                console.log('guiTableManager scope', $scope);
+
                 // Functions
                 var prepareFilters, getOptions, getFilterStr, compareFilters, saveCurrentActiveFilters,
                     getFilterDetails, getQueryStr, getLimitStr, getSortStr;

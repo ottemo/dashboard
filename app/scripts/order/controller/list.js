@@ -157,17 +157,6 @@ function ($rootScope, $scope, $location, $routeParams, $q, DashboardListService,
 
     };
 
-    // $scope.$watch(function () {
-    //     if (typeof $scope.attributes !== "undefined" && typeof $scope.ordersTmp !== "undefined") {
-    //         return true;
-    //     }
-
-    //     return false;
-    // }, function (isInitAll) {
-    //     if(isInitAll) {
-    //         $scope.orders = serviceList.getList($scope.ordersTmp);
-    //     }
-    // });
 
     $scope.init = (function () {
         // test if it is an empty object
