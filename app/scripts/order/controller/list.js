@@ -36,26 +36,20 @@ function ($rootScope, $scope, $location, $routeParams, $q, DashboardListService,
     }, true);
 
     /**
-     * Gets list of categories
+     * Gets list of orders
      */
     getOrdersList = function () {
         var params = $location.search();
         params["extra"] = serviceList.getExtraFields();
+
         $orderApiService.orderList(params).$promise.then(
             function (response) {
-                var result, i;
-                $scope.ordersTmp = [];
-
-                result = response.result || [];
+                var result = response.result || [];
                 $scope.orders = serviceList.getList(result)
-
             }
         );
     };
 
-    /**
-     * Gets list of products
-     */
     getOrderCount = function() {
         $orderApiService.getCount($location.search(), {}).$promise.then(
             function (response) {

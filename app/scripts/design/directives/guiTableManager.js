@@ -251,7 +251,6 @@ angular.module("designModule")
                     }
 
                     $location.search(getQueryStr());
-                    console.log('paginator after set page', $scope.paginator)
                 };
 
                 /**
