@@ -48,7 +48,7 @@ function ($rootScope, $scope, $location, $routeParams, $q, DashboardListService,
 
                 result = response.result || [];
                 $scope.orders = serviceList.getList(result)
- 
+
             }
         );
     };
@@ -163,7 +163,7 @@ function ($rootScope, $scope, $location, $routeParams, $q, DashboardListService,
         if (JSON.stringify({}) === JSON.stringify($location.search())) {
             $location.search({
                 sort: "^created_at",
-                limit: "0,"+COUNT_ITEMS_PER_PAGE
+                limit: "0,50"
             });
             return;
         }
