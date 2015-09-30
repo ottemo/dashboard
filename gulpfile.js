@@ -69,20 +69,20 @@ var handleError = function(err) {
 }
 
 var env     = process.env.NODE_ENV || 'development';
-var envHost = process.env.HOST || 'localhost';
+var envHost = process.env.HOST || 'staging';
 
 var host = {
     port   : '9000',
     lrPort : '35729'
 };
 
-gulp.task('replace', ['clean'], function () {  
+gulp.task('replace', ['clean'], function () {
     // Read the settings from the right file
     var filename = envHost + '.json';
     var settings = JSON.parse(fs.readFileSync('./config/' + filename, 'utf8'));
 
-    // Replace each placeholder with the correct value for the variable.  
-    return gulp.src('config/main.js')  
+    // Replace each placeholder with the correct value for the variable.
+    return gulp.src('config/main.js')
     .pipe(replace({
         patterns: [
             {
@@ -295,10 +295,10 @@ gulp.task('lib', ['lib.scripts']);
 gulp.task('themes', ['themes.copy','themes.scripts','themes.styles','themes.fonts','themes.images']);
 
 gulp.task('build', function(){
-	runSequence('clean', 
-                'replace', 
+	runSequence('clean',
+                'replace',
                 'scripts',
-                [ 'html', 'lib', 'themes', 'misc' ], 
+                [ 'html', 'lib', 'themes', 'misc' ],
                 'revision');
 });
 
