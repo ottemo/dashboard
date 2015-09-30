@@ -1,12 +1,23 @@
-node_modules
-dist
-dist.*
+# Folders
+.idea
 .tmp
 .sass-cache
-app/media
-app/scripts/main.js
-.idea
 .vagrant
+*.sublime-project
+*.sublime-workspace
+
+app/bower_components
+app/bundle.js
+app/media
+dist
+nbproject/*
+node_modules
 tags
 
+# Files
+*.iml
+.DS_Store
+
+# Ottemo Specific
+app/scripts/main.js
 dashboard.iml
