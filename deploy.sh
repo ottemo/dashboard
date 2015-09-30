@@ -8,7 +8,7 @@ MEDIADIR=$HOME/media
 if [ "$BRANCH" == 'develop'  ]; then
     echo ""
     echo UPDATING REMOTE GIT REPOSITORY WITH DEVELOP BRANCH.
-    ssh ottemo@$REMOTE_HOST "cd $SRCDIR && git checkout develop && git fetch --prune && git pull"
+    ssh ottemo@$REMOTE_HOST "cd $SRCDIR && git stash && git checkout develop && git fetch --prune && git pull"
 
     echo ""
     echo REMOVING DIST DIRECTORY.
