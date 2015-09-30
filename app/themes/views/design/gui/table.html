@@ -1,30 +1,29 @@
 <section>
     <form role="form" class="form-group">
 
-        
-
-        <div class="table-pagination-row">
+        <div class="row table-pagination-row">
 
             <!-- Delete/New buttons -->
-            <div class='col-xs-3 col-md-3 col-sm-4'>
-                <div class="pull-left">
-                    <button class="btn btn-primary" ng-click="parent.remove()" ng-if="buttons.delete">Delete</button>
-                    <button class="btn btn-primary" ng-click="parent.create()" ng-if="buttons.new">New</button>
-                </div>
+            <div class="col-sm-12 col-md-3">
+                <button class="btn btn-primary"
+                    ng-click="parent.remove()"
+                    ng-if="buttons.delete">Delete</button>
+                <button class="btn btn-primary"
+                    ng-click="parent.create()"
+                    ng-if="buttons.new">New</button>
             </div>
 
             <!-- Pagination -->
-            <div class='col-xs-6 col-md-6 col-sm-4'>
+            <div class="col-sm-6">
                 <gui-paginator object="this"></gui-paginator>
             </div>
 
             <!-- Filters -->
-            <div class='col-xs-3 col-md-3 col-sm-4'>
+            <div class="col-sm-4 col-md-3">
                 <div class="btn-group pull-right">
                     <button class="filters btn btn-primary" ng-if="parent.fields.length > 1" >Filters</button>
                 </div>
             </div>
-            <div class="clearfix"></div>
         </div>
 
         <br>
