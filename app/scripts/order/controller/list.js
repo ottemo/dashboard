@@ -36,27 +36,20 @@ function ($rootScope, $scope, $location, $routeParams, $q, DashboardListService,
     }, true);
 
     /**
-     * Gets list of categories
+     * Gets list of orders
      */
     getOrdersList = function () {
         var params = $location.search();
         params["extra"] = serviceList.getExtraFields();
+
         $orderApiService.orderList(params).$promise.then(
             function (response) {
-                var result, i;
-                $scope.ordersTmp = [];
-
-                result = response.result || [];
-                for (i = 0; i < result.length; i += 1) {
-                    $scope.ordersTmp.push(result[i]);
-                }
+                var result = response.result || [];
+                $scope.orders = serviceList.getList(result)
             }
         );
     };
 
-    /**
-     * Gets list of products
-     */
     getOrderCount = function() {
         $orderApiService.getCount($location.search(), {}).$promise.then(
             function (response) {
@@ -158,17 +151,6 @@ function ($rootScope, $scope, $location, $routeParams, $q, DashboardListService,
 
     };
 
-    $scope.$watch(function () {
-        if (typeof $scope.attributes !== "undefined" && typeof $scope.ordersTmp !== "undefined") {
-            return true;
-        }
-
-        return false;
-    }, function (isInitAll) {
-        if(isInitAll) {
-            $scope.orders = serviceList.getList($scope.ordersTmp);
-        }
-    });
 
     $scope.init = (function () {
         // test if it is an empty object

@@ -1,41 +1,29 @@
 <section>
     <form role="form" class="form-group">
 
-        <!-- Pagination -->
-        <gui-paginator object="this"></gui-paginator>
-
-        <br>
-
-        <div class="table-pagination-row">
+        <div class="row table-pagination-row">
 
             <!-- Delete/New buttons -->
-            <div class="pull-left">
-                <button class="btn btn-primary" ng-click="parent.remove()" ng-if="buttons.delete">Delete</button>
-                <button class="btn btn-primary" ng-click="parent.create()" ng-if="buttons.new">New</button>
+            <div class="col-sm-12 col-md-3">
+                <button class="btn btn-primary"
+                    ng-click="parent.remove()"
+                    ng-if="buttons.delete">Delete</button>
+                <button class="btn btn-primary"
+                    ng-click="parent.create()"
+                    ng-if="buttons.new">New</button>
             </div>
 
+            <!-- Pagination -->
+            <div class="col-sm-6">
+                <gui-paginator object="this"></gui-paginator>
+            </div>
 
             <!-- Filters -->
-            <div class="btn-group pull-right">
-                <button class="filters btn btn-primary" ng-if="parent.fields.length > 1" >Filters</button>
+            <div class="col-sm-4 col-md-3">
+                <div class="btn-group pull-right">
+                    <button class="filters btn btn-primary" ng-if="parent.fields.length > 1" >Filters</button>
+                </div>
             </div>
-
-            <div class="text-center hidden-xs hidden-sm" ng-if="parent.fields.length > 1">
-                <label class="checkbox-inline" ng-repeat="field in parent.fields" ng-hide="field.notDisable">
-                    <input type="checkbox" ng-model="field.visible" ng-hide="field.notDisable">
-                    {{field.label || field.attribute}} &nbsp;&nbsp;&nbsp;
-                </label>
-            </div>
-
-            <div class="col-xs-12 text-center visible-xs visible-sm" ng-if="parent.fields.length > 1">
-                <br>
-                <label class="checkbox-inline" ng-repeat="field in parent.fields" ng-hide="field.notDisable">
-                    <input type="checkbox" ng-model="field.visible" ng-hide="field.notDisable">
-                    {{field.label || field.attribute}}&nbsp;&nbsp;&nbsp;
-                </label>
-            </div>
-
-            <div class="clearfix"></div>
         </div>
 
         <br>
@@ -88,7 +76,7 @@
                                     <img
                                     class="media-object"
                                     ng-src="{{ _item.Images[0].thumb }}"
-                                    style="max-width: 75px; max-height: 75px;">
+                                    style="width: 50px; height: 50px;">
                                 </span>
 
                                 <!-- Currency -->
@@ -115,10 +103,6 @@
 
         <!-- Pagination -->
         <gui-paginator object="this"></gui-paginator>
-        <!-- button group -->
-        <div class="text-center">
-            <button class="btn btn-primary" ng-click="parent.remove()" ng-if="buttons.delete">Delete</button>
-            <button class="btn btn-primary" ng-click="parent.create()" ng-if="buttons.new">New</button>
-        </div>
+
     </form>
 </section>

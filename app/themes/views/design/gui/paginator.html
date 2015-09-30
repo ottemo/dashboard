@@ -1,28 +1,25 @@
 <!-- Pagination -->
 <div class="text-center" ng-if="parent.paginator.countPages > 1">
     <ul class="pagination">
-        <li class="{{parent.getClass('prev')}}"><a href="" target="_self" ng-click="parent.setPage('prev')">&laquo;</a></li>
 
         <li class="{{parent.getClass(page)}}" ng-repeat="page in parent.getPages()" ng-if="$first">
-            <a href="" target="_self" ng-click="parent.setPage(page)">{{page}}</a>
+            <a ng-click="parent.setPage(page)">{{page}}</a>
         </li>
 
-        <li ng-if="hasLeftBreak()">
-            <a href="">...</a>
+        <li class="disabled" ng-if="leftBreak">
+            <a>...</a>
         </li>
 
         <li class="{{parent.getClass(page)}}" ng-repeat="page in parent.getPages()" ng-if="isNeighbors(page) && !$first && !$last">
             <a href="" target="_self" ng-click="parent.setPage(page)">{{page}}</a>
         </li>
 
-        <li ng-if="hasRightBreak()">
-            <a href="">...</a>
+        <li class="disabled" ng-if="rightBreak">
+            <a>...</a>
         </li>
 
         <li class="{{parent.getClass(page)}}" ng-repeat="page in parent.getPages()" ng-if="$last">
-            <a href="" target="_self" ng-click="parent.setPage(page)">{{page}}</a>
+            <a ng-click="parent.setPage(page)">{{page}}</a>
         </li>
-
-        <li class="{{parent.getClass('next')}}"><a href="" target="_self" ng-click="parent.setPage('next')">&raquo;</a></li>
     </ul>
 </div>

@@ -95,9 +95,8 @@ angular.module("dashboardModule")
             fields = [];
 
             var prepareGroups = function () {
-                var hasMainColumn, j, attributeName;
+                var  j, attributeName;
 
-                hasMainColumn = false;
                 // use showColumns if it have specified attributes to show
                 if (showColumns && showColumns !== "null" && showColumns!== "undefined") {
                     for (j = 0; j < attributes.length; j += 1) {
@@ -127,21 +126,9 @@ angular.module("dashboardModule")
                                 obj["visible"] = true;
                                 obj["notDisable"] = true;
                                 fields.unshift(obj);
-                                hasMainColumn = true;
                             }
                         }
                     }
-                }
-                // add column Name as default for non specified main column
-                if (!hasMainColumn) {
-                    fields.unshift({
-                        "attribute": "Name",
-                        "type": "select-link",
-                        "dataType": "text",
-                        "label": "Name",
-                        "visible": true,
-                        "notDisable": true
-                    });
                 }
             };
 
