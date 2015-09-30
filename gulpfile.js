@@ -69,7 +69,7 @@ var handleError = function(err) {
 }
 
 var env     = process.env.NODE_ENV || 'development';
-var envHost = process.env.HOST || 'staging';
+var envHost = process.env.HOST || 'kg-dev';
 
 var host = {
     port   : '9000',
