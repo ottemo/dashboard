@@ -1,0 +1,13 @@
+<div class="form-inline text-center">
+    <!-- Low range -->
+    <span class="form-group" ng-class="{ 'has-error' : lowInvalid }" >
+        <input type="date" class="form-control range" ng-model="low" ng-enter="submit()" ng-blur="submit()"/>
+        <p ng-show="lowInvalid" class="help-block">Invalid format. Select correct date.</p>
+    </span>
+    
+    <!-- High range -->
+    <span class="form-group" ng-class="{ 'has-error' : hightInvalid }" >
+        <input type="date" class="form-control range" ng-model="hight" ng-enter="submit()" ng-blur="submit()" />
+        <p ng-show="hightInvalid" class="help-block">Invalid format. Select correct date.</p>
+    </span>
+</div>

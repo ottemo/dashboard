@@ -56,6 +56,11 @@
                             <div ng-switch-when="select">
                                 <gui-filter-select editor-scope="filter.attributes" item="filter" object="this"></gui-filter-select>
                             </div>
+
+                            <div ng-switch-when="date">
+                                <gui-filter-date editor-scope="filter.attributes" item="filter" object="this"></gui-filter-date>
+                            </div>
+
                             <div ng-switch-default="">
                                 &nbsp;
                             </div>

@@ -18,7 +18,8 @@ angular.module("dashboardModule")
             "selector": "select",
             "multi_select": "select",
             "price": "range",
-            "numeric": "range"
+            "numeric": "range",
+            "date": "date_range"
         };
 
         isInitFields = false;
@@ -41,12 +42,14 @@ angular.module("dashboardModule")
         };
 
         getFilter = function (attribute) {
+
             var editor = attribute.Editors;
             if (-1 !== ["selector", "select", "multi_select"].indexOf(editor)) {
 
                 try {
                     JSON.parse(attribute.Options.replace(/'/g, "\""));
                     return filters[editor] + attribute.Options;
+ 
                 }
                 catch (e) {
                     var options = {};
@@ -57,6 +60,9 @@ angular.module("dashboardModule")
                     return filters[editor] + JSON.stringify(options);
                 }
             }
+
+            if (['datetime'].indexOf(attribute.Type) >= 0)
+                return 'date'
 
             return filters[editor];
         };
