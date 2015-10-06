@@ -21,6 +21,7 @@ after_failure:
 after_success:
     - REMOTE_HOST=kg.dev.ottemo.io bash deploy.sh
     - REMOTE_HOST=rk.dev.ottemo.io bash deploy.sh
+    - REMOTE_HOST=ub-staging.ottemo.io bash deploy.sh
     - python slack_notifier.py --org $SLACK_ORG --project $PROJECT --token $SLACK_TOKEN -s
 
 notifications:

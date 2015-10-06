@@ -17,10 +17,14 @@ if [ "$BRANCH" == 'develop'  ]; then
     echo ""
     echo RUNNING PRODUCTION GULP BUILD 
     if [ "$REMOTE_HOST" == 'rk.dev.ottemo.io' ]; then
-        ssh ottemo@$REMOTE_HOST "cd $SRCDIR && npm install && HOST=rk-dev gulp build"
+        HOST=rk-dev
     elif [ "$REMOTE_HOST" == 'kg.dev.ottemo.io' ]; then
-        ssh ottemo@$REMOTE_HOST "cd $SRCDIR && npm install && HOST=kg-dev gulp build"
+        HOST=kg-dev
+    elif [ "$REMOTE_HOST" == 'ub-staging.ottemo.io' ]; then
+        HOST=ub-staging
     fi
+    # gulp build on remote host
+    ssh ottemo@$REMOTE_HOST "cd $SRCDIR && npm install && HOST=${HOST} gulp build"
 
     echo ""
     echo RESTORING DIST DIRECTORY.
