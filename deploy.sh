@@ -20,6 +20,8 @@ if [ "$BRANCH" == 'develop'  ]; then
         ssh ottemo@$REMOTE_HOST "cd $SRCDIR && npm install && HOST=rk-dev gulp build"
     elif [ "$REMOTE_HOST" == 'kg.dev.ottemo.io' ]; then
         ssh ottemo@$REMOTE_HOST "cd $SRCDIR && npm install && HOST=kg-dev gulp build"
+    elif [ "$REMOTE_HOST" == 'ub-staging.ottemo.io']; then
+        ssh ottemo@$REMOTE_HOST "cd $SRCDIR && npm install && HOST=ub-staging gulp build"
     fi
 
     echo ""
