@@ -1,0 +1,5 @@
+{
+    "apiUrl"       : "http://api.ub-staging.ottemo.io",
+    "mediaPath"    : "http://ub-staging.ottemo.io/media/",
+    "itemsPerPage" : "15"
+}
