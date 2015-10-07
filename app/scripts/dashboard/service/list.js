@@ -19,7 +19,7 @@ angular.module("dashboardModule")
             "multi_select": "select",
             "price": "range",
             "numeric": "range",
-            "date": "date_range"
+            "date_range": "date_range"
         };
 
         isInitFields = false;
@@ -49,7 +49,7 @@ angular.module("dashboardModule")
                 try {
                     JSON.parse(attribute.Options.replace(/'/g, "\""));
                     return filters[editor] + attribute.Options;
- 
+
                 }
                 catch (e) {
                     var options = {};
@@ -61,8 +61,9 @@ angular.module("dashboardModule")
                 }
             }
 
-            if (['datetime'].indexOf(attribute.Type) >= 0)
-                return 'date'
+            if (['datetime'].indexOf(attribute.Type) >= 0){
+                return 'date_range';
+            }
 
             return filters[editor];
         };
