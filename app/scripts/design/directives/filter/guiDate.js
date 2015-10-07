@@ -13,22 +13,21 @@ angular.module("designModule")
         templateUrl: $designService.getTemplate("design/gui/filter/date.html"),
 
         controller: ["$scope", function ($scope) {
-            $scope.hightInvalid = false;
+            $scope.highInvalid = false;
             $scope.lowInvalid = false;
             $scope.low;
-            $scope.hight;
-            var regExpNumber = /^\s*[0-9]*\s*$/;
+            $scope.high;
             var isInit = false;
 
-
             $scope.submit = function(){
-            	$scope._low = Math.round(+$scope.low/1000);
-                $scope._hight = Math.round(+$scope.hight/1000);
-                if ("" === $scope.low && "" === $scope.hight) {
+                $scope._low = $scope.low ? Math.round($scope.low/1000) : '';
+                $scope._high = $scope.high ? Math.round($scope.high/1000) : '';
+
+                if (!$scope.low && !$scope.high) {
                     $scope.item[$scope.attribute.Attribute] = "";
                     $scope.parent.newFilters[$scope.attribute.Attribute] = $scope.item[$scope.attribute.Attribute];
                 } else {
-                    $scope.item[$scope.attribute.Attribute] = ($scope._low || "") + ".." + ($scope._hight || "");
+                    $scope.item[$scope.attribute.Attribute] = $scope._low + ".." + $scope._high;
                     $scope.parent.newFilters[$scope.attribute.Attribute] = $scope.item[$scope.attribute.Attribute];
                 }
             }
@@ -46,7 +45,7 @@ angular.module("designModule")
                 var values = value.match(regExp);
                 if (null !== values) {
                     $scope.low = new Date(values[1]*1000);
-                    $scope.hight = new Date(values[2]*1000);
+                    $scope.high = new Date(values[2]*1000);
                     isInit = true;
                 }
 
