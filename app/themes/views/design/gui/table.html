@@ -4,7 +4,7 @@
         <div class="row table-pagination-row">
 
             <!-- Delete/New buttons -->
-            <div class="col-sm-12 col-md-3">
+            <div class="col-sm-3 col-md-3 col-xs-8 left">
                 <button class="btn btn-primary"
                     ng-click="parent.remove()"
                     ng-if="buttons.delete">Delete</button>
@@ -13,16 +13,17 @@
                     ng-if="buttons.new">New</button>
             </div>
 
-            <!-- Pagination -->
-            <div class="col-sm-6">
-                <gui-paginator object="this"></gui-paginator>
-            </div>
 
             <!-- Filters -->
-            <div class="col-sm-4 col-md-3">
+            <div class="col-sm-3 col-md-3 col-xs-4 right">
                 <div class="btn-group pull-right">
                     <button class="filters btn btn-primary" ng-if="parent.fields.length > 1" >Filters</button>
                 </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="col-sm-6 col-xs-12 center">
+                <gui-paginator object="this"></gui-paginator>
             </div>
         </div>
 

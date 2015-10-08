@@ -8,3 +8,23 @@
 	font-size: 20px;
 	color: $brand-primary;
 }
+
+// gui-table-manager
+
+// table pagination
+.table-pagination-row{
+    .left{
+        float: left;
+    }
+
+    .right{
+        float: right;
+    }
+
+    @media (max-width: 768px){
+        .center{
+            margin: 6px 0 0 0;
+        }
+    }
+
+}
