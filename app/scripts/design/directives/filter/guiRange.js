@@ -1,8 +1,6 @@
 angular.module("designModule")
-/**
-*  Directive used for automatic attribute editor creation
-*/
-.directive("guiFilterRange", ["$designService", function ($designService) {
+
+.directive("guiFilterRange", ["$designService", function($designService) {
     return {
         restrict: "E",
         scope: {
@@ -12,16 +10,16 @@ angular.module("designModule")
         },
         templateUrl: $designService.getTemplate("design/gui/filter/range.html"),
 
-        controller: ["$scope", function ($scope) {
+        controller: ["$scope", function($scope) {
 
-            $scope.hightInvalid = false;
+            $scope.highInvalid = false;
             $scope.lowInvalid = false;
             $scope.low = "";
-            $scope.hight = "";
+            $scope.high = "";
             var regExpNumber = /^\s*[0-9]*\s*$/;
             var isInit = false;
 
-            var checkOnValid = function () {
+            var checkOnValid = function() {
 
                 if (!regExpNumber.test($scope.low)) {
                     $scope.lowInvalid = true;
@@ -29,32 +27,32 @@ angular.module("designModule")
                     $scope.lowInvalid = false;
                 }
 
-                if (!regExpNumber.test($scope.hight)) {
-                    $scope.hightInvalid = true;
+                if (!regExpNumber.test($scope.high)) {
+                    $scope.highInvalid = true;
                 } else {
-                    $scope.hightInvalid = false;
+                    $scope.highInvalid = false;
                 }
             };
 
-            $scope.submit = function () {
-
+            $scope.submit = function() {
+                var targetAttribute = $scope.attribute.Attribute;
                 checkOnValid();
 
-                if (!$scope.lowInvalid && !$scope.hightInvalid) {
+                if (!$scope.lowInvalid && !$scope.highInvalid) {
+                    var newFilterValue = '';
                     $scope.low = $scope.low.trim();
-                    $scope.hight = $scope.hight.trim();
-                    if ("" === $scope.low && "" === $scope.hight) {
-                        $scope.item[$scope.attribute.Attribute] = "";
-                        $scope.parent.newFilters[$scope.attribute.Attribute] = $scope.item[$scope.attribute.Attribute];
-                    } else {
-                        $scope.item[$scope.attribute.Attribute] = ($scope.low || "") + ".." + ($scope.hight || "");
-                        $scope.parent.newFilters[$scope.attribute.Attribute] = $scope.item[$scope.attribute.Attribute];
+                    $scope.high = $scope.high.trim();
+
+                    if ($scope.low || $scope.high) {
+                        newFilterValue = $scope.low + ".." + $scope.high;
                     }
 
+                    $scope.item[targetAttribute] = newFilterValue
+                    $scope.parent.newFilters[targetAttribute] = $scope.item[targetAttribute];
                 }
             };
 
-            $scope.$watch("item", function () {
+            $scope.$watch("item", function() {
                 if (typeof $scope.item === "undefined") {
                     return false;
                 }
@@ -67,7 +65,7 @@ angular.module("designModule")
                 var values = value.match(regExp);
                 if (null !== values) {
                     $scope.low = values[1];
-                    $scope.hight = values[2];
+                    $scope.high = values[2];
                     isInit = true;
                 }
 
@@ -77,3 +75,4 @@ angular.module("designModule")
         }]
     };
 }]);
+
