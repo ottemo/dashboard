@@ -20,7 +20,7 @@ if [ "$BRANCH" == 'develop'  ]; then
         HOST=rk-dev
     elif [ "$REMOTE_HOST" == 'kg.dev.ottemo.io' ]; then
         HOST=kg-dev
-    elif [ "$REMOTE_HOST" == 'ub-staging.ottemo.io' ]; then
+    elif [ "$REMOTE_HOST" == 'ub.staging.ottemo.io' ]; then
         HOST=ub-staging
     fi
     # gulp build on remote host
