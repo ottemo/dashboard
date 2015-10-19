@@ -96,12 +96,18 @@ function ($rootScope, $scope, $location, $routeParams, $q, DashboardListService,
     };
 
 
-    $scope.printUrl = function() {
+    $scope.actions = {
+        isOpen: false,
+        export: angular.appConfigValue('general.app.foundation_url') +'/export/quickbooks'
+    };
+
+    $scope.actions.printUrl = function() {
         return '/orders/print?ids=' + $scope.selectedIds.join(',');
     }
 
-    $scope.export = {};
-    $scope.export.action = angular.appConfigValue('general.app.foundation_url') +'/export/quickbooks';
+    $scope.actions.packingSlipUrl = function() {
+        return '/orders/print?price=0&ids=' + $scope.selectedIds.join(',');
+    }
 
     /**
      * Removes order by ID

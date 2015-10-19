@@ -54,7 +54,8 @@
 		</div>
 		<div class="col-sm-6">
 			<h3>Shipping Info</h3>
-			<div>Shipping Method: {{order.shipping_info.shipping_method_name}}</div>
+			<!-- NOTE: HACK: We had a request not to show the "Flat Rate/" prefix on the shipping method -->
+			<div>Shipping Method: {{order.shipping_info.shipping_method_name.replace('Flat Rate/', '')}}</div>
 			<div>Shipping Notes: {{order.shipping_info.notes || 'n/a'}}</div>
 		</div>
 	</div>
@@ -66,9 +67,9 @@
 				<th>Name</th>
 				<th>SKU</th>
 				<th>Options</th> <!-- dynamic options -->
-				<th>Price</th>
+				<th ng-if="options.showPrice">Price</th>
 				<th>Qty</th>
-				<th class="text-right">Total</th>
+				<th class="text-right" ng-if="options.showPrice">Total</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -80,12 +81,12 @@
 						{{ option.label }}: {{ option.value }}
 					</div>
 				</td>
-				<td>{{product.Price | currency}}</td>
+				<td ng-if="options.showPrice">{{product.Price | currency}}</td>
 				<td>{{product.Qty}}</td>
-				<td class="text-right">{{product.Qty * product.Price | currency}}</td>
+				<td class="text-right" ng-if="options.showPrice">{{product.Qty * product.Price | currency}}</td>
 			</tr>
 		</tbody>
-		<tbody>
+		<tbody ng-if="options.showPrice">
 			<tr>
 				<td colspan="3"></td>
 				<td colspan="2">
