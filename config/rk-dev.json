@@ -1,5 +1,5 @@
 {
-    "apiUrl"       : "http://api.rk.dev.ottemo.io",
-    "mediaPath"    : "http://rk.dev.ottemo.io",
+    "apiUrl"       : "http://api.rk.staging.ottemo.io",
+    "mediaPath"    : "http://rk.staging.ottemo.io/media/",
     "itemsPerPage" : "15"
 }
