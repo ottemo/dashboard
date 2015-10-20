@@ -16,9 +16,9 @@ if [ "$BRANCH" == 'develop'  ]; then
 
     echo ""
     echo RUNNING PRODUCTION GULP BUILD 
-    if [ "$REMOTE_HOST" == 'rk.dev.ottemo.io' ]; then
+    if [ "$REMOTE_HOST" == 'rk.staging.ottemo.io' ]; then
         HOST=rk-dev
-    elif [ "$REMOTE_HOST" == 'kg.dev.ottemo.io' ]; then
+    elif [ "$REMOTE_HOST" == 'kg.staging.ottemo.io' ]; then
         HOST=kg-dev
     elif [ "$REMOTE_HOST" == 'ub.staging.ottemo.io' ]; then
         HOST=ub-staging
