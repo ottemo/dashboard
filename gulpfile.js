@@ -1,4 +1,5 @@
 var gulp        = require('gulp');
+var args        = require('yargs').argv;
 var fs          = require('fs');
 var minifyHTML  = require('gulp-minify-html');
 var stripDebug  = require('gulp-strip-debug');
@@ -68,36 +69,40 @@ var handleError = function(err) {
     gutil.beep();
 }
 
-var env     = process.env.NODE_ENV || 'development';
-var envHost = process.env.HOST || 'kg-dev';
+/**
+ * argv variables can be passed in to alter the behavior of tasks
+ *
+ * --env=(production|*)
+ * Applies revision thumbprints, minifies media, uses relavent robots...
+ * Forces the api to production
+ *
+ * --api=(production|staging|localhost)
+ * Sets the config.js variables, primarily the api to connect to
+ */
+
+var isProduction = (args.env === 'production');
+var apiConfig = args.api || 'localhost';
+
+// force env to production if --api is rk-prod or kg-prod
+if (apiConfig === 'rk-prod' || apiConfig === 'kg-prod') {
+    gutil.log('When API is production api, automatically forcing production settings for uglify and versioning');
+    isProduction = true;
+}
 
 var host = {
     port   : '9000',
     lrPort : '35729'
 };
 
-gulp.task('replace', ['clean'], function () {
+gulp.task('replace', function () {
     // Read the settings from the right file
-    var filename = envHost + '.json';
+    var filename = apiConfig + '.json';
     var settings = JSON.parse(fs.readFileSync('./config/' + filename, 'utf8'));
 
     // Replace each placeholder with the correct value for the variable.
     return gulp.src('config/main.js')
     .pipe(replace({
-        patterns: [
-            {
-                match       : 'apiUrl',
-                replacement : settings.apiUrl
-            },
-            {
-                match       : 'mediaPath',
-                replacement : settings.mediaPath
-            },
-            {
-                match       : 'itemsPerPage',
-                replacement : settings.itemsPerPage
-            }
-        ]
+        patterns: [ { json: settings } ]
     }))
     .pipe(gulp.dest('app/scripts'));
 });
@@ -134,7 +139,7 @@ gulp.task('lib.scripts', function () {
     return gulp.src(paths.lib.scripts)
         .pipe(concat('scripts.min.js'))
         .pipe(gulp.dest(paths.lib.dist))
-        .pipe(refresh())
+        .pipe(refresh());
         // .pipe(notify({ message: 'Lib compilation completed' }))
 });
 
@@ -180,9 +185,6 @@ gulp.task('themes.styles', function () {
             this.emit('end');
         })
         .pipe(autoprefix('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
-        // .pipe(minifyCSS({
-        //     processImport: false
-        // }))
         .pipe(sourcemaps.write('./maps'))
         .pipe(gulp.dest(paths.themes.dist));
 });
@@ -192,8 +194,6 @@ gulp.task('themes.styles', function () {
 //
 gulp.task('themes.images', function () {
     return gulp.src(paths.themes.images,{ base: paths.themes.base })
-        // .pipe(changed(paths.themeDest))
-        // .pipe(imagemin())
         .pipe(gulp.dest(paths.themes.dist));
 });
 
@@ -249,12 +249,12 @@ gulp.task('livereload', function(){
         express = require('express'),
         app = express();
 
-    var static_folder = path.join(__dirname, 'dist');
+    var staticFolder = path.join(__dirname, 'dist');
 
     app.use(modRewrite([
       '!\\. /index.html [L]'
     ]))
-    .use(express.static(static_folder));
+    .use(express.static(staticFolder));
 
     app.listen( host.port, function() {
         console.log('server started: http://localhost:'+host.port);
@@ -278,7 +278,7 @@ gulp.task('watch',function(){
 });
 
 gulp.task('revision', function(){
-	if(env === 'production') {
+	if(isProduction) {
 		var revAll = new RevAll({
 			dontUpdateReference: [/^((?!.js|.css).)*$/g],
 			dontRenameFile: [/^((?!.js|.css).)*$/g]
