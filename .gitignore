@@ -19,5 +19,5 @@ tags
 .DS_Store
 
 # Ottemo Specific
-app/scripts/main.js
+app/scripts/config.js
 dashboard.iml
