@@ -1,4 +1,5 @@
 {
+    "useStrict"    : "use strict",
     "apiUrl"       : "http://localhost:3000",
     "mediaPath"    : "media/",
     "itemsPerPage" : "15"
