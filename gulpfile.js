@@ -65,7 +65,7 @@ var handleError = function(err) {
 }
 
 var host = {
-    port: '8080',
+    port: '9000',
     lrPort: '35729'
 };
 
