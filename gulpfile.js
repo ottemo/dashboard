@@ -29,7 +29,7 @@ var paths = {
         'app/themes/**/*.js'
     ],
     html: 'app/**/*.html',
-    misc: 'app/*.{htaccess,ico,xml}',
+    misc: 'app/*.{htaccess,ico,xml,txt}',
     scripts: [
         'app/scripts/config.js',
         'app/scripts/main.js',
@@ -139,15 +139,15 @@ gulp.task('html', function () {
 });
 
 gulp.task('robots', function () {
-    var robotPath;
-    if ( isProduction ) {
-        robotPath = 'app/robots.prod.txt';
-    } else {
-        robotPath = 'app/robots.dev.txt';
-    }
-    gulp.src(robotPath)
-        .pipe(rename('robots.txt'))
-        .pipe(gulp.dest(paths.dist));
+    // var robotPath;
+    // if ( isProduction ) {
+    //     robotPath = 'app/robots.prod.txt';
+    // } else {
+    //     robotPath = 'app/robots.dev.txt';
+    // }
+    // gulp.src(robotPath)
+    //     .pipe(rename('robots.txt'))
+    //     .pipe(gulp.dest(paths.dist));
 
     return gulp.src(paths.misc)
         .pipe(gulp.dest(paths.dist));
