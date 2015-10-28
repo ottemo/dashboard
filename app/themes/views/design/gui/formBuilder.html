@@ -221,12 +221,6 @@
 
         <!-- Product options -->
         <div ng-switch-when="product_options">
-            <!-- Tab title -->
-            <h2 class="text-center">
-                {{attribute.Label}}
-                <span ng-show="attribute.IsRequired">*</span>
-            </h2>
-            <!-- Form -->
             <gui-custom-options-manager editor-scope="attribute" item="item"></gui-custom-options-manager>
         </div>
 

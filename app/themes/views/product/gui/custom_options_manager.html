@@ -4,72 +4,75 @@
 </div>
 <br><br><br>
 
-<div class="container text-center" ng-repeat="option in optionsData | getOrdered">
+<div class="" ng-repeat="option in optionsData | getOrdered">
 
-    <div class="form-group col-xs-12 col-sm-4">
-        <label>Label</label>
-        <input class="form-control" type="text" ng-model="option.label" ng-blur="modifyData()" />
+    <div class="row">
+        <div class="form-group col-xs-12 col-sm-4">
+            <label>Option Label</label>
+            <input class="form-control" type="text" ng-model="option.label" ng-blur="modifyData()" />
+        </div>
+
+        <div class="form-group col-xs-12 col-sm-3">
+            <label>Type</label>
+            <select class="form-control" ng-blur="modifyData()"
+                    ng-change="cleanOption(option.label)"
+                    ng-init="option.type = option.type || types[0]"
+                    data-ng-model="option.type"
+                    data-ng-options="o as o for o in types">
+            </select>
+        </div>
+
+        <div class="form-group col-xs-12 col-sm-2">
+            <label>Is Required</label>
+            <select class="form-control" ng-blur="modifyData()"
+                    ng-init="option.required = option.required || false"
+                    data-ng-model="option.required"
+                    data-ng-options="o as o for o in [true, false]">
+            </select>
+        </div>
+
+        <div class="form-group col-xs-12 col-sm-2">
+            <label>Sort</label>
+            <input class="form-control" type="text" ng-model="option.order" ng-blur="modifyData()" />
+        </div>
+        <div class="form-group col-xs-12 col-sm-1">
+            <label for="">&nbsp;</label>
+            <button class="btn btn-warning form-control" type="button" ng-click="removeOption(option.label)">
+                <i class="fa fa-remove"></i>
+            </button>
+        </div>
     </div>
-
-    <div class="form-group col-xs-12 col-sm-3">
-        <label>Type</label>
-        <select class="form-control" ng-blur="modifyData()"
-                ng-change="cleanOption(option.label)"
-                ng-init="option.type = option.type || types[0]"
-                data-ng-model="option.type"
-                data-ng-options="o as o for o in types">
-        </select>
-    </div>
-
-    <div class="form-group col-xs-12 col-sm-3">
-        <label>isRequired</label>
-        <select class="form-control" ng-blur="modifyData()"
-                ng-init="option.required = option.required || false"
-                data-ng-model="option.required"
-                data-ng-options="o as o for o in [true, false]">
-        </select>
-    </div>
-
-    <div class="form-group col-xs-12 col-sm-3 col-lg-2">
-        <label>Sort</label>
-        <input class="form-control" type="text" ng-model="option.order" ng-blur="modifyData()" />
-    </div>
-
-    <div class="clearfix"></div>
-
-    <button class="btn btn-warning" type="button" ng-click="removeOption(option.label)">Remove option</button>
-
-    <br> <br>
 
     <div id="field_options" ng-if="option.type === 'field'">
+        <div class="row">
+            <div class="form-group col-xs-12 col-sm-4">
+                <label>Price</label>
+                <input class="form-control" type="text" ng-model="option.price" ng-blur="modifyData()" />
+            </div>
 
-        <div class="fform-group col-xs-12 col-sm-4">
-            <label>Price</label>
-            <input class="form-control" type="text" ng-model="option.price" ng-blur="modifyData()" />
-        </div>
+            <div class="form-group col-xs-12 col-sm-4">
+                <label>QTY</label>
+                <input class="form-control" type="text" ng-model="option.qty" ng-blur="modifyData()" />
+            </div>
 
-        <div class="form-group col-xs-12 col-sm-4">
-            <label>QTY</label>
-            <input class="form-control" type="text" ng-model="option.qty" ng-blur="modifyData()" />
-        </div>
-
-        <div class="form-group col-xs-12 col-sm-4">
-            <label>SKU</label>
-            <input class="form-control" type="text" ng-model="option.sku" ng-blur="modifyData()" />
+            <div class="form-group col-xs-12 col-sm-4">
+                <label>SKU</label>
+                <input class="form-control" type="text" ng-model="option.sku" ng-blur="modifyData()" />
+            </div>
         </div>
     </div>
 
     <div id="select_options" ng-if="option.type === 'select' || option.type === 'multi_select' || option.type === 'radio' || option.type === 'checkbox'">
         <div class="row">
-            <div class="col-xs-12 col-sm-2 col-lg-2"><label>Label</label></div>
+            <div class="col-xs-12 col-sm-3"><label>Option Items Label</label></div>
             <div class="col-xs-12 col-sm-2 col-lg-2"><label>Price</label></div>
             <div class="col-xs-12 col-sm-2 col-lg-2"><label>Qty</label></div>
             <div class="col-xs-12 col-sm-2 col-lg-2"><label>Sku</label></div>
             <div class="col-xs-12 col-sm-2 col-lg-2"><label>Sort Order</label></div>
-            <div class="col-xs-12 col-sm-2 col-lg-2">&nbsp;</div>
+            <div class="col-xs-12 col-sm-1">&nbsp;</div>
         </div>
-        <div class="option_row" ng-repeat="(key, row) in option.options | getOrdered">
-            <div class="form-group col-xs-12 col-sm-2 col-lg-2">
+        <div class="option_row row" ng-repeat="(key, row) in option.options | getOrdered">
+            <div class="form-group col-xs-12 col-sm-3">
                 <input class="form-control" type="text" ng-model="row.label" ng-blur="modifyData()" />
             </div>
             <div class="form-group col-xs-12 col-sm-2 col-lg-2">
@@ -84,16 +87,17 @@
             <div class="form-group col-xs-12 col-sm-2 col-lg-2">
                 <input class="form-control" type="text" ng-model="row.order" ng-blur="modifyData()" />
             </div>
-            <div class="form-group col-xs-12 col-sm-2 col-lg-2">
-                <button class="btn btn-warning form-control" type="button" ng-click="removeRow(option.label, row.label)">Remove row</button>
+            <div class="form-group col-xs-12 col-sm-1">
+                <button class="btn btn-warning form-control" type="button" ng-click="removeRow(option.label, row.label)">
+                    <i class="fa fa-remove"></i>
+                </button>
             </div>
         </div>
-        <div class="clearfix"></div>
 
         <div class="text-center">
             <button class="btn btn-primary" type="button" ng-click="addRow(option.label)">Add new row</button>
         </div>
-
-        <hr>
     </div>
+
+    <hr />
 </div>
