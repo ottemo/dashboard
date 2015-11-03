@@ -118,19 +118,9 @@
                class="help-block">{{parent.form[attribute.Attribute].message}}</p>
         </div>
 
-        <div class="form-group col-xs-12 col-sm-6" ng-switch-when="password"
-             ng-class="{ 'has-error' : (parent.form.submitted && parent.form.{{attribute.Attribute}}.$invalid) ||
-                       (parent.form.{{attribute.Attribute}}.$invalid && !parent.form.{{attribute.Attribute}}.$pristine) }">
-
-            <gui-password editor-scope="attribute" item="item"></gui-password>
-
-            <p ng-show="(parent.form.submitted && parent.form.{{attribute.Attribute}}.$error.required)"
-               class="help-block">This field is required.</p>
-
-            <p ng-if="!parent.form[attribute.Attribute].$error.required"
-               ng-show="(parent.form.submitted && parent.form.{{attribute.Attribute}}.$invalid) ||
-                       (parent.form.{{attribute.Attribute}}.$invalid && !parent.form.{{attribute.Attribute}}.$pristine)"
-               class="help-block">{{parent.form[attribute.Attribute].message}}</p>
+        <div ng-switch-when="password"
+            class="form-group col-xs-12 col-sm-6">
+            <gui-password item="item"></gui-password>
         </div>
 
         <div class="form-group col-xs-12 col-sm-6" ng-switch-when="boolean"
