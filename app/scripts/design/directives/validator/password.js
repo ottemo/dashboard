@@ -1,6 +1,5 @@
 angular.module("designModule")
 
-// New Password Directive
 .directive("otPassword", function() {
     return {
         restrict: 'EA',
