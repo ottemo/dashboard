@@ -1,67 +1,42 @@
 angular.module("designModule")
 
-.directive("otPassword", function () {
+.directive("otPassword", function() {
     return {
         restrict: 'EA',
         require: '?ngModel',
-        link: function (scope, elem, attrs, ngModel) {
-			var minLen, minCountUppercase, minCountLowercase, minCountNumbers, minCountSymbols, passwordNotValidLength,
-				passwordNotEnoughLowercases, passwordNotEnoughUppercases, passwordNotEnoughNumbers, passwordNotEnoughSymbols;
+        link: function(scope, elem, attrs, ngModel) {
 
-			minLen = 8;
-			minCountUppercase = 1;
-			minCountLowercase = 1;
-			minCountNumbers = 1;
-			minCountSymbols = 1;
+            var minLength = 6;
+            var commonPasswords = ['123456', 'password', '12345678', 'thunder', 'dragon', '696969', 'mustang',
+                'letmein', 'baseball', 'master', 'michael', 'football', 'shadow', 'monkey', 'abc123', 'fuckme',
+                'jordan', 'harley', 'ranger', 'iwantu', 'jennifer', 'hunter', 'batman', 'trustno1', 'thomas',
+                'tigger', 'robert', 'access', 'buster', '1234567', 'soccer', 'hockey', 'killer', 'george',
+                'andrew', 'charlie', 'superman', 'asshole', 'fuckyou', 'dallas', 'jessica', 'panties', 'pepper',
+                'austin', 'william', 'cowboy', 'silver', 'richard', 'fucker', 'orange', 'merlin', 'michelle',
+                'corvette', 'bigdog', 'cheese', 'matthew', '121212', 'patrick', 'martin', 'freedom', 'ginger',
+                'blowjob', 'nicole', 'sparky', 'yellow', 'camaro', 'secret', 'falcon', 'taylor', '111111',
+                '131313', '123123'
+            ];
 
-			passwordNotValidLength = "password should have " + minLen + " characters or more";
-			passwordNotEnoughLowercases = "password should have at least " + minCountUppercase + " lowercase";
-			passwordNotEnoughUppercases = "password should have at least " + minCountUppercase + " uppercase";
-			passwordNotEnoughNumbers = "password should have at least " + minCountNumbers + " numbers";
-			passwordNotEnoughSymbols = "password should have at least " + minCountSymbols + " symbols";
+            var messages = {
+                minLength: 'The password should have ' + minLength + ' characters or more.',
+                common: 'You entered one of the fifty most common passwords, please try something stronger.'
+            };
 
-            var checkLowercases = function (value) {
-                var matches = value.match(/([a-z]+)/g);
-                return (matches === null || (matches !== null && matches.join("").length < minCountLowercase));
-            };
-            var checkUppercases = function (value) {
-                var matches = value.match(/([A-Z]+)/g);
-                return (matches === null || (matches !== null && matches.join("").length < minCountUppercase));
-            };
-            var checkNumbers = function (value) {
-                var matches = value.match(/([\d]+)/g);
-                return (matches === null || (matches !== null && matches.join("").length < minCountNumbers));
-            };
-            var checkSymbols = function (value) {
-                var matches = value.match(/([\!\@\#\\$\%\^\&\*\(\)\_\+\-\~]+)/g);
-                return (matches === null || (matches !== null && matches.join("").length < minCountSymbols));
-            };
-            var validate = function (value) {
+            var validate = function(value) {
 
-                if(!value) return value;
-                /*jshint maxcomplexity:6 */
+                if (!value) return value;
+
                 var valid = true;
-                if (value.length < minLen) {
+                if (value.length < minLength) {
                     valid = false;
-                    ngModel.message2 = passwordNotValidLength;
+                    ngModel.message = messages.minLength;
                 }
-                if (checkLowercases(value)) {
+                if (commonPasswords.indexOf(value) >= 0) {
                     valid = false;
-                    ngModel.message2 = passwordNotEnoughLowercases;
+                    ngModel.message = messages.common;
                 }
-                if (checkUppercases(value)) {
-                    valid = false;
-                    ngModel.message2 = passwordNotEnoughUppercases;
-                }
-                if (checkNumbers(value)) {
-                    valid = false;
-                    ngModel.message2 = passwordNotEnoughNumbers;
-                }
-                if (checkSymbols(value)) {
-                    valid = false;
-                    ngModel.message2 = passwordNotEnoughSymbols;
-                }
-                ngModel.$setValidity('otpassword', valid);
+                ngModel.$setValidity('ot-password', valid);
                 return value;
             };
 
@@ -72,3 +47,4 @@ angular.module("designModule")
         }
     };
 });
+
