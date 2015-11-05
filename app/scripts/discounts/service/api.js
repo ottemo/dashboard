@@ -13,13 +13,33 @@ angular.module("discountsModule")
 	"$http",
 	"REST_SERVER_URI",
 	"moment",
-	function ($http, REST_SERVER_URI, moment) {
+	"timezoneService",
+	function ($http, REST_SERVER_URI, moment, timezoneService) {
 		var _url = REST_SERVER_URI + '/coupons';
 
-		var _normalizeData = function(discount) {
+		var defaults = {
+			noLimit: true,
+			times: -1,
+			type: 'amount'
+		};
+
+		var service = {
+			one: one,
+			post: post,
+			put: put,
+			getList: getList
+		};
+
+		return service;
+
+		////////////////////////////
+
+		function _transformResponse(discount) {
+			var _storeTz = timezoneService.storeTz;
+
 			// Process the datetime, down to just a date
-			discount.since = moment(discount.since).format('YYYY-MM-DD');
-			discount.until = moment(discount.until).format('YYYY-MM-DD');
+			discount.sinceLocal = moment(discount.since).utcOffset(_storeTz).format('YYYY-MM-DD');
+			discount.untilLocal = moment(discount.until).utcOffset(_storeTz).format('YYYY-MM-DD');
 
 			// Some helper methods
 			discount.type = discount.amount ? 'amount' : 'percent';
@@ -28,58 +48,52 @@ angular.module("discountsModule")
 			return discount;
 		}
 
-		var _processDates = function(discount) {
-			discount.since = moment(discount.since).format();
-			discount.until = moment(discount.until).format();
+		function _transformRequest(discount) {
+			var _storeTz = timezoneService.storeTz;
+
+			discount.since = moment(discount.sinceLocal).utcOffset(_storeTz).format();
+			discount.until = moment(discount.untilLocal).utcOffset(_storeTz).format();
 			return discount;
 		}
 
-		this.defaults = {
-			noLimit: true,
-			times: -1,
-			type: 'amount'
-		};
-
-		this.one = function(id) {
+		function one(id) {
 			return $http.get(_url + '/' + id).then(function(response){
-				var result = response.data.result;
-				return _normalizeData(result);
+				return _transformResponse(response.data.result);
 			});
 		}
 
-		this.post = function(data) {
+		function post(data) {
 			// processing the params can effect the source data, so we need to copy it out
 			var params = {};
 			angular.copy(data, params);
 
-			params = _processDates(params);
+			params = _transformRequest(params);
 			return $http.post(_url, data).then(function(response){
 				return response.data.result;
 			});
 		}
 
-		this.put = function(data) {
+		function put(data) {
 			// processing the params can effect the source data, so we need to copy it out
 			var params = {};
 			angular.copy(data, params);
 
-			params = _processDates(params);
+			params = _transformRequest(params);
 			return $http.put(_url +'/' + data._id, data).then(function(response){
 				return response.data.result;
 			});
 		}
 
-		this.getList = function() {
+		function getList() {
 			return $http.get(_url).then(function(response){
 				var results = response.data.result || [];
 				results = results.map(function(discount) {
-					return _normalizeData(discount);
+					return _transformResponse(discount);
 				});
 
 				return results;
 			});
 		}
 
-		return this;
 	}
 ]);

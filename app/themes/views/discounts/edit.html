@@ -136,7 +136,8 @@
 		<div class="col-sm-4">
 			<h4>Date Range</h4>
 			<p>
-				Enter the dates for which you'd like the discount to be active. Dates should be in your local time.
+				Enter the dates for which you'd like the discount to be active.
+				Dates should be in your stores configured timezone.
 			</p>
 		</div>
 		<div class="col-sm-8">
@@ -150,9 +151,9 @@
 								type="text"
 								class="form-control"
 								name="since"
-								placeholder="yyyy/mm/dd"
+								placeholder="yyyy-mm-dd"
 								required
-								ng-model="discount.since">
+								ng-model="discount.sinceLocal">
 							</div>
 						</div>
 						<div class="col-sm-6">
@@ -162,9 +163,9 @@
 								type="text"
 								class="form-control"
 								name="until"
-								placeholder="yyyy/mm/dd"
+								placeholder="yyyy-mm-dd"
 								required
-								ng-model="discount.until">
+								ng-model="discount.untilLocal">
 							</div>
 						</div>
 					</div>

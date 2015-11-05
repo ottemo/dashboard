@@ -34,8 +34,8 @@
 				<span ng-if="!discount.isNoLimit">{{ discount.times }}</span>
 			</td>
 			<td>
-				<div>Start: {{ discount.since | date:"MM/dd/yyyy" }}</div>
-				<div>End: {{ discount.until | date:"MM/dd/yyyy" }}</div>
+				<div>Start: {{ discount.since | otStoreDate }}</div>
+				<div>End: {{ discount.until | otStoreDate }}</div>
 			</td>
 		</tr>
 	</tbody>
