@@ -50,10 +50,10 @@ angular.module("discountsModule")
 		}
 
 		function _transformRequest(discount) {
-			var _storeTz = timezoneService.storeTz;
+			var _storeTz = ' ' + timezoneService.storeTz;
 
-			discount.since = moment(discount.sinceLocal).utcOffset(_storeTz).format();
-			discount.until = moment(discount.untilLocal).utcOffset(_storeTz).format();
+			discount.since = moment(discount.sinceLocal + _storeTz, 'YYYY-MM-DD Z').toISOString();
+			discount.until = moment(discount.untilLocal + _storeTz, 'YYYY-MM-DD Z').toISOString();
 			return discount;
 		}
 
