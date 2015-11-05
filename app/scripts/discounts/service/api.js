@@ -27,7 +27,8 @@ angular.module("discountsModule")
 			one: one,
 			post: post,
 			put: put,
-			getList: getList
+			getList: getList,
+			defaults: defaults
 		};
 
 		return service;
