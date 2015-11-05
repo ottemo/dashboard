@@ -132,7 +132,7 @@
             <div class="panel-body">
                 <h4>Order Details</h4>
                 <div>Order ID: {{order._id}}</div>
-                <div>Order Date: {{order.created_at | date:"MM/dd/yyyy h:mma"}}</div>
+                <div>Order Date: {{order.created_at | otStoreDate}}</div>
                 <div>Payment Method: {{order.payment_info.payment_method_name}}</div>
                 <div ng-if="order.payment_info.creditCardType">
                     {{order.payment_info.creditCardType}}:
