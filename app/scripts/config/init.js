@@ -1,8 +1,7 @@
-angular.module("configModule", ["ngRoute", "ngResource", "designModule"])
-
 /**
- *  Basic routing configuration
+ * Config Module
  */
+angular.module("configModule", ["ngRoute", "ngResource", "designModule"])
 
 .config(["$routeProvider", function ($routeProvider) {
     $routeProvider
@@ -10,4 +9,8 @@ angular.module("configModule", ["ngRoute", "ngResource", "designModule"])
             templateUrl: "/themes/views/config/edit.html",
             controller: "configEditController"
         });
+}])
+
+.run(['timezoneService', function (timezoneService) {
+    timezoneService.init();
 }]);
