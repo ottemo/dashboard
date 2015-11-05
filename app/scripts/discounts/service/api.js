@@ -18,7 +18,7 @@ angular.module("discountsModule")
 		var _url = REST_SERVER_URI + '/coupons';
 
 		var defaults = {
-			noLimit: true,
+			isNoLimit: true,
 			times: -1,
 			type: 'amount'
 		};

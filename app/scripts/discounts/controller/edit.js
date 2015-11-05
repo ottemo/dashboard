@@ -26,7 +26,7 @@ angular.module("discountsModule")
 		}
 
 		$scope.save = function() {
-			if ($scope.discount.noLimit) {
+			if ($scope.discount.isNoLimit) {
 				$scope.discount.times = -1;
 			}
 

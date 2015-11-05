@@ -54,13 +54,13 @@
                                     <input type="text"
                                         name="times"
                                         class="form-control"
-                                        ng-required="!discount.noLimit"
-                                        ng-disabled="discount.noLimit"
+                                        ng-required="!discount.isNoLimit"
+                                        ng-disabled="discount.isNoLimit"
                                         ng-model="discount.times">
                                     <label class="input-group-addon">
                                         <input type="checkbox"
-                                            name="noLimit"
-                                            ng-model="discount.noLimit"> no limit
+                                            name="isNoLimit"
+                                            ng-model="discount.isNoLimit"> no limit
                                     </label>
                                 </div>
                             </div>
