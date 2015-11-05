@@ -12,7 +12,7 @@
             <label>{{attribute.Label}} <span ng-show="attribute.IsRequired">*</span></label>
             <gui-multiline-text editor-scope="attribute" item="item"></gui-multiline-text>
 
-			<p ng-show="(parent.form.submitted && parent.form.{{attribute.Attribute}}.$error.required)"
+            <p ng-show="(parent.form.submitted && parent.form.{{attribute.Attribute}}.$error.required)"
                class="help-block">This field is required.</p>
 
             <p ng-if="!parent.form[attribute.Attribute].$error.required"
