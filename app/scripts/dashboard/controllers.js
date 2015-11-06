@@ -164,7 +164,7 @@ function ($scope, $location, $statistic, $designImageService, $dashboardUtilsSer
     // (function tick(){
         $statistic.getSalesDetail().then(function(dataSets){
             $scope.salesGraph.series = dataSets;
-            console.log('SALES DATA', dataSets);
+            // console.log('SALES DATA', dataSets);
             // $timeout(tick, pollingRate);
         });
     // })();
@@ -172,7 +172,7 @@ function ($scope, $location, $statistic, $designImageService, $dashboardUtilsSer
     // (function tick(){
         $statistic.getVisitsDetail().then(function(dataSets){
             $scope.visitorGraph.series = dataSets;
-            console.log('VISITOR DATA', dataSets);
+            // console.log('VISITOR DATA', dataSets);
             // $timeout(tick, pollingRate);
         });
     // })();
