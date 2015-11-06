@@ -54,6 +54,7 @@ angular.module("discountsModule")
 
 			discount.since = moment(discount.sinceLocal + _storeTz, 'YYYY-MM-DD Z').toISOString();
 			discount.until = moment(discount.untilLocal + _storeTz, 'YYYY-MM-DD Z').toISOString();
+
 			return discount;
 		}
 
@@ -69,7 +70,7 @@ angular.module("discountsModule")
 			angular.copy(data, params);
 
 			params = _transformRequest(params);
-			return $http.post(_url, data).then(function(response){
+			return $http.post(_url, params).then(function(response){
 				return response.data.result;
 			});
 		}
@@ -80,7 +81,8 @@ angular.module("discountsModule")
 			angular.copy(data, params);
 
 			params = _transformRequest(params);
-			return $http.put(_url +'/' + data._id, data).then(function(response){
+
+			return $http.put(_url +'/' + params._id, params).then(function(response){
 				return response.data.result;
 			});
 		}
