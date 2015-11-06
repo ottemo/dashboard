@@ -13,12 +13,12 @@ function ($rootScope, $scope, $location, $routeParams, $q, DashboardListService,
     var getOrdersList, serviceList, getOrderCount, getAttributeList, showColumns;
     serviceList = new DashboardListService();
     showColumns = {
-        '_id' : {'type' : 'select-link', 'label' : 'Order ID'},
-        'status' : {},
-        'customer_email' : {},
-        'customer_name' : {},
-        'grand_total' : {'label' : 'Total', 'filter' : 'range', 'type' : 'price'},
-        'created_at' : {'label' : 'Date', 'type' : 'date'}
+        _id : {type: 'select-link', label : 'Order ID', filter: 'text'},
+        status : {},
+        customer_email : {},
+        customer_name : {},
+        grand_total : {label : 'Total', filter : 'range', type : 'price'},
+        created_at : {label : 'Date', type : 'date'}
     };
 
     // REFACTOR: I only want to work with the selected ids
