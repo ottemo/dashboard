@@ -1,0 +1,21 @@
+<div class="page-header">
+    <a ng-click=""
+        class="btn btn-primary pull-right">
+        Upload
+    </a>
+    <h1><i class="fa fa-file-image-o"></i> CMS / Images</h1>
+</div>
+
+<div class="row">
+    <div class="col-xs-6 col-sm-4 col-md-3"
+        ng-repeat="image in images">
+        <div class="panel panel-default">
+            <img src="//placehold.it/800x600"
+                class="img-responsive" />
+            <div class="panel-body">
+                {{image}}
+            </div>
+        </div>
+    </div>
+</div>
+
