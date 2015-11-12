@@ -1,6 +1,6 @@
 // TODO:
 // * monitor route change:
-//   * add 'active:true' to matching menu item, instead of with $
+// * add 'active:true' to matching menu item, instead of with $
 // * add 'afix' class to body when menu is open, so that the body doesn't scroll
 // * let the menu scroll
 //
@@ -54,14 +54,17 @@ angular.module('dashboardModule')
     }, {
         title: 'CMS',
         link: null,
-        icon: 'fa-file-text-o',
+        icon: 'fa-file-o',
         children: [{
             title: 'Page',
             link: '/cms/pages'
         }, {
             title: 'Block',
             link: '/cms/blocks'
-        }]
+        },{
+			title: 'Images',
+			link: '/cms/images'
+		}]
     }, {
         title: 'URL Rewrite',
         link: '/seo',
