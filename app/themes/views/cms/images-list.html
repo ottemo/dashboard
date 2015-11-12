@@ -1,9 +1,41 @@
 <div class="page-header">
-    <a ng-click=""
-        class="btn btn-primary pull-right">
-        Upload
-    </a>
     <h1><i class="fa fa-file-image-o"></i> CMS / Images</h1>
+</div>
+
+<div class="well">
+    <div class="row">
+        <div class="col-sm-6">
+            <h4>Uploading Images</h4>
+            <p>Accepted file formats: .jpg, .jpeg, .png, .gif
+                <br /> Maximum Filesize: 300kb</p>
+        </div>
+        <div class="col-sm-6">
+            <div class="row">
+                <div class="col-xs-8">
+                    <div class="file form-control">
+                        <label>
+                            <input ot-bind-file="files"
+                                type="file"
+                                multiple
+                                accept=".jpg, .jpeg, .png, .gif" />
+
+                            <span class="file-text">Choose Files...</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    <button class="btn btn-primary btn-block"
+                        ng-click="upload()">
+                        Upload
+                    </button>
+                </div>
+            </div>
+
+            <ul class="file-list">
+                <li ng-repeat="file in files">{{file.name}}</li>
+            </ul>
+        </div>
+    </div>
 </div>
 
 <div class="row">
@@ -13,7 +45,8 @@
             <img src="//placehold.it/800x600"
                 class="img-responsive" />
             <div class="panel-body">
-                {{image}}
+                <div>{{image}}</div>
+                <div class="text-muted"><small>2015/11/10 9:52</small></div>
             </div>
         </div>
     </div>

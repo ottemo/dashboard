@@ -18,25 +18,34 @@ angular.module('cmsModule')
                 });
         }
 
-        function add(data) {
-            // return $http.post(baseUri, data)
+        function add(files) {
+            var formData = _fileToFormData(files);
+
+            return $http.post(baseUri, formData, {
+                    transformRequest: angular.identity,
+                    headers: { 'Content-Type': undefined }
+                })
+                .then(function(resp) {
+                    console.log('service ',resp);
+                    return resp;
+                });
         }
 
         function remove(id) {
             return $http.delete(baseUri + '/' + id)
                 .then(function(response) {
                     return respones;
-                })
+                });
         }
 
+        function _fileToFormData(files) {
+            var fd = new FormData();
+            angular.forEach(files, function(file) {
+                fd.append('file', file);
+            });
+
+            return fd;
+        }
     }
 ]);
-
-
-// "galleryAdd": {
-//     method: "POST",
-//     url: REST_SERVER_URI + "/cms/gallery/image/:mediaName",
-//     headers: {"Content-Type": undefined },
-//     transformRequest: angular.identity // jshint ignore:line
-// },
 
