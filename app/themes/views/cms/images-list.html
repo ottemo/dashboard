@@ -40,12 +40,21 @@
 <div class="row">
     <div class="col-xs-6 col-sm-4 col-md-3"
         ng-repeat="img in images">
-        <div class="panel panel-default">
-            <img ng-src="{{img.url}}"
+        <div class="panel panel-default panel-hover">
+            <!-- TODO: use real images again -->
+            <!-- <img ng-src="{{img.url}}"
+                class="img-responsive" /> -->
+            <img src="//placehold.it/800x600"
                 class="img-responsive" />
             <div class="panel-body">
                 <div>{{img.url}}</div>
                 <div class="text-muted"><small>{{img.created_at}}</small></div>
+            </div>
+            <div class="panel-hover-actions">
+                <a class="btn btn-danger"
+                    ng-click="remove($index)">
+                    <i class="fa fa-trash"></i>
+                </a>
             </div>
         </div>
     </div>

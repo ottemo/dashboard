@@ -2,7 +2,9 @@ angular.module('cmsModule')
 
 .factory('cmsImages', ['$http', 'REST_SERVER_URI',
     function($http, REST_SERVER_URI) {
+        //TODO: update url
         var baseUri = REST_SERVER_URI + '/cms/gallery/images'
+
         return {
             all: all,
             add: add,
@@ -26,7 +28,10 @@ angular.module('cmsModule')
                     headers: { 'Content-Type': undefined }
                 })
                 .then(function(resp) {
+                    //TODO: CLEANUP
                     console.log('service ',resp);
+
+                    //TODO: clean the response data
                     return resp;
                 });
         }
@@ -34,6 +39,7 @@ angular.module('cmsModule')
         function remove(id) {
             return $http.delete(baseUri + '/' + id)
                 .then(function(response) {
+                    //TODO: what gets returned here
                     return respones;
                 });
         }
