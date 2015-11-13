@@ -6,8 +6,7 @@
     <div class="row">
         <div class="col-sm-6">
             <h4>Uploading Images</h4>
-            <p>Accepted file formats: .jpg, .jpeg, .png, .gif
-                <br /> Maximum Filesize: 300kb</p>
+            <p>Accepted file formats: .jpg, .jpeg, .png, .gif</p>
         </div>
         <div class="col-sm-6">
             <div class="row">
@@ -40,13 +39,13 @@
 
 <div class="row">
     <div class="col-xs-6 col-sm-4 col-md-3"
-        ng-repeat="image in images">
+        ng-repeat="img in images">
         <div class="panel panel-default">
-            <img src="//placehold.it/800x600"
+            <img ng-src="{{img.url}}"
                 class="img-responsive" />
             <div class="panel-body">
-                <div>{{image}}</div>
-                <div class="text-muted"><small>2015/11/10 9:52</small></div>
+                <div>{{img.url}}</div>
+                <div class="text-muted"><small>{{img.created_at}}</small></div>
             </div>
         </div>
     </div>
