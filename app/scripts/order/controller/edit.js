@@ -43,14 +43,6 @@ function ($scope, $routeParams, $location, $q, $orderApiService, $dashboardUtils
 
     $scope.statuses = [
         {
-            "value": "new",
-            "label": "New"
-        },
-        {
-            "value": "pending",
-            "label": "Pending"
-        },
-        {
             "value": "processed",
             "label": "Processed"
         },
