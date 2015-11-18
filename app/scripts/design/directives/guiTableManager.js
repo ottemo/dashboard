@@ -104,7 +104,9 @@ angular.module("designModule")
                  */
                 saveCurrentActiveFilters = function (filterDetails) {
                     if (filterDetails.filterValue) {
-                        if (-1 !== ['text', 'string', 'varchar'].indexOf(filterDetails.dataType)) {
+                        //REFACTOR: dataType is actually assigned by a request for attribute information from the server,
+                        // and apparently id is it's own type
+                        if (-1 !== ['text', 'string', 'varchar', 'id'].indexOf(filterDetails.dataType)) {
                             activeFilters[filterDetails.attribute.toLowerCase()] = filterDetails.filterValue.replace(/~/g, "").split(",");
                         } else {
                             activeFilters[filterDetails.attribute.toLowerCase()] = filterDetails.filterValue.replace(/~/g, "");
