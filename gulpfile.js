@@ -114,7 +114,7 @@ gulp.task('replace', function () {
 
 // Empties folders to start fresh
 gulp.task('clean', function () {
-    return del(['dist']);
+    return del(['dist','app/scripts/config.js']);
 });
 
 gulp.task('jshint', function () {
