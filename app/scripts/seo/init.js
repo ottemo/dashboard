@@ -1,32 +1,14 @@
-(function (define) {
-    "use strict";
+angular.module("seoModule", ["ngRoute", "ngResource"])
 
-    /**
-     *
-     */
-    define([
-            "angular",
-            "angular-route",
-            "angular-resource"
-        ],
-        function (angular) {
-            /**
-             *
-             */
-            angular.module.seoModule = angular.module("seoModule", ["ngRoute", "ngResource"])
-
-                .run([
-                    "$loginLoginService",
-                    "$rootScope",
-                    "$designService",
-                    "$dashboardHeaderService",
-                    "$route",
-                    function ($loginService, $rootScope, $designService) {
-                        $designService.setTopPage("seo/index.html");
-                    }
-                ]);
-
-            return angular.module.seoModule;
+.config(["$routeProvider", function ($routeProvider) {
+    $routeProvider
+        .when("/seo", {
+            templateUrl: "/themes/views/seo/list.html",
+            controller: "seoListController"
+        })
+        .when("/seo/:id", {
+            templateUrl: "/themes/views/seo/edit.html",
+            controller: "seoIndependentEditController"
         });
-
-})(window.define);
+    }
+]);

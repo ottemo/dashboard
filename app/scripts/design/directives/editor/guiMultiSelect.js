@@ -1,73 +1,64 @@
-(function (define) {
-    "use strict";
+angular.module("designModule")
+/**
+*  Directive used for automatic attribute editor creation
+*/
+.directive("guiMultiSelect", ["$designService", function ($designService) {
+    return {
+        restrict: "E",
+        templateUrl: $designService.getTemplate("design/gui/editor/multi-select.html"),
 
-    define(["design/init"], function (designModule) {
+        scope: {
+            "attribute": "=editorScope",
+            "item": "=item"
+        },
 
-        designModule
-        /**
-         *  Directive used for automatic attribute editor creation
-         */
-            .directive("guiMultiSelect", ["$designService", function ($designService) {
-                return {
-                    restrict: "E",
-                    templateUrl: $designService.getTemplate("design/gui/editor/multi-select.html"),
+        controller: function ($scope) {
+            var isInit = false;
+            $scope.options = [];
 
-                    scope: {
-                        "attribute": "=editorScope",
-                        "item": "=item"
-                    },
+            $scope.$watch("item", function () {
+                if (isInit) {
+                    return false;
+                }
+                var getOptions, options, field;
 
-                    controller: function ($scope) {
-                        var isInit = false;
-                        $scope.options = [];
+                $scope.options = [];
 
-                        $scope.$watch("item", function () {
-                            if (isInit) {
-                                return false;
-                            }
-                            var getOptions, options, field;
+                getOptions = function (opt) {
+                    var options = {};
 
-                            $scope.options = [];
-
-                            getOptions = function (opt) {
-                                var options = {};
-
-                                if (typeof $scope.attribute.Options === "string") {
-                                    try {
-                                        options = JSON.parse(opt.replace(/'/g, "\""));
-                                    } catch(err) {
-                                    }
-                                } else {
-                                    options = opt;
-                                }
-
-                                return options;
-                            };
-
-                            options = getOptions($scope.attribute.Options);
-
-                            for (field in options) {
-                                if (options.hasOwnProperty(field)) {
-                                    $scope.options.push({
-                                        Desc: "",
-                                        Extra: null,
-                                        Id: field,
-                                        Image: "",
-                                        Name: options[field]
-                                    });
-                                }
-                            }
-                            if (typeof $scope.item[$scope.attribute.Attribute] === "string") {
-                                var stringData = $scope.item[$scope.attribute.Attribute].trim('\\[\\]').replace(/['"\s]/g,'');
-                                $scope.item[$scope.attribute.Attribute] = stringData.split(",");
-                            }
-                            isInit = true;
-                        });
-
+                    if (typeof $scope.attribute.Options === "string") {
+                        try {
+                            options = JSON.parse(opt.replace(/'/g, "\""));
+                        } catch(err) {
+                        }
+                    } else {
+                        options = opt;
                     }
-                };
-            }]);
 
-        return designModule;
-    });
-})(window.define);
+                    return options;
+                };
+
+                options = getOptions($scope.attribute.Options);
+
+                for (field in options) {
+                    if (options.hasOwnProperty(field)) {
+                        $scope.options.push({
+                            Desc: "",
+                            Extra: null,
+                            Id: field,
+                            Image: "",
+                            Name: options[field]
+                        });
+                    }
+                }
+                if (typeof $scope.item[$scope.attribute.Attribute] === "string") {
+                    var stringData = $scope.item[$scope.attribute.Attribute].trim('\\[\\]').replace(/['"\s]/g,'');
+                    $scope.item[$scope.attribute.Attribute] = stringData.split(",");
+                }
+                isInit = true;
+            });
+
+        }
+    };
+}]);

@@ -1,27 +1,20 @@
-(function (define) {
-    "use strict";
+angular.module("loginModule")
 
-    define(["login/init"], function (loginModule) {
-        loginModule.controller("loginLogoutController", [
-            "$scope",
-            "$loginLoginService",
-            "$location",
-            function ($scope, $loginLoginService, $location) {
+.controller("loginLogoutController", [
+"$scope",
+"$loginLoginService",
+"$location",
+function ($scope, $loginLoginService, $location) {
 
-                if ($loginLoginService.isLoggedIn()) {
-
-                    $loginLoginService.logout().then(
-                        function () {
-                            $location.path("/");
-                        }
-                    );
-
-                } else {
-                    $location.path("/");
-                }
-
+    if ($loginLoginService.isLoggedIn()) {
+        $loginLoginService.logout().then(
+            function () {
+                $location.path("/login");
             }
-        ]);
-        return loginModule;
-    });
-})(window.define);
+        );
+
+    } else {
+        $location.path("/");
+    }
+
+}]);

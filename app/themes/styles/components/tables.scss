@@ -1,0 +1,9 @@
+.table .td__title {
+	margin-top: 0;
+}
+
+.table-striped-even {
+  > tbody > tr:nth-of-type(even) {
+    background-color: $table-bg-accent;
+  }
+}

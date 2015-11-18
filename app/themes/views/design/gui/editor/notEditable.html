@@ -1,0 +1,9 @@
+<p ng-switch="attribute.Type" class="form-control-static">
+    <span ng-switch-when="datetime">
+        {{ item[attribute.Attribute] | otStoreDate }}
+    </span>
+    <span ng-switch-default>
+        {{ item[attribute.Attribute] }}
+    </span>
+</p>
+

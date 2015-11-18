@@ -1,0 +1,15 @@
+<label>
+	{{attribute.Label}}
+	<span class="asterisk" ng-show="attribute.IsRequired">*</span>
+</label>
+
+<textarea type="text"
+class="form-control"
+style="resize:vertical;"
+rows="40"
+placeholder="{{attribute.Label}}"
+dynamic-name="attribute.Attribute"
+ng-required="attribute.IsRequired"
+ng-model="item[attribute.Attribute]">
+</textarea>
+

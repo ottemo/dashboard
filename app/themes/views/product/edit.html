@@ -1,0 +1,16 @@
+<div class="page-header">
+	<h1 ng-if="product._id">
+		<span class="fa fa-tags"></span>
+		<a ng-href="/products">Products</a> / {{product.name}} [{{product.sku}}]
+	</h1>
+	<h1 ng-if="!product._id">
+		<span class="fa fa-tags"></span>
+		<a ng-href="/products">Products</a> / New
+	</h1>
+</div>
+
+<!-- Error mesage -->
+<gui-message-manager item="message"></gui-message-manager>
+
+<!-- Tabs editor -->
+<gui-attributes-editor-form-tabs attributes-list="attributes" object="this" item="product"></gui-attributes-editor-form-tabs>

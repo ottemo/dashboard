@@ -1,0 +1,31 @@
+<form role="form" name="otEditForm" role="tabpanel" novalidate  class="animated fadeIn">
+    <ul class="nav nav-tabs hidden-xs">
+        <li ng-class='{active:$first}' ng-repeat="(key, items) in attributeGroups" ng-click="click(key)" role="presentation">
+            <a href="#collapse{{key}}" target="_self" aria-controls="home" role="tab" data-toggle="tab">
+                {{key}}
+            </a>
+        </li>
+    </ul>
+    <ul class="nav nav-pills nav-stacked visible-xs">
+        <li ng-class='{active:$first}' ng-repeat="(key, items) in attributeGroups" ng-click="click(key)" role="presentation">
+            <a href="#collapse{{key}}" target="_self" aria-controls="home" role="tab" data-toggle="tab">
+                {{key}}
+            </a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <div ng-class='{active:$first,in:$first}' id="collapse{{key}}" class="tab-pane fade"
+             ng-repeat="(key, items) in attributeGroups">
+            <gui-form-builder attributes="items" item="item" object="parent"></gui-form-builder>
+        </div>
+        <br>
+        <div class="text-center">
+            <button class="btn btn-default" ng-click="back()">Back</button>
+            <button class="btn btn-primary" ng-click="save()">Save</button>
+        </div>
+        <br />
+        <br />
+        <br />
+    </div>
+</form>

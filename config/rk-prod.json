@@ -1,0 +1,6 @@
+{
+    "useStrict"    : "",
+    "apiUrl"       : "https://api.richkidsbrand.com",
+    "mediaPath"    : "media/",
+    "itemsPerPage" : "15"
+}

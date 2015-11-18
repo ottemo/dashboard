@@ -1,0 +1,16 @@
+<div class="page-header">
+	<h1 ng-if="category._id">
+		<span class="fa fa-th-list"></span>
+		Category: {{category.name}}
+	</h1>
+	<h1 ng-if="!category._id">
+		<span class="fa fa-th-list"></span>
+		New Category
+	</h1>
+</div>
+
+<!-- Error message -->
+<gui-message-manager item="message"></gui-message-manager>
+
+<!-- Tabs editor -->
+<gui-attributes-editor-form-tabs attributes-list="attributes" object="this" item="category"></gui-attributes-editor-form-tabs>

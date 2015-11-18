@@ -1,0 +1,29 @@
+<!-- Main image -->
+<img ng-src="{{getImage(parent.selectedImage)}}" alt="selected image" class="main-image">
+
+<!-- Image previews -->
+<div class="text-center" ng-repeat="row in splitedImages">
+    <span ng-click="selectImage(image)" ng-repeat="image in row track by $index">
+        <img class="thum" ng-src="{{getImage(image)}}">
+    </span>
+</div>
+<br>
+<!-- Upload file -->
+<div class="btn-group">
+    <gui-input-file class="btn btn-success upl-btn"
+        input-id="'uploadfile'"
+        input-name="'uploadfile'"
+        file="parent.uploadfile"
+        on-change="parent.imageAdd('uploadfile')">
+        <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span>
+        Upload file
+    </gui-input-file>
+    <!-- Remove button -->
+    <button class="btn btn-danger" ng-click="parent.imageRemove(parent.selectedImage)" aria-label="Left Align">
+        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+        Remove
+    </button>
+    <!-- Default button -->
+    <button class="btn btn-info" ng-click="parent.imageDefault(parent.selectedImage)">Mark as Default</button>
+</div>
+<hr>

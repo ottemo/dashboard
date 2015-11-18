@@ -1,0 +1,56 @@
+<div class="page-header">
+	<h1 ng-if="visitor._id">
+		<span class="fa fa-users"></span>
+		Visitor: {{visitor.first_name}} {{visitor.last_name}}
+	</h1>
+	<h1 ng-if="!visitor._id">
+		<span class="fa fa-users"></span>
+		New visitor
+	</h1>
+</div>
+
+<!-- Message -->
+<gui-message-manager item="message"></gui-message-manager>
+
+<!-- Atributes -->
+<gui-attributes-editor-form-tabs attributes-list="attributes" object="this" item="visitor"></gui-attributes-editor-form-tabs>
+
+<br>
+
+
+<div class="text-center" ng-hide="!visitor._id">
+	<div class="btn btn-primary" ng-click="addressForm()">Addresses</div>
+</div>
+
+<h3>Orders</h3>
+<p ng-if="!orders">No orders to report</p>
+<table class="table table-bordered table-striped" ng-if="orders">
+	<thead>
+		<tr>
+			<th>Date</th>
+			<th>Order ID</th>
+			<th>Notes</th>
+			<th>Total</th>
+			<th>Status</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="order in orders">
+			<td>{{ order.Extra.created_at | date: 'MM/dd/yyyy'}}</td>
+			<td>{{ order.Extra._id }}</td>
+			<td>
+				<div ng-if="order.Extra.notes">
+					<div ng-repeat="note in order.Extra.notes">
+						{{ note }}
+					</div>
+				</div>
+			</td>
+			<td>{{ order.Extra.grand_total | currency}}</td>
+			<td>{{ order.Extra.status }}</td>
+			<td>
+				<a ng-href="/order/{{order.ID}}">View Order</a>
+			</td>
+		</tr>
+	</tbody>
+</table>
