@@ -1,9 +1,9 @@
 angular.module('cmsModule')
 
-.factory('cmsImages', ['$http', 'REST_SERVER_URI',
+.factory('cmsMedia', ['$http', 'REST_SERVER_URI',
     function($http, REST_SERVER_URI) {
         //TODO: update url
-        var baseUri = REST_SERVER_URI + '/cms/gallery/images'
+        var baseUri = REST_SERVER_URI + '/cms/media'
 
         return {
             all: all,

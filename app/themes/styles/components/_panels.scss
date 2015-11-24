@@ -7,15 +7,3 @@ $pwidget-heading-bg: #fff;
 .panel-widget {
   @include panel-variant($pwidget-border, $pwidget-text, $pwidget-heading-bg, $pwidget-border);
 }
-.panel-hover-actions {
-    display: none;
-    position: absolute;
-    top: 5px;
-    right: 5px;
-}
-.panel-hover {
-    position: relative;
-    &:hover .panel-hover-actions {
-        display: block;
-    }
-}

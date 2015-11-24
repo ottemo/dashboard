@@ -1,8 +1,8 @@
 angular.module("cmsModule")
 
-.controller('cmsImagesListController', ['$scope', 'cmsImages', function($scope, cmsImages) {
-    // Manipulating the images
-    $scope.images = [];
+.controller('cmsMediaListController', ['$scope', 'cmsMedia', function($scope, cmsMedia) {
+
+    $scope.media = [];
     $scope.remove = remove;
 
     // File upload
@@ -15,14 +15,14 @@ angular.module("cmsModule")
 
     function activate() {
 
-        // Retrieve any images
-        cmsImages.all().then(function(images) {
-            $scope.images = images;
+        // Retrieve any media
+        cmsMedia.all().then(function(media) {
+            $scope.media = media;
         });
     }
 
     function upload() {
-        cmsImages.add($scope.files).then(function(resp) {
+        cmsMedia.add($scope.files).then(function(resp) {
             //TODO: cleanup
             console.log('ctrl done ', resp)
 
@@ -33,9 +33,10 @@ angular.module("cmsModule")
     function remove(index) {
         //TODO: CLEANUP
         console.log('would remove');
-        var img = $scope.images.splice(index, 1)[0];
+        var medium = $scope.media.splice(index, 1)[0];
+
         //TODO: implement and test
-        // cmsImages.remove(img._id ).then(function(resp){
+        // cmsMedia.remove(medium._id ).then(function(resp){
         //     console.log('rm resp: ', resp);
         // });
     }

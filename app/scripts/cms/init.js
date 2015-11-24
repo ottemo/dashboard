@@ -22,9 +22,9 @@ angular.module('cmsModule', [
             templateUrl: '/themes/views/cms/block-edit.html',
             controller: 'cmsBlockEditController'
         })
-        .when('/cms/images', {
-            templateUrl: '/themes/views/cms/images-list.html',
-            controller: 'cmsImagesListController'
+        .when('/cms/media', {
+            templateUrl: '/themes/views/cms/media-list.html',
+            controller: 'cmsMediaListController'
         });
 
 }]);
