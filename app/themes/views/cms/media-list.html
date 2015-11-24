@@ -14,10 +14,11 @@
                 <div class="col-xs-8">
                     <div class="file form-control">
                         <label>
-                            <input ot-bind-file="file"
+                            <input ot-bind-file="files"
                                 type="file"
+                                multiple
                                 accept=".jpg, .jpeg, .png, .gif" />
-                            <span class="file-text">Choose Files...</span>
+                            <span class="file-text">{{files.length ? files.length + ' file(s) selected' : 'Select files...'}}</span>
                         </label>
                     </div>
                 </div>
@@ -29,9 +30,9 @@
                 </div>
             </div>
 
-            <!-- <ul class="file-list">
+            <ul class="file-list">
                 <li ng-repeat="file in files">{{file.name}}</li>
-            </ul> -->
+            </ul>
         </div>
     </div>
 </div>
@@ -39,7 +40,7 @@
 <!-- List of media items -->
 <div class="row">
     <div class="col-xs-6 col-sm-4 col-md-3"
-        ng-repeat="medium in media">
+        ng-repeat="img in media">
         <div class="panel panel-default panel-hover">
             <!-- TODO: use real images again -->
             <!-- <img ng-src="{{img.url}}"
@@ -47,8 +48,13 @@
             <img src="//placehold.it/800x600"
                 class="img-responsive" />
             <div class="panel-body">
-                <div>{{medium}}</div>
-                <!-- <div class="text-muted"><small>{{img.created_at}}</small></div> -->
+                <!-- todo: cleanup -->
+                json dump:
+                <pre>{{img | json}}</pre>
+
+                <!-- real code -->
+                <div><input class="form-control" type="text" readonly value="{{img.url}}" /></div>
+                <div class="text-muted"><small>{{img.created_at}}</small></div>
             </div>
         </div>
     </div>

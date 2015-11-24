@@ -3,7 +3,6 @@ angular.module("cmsModule")
 .controller('cmsMediaListController', ['$scope', 'cmsMedia', function($scope, cmsMedia) {
 
     $scope.media = [];
-    $scope.remove = remove;
 
     // File upload
     $scope.files;
@@ -17,6 +16,7 @@ angular.module("cmsModule")
 
         // Retrieve any media
         cmsMedia.all().then(function(media) {
+            console.log('ctrl cmsMedia@all ', media)
             $scope.media = media;
         });
     }
@@ -24,21 +24,10 @@ angular.module("cmsModule")
     function upload() {
         cmsMedia.add($scope.files).then(function(resp) {
             //TODO: cleanup
-            console.log('ctrl done ', resp)
+            console.log('ctrl upload resp: ', resp)
 
             //TODO: push new records in
         });
-    }
-
-    function remove(index) {
-        //TODO: CLEANUP
-        console.log('would remove');
-        var medium = $scope.media.splice(index, 1)[0];
-
-        //TODO: implement and test
-        // cmsMedia.remove(medium._id ).then(function(resp){
-        //     console.log('rm resp: ', resp);
-        // });
     }
 
 }]);
