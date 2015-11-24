@@ -43,16 +43,34 @@ function ($scope, $routeParams, $location, $q, $orderApiService, $dashboardUtils
 
     $scope.statuses = [
         {
-            "value": "processed",
-            "label": "Processed"
+            value: 'new',
+            label: 'New',
+            isDisabled: true
         },
         {
-            "value": "completed",
-            "label": "Completed"
+            value: 'pending',
+            label: 'Pending',
+            isDisabled: true
         },
         {
-            "value": "cancelled",
-            "label": "Cancel Order"
+            value: 'processed',
+            label: 'Processed',
+            isDisabled: false
+        },
+        {
+            value: 'declined',
+            label: 'Declined',
+            isDisabled: true
+        },
+        {
+            value: 'completed',
+            label: 'Completed',
+            isDisabled: false
+        },
+        {
+            value: 'cancelled',
+            label: 'Cancelled',
+            isDisabled: false
         }
     ];
 
