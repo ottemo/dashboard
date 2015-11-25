@@ -1,7 +1,7 @@
 {
   "name": "Dashboard",
-  "version": "0.9.7",
-  "description": "Ottemo Administration Dashboard",
+  "version": "1.0.47",
+  "description": "Ottemo Administration Dash",
   "main": "gulpfile.js",
   "repository": {
     "type": "git",
