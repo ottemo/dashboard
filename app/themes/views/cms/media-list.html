@@ -14,24 +14,25 @@
                 <div class="col-xs-8">
                     <div class="file form-control">
                         <label>
-                            <input ot-bind-file="files"
+                            <input ot-bind-file="up.files"
                                 type="file"
                                 multiple
                                 accept=".jpg, .jpeg, .png, .gif" />
-                            <span class="file-text">{{files.length ? files.length + ' file(s) selected' : 'Select files...'}}</span>
+                            <span class="file-text">{{up.files.length ? up.files.length + ' file(s) selected' : 'Select files...'}}</span>
                         </label>
                     </div>
                 </div>
                 <div class="col-xs-4">
                     <button class="btn btn-primary btn-block"
-                        ng-click="upload()">
+                        ng-disabled="!up.files.length || up.isInProgress"
+                        ng-click="up.upload()">
+                        <i class="fa fa-spin fa-circle-o-notch" ng-show="up.isInProgress"></i>
                         Upload
                     </button>
                 </div>
             </div>
-
-            <ul class="file-list">
-                <li ng-repeat="file in files">{{file.name}}</li>
+            <ul class="file-list" ng-show="up.files.length">
+                <li ng-repeat="file in up.files">{{file.name}}</li>
             </ul>
         </div>
     </div>
@@ -40,21 +41,15 @@
 <!-- List of media items -->
 <div class="row">
     <div class="col-xs-6 col-sm-4 col-md-3"
-        ng-repeat="img in media">
-        <div class="panel panel-default panel-hover">
-            <!-- TODO: use real images again -->
-            <!-- <img ng-src="{{img.url}}"
-                class="img-responsive" /> -->
-            <img src="//placehold.it/800x600"
+        ng-repeat="img in mediaList">
+        <div class="panel panel-default">
+            <img ng-src="{{img.url}}"
                 class="img-responsive" />
             <div class="panel-body">
-                <!-- todo: cleanup -->
-                json dump:
-                <pre>{{img | json}}</pre>
-
-                <!-- real code -->
-                <div><input class="form-control" type="text" readonly value="{{img.url}}" /></div>
-                <div class="text-muted"><small>{{img.created_at}}</small></div>
+                <div>
+                    <input id="{{img.id}}" class="form-control input-sm" type="text" readonly value="{{img.url}}" />
+                </div>
+                <div class="text-muted"><small>{{img.created_at | date }}</small></div>
             </div>
         </div>
     </div>

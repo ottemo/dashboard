@@ -1,3 +1,6 @@
+/**
+ * @template .form-control.file>label>input[type=file multiple]+span.file-text{Select files...}
+ */
 .form-control.file {
     position: relative;
     padding: 0;
@@ -24,6 +27,9 @@
     }
 }
 
+/**
+ * @template ul.file-list
+ */
 .file-list {
     margin-top: 10px;
     padding-left: 26px;

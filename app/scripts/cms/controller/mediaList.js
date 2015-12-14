@@ -2,31 +2,39 @@ angular.module("cmsModule")
 
 .controller('cmsMediaListController', ['$scope', 'cmsMedia', function($scope, cmsMedia) {
 
-    $scope.media = [];
+    // Uploaded files
+    $scope.mediaList = [];
 
     // File upload
-    $scope.files;
-    $scope.upload = upload;
+    $scope.up = {
+        isInProgress: false,
+        files: '',
+        upload: upload
+    };
 
     activate();
 
     ///////////////////////////
 
     function activate() {
+        populateMediaList();
+    }
 
-        // Retrieve any media
-        cmsMedia.all().then(function(media) {
-            console.log('ctrl cmsMedia@all ', media)
-            $scope.media = media;
+    // Retrieve any media
+    function populateMediaList() {
+        cmsMedia.all().then(function(mediaList) {
+            $scope.mediaList = mediaList;
         });
     }
 
     function upload() {
-        cmsMedia.add($scope.files).then(function(resp) {
-            //TODO: cleanup
-            console.log('ctrl upload resp: ', resp)
-
-            //TODO: push new records in
+        $scope.up.isInProgress = true;
+        cmsMedia.add($scope.up.files).then(function(resp) {
+            // TODO: If we return just the new files from this endpoint
+            // we can change this to just splice the new ones in
+            populateMediaList();
+            $scope.up.files = '';
+            $scope.up.isInProgress = false;
         });
     }
 
