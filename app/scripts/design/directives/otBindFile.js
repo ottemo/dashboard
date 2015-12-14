@@ -1,7 +1,11 @@
 /**
- * You can just add this to an input[typ=file] and it'll sync the value, like ng-model
+ * You can just add this to an it'll sync the value, like ng-model
+ * but for FileList.
  *
- * <input type="file" ot-bind-file="filesModel" />
+ * https://developer.mozilla.org/en-US/docs/Web/API/FileList
+ * https://developer.mozilla.org/en-US/docs/Web/API/File
+ *
+ * @template input[type=file ot-bind-file=filesModel]
  */
 angular.module('designModule')
 
