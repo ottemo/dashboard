@@ -12,6 +12,9 @@ angular.module('cmsModule')
 
         /////////////////////////
 
+        // https://uncorkedstudios.com/blog/multipartformdata-file-upload-with-angularjs
+        // the browser will adjust the content-type to 'multipart/form-data' and set the
+        // proper boundary parameter
         var _fileUploadConfig = {
             transformRequest: angular.identity,
             headers: { 'Content-Type': undefined }
@@ -37,10 +40,12 @@ angular.module('cmsModule')
                 });
         }
 
+        // https://developer.mozilla.org/en-US/docs/Web/API/FormData/append
         function _filesToFormData(files) {
             var fd = new FormData();
             angular.forEach(files, function(file) {
-                fd.append('file', file);
+                // use the filename as the name
+                fd.append(file.name, file);
             });
 
             return fd;
