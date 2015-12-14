@@ -9,6 +9,7 @@ angular.module("cmsModule")
     $scope.up = {
         isInProgress: false,
         files: '',
+        message: undefined,
         upload: upload
     };
 
@@ -29,12 +30,16 @@ angular.module("cmsModule")
 
     function upload() {
         $scope.up.isInProgress = true;
+        $scope.up.message = undefined;
+
         cmsMedia.add($scope.up.files).then(function(resp) {
             // TODO: If we return just the new files from this endpoint
             // we can change this to just splice the new ones in
             populateMediaList();
+
             $scope.up.files = '';
             $scope.up.isInProgress = false;
+            $scope.up.message = {message: 'Upload complete!'};
         });
     }
 
