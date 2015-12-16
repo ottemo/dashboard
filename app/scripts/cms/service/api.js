@@ -1,10 +1,8 @@
 angular.module("cmsModule")
-/**
-*
-*/
+
 .service("$cmsApiService", ["$resource", "REST_SERVER_URI", function ($resource, REST_SERVER_URI) {
     return $resource(REST_SERVER_URI, {}, {
-        // Products
+
         "blockAdd": {
             method: "POST",
             url: REST_SERVER_URI + "/cms/block"
@@ -64,29 +62,6 @@ angular.module("cmsModule")
             method: "PUT",
             params: { pageID: "@_id" },
             url: REST_SERVER_URI + "/cms/page/:pageID"
-        },
-
-        "galleryList": {
-            method: "GET",
-            url: REST_SERVER_URI + "/cms/gallery/images"
-        },
-        "galleryPath": {
-            method: "GET",
-            url: REST_SERVER_URI + "/cms/gallery/path"
-        },
-        "galleryGet": {
-            method: "GET",
-            url: REST_SERVER_URI + "/cms/gallery/image/:mediaName"
-        },
-        "galleryAdd": {
-            method: "POST",
-            url: REST_SERVER_URI + "/cms/gallery/image/:mediaName",
-            headers: {"Content-Type": undefined },
-            transformRequest: angular.identity // jshint ignore:line
-        },
-        "galleryRemove": {
-            method: "DELETE",
-            url: REST_SERVER_URI + "/cms/gallery/image/:mediaName"
         }
     });
 }]);

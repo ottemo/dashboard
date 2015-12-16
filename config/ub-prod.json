@@ -1,6 +1,6 @@
 {
     "useStrict"    : "",
-    "apiUrl"       : "https://api.ub.production.ottemo.io",
+    "apiUrl"       : "http://api.ub.production.ottemo.io",
     "mediaPath"    : "media/",
     "itemsPerPage" : "15"
 }

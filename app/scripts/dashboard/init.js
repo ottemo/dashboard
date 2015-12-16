@@ -30,8 +30,8 @@ angular.module("dashboardModule", [
 /*
  *  Basic routing configuration
  */
-.config(["$routeProvider", "$httpProvider",'$locationProvider','$sceDelegateProvider',
-    function ($routeProvider, $httpProvider, $locationProvider, $sceDelegateProvider) {
+.config(["$routeProvider", "$httpProvider",'$locationProvider','$sceDelegateProvider', '$animateProvider',
+    function ($routeProvider, $httpProvider, $locationProvider, $sceDelegateProvider, $animateProvider) {
 
         var otInterceptor = ['$q',
             function ($q) {
@@ -58,55 +58,57 @@ angular.module("dashboardModule", [
                 };
         }];
 
-    $httpProvider.interceptors.push(otInterceptor);
+        $httpProvider.interceptors.push(otInterceptor);
 
-    function checkLoggedIn($q,$log,$loginLoginService){
-        var def = $q.defer();
+        function checkLoggedIn($q,$log,$loginLoginService){
+            var def = $q.defer();
 
-        $loginLoginService.init().then(function(auth){
+            $loginLoginService.init().then(function(auth){
 
-            if (auth)
-                def.resolve(auth)
-            else {
-                // $location.url('/login');
-                $log.error('Authentication required. Redirect to login.');
-                def.reject({ needsAuthentication: true });
-                def.reject();
-            }
-        })
+                if (auth)
+                    def.resolve(auth)
+                else {
+                    // $location.url('/login');
+                    $log.error('Authentication required. Redirect to login.');
+                    def.reject({ needsAuthentication: true });
+                    def.reject();
+                }
+            })
 
-        return def.promise
-    }
+            return def.promise
+        }
 
+        $routeProvider.whenAuthenticated = function(path,route){
+            route.resolve = route.resolve || {};
 
-    $routeProvider.whenAuthenticated = function(path,route){
-        route.resolve = route.resolve || {};
+            angular.extend(route.resolve, {
+                isLoggedIn: ['$q','$log', '$loginLoginService', checkLoggedIn]
+            })
 
-        angular.extend(route.resolve, {
-            isLoggedIn: ['$q','$log', '$loginLoginService', checkLoggedIn]
-        })
+            return $routeProvider.when(path,route);
+        }
 
-        return $routeProvider.when(path,route);
-    }
+        $sceDelegateProvider.resourceUrlWhitelist([
+            'self',
+            angular.appConfigValue("general.app.foundation_url") + '/**'
+        ]);
 
-    $sceDelegateProvider.resourceUrlWhitelist([
-        'self',
-        angular.appConfigValue("general.app.foundation_url") + '/**'
-    ]);
+        $routeProvider
+            .whenAuthenticated("/", {
+                templateUrl: "/themes/views/dashboard/welcome.html",
+                controller: "dashboardController"
+            })
+            .when("/help", {
+                templateUrl: "/themes/views/help.html"
+            })
+            .otherwise({ redirectTo: "/"});
 
-    $routeProvider
-        .whenAuthenticated("/", {
-            templateUrl: "/themes/views/dashboard/welcome.html",
-            controller: "dashboardController"
-        })
-        .when("/help", {
-            templateUrl: "/themes/views/help.html"
-        })
+        $locationProvider.html5Mode(true);
 
-        .otherwise({ redirectTo: "/"});
-
-    $locationProvider.html5Mode(true);
-}])
+        // Don't monitor font awesome animation .fa-spin
+        $animateProvider.classNameFilter(/^((?!(fa-spin)).)*$/);
+    }]
+)
 
 .run([
     "$rootScope",

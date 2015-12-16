@@ -18,6 +18,7 @@ angular.module("designModule")
 
                     $scope.msg = $scope.obj.message;
                     $scope.type = $scope.obj.type || "success";
+                    $scope.cssClass = 'alert-' + $scope.type;
                     $scope.isShow = true;
                     timeout = $scope.obj.timeout;
 
