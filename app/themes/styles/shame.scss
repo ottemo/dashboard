@@ -1,6 +1,7 @@
 #code_container, #theme_container {
   display: none !important;
 }
+
 /* Login page */
 .nicescroll-rails {
   display: none !important;
@@ -20,10 +21,8 @@ a:active {
   outline: none !important;
 }
 /* Index page */
-.modal:not(#processing):not(#parent_id) .modal-dialog {
-  width: 70% !important;
-  z-index: 2000;
-  margin-left: 300px;
+.modal-dialog {
+  z-index: 1050;
 }
 .navbar {
   margin-bottom: 0 !important;
