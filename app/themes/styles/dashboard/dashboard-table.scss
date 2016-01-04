@@ -1,10 +1,15 @@
 .table-dashboard {
-	color: $gray;
+    color: $gray;
+
+    th {
+        font-weight: normal;
+    }
+    tbody th {
+        white-space: nowrap;
+    }
 }
-.table-dashboard th {
-	font-weight: normal;
-}
+
 .table-dashboard__highlight {
-	font-size: 20px;
-	color: $brand-primary;
+    font-size: 20px;
+    color: $brand-primary;
 }
