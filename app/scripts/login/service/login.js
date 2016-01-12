@@ -142,11 +142,6 @@ angular.module("loginModule")
             var avatar;
             avatar = $designService.getImage(VISITOR_DEFAULT_AVATAR);
 
-            if ('' !== login['facebook_id']) {
-                avatar = 'http://' + fb.getAvatar(login['facebook_id'], 'large');
-            } else if (login['google_id'] !== '') {
-                avatar = gl.getAvatar(login['google_id']);
-            }
             return avatar;
         };
 
