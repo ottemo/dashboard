@@ -110,7 +110,7 @@ $scope.export = function(method) {
             apiUrl = '/taxes/csv';
             break;
         case 'discount':
-            apiUrl = '/discounts/csv';
+            apiUrl = '/csv/coupons';
             break;
     }
 

@@ -35,7 +35,7 @@ angular.module("impexModule")
       "importDiscount": {
         method: "POST",
         params: {},
-        url: REST_SERVER_URI + "/discounts/csv",
+        url: REST_SERVER_URI + "/csv/coupons",
         headers: {"Content-Type": undefined },
         transformRequest: angular.identity
       }
