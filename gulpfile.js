@@ -69,6 +69,9 @@ var host = {
     lrPort: '35729'
 };
 
+// attached to replace task
+var apiUrl = '';
+
 /**
  * argv variables can be passed in to alter the behavior of tasks
  *
@@ -97,10 +100,21 @@ if (isProduction) {
     }
 }
 
+(function(){
+    var bar = '+-----------------------------------+'
+    log(bar);
+    log('Environment Settings')
+    log('env = ' + args.env + ' -> isProduction = ' + isProduction);
+    log('api = ' + args.api + ' -> apiConfig = ' + apiConfig);
+    log(bar);
+})()
+
 gulp.task('replace', function () {
     // Read the settings from the right file
     var filename = apiConfig + '.json';
     var settings = JSON.parse(fs.readFileSync('./config/' + filename, 'utf8'));
+
+    apiUrl = settings.apiUrl
 
     // Replace each placeholder with the correct value for the variable.
     return gulp.src('config/config.js')
@@ -127,10 +141,8 @@ gulp.task('html', function () {
     return gulp.src(paths.html)
         .pipe(changed(paths.dist))
         .pipe(minifyHTML({
-            collapseWhitespace: true,
-            collapseBooleanAttributes: true,
-            removeCommentsFromCDATA: true,
-            removeOptionalTags: true,
+            loose: true,
+            spare: true,
             conditionals: true,
             quotes: true,
             empty: true
@@ -163,8 +175,7 @@ gulp.task('scripts', function () {
         .pipe(plumber.stop())
         .pipe(concat('main.min.js'))
         .pipe(sourcemaps.write('./maps'))
-        .pipe(gulp.dest(paths.dist + '/scripts'))
-        .pipe(refresh());
+        .pipe(gulp.dest(paths.dist + '/scripts'));
 });
 
 gulp.task('theme.styles', function () {
@@ -179,8 +190,7 @@ gulp.task('theme.styles', function () {
         .pipe(autoprefix('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
         .pipe(plumber.stop())
         .pipe(sourcemaps.write('./maps'))
-        .pipe(gulp.dest(paths.theme.dist + '/styles'))
-        .pipe(refresh());
+        .pipe(gulp.dest(paths.theme.dist + '/styles'));
 });
 
 gulp.task('theme.scripts', function () {
@@ -193,8 +203,7 @@ gulp.task('theme.scripts', function () {
         .pipe(plumber.stop())
         .pipe(concat('main.min.js'))
         .pipe(sourcemaps.write('./maps'))
-        .pipe(gulp.dest(paths.theme.dist))
-        .pipe(refresh());
+        .pipe(gulp.dest(paths.theme.dist));
 });
 
 gulp.task('theme.media', function () {
@@ -219,8 +228,6 @@ gulp.task('lib.ie', function() {
 
 
 gulp.task('watch',function(){
-    refresh.listen({ basePath: paths.dist });
-
     gulp.start('livereload');
 
     gulp.watch(["app/**/*.html"],['html']);
@@ -241,7 +248,12 @@ gulp.task('livereload', function(){
         .use(express.static(staticFolder));
 
     app.listen( host.port, function() {
-        console.log('server started: http://localhost:' + host.port);
+        var bar = '+-----------------------------------+'
+        log(bar);
+        log('Server Started')
+        log('Storefront: http://localhost:' + host.port);
+        log('Foundation: ' + apiUrl);
+        log(bar);
         return gulp;
     });
 });
@@ -249,11 +261,11 @@ gulp.task('livereload', function(){
 gulp.task('revision', function(){
     if(isProduction) {
         var revAll = new RevAll({
-            dontUpdateReference: [/^((?!.js|.css).)*$/g],
-            dontRenameFile: [/^((?!.js|.css).)*$/g]
+            dontUpdateReference: ['.html'],
+            dontRenameFile: ['.html']
         });
 
-        gulp.src('dist/**')
+        gulp.src('dist/**/*.{js,css,html}')
             .pipe(revAll.revision())
             .pipe(gulp.dest('dist'));
     }
@@ -280,3 +292,9 @@ gulp.task('serve', ['default']);
 gulp.task('default', ['build'], function(){
     gulp.start('watch');
 });
+
+//////////////////////////
+
+function log(msg) {
+    gutil.log(gutil.colors.magenta(msg));
+}
