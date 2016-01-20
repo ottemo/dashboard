@@ -246,13 +246,6 @@ angular.module("productModule")
 
 .filter('getOrdered', function () {
     return function (input) {
-        var ordered = {};
-        for (var key in input) {
-            if (input.hasOwnProperty(key)) {
-                ordered[input[key].order] = input[key];
-            }
-        }
-
-        return ordered;
+        return _.sortBy(input, 'order');
     };
 });
