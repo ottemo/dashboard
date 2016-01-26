@@ -1,7 +1,7 @@
 <div class="form-control">
     <strong ng-bind="countSelected"></strong>
     <span>items selected</span>
-    <button class="btn-primary btn btn-xs" ng-click="show(attribute.Attribute)">Select</button>
+    <button type="button" class="btn btn-default btn-xs" ng-click="show(attribute.Attribute)">Select</button>
 </div>
 
 <div class="modal fade" id="{{attribute.Attribute}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
@@ -19,7 +19,6 @@
                 <gui-table-manager-popup items="items" object="this" buttons="{'new':false,'delete':false}"></gui-table-manager-popup>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary" ng-click="hide(attribute.Attribute)">Save</button>
                 <button class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>

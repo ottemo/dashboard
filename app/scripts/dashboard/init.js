@@ -3,10 +3,11 @@ angular.module("dashboardModule", [
     "ngRoute",
     "ngResource",
     "ngSanitize",
-    "ngAnimate",
 
     // Lib
     "ui.odometer",
+    "ui.bootstrap.tooltip",
+    "uib/template/tooltip/tooltip-popup.html",
     "highcharts-ng",
     "moment",
 

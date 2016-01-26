@@ -10,93 +10,131 @@ angular.module("discountsModule")
  * times
  */
 .service("$discountsService", [
-	"$http",
-	"REST_SERVER_URI",
-	"moment",
-	"timezoneService",
-	function ($http, REST_SERVER_URI, moment, timezoneService) {
-		var _url = REST_SERVER_URI + '/coupons';
+    "$http",
+    "REST_SERVER_URI",
+    "moment",
+    "timezoneService",
+    function($http, REST_SERVER_URI, moment, timezoneService) {
+        var _url = REST_SERVER_URI + '/coupons';
 
-		var defaults = {
-			isNoLimit: true,
-			times: -1,
-			type: 'amount'
-		};
+        var service = {
+            one: one,
+            post: post,
+            put: put,
+            remove: remove,
+            getList: getList,
+            defaults: defaults,
+        };
 
-		var service = {
-			one: one,
-			post: post,
-			put: put,
-			getList: getList,
-			defaults: defaults
-		};
+        return service;
 
-		return service;
+        ////////////////////////////
 
-		////////////////////////////
+        function _transformResponse(discountSource) {
+            var _storeTz = timezoneService.storeTz;
+            var discount = {};
 
-		function _transformResponse(discount) {
-			var _storeTz = timezoneService.storeTz;
+            angular.merge(discount, defaults(), discountSource);
 
-			// Process the datetime, down to just a date
-			discount.sinceLocal = moment(discount.since).utcOffset(_storeTz).format('YYYY-MM-DD');
-			discount.untilLocal = moment(discount.until).utcOffset(_storeTz).format('YYYY-MM-DD');
+            // We aren't currently recognizing this
+            delete discount.name;
 
-			// Some helper methods
-			discount.type = discount.amount ? 'amount' : 'percent';
-			discount.isNoLimit = (discount.times == -1);
+            // Process the datetime into the storefront tz
+            discount.sinceLocal = moment(discount.since).utcOffset(_storeTz).format('YYYY-MM-DD HH:mm');
+            discount.untilLocal = moment(discount.until).utcOffset(_storeTz).format('YYYY-MM-DD HH:mm');
 
-			return discount;
-		}
+            // hack for handling target
+            if ( ['order','cart'].indexOf(discount.target) === -1 ) {
+                // extra hack because the list comes back as a string of json `"[123,234]"`
+                discount.target_line_items = angular.fromJson(discount.target);
+                discount.target = 'product';
+            } else {
+                discount.target = 'order';
+            }
 
-		function _transformRequest(discount) {
-			var _storeTz = ' ' + timezoneService.storeTz;
+            // hack for handling type
+            discount.type = discount.amount ? 'amount' : 'percent';
 
-			discount.since = moment(discount.sinceLocal + _storeTz, 'YYYY-MM-DD Z').toISOString();
-			discount.until = moment(discount.untilLocal + _storeTz, 'YYYY-MM-DD Z').toISOString();
+            return discount;
+        }
 
-			return discount;
-		}
+        function _transformRequest(discountSource) {
+            var _storeTz = ' ' + timezoneService.storeTz;
 
-		function one(id) {
-			return $http.get(_url + '/' + id).then(function(response){
-				return _transformResponse(response.data.result);
-			});
-		}
+            // processing the params can effect the source data, so we need to copy it out
+            var discount = {};
+            angular.merge(discount, discountSource);
 
-		function post(data) {
-			// processing the params can effect the source data, so we need to copy it out
-			var params = {};
-			angular.copy(data, params);
+            // We aren't currently recognizing this
+            discount.name = discount.code;
 
-			params = _transformRequest(params);
-			return $http.post(_url, params).then(function(response){
-				return response.data.result;
-			});
-		}
+            // Process the datetime back
+            discount.since = moment(discount.sinceLocal + _storeTz, 'YYYY-MM-DD HH:mm Z').toISOString();
+            discount.until = moment(discount.untilLocal + _storeTz, 'YYYY-MM-DD HH:mm Z').toISOString();
+            delete discount.sinceLocal;
+            delete discount.untilLocal;
 
-		function put(data) {
-			// processing the params can effect the source data, so we need to copy it out
-			var params = {};
-			angular.copy(data, params);
+            // hack for formatting target
+            if (discount.target === 'order') {
+                discount.target = 'cart';
+            } else {
+                discount.target = discount.target_line_items;
+            }
 
-			params = _transformRequest(params);
+            // Clean up empty variable
+            delete discount.target_line_items;
+            delete discount.type
 
-			return $http.put(_url +'/' + params._id, params).then(function(response){
-				return response.data.result;
-			});
-		}
+            return discount;
+        }
 
-		function getList() {
-			return $http.get(_url).then(function(response){
-				var results = response.data.result || [];
-				results = results.map(function(discount) {
-					return _transformResponse(discount);
-				});
+        function one(id) {
+            return $http.get(_url + '/' + id).then(function(response) {
+                return _transformResponse(response.data.result);
+            });
+        }
 
-				return results;
-			});
-		}
+        function post(data) {
+            var params = _transformRequest(data);
 
-	}
+            return $http.post(_url, params).then(function(response) {
+                return response.data.result;
+            });
+        }
+
+        function put(data) {
+            var params = _transformRequest(data);
+
+            return $http.put(_url + '/' + params._id, params).then(function(response) {
+                return response.data.result;
+            });
+        }
+
+        function remove(id) {
+            return $http.delete(_url + '/' + id).then(function(response) {
+                return response.data.result;
+            });
+        }
+
+        function getList() {
+            return $http.get(_url).then(function(response) {
+                var results = response.data.result || [];
+                results = results.map(_transformResponse);
+
+                return results;
+            });
+        }
+
+        function defaults() {
+            return {
+                times: -1,
+                limits: {
+                    max_usage_qty: -1,
+                },
+                target: 'order',
+                type: 'amount',
+            };
+        }
+    }
 ]);
+

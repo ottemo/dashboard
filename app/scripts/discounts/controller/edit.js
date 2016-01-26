@@ -1,44 +1,60 @@
 angular.module("discountsModule")
 
 .controller("editController", [
-	"$scope",
-	"$discountsService",
-	"$routeParams",
-	"$location",
-	function($scope, $discountsService, $routeParams, $location){
+    "$scope",
+    "$discountsService",
+    "$routeParams",
+    "$location",
+    function($scope, $discountsService, $routeParams, $location) {
 
-		// Defaults
-		$scope.discount = $discountsService.defaults;
+        var isEditPage = !!$routeParams.id;
 
-		var isEditPage = !!$routeParams.id;
+        $scope.discount = {};
 
-		if (isEditPage) {
-			// Edit Page
-			$discountsService.one($routeParams.id)
-			.then(function(discount) {
-				$scope.discount = discount;
-			});
-		}
+        $scope.clearDiscountValues = clearDiscountValues;
+        $scope.save = save;
+        $scope.remove = remove;
 
-		$scope.clearDiscountValues = function() {
-			$scope.discount.amount = '';
-			$scope.discount.percent = '';
-		}
+        activate();
 
-		$scope.save = function() {
-			if ($scope.discount.isNoLimit) {
-				$scope.discount.times = -1;
-			}
+        //////////////////////////////////
 
-			if (isEditPage) {
-				$discountsService.put($scope.discount);
-			} else {
-				$discountsService.post($scope.discount, function(savedDiscount) {
-					// Navigate to our edit page
-					var id = savedDiscount._id;
-					$location.path('/discounts/' + id );
-				});
-			}
-		}
-	}
+        function activate() {
+            if (isEditPage) {
+                $discountsService.one($routeParams.id)
+                    .then(function(discount) {
+                        $scope.discount = discount;
+                    });
+            } else {
+                $scope.discount = $discountsService.defaults();
+            }
+        }
+
+        // hack - this shouldn't be needed
+        function clearDiscountValues() {
+            $scope.discount.amount = '';
+            $scope.discount.percent = '';
+        }
+
+        function save() {
+            if (isEditPage) {
+                $discountsService.put($scope.discount);
+            } else {
+                $discountsService.post($scope.discount)
+                    .then(goToDiscount);
+            }
+        }
+
+        function remove() {
+            $discountsService.remove($scope.discount._id)
+                .then(function(){
+                    $location.path('/discounts');
+                });
+        }
+
+        function goToDiscount(discount) {
+            $location.path('/discounts/' + discount._id);
+        }
+    }
 ]);
+

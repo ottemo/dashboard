@@ -145,6 +145,7 @@ input,
 
 .tooltip {
   @extend .sandstone;
+  text-transform: none;
 }
 
 // Progress bars ==============================================================

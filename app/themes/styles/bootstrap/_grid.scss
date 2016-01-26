@@ -29,6 +29,10 @@
 
 .container-fluid {
   @include container-fixed;
+  margin-bottom: 50px;
+  @media (min-width: $screen-lg-min) {
+    max-width: $container-lg;
+  }
 }
 
 

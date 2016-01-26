@@ -39,18 +39,18 @@ function ($location, $routeParams, $designService, DashboardListService, $produc
 
             var oldWidth, getCountItems;
 
-			var clone = function (obj) {
-				if (null === obj || "object" !== typeof obj) {
-					return obj;
-				}
-				var copy = obj.constructor();
-				for (var attr in obj) {
-					if (obj.hasOwnProperty(attr)) {
-						copy[attr] = obj[attr];
-					}
-				}
-				return copy;
-			};
+            var clone = function (obj) {
+                if (null === obj || "object" !== typeof obj) {
+                    return obj;
+                }
+                var copy = obj.constructor();
+                for (var attr in obj) {
+                    if (obj.hasOwnProperty(attr)) {
+                        copy[attr] = obj[attr];
+                    }
+                }
+                return copy;
+            };
 
             /**
              * Gets count items
@@ -61,7 +61,8 @@ function ($location, $routeParams, $designService, DashboardListService, $produc
                 $scope.countSelected = 0;
                 if (typeof $scope.item !== "undefined" &&
                     typeof $scope.item[$scope.attribute.Attribute] !== "undefined" &&
-                    $scope.item[$scope.attribute.Attribute].length) {
+                    $scope.item[$scope.attribute.Attribute].length
+                ) {
                     $scope.item[$scope.attribute.Attribute].map(function (val) {
                         if ("" !== val && typeof val !== "undefined") {
                             $scope.countSelected += 1;
@@ -165,16 +166,19 @@ function ($location, $routeParams, $designService, DashboardListService, $produc
             };
 
             $scope.$watch("item", function () {
-                $scope.selected = {};
 
                 if (typeof $scope.item !== "undefined" &&
-                    $scope.item._id &&
-                    $scope.item[$scope.attribute.Attribute] instanceof Array) {
+                    $scope.item[$scope.attribute.Attribute] instanceof Array
+                ) {
+
+                    $scope.selected = {};
                     for (var i = 0; i < $scope.item[$scope.attribute.Attribute].length; i += 1) {
+
+                        //TODO: it would be great if there were some explanation here
                         if (typeof $scope.item[$scope.attribute.Attribute][i] === "object") {
-                            $scope.selected[$scope.item[$scope.attribute.Attribute][i]._id] = true;
+                            $scope.selected[$scope.item[ $scope.attribute.Attribute][i]._id ] = true;
                         } else {
-                            $scope.selected[$scope.item[$scope.attribute.Attribute][i]] = true;
+                            $scope.selected[ $scope.item[$scope.attribute.Attribute][i] ] = true;
                         }
                     }
                     getCountItems();
@@ -188,13 +192,17 @@ function ($location, $routeParams, $designService, DashboardListService, $produc
 
             $scope.$watch("selected", function () {
                 var id;
-                $scope.item[$scope.attribute.Attribute] = [];
-                for (id in $scope.selected) {
-                    if ($scope.selected.hasOwnProperty(id) && $scope.selected[id] === true) {
-                        $scope.item[$scope.attribute.Attribute].push(id);
+
+                if ($scope.item) {
+                    $scope.item[$scope.attribute.Attribute] = [];
+                    for (id in $scope.selected) {
+                        if ($scope.selected.hasOwnProperty(id) && $scope.selected[id] === true) {
+                            $scope.item[$scope.attribute.Attribute].push(id);
+                        }
                     }
-                }
-                getCountItems();
+                    getCountItems();
+                };
+
             }, true);
 
             /**
