@@ -1,0 +1,6 @@
+{
+    "useStrict"    : "",
+    "apiUrl"       : "https://api.mp.production.ottemo.io",
+    "mediaPath"    : "media/",
+    "itemsPerPage" : "15"
+}
