@@ -16,8 +16,15 @@ angular.module('dashboardModule')
         icon: 'fa-home'
     }, {
         title: 'Orders',
-        link: '/orders',
-        icon: 'fa-list-alt'
+        link: null,
+        icon: 'fa-list-alt',
+        children: [{
+            title: 'Orders',
+            link: '/orders',
+        },{
+            title: 'Subscriptions',
+            link: '/subscriptions'
+        }]
     }, {
         title: 'Products',
         link: null,
@@ -62,9 +69,9 @@ angular.module('dashboardModule')
             title: 'Block',
             link: '/cms/blocks'
         },{
-			title: 'Images',
-			link: '/cms/media'
-		}]
+            title: 'Images',
+            link: '/cms/media'
+        }]
     }, {
         title: 'URL Rewrite',
         link: '/seo',

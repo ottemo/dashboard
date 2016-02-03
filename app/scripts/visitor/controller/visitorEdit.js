@@ -8,35 +8,48 @@ angular.module("visitorModule")
 "$visitorApiService",
 "$dashboardUtilsService",
 "$orderApiService",
-function ($scope, $routeParams, $location, $q, $visitorApiService, $dashboardUtilsService, $orderApiService) {
-    var visitorId, getDefaultVisitor;
+"$subscriptionsApiService",
+function (
+    $scope,
+    $routeParams,
+    $location,
+    $q,
+    $visitorApiService,
+    $dashboardUtilsService,
+    $orderApiService,
+    $subscriptionsApiService
+) {
 
-    visitorId = $routeParams.id;
+    var visitorId = $routeParams.id || null;
 
-    if (!visitorId && visitorId !== "new") {
-        $location.path("/visitors");
+    $scope.defaultVisitor = getDefaultVisitor();
+    $scope.visitor = $scope.defaultVisitor;
+
+    $scope.orders = [];
+    $scope.subscriptions = [];
+
+    activate();
+
+    //////////////////////////
+
+    function activate() {
+
+        if (visitorId) {
+            fetchOrders(visitorId).then(function(orders) {
+                $scope.orders = orders;
+            });
+
+            fetchSubscriptions(visitorId).then(function(subs) {
+                $scope.subscriptions = subs;
+            });
+        }
     }
 
-    if (visitorId === "new") {
-        visitorId = null;
-    }
 
-    getDefaultVisitor = function () {
+    function getDefaultVisitor() {
         return {};
     };
-    /**
-     * Visitor by default
-     *
-     * @type {object}
-     */
-    $scope.defaultVisitor = getDefaultVisitor();
 
-    /**
-     * Current selected visitor
-     *
-     * @type {Object}
-     */
-    $scope.visitor = $scope.defaultVisitor;
 
     $scope.addressForm = function () {
         $location.path("/visitor/" + $scope.visitor._id + "/addresses");
@@ -46,9 +59,6 @@ function ($scope, $routeParams, $location, $q, $visitorApiService, $dashboardUti
         return $scope.visitor['first_name'] + " " + $scope.visitor['last_name'];
     };
 
-    /**
-     * Gets list all attributes of visitor
-     */
     $visitorApiService.attributesInfo().$promise.then(
         function (response) {
             var result = response.result || [];
@@ -101,10 +111,6 @@ function ($scope, $routeParams, $location, $q, $visitorApiService, $dashboardUti
             id = $scope.visitor.id || $scope.visitor._id;
         }
 
-        /**
-         *
-         * @param response
-         */
         saveSuccess = function (response) {
             if (response.error === null) {
                 var result = response.result || getDefaultVisitor();
@@ -116,20 +122,12 @@ function ($scope, $routeParams, $location, $q, $visitorApiService, $dashboardUti
             }
         };
 
-        /**
-         *
-         * @param response
-         */
         saveError = function () {
             $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
             $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
             defer.resolve(false);
         };
 
-        /**
-         *
-         * @param response
-         */
         updateSuccess = function (response) {
             if (response.error === null) {
                 var result = response.result || getDefaultVisitor();
@@ -140,10 +138,6 @@ function ($scope, $routeParams, $location, $q, $visitorApiService, $dashboardUti
             }
         };
 
-        /**
-         *
-         * @param response
-         */
         updateError = function () {
             $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
             $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
@@ -164,18 +158,27 @@ function ($scope, $routeParams, $location, $q, $visitorApiService, $dashboardUti
         return defer.promise;
     };
 
-
-    // Fetch the users orders if we have a user
-    $scope.orders = [];
-    if (visitorId) {
-        var orderParams = {
+    function fetchOrders(visitorId){
+        var params = {
             extra: ['_id', 'status', 'grand_total', 'created_at', 'visitor_id', 'notes'].join(','),
             sort: '^created_at',
             visitor_id: visitorId
         };
 
-        $orderApiService.orderList(orderParams).$promise.then(function(response) {
-            $scope.orders = response.result;
+        return $orderApiService.orderList(params).$promise.then(function(response) {
+            return response.result;
         });
     }
+
+    function fetchSubscriptions(visitorId) {
+        var params = {
+            extra: ['_id', 'status', 'created_at'],
+            visitor_id: visitorId
+        };
+
+        return $subscriptionsApiService.list(params).$promise.then(function(response) {
+            return response.result;
+        });
+    }
+
 }]);

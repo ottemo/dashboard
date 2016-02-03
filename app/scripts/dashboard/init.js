@@ -22,6 +22,7 @@ angular.module("dashboardModule", [
     "orderModule",
     "productModule",
     "seoModule",
+    "subscriptionsModule",
     "visitorModule"
 ])
 

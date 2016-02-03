@@ -81,14 +81,14 @@ function ($rootScope, $scope, $location, $routeParams, $q, DashboardListService,
      * @param id
      */
     $scope.select = function (id) {
-        $location.path("/order/" + id).search('');
+        $location.path("/orders/" + id).search('');
     };
 
     /**
      *
      */
     $scope.create = function () {
-        $location.path("/order/new");
+        $location.path("/orders/new");
     };
 
     var hasSelectedRows = function () {

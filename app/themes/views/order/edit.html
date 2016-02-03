@@ -84,8 +84,6 @@
     </div>
     <div class="col-sm-4">
         <div class="panel panel-default">
-            <div class="panel-heading">Order Details</div>
-            <!-- <div class="panel-heading">Shipping Address</div> -->
             <div class="panel-body">
                 <h4>Shipping Address</h4>
                 <div>
@@ -131,18 +129,26 @@
 
             <div class="panel-body">
                 <h4>Order Details</h4>
-                <div>Order ID: {{order._id}}</div>
-                <div>Order Date: {{order.created_at | otStoreDate}}</div>
-                <div>Payment Method: {{order.payment_info.payment_method_name}}</div>
-                <div ng-if="order.payment_info.creditCardType">
-                    {{order.payment_info.creditCardType}}:
-                    xxx - {{order.payment_info.creditCardNumbers}}
+                <div><strong>ID:</strong> {{order._id}}</div>
+
+                <div title="{{order.shipping_method}}">
+                    <strong>Shipping Method:</strong><br /> {{order.shipping_info.shipping_method_name}}
                 </div>
-                <div ng-if="order.payment_info.transactionID">
-                    Transaction ID: {{order.payment_info.transactionID || 'n/a'}}
+                <div>
+                    <strong>Shipping Notes:</strong> {{order.shipping_info.notes || 'n/a'}}
                 </div>
-                <div>Shipping Method: {{order.shipping_info.shipping_method_name}}</div>
-                <div>Shipping Notes: {{order.shipping_info.notes || 'n/a'}}</div>
+                <div><strong>Payment Method:</strong></div>
+                <ul>
+                    <li title="{{order.payment_method}}">{{order.payment_info.payment_method_name}}</li>
+                    <li ng-if="order.payment_info.creditCardType">
+                        {{order.payment_info.creditCardType}} xxx-{{order.payment_info.creditCardNumbers}}
+                    </li>
+                    <li ng-if="order.payment_info.transactionID">
+                        Transaction ID: {{order.payment_info.transactionID || 'n/a'}}
+                    </li>
+                </ul>
+
+                <div><strong>Order Date:</strong> {{order.created_at | otStoreDate}}</div>
             </div>
             <div class="panel-body">
                 <div class="">
