@@ -1,0 +1,33 @@
+<!doctype html>
+<html class="no-js lt-ie9 lt-ie8" id="ng-app" ng-app="dashboardModule">
+    <head>
+        <base href="/" />
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="robots" content="NOINDEX, NOFOLLOW">
+
+        <meta name="viewport" content="width=device-width, maximum-scale=1, minimum-scale=1", initial-scale=1, user-scalable=0 />
+        <title>Ottemo Dashboard</title>
+
+        <!-- <link href="lib/styles.min.css" rel="stylesheet"> -->
+        <link href="/themes/styles/style.min.css" rel="stylesheet">
+
+        <!-- favicon -->
+        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+
+    </head>
+
+    <body ot-route-class>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- main content -->
+        <content id="content" src="/themes/views/index.html" ng-show="contentLoaded" ></content>
+
+        <!-- JS libs -->
+        <script src="/lib/lib.min.js"></script>
+        <script src="/scripts/main.min.js"></script>
+        <script src="/themes/main.min.js"></script>
+    </body>
+</html>
