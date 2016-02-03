@@ -7,7 +7,6 @@
 *.sublime-workspace
 
 app/bower_components
-app/scripts/main.js
 app/bundle.js
 app/media
 dist
@@ -20,5 +19,4 @@ tags
 .DS_Store
 
 # Ottemo Specific
-app/scripts/config.js
-dashboard.iml
+tmp/*
