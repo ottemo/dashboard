@@ -11,7 +11,7 @@ angular.module("orderModule", [
             templateUrl: "/views/order/list.html",
             controller: "orderListController"
         })
-        .when("/order/:id", {
+        .when("/orders/:id", {
             templateUrl: "/views/order/edit.html",
             controller: "orderEditController"
         })
