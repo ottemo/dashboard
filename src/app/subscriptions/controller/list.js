@@ -51,18 +51,17 @@ function ($rootScope, $scope, $location, $routeParams, $q, DashboardListService,
         $subscriptionsApiService.list(params).$promise.then(
             function (response) {
                 var result = response.result || [];
-                $scope.subscriptions = serviceList.getList(result)
+                $scope.subscriptions = serviceList.getList(result);
             }
         );
-    };
+    }
 
-    // TODO:
     function getCount() {
         $subscriptionsApiService.getCount($location.search(), {}).$promise
             .then(function (response) {
                 $scope.count = (!response.error && response.result) ? response.result : 0;
             });
-    };
+    }
 
     function setAttributes() {
         var result =[
@@ -93,7 +92,7 @@ function ($rootScope, $scope, $location, $routeParams, $q, DashboardListService,
               "Label": "Status",
               "IsStatic": true,
               "Editors": "selector",
-              "Options": "new,pending,processed,declined,complete,cancelled", //todo
+              "Options": "suspended,confirmed,canceled",
             },
             {
               "Attribute": "created_at",
@@ -107,10 +106,10 @@ function ($rootScope, $scope, $location, $routeParams, $q, DashboardListService,
         serviceList.init('subscriptions'); // not sure what this does
         serviceList.setAttributes(result);
         $scope.fields = serviceList.getFields(showColumns);
-    };
+    }
 
     function select(id) {
         $location.path("/subscriptions/" + id).search('');
-    };
+    }
 
 }]);
