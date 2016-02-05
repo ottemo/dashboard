@@ -6,8 +6,7 @@ angular.module("dashboardModule", [
 
     // Lib
     "ui.odometer",
-    "ui.bootstrap.tooltip",
-    "uib/template/tooltip/tooltip-popup.html",
+    "ui.bootstrap",
     "highcharts-ng",
     "moment",
 

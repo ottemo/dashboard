@@ -172,7 +172,7 @@ function (
 
     function fetchSubscriptions(visitorId) {
         var params = {
-            extra: ['_id', 'status', 'created_at'],
+            extra: ['_id', 'status', 'created_at'].join(','),
             visitor_id: visitorId
         };
 
