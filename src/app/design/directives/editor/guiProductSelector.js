@@ -73,7 +73,10 @@ function ($location, $routeParams, $designService, DashboardListService, $produc
 
             $scope.show = function (id) {
                 serviceList.init('products');
-                $("#" + id).modal("show");
+
+                // escape any dots in our selector
+                var selector = '#' + id.split('.').join("\\.");
+                $(selector).modal("show");
             };
 
             $scope.hide = function (id) {

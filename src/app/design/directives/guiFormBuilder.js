@@ -13,7 +13,10 @@ angular.module("designModule")
         },
         templateUrl: $designService.getTemplate("design/gui/formBuilder.html"),
         controller: ["$scope",
-            function () {
+            function ($scope) {
+                if (typeof $scope.parent === 'undefined') {
+                    $scope.parent = {};
+                }
             }
         ]
     };
