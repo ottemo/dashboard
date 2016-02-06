@@ -112,6 +112,9 @@ function ($api, $q, moment) {
                 conversion.reachedCheckout = result["visitCheckout"];
                 conversion.reachedCheckoutPercent = getPercents(result["visitCheckout"], result["totalVisitors"]);
 
+                conversion.setPayment = result["setPayment"];
+                conversion.setPaymentPercent = getPercents(result["setPayment"], result["totalVisitors"]);
+
                 conversion.totalVisitors = result["totalVisitors"];
             }
 

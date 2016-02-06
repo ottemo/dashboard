@@ -98,27 +98,36 @@
     </div>
 
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-4 col-md-push-8">
+
+            <!-- Conversions -->
             <div class="panel panel-default">
                 <div class="panel-heading"><h3 class="panel-title">Conversions Today</h3></div>
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-sm-4">
+                        <div class="col-sm-4 col-md-12">
                             <div class="conversion-widget">
                                 <h4 class="conversion-widget__header">Added to cart</h4>
                                 <div class="conversion-widget__percent">{{conversions.addedToCartPercent | number:2}}%</div>
                                 <div class="conversion-widget__count">{{conversions.addedToCart}} customers</div>
                             </div>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-4 col-md-12">
                             <div class="conversion-widget">
                                 <h4 class="conversion-widget__header">Reached Checkout</h4>
                                 <div class="conversion-widget__percent">{{conversions.reachedCheckoutPercent | number:2}}%</div>
                                 <div class="conversion-widget__count">{{conversions.reachedCheckout}} customers</div>
                             </div>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-4 col-md-12">
                             <div class="conversion-widget">
+                                <h4 class="conversion-widget__header">Set Payment Method</h4>
+                                <div class="conversion-widget__percent">{{conversions.setPaymentPercent | number:2}}%</div>
+                                <div class="conversion-widget__count">{{conversions.setPayment}} customers</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-md-12">
+                            <div class="conversion-widget m-b-0">
                                 <h4 class="conversion-widget__header">Purchased</h4>
                                 <div class="conversion-widget__percent">{{conversions.purchasedPercent | number:2}}%</div>
                                 <div class="conversion-widget__count">{{conversions.purchased}} customers</div>
@@ -128,37 +137,28 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="panel panel-default">
-                <div class="panel-heading"><h3 class="panel-title">Top Referrals Today</h3></div>
-                <table class="table table-striped-even table-statistic">
-                    <tbody>
-                        <tr ng-repeat="item in referrers | limitTo:10">
-                            <td>{{item.url}}</td>
-                            <td class="text-right">{{item.count}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+        <div class="col-md-8 col-md-pull-4">
 
-    <!-- Top Sellers -->
-    <div class="panel panel-default top-p-widget">
-        <div class="panel-heading"><h3 class="panel-title">Top Products Today</h3></div>
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-xs-6 col-sm-3 col-lg-2" ng-repeat="item in topSellers">
-                    <div class="thumbnail">
-                        <img ng-src="{{getProductImage(item.image)}}" class="img-responsive">
-                        <div class="caption">
-                            <h5 class="top-p-widget__name">{{item.name}}</h5>
-                            <div>sold: {{item.count}}</div>
+            <!-- Top Sellers -->
+            <div class="panel panel-default top-p-widget">
+                <div class="panel-heading"><h3 class="panel-title">Top Products Today</h3></div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-3" ng-repeat="item in topSellers">
+                            <div class="thumbnail">
+                                <img ng-src="{{getProductImage(item.image)}}" class="img-responsive">
+                                <div class="caption">
+                                    <h5 class="top-p-widget__name">{{item.name}}</h5>
+                                    <div>sold: {{item.count}}</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+
 
 </section>
