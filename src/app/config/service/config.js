@@ -141,6 +141,7 @@ angular.module("configModule")
 
                         };
 
+                        //TODO: We are messing up the sort here
                         for (i = 0; i < response.result.length; i += 1) {
                             if (response.result[i].Type !== "group") {
 
@@ -154,10 +155,12 @@ angular.module("configModule")
 
                                 addAttributeInTab(response.result[i]);
 
-                                items[path][response.result[i].Path] = response.result[i].Value.toString();
-                                itemsOld[path][response.result[i].Path] = response.result[i].Value.toString();
+                                // TODO: Specifically here
+                                items[path][response.result[i].Path] = response.result[i].Value;
+                                itemsOld[path][response.result[i].Path] = response.result[i].Value;
                             }
                         }
+
                         isLoaded[path] = true;
                         defer.resolve(true);
                     }
