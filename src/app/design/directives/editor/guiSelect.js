@@ -48,7 +48,6 @@ angular.module("designModule")
                 $scope.options = [];
                 options = getOptions($scope.attribute.Options);
 
-
                 for (field in options) {
                     if (options.hasOwnProperty(field)) {
                         $scope.options.push({
@@ -61,7 +60,7 @@ angular.module("designModule")
                     }
                 }
 
-                if ($scope.attribute.Default === ""){
+                if ($scope.attribute.Default === "" && !$scope.attribute.IsRequired){
                     $scope.options.unshift({
                         Desc: "",
                         Extra: null,

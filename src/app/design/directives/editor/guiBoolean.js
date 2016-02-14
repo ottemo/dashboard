@@ -1,66 +1,36 @@
 angular.module("designModule")
-/**
-*  Directive used for automatic attribute editor creation
-*/
-.directive("guiBoolean", ["$designService", function ($designService) {
-    return {
-        restrict: "E",
-        templateUrl: $designService.getTemplate("design/gui/editor/select.html"),
 
-        scope: {
-            "attribute": "=editorScope",
-            "item": "=item"
-        },
+.directive("guiBoolean", ["$designService", function($designService) {
+  return {
+    restrict: "E",
+    templateUrl: $designService.getTemplate("design/gui/editor/select.html"),
 
-        controller: function ($scope) {
+    scope: {
+      "attribute": "=editorScope",
+      "item": "=item"
+    },
 
-            var init;
+    controller: function($scope) {
+      $scope.options = [{
+        Id: false,
+        Name: "false"
+      }, {
+        Id: true,
+        Name: "true"
+      }];
 
-            init = function () {
-                if (typeof $scope.attribute === "undefined" ||
-                    typeof $scope.item === "undefined") {
-                    return false;
-                }
+      $scope.$watch("item", init);
+      $scope.$watch("attribute", init);
 
-                if (typeof $scope.item[$scope.attribute.Attribute] === "boolean") {
-                    $scope.options = [
-                        {
-                            Desc: "",
-                            Extra: null,
-                            Id: false,
-                            Image: "",
-                            Name: "false"
-                        },
-                        {
-                            Desc: "",
-                            Extra: null,
-                            Id: true,
-                            Image: "",
-                            Name: "true"
-                        }
-                    ];
-                } else {
-                    $scope.options = [
-                        {
-                            Desc: "",
-                            Extra: null,
-                            Id: "false",
-                            Image: "",
-                            Name: "false"
-                        },
-                        {
-                            Desc: "",
-                            Extra: null,
-                            Id: "true",
-                            Image: "",
-                            Name: "true"
-                        }
-                    ];
-                }
-            };
-
-            $scope.$watch("item", init);
-            $scope.$watch("attribute", init);
+      function init() {
+        if (typeof $scope.attribute === "undefined" ||
+          typeof $scope.item === "undefined"
+        ) {
+          return false;
         }
-    };
+      }
+
+    }
+  };
 }]);
+
