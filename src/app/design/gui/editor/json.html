@@ -1,0 +1,38 @@
+<button type="button" class="btn btn-block btn-default" ng-click="show()">Edit</button>
+
+<div class="modal fade" id="jsonEditor" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    Json
+                </h3>
+            </div>
+            <div class="modal-body">
+                <form name="jsonForm" class="row">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Label</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in items  track by $index">
+                                <td><input type="text" class="form-control" ng-model="item.key" /></td>
+                                <td><input type="text" class="form-control" ng-model="item.value" /></td>
+                                <td><a class="btn btn-danger btn-block" ng-click="remove(item.key)">Delete</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" ng-click="addItem()">Add Option</button>
+                <button class="btn btn-primary" ng-click="hide()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>

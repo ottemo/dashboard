@@ -1,0 +1,164 @@
+<div class="page-header">
+    <h1>
+        <span class="fa fa-home"></span> Dashboard
+    </h1>
+</div>
+
+<section class="welcome">
+    <div class="row">
+        <div class="col-xs-12 col-sm-6">
+
+            <!-- Sales Widget -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Sales</h3>
+                </div>
+                <table class="table table-dashboard">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Total Sales</th>
+                            <th>Order Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="table-dashboard__highlight">
+                            <th>Today</th>
+                            <td>$<span odometer="salesStats.sales.today"></span></td>
+                            <td><span odometer="salesStats.orders.today"></span></td>
+                        </tr>
+                        <tr>
+                            <th>Yesterday</th>
+                            <td>{{salesStats.sales.yesterday | currency}}</td>
+                            <td>{{salesStats.orders.yesterday}}</td>
+                        </tr>
+                        <tr>
+                            <th>Last 7 days</th>
+                            <td>{{salesStats.sales.week | currency}}</td>
+                            <td>{{salesStats.orders.week}}</td>
+                        </tr>
+                        <tr>
+                            <th>Month to date</th>
+                            <td>{{salesStats.sales.monthToDate | currency}}</td>
+                            <td>{{salesStats.orders.monthToDate}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="chart-widget">
+                    <highchart config="salesGraph"></highchart>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 col-sm-6">
+
+            <!-- Visits Widget -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Visits</h3>
+                </div>
+                <table class="table table-dashboard">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Total Page Views</th>
+                            <th>Unique Visitors</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="table-dashboard__highlight">
+                            <th>Today</th>
+                            <td><span odometer="visitStats.total.today"></span></td>
+                            <td><span odometer="visitStats.unique.today"></span></td>
+                        </tr>
+                        <tr>
+                            <th>Yesterday</th>
+                            <td>{{visitStats.total.yesterday}}</td>
+                            <td>{{visitStats.unique.yesterday}}</td>
+                        </tr>
+                        <tr>
+                            <th>Last 7 days</th>
+                            <td>{{visitStats.total.week}}</td>
+                            <td>{{visitStats.unique.week}}</td>
+                        </tr>
+                        <tr>
+                            <th>Month to date</th>
+                            <td>{{visitStats.total.monthToDate}}</td>
+                            <td>{{visitStats.unique.monthToDate}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="chart-widget">
+                    <highchart config="visitorGraph"></highchart>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 col-md-push-8">
+
+            <!-- Conversions -->
+            <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title">Conversions Today</h3></div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-4 col-md-12">
+                            <div class="conversion-widget">
+                                <h4 class="conversion-widget__header">Added to cart</h4>
+                                <div class="conversion-widget__percent">{{conversions.addedToCartPercent | number:2}}%</div>
+                                <div class="conversion-widget__count">{{conversions.addedToCart}} customers</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-md-12">
+                            <div class="conversion-widget">
+                                <h4 class="conversion-widget__header">Reached Checkout</h4>
+                                <div class="conversion-widget__percent">{{conversions.reachedCheckoutPercent | number:2}}%</div>
+                                <div class="conversion-widget__count">{{conversions.reachedCheckout}} customers</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-md-12">
+                            <div class="conversion-widget">
+                                <h4 class="conversion-widget__header">Set Payment Method</h4>
+                                <div class="conversion-widget__percent">{{conversions.setPaymentPercent | number:2}}%</div>
+                                <div class="conversion-widget__count">{{conversions.setPayment}} customers</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-md-12">
+                            <div class="conversion-widget m-b-0">
+                                <h4 class="conversion-widget__header">Purchased</h4>
+                                <div class="conversion-widget__percent">{{conversions.purchasedPercent | number:2}}%</div>
+                                <div class="conversion-widget__count">{{conversions.purchased}} customers</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 col-md-pull-4">
+
+            <!-- Top Sellers -->
+            <div class="panel panel-default top-p-widget">
+                <div class="panel-heading"><h3 class="panel-title">Top Products Today</h3></div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-3" ng-repeat="item in topSellers">
+                            <div class="thumbnail">
+                                <img ng-src="{{getProductImage(item.image)}}" class="img-responsive">
+                                <div class="caption">
+                                    <h5 class="top-p-widget__name">{{item.name}}</h5>
+                                    <div>sold: {{item.count}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</section>

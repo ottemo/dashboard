@@ -1,0 +1,6 @@
+{
+    "useStrict"    : "use strict",
+    "apiUrl"       : "http://api.local.dev",
+    "mediaPath"    : "media/",
+    "itemsPerPage" : "15"
+}

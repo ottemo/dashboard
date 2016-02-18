@@ -1,0 +1,220 @@
+<form name="discountForm"
+    ng-submit="discountForm.$valid && save()">
+    <div class="page-header">
+        <button type="submit"
+            class="btn btn-primary pull-right">
+            Save
+        </button>
+        <a class="btn btn-default pull-right"
+            ng-show="discount._id"
+            ng-click="remove()">
+            Delete
+        </a>
+
+        <h1>
+            <span class="fa fa-scissors"></span>
+            <a href="/discounts">Discounts</a> / {{ discount.code || 'New'}}
+        </h1>
+    </div>
+
+    <h2>Details</h2>
+    <div>
+        <!-- <pre>discount.code</pre> -->
+        <div class="form-group">
+            <label>Discount code</label>
+            <input type="text"
+                name="code"
+                class="form-control"
+                ng-model="discount.code"
+                required>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>Applies to</label>
+                    <select class="form-control"
+                        ng-model="discount.target">
+                        <option value="order">Order</option>
+                        <option value="product">Line Items</option>
+                    </select>
+                </div>
+            </div>
+            <!-- affects: product / shipping -->
+
+            <div class="clearfix"></div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>Type</label>
+                    <select class="form-control"
+                        ng-model="discount.type"
+                        ng-change="clearDiscountValues()"
+                        required>
+                        <option value="amount">Dollar amount</option>
+                        <option value="percent">Percentage</option>
+                        <!-- free (shipping or product) -->
+                        <!-- fixed price -->
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <!-- Take $15% -->
+                <div class="form-group"
+                    ng-if="discount.type == 'percent'">
+                    <label>Percentage off</label>
+                    <div class="input-group">
+                        <input type="text"
+                            class="form-control"
+                            name="percent"
+                            ng-model="discount.percent"
+                            required>
+                        <span class="input-group-addon">%</span>
+                    </div>
+                </div>
+                <div class="form-group"
+                    ng-if="discount.type == 'amount'">
+                    <label>Amount off</label>
+                    <div class="input-group">
+                        <span class="input-group-addon">$</span>
+                        <input type="text"
+                            class="form-control"
+                            name="amount"
+                            ng-model="discount.amount"
+                            required>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2>Conditions</h2>
+    <div>
+        <!-- <pre>discount.sinceLocal</pre> -->
+        <!-- <pre>discount.untilLocal</pre> -->
+        <!-- todo: consider changeing local to store -->
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label>
+                        Begins
+                        <a uib-tooltip="Time is in a twenty-four hour format, ie. 13:00">
+                            <i class="fa fa-info-circle"></i>
+                        </a>
+                    </label>
+                    <input type="text"
+                        class="form-control"
+                        placeholder="yyyy-mm-dd hh:mm"
+                        ng-model="discount.sinceLocal"
+                        required>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label>Ends</label>
+                    <input type="text"
+                        class="form-control"
+                        placeholder="yyyy-mm-dd hh:mm"
+                        ng-model="discount.untilLocal"
+                        required>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <!-- <pre>discount.limits.product_in_cart</pre> -->
+                <label>
+                    Required items (any)
+                    <a uib-tooltip="If any of these products are in the order the condition will be met.">
+                        <i class="fa fa-info-circle"></i>
+                    </a>
+                </label>
+                <div class="form-group">
+                    <gui-product-selector
+                        editor-scope="{Attribute:'product_in_cart'}"
+                        item="discount.limits"
+                        parent="{}">
+                    </gui-product-selector>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Line Item Criteria -->
+    <div ng-show="discount.target == 'product'">
+        <h2>Target Criteria</h2>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label>
+                        Products
+                        <a uib-tooltip="The line items to which this discount should apply.">
+                            <i class="fa fa-info-circle"></i>
+                        </a>
+                    </label>
+                    <div class="form-group">
+                        <gui-product-selector
+                            editor-scope="{Attribute:'target_line_items'}"
+                            item="discount"
+                            parent="{}">
+                        </gui-product-selector>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2>Discount Limitations</h2>
+    <div class="row">
+        <div class="col-sm-6">
+            <!-- <pre>discount.times</pre> -->
+            <div class="form-group">
+                <label>
+                    Total redemptions
+                </label>
+                <div class="input-group">
+                    <input type="text"
+                        class="form-control"
+                        value="&infin;"
+                        ng-show="discount.times === -1"
+                        disabled />
+                    <input type="number"
+                        class="form-control"
+                        ng-hide="discount.times === -1"
+                        ng-model="discount.times"
+                        required>
+                    <label class="input-group-addon">
+                        <input type="checkbox"
+                            ng-model="discount.times"
+                            ng-true-value="-1"
+                            ng-false-value="1"> no limit
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <!-- <pre>discount.limits.max_usage_qty</pre> -->
+            <div class="form-group">
+                <label>Max redemptions (per order)</label>
+
+                <!-- todo -->
+                <div class="input-group">
+                    <input type="text"
+                        class="form-control"
+                        value="&infin;"
+                        ng-show="discount.limits.max_usage_qty === -1"
+                        disabled />
+                    <input type="number"
+                        class="form-control"
+                        ng-hide="discount.limits.max_usage_qty === -1"
+                        ng-model="discount.limits.max_usage_qty"
+                        required>
+                    <label class="input-group-addon">
+                        <input type="checkbox"
+                            ng-model="discount.limits.max_usage_qty"
+                            ng-true-value="-1"
+                            ng-false-value="1"> no limit
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
