@@ -12,11 +12,11 @@ var $ = require('gulp-load-plugins')({
 /**
  * yargs variables can be passed in to alter the behavior of tasks
  *
- * --env=(production|staging|localhost)
+ * --env=(prod|staging|local)
  * Applies revision thumbprints, minifies media, uses relavent robots...
  * Forces the api to production
  *
- * --api=(localhost|kg-staging|kg-prod|rk-staging|rk-prod|ub-staging|ub-prod)
+ * --api=(local|kg-staging|kg-prod|rk-staging|rk-prod|ub-staging|ub-prod)
  * Sets the config.js variables, primarily the api to connect to
  */
 
@@ -26,12 +26,15 @@ activate();
 
 function activate() {
     // Read the args, and set defaults
-    config.env = args.env || 'localhost';
+    config.env = args.env || 'local';
     config.api = args.api || 'kg-staging';
 
     // The `env` arg drives whether or not this is production
-    config.isProduction = (config.env === 'production');
-    if (config.isProduction) {
+    config.isEnvProduction = (config.env === 'prod');
+    config.isEnvStaging = (config.env === 'staging');
+    config.isEnvLocal = (config.env === 'local');
+
+    if (config.isEnvProduction) {
         if (config.api.indexOf('-prod') === -1) {
             log('You must select a production api when setting env to production');
             config.api = ''; // making this blank causes @readConfig to bomb out, which is maybe good
@@ -41,6 +44,20 @@ function activate() {
 
     // Assign the application settings from the config folder
     config.appSettings = readConfig(config.api);
+
+    giveArgumentFeedback();
+}
+
+/**
+ * Log some feedback related to the args we just processed
+ */
+function giveArgumentFeedback() {
+    var bar = '+-----------------------------------+';
+    log(bar);
+    log('Environment Settings');
+    log('env = ' + config.env);
+    log('api = ' + config.api);
+    log(bar);
 }
 
 /**
@@ -59,7 +76,7 @@ gulp.task('default', ['help']);
 /**
  * Build the app
  * This is typically used when getting ready to deploy the app
- * `gulp build --env=production`
+ * `gulp build --env=prod`
  */
 gulp.task('build', function() {
     runSequence('clean', 'config', 'compile', 'revision');
@@ -68,7 +85,7 @@ gulp.task('build', function() {
 /**
  * Build and start a server
  * This is typically used for local development work
- * `gulp serve` or `gulp serve --api=localhost`
+ * `gulp serve` or `gulp serve --api=local`
  */
 gulp.task('serve', ['build'], function() {
     gulp.start('serve_watch');
@@ -94,7 +111,7 @@ gulp.task('clean', function(done) {
  * Replace the config placeholders with the correct value for the variable
  * from the config files in /config. Then move the file to a tmp folder
  *
- * `gulp build --api=(production|staging|localhost)`
+ * `gulp build --api=(prod|staging|local)`
  */
 gulp.task('config', function() {
     return gulp.src('config/config.js')
@@ -129,7 +146,7 @@ gulp.task('compile_scripts_app', function() {
     // REFACTOR: This makes dev/staging/production different... :-1:
     // uglify + concat breaks sourcemaps so don't use it unless we are on production
     // https://github.com/terinjokes/gulp-uglify/issues/105
-    if (config.isProduction) {
+    if (config.isEnvProduction) {
         return gulp.src(config.scripts.app)
             .pipe($.plumber(handleError))
             .pipe($.uglify(config.uglifySettings))
@@ -169,10 +186,10 @@ gulp.task('compile_html_nonroot', function() {
 
 /**
  * Compile the robots.txt file
- * --env=(production|*)
+ * --env=(prod|*)
  */
 gulp.task('compile_robots', function() {
-    var robotPath = config.isProduction ? config.robots.prod : config.robots.default;
+    var robotPath = config.isEnvProduction ? config.robots.prod : config.robots.default;
     return gulp.src(robotPath)
         .pipe($.rename('robots.txt'))
         .pipe(gulp.dest(config.build));
@@ -216,7 +233,7 @@ gulp.task('compile_media', function() {
 
     return gulp.src(config.media)
         .pipe($.changed(mediaBuild))
-        .pipe($.if(config.isProduction, $.imagemin()))
+        .pipe($.if(config.isEnvProduction, $.imagemin()))
         .pipe(gulp.dest(mediaBuild));
 });
 
@@ -271,10 +288,10 @@ gulp.task('serve_server', function() {
 /**
  * Thumbprint js, css
  * Only fires for production
- * --env=(production|*)
+ * --env=(prod|*)
  */
 gulp.task('revision', function() {
-    if (config.isProduction) {
+    if (config.isEnvProduction) {
         var revAll = new $.revAll({
             dontUpdateReference: [/^((?!.js|.css).)*$/g],
             dontRenameFile: [/^((?!.js|.css).)*$/g]
