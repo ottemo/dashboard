@@ -4,7 +4,7 @@
 [Styleguides](#styleguides)
 * [Git Commit Messages](#git-commit-messages)
 * [File Naming & Hierarchy](#file-naming-&-hierarchy)
-* [JavaScript](#javascript-&-angularjs)
+* [JavaScript](#javascript--angularjs)
 * [HTML](#html)
 
 Git Workflow
@@ -36,12 +36,13 @@ Git Workflow
 1. [File Contents](#file-contents)
 2. [Modules](#modules)
 3. [Controllers](#controllers)
-    * names should be `UppserCamelCase`
-    * names should have the suffix `Controller`
-    * use the `controllerAs` syntax
-    * capture the variable for this in `vm`
-    * put bindable members up top
-    * use an `activate` method to house any initialization logic
+    1. names should be `UpperCamelCase`
+    1. names should have the suffix `Controller`
+    1. use the `controllerAs` syntax
+    1. capture the variable for this in `vm`
+    1. use function declarations to hide implementation details `function doThing() {}`
+    1. put bindable members up top
+    1. use an `activate` method to house any initialization logic
 
 #### File Contents
 Each file should contain one "thing"; module definition, controller, service, etc
@@ -95,6 +96,78 @@ angular.module('app')
     function CustomerController() {
         var vm = this;
         vm.name = {};
+    }
+    ```
+
+1. Use Function Declarations to hide implementation details
+    Use function declarations to hide implementation details. Keep your bindable members up top. When you need to bind a function in a controller, point it to a function declaration that appears later in the file. This is tied directly to the section Bindable Members Up Top. For more details see [this post](http://www.johnpapa.net/angular-function-declarations-function-expressions-and-readable-code/).
+
+    Why?: Placing bindable members at the top makes it easy to read and helps you instantly identify which members of the controller can be bound and used in the View. (Same as above.)
+
+    Why?: Placing the implementation details of a function later in the file moves that complexity out of view so you can see the important stuff up top.
+
+    Why?: Function declaration are hoisted so there are no concerns over using a function before it is defined (as there would be with function expressions).
+
+    Why?: You never have to worry with function declarations that moving var a before var b will break your code because a depends on b.
+
+    Why?: Order is critical with function expressions
+
+    ```js
+    /**
+    * avoid
+    * Using function expressions.
+    */
+    function AvengersController(avengersService, logger) {
+        var vm = this;
+        vm.avengers = [];
+        vm.title = 'Avengers';
+
+        var activate = function() {
+            return getAvengers().then(function() {
+                logger.info('Activated Avengers View');
+            });
+        }
+
+        var getAvengers = function() {
+            return avengersService.getAvengers().then(function(data) {
+                vm.avengers = data;
+                return vm.avengers;
+            });
+        }
+
+        vm.getAvengers = getAvengers;
+
+        activate();
+    }
+    ```
+
+    Notice that the important stuff is scattered in the preceding example. In the example below, notice that the important stuff is up top. For example, the members bound to the controller such as vm.avengers and vm.title. The implementation details are down below. This is just easier to read.
+    ```js
+    /*
+    * recommend
+    * Using function declarations
+    * and bindable members up top.
+    */
+    function AvengersController(avengersService, logger) {
+        var vm = this;
+        vm.avengers = [];
+        vm.getAvengers = getAvengers;
+        vm.title = 'Avengers';
+
+        activate();
+
+        function activate() {
+            return getAvengers().then(function() {
+                logger.info('Activated Avengers View');
+            });
+        }
+
+        function getAvengers() {
+            return avengersService.getAvengers().then(function(data) {
+                vm.avengers = data;
+                return vm.avengers;
+            });
+        }
     }
     ```
 
