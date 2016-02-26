@@ -20,8 +20,8 @@ if [ "$BRANCH" == 'develop'  ]; then
         HOST=rk-staging
     elif [ "$REMOTE_HOST" == 'kg.staging.ottemo.io' ]; then
         HOST=kg-staging
-    elif [ "$REMOTE_HOST" == 'ub.staging.ottemo.io' ]; then
-        HOST=ub-staging
+    elif [ "$REMOTE_HOST" == 'demo.staging.ottemo.io' ]; then
+        HOST=demo-staging
     elif [ "$REMOTE_HOST" == 'mp.staging.ottemo.io' ]; then
         HOST=mp-staging    
     fi
