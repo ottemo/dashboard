@@ -9,7 +9,6 @@ angular.module("categoryModule")
 "$dashboardUtilsService",
 function ($scope, $routeParams, $location, $q, $categoryApiService, $dashboardUtilsService) {
     var categoryId, rememberProducts, oldProducts, getDefaultCategory;
-
     // Initialize SEO
     if (typeof $scope.initSeo === "function") {
         $scope.initSeo("category");
@@ -54,8 +53,9 @@ function ($scope, $routeParams, $location, $q, $categoryApiService, $dashboardUt
         $categoryApiService.getCategory({"categoryID": categoryId}).$promise.then(function (response) {
             var result = response.result || {};
             $scope.category = result;
-            rememberProducts();
             $scope.category.parent = $scope.category['parent_id'];
+            $scope.category.products = $scope.category.product_ids;
+            console.log('init,',$scope.category)
         });
     }
 
@@ -64,98 +64,39 @@ function ($scope, $routeParams, $location, $q, $categoryApiService, $dashboardUt
     };
 
     $scope.saveProducts = function () {
-        var defer, categoryId, addProduct, removeProduct;
-        defer = $q.defer();
+        var promises = [];
 
-        if (typeof $scope.category !== "undefined") {
-            categoryId = $scope.category.id || $scope.category._id;
+        var categoryId = $scope.category.id || $scope.category._id;
+        var _prev = $scope.category.product_ids;
+        var _new = $scope.category.products;
+
+        var old_unselected_products = _.difference(_prev,_new);
+        var new_selected_products = _.difference(_new,_prev);
+
+        console.log('scope',$scope);
+        console.log('old -> products.length [%s] difference.length [%s]',_prev,old_unselected_products.length);
+
+        console.log('new -> products.length [%s] difference.length [%s]',_new,new_selected_products.length);
+
+        if (old_unselected_products.length){
+            _.each(old_unselected_products, function(productID){
+                promises.push($categoryApiService.removeProduct({
+                    categoryID: categoryId,
+                    productID: productID
+                }))
+            })
         }
 
+        if (new_selected_products.length){
+            _.each(new_selected_products, function(productID){
+                promises.push($categoryApiService.addProduct({
+                    categoryId: categoryId,
+                    productId: productID
+                }))
+            })
+        }
 
-        addProduct = function () {
-            var _addProduct = function (index) {
-                var addDefer = $q.defer();
-
-                var prodId = $scope.category.products[index];
-
-                if (typeof prodId === "object") {
-                    prodId = prodId._id;
-                }
-
-                if (oldProducts.indexOf(prodId) === -1) {
-                    $categoryApiService.addProduct({
-                        categoryId: categoryId,
-                        productId: prodId
-                    }).$promise.then(function () {
-                            addDefer.resolve(prodId);
-                        }
-                    );
-                }
-
-                return addDefer.promise;
-            };
-
-            var callback = function (prodId) {
-                oldProducts.push(prodId);
-            };
-
-            if ($scope.category.products instanceof Array) {
-                for (var i = 0; i < $scope.category.products.length; i += 1) {
-                    _addProduct(i).then(callback);
-                }
-            }
-
-            defer.resolve(true);
-        };
-
-        removeProduct = function (cb) {
-            var i, oldProdId, _remove, callback;
-
-            var getProductIds = function (products) {
-                var ids = [];
-
-                for (var i = 0; i < products.length; i += 1) {
-                    if(typeof products[i] === "string"){
-                        ids.push(products[i]);
-                    } else if(typeof products[i] === "object"){
-                        ids.push(products[i]._id);
-                    }
-                }
-
-                return ids;
-            };
-
-            callback = function (index) {
-                oldProducts.splice(index, 1);
-            };
-
-            _remove = function (index) {
-                var removeDefer = $q.defer();
-
-                oldProdId = oldProducts[index];
-
-                if (-1 === getProductIds($scope.category.products).indexOf(oldProdId)) {
-                    $categoryApiService.removeProduct({
-                        categoryID: categoryId,
-                        productID: oldProdId
-                    }).$promise.then(function () {
-                            removeDefer.resolve(index);
-                        }
-                    );
-                }
-
-                return removeDefer.promise;
-            };
-
-            for (i = 0; i < oldProducts.length; i += 1) {
-                _remove(i).then(callback);
-            }
-            cb();
-        };
-
-        removeProduct(addProduct);
-
-        return defer.promise;
+        return $q.all(promises);
     };
 
     /**
@@ -230,27 +171,12 @@ function ($scope, $routeParams, $location, $q, $categoryApiService, $dashboardUt
         } else {
             $scope.category.id = id;
             $scope.saveProducts().then(function () {
-                delete $scope.category.products;
                 $categoryApiService.update($scope.category, updateSuccess, updateError);
             });
 
         }
 
         return defer.promise;
-    };
-
-    // REFACTOR: this can't be right
-    rememberProducts = function () {
-        var i, prod;
-        oldProducts = [];
-        if (typeof $scope.category !== "undefined" &&
-            $scope.category.products instanceof Array &&
-            $scope.category.products.length !== -1) {
-            for (i = 0; i < $scope.category.products.length; i += 1) {
-                prod = $scope.category.products[i];
-                oldProducts.push(prod._id);
-            }
-        }
     };
 
 }]);
