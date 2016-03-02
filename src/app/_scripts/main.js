@@ -28,21 +28,4 @@ $(document).ready(function () {
         event.stopPropagation();
     });
 
-    // click on element of offcanvas
-    $(document).on('click', '#offcanvas .menu-item a', function (event) {
-        // toggle active state
-        $('#offcanvas .active').removeClass('active');
-        $(this).addClass('active');
-
-        // toggle open state
-        var isParentOpen = $(this).parents('.menu-item.open').length;
-        if (!isParentOpen) {
-            $('#offcanvas .menu-item.open').removeClass('open');
-        }
-        if ($(this).is('.dropdown-toggle')) {
-            event.preventDefault();
-            $(this).parents('.menu-item').addClass('open');
-        }
-    });
-
 });

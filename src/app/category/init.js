@@ -9,7 +9,7 @@ angular.module("categoryModule", ["ngRoute", "ngResource", "designModule"])
             templateUrl: "/views/category/list.html",
             controller: "categoryListController"
         })
-        .when("/category/:id", {
+        .when("/categories/:id", {
             templateUrl: "/views/category/edit.html",
             controller: "categoryEditController"
         });

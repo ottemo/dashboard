@@ -52,7 +52,7 @@ function (
 
 
     $scope.addressForm = function () {
-        $location.path("/visitor/" + $scope.visitor._id + "/addresses");
+        $location.path("/visitors/" + $scope.visitor._id + "/addresses");
     };
 
     $scope.getFullName = function () {
