@@ -44,10 +44,22 @@ body {
   width: $nav-width;
   height: 100%;
 
-  overflow: scroll;
+  overflow-y: auto;
+  overflow-x: hidden;
   z-index: 20;
   background: $navbar-default-bg;
   transition: all 0.4s ease;
+
+  &::-webkit-scrollbar {
+    width: .75em;
+    height: .5em;
+  }
+  &::-webkit-scrollbar-thumb{
+    background: #666;
+  }
+  &::-webkit-scrollbar-track{
+    background: none;
+  }
 
   &.nav-menu--active {
     right:0;

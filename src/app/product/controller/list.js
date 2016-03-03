@@ -93,14 +93,14 @@ function ($scope, $location, $routeParams, $q, DashboardListService, $productApi
      * @param id
      */
     $scope.select = function (id) {
-        $location.path("/product/" + id);
+        $location.path("/products/" + id);
     };
 
     /**
      *
      */
     $scope.create = function () {
-        $location.path("/product/new");
+        $location.path("/products/new");
     };
 
     var hasSelectedRows = function () {

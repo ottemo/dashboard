@@ -78,14 +78,14 @@ angular.module("visitorModule")
          * @param id
          */
         $scope.select = function (id) {
-            $location.path("/visitor/" + id);
+            $location.path("/visitors/" + id);
         };
 
         /**
          *
          */
         $scope.create = function () {
-            $location.path("/visitor/new");
+            $location.path("/visitors/new");
         };
 
         var hasSelectedRows = function () {

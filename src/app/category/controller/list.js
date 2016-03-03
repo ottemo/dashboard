@@ -76,15 +76,14 @@ function ($scope, $location, $routeParams, $q, DashboardListService, $categoryAp
      * @param id
      */
     $scope.select = function (id) {
-        $location.path("/category/" + id);
-
+        $location.path("/categories/" + id);
     };
 
     /**
      *
      */
     $scope.create = function () {
-        $location.path("/category/new");
+        $location.path("/categories/new");
     };
 
     var hasSelectedRows = function () {

@@ -5,14 +5,13 @@ angular.module("loginModule")
     '$loginApiService',
     '$q',
     '$designService',
-    'VISITOR_DEFAULT_AVATAR',
-    function ($resource, $loginApiService, $q, $designService, VISITOR_DEFAULT_AVATAR) {
+    function ($resource, $loginApiService, $q, $designService) {
 
         /** Variables */
         var login, isAdmin, isLoggedIn, deferIsLoggedIn , mapFields, deferLogOut;
         /** Functions */
         var init, getLogin, getLoginId, setLogin, cleanLogin, getLoginProperty,
-            getAvatar, getFullName, fIsLoggedIn, getDefaultLogin, logout, fillFields;
+            getFullName, fIsLoggedIn, getDefaultLogin, logout, fillFields;
 
         isLoggedIn = null;
 
@@ -138,13 +137,6 @@ angular.module("loginModule")
             login = getDefaultLogin();
         };
 
-        getAvatar = function () {
-            var avatar;
-            avatar = $designService.getImage(VISITOR_DEFAULT_AVATAR);
-
-            return avatar;
-        };
-
         getFullName = function () {
             if (JSON.stringify(getDefaultLogin()) === JSON.stringify(login)) {
                 return false;
@@ -165,7 +157,6 @@ angular.module("loginModule")
             cleanLogin: cleanLogin,
             setLogin: setLogin,
             getLogin: getLogin,
-            getAvatar: getAvatar,
             getFullName: getFullName,
             getLoginId: getLoginId,
             isLoggedIn: fIsLoggedIn,

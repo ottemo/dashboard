@@ -77,14 +77,14 @@ function ($scope, $location, $routeParams, $q, DashboardListService, $cmsApiServ
      * @param id
      */
     $scope.select = function (id) {
-        $location.path("/cms/page/" + id);
+        $location.path("/cms/pages/" + id);
     };
 
     /**
      *
      */
     $scope.create = function () {
-        $location.path("/cms/page/new");
+        $location.path("/cms/pages/new");
     };
 
     var hasSelectedRows = function () {

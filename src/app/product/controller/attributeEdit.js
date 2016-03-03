@@ -36,7 +36,7 @@ function ($scope, $routeParams, $location, $productApiService, $dashboardUtilsSe
 
     $scope.attribute = {};
     $scope.attributesList = [];
-    $scope.typesAttribute = ["id", "bool", "int", "text", "json", "decimal", "datetime", "[]id", "[]integer", "[]text"];
+    $scope.typesAttribute = ["id", "bool", "int", "text", "json", "float", "datetime", "[]id", "[]integer", "[]text"];
     $scope.editorsList = [
         "text",
         "multiline_text",

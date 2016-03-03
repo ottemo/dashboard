@@ -56,14 +56,14 @@ angular.module("visitorModule")
              * @param {string} attr
              */
             $scope.select = function (attr) {
-                $location.path("/v/attribute/" + attr);
+                $location.path("/v/attributes/" + attr);
             };
 
             /**
              *
              */
             $scope.create = function () {
-                $location.path("/v/attribute/new");
+                $location.path("/v/attributes/new");
             };
 
             var hasSelectedRows = function () {

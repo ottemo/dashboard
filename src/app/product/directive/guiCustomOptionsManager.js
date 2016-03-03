@@ -244,8 +244,10 @@ angular.module("productModule")
 }])
 
 
-.filter('getOrdered', function () {
-    return function (input) {
-        return _.sortBy(input, 'order');
-    };
-});
+.filter('getOrdered', ['_',
+    function (_) {
+        return function (input) {
+            return _.sortBy(input, 'order');
+        };
+    }
+]);

@@ -55,7 +55,7 @@ function (
                     $scope.page = response.result;
                 // so we redirect to new page page
                 } else {
-                    $location.path('/cms/page/new')
+                    $location.path('/cms/pages/new')
                 }
             }
         );
@@ -74,7 +74,7 @@ function (
 
         var defer = $q.defer();
 
-        // If page._id !== null update existing page 
+        // If page._id !== null update existing page
         if ($scope.page._id !== null) {
             var promise = $cmsApiService.pageUpdate($scope.page).$promise;
 
