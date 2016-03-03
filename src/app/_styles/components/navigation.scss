@@ -46,7 +46,6 @@ body {
 
   overflow-y: auto;
   overflow-x: hidden;
-  z-index: 20;
   background: $navbar-default-bg;
   transition: all 0.4s ease;
 
@@ -62,6 +61,7 @@ body {
   }
 
   &.nav-menu--active {
+    z-index: 20;
     right:0;
     -webkit-transition: all 0.4s ease;
     transition: all 0.4s ease;
