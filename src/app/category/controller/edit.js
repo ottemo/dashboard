@@ -7,7 +7,8 @@ angular.module("categoryModule")
 "$q",
 "$categoryApiService",
 "$dashboardUtilsService",
-function ($scope, $routeParams, $location, $q, $categoryApiService, $dashboardUtilsService) {
+"_",
+function ($scope, $routeParams, $location, $q, $categoryApiService, $dashboardUtilsService, _) {
     var categoryId, rememberProducts, oldProducts, getDefaultCategory;
     // Initialize SEO
     if (typeof $scope.initSeo === "function") {
@@ -142,8 +143,11 @@ function ($scope, $routeParams, $location, $q, $categoryApiService, $dashboardUt
         delete $scope.category.parent;
         delete $scope.category.path;
 
+
         if (!id) {
-            if ($scope.category.name !== "") {
+            if ($scope.category.name !== '') {
+
+                delete $scope.category.products;
                 $categoryApiService.save($scope.category).$promise
                     .then(saveSuccess, saveError)
                     .then(function(){
@@ -153,6 +157,9 @@ function ($scope, $routeParams, $location, $q, $categoryApiService, $dashboardUt
         } else {
             $scope.category.id = id;
             $scope.saveProducts().then(function () {
+
+                // Clean the associated product list off, before posting up
+                delete $scope.category.products;
                 $categoryApiService.update($scope.category).$promise
                     .then(updateSuccess, updateError)
                     .then(function(){
