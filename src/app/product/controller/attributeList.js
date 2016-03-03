@@ -18,7 +18,7 @@ function ($scope, $routeParams, $q, $productApiService, $location) {
     ];
 
     if (JSON.stringify({}) === JSON.stringify($location.search())) {
-        $location.search("limit", "0,5");
+        $location.search('limit', '0,5').replace();
     }
 
     var getFields = function () {

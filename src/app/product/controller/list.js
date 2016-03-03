@@ -177,7 +177,7 @@ function ($scope, $location, $routeParams, $q, DashboardListService, $productApi
 
     $scope.init = (function () {
         if (JSON.stringify({}) === JSON.stringify($location.search())) {
-            $location.search("limit", "0," + COUNT_ITEMS_PER_PAGE);
+            $location.search('limit', '0,' + COUNT_ITEMS_PER_PAGE).replace();
             return;
         }
         getProductCount();
