@@ -55,7 +55,6 @@ function ($scope, $routeParams, $location, $q, $categoryApiService, $dashboardUt
             $scope.category = result;
             $scope.category.parent = $scope.category['parent_id'];
             $scope.category.products = $scope.category.product_ids;
-            console.log('init,',$scope.category)
         });
     }
 
@@ -72,11 +71,6 @@ function ($scope, $routeParams, $location, $q, $categoryApiService, $dashboardUt
 
         var old_unselected_products = _.difference(_prev,_new);
         var new_selected_products = _.difference(_new,_prev);
-
-        console.log('scope',$scope);
-        console.log('old -> products.length [%s] difference.length [%s]',_prev,old_unselected_products.length);
-
-        console.log('new -> products.length [%s] difference.length [%s]',_new,new_selected_products.length);
 
         if (old_unselected_products.length){
             _.each(old_unselected_products, function(productID){

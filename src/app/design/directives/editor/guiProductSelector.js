@@ -165,7 +165,6 @@ function ($location, $routeParams, $designService, DashboardListService, $produc
             };
 
             $scope.$watch("item", function () {
-                console.log('wtf');
                 if (typeof $scope.item !== "undefined" &&
                     $scope.item[$scope.attribute.Attribute] instanceof Array
                 ) {
@@ -189,22 +188,16 @@ function ($location, $routeParams, $designService, DashboardListService, $produc
                 loadData();
             });
 
-            $scope.$watch("selected", function (newVal,oldVal) {
-                var id;
-
+            $scope.$watch("selected", function () {
                 if ($scope.item) {
                     $scope.item[$scope.attribute.Attribute] = [];
-                    for (id in $scope.selected) {
-                        if ( $scope.selected[id]) {
+                    for (var id in $scope.selected) {
+                        if ($scope.selected[id]) {
                             $scope.item[$scope.attribute.Attribute].push(id);
                         }
                     }
-                    console.log($scope.item[$scope.attribute.Attribute].length)
                     getCountItems();
                 };
-                console.log($scope.item[$scope.attribute.Attribute])
-
-
             }, true);
 
             /**
