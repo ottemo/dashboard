@@ -30,8 +30,13 @@ angular.module("dashboardModule", [
 /*
  *  Basic routing configuration
  */
-.config(["$routeProvider", "$httpProvider",'$locationProvider','$sceDelegateProvider', '$animateProvider',
-    function ($routeProvider, $httpProvider, $locationProvider, $sceDelegateProvider, $animateProvider) {
+.config(['$routeProvider',
+    '$httpProvider',
+    '$locationProvider',
+    '$sceDelegateProvider',
+    '$animateProvider',
+    'odometerOptionsProvider',
+    function ($routeProvider, $httpProvider, $locationProvider, $sceDelegateProvider, $animateProvider,odometerOptionsProvider) {
 
         var otInterceptor = ['$q',
             function ($q) {
@@ -107,6 +112,12 @@ angular.module("dashboardModule", [
 
         // Don't monitor font awesome animation .fa-spin
         $animateProvider.classNameFilter(/^((?!(fa-spin)).)*$/);
+
+        // Configure odometer
+        // formating price for 'Today Sales', etc
+        odometerOptionsProvider.defaults = {
+            format: "(,ddd).dd"
+        };
     }]
 )
 
