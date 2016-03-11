@@ -11,12 +11,12 @@ angular.module("orderModule", [
             templateUrl: "/views/order/list.html",
             controller: "orderListController"
         })
-        .when("/orders/:id", {
-            templateUrl: "/views/order/edit.html",
-            controller: "orderEditController"
-        })
         .when("/orders/print", {
             templateUrl: "/views/order/print.html",
             controller: "orderPrintController"
+        })
+        .when("/orders/:id", {
+            templateUrl: "/views/order/edit.html",
+            controller: "orderEditController"
         });
 }]);

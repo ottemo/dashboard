@@ -92,18 +92,18 @@ angular.module("visitorModule")
              * @param id
              */
             $scope.select = function (id) {
-                $location.path("/visitor/" + $scope.visitorId + "/address/" + id);
+                $location.path("/visitors/" + $scope.visitorId + "/address/" + id);
             };
 
             /**
              *
              */
             $scope.create = function () {
-                $location.path("/visitor/" + $scope.visitorId + "/address/new");
+                $location.path("/visitors/" + $scope.visitorId + "/address/new");
             };
 
             $scope.backToVisitor = function () {
-                $location.path("/visitor/" + $scope.visitorId);
+                $location.path("/visitosr/" + $scope.visitorId);
             };
 
             var hasSelectedRows = function () {
@@ -180,7 +180,7 @@ angular.module("visitorModule")
 
             $scope.init = (function () {
                 if (JSON.stringify({}) === JSON.stringify($location.search())) {
-                    $location.search("limit", "0," + COUNT_ITEMS_PER_PAGE);
+                    $location.search('limit', '0,' + COUNT_ITEMS_PER_PAGE).replace();
                     return;
                 }
                 getAddressesCount();

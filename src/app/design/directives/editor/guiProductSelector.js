@@ -63,11 +63,7 @@ function ($location, $routeParams, $designService, DashboardListService, $produc
                     typeof $scope.item[$scope.attribute.Attribute] !== "undefined" &&
                     $scope.item[$scope.attribute.Attribute].length
                 ) {
-                    $scope.item[$scope.attribute.Attribute].map(function (val) {
-                        if ("" !== val && typeof val !== "undefined") {
-                            $scope.countSelected += 1;
-                        }
-                    });
+                    $scope.countSelected = $scope.item[$scope.attribute.Attribute].length;
                 }
             };
 
@@ -169,7 +165,6 @@ function ($location, $routeParams, $designService, DashboardListService, $produc
             };
 
             $scope.$watch("item", function () {
-
                 if (typeof $scope.item !== "undefined" &&
                     $scope.item[$scope.attribute.Attribute] instanceof Array
                 ) {
@@ -194,18 +189,15 @@ function ($location, $routeParams, $designService, DashboardListService, $produc
             });
 
             $scope.$watch("selected", function () {
-                var id;
-
                 if ($scope.item) {
                     $scope.item[$scope.attribute.Attribute] = [];
-                    for (id in $scope.selected) {
-                        if ($scope.selected.hasOwnProperty(id) && $scope.selected[id] === true) {
+                    for (var id in $scope.selected) {
+                        if ($scope.selected[id]) {
                             $scope.item[$scope.attribute.Attribute].push(id);
                         }
                     }
                     getCountItems();
                 };
-
             }, true);
 
             /**

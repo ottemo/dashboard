@@ -162,9 +162,9 @@ function ($rootScope, $scope, $location, $routeParams, $q, DashboardListService,
         // test if it is an empty object
         if (JSON.stringify({}) === JSON.stringify($location.search())) {
             $location.search({
-                sort: "^created_at",
-                limit: "0,50"
-            });
+                sort: '^created_at',
+                limit: '0,50'
+            }).replace();
             return;
         }
         getOrderCount();

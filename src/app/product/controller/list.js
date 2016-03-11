@@ -93,14 +93,14 @@ function ($scope, $location, $routeParams, $q, DashboardListService, $productApi
      * @param id
      */
     $scope.select = function (id) {
-        $location.path("/product/" + id);
+        $location.path("/products/" + id);
     };
 
     /**
      *
      */
     $scope.create = function () {
-        $location.path("/product/new");
+        $location.path("/products/new");
     };
 
     var hasSelectedRows = function () {
@@ -177,7 +177,7 @@ function ($scope, $location, $routeParams, $q, DashboardListService, $productApi
 
     $scope.init = (function () {
         if (JSON.stringify({}) === JSON.stringify($location.search())) {
-            $location.search("limit", "0," + COUNT_ITEMS_PER_PAGE);
+            $location.search('limit', '0,' + COUNT_ITEMS_PER_PAGE).replace();
             return;
         }
         getProductCount();

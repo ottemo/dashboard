@@ -1,13 +1,5 @@
 angular.module("dashboardModule")
 
-.controller("dashboardMenuController", ["$scope", "$menuService", "$loginLoginService",
-    function($scope, $menuService, $loginLoginService) {
-        $scope.avatar = $loginLoginService.getAvatar();
-        $scope.userName = $loginLoginService.getFullName() || "root";
-        $scope.items = $menuService;
-    }
-])
-
 .controller("dashboardController", [
     "$scope",
     "$location",

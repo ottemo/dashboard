@@ -51,7 +51,7 @@ function (
                     $scope.block = response.result;
                 // so we redirect to new block page
                 } else {
-                    $location.path('/cms/block/new')
+                    $location.path('/cms/blocks/new')
                 }
             }
         );
@@ -70,7 +70,7 @@ function (
 
         var defer = $q.defer();
 
-        // If block._id !== null update existing block 
+        // If block._id !== null update existing block
         if ($scope.block._id !== null) {
             var promise = $cmsApiService.blockUpdate($scope.block).$promise;
 

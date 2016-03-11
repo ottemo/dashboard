@@ -7,9 +7,9 @@ angular.module("categoryModule")
 "$q",
 "$categoryApiService",
 "$dashboardUtilsService",
-function ($scope, $routeParams, $location, $q, $categoryApiService, $dashboardUtilsService) {
+"_",
+function ($scope, $routeParams, $location, $q, $categoryApiService, $dashboardUtilsService, _) {
     var categoryId, rememberProducts, oldProducts, getDefaultCategory;
-
     // Initialize SEO
     if (typeof $scope.initSeo === "function") {
         $scope.initSeo("category");
@@ -54,8 +54,8 @@ function ($scope, $routeParams, $location, $q, $categoryApiService, $dashboardUt
         $categoryApiService.getCategory({"categoryID": categoryId}).$promise.then(function (response) {
             var result = response.result || {};
             $scope.category = result;
-            rememberProducts();
             $scope.category.parent = $scope.category['parent_id'];
+            $scope.category.products = $scope.category.product_ids;
         });
     }
 
@@ -64,98 +64,34 @@ function ($scope, $routeParams, $location, $q, $categoryApiService, $dashboardUt
     };
 
     $scope.saveProducts = function () {
-        var defer, categoryId, addProduct, removeProduct;
-        defer = $q.defer();
+        var promises = [];
 
-        if (typeof $scope.category !== "undefined") {
-            categoryId = $scope.category.id || $scope.category._id;
+        var categoryId = $scope.category.id || $scope.category._id;
+        var _prev = $scope.category.product_ids;
+        var _new = $scope.category.products;
+
+        var products_to_remove = _.difference(_prev,_new);
+        var products_to_add = _.difference(_new,_prev);
+
+        if (products_to_remove.length){
+            _.each(products_to_remove, function(productID){
+                promises.push($categoryApiService.removeProduct({
+                    categoryID: categoryId,
+                    productID: productID
+                }))
+            })
         }
 
+        if (products_to_add.length){
+            _.each(products_to_add, function(productID){
+                promises.push($categoryApiService.addProduct({
+                    categoryId: categoryId,
+                    productId: productID
+                }))
+            })
+        }
 
-        addProduct = function () {
-            var _addProduct = function (index) {
-                var addDefer = $q.defer();
-
-                var prodId = $scope.category.products[index];
-
-                if (typeof prodId === "object") {
-                    prodId = prodId._id;
-                }
-
-                if (oldProducts.indexOf(prodId) === -1) {
-                    $categoryApiService.addProduct({
-                        categoryId: categoryId,
-                        productId: prodId
-                    }).$promise.then(function () {
-                            addDefer.resolve(prodId);
-                        }
-                    );
-                }
-
-                return addDefer.promise;
-            };
-
-            var callback = function (prodId) {
-                oldProducts.push(prodId);
-            };
-
-            if ($scope.category.products instanceof Array) {
-                for (var i = 0; i < $scope.category.products.length; i += 1) {
-                    _addProduct(i).then(callback);
-                }
-            }
-
-            defer.resolve(true);
-        };
-
-        removeProduct = function (cb) {
-            var i, oldProdId, _remove, callback;
-
-            var getProductIds = function (products) {
-                var ids = [];
-
-                for (var i = 0; i < products.length; i += 1) {
-                    if(typeof products[i] === "string"){
-                        ids.push(products[i]);
-                    } else if(typeof products[i] === "object"){
-                        ids.push(products[i]._id);
-                    }
-                }
-
-                return ids;
-            };
-
-            callback = function (index) {
-                oldProducts.splice(index, 1);
-            };
-
-            _remove = function (index) {
-                var removeDefer = $q.defer();
-
-                oldProdId = oldProducts[index];
-
-                if (-1 === getProductIds($scope.category.products).indexOf(oldProdId)) {
-                    $categoryApiService.removeProduct({
-                        categoryID: categoryId,
-                        productID: oldProdId
-                    }).$promise.then(function () {
-                            removeDefer.resolve(index);
-                        }
-                    );
-                }
-
-                return removeDefer.promise;
-            };
-
-            for (i = 0; i < oldProducts.length; i += 1) {
-                _remove(i).then(callback);
-            }
-            cb();
-        };
-
-        removeProduct(addProduct);
-
-        return defer.promise;
+        return $q.all(promises);
     };
 
     /**
@@ -172,10 +108,6 @@ function ($scope, $routeParams, $location, $q, $categoryApiService, $dashboardUt
             id = $scope.category.id || $scope.category._id;
         }
 
-        /**
-         *
-         * @param response
-         */
         saveSuccess = function (response) {
             if (response.error === null) {
                 $scope.category = response.result || getDefaultCategory();
@@ -186,20 +118,12 @@ function ($scope, $routeParams, $location, $q, $categoryApiService, $dashboardUt
             $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
         };
 
-        /**
-         *
-         * @param response
-         */
         saveError = function () {
             defer.resolve(false);
             $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
             $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
         };
 
-        /**
-         *
-         * @param response
-         */
         updateSuccess = function (response) {
             if (response.error === null) {
                 $scope.category = response.result || getDefaultCategory();
@@ -210,10 +134,6 @@ function ($scope, $routeParams, $location, $q, $categoryApiService, $dashboardUt
             }
         };
 
-        /**
-         *
-         * @param response
-         */
         updateError = function () {
             defer.resolve(false);
             $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
@@ -223,34 +143,33 @@ function ($scope, $routeParams, $location, $q, $categoryApiService, $dashboardUt
         delete $scope.category.parent;
         delete $scope.category.path;
 
+
         if (!id) {
-            if ($scope.category.name !== "") {
-                $categoryApiService.save($scope.category, saveSuccess, saveError);
+            if ($scope.category.name !== '') {
+
+                delete $scope.category.products;
+                $categoryApiService.save($scope.category).$promise
+                    .then(saveSuccess, saveError)
+                    .then(function(){
+                        $scope.category.products = $scope.category.product_ids;
+                    });
             }
         } else {
             $scope.category.id = id;
             $scope.saveProducts().then(function () {
+
+                // Clean the associated product list off, before posting up
                 delete $scope.category.products;
-                $categoryApiService.update($scope.category, updateSuccess, updateError);
+                $categoryApiService.update($scope.category).$promise
+                    .then(updateSuccess, updateError)
+                    .then(function(){
+                        $scope.category.products = $scope.category.product_ids;
+                    });
             });
 
         }
 
         return defer.promise;
-    };
-
-    // REFACTOR: this can't be right
-    rememberProducts = function () {
-        var i, prod;
-        oldProducts = [];
-        if (typeof $scope.category !== "undefined" &&
-            $scope.category.products instanceof Array &&
-            $scope.category.products.length !== -1) {
-            for (i = 0; i < $scope.category.products.length; i += 1) {
-                prod = $scope.category.products[i];
-                oldProducts.push(prod._id);
-            }
-        }
     };
 
 }]);

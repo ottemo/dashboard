@@ -8,7 +8,6 @@ angular.module("dashboardModule", [
     "ui.odometer",
     "ui.bootstrap",
     "highcharts-ng",
-    "moment",
 
     // Ottemo
     "categoryModule",

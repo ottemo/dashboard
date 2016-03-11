@@ -68,7 +68,7 @@
                 <h4>Shipping Address</h4>
                 <div>
                     <a ng-if="subscription.visitor_id"
-                        href="/visitor/{{subscription.visitor_id}}">
+                        ng-href="/visitors/{{subscription.visitor_id}}">
                         {{ subscription.shipping_address.first_name }} {{ subscription.shipping_address.last_name }}
                     </a>
                     <span ng-if="!subscription.visitor_id">

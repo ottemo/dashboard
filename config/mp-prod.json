@@ -1,6 +1,6 @@
 {
     "useStrict"    : "",
-    "apiUrl"       : "https://api.mp.production.ottemo.io",
+    "apiUrl"       : "https://api.poconovapes.com",
     "mediaPath"    : "media/",
     "itemsPerPage" : "15"
 }

@@ -10,7 +10,7 @@ angular.module('cmsModule', [
             templateUrl: '/views/cms/page-list.html',
             controller: 'cmsPageListController'
         })
-        .when('/cms/page/:id', {
+        .when('/cms/pages/:id', {
             templateUrl: '/views/cms/page-edit.html',
             controller: 'cmsPageEditController'
         })
@@ -18,7 +18,7 @@ angular.module('cmsModule', [
             templateUrl: '/views/cms/block-list.html',
             controller: 'cmsBlockListController'
         })
-        .when('/cms/block/:id', {
+        .when('/cms/blocks/:id', {
             templateUrl: '/views/cms/block-edit.html',
             controller: 'cmsBlockEditController'
         })

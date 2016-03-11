@@ -19,7 +19,7 @@ angular.module("visitorModule")
             ];
 
             if (JSON.stringify({}) === JSON.stringify($location.search())) {
-                $location.search("limit", "0," + COUNT_ITEMS_PER_PAGE);
+                $location.search('limit', '0,' + COUNT_ITEMS_PER_PAGE).replace();
             }
 
             var getFields = function () {
@@ -56,14 +56,14 @@ angular.module("visitorModule")
              * @param {string} attr
              */
             $scope.select = function (attr) {
-                $location.path("/v/attribute/" + attr);
+                $location.path("/v/attributes/" + attr);
             };
 
             /**
              *
              */
             $scope.create = function () {
-                $location.path("/v/attribute/new");
+                $location.path("/v/attributes/new");
             };
 
             var hasSelectedRows = function () {

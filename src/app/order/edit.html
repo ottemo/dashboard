@@ -87,7 +87,7 @@
             <div class="panel-body">
                 <h4>Shipping Address</h4>
                 <div>
-                    <a ng-if="order.visitor_id" href="/visitor/{{order.visitor_id}}">
+                    <a ng-if="order.visitor_id" ng-href="/visitors/{{order.visitor_id}}">
                         {{order.shipping_address.first_name}} {{order.shipping_address.last_name}}
                     </a>
                     <span ng-if="!order.visitor_id">

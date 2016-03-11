@@ -76,15 +76,14 @@ function ($scope, $location, $routeParams, $q, DashboardListService, $categoryAp
      * @param id
      */
     $scope.select = function (id) {
-        $location.path("/category/" + id);
-
+        $location.path("/categories/" + id);
     };
 
     /**
      *
      */
     $scope.create = function () {
-        $location.path("/category/new");
+        $location.path("/categories/new");
     };
 
     var hasSelectedRows = function () {
@@ -161,7 +160,7 @@ function ($scope, $location, $routeParams, $q, DashboardListService, $categoryAp
 
     $scope.init = (function () {
         if (JSON.stringify({}) === JSON.stringify($location.search())) {
-            $location.search("limit", "0," + COUNT_ITEMS_PER_PAGE);
+            $location.search('limit', '0,' + COUNT_ITEMS_PER_PAGE).replace();
             return;
         }
         getCategoryCount();

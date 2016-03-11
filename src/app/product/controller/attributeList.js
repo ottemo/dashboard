@@ -18,7 +18,7 @@ function ($scope, $routeParams, $q, $productApiService, $location) {
     ];
 
     if (JSON.stringify({}) === JSON.stringify($location.search())) {
-        $location.search("limit", "0,5");
+        $location.search('limit', '0,5').replace();
     }
 
     var getFields = function () {
@@ -56,14 +56,14 @@ function ($scope, $routeParams, $q, $productApiService, $location) {
      * @param {string} attr
      */
     $scope.select = function (attr) {
-        $location.path("/attribute/" + attr);
+        $location.path("/attributes/" + attr);
     };
 
     /**
      *
      */
     $scope.create = function () {
-        $location.path("/attribute/new");
+        $location.path("/attributes/new");
     };
 
     var remove = function (attr) {

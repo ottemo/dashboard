@@ -71,14 +71,14 @@ function ($scope, $location, $routeParams, $q, DashboardListService, $cmsApiServ
      * @param id
      */
     $scope.select = function (id) {
-        $location.path("/cms/block/" + id);
+        $location.path("/cms/blocks/" + id);
     };
 
     /**
      *
      */
     $scope.create = function () {
-        $location.path("/cms/block/new");
+        $location.path("/cms/blocks/new");
     };
 
     var hasSelectedRows = function () {
@@ -153,7 +153,7 @@ function ($scope, $location, $routeParams, $q, DashboardListService, $cmsApiServ
 
     $scope.init = (function () {
         if (JSON.stringify({}) === JSON.stringify($location.search())) {
-            $location.search("limit", "0," + COUNT_ITEMS_PER_PAGE);
+            $location.search('limit', '0,' + COUNT_ITEMS_PER_PAGE).replace();
             return;
         }
         getBlockCount();

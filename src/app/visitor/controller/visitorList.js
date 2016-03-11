@@ -78,14 +78,14 @@ angular.module("visitorModule")
          * @param id
          */
         $scope.select = function (id) {
-            $location.path("/visitor/" + id);
+            $location.path("/visitors/" + id);
         };
 
         /**
          *
          */
         $scope.create = function () {
-            $location.path("/visitor/new");
+            $location.path("/visitors/new");
         };
 
         var hasSelectedRows = function () {
@@ -161,7 +161,7 @@ angular.module("visitorModule")
 
         $scope.init = (function () {
             if (JSON.stringify({}) === JSON.stringify($location.search())) {
-                $location.search("limit", "0," + COUNT_ITEMS_PER_PAGE);
+                $location.search('limit', '0,' + COUNT_ITEMS_PER_PAGE).replace();
                 return;
             }
             getVisitorCount();

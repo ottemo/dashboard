@@ -44,15 +44,29 @@ body {
   width: $nav-width;
   height: 100%;
 
-  overflow: hidden;
-  z-index: 20;
+  overflow-y: auto;
+  overflow-x: hidden;
+
   background: $navbar-default-bg;
   transition: all 0.4s ease;
 
+  &::-webkit-scrollbar {
+    width: .75em;
+    height: .5em;
+  }
+  &::-webkit-scrollbar-thumb{
+    background: #666;
+  }
+  &::-webkit-scrollbar-track{
+    background: none;
+  }
+
   &.nav-menu--active {
+    z-index: 20;
     right:0;
     -webkit-transition: all 0.4s ease;
     transition: all 0.4s ease;
+    overflow-y: scroll;
   }
 
   @media (min-width: $nav-break) {
@@ -60,7 +74,7 @@ body {
     right: auto;
   }
 
-  @media (min-width: $nav-break) {
+  @media (min-width: $nav-break) and (min-height: 570px) {
     .navbar-user {
       position: absolute;
       bottom: 0;

@@ -1,7 +1,5 @@
 angular.module("loginModule", ["ngRoute", "ngResource"])
 
-.constant("VISITOR_DEFAULT_AVATAR", "avatar-placeholder.png")
-
 /**
 *  Basic routing configuration
 */

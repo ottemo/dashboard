@@ -1,20 +1,24 @@
-angular.module("orderModule")
+angular.module('orderModule')
 
-.controller("orderPrintController", [
-    "$scope",
-    "$location",
-    "$q",
-    "$timeout",
-    "$orderApiService",
-    "$cmsApiService",
+.controller('orderPrintController', [
+    '$scope',
+    '$location',
+    '$q',
+    '$timeout',
+    '$orderApiService',
+    '$cmsApiService',
     function($scope, $location, $q, $timeout, $orderApiService, $cmsApiService) {
 
         $scope.options = {
             showPrice: 0
         };
         $scope.orders = [];
+
+        var headerIdentifier = 'dash-order-print-header';
+        var footerIdentifier = 'dash-order-print-footer';
         $scope.cms = {
-            header: ''
+            header: '',
+            footer: ''
         };
 
         activate();
@@ -36,7 +40,7 @@ angular.module("orderModule")
             var allPromises = [];
             angular.forEach(ids, function(id) {
                 var promise = $orderApiService.getOrder({
-                        "orderID": id
+                        'orderID': id
                     }).$promise
                     .then(function(resp) {
                         $scope.orders.push(resp.result);
@@ -58,16 +62,33 @@ angular.module("orderModule")
 
         // Fetch cms header details
         function fetchCmsHeader() {
-            $cmsApiService.blockList({
-                    'identifier': 'dash-order-print-header',
-                    'extra': 'content'
-                }).$promise
+
+            var params = {
+                'identifier': [
+                    headerIdentifier,
+                    footerIdentifier,
+                ].join(','),
+                'extra': 'content',
+            };
+
+            $cmsApiService.blockList(params).$promise
                 .then(function(resp) {
+                    // Normalize response
                     if (resp.result) {
-                        var cmsBlock = resp.result[0];
-                        $scope.cms.header = cmsBlock.Extra.content;
+                        return resp.result || [];
+                    }
+                })
+                .then(assignBlocks);
+
+            function assignBlocks(blocks) {
+                angular.forEach(blocks, function(block) {
+                    if (block.Name === headerIdentifier) {
+                        $scope.cms.header = block.Extra.content;
+                    } else if( block.Name === footerIdentifier) {
+                        $scope.cms.footer = block.Extra.content;
                     }
                 });
+            }
         }
 
         // By default show the price

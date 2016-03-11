@@ -22,7 +22,7 @@ angular.module("visitorModule")
             addressId = $routeParams.id;
 
             if (!addressId && addressId !== "new") {
-                $location.path("/visitor/" + $scope.visitorId + "/addresses");
+                $location.path("/visitors/" + $scope.visitorId + "/addresses");
             }
 
             if (addressId === "new") {
@@ -74,11 +74,11 @@ angular.module("visitorModule")
             }
 
             $scope.back = function () {
-                $location.path("/visitor/" + $scope.visitorId + "/addresses");
+                $location.path("/visitors/" + $scope.visitorId + "/addresses");
             };
 
             $scope.backToVisitor = function () {
-                $location.path("/visitor/" + $scope.visitorId);
+                $location.path("/visitors/" + $scope.visitorId);
             };
 
             /**

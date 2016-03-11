@@ -77,14 +77,14 @@ function ($scope, $location, $routeParams, $q, DashboardListService, $cmsApiServ
      * @param id
      */
     $scope.select = function (id) {
-        $location.path("/cms/page/" + id);
+        $location.path("/cms/pages/" + id);
     };
 
     /**
      *
      */
     $scope.create = function () {
-        $location.path("/cms/page/new");
+        $location.path("/cms/pages/new");
     };
 
     var hasSelectedRows = function () {
@@ -160,7 +160,7 @@ function ($scope, $location, $routeParams, $q, DashboardListService, $cmsApiServ
 
     $scope.init = (function () {
         if (JSON.stringify({}) === JSON.stringify($location.search())) {
-            $location.search("limit", "0," + COUNT_ITEMS_PER_PAGE);
+            $location.search('limit', '0,' + COUNT_ITEMS_PER_PAGE).replace();
             return;
         }
         getPageCount();
