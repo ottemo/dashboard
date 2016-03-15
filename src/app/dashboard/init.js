@@ -113,11 +113,6 @@ angular.module("dashboardModule", [
         // Don't monitor font awesome animation .fa-spin
         $animateProvider.classNameFilter(/^((?!(fa-spin)).)*$/);
 
-        // Configure odometer
-        // formating price for 'Today Sales', etc
-        odometerOptionsProvider.defaults = {
-            format: "(,ddd).dd"
-        };
     }]
 )
 
