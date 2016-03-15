@@ -1,18 +1,18 @@
-angular.module("orderModule")
+angular.module('orderModule')
 
-.controller("orderListController", [
-"$rootScope",
-"$scope",
-"$location",
-"$routeParams",
-"$q",
-"$dashboardListService",
-"$orderApiService",
-"COUNT_ITEMS_PER_PAGE",
-function ($rootScope, $scope, $location, $routeParams, $q, DashboardListService, $orderApiService, COUNT_ITEMS_PER_PAGE) {
-    var getOrdersList, serviceList, getOrderCount, getAttributeList, showColumns;
-    serviceList = new DashboardListService();
-    showColumns = {
+.controller('orderListController', [
+'$scope',
+'$location',
+'$dashboardListService',
+'$orderApiService',
+function (
+    $scope,
+    $location,
+    DashboardListService,
+    $orderApiService
+) {
+    var serviceList = new DashboardListService();
+    var showColumns = {
         _id : {type: 'select-link', label : 'Order ID', filter: 'text'},
         status : {},
         customer_email : {},
@@ -21,48 +21,88 @@ function ($rootScope, $scope, $location, $routeParams, $q, DashboardListService,
         created_at : {label : 'Date', type : 'date'}
     };
 
+    var searchDefaults = {
+        status: 'pending,new',
+        sort: '^created_at',
+        limit: '0,50',
+    };
+
     // REFACTOR: I only want to work with the selected ids
     // instead of an object of ids where the value was the selected state
     $scope.selectedIds = [];
     $scope.idsSelectedRows = {};
-    $scope.$watch('idsSelectedRows', function(newVal, oldVal){
-        var ids = [];
-        angular.forEach($scope.idsSelectedRows, function(active, id) {
-            if (active) {
-                ids.push(id);
-            }
-        });
-        $scope.selectedIds = ids;
-    }, true);
 
-    /**
-     * Gets list of orders
-     */
-    getOrdersList = function () {
-        var params = $location.search();
-        params["extra"] = serviceList.getExtraFields();
-
-        $orderApiService.orderList(params).$promise.then(
-            function (response) {
-                var result = response.result || [];
-                $scope.orders = serviceList.getList(result)
-            }
-        );
+    $scope.actions = {
+        isOpen: false,
+        export: angular.appConfigValue('general.app.foundation_url') +'/export/quickbooks',
+        printUrl: printUrl,
+        packingSlipUrl: packingSlipUrl,
     };
 
-    getOrderCount = function() {
-        $orderApiService.getCount($location.search(), {}).$promise.then(
-            function (response) {
-                if (response.error === null) {
-                    $scope.count = response.result;
-                } else {
-                    $scope.count = 0;
+    $scope.tabs = {
+        isActive: isTabActive,
+        setStatus: setStatusFilter,
+    };
+
+    $scope.orders = [];
+    $scope.count = 0;
+    $scope.select = select;
+    $scope.create = create;
+    $scope.isLoading = true;
+
+    activate();
+
+    ////////////////////////////////
+
+    function activate() {
+        setSearchDefaults();
+
+        getOrderCount();
+        getAttributeList();
+        watchers();
+    }
+
+    function setSearchDefaults() {
+        if (JSON.stringify({}) === JSON.stringify($location.search())) {
+            $location.search(searchDefaults).replace();
+        }
+    }
+
+    function watchers() {
+        $scope.$watch('idsSelectedRows', function(newVal, oldVal){
+            var ids = [];
+            angular.forEach($scope.idsSelectedRows, function(active, id) {
+                if (active) {
+                    ids.push(id);
                 }
-            }
-        );
-    };
+            });
+            $scope.selectedIds = ids;
+        }, true);
+    }
 
-    getAttributeList = function() {
+    function getOrdersList() {
+        $scope.isLoading = true;
+
+        var params = $location.search();
+        params.extra = serviceList.getExtraFields();
+
+        $orderApiService.orderList(params).$promise
+            .then(function (response) {
+                $scope.isLoading = false;
+
+                var result = response.result || [];
+                $scope.orders = serviceList.getList(result);
+            });
+    }
+
+    function getOrderCount() {
+        $orderApiService.getCount($location.search(), {}).$promise
+            .then(function (response) {
+                $scope.count = (response.error === null) ? response.result : 0;
+            });
+    }
+
+    function getAttributeList() {
         $orderApiService.getAttributes().$promise.then(
             function (response) {
                 var result = response.result || [];
@@ -73,101 +113,36 @@ function ($rootScope, $scope, $location, $routeParams, $q, DashboardListService,
                 getOrdersList();
             }
         );
-    };
+    }
 
-    /**
-     * Handler event when selecting the order in the list
-     *
-     * @param id
-     */
-    $scope.select = function (id) {
-        $location.path("/orders/" + id).search('');
-    };
+    function select(id) {
+        $location.path('/orders/' + id).search('');
+    }
 
-    /**
-     *
-     */
-    $scope.create = function () {
-        $location.path("/orders/new");
-    };
+    function create() {
+        $location.path('/orders/new');
+    }
 
-    var hasSelectedRows = function () {
+    function hasSelectedRows() {
         return $scope.selectedIds.length;
-    };
+    }
 
-
-    $scope.actions = {
-        isOpen: false,
-        export: angular.appConfigValue('general.app.foundation_url') +'/export/quickbooks'
-    };
-
-    $scope.actions.printUrl = function() {
+    function printUrl() {
         return '/orders/print?ids=' + $scope.selectedIds.join(',');
     }
 
-    $scope.actions.packingSlipUrl = function() {
+    function packingSlipUrl() {
         return '/orders/print?price=0&ids=' + $scope.selectedIds.join(',');
     }
 
-    /**
-     * Removes order by ID
-     *
-     */
-    $scope.remove = function () {
-        if (!hasSelectedRows()) {
-            return true;
-        }
+    function isTabActive(compareStatus) {
+        var search = $location.search();
+        return compareStatus === search.status;
+    }
 
-        var i, answer, _remove;
-        answer = window.confirm("You really want to remove this order(s)?");
-        _remove = function (id) {
-            var defer = $q.defer();
-
-            $orderApiService.remove({"orderID": id},
-                function (response) {
-                    if (response.result === "ok") {
-                        defer.resolve(id);
-                    } else {
-                        defer.resolve(false);
-                    }
-                }
-            );
-
-            return defer.promise;
-        };
-        if (answer) {
-            $('[ng-click="parent.remove()"]').addClass('disabled').append('<i class="fa fa-spin fa-spinner"><i>').siblings('.btn').addClass('disabled');
-            var callback = function (response) {
-                if (response) {
-                    for (i = 0; i < $scope.orders.length; i += 1) {
-                        if ($scope.orders[i].ID === response) {
-                            $scope.orders.splice(i, 1);
-                        }
-                    }
-                }
-            };
-            for (var id in $scope.idsSelectedRows) {
-                if ($scope.idsSelectedRows.hasOwnProperty(id) && true === $scope.idsSelectedRows[id]) {
-                    _remove(id).then(callback);
-                }
-            }
-        }
-        $('[ng-click="parent.remove()"]').removeClass('disabled').children('i').remove();
-        $('[ng-click="parent.remove()"]').siblings('.btn').removeClass('disabled');
-
-    };
-
-
-    $scope.init = (function () {
-        // test if it is an empty object
-        if (JSON.stringify({}) === JSON.stringify($location.search())) {
-            $location.search({
-                sort: '^created_at',
-                limit: '0,50'
-            }).replace();
-            return;
-        }
-        getOrderCount();
-        getAttributeList();
-    })();
+    function setStatusFilter(newStatus) {
+        // Use the default search params as a starting point
+        searchDefaults.status = newStatus;
+        $location.search(searchDefaults);
+    }
 }]);
