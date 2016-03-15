@@ -47,25 +47,29 @@
 
 <ul class="nav nav-tabs">
     <li ng-class="{active: tabs.isActive('pending,new')}">
-        <a ng-click="tabs.setStatus('pending,new')">Incomplete</a>
+        <a ng-click="tabs.setStatus('pending,new')">
+            Incomplete
+        </a>
     </li>
     <li ng-class="{active: tabs.isActive('processed')}">
-        <a ng-click="tabs.setStatus('processed')">Processed</a>
+        <a ng-click="tabs.setStatus('processed')">
+            Processed
+            <span class="badge" ng-show="tabs.processedCount">{{tabs.processedCount}}</span>
+        </a>
     </li>
     <li ng-class="{active: tabs.isActive('declined')}">
-        <a ng-click="tabs.setStatus('declined')">Declined</a>
+        <a ng-click="tabs.setStatus('declined')">
+            Declined
+        </a>
     </li>
     <li ng-class="{active: tabs.isActive('completed')}">
-        <a ng-click="tabs.setStatus('completed')">Completed</a>
+        <a ng-click="tabs.setStatus('completed')">
+            Completed
+        </a>
     </li>
 </ul>
 
 <!-- Order Reesults -->
-<div ng-show="isLoading"
-    class="tab-content-empty">
-    <i class="fa fa-circle-o-notch fa-spin"></i> loading...
-</div>
-
 <gui-table-manager
     items="orders"
     object="this"

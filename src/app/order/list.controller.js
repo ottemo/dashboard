@@ -54,6 +54,7 @@ angular.module('orderModule')
         $scope.tabs = {
             isActive: isTabActive,
             setStatus: setStatusFilter,
+            processedCount: 0,
         };
 
         $scope.select = select;
@@ -78,6 +79,7 @@ angular.module('orderModule')
 
             getOrderCount();
             getAttributeList();
+            getProcessedOrderCount();
         }
 
         function setSearchDefaults() {
@@ -90,24 +92,29 @@ angular.module('orderModule')
             var params = $location.search();
             params.extra = serviceList.getExtraFields();
 
-            $orderApiService.orderList(params).$promise.then(
-                function(response) {
+            $orderApiService.orderList(params).$promise
+                .then(function(response) {
                     var result = response.result || [];
                     $scope.orders = serviceList.getList(result);
-                }
-            );
+                });
+        }
+
+        function getProcessedOrderCount() {
+            var params = {};
+            angular.copy(searchDefaults, params);
+            params.status = 'processed';
+
+            $orderApiService.getCount(params).$promise
+                .then(function(response) {
+                    $scope.tabs.processedCount = response.result || 0;
+                });
         }
 
         function getOrderCount() {
-            $orderApiService.getCount($location.search(), {}).$promise.then(
-                function(response) {
-                    if (response.error === null) {
-                        $scope.count = response.result;
-                    } else {
-                        $scope.count = 0;
-                    }
-                }
-            );
+            $orderApiService.getCount($location.search()).$promise
+                .then(function(response) {
+                    $scope.count = (response.error === null) ? response.result : 0;
+                });
         }
 
         function getAttributeList() {
