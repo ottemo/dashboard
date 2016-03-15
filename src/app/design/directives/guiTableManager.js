@@ -368,6 +368,8 @@ angular.module("designModule")
                                 if (filters[key] instanceof Array) {
                                     removeEmpty(filters[key]);
                                     if (filters[key].length > 0) {
+                                        // I'm not sure why we are using the like comparison operator
+                                        // for everything, but we don't want it for order.status...
                                         var op = (key === 'status') ? '=' : '=~'
                                         filtersArr.push(key.toLowerCase() + op + filters[key].join());
                                     }
