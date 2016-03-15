@@ -21,6 +21,20 @@ function ($rootScope, $scope, $location, $routeParams, $q, DashboardListService,
         created_at : {label : 'Date', type : 'date'}
     };
 
+    var searchDefaults = {
+        status: 'pending,new',
+        sort: '^created_at',
+        limit: '0,50',
+    };
+
+
+    $scope.tabs = {
+        isActive: isTabActive,
+        setStatus: setStatusFilter,
+    };
+
+    ///////////////////////////////////////
+
     // REFACTOR: I only want to work with the selected ids
     // instead of an object of ids where the value was the selected state
     $scope.selectedIds = [];
@@ -170,4 +184,15 @@ function ($rootScope, $scope, $location, $routeParams, $q, DashboardListService,
         getOrderCount();
         getAttributeList();
     })();
+
+    function isTabActive(compareStatus) {
+        var search = $location.search();
+        return compareStatus === search.status;
+    }
+
+    function setStatusFilter(newStatus) {
+        // Use the default search params as a starting point
+        searchDefaults.status = newStatus;
+        $location.search(searchDefaults);
+    }
 }]);
