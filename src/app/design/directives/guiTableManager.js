@@ -368,7 +368,8 @@ angular.module("designModule")
                                 if (filters[key] instanceof Array) {
                                     removeEmpty(filters[key]);
                                     if (filters[key].length > 0) {
-                                        filtersArr.push(key.toLowerCase() + '=~' + filters[key].join());
+                                        var op = (key === 'status') ? '=' : '=~'
+                                        filtersArr.push(key.toLowerCase() + op + filters[key].join());
                                     }
                                 } else {
                                     filtersArr.push(key.toLowerCase() + '=' + filters[key]);

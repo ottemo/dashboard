@@ -50,10 +50,7 @@
         <a ng-click="tabs.setStatus('pending,new')">Incomplete</a>
     </li>
     <li ng-class="{active: tabs.isActive('processed')}">
-        <a ng-click="tabs.setStatus('processed')">
-            Processed
-            <!-- <span class="badge">4</span> -->
-        </a>
+        <a ng-click="tabs.setStatus('processed')">Processed</a>
     </li>
     <li ng-class="{active: tabs.isActive('declined')}">
         <a ng-click="tabs.setStatus('declined')">Declined</a>
