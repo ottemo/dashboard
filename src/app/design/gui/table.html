@@ -37,7 +37,11 @@
                         <th class="checkboxes-column">
                             <input type="checkbox" id="selectAll" ng-click="selectAll()">
                         </th>
-                        <th ng-repeat="field in parent.fields" ng-show="field.visible" ng-class="{'text-uppercase': field.label}" ng-click="field.label ? setSort(field.attribute) : ''">
+                        <th class="th-clickable"
+                            ng-repeat="field in parent.fields"
+                            ng-show="field.visible"
+                            ng-class="{'text-uppercase': field.label}"
+                            ng-click="field.label ? setSort(field.attribute) : ''">
                             {{field.label}}
                             <span ng-class="getSortClass(field.attribute)"></span>
                         </th>
