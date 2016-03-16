@@ -64,7 +64,8 @@ angular.module("designModule")
                     // name: isActive
                     new: true,
                     delete: true
-                }
+                };
+                $scope.isFiltersVisible = false;
 
                 // If we have any buttonData set on the directive, let it override our defaults
                 angular.forEach($scope.buttonData, function(isActive, btnName) {

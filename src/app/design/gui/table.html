@@ -17,7 +17,12 @@
             <!-- Filters -->
             <div class="col-xs-4 col-sm-3 col-sm-push-6">
                 <div class="btn-group pull-right">
-                    <button class="filters btn btn-primary" ng-if="parent.fields.length > 1" >Filters</button>
+                    <button class="filters btn btn-primary"
+                        type="button"
+                        ng-show="parent.fields.length > 1"
+                        ng-click="isFiltersVisible = !isFiltersVisible">
+                        Filters
+                    </button>
                 </div>
             </div>
 
@@ -28,9 +33,8 @@
         </div>
 
         <br>
-
         <div class="table-responsive">
-            <table class="table table-hover table-bordered table-striped" id="table_manager">
+            <table class="table table-hover table-bordered table-striped">
                 <!-- Labels -->
                 <thead>
                     <tr>
@@ -47,7 +51,7 @@
                         </th>
                     </tr>
                     <!-- Filters -->
-                    <tr id="filters" ng-hide="filters.length <= 1 && !filters[0].visible">
+                    <tr ng-show="isFiltersVisible">
                         <td>&nbsp;</td>
                         <td ng-repeat="filter in filters" ng-switch="filter.type" ng-show="parent.fields[$index].visible">
                             <div ng-switch-when="text">
