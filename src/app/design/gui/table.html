@@ -1,23 +1,23 @@
 <section>
     <form role="form" class="form-group">
 
-        <div class="row table-pagination-row">
+        <div class="row m-b">
 
             <!-- Delete/New buttons -->
-            <div class="col-xs-8 col-sm-3">
-                <button class="btn btn-primary"
+            <div class="col-xs-8 col-sm-6">
+                <button class="btn btn-default"
                     ng-click="parent.remove()"
                     ng-if="buttons.delete">Delete</button>
-                <button class="btn btn-primary"
+                <button class="btn btn-default"
                     ng-click="parent.create()"
                     ng-if="buttons.new">New</button>
             </div>
 
 
             <!-- Filters -->
-            <div class="col-xs-4 col-sm-3 col-sm-push-6">
+            <div class="col-xs-4 col-sm-6">
                 <div class="btn-group pull-right">
-                    <button class="filters btn btn-primary"
+                    <button class="filters btn btn-default"
                         type="button"
                         ng-show="parent.fields.length > 1"
                         ng-click="isFiltersVisible = !isFiltersVisible">
@@ -25,14 +25,11 @@
                     </button>
                 </div>
             </div>
-
-            <!-- Pagination -->
-            <div class="col-xs-12 col-sm-6 col-sm-pull-3">
-                <gui-paginator object="this"></gui-paginator>
-            </div>
         </div>
 
-        <br>
+        <!-- Pagination -->
+        <gui-paginator object="this"></gui-paginator>
+
         <div class="table-responsive">
             <table class="table table-hover table-bordered table-striped">
                 <!-- Labels -->
