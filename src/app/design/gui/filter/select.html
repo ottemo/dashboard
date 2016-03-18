@@ -1,4 +1,5 @@
 <select class="form-control input-sm"
+    id="filter-{{attribute.Attribute}}"
     ng-change="submit(item[attribute.Attribute])"
     ng-init="attribute[attribute.Attribute] = attribute[attribute.Attribute] || options[0]"
     ng-model="item[attribute.Attribute]"
