@@ -19,7 +19,7 @@ angular.module('orderModule')
                 label: 'Order ID',
                 filter: 'text'
             },
-            status: {},
+            status: {filter: 'undefined'},
             customer_email: {},
             customer_name: {},
             grand_total: {
