@@ -1,0 +1,5 @@
+// We have tabs to filter order status
+// so lets hide the select drop down
+.route__ctrl--orderlist #filter-status {
+    display: none;
+}
