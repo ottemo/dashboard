@@ -8,11 +8,6 @@ $(document).ready(function () {
         $(this).tab('show');
     });
 
-    // show/hide filters
-    $(document).on('click', '.filters', function () {
-        $('#filters').toggle(0);
-    });
-
     // uploading files
     $(document).on('click', '.upl-btn', function () {
         $(this).prev('.upl-input').trigger('click');

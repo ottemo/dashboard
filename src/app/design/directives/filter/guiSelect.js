@@ -58,7 +58,7 @@ angular.module("designModule")
                 var options, field, setNewFilterValues;
 
                 setNewFilterValues = function () {
-                    if (-1 !== ['text', 'string'].indexOf($scope.item.dataType)) {
+                    if (-1 !== ['text', 'string', 'varchar'].indexOf($scope.item.dataType)) {
                         $scope.item[$scope.attribute.Attribute] = $scope.item[$scope.attribute.Attribute].replace(/~/g, "");
                         $scope.parent.newFilters[$scope.attribute.Attribute] = $scope.item[$scope.attribute.Attribute].replace(/~/g, "").split(" ");
                     } else {
