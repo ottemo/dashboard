@@ -41,22 +41,22 @@ angular.module("designModule")
             };
 
             sortFieldsInGroups = function () {
-                var sortByLabel, tab;
-                sortByLabel = function (a, b) {
-                    if (a.Label.toString() < b.Label.toString()) {
-                        return -1;
-                    }
-                    if (a.Label.toString() > b.Label.toString()) {
-                        return 1;
-                    }
+                // var sortByLabel, tab;
+                // sortByLabel = function (a, b) {
+                //     if (a.Label.toString() < b.Label.toString()) {
+                //         return -1;
+                //     }
+                //     if (a.Label.toString() > b.Label.toString()) {
+                //         return 1;
+                //     }
 
-                    return 0;
-                };
-                for (tab in $scope.attributeGroups) {
-                    if ($scope.attributeGroups.hasOwnProperty(tab)) {
-                        $scope.attributeGroups[tab].sort(sortByLabel);
-                    }
-                }
+                //     return 0;
+                // };
+                // for (tab in $scope.attributeGroups) {
+                //     if ($scope.attributeGroups.hasOwnProperty(tab)) {
+                //         $scope.attributeGroups[tab].sort(sortByLabel);
+                //     }
+                // }
             };
 
             updateAttributes = function () {
