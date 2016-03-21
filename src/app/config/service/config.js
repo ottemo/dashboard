@@ -106,7 +106,7 @@ angular.module("configModule")
         };
 
         checkOnDups = function (group, path, force) {
-            if (force) {
+            if (force && configTabs[group]) {
                 for (var pos = 0; pos < configTabs[group].length; pos += 1) {
                     if (path === configTabs[group][pos].Path) {
                         configTabs[group].splice(pos, 1);
@@ -133,10 +133,12 @@ angular.module("configModule")
                         var addAttributeInTab = function (attr) {
                             pos = checkOnDups(group, attr.Path, true);
 
-                            if (pos) {
-                                configTabs[group].splice(pos, 0, attr);
-                            } else {
-                                configTabs[group].push(attr);
+                            if (configTabs[group]){
+                                if (pos) {
+                                    configTabs[group].splice(pos, 0, attr);
+                                } else {
+                                    configTabs[group].push(attr);
+                                }
                             }
 
                         };
