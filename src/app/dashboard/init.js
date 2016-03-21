@@ -40,7 +40,11 @@ angular.module("dashboardModule", [
                         if (typeof response.data.error !== "undefined" &&
                             response.data.error !== null &&
                             response.data.error.code === "0bc07b3d-1443-4594-af82-9d15211ed179") {
+
                             location.replace('/');
+                        }
+                        if (response.data.error){
+                            console.log(response.data.error);
                         }
                         return response;
                     },
@@ -60,41 +64,13 @@ angular.module("dashboardModule", [
 
         $httpProvider.interceptors.push(otInterceptor);
 
-        function checkLoggedIn($q,$log,$loginLoginService){
-            var def = $q.defer();
-
-            $loginLoginService.init().then(function(auth){
-
-                if (auth)
-                    def.resolve(auth)
-                else {
-                    // $location.url('/login');
-                    $log.error('Authentication required. Redirect to login.');
-                    def.reject({ needsAuthentication: true });
-                    def.reject();
-                }
-            })
-
-            return def.promise
-        }
-
-        $routeProvider.whenAuthenticated = function(path,route){
-            route.resolve = route.resolve || {};
-
-            angular.extend(route.resolve, {
-                isLoggedIn: ['$q','$log', '$loginLoginService', checkLoggedIn]
-            })
-
-            return $routeProvider.when(path,route);
-        }
-
         $sceDelegateProvider.resourceUrlWhitelist([
             'self',
             angular.appConfigValue("general.app.foundation_url") + '/**'
         ]);
 
         $routeProvider
-            .whenAuthenticated("/", {
+            .when("/", {
                 templateUrl: "/views/dashboard/welcome.html",
                 controller: "dashboardController"
             })
@@ -117,7 +93,8 @@ angular.module("dashboardModule", [
     "$dashboardListService",
     "$location",
     "$log",
-    function ($rootScope, $route, $http, DashboardListService,$location,$log) {
+    "$dashboardUtilsService",
+    function ($rootScope, $route, $http, DashboardListService,$location,$log,$dashboardUtilsService) {
         // ajax cookies support fix
         $http.defaults.withCredentials = true;
         delete $http.defaults.headers.common["X-Requested-With"];
@@ -130,6 +107,30 @@ angular.module("dashboardModule", [
             if (rejection && rejection.needsAuthentication === true) {
                 // redirect to login page
                 $location.url('/login');
+            }
+        });
+
+        $rootScope.$on('$routeChangeStart', function(e,to,from){
+            if (to.originalPath != "/login"){
+                to.resolve = to.resolve || {};
+                if (!to.resolve.checkLoggedIn){
+                    to.resolve.checkLoggedIn =
+                        function($q,$loginLoginService){
+                            var def = $q.defer();
+                            $loginLoginService.init().then(function(auth){
+                                if (auth){
+                                    def.resolve(auth)
+                                } else {
+                                    var err = $dashboardUtilsService.getMessage(null, 'danger', 'Authentication required. Redirect to login.');
+
+                                    $rootScope.message = err
+                                    $log.error(err.message);
+                                    def.reject({ needsAuthentication: true });
+                                }
+                            })
+                            return def.promise;
+                        }
+                }
             }
         });
 
