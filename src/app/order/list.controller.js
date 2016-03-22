@@ -34,7 +34,7 @@ angular.module('orderModule')
         };
 
         var searchDefaults = {
-            status: 'pending,new',
+            status: 'processed',
             sort: '^created_at',
             limit: '0,50',
         };

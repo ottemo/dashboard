@@ -46,15 +46,20 @@
 <gui-message-manager item="message"></gui-message-manager>
 
 <ul class="nav nav-tabs m-b">
-    <li ng-class="{active: tabs.isActive('pending,new')}">
-        <a ng-click="tabs.setStatus('pending,new')">
-            Incomplete
-        </a>
-    </li>
     <li ng-class="{active: tabs.isActive('processed')}">
         <a ng-click="tabs.setStatus('processed')">
             Processed
             <span class="badge" ng-show="tabs.processedCount">{{tabs.processedCount}}</span>
+        </a>
+    </li>
+    <li ng-class="{active: tabs.isActive('completed')}">
+        <a ng-click="tabs.setStatus('completed')">
+            Completed
+        </a>
+    </li>
+    <li ng-class="{active: tabs.isActive('pending,new')}">
+        <a ng-click="tabs.setStatus('pending,new')">
+            Incomplete
         </a>
     </li>
     <li ng-class="{active: tabs.isActive('declined')}">
@@ -62,9 +67,9 @@
             Declined
         </a>
     </li>
-    <li ng-class="{active: tabs.isActive('completed')}">
-        <a ng-click="tabs.setStatus('completed')">
-            Completed
+    <li ng-class="{active: tabs.isActive('cancelled')}">
+        <a ng-click="tabs.setStatus('cancelled')">
+            Cancelled
         </a>
     </li>
 </ul>
