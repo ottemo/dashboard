@@ -3,7 +3,7 @@ angular.module("designModule")
 /**
 *  Directive used for automatic attributes editor form creation
 */
-.directive("guiConfigEditorForm", ["$designService", function ($designService) {
+.directive("guiConfigEditorForm", [function () {
     return {
         restrict: "E",
         scope: {
@@ -11,7 +11,7 @@ angular.module("designModule")
             "item": "=item",
             "attributes": "=attributesList"
         },
-        templateUrl: $designService.getTemplate("config/gui/configEditorForm.html"),
+        templateUrl: "/views/config/gui/configEditorForm.html",
         controller: function ($scope) {
             var updateAttributes, addTab, addFields, sortFieldsInGroups;
 

@@ -5,10 +5,9 @@ angular.module("designModule")
 .directive("guiPageSelector", [
     "$location",
     "$routeParams",
-    "$designService",
     "$dashboardListService",
     "$cmsApiService",
-    function ($location, $routeParams, $designService, DashboardListService, $cmsApiService) {
+    function ($location, $routeParams, DashboardListService, $cmsApiService) {
         var serviceList = new DashboardListService(), showColumns;
         showColumns = {
             'identifier' : {'type' : 'select-link'},
@@ -18,7 +17,7 @@ angular.module("designModule")
 
         return {
             restrict: "E",
-            templateUrl: $designService.getTemplate("design/gui/editor/pageSelector.html"),
+            templateUrl: "/views/design/gui/editor/pageSelector.html",
 
             scope: {
                 "attribute": "=editorScope",

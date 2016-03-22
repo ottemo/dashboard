@@ -1,11 +1,12 @@
-angular.module("designModule")
 /**
 *  Directive used for automatic attribute editor creation
 */
-.directive("guiFilterSelect", ["$designService", function ($designService) {
+angular.module("designModule")
+
+.directive("guiFilterSelect", [function () {
     return {
         restrict: "E",
-        templateUrl: $designService.getTemplate("design/gui/filter/select.html"),
+        templateUrl: "/views/design/gui/filter/select.html",
 
         scope: {
             "parent": "=object",

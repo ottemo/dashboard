@@ -4,8 +4,7 @@ angular.module("loginModule")
     '$resource',
     '$loginApiService',
     '$q',
-    '$designService',
-    function ($resource, $loginApiService, $q, $designService) {
+    function ($resource, $loginApiService, $q) {
 
         /** Variables */
         var login, isAdmin, isLoggedIn, deferIsLoggedIn , mapFields, deferLogOut;

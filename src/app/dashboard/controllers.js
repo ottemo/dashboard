@@ -203,7 +203,7 @@ angular.module("dashboardModule")
 
         //TODO: delete this when images are attached to products
         function getProductImage(image) {
-            return $designImageService.getFullImagePath("", image);
+            return $designImageService.getImage(image);
         };
 
     }

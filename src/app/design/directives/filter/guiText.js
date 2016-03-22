@@ -1,8 +1,9 @@
-angular.module("designModule")
 /**
 *  Directive used for automatic attribute editor creation
 */
-.directive("guiFilterText", ["$designService", function ($designService) {
+angular.module("designModule")
+
+.directive("guiFilterText", [function () {
     return {
         restrict: "E",
         scope: {
@@ -10,7 +11,7 @@ angular.module("designModule")
             "attribute": "=editorScope",
             "item": "=item"
         },
-        templateUrl: $designService.getTemplate("design/gui/filter/text.html"),
+        templateUrl: "/views/design/gui/filter/text.html",
 
         controller: ["$scope",
             function ($scope) {

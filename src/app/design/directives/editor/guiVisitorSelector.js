@@ -1,16 +1,16 @@
-angular.module("designModule")
 /**
 *  Directive used for automatic attribute editor creation
 */
+angular.module("designModule")
+
 .directive("guiVisitorSelector", [
 "$location",
 "$routeParams",
-"$designService",
 "$dashboardListService",
 "$visitorApiService",
 "$designImageService",
 "COUNT_ITEMS_PER_PAGE",
-function ($location, $routeParams, $designService, DashboardListService, $visitorApiService, $designImageService, COUNT_ITEMS_PER_PAGE) {
+function ($location, $routeParams, DashboardListService, $visitorApiService, $designImageService, COUNT_ITEMS_PER_PAGE) {
     var serviceList = new DashboardListService(), showColumns;
     showColumns = {
         'name' : {'type' : 'select-link', 'label' : 'Name'},
@@ -22,7 +22,7 @@ function ($location, $routeParams, $designService, DashboardListService, $visito
 
     return {
         restrict: "E",
-        templateUrl: $designService.getTemplate("design/gui/editor/visitorSelector.html"),
+        templateUrl: "/views/design/gui/editor/visitorSelector.html",
 
         scope: {
             "attribute": "=editorScope",

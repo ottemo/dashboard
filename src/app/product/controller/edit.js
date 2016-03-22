@@ -287,6 +287,6 @@ function ($scope, $routeParams, $location, $q, $productApiService, $designImageS
      * @returns {string}        - full path to image
      */
     $scope.getImage = function (image) {
-        return $designImageService.getFullImagePath("", image);
+        return $designImageService.getImage(image);
     };
 }]);

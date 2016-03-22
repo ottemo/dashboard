@@ -1,6 +1,6 @@
 {
     "useStrict"    : "",
     "apiUrl"       : "https://api.poconovapes.com",
-    "mediaPath"    : "media/",
+    "mediaPath"    : "https://poconovapes.com/media/",
     "itemsPerPage" : "15"
 }

@@ -5,10 +5,9 @@ angular.module("designModule")
 .directive("guiCategorySelector", [
     "$location",
     "$routeParams",
-    "$designService",
     "$dashboardListService",
     "$categoryApiService",
-    function ($location, $routeParams, $designService, DashboardListService, $categoryApiService) {
+    function ($location, $routeParams, DashboardListService, $categoryApiService) {
         var serviceList = new DashboardListService(), showColumns;
         showColumns = {
             'name' : {'type' : 'select-link', 'label' : 'Name'},
@@ -17,7 +16,7 @@ angular.module("designModule")
 
         return {
             restrict: "E",
-            templateUrl: $designService.getTemplate("design/gui/editor/categorySelector.html"),
+            templateUrl: "/views/design/gui/editor/categorySelector.html",
 
             scope: {
                 "attribute": "=editorScope",

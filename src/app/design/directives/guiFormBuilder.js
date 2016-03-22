@@ -1,19 +1,19 @@
-angular.module("designModule")
 /**
-*  Directive used for automatic attributes editor form creation
-*
-*/
-.directive("guiFormBuilder", ["$designService", function ($designService) {
+ *  Directive used for automatic attributes editor form creation
+ */
+angular.module('designModule')
+
+.directive('guiFormBuilder', [function() {
     return {
-        restrict: "E",
+        restrict: 'E',
         scope: {
-            "parent": "=object",
-            "item": "=item",
-            "attributes": "=attributes"
+            'parent': '=object',
+            'item': '=item',
+            'attributes': '=attributes'
         },
-        templateUrl: $designService.getTemplate("design/gui/formBuilder.html"),
-        controller: ["$scope",
-            function ($scope) {
+        templateUrl: '/views/design/gui/formBuilder.html',
+        controller: ['$scope',
+            function($scope) {
                 if (typeof $scope.parent === 'undefined') {
                     $scope.parent = {};
                 }
@@ -21,3 +21,4 @@ angular.module("designModule")
         ]
     };
 }]);
+

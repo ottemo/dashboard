@@ -1,12 +1,12 @@
-angular.module("designModule")
 /**
 *  Directive used for automatic attribute editor creation
 */
-.directive("guiPictureManager", ["$designService", "$designImageService", function ($designService, $designImageService) {
+angular.module("designModule")
+
+.directive("guiPictureManager", ["$designImageService", function ($designImageService) {
     return {
         restrict: "E",
-//                    transclude: true,
-        templateUrl: $designService.getTemplate("design/gui/editor/pictureManager.html"),
+        templateUrl: "/views/design/gui/editor/pictureManager.html",
 
         scope: {
             "parent": "=parent",
@@ -44,7 +44,7 @@ angular.module("designModule")
             });
 
             $scope.getImage = function (filename) {
-                return $designImageService.getFullImagePath($scope.imagesPath, filename);
+                return $designImageService.getImage($scope.imagesPath + filename);
             };
 
             $scope.selectImage = function (filename) {

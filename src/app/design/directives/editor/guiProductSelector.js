@@ -1,16 +1,16 @@
-angular.module("designModule")
 /**
 *  Directive used for automatic attribute editor creation
 */
+angular.module("designModule")
+
 .directive("guiProductSelector", [
 "$location",
 "$routeParams",
-"$designService",
 "$dashboardListService",
 "$productApiService",
 "$designImageService",
 "COUNT_ITEMS_PER_PAGE",
-function ($location, $routeParams, $designService, DashboardListService, $productApiService, $designImageService, COUNT_ITEMS_PER_PAGE) {
+function ($location, $routeParams, DashboardListService, $productApiService, $designImageService, COUNT_ITEMS_PER_PAGE) {
     var serviceList = new DashboardListService(), showColumns;
     showColumns = {
         'name' : {'type' : 'select-link', 'label' : 'Name'},
@@ -21,7 +21,7 @@ function ($location, $routeParams, $designService, DashboardListService, $produc
 
     return {
         restrict: "E",
-        templateUrl: $designService.getTemplate("design/gui/editor/productSelector.html"),
+        templateUrl: "/views/design/gui/editor/productSelector.html",
 
         scope: {
             "attribute": "=editorScope",
@@ -208,7 +208,7 @@ function ($location, $routeParams, $designService, DashboardListService, $produc
              * @returns {string}        - full path to image
              */
             $scope.getImage = function (image) {
-                return $designImageService.getFullImagePath("", image);
+                return $designImageService.getImage(image);
             };
 
             $scope.expand = function () {

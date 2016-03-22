@@ -1,13 +1,13 @@
-angular.module("designModule")
+angular.module('designModule')
 
-.directive("guiPassword", ["$designService", function($designService) {
+.directive('guiPassword', [function() {
     return {
-        restrict: "EA",
+        restrict: 'EA',
         scope: {
-            "attribute": "=editorScope",
-            "item": "=item"
+            'attribute': '=editorScope',
+            'item': '=item'
         },
-        templateUrl: $designService.getTemplate("design/gui/editor/password.html")
+        templateUrl: '/views/design/gui/editor/password.html'
     };
 }]);
 

@@ -1,6 +1,6 @@
 {
     "useStrict"    : "",
     "apiUrl"       : "https://api.karigran.com",
-    "mediaPath"    : "media/",
+    "mediaPath"    : "https://karigran.com/media/",
     "itemsPerPage" : "15"
 }

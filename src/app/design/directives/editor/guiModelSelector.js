@@ -3,10 +3,10 @@ angular.module("designModule")
 /**
  *  Directive used for automatic attribute editor creation
  */
-    .directive("guiModelSelector", ["$designService", "$designApiService", function ($designService, $designApiService) {
+    .directive("guiModelSelector", ["$designApiService", function ($designApiService) {
         return {
             restrict: "E",
-            templateUrl: $designService.getTemplate("design/gui/editor/modelSelector.html"),
+            templateUrl: "/views/design/gui/editor/modelSelector.html",
 
             scope: {
                 "attribute": "=editorScope",

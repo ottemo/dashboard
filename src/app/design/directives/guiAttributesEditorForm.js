@@ -1,10 +1,11 @@
-angular.module("designModule")
 /**
 *  Directive used for automatic attributes editor form creation
 *
 *  Form to edit as accordion
 */
-.directive("guiAttributesEditorForm", ["$designService", function ($designService) {
+angular.module("designModule")
+
+.directive("guiAttributesEditorForm", [function () {
     return {
         restrict: "E",
         scope: {
@@ -12,7 +13,7 @@ angular.module("designModule")
             "item": "=item",
             "attributes": "=attributesList"
         },
-        templateUrl: $designService.getTemplate("design/gui/attributesEditorForm.html"),
+        templateUrl: "/views/design/gui/attributesEditorForm.html",
         controller: function ($scope) {
             var updateAttributes;
             updateAttributes = function () {
