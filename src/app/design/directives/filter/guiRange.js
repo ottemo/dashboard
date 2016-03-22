@@ -1,6 +1,6 @@
 angular.module('designModule')
 
-.directive('guiFilterRange', ['$designService', function($designService) {
+.directive('guiFilterRange', function() {
     return {
         restrict: 'E',
         scope: {
@@ -10,7 +10,7 @@ angular.module('designModule')
         },
         templateUrl: '/views/design/gui/filter/range.html',
 
-        controller: ['$scope', function($scope) {
+        controller: function($scope) {
 
             // $scope.low = '';
             // $scope.high = '';
@@ -50,7 +50,7 @@ angular.module('designModule')
                 $scope.parent.newFilters[$scope.attribute.Attribute] = $scope.item[$scope.attribute.Attribute];
 
             }, true);
-        }]
+        }
     };
-}]);
+});
 
