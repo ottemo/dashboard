@@ -9,8 +9,17 @@
         <div class="form-group col-xs-12 col-sm-6" ng-switch-when="multiline_text"
              ng-class="{ 'has-error' : (parent.form.submitted && parent.form.{{attribute.Attribute}}.$invalid) ||
                        (parent.form.{{attribute.Attribute}}.$invalid && !parent.form.{{attribute.Attribute}}.$pristine) }">
-            <label>{{attribute.Label}} <span ng-show="attribute.IsRequired">*</span></label>
-            <gui-multiline-text editor-scope="attribute" item="item"></gui-multiline-text>
+            <label>
+                {{attribute.Label}}
+                <span ng-show="attribute.IsRequired">*</span>
+                <a uib-tooltip="{{attribute.Description}}"
+                    ng-show="attribute.Description">
+                    <i class="fa fa-info-circle"></i>
+                </a>
+            </label>
+            <gui-multiline-text editor-scope="attribute"
+                item="item">
+            </gui-multiline-text>
 
             <p ng-show="(parent.form.submitted && parent.form.{{attribute.Attribute}}.$error.required)"
                class="help-block">This field is required.</p>
@@ -39,10 +48,21 @@
         <div class="form-group col-xs-12 col-sm-6" ng-switch-when="text"
              ng-class="{ 'has-error' : (parent.form.submitted && parent.form.{{attribute.Attribute}}.$invalid) ||
                        (parent.form.{{attribute.Attribute}}.$invalid && !parent.form.{{attribute.Attribute}}.$pristine) }">
-            <label>{{attribute.Label}} <span class="asterisk"
-                                             ng-show="attribute.IsRequired">*</span></label>
-            <gui-text editor-scope="attribute" item="item" ng-required="attribute.IsRequired"
-                      name="attribute.Attribute"></gui-text>
+            <label>
+                {{attribute.Label}}
+                <span class="asterisk"
+                    ng-show="attribute.IsRequired">*
+                </span>
+                <a uib-tooltip="{{attribute.Description}}"
+                    ng-show="attribute.Description">
+                    <i class="fa fa-info-circle"></i>
+                </a>
+            </label>
+            <gui-text editor-scope="attribute"
+                item="item"
+                ng-required="attribute.IsRequired"
+                name="attribute.Attribute">
+            </gui-text>
 
             <p ng-show="(parent.form.submitted && parent.form.{{attribute.Attribute}}.$error.required)"
                class="help-block">This field is required.</p>
@@ -126,9 +146,18 @@
         <div class="form-group col-xs-12 col-sm-6" ng-switch-when="boolean"
              ng-class="{ 'has-error' : (parent.form.submitted && parent.form.{{attribute.Attribute}}.$invalid) ||
                        (parent.form.{{attribute.Attribute}}.$invalid && !parent.form.{{attribute.Attribute}}.$pristine) }">
-            <label>{{attribute.Label}} <span class="asterisk"
-                                             ng-show="attribute.IsRequired">*</span></label>
-            <gui-boolean editor-scope="attribute" item="item"></gui-boolean>
+            <label>
+                {{attribute.Label}}
+                <span class="asterisk"
+                    ng-show="attribute.IsRequired">*</span>
+                <a uib-tooltip="{{attribute.Description}}"
+                    ng-show="attribute.Description">
+                    <i class="fa fa-info-circle"></i>
+                </a>
+            </label>
+            <gui-boolean editor-scope="attribute"
+                item="item">
+            </gui-boolean>
 
             <p ng-show="(parent.form.submitted && parent.form.{{attribute.Attribute}}.$error.required)"
                class="help-block">This field is required.</p>

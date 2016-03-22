@@ -1,21 +1,26 @@
 <form role="form" name="otEditForm" role="tabpanel" novalidate class="animated fadeIn">
-    
-    <ul class="nav nav-tabs animated fadeIn">
-        <li ng-class='{active:$first}' ng-repeat="(key, items) in tabs" ng-click="click(key)" role="presentation">
-            <a href="#collapse{{key}}" target="_self" aria-controls="home" role="tab" data-toggle="tab">
-                {{items[0].Label}}
-            </a>
-        </li>
-    </ul>
 
-    <div class="tab-content animated fadeIn">
-        <div ng-class='{active:$first,in:$first}' id="collapse{{key}}" class="tab-pane fade" ng-repeat="(key, items) in attributeGroups">
-            <gui-form-builder attributes="items" item="item"></gui-form-builder>
-        <div>
+    <div class="col-sm-3 col-md-2">
+        <ul class="nav nav-pills nav-stacked animated fadeIn">
+            <li ng-class='{active:$first}' ng-repeat="(key, items) in tabs" ng-click="click(key)" role="presentation">
+                <a href="#collapse{{key}}" target="_self" aria-controls="home" role="tab" data-toggle="tab">
+                    {{items[0].Label}}
+                </a>
+            </li>
+        </ul>
     </div>
-    <br>
-    <div class="text-center animated fadeIn">
-        <div class="btn btn-primary" ng-click="parent.save()">Save</div>
+
+    <div class="col-sm-9 col-md-10">
+
+        <div class="tab-content animated fadeIn m-t-0">
+            <div ng-class='{active:$first,in:$first}' id="collapse{{key}}" class="tab-pane fade" ng-repeat="(key, items) in attributeGroups">
+                <gui-form-builder attributes="items" item="item"></gui-form-builder>
+            <div>
+        </div>
+        <br>
+        <div class="text-center animated fadeIn">
+            <div class="btn btn-primary" ng-click="parent.save()">Save</div>
+        </div>
     </div>
 </form>
 
