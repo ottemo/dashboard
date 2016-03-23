@@ -130,15 +130,25 @@
             <div class="panel-body">
                 <h4>Order Details</h4>
                 <div><strong>ID:</strong> {{order._id}}</div>
+                <div><strong>Order Date:</strong> {{order.created_at | otStoreDate}}</div>
 
-                <div title="{{order.shipping_method}}">
-                    <strong>Shipping Method:</strong><br /> {{order.shipping_info.shipping_method_name}}
-                </div>
                 <div>
-                    <strong>Shipping Notes:</strong> {{order.shipping_info.notes || 'n/a'}}
+                    <strong>Shipping Info:</strong>
+                    <ul class="panel-list">
+                        <li title="{{order.shipping_method}}">{{order.shipping_info.shipping_method_name}}</li>
+                        <li ng-show="order.shipping_info.carrier">
+                            <a ng-href="{{order.shipping_info.tracking_url}}"
+                                title="{{order.shipping_info.service}}"
+                                target="_blank">
+                                {{order.shipping_info.carrier}}: {{order.shipping_info.tracking_number}}
+                            </a>
+                        </li>
+                        <li>Notes: {{order.shipping_info.notes || 'n/a'}}</li>
+                    </ul>
                 </div>
+
                 <div><strong>Payment Method:</strong></div>
-                <ul>
+                <ul class="m-b-0 panel-list">
                     <li title="{{order.payment_method}}">{{order.payment_info.payment_method_name}}</li>
                     <li ng-if="order.payment_info.creditCardType">
                         {{order.payment_info.creditCardType}} xxx-{{order.payment_info.creditCardNumbers}}
@@ -147,8 +157,6 @@
                         Transaction ID: {{order.payment_info.transactionID || 'n/a'}}
                     </li>
                 </ul>
-
-                <div><strong>Order Date:</strong> {{order.created_at | otStoreDate}}</div>
             </div>
             <div class="panel-body">
                 <div class="">
