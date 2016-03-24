@@ -187,14 +187,14 @@ gulp.task('compile_scripts_lib', function compile_scripts_lib() {
 gulp.task('compile_html', ['compile_html_root', 'compile_html_nonroot']);
 
 gulp.task('compile_html_root', function() {
-    // var replacePattern = {
-    //     patterns: [{
-    //         json: config.settings
-    //     }]
-    // };
+    var replacePattern = {
+        patterns: [{
+            json: config.settings
+        }]
+    };
 
     return gulp.src(config.html.root)
-        // .pipe($.replaceTask(replacePattern))
+        .pipe($.replaceTask(replacePattern))
         .pipe($.changed(config.build))
         .pipe(gulp.dest(config.build));
 });
