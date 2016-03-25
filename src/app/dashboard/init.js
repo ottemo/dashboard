@@ -96,7 +96,8 @@ angular.module('dashboardModule', [
     '$rootScope',
     '$http',
     '$location',
-    function ($rootScope, $http, $location) {
+    'loginLoginService',
+    function ($rootScope, $http, $location, loginLoginService) {
         // ajax cookies support fix
         $http.defaults.withCredentials = true;
         delete $http.defaults.headers.common['X-Requested-With'];
@@ -113,9 +114,9 @@ angular.module('dashboardModule', [
 
             if (to.originalPath !== '/login'){
                 if (!to.resolve.checkLoggedIn){
-                    to.resolve.checkLoggedIn = function ($q, $loginLoginService){
+                    to.resolve.checkLoggedIn = function ($q, loginLoginService){
                             var def = $q.defer();
-                            $loginLoginService.init().then(function (auth){
+                            loginLoginService.init().then(function (auth){
                                 if (auth){
                                     def.resolve(auth);
                                 } else {
