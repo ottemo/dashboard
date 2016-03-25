@@ -26,7 +26,7 @@ if [ "$BRANCH" == 'develop'  ]; then
         HOST=mp-staging    
     fi
     # gulp build on remote host
-    ssh ottemo@$REMOTE_HOST "cd $SRCDIR && npm install && gulp build --env=staging --api=${HOST}"
+    ssh ottemo@$REMOTE_HOST "cd $SRCDIR && npm install && gulp build --env=staging --config=${HOST}"
 
     echo ""
     echo RESTORING DIST DIRECTORY.
