@@ -1,9 +1,9 @@
 angular.module("dashboardModule")
 /**
-*  $dashboardStatisticService implementation
+*  dashboardStatisticService implementation
 */
-.service("$dashboardStatisticService", [
-"$dashboardApiService",
+.service("dashboardStatisticService", [
+"dashboardApiService",
 "$q",
 "moment",
 function ($api, $q, moment) {

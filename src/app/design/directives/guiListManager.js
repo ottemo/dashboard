@@ -1,5 +1,3 @@
-angular.module("designModule")
-
 /**
 *  Directive used for automatic attributes editor form creation
 *
@@ -19,8 +17,9 @@ angular.module("designModule")
 *      $scope.hasImage {boolean}   - Returns an indication the list has images or not
 *      $scope.getListType {string} - Returns the necessary class for list
 */
+angular.module("designModule")
 
-.directive("guiListManager", ["$designService", function ($designService) {
+.directive("guiListManager", [function () {
     return {
         restrict: "E",
         scope: {
@@ -29,7 +28,7 @@ angular.module("designModule")
             "addNewDisable": "=addNewDisable",
             "mapping": "=mapping"
         },
-        templateUrl: $designService.getTemplate("design/gui/list.html"),
+        templateUrl: "/views/design/gui/list.html",
         controller: function ($scope) {
 
 			var assignMapping = function (mapping) {

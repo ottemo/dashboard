@@ -1,8 +1,8 @@
 angular.module("dashboardModule")
 /**
-*  $dashboardListService implementation
+*  dashboardListService implementation
 */
-.service("$dashboardListService", ["$routeParams", function ($routeParams) {
+.service("dashboardListService", ["$routeParams", function ($routeParams) {
     return function () {
         // Variables
         var ID, filters, attributes, fields, isInitFields;

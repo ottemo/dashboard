@@ -1,6 +1,6 @@
 angular.module("cmsModule")
 
-.service("$cmsApiService", ["$resource", "REST_SERVER_URI", function ($resource, REST_SERVER_URI) {
+.service("cmsApiService", ["$resource", "REST_SERVER_URI", function ($resource, REST_SERVER_URI) {
     return $resource(REST_SERVER_URI, {}, {
 
         "blockAdd": {

@@ -2,13 +2,13 @@ angular.module("designModule")
 /**
 *  Directive used for automatic attribute editor creation
 */
-.directive("guiJsonEditor", ["$designService", function ($designService) {
+.directive("guiJsonEditor", [function () {
     return {
         restrict: "E",
         scope: {
             "data": "=data"
         },
-        templateUrl: $designService.getTemplate("design/gui/editor/json.html"),
+        templateUrl: "/views/design/gui/editor/json.html",
 
         controller: ["$scope", function ($scope) {
             $scope.items = [

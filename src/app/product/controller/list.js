@@ -5,12 +5,12 @@ angular.module("productModule")
 "$location",
 "$routeParams",
 "$q",
-"$dashboardListService",
-"$productApiService",
-"$dashboardUtilsService",
+"dashboardListService",
+"productApiService",
+"dashboardUtilsService",
 "COUNT_ITEMS_PER_PAGE",
-function ($scope, $location, $routeParams, $q, DashboardListService, $productApiService,
-          $dashboardUtilsService, COUNT_ITEMS_PER_PAGE) {
+function ($scope, $location, $routeParams, $q, DashboardListService, productApiService,
+          dashboardUtilsService, COUNT_ITEMS_PER_PAGE) {
     var serviceList, getProductsList, getAttributeList, getProductCount, showColumns;
 
     // Initialize SEO
@@ -43,7 +43,7 @@ function ($scope, $location, $routeParams, $q, DashboardListService, $productApi
     getProductsList = function () {
         var params = $location.search();
         params["extra"] = serviceList.getExtraFields();
-        $productApiService.productList(params).$promise.then(
+        productApiService.productList(params).$promise.then(
             function (response) {
                 var result, i;
                 $scope.productsTmp = [];
@@ -62,7 +62,7 @@ function ($scope, $location, $routeParams, $q, DashboardListService, $productApi
      * Gets count products
      */
     getProductCount = function () {
-        $productApiService.getCount($location.search(), {}).$promise.then(function (response) {
+        productApiService.getCount($location.search(), {}).$promise.then(function (response) {
             if (response.error === null) {
                 $scope.count = response.result;
             } else {
@@ -75,7 +75,7 @@ function ($scope, $location, $routeParams, $q, DashboardListService, $productApi
      * Gets attribute list
      */
     getAttributeList = function () {
-        $productApiService.attributesInfo().$promise.then(function (response) {
+        productApiService.attributesInfo().$promise.then(function (response) {
             var result = response.result || [];
             serviceList.init('products');
 
@@ -127,7 +127,7 @@ function ($scope, $location, $routeParams, $q, DashboardListService, $productApi
         _remove = function (id) {
             var defer = $q.defer();
 
-            $productApiService.remove({"productID": id},
+            productApiService.remove({"productID": id},
                 function (response) {
                     if (response.result === "ok") {
                         defer.resolve(id);
@@ -149,7 +149,7 @@ function ($scope, $location, $routeParams, $q, DashboardListService, $productApi
                             $scope.products.splice(i, 1);
                         }
                     }
-                    $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Product(s) was removed successfully');
+                    $scope.message = dashboardUtilsService.getMessage(null, 'success', 'Product(s) was removed successfully');
                 }
             };
             for (id in $scope.idsSelectedRows) {

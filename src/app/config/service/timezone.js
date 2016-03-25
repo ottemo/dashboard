@@ -1,7 +1,7 @@
 angular.module('configModule')
 
-.factory('timezoneService', ['$configApiService', '$q',
-    function($configApiService, $q) {
+.factory('timezoneService', ['configApiService', '$q',
+    function(configApiService, $q) {
         var service = {
             init: init,
             storeTz : 0
@@ -14,7 +14,7 @@ angular.module('configModule')
         function init() {
 
             // Cache the store tz
-            $configApiService.getPath({path: 'general.store.timezone'}).$promise
+            configApiService.getPath({path: 'general.store.timezone'}).$promise
                 .then(function(response) {
                     service.storeTz = response.result.substr(3);
                 });

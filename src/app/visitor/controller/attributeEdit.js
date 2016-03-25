@@ -3,9 +3,9 @@ angular.module("visitorModule")
 "$scope",
 "$routeParams",
 "$location",
-"$visitorApiService",
-"$dashboardUtilsService",
-function ($scope, $routeParams, $location, $visitorApiService, $dashboardUtilsService) {
+"visitorApiService",
+"dashboardUtilsService",
+function ($scope, $routeParams, $location, visitorApiService, dashboardUtilsService) {
     var formDisable, formEnable, formValidate, attr, requiredFields, editableFields;
 
     attr = $routeParams.attr;
@@ -50,7 +50,7 @@ function ($scope, $routeParams, $location, $visitorApiService, $dashboardUtilsSe
     /**
      * Gets list all attributes of visitor
      */
-    $visitorApiService.attributesInfo().$promise.then(
+    visitorApiService.attributesInfo().$promise.then(
         function (response) {
             var result, i;
             result = response.result || [];
@@ -84,11 +84,11 @@ function ($scope, $routeParams, $location, $visitorApiService, $dashboardUtilsSe
             if ($scope.attribute.hasOwnProperty(requiredFields[i])) {
                 value = $scope.attribute[requiredFields[i]] || "";
                 if (!value.match(/^\w+[\w*$()@^&!]*$/)) {
-                    $scope.message = $dashboardUtilsService.getMessage(null, 'warning', 'The field '+ requiredFields[i]+' invalid');
+                    $scope.message = dashboardUtilsService.getMessage(null, 'warning', 'The field '+ requiredFields[i]+' invalid');
                     return false;
                 }
             } else {
-                $scope.message = $dashboardUtilsService.getMessage(null, 'warning', 'The field '+ requiredFields[i]+' is not specified');
+                $scope.message = dashboardUtilsService.getMessage(null, 'warning', 'The field '+ requiredFields[i]+' is not specified');
                 return false;
             }
         }
@@ -111,9 +111,9 @@ function ($scope, $routeParams, $location, $visitorApiService, $dashboardUtilsSe
          */
         saveSuccess = function (response) {
             if (response.error === null) {
-                $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Attribute was created successfully');
+                $scope.message = dashboardUtilsService.getMessage(null, 'success', 'Attribute was created successfully');
             } else {
-                $scope.message = $dashboardUtilsService.getMessage(response);
+                $scope.message = dashboardUtilsService.getMessage(response);
             }
         };
 
@@ -124,7 +124,7 @@ function ($scope, $routeParams, $location, $visitorApiService, $dashboardUtilsSe
             if (-1 !== ["multi_select"].indexOf($scope.attribute.Editors)) {
                 $scope.attribute.Type = "[]text";
             }
-            $visitorApiService.addAttribute($scope.attribute, saveSuccess);
+            visitorApiService.addAttribute($scope.attribute, saveSuccess);
         }
 
         $('[ng-click="save()"]').removeClass('disabled').children('i').remove();

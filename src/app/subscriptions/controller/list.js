@@ -6,10 +6,10 @@ angular.module("subscriptionsModule")
 "$location",
 "$routeParams",
 "$q",
-"$dashboardListService",
-"$subscriptionsApiService",
+"dashboardListService",
+"subscriptionsApiService",
 "COUNT_ITEMS_PER_PAGE",
-function ($rootScope, $scope, $location, $routeParams, $q, DashboardListService, $subscriptionsApiService, COUNT_ITEMS_PER_PAGE) {
+function ($rootScope, $scope, $location, $routeParams, $q, DashboardListService, subscriptionsApiService, COUNT_ITEMS_PER_PAGE) {
 
     var serviceList = new DashboardListService();
     var showColumns = {
@@ -48,7 +48,7 @@ function ($rootScope, $scope, $location, $routeParams, $q, DashboardListService,
         var params = $location.search();
         params["extra"] = serviceList.getExtraFields();
 
-        $subscriptionsApiService.list(params).$promise.then(
+        subscriptionsApiService.list(params).$promise.then(
             function (response) {
                 var result = response.result || [];
                 $scope.subscriptions = serviceList.getList(result);
@@ -57,7 +57,7 @@ function ($rootScope, $scope, $location, $routeParams, $q, DashboardListService,
     }
 
     function getCount() {
-        $subscriptionsApiService.getCount($location.search(), {}).$promise
+        subscriptionsApiService.getCount($location.search(), {}).$promise
             .then(function (response) {
                 $scope.count = (!response.error && response.result) ? response.result : 0;
             });

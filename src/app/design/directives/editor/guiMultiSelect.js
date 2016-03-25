@@ -1,11 +1,12 @@
-angular.module("designModule")
 /**
 *  Directive used for automatic attribute editor creation
 */
-.directive("guiMultiSelect", ["$designService", function ($designService) {
+angular.module("designModule")
+
+.directive("guiMultiSelect", [function () {
     return {
         restrict: "E",
-        templateUrl: $designService.getTemplate("design/gui/editor/multi-select.html"),
+        templateUrl: "/views/design/gui/editor/multi-select.html",
 
         scope: {
             "attribute": "=editorScope",

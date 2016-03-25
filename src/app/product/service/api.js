@@ -1,7 +1,7 @@
 angular.module("productModule")
 
 /**
-*  $productApiService contains objects to interact with REST-server
+*  productApiService contains objects to interact with REST-server
 *  Objects:
 *      attributesInfo()                    - gets attributes list
 *      deleteAttribute(attribute)          - deletes attributes by name
@@ -18,7 +18,7 @@ angular.module("productModule")
 *      addImage(productId, mediaName)      - adds image in product
 */
 
-.service("$productApiService", ["$resource", "REST_SERVER_URI", function ($resource, REST_SERVER_URI) {
+.service("productApiService", ["$resource", "REST_SERVER_URI", function ($resource, REST_SERVER_URI) {
     return $resource(REST_SERVER_URI, {}, {
         "attributesInfo": {
             method: "GET",

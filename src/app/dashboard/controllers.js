@@ -3,17 +3,17 @@ angular.module("dashboardModule")
 .controller("dashboardController", [
     "$scope",
     "$location",
-    "$dashboardStatisticService",
-    "$designImageService",
-    "$dashboardUtilsService",
+    "dashboardStatisticService",
+    "designImageService",
+    "dashboardUtilsService",
     "$timeout",
     "moment",
     function(
         $scope,
         $location,
         $statistic,
-        $designImageService,
-        $dashboardUtilsService,
+        designImageService,
+        dashboardUtilsService,
         $timeout,
         moment
     ) {
@@ -203,7 +203,7 @@ angular.module("dashboardModule")
 
         //TODO: delete this when images are attached to products
         function getProductImage(image) {
-            return $designImageService.getFullImagePath("", image);
+            return designImageService.getImage(image);
         };
 
     }

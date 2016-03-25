@@ -5,10 +5,10 @@ angular.module("cmsModule")
 "$location",
 "$routeParams",
 "$q",
-"$dashboardListService",
-"$cmsApiService",
+"dashboardListService",
+"cmsApiService",
 "COUNT_ITEMS_PER_PAGE",
-function ($scope, $location, $routeParams, $q, DashboardListService, $cmsApiService, COUNT_ITEMS_PER_PAGE) {
+function ($scope, $location, $routeParams, $q, DashboardListService, cmsApiService, COUNT_ITEMS_PER_PAGE) {
     var serviceList, getBlockCount, getAttributeList, getBlocksList, showColumns;
     serviceList = new DashboardListService();
     showColumns = {
@@ -25,7 +25,7 @@ function ($scope, $location, $routeParams, $q, DashboardListService, $cmsApiServ
     getBlocksList = function () {
         var params = $location.search();
         params["extra"] = serviceList.getExtraFields();
-        $cmsApiService.blockList(params).$promise.then(
+        cmsApiService.blockList(params).$promise.then(
             function (response) {
                 var result, i;
                 $scope.blocksTmp = [];
@@ -41,7 +41,7 @@ function ($scope, $location, $routeParams, $q, DashboardListService, $cmsApiServ
      * Gets list of blocks
      */
     getBlockCount = function () {
-        $cmsApiService.blockCount($location.search()).$promise.then(
+        cmsApiService.blockCount($location.search()).$promise.then(
             function (response) {
                 if (response.error === null) {
                     $scope.count = response.result;
@@ -53,7 +53,7 @@ function ($scope, $location, $routeParams, $q, DashboardListService, $cmsApiServ
     };
 
     getAttributeList = function () {
-        $cmsApiService.blockAttributes().$promise.then(
+        cmsApiService.blockAttributes().$promise.then(
             function (response) {
                 var result = response.result || [];
                 serviceList.init('blocks');
@@ -105,7 +105,7 @@ function ($scope, $location, $routeParams, $q, DashboardListService, $cmsApiServ
         _remove = function (id) {
             var defer = $q.defer();
 
-            $cmsApiService.blockRemove({"blockID": id},
+            cmsApiService.blockRemove({"blockID": id},
                 function (response) {
                     if (response.result === "ok") {
                         defer.resolve(id);

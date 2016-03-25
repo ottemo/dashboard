@@ -25,7 +25,7 @@
                         <tr class="table-dashboard__highlight">
                             <th>Today</th>
                             <td>$<span odometer="salesStats.sales.today"></span></td>
-                            <td><span odometer="salesStats.orders.today"></span></td>
+                            <td><span odometer="salesStats.orders.today" odometer-options="{format:'(,ddd)'}"></span></td>
                         </tr>
                         <tr>
                             <th>Yesterday</th>
@@ -69,8 +69,8 @@
                     <tbody>
                         <tr class="table-dashboard__highlight">
                             <th>Today</th>
-                            <td><span odometer="visitStats.total.today"></span></td>
-                            <td><span odometer="visitStats.unique.today"></span></td>
+                            <td><span odometer-options="{format:'(,ddd)'}" odometer="visitStats.total.today"></span></td>
+                            <td><span odometer-options="{format:'(,ddd)'}" odometer="visitStats.unique.today"></span></td>
                         </tr>
                         <tr>
                             <th>Yesterday</th>

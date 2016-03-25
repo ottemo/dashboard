@@ -5,10 +5,9 @@ angular.module("designModule")
 .directive("guiCategorySelector", [
     "$location",
     "$routeParams",
-    "$designService",
-    "$dashboardListService",
-    "$categoryApiService",
-    function ($location, $routeParams, $designService, DashboardListService, $categoryApiService) {
+    "dashboardListService",
+    "categoryApiService",
+    function ($location, $routeParams, DashboardListService, categoryApiService) {
         var serviceList = new DashboardListService(), showColumns;
         showColumns = {
             'name' : {'type' : 'select-link', 'label' : 'Name'},
@@ -17,7 +16,7 @@ angular.module("designModule")
 
         return {
             restrict: "E",
-            templateUrl: $designService.getTemplate("design/gui/editor/categorySelector.html"),
+            templateUrl: "/views/design/gui/editor/categorySelector.html",
 
             scope: {
                 "attribute": "=editorScope",
@@ -84,7 +83,7 @@ angular.module("designModule")
                     var getCategoriesList = function () {
                         var params = $scope.search;
                         params["extra"] = serviceList.getExtraFields();
-                        $categoryApiService.categoryList(params).$promise.then(
+                        categoryApiService.categoryList(params).$promise.then(
                             function (response) {
                                 var result, i;
                                 $scope.categoriesTmp = [];
@@ -101,7 +100,7 @@ angular.module("designModule")
                     /**
                      * Gets count of categories
                      */
-                    $categoryApiService.getCount($scope.search).$promise.then(
+                    categoryApiService.getCount($scope.search).$promise.then(
                         function (response) {
                             if (response.error === null) {
                                 $scope.count = response.result;
@@ -111,7 +110,7 @@ angular.module("designModule")
                         }
                     );
 
-                    $categoryApiService.attributesInfo().$promise.then(
+                    categoryApiService.attributesInfo().$promise.then(
                         function (response) {
                             var result = response.result || [];
                             serviceList.init('categories');

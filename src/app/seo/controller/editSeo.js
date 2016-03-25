@@ -2,25 +2,25 @@ angular.module("seoModule")
 
 	.controller("seoEditController", [
 		"$scope",
-		"$seoService",
-		"$dashboardUtilsService",
+		"seoService",
+		"dashboardUtilsService",
 		"$timeout",
-		function ($scope, $seoService, $dashboardUtilsService, $timeout) {
+		function ($scope, seoService, dashboardUtilsService, $timeout) {
 
 			var isInit, seo, seoFields, seoUniqueFields, itemName, hasAttribute, save, remove, isModifySave, isInitUrlRewrite,
 				modifyRemoveMethod, isModifyRemove, modifySaveMethod, addAttributes, addAttributesValue, getDefaultSeo,
 				removeAttributes, saveSeo, getUniqueSeoNames;
 
-			$seoService.init();
+			seoService.init();
 
 			getDefaultSeo = function () {
-				var defObj = $seoService.getDefaultSeo();
+				var defObj = seoService.getDefaultSeo();
 				defObj.rewrite = typeof $scope[itemName] !== "undefined" ? $scope[itemName]._id : "";
 				defObj.type = itemName;
 				return defObj;
 			};
 
-			seoFields = $seoService.getSeoFields();
+			seoFields = seoService.getSeoFields();
 			seoUniqueFields = [];
 			isModifySave = false;
 			isModifyRemove = false;
@@ -75,11 +75,11 @@ angular.module("seoModule")
 			};
 
 			saveSeo = function (oldSeo) {
-				var existingSeo = $seoService.find(itemName, oldSeo.rewrite);
+				var existingSeo = seoService.find(itemName, oldSeo.rewrite);
 				if (existingSeo) {
 					var callback = function (response) {
 						seo._id = response.result._id;
-						$seoService.update(seo).then(
+						seoService.update(seo).then(
 							function (response) {
 								seo = response || null;
 								for (var i = 0; i < seoFields.length; i += 1) {
@@ -89,9 +89,9 @@ angular.module("seoModule")
 							}
 						);
 					};
-					$seoService.get(oldSeo._id).then(callback);
+					seoService.get(oldSeo._id).then(callback);
 				} else {
-					$seoService.save(seo).then(
+					seoService.save(seo).then(
 						function (response) {
 							seo = response || null;
 							for (var i = 0; i < seoFields.length; i += 1) {
@@ -114,7 +114,7 @@ angular.module("seoModule")
 					delete $scope.save;
 
 					if (typeof seo._id === "undefined" && seo.url !== "") {
-						$seoService.get(seo._id).then(function (response) {
+						seoService.get(seo._id).then(function (response) {
 							if (response.result !== null) {
 								for (var i = 0; i < seoFields.length; i += 1) {
 									$scope[itemName][seoUniqueFields[i]] = response.result[seoFields[i]];
@@ -124,7 +124,7 @@ angular.module("seoModule")
 					}
 
 					$scope.save = function () {
-						var oldSeo = $dashboardUtilsService.clone(seo);
+						var oldSeo = dashboardUtilsService.clone(seo);
 						for (var i = 0; i < seoFields.length; i += 1) {
 							seo[seoFields[i]] = $scope[itemName][seoUniqueFields[i]];
 
@@ -156,14 +156,14 @@ angular.module("seoModule")
 						var seo;
 						var callback = function (response) {
 							if (response.result !== null) {
-								$seoService.remove(response.result);
+								seoService.remove(response.result);
 							}
 						};
 						for (var id in $scope.idsSelectedRows) {
 							if ($scope.idsSelectedRows.hasOwnProperty(id) && true === $scope.idsSelectedRows[id]) {
-								seo = $seoService.find(itemName, id);
+								seo = seoService.find(itemName, id);
 								if (seo !== null) {
-									$seoService.get(seo._id).then(callback);
+									seoService.get(seo._id).then(callback);
 								}
 							}
 						}
@@ -233,7 +233,7 @@ angular.module("seoModule")
 			addAttributesValue = function () {
 				$timeout(function() {
 					if (typeof $scope[itemName] !== "undefined" && !isInitUrlRewrite) {
-						seo = $seoService.find(itemName, $scope[itemName]._id);
+						seo = seoService.find(itemName, $scope[itemName]._id);
 						if (seo === null) {
 							seo = getDefaultSeo();
 						}

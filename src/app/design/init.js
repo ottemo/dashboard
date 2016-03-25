@@ -5,14 +5,4 @@ angular.module('designModule',[])
 
 // non-angularized libs
 .constant('moment', window.moment)
-.constant('_', window._)
-
-.run(['$designService', '$rootScope', function ($designService, $rootScope) {
-
-    /**
-     *  Global functions you can use in any angular template
-     */
-    $rootScope.getTemplate = $designService.getTemplate;
-    $rootScope.getImg = $designService.getImage;
-
-}]);
+.constant('_', window._);

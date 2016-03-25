@@ -3,7 +3,7 @@ angular.module("designModule")
 /**
 *  Directive used for automatic attributes editor form creation
 */
-.directive("guiConfigEditorForm", ["$designService", function ($designService) {
+.directive("guiConfigEditorForm", [function () {
     return {
         restrict: "E",
         scope: {
@@ -11,7 +11,7 @@ angular.module("designModule")
             "item": "=item",
             "attributes": "=attributesList"
         },
-        templateUrl: $designService.getTemplate("config/gui/configEditorForm.html"),
+        templateUrl: "/views/config/gui/configEditorForm.html",
         controller: function ($scope) {
             var updateAttributes, addTab, addFields, sortFieldsInGroups;
 
@@ -41,22 +41,22 @@ angular.module("designModule")
             };
 
             sortFieldsInGroups = function () {
-                var sortByLabel, tab;
-                sortByLabel = function (a, b) {
-                    if (a.Label.toString() < b.Label.toString()) {
-                        return -1;
-                    }
-                    if (a.Label.toString() > b.Label.toString()) {
-                        return 1;
-                    }
+                // var sortByLabel, tab;
+                // sortByLabel = function (a, b) {
+                //     if (a.Label.toString() < b.Label.toString()) {
+                //         return -1;
+                //     }
+                //     if (a.Label.toString() > b.Label.toString()) {
+                //         return 1;
+                //     }
 
-                    return 0;
-                };
-                for (tab in $scope.attributeGroups) {
-                    if ($scope.attributeGroups.hasOwnProperty(tab)) {
-                        $scope.attributeGroups[tab].sort(sortByLabel);
-                    }
-                }
+                //     return 0;
+                // };
+                // for (tab in $scope.attributeGroups) {
+                //     if ($scope.attributeGroups.hasOwnProperty(tab)) {
+                //         $scope.attributeGroups[tab].sort(sortByLabel);
+                //     }
+                // }
             };
 
             updateAttributes = function () {

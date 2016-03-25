@@ -3,10 +3,10 @@ angular.module("configModule")
 .controller("configEditController", [
     "$scope",
     "$routeParams",
-    "$configApiService",
-    "$configService",
-    "$dashboardUtilsService",
-    function ($scope, $routeParams, $configApiService, $configService, $dashboardUtilsService) {
+    "configApiService",
+    "configService",
+    "dashboardUtilsService",
+    function ($scope, $routeParams, configApiService, configService, dashboardUtilsService) {
 
         $scope.items = {};
         $scope.currentGroup = $routeParams.group;
@@ -14,13 +14,13 @@ angular.module("configModule")
         var activeTab;
 
         $scope.init = function () {
-            $configService.init().then(
+            configService.init().then(
                 function () {
                     var regExp, parts, tabs;
                     regExp = new RegExp("(\\w+)\\.(\\w+).*", "i");
                     tabs = {};
 
-                    $scope.sections = $configService.getConfigTabs($scope.currentGroup);
+                    $scope.sections = configService.getConfigTabs($scope.currentGroup);
 
                     for (var i = 0; i < $scope.sections.length; i += 1) {
                         var attr = $scope.sections[i];
@@ -37,9 +37,9 @@ angular.module("configModule")
 
                     if (parts instanceof Array) {
                         $scope.currentPath = parts[2];
-                        $configService.load($scope.currentPath).then(
+                        configService.load($scope.currentPath).then(
                             function () {
-                                $scope.items = $configService.getItems($scope.currentPath);
+                                $scope.items = configService.getItems($scope.currentPath);
                             }
                         );
                     }
@@ -49,17 +49,17 @@ angular.module("configModule")
 
         $scope.selectTab = function (path) {
             $scope.currentPath = path;
-            $configService.load($scope.currentPath).then(
+            configService.load($scope.currentPath).then(
                 function () {
-                    $scope.items = $configService.getItems($scope.currentPath);
+                    $scope.items = configService.getItems($scope.currentPath);
                 }
             );
         };
 
         $scope.save = function () {
-            $configService.save($scope.currentPath).then(
+            configService.save($scope.currentPath).then(
                 function () {
-                    $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'config was saved successfully');
+                    $scope.message = dashboardUtilsService.getMessage(null, 'success', 'config was saved successfully');
                 }
             );
         };

@@ -5,9 +5,9 @@ angular.module('orderModule')
     '$location',
     '$q',
     '$timeout',
-    '$orderApiService',
-    '$cmsApiService',
-    function($scope, $location, $q, $timeout, $orderApiService, $cmsApiService) {
+    'orderApiService',
+    'cmsApiService',
+    function($scope, $location, $q, $timeout, orderApiService, cmsApiService) {
 
         $scope.options = {
             showPrice: 0
@@ -39,7 +39,7 @@ angular.module('orderModule')
         function fetchOrders(ids) {
             var allPromises = [];
             angular.forEach(ids, function(id) {
-                var promise = $orderApiService.getOrder({
+                var promise = orderApiService.getOrder({
                         'orderID': id
                     }).$promise
                     .then(function(resp) {
@@ -71,7 +71,7 @@ angular.module('orderModule')
                 'extra': 'content',
             };
 
-            $cmsApiService.blockList(params).$promise
+            cmsApiService.blockList(params).$promise
                 .then(function(resp) {
                     // Normalize response
                     if (resp.result) {

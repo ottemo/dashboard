@@ -1,12 +1,12 @@
-angular.module("designModule")
 /**
 *  Directive used for automatic attribute editor creation
 */
+angular.module("designModule")
 
-.directive("guiSelect", ["$designService", function ($designService) {
+.directive("guiSelect", [function () {
     return {
         restrict: "E",
-        templateUrl: $designService.getTemplate("design/gui/editor/select.html"),
+        templateUrl: "/views/design/gui/editor/select.html",
 
         scope: {
             "attribute": "=editorScope",

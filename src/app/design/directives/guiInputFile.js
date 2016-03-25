@@ -1,9 +1,9 @@
-angular.module('designModule')
-
 // Directive for file input value binding
 // Hides file input and wraps it within button element
 // to provide better possibilities for styling
-.directive('guiInputFile', ['$designService', function ($designService) {
+angular.module('designModule')
+
+.directive('guiInputFile', [function() {
     return {
         restrict: 'E',
         scope: {
@@ -12,7 +12,7 @@ angular.module('designModule')
             'name': '=inputName', // file input name attribute
             'onChange': '&' // On change event listener
         },
-        templateUrl: $designService.getTemplate("design/gui/inputFile.html"),
+        templateUrl: '/views/design/gui/inputFile.html',
         replace: true,
         transclude: true,
 
@@ -24,7 +24,9 @@ angular.module('designModule')
                     // Update scope.file when file input changes
                     scope.file = event.target.files[0];
                     // Run onChange listener
-                    if (scope.onChange) scope.onChange();
+                    if (scope.onChange) {
+                        scope.onChange();
+                    }
                 });
             });
 
@@ -39,5 +41,6 @@ angular.module('designModule')
                 fileInput.trigger('click');
             });
         }
-   }
+    };
 }]);
+

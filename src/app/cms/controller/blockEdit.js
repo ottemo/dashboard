@@ -5,15 +5,15 @@ angular.module("cmsModule")
 "$routeParams",
 "$location",
 "$q",
-"$cmsApiService",
-"$dashboardUtilsService",
+"cmsApiService",
+"dashboardUtilsService",
 function (
     $scope,
     $routeParams,
     $location,
     $q,
-    $cmsApiService,
-    $dashboardUtilsService
+    cmsApiService,
+    dashboardUtilsService
 ) {
 
     // Retrieve block id from url
@@ -25,7 +25,7 @@ function (
     }
 
     // Get block attributes
-    $cmsApiService.blockAttributes().$promise.then(
+    cmsApiService.blockAttributes().$promise.then(
         function (response) {
             $scope.attributes = response.result;
         }
@@ -42,7 +42,7 @@ function (
     if (blockId === 'new') {
         $scope.block = getDefaultBlock();
     } else {
-        $cmsApiService.blockGet({"blockID": blockId}).$promise.then(
+        cmsApiService.blockGet({"blockID": blockId}).$promise.then(
             function (response) {
                 // If we pass incorrect block ID
                 // we don't have an error from server
@@ -72,7 +72,7 @@ function (
 
         // If block._id !== null update existing block
         if ($scope.block._id !== null) {
-            var promise = $cmsApiService.blockUpdate($scope.block).$promise;
+            var promise = cmsApiService.blockUpdate($scope.block).$promise;
 
             promise.then(updateSuccess, updateError);
             // Enable buttons in any case
@@ -83,7 +83,7 @@ function (
 
         // else save new block
         } else {
-            var promise = $cmsApiService.blockAdd($scope.block).$promise;
+            var promise = cmsApiService.blockAdd($scope.block).$promise;
 
             promise.then(saveSuccess, saveError);
             // Enable buttons in any case
@@ -99,13 +99,13 @@ function (
             // Update block data
             $scope.block = response.result;
             // Show message
-            $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Block was updated successfully');
+            $scope.message = dashboardUtilsService.getMessage(null, 'success', 'Block was updated successfully');
 
             defer.resolve(response);
         }
 
         function updateError(response) {
-            $scope.message = $dashboardUtilsService.getMessage(response);
+            $scope.message = dashboardUtilsService.getMessage(response);
             defer.reject(response);
         }
 
@@ -113,13 +113,13 @@ function (
             // Update block data
             $scope.block = response.result;
             // Show message
-            $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Block was created successfully');
+            $scope.message = dashboardUtilsService.getMessage(null, 'success', 'Block was created successfully');
 
             defer.resolve(response);
         }
 
         function saveError(response) {
-            $scope.message = $dashboardUtilsService.getMessage(response);
+            $scope.message = dashboardUtilsService.getMessage(response);
             defer.reject(response);
         }
     };

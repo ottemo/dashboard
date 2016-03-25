@@ -79,6 +79,8 @@ input,
     background-color: $gray-lighter;
     border-color: $nav-tabs-border-color;
     color: $gray;
+    height: 42px;
+    line-height: 2;
   }
 
   > li.disabled > a:hover {

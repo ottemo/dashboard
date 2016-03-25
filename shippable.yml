@@ -1,14 +1,16 @@
 language: node_js
 
 node_js: 
-    - 0.12
+    - 5.4.0
 
-# build image
-build_image: shippableimages/ubuntu1404_nodejs
+cache: false
+
 env: 
   global:
     - SLACK_ORG=Ottemo PROJECT=Dashboard
     - secure: B+KCUkySYJbPkFEcsuhCiaYymVphNX6aOkB7yjLYVlwLyZ0AmPv6a3BKOhFZyy15te+4nEQV4bY4Q/n40ceFMEj5FDlXXOw+oP4DMBd2/GS8HUkH8PnOKplH3hOYnob91Kr6tpuDOHJ1gfukAqQSIkQkgJGCwDx6uzYDfOSgxDUTAgp8GqdXnl6arvZzpmuFic5IScWSU0G6novNVdMD21z1KPpgxckurtStOxHWgOc+N0QSQXzE3MpsIyCxhJNVSxizxKoXLaZ7uktAkPmsloyUPfIYj9zni+n7OgxHlrnUl4DJPQmN89TndP2NeQa7nlUgPfhq5N6Hxxx3M6INDw==
+
+install:
 
 # only build/deploy the develop branch
 branch:

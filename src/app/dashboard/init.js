@@ -30,33 +30,41 @@ angular.module('dashboardModule', [
 /*
  *  Basic routing configuration
  */
-.config(['$routeProvider', '$httpProvider','$locationProvider','$sceDelegateProvider', '$animateProvider',
-    function ($routeProvider, $httpProvider, $locationProvider, $sceDelegateProvider, $animateProvider) {
+.config(['$routeProvider',
+    '$httpProvider',
+    '$locationProvider',
+    '$sceDelegateProvider',
+    '$animateProvider',
+    function (
+        $routeProvider,
+        $httpProvider,
+        $locationProvider,
+        $sceDelegateProvider,
+        $animateProvider
+    ) {
+        var otInterceptor = ['$q', function ($q) {
+            return {
+                response: function (response) {
+                    if (typeof response.data.error !== 'undefined' &&
+                        response.data.error !== null &&
+                        response.data.error.code === '0bc07b3d-1443-4594-af82-9d15211ed179') {
 
-        var otInterceptor = ['$q',
-            function ($q) {
-                return {
-                    response: function (response) {
-                        if (typeof response.data.error !== 'undefined' &&
-                            response.data.error !== null &&
-                            response.data.error.code === '0bc07b3d-1443-4594-af82-9d15211ed179') {
-
-                            location.replace('/');
-                        }
-                        return response;
-                    },
-                    responseError: function (rejection) {
-                        switch (rejection.status) {
-                            case 401:
-                                location.reload();
-                                break;
-                            case 404:
-                                console.warn('The server is unable to process this request - ' + rejection.config.url);
-                                break;
-                        }
-                        return $q.reject(rejection);
+                        location.replace('/');
                     }
-                };
+                    return response;
+                },
+                responseError: function (rejection) {
+                    switch (rejection.status) {
+                        case 401:
+                            location.reload();
+                            break;
+                        case 404:
+                            console.warn('The server is unable to process this request - ' + rejection.config.url);
+                            break;
+                    }
+                    return $q.reject(rejection);
+                }
+            };
         }];
 
         $httpProvider.interceptors.push(otInterceptor);
@@ -80,6 +88,7 @@ angular.module('dashboardModule', [
 
         // Don't monitor font awesome animation .fa-spin
         $animateProvider.classNameFilter(/^((?!(fa-spin)).)*$/);
+
     }]
 )
 
@@ -104,18 +113,17 @@ angular.module('dashboardModule', [
 
             if (to.originalPath !== '/login'){
                 if (!to.resolve.checkLoggedIn){
-                    to.resolve.checkLoggedIn =
-                        function ($q, $loginLoginService){
+                    to.resolve.checkLoggedIn = function ($q, $loginLoginService){
                             var def = $q.defer();
                             $loginLoginService.init().then(function (auth){
                                 if (auth){
-                                    def.resolve(auth)
+                                    def.resolve(auth);
                                 } else {
                                     def.reject({ needsAuthentication: true });
                                 }
-                            })
+                            });
                             return def.promise;
-                        }
+                        };
                 }
             }
         });

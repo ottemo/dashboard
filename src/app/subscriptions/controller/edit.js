@@ -3,9 +3,9 @@ angular.module("subscriptionsModule")
 .controller("subscriptionsEditController", [
     "$scope",
     "$routeParams",
-    "$subscriptionsApiService",
-    "$dashboardUtilsService",
-    function($scope, $routeParams, $subscriptionsApiService, $dashboardUtilsService) {
+    "subscriptionsApiService",
+    "dashboardUtilsService",
+    function($scope, $routeParams, subscriptionsApiService, dashboardUtilsService) {
 
         var subscriptionId = $routeParams.id;
 
@@ -24,7 +24,7 @@ angular.module("subscriptionsModule")
                 id: subscriptionId
             };
 
-            $subscriptionsApiService.one(params).$promise.then(function(response) {
+            subscriptionsApiService.one(params).$promise.then(function(response) {
                 // Set subscription
                 $scope.subscription = response.result || {};
 
@@ -39,10 +39,10 @@ angular.module("subscriptionsModule")
                 status: 'canceled',
             };
 
-            $subscriptionsApiService.update(params).$promise
+            subscriptionsApiService.update(params).$promise
                 .then(function(response){
                     console.log('updated', response);
-                    $scope.message = $dashboardUtilsService.getMessage(null , 'success', 'Subscription was updated successfully');
+                    $scope.message = dashboardUtilsService.getMessage(null , 'success', 'Subscription was updated successfully');
                 });
         };
 

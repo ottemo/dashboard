@@ -1,14 +1,12 @@
-angular.module("designModule")
-
 /**
 *  Directive used for automatic attributes editor form creation
-*
 */
+angular.module("designModule")
+
 .directive("guiTableManager", [
     "$location",
-    "$designService",
     "COUNT_ITEMS_PER_PAGE",
-    function ($location, $designService, COUNT_ITEMS_PER_PAGE) {
+    function ($location, COUNT_ITEMS_PER_PAGE) {
         return {
             restrict: "E",
             scope: {
@@ -17,7 +15,7 @@ angular.module("designModule")
                 "buttonData": "=buttons",
                 "mapping": "=mapping"
             },
-            templateUrl: $designService.getTemplate("design/gui/table.html"),
+            templateUrl: "/views/design/gui/table.html",
             controller: function ($scope) {
                 // Variables
                 var isInit, isSelectedAll, activeFilters;
@@ -64,7 +62,8 @@ angular.module("designModule")
                     // name: isActive
                     new: true,
                     delete: true
-                }
+                };
+                $scope.isFiltersVisible = false;
 
                 // If we have any buttonData set on the directive, let it override our defaults
                 angular.forEach($scope.buttonData, function(isActive, btnName) {
@@ -368,7 +367,10 @@ angular.module("designModule")
                                 if (filters[key] instanceof Array) {
                                     removeEmpty(filters[key]);
                                     if (filters[key].length > 0) {
-                                        filtersArr.push(key.toLowerCase() + '=~' + filters[key].join());
+                                        // I'm not sure why we are using the like comparison operator
+                                        // for everything, but we don't want it for order.status...
+                                        var op = (key === 'status') ? '=' : '=~'
+                                        filtersArr.push(key.toLowerCase() + op + filters[key].join());
                                     }
                                 } else {
                                     filtersArr.push(key.toLowerCase() + '=' + filters[key]);
