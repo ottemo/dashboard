@@ -7,7 +7,7 @@ angular.module('dashboardModule')
     '$rootScope',
     function($scope, menuService, loginLoginService, $rootScope) {
 
-        $scope.userName = loginLoginService.getFullName() || 'root';
+        $scope.user = loginLoginService;
 
         $scope.items = menuService.items;
         $scope.closeAll = menuService.closeAll;

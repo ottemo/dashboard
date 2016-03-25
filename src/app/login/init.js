@@ -25,6 +25,7 @@ angular.module("loginModule", ["ngRoute", "ngResource"])
                             return def.resolve();
                         }
                     });
+
                     return def.promise;
                 }
             }
