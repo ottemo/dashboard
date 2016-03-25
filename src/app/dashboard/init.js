@@ -25,55 +25,32 @@ angular.module('dashboardModule', [
 ])
 
 .constant('REST_SERVER_URI', angular.appConfigValue('general.app.foundation_url'))
+
 .constant('COUNT_ITEMS_PER_PAGE', angular.appConfigValue('general.app.item_per_page'))
 
-/*
- *  Basic routing configuration
- */
-.config(['$routeProvider',
-    '$httpProvider',
+.config([
+    '$routeProvider',
     '$locationProvider',
     '$sceDelegateProvider',
     '$animateProvider',
-    function (
+    function(
         $routeProvider,
-        $httpProvider,
         $locationProvider,
         $sceDelegateProvider,
         $animateProvider
     ) {
-        var otInterceptor = ['$q', function ($q) {
-            return {
-                response: function (response) {
-                    if (typeof response.data.error !== 'undefined' &&
-                        response.data.error !== null &&
-                        response.data.error.code === '0bc07b3d-1443-4594-af82-9d15211ed179') {
+        $locationProvider.html5Mode(true);
 
-                        location.replace('/');
-                    }
-                    return response;
-                },
-                responseError: function (rejection) {
-                    switch (rejection.status) {
-                        case 401:
-                            location.reload();
-                            break;
-                        case 404:
-                            console.warn('The server is unable to process this request - ' + rejection.config.url);
-                            break;
-                    }
-                    return $q.reject(rejection);
-                }
-            };
-        }];
-
-        $httpProvider.interceptors.push(otInterceptor);
-
+        // Whitelisting
         $sceDelegateProvider.resourceUrlWhitelist([
             'self',
             angular.appConfigValue('general.app.foundation_url') + '/**'
         ]);
 
+        // Don't monitor font awesome animation .fa-spin
+        $animateProvider.classNameFilter(/^((?!(fa-spin)).)*$/);
+
+        // Routes
         $routeProvider
             .when('/', {
                 templateUrl: '/views/dashboard/welcome.html',
@@ -82,51 +59,59 @@ angular.module('dashboardModule', [
             .when('/help', {
                 templateUrl: '/views/help.html'
             })
-            .otherwise({ redirectTo: '/'});
-
-        $locationProvider.html5Mode(true);
-
-        // Don't monitor font awesome animation .fa-spin
-        $animateProvider.classNameFilter(/^((?!(fa-spin)).)*$/);
-
-    }]
-)
+            .otherwise({
+                redirectTo: '/'
+            });
+    }
+])
 
 .run([
     '$rootScope',
     '$http',
     '$location',
     'loginLoginService',
-    function ($rootScope, $http, $location, loginLoginService) {
+    function(
+        $rootScope,
+        $http,
+        $location,
+        loginLoginService
+    ) {
         // ajax cookies support fix
         $http.defaults.withCredentials = true;
         delete $http.defaults.headers.common['X-Requested-With'];
 
-        $rootScope.$on('$routeChangeError', function (ev, current, previous, rejection) {
+        // Redirect to login page
+        $rootScope.$on('$routeChangeError', function(ev, current, previous, rejection) {
             if (rejection && rejection.needsAuthentication === true) {
-                // redirect to login page
                 $location.url('/login');
             }
         });
 
-        $rootScope.$on('$routeChangeStart', function (e, to, from){
-            to.resolve = to.resolve || {};
+        // Add an auth check to every route
+        $rootScope.$on('$routeChangeStart', function(e, to, from) {
 
-            if (to.originalPath !== '/login'){
-                if (!to.resolve.checkLoggedIn){
-                    to.resolve.checkLoggedIn = function ($q, loginLoginService){
-                            var def = $q.defer();
-                            loginLoginService.init().then(function (auth){
-                                if (auth){
-                                    def.resolve(auth);
-                                } else {
-                                    def.reject({ needsAuthentication: true });
-                                }
-                            });
-                            return def.promise;
-                        };
-                }
+            if (to.originalPath === '/login') {
+                return;
             }
+
+            to.resolve = to.resolve || {};
+            to.resolve.checkLoggedIn = function($q, loginLoginService) {
+                var def = $q.defer();
+
+                loginLoginService.init()
+                    .then(function(auth) {
+                        if (auth) {
+                            def.resolve(auth);
+                        } else {
+                            def.reject({
+                                needsAuthentication: true
+                            });
+                        }
+                    });
+
+                return def.promise;
+            };
         });
     }
 ]);
+
