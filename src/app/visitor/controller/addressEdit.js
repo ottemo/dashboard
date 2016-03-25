@@ -1,12 +1,12 @@
 angular.module("visitorModule")
     .controller("visitorAddressEditController", [
         "$scope",
-        "$visitorApiService",
+        "visitorApiService",
         "$routeParams",
         "$location",
         "$q",
-        "$dashboardUtilsService",
-        function ($scope, $visitorApiService, $routeParams, $location, $q, $dashboardUtilsService) {
+        "dashboardUtilsService",
+        function ($scope, visitorApiService, $routeParams, $location, $q, dashboardUtilsService) {
             var addressId, getDefaultAddress;
 
             getDefaultAddress = function () {
@@ -32,7 +32,7 @@ angular.module("visitorModule")
             /**
              * Gets list all attributes of address
              */
-            $visitorApiService.addressAttributeInfo().$promise.then(
+            visitorApiService.addressAttributeInfo().$promise.then(
                 function (response) {
                     var result = response.result || [];
                     $scope.attributes = result;
@@ -65,7 +65,7 @@ angular.module("visitorModule")
              * @param id
              */
             if (null !== addressId) {
-                $visitorApiService.loadAddress({"addressID": addressId}).$promise.then(
+                visitorApiService.loadAddress({"addressID": addressId}).$promise.then(
                     function (response) {
                         var result = response.result || {};
                         $scope.address = result;
@@ -101,7 +101,7 @@ angular.module("visitorModule")
                     if (response.error === null) {
                         var result = response.result || getDefaultAddress();
                         $scope.address._id = response.result._id;
-                        $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Address was created successfully');
+                        $scope.message = dashboardUtilsService.getMessage(null, 'success', 'Address was created successfully');
                         defer.resolve(result);
                     }
                     $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
@@ -125,7 +125,7 @@ angular.module("visitorModule")
                 updateSuccess = function (response) {
                     if (response.error === null) {
                         var result = response.result || getDefaultAddress();
-                        $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Address was updated successfully');
+                        $scope.message = dashboardUtilsService.getMessage(null, 'success', 'Address was updated successfully');
                         $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
                         $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                         defer.resolve(result);
@@ -143,10 +143,10 @@ angular.module("visitorModule")
                 };
 
                 if (!id) {
-                    $visitorApiService.saveAddress($scope.address, saveSuccess, saveError);
+                    visitorApiService.saveAddress($scope.address, saveSuccess, saveError);
                 } else {
                     $scope.address.id = id;
-                    $visitorApiService.updateAddress($scope.address, updateSuccess, updateError);
+                    visitorApiService.updateAddress($scope.address, updateSuccess, updateError);
                 }
 
                 return defer.promise;

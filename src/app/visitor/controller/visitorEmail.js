@@ -3,9 +3,9 @@ angular.module("visitorModule")
 .controller("visitorEmailController", [
     "$scope",
     "$location",
-    "$visitorApiService",
-    "$dashboardUtilsService",
-    function ($scope, $location, $visitorApiService, $dashboardUtilsService) {
+    "visitorApiService",
+    "dashboardUtilsService",
+    function ($scope, $location, visitorApiService, dashboardUtilsService) {
         var getDefaultEmail;
 
         getDefaultEmail = function () {
@@ -57,7 +57,7 @@ angular.module("visitorModule")
             $('[ng-click="send()"]').addClass('disabled').append('<i class="fa fa-spin fa-spinner"><i>').siblings('.btn').addClass('disabled');
             var successSend = function (response) {
                 if (response.result === "ok") {
-                    $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Emails sent successfully');
+                    $scope.message = dashboardUtilsService.getMessage(null, 'success', 'Emails sent successfully');
                     $('[ng-click="send()"]').removeClass('disabled').children('i').remove();
                     $('[ng-click="send()"]').siblings('.btn').removeClass('disabled');
                 }
@@ -66,13 +66,13 @@ angular.module("visitorModule")
 
             var errorSend = function (response) {
                 if (response.result === "ok") {
-                    $scope.message = $dashboardUtilsService.getMessage(null, 'danger', 'Something went wrong');
+                    $scope.message = dashboardUtilsService.getMessage(null, 'danger', 'Something went wrong');
                     $('[ng-click="send()"]').removeClass('disabled').children('i').remove();
                     $('[ng-click="send()"]').siblings('.btn').removeClass('disabled');
                 }
             };
 
-            $visitorApiService.sendMail($scope.email, successSend, errorSend);
+            visitorApiService.sendMail($scope.email, successSend, errorSend);
         };
 
     }

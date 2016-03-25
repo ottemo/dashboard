@@ -5,10 +5,10 @@ angular.module("cmsModule")
 "$location",
 "$routeParams",
 "$q",
-"$dashboardListService",
-"$cmsApiService",
+"dashboardListService",
+"cmsApiService",
 "COUNT_ITEMS_PER_PAGE",
-function ($scope, $location, $routeParams, $q, DashboardListService, $cmsApiService, COUNT_ITEMS_PER_PAGE) {
+function ($scope, $location, $routeParams, $q, DashboardListService, cmsApiService, COUNT_ITEMS_PER_PAGE) {
     var serviceList, getPageCount, getAttributeList, getPagesList, showColumns;
     serviceList = new DashboardListService();
     showColumns = {
@@ -30,7 +30,7 @@ function ($scope, $location, $routeParams, $q, DashboardListService, $cmsApiServ
     getPagesList = function () {
         var params = $location.search();
         params["extra"] = serviceList.getExtraFields();
-        $cmsApiService.pageList(params).$promise.then(
+        cmsApiService.pageList(params).$promise.then(
             function (response) {
                 var result, i;
                 $scope.pagesTmp = [];
@@ -46,7 +46,7 @@ function ($scope, $location, $routeParams, $q, DashboardListService, $cmsApiServ
      * Gets list of pages
      */
     getPageCount = function () {
-        $cmsApiService.pageCount($location.search()).$promise.then(
+        cmsApiService.pageCount($location.search()).$promise.then(
             function (response) {
                 if (response.error === null) {
                     $scope.count = response.result;
@@ -58,7 +58,7 @@ function ($scope, $location, $routeParams, $q, DashboardListService, $cmsApiServ
     };
 
     getAttributeList = function () {
-        $cmsApiService.pageAttributes().$promise.then(
+        cmsApiService.pageAttributes().$promise.then(
             function (response) {
                 var result = response.result || [];
                 serviceList.init('pages');
@@ -111,7 +111,7 @@ function ($scope, $location, $routeParams, $q, DashboardListService, $cmsApiServ
         _remove = function (id) {
             var defer = $q.defer();
 
-            $cmsApiService.pageRemove({"pageID": id},
+            cmsApiService.pageRemove({"pageID": id},
                 function (response) {
                     if (response.result === "ok") {
                         defer.resolve(id);

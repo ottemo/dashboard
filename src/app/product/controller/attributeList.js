@@ -4,9 +4,9 @@ angular.module("productModule")
 "$scope",
 "$routeParams",
 "$q",
-"$productApiService",
+"productApiService",
 "$location",
-function ($scope, $routeParams, $q, $productApiService, $location) {
+function ($scope, $routeParams, $q, productApiService, $location) {
     $scope.fields = [
         {
             "attribute": "Label",
@@ -39,7 +39,7 @@ function ($scope, $routeParams, $q, $productApiService, $location) {
      */
     var params = $location.search();
     params["extra"] = getFields();
-    $productApiService.attributesInfo(params).$promise.then(
+    productApiService.attributesInfo(params).$promise.then(
         function (response) {
             var result, i;
             $scope.attributesList = [];
@@ -69,7 +69,7 @@ function ($scope, $routeParams, $q, $productApiService, $location) {
     var remove = function (attr) {
         var defer = $q.defer();
 
-        $productApiService.deleteAttribute({"attribute": attr},
+        productApiService.deleteAttribute({"attribute": attr},
             function (response) {
                 if (response.result === "ok") {
                     defer.resolve(attr);

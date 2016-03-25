@@ -5,19 +5,19 @@ angular.module("visitorModule")
 "$routeParams",
 "$location",
 "$q",
-"$visitorApiService",
-"$dashboardUtilsService",
-"$orderApiService",
-"$subscriptionsApiService",
+"visitorApiService",
+"dashboardUtilsService",
+"orderApiService",
+"subscriptionsApiService",
 function (
     $scope,
     $routeParams,
     $location,
     $q,
-    $visitorApiService,
-    $dashboardUtilsService,
-    $orderApiService,
-    $subscriptionsApiService
+    visitorApiService,
+    dashboardUtilsService,
+    orderApiService,
+    subscriptionsApiService
 ) {
 
     var visitorId = $routeParams.id || null;
@@ -59,7 +59,7 @@ function (
         return $scope.visitor['first_name'] + " " + $scope.visitor['last_name'];
     };
 
-    $visitorApiService.attributesInfo().$promise.then(
+    visitorApiService.attributesInfo().$promise.then(
         function (response) {
             var result = response.result || [];
             $scope.attributes = result;
@@ -77,7 +77,7 @@ function (
      * @param id
      */
     if (null !== visitorId) {
-        $visitorApiService.load({"visitorID": visitorId}).$promise.then(
+        visitorApiService.load({"visitorID": visitorId}).$promise.then(
             function (response) {
                 var result = response.result || {};
                 $scope.visitor = result;
@@ -115,7 +115,7 @@ function (
             if (response.error === null) {
                 var result = response.result || getDefaultVisitor();
                 $scope.visitor._id = response.result._id;
-                $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Visitor was created successfully');
+                $scope.message = dashboardUtilsService.getMessage(null, 'success', 'Visitor was created successfully');
                 $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
                 $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                 defer.resolve(result);
@@ -131,7 +131,7 @@ function (
         updateSuccess = function (response) {
             if (response.error === null) {
                 var result = response.result || getDefaultVisitor();
-                $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Visitor was updated successfully');
+                $scope.message = dashboardUtilsService.getMessage(null, 'success', 'Visitor was updated successfully');
                 $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
                 $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
                 defer.resolve(result);
@@ -148,11 +148,11 @@ function (
         delete $scope.visitor['shipping_address'];
 
         if (!id) {
-            $visitorApiService.save($scope.visitor, saveSuccess, saveError);
+            visitorApiService.save($scope.visitor, saveSuccess, saveError);
         } else {
             $scope.visitor.id = id;
 
-            $visitorApiService.update($scope.visitor, updateSuccess, updateError);
+            visitorApiService.update($scope.visitor, updateSuccess, updateError);
         }
 
         return defer.promise;
@@ -165,7 +165,7 @@ function (
             visitor_id: visitorId
         };
 
-        return $orderApiService.orderList(params).$promise.then(function(response) {
+        return orderApiService.orderList(params).$promise.then(function(response) {
             return response.result;
         });
     }
@@ -176,7 +176,7 @@ function (
             visitor_id: visitorId
         };
 
-        return $subscriptionsApiService.list(params).$promise.then(function(response) {
+        return subscriptionsApiService.list(params).$promise.then(function(response) {
             return response.result;
         });
     }

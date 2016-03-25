@@ -5,10 +5,10 @@ angular.module("productModule")
 "$routeParams",
 "$location",
 "$q",
-"$productApiService",
-"$designImageService",
-"$dashboardUtilsService",
-function ($scope, $routeParams, $location, $q, $productApiService, $designImageService, $dashboardUtilsService) {
+"productApiService",
+"designImageService",
+"dashboardUtilsService",
+function ($scope, $routeParams, $location, $q, productApiService, designImageService, dashboardUtilsService) {
 
     var productId, getDefaultProduct, addImageManagerAttribute, addStockValues;
 
@@ -67,7 +67,7 @@ function ($scope, $routeParams, $location, $q, $productApiService, $designImageS
     /**
      * Gets list all attributes of product
      */
-    $productApiService.attributesInfo().$promise.then(
+    productApiService.attributesInfo().$promise.then(
         function (response) {
             var result = response.result || [];
             $scope.attributes = result;
@@ -78,7 +78,7 @@ function ($scope, $routeParams, $location, $q, $productApiService, $designImageS
 	// options of this product checking is the "Options" from response are present
 	// Map "$scope.product.options" with product options is to complicated and need to be simplified in future
     addStockValues = function () {
-        $productApiService.getStock({"productID": productId}).$promise.then(
+        productApiService.getStock({"productID": productId}).$promise.then(
             function (response) {
                 var result = response.result || {};
                 for (var i = 0; i < result.length; i+=1) {
@@ -97,7 +97,7 @@ function ($scope, $routeParams, $location, $q, $productApiService, $designImageS
      * Gets product data
      */
     if (null !== productId) {
-        $productApiService.getProduct({"productID": productId}).$promise.then(
+        productApiService.getProduct({"productID": productId}).$promise.then(
             function (response) {
                 var result = response.result || {};
                 $scope.product = result;
@@ -143,11 +143,11 @@ function ($scope, $routeParams, $location, $q, $productApiService, $designImageS
             if (response.error === null) {
                 $scope.product._id = response.result._id;
                 $scope.productImages = [];
-                $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Product was created successfully');
+                $scope.message = dashboardUtilsService.getMessage(null, 'success', 'Product was created successfully');
                 addImageManagerAttribute();
                 defer.resolve($scope.product);
             } else {
-                $scope.message = $dashboardUtilsService.getMessage(response);
+                $scope.message = dashboardUtilsService.getMessage(response);
             }
             $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
             $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
@@ -158,7 +158,7 @@ function ($scope, $routeParams, $location, $q, $productApiService, $designImageS
          * @param response
          */
         saveError = function () {
-            $scope.message = $dashboardUtilsService.getMEssage(null, 'danger', 'Something went wrong');
+            $scope.message = dashboardUtilsService.getMEssage(null, 'danger', 'Something went wrong');
             $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
             $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
             defer.resolve(false);
@@ -171,10 +171,10 @@ function ($scope, $routeParams, $location, $q, $productApiService, $designImageS
         updateSuccess = function (response) {
             if (response.error === null) {
                 var result = response.result || getDefaultProduct();
-                $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Product was updated successfully');
+                $scope.message = dashboardUtilsService.getMessage(null, 'success', 'Product was updated successfully');
                 defer.resolve(result);
             } else {
-                $scope.message = $dashboardUtilsService.getMessage(response);
+                $scope.message = dashboardUtilsService.getMessage(response);
             }
             $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
             $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
@@ -185,17 +185,17 @@ function ($scope, $routeParams, $location, $q, $productApiService, $designImageS
          * @param response
          */
         updateError = function () {
-            $scope.message = $dashboardUtilsService.getMessage(null, 'danger', 'Something went wrong');
+            $scope.message = dashboardUtilsService.getMessage(null, 'danger', 'Something went wrong');
             $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
             $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
             defer.resolve(false);
         };
 
         if (!id) {
-            $productApiService.save($scope.product, saveSuccess, saveError);
+            productApiService.save($scope.product, saveSuccess, saveError);
         } else {
             $scope.product.id = id;
-            $productApiService.update($scope.product, updateSuccess, updateError);
+            productApiService.update($scope.product, updateSuccess, updateError);
         }
 
         return defer.promise;
@@ -212,13 +212,13 @@ function ($scope, $routeParams, $location, $q, $productApiService, $designImageS
     $scope.reloadImages = function () {
         if ($scope.product !== undefined && $scope.product._id !== undefined) {
             // taking media patch for new product
-            $productApiService.getImagePath({"productID": $scope.product._id}).$promise.then(
+            productApiService.getImagePath({"productID": $scope.product._id}).$promise.then(
                 function (response) {
                     $scope.imagesPath = response.result || "";
                 });
 
             // taking registered images for product
-            $productApiService.listImages({"productID": $scope.product._id}).$promise.then(
+            productApiService.listImages({"productID": $scope.product._id}).$promise.then(
                 function (response) {
                     $scope.productImages = response.result || [];
                 });
@@ -243,7 +243,7 @@ function ($scope, $routeParams, $location, $q, $productApiService, $designImageS
         postData.append("file", file.files[0]);
 
         if (pid !== undefined) {
-            $productApiService.addImage({"productID": pid, "mediaName": mediaName}, postData)
+            productApiService.addImage({"productID": pid, "mediaName": mediaName}, postData)
                 .$promise.then(function () {
                     $scope.reloadImages();
                 });
@@ -259,7 +259,7 @@ function ($scope, $routeParams, $location, $q, $productApiService, $designImageS
         var pid = $scope.product._id, mediaName = selected;
 
         if (pid !== undefined && selected !== undefined) {
-            $productApiService.removeImage({"productID": pid, "mediaName": mediaName})
+            productApiService.removeImage({"productID": pid, "mediaName": mediaName})
                 .$promise.then(function () {
                     $scope.selectedImage = undefined;
                     $scope.reloadImages();
@@ -287,6 +287,6 @@ function ($scope, $routeParams, $location, $q, $productApiService, $designImageS
      * @returns {string}        - full path to image
      */
     $scope.getImage = function (image) {
-        return $designImageService.getImage(image);
+        return designImageService.getImage(image);
     };
 }]);

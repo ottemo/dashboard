@@ -5,10 +5,10 @@ angular.module("categoryModule")
 "$location",
 "$routeParams",
 "$q",
-"$dashboardListService",
-"$categoryApiService",
+"dashboardListService",
+"categoryApiService",
 "COUNT_ITEMS_PER_PAGE",
-function ($scope, $location, $routeParams, $q, DashboardListService, $categoryApiService, COUNT_ITEMS_PER_PAGE) {
+function ($scope, $location, $routeParams, $q, DashboardListService, categoryApiService, COUNT_ITEMS_PER_PAGE) {
     var serviceList, getCategoriesList, getCategoryCount, getAttributeList, showColumns;
 
     // Initialize SEO
@@ -30,7 +30,7 @@ function ($scope, $location, $routeParams, $q, DashboardListService, $categoryAp
     getCategoriesList = function () {
         var params = $location.search();
         params["extra"] = serviceList.getExtraFields();
-        $categoryApiService.categoryList(params).$promise.then(
+        categoryApiService.categoryList(params).$promise.then(
             function (response) {
                 var result, i;
                 $scope.categoriesTmp = [];
@@ -46,7 +46,7 @@ function ($scope, $location, $routeParams, $q, DashboardListService, $categoryAp
      * Gets count of categories
      */
     getCategoryCount = function () {
-        $categoryApiService.getCount($location.search()).$promise.then(
+        categoryApiService.getCount($location.search()).$promise.then(
             function (response) {
                 if (response.error === null) {
                     $scope.count = response.result;
@@ -58,7 +58,7 @@ function ($scope, $location, $routeParams, $q, DashboardListService, $categoryAp
     };
 
     getAttributeList = function () {
-        $categoryApiService.attributesInfo().$promise.then(
+        categoryApiService.attributesInfo().$promise.then(
             function (response) {
                 var result = response.result || [];
                 serviceList.init('categories');
@@ -111,7 +111,7 @@ function ($scope, $location, $routeParams, $q, DashboardListService, $categoryAp
         _remove = function (id) {
             var defer = $q.defer();
 
-            $categoryApiService.remove({"categoryID": id},
+            categoryApiService.remove({"categoryID": id},
                 function (response) {
                     if (response.result === "ok") {
                         defer.resolve(id);
