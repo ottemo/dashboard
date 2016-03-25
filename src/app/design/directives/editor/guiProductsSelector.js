@@ -6,11 +6,11 @@ angular.module("designModule")
 .directive("guiProductsSelector", [
 "$location",
 "$routeParams",
-"$dashboardListService",
-"$productApiService",
-"$designImageService",
+"dashboardListService",
+"productApiService",
+"designImageService",
 "COUNT_ITEMS_PER_PAGE",
-function ($location, $routeParams, DashboardListService, $productApiService, $designImageService, COUNT_ITEMS_PER_PAGE) {
+function ($location, $routeParams, DashboardListService, productApiService, designImageService, COUNT_ITEMS_PER_PAGE) {
     var serviceList = new DashboardListService(), showColumns;
     showColumns = {
         'name' : {'type' : 'select-link', 'label' : 'Name'},
@@ -121,7 +121,7 @@ function ($location, $routeParams, DashboardListService, $productApiService, $de
                 var getProductsList = function () {
                     var params = $scope.search;
                     params["extra"] = serviceList.getExtraFields();
-                    $productApiService.productList(params).$promise.then(
+                    productApiService.productList(params).$promise.then(
                         function (response) {
                             var result, i;
                             $scope.productsTmp = [];
@@ -142,7 +142,7 @@ function ($location, $routeParams, DashboardListService, $productApiService, $de
                  * Gets list of products
                  */
                 var getProductCount = function () {
-                    $productApiService.getCount($scope.search, {}).$promise.then(function (response) {
+                    productApiService.getCount($scope.search, {}).$promise.then(function (response) {
                         if (response.error === null) {
                             $scope.count = response.result;
                         } else {
@@ -152,7 +152,7 @@ function ($location, $routeParams, DashboardListService, $productApiService, $de
                 };
 
                 var getAttributeList = function () {
-                    $productApiService.attributesInfo().$promise.then(function (response) {
+                    productApiService.attributesInfo().$promise.then(function (response) {
                         var result = response.result || [];
                         serviceList.init('products');
                         $scope.attributes = result;
@@ -195,7 +195,7 @@ function ($location, $routeParams, DashboardListService, $productApiService, $de
              * @returns {string}        - full path to image
              */
             $scope.getImage = function (image) {
-                return $designImageService.getImage(image);
+                return designImageService.getImage(image);
             };
 
             $scope.expand = function () {

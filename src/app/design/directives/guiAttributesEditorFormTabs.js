@@ -5,7 +5,7 @@
 */
 angular.module("designModule")
 
-.directive("guiAttributesEditorFormTabs", ["$dashboardUtilsService", function ($dashboardUtilsService) {
+.directive("guiAttributesEditorFormTabs", ["dashboardUtilsService", function (dashboardUtilsService) {
     return {
         restrict: "E",
         scope: {
@@ -30,7 +30,7 @@ angular.module("designModule")
                 if ($scope.otEditForm.$valid) {
                     $scope.parent.save();
                 } else {
-                    $scope.parent.message = $dashboardUtilsService.getMessage(null, "warning", "Form is invalid");
+                    $scope.parent.message = dashboardUtilsService.getMessage(null, "warning", "Form is invalid");
                 }
             };
 

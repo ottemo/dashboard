@@ -1,10 +1,10 @@
 angular.module("visitorModule")
 
 /*
- *  $productApiService interaction service
+ *  productApiService interaction service
  */
 
-.service("$visitorApiService", ["$resource", "REST_SERVER_URI", function ($resource, REST_SERVER_URI) {
+.service("visitorApiService", ["$resource", "REST_SERVER_URI", function ($resource, REST_SERVER_URI) {
     return $resource(REST_SERVER_URI, {}, {
         "attributesInfo": {
             method: "GET",

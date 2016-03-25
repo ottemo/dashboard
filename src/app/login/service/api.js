@@ -1,10 +1,10 @@
 angular.module("loginModule")
 
 /**
- *  $loginApiService interaction service
+ *  loginApiService interaction service
  */
 
-.service("$loginApiService", ["$resource", "REST_SERVER_URI", function ($resource, REST_SERVER_URI) {
+.service("loginApiService", ["$resource", "REST_SERVER_URI", function ($resource, REST_SERVER_URI) {
     return $resource(REST_SERVER_URI, {},
         {
             "login": {

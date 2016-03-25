@@ -1,6 +1,6 @@
 angular.module("seoModule")
 
-.service("$seoApiService", ["$resource", "REST_SERVER_URI", function ($resource, REST_SERVER_URI) {
+.service("seoApiService", ["$resource", "REST_SERVER_URI", function ($resource, REST_SERVER_URI) {
     return $resource(REST_SERVER_URI, {}, {
         "add": {
             method: "POST",

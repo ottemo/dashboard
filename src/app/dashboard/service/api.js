@@ -1,8 +1,8 @@
 angular.module("dashboardModule")
 /**
-*  $dashboardApiService interaction service
+*  dashboardApiService interaction service
 */
-.service("$dashboardApiService", ["$resource", "REST_SERVER_URI", function ($resource, REST_SERVER_URI) {
+.service("dashboardApiService", ["$resource", "REST_SERVER_URI", function ($resource, REST_SERVER_URI) {
     return $resource(REST_SERVER_URI, {},
         {
             "getReferrers": {

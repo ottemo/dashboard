@@ -1,6 +1,6 @@
 angular.module("subscriptionsModule")
 
-.service("$subscriptionsApiService", [
+.service("subscriptionsApiService", [
     "$resource", "REST_SERVER_URI",
     function($resource, REST_SERVER_URI) {
         return $resource(REST_SERVER_URI, {}, {

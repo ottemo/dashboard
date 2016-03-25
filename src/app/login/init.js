@@ -14,10 +14,10 @@ angular.module("loginModule", ["ngRoute", "ngResource"])
             templateUrl: "/views/login/login.html",
             controller: "loginLoginController",
             resolve: {
-                'auth' : function($loginLoginService,$q,$location){
+                'auth' : function(loginLoginService,$q,$location){
                     var def = $q.defer();
 
-                    $loginLoginService.init().then(function(auth){
+                    loginLoginService.init().then(function(auth){
 
                         if (auth) {
                             $location.url('/');

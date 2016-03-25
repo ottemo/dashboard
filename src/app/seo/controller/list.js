@@ -6,10 +6,10 @@ angular.module("seoModule")
     "$location",
     "$routeParams",
     "$q",
-    "$dashboardListService",
-    "$seoApiService",
+    "dashboardListService",
+    "seoApiService",
     "COUNT_ITEMS_PER_PAGE",
-    function ($rootScope, $scope, $location, $routeParams, $q, DashboardListService, $seoApiService, COUNT_ITEMS_PER_PAGE) {
+    function ($rootScope, $scope, $location, $routeParams, $q, DashboardListService, seoApiService, COUNT_ITEMS_PER_PAGE) {
         var getSeoList, serviceList, getAttributeList, showColumns, seoList, seoIdToUrl;
 
         serviceList = new DashboardListService();
@@ -26,7 +26,7 @@ angular.module("seoModule")
          * Gets list and count of url rewrites
          */
         getSeoList = function() {
-            $seoApiService.list().$promise.then(
+            seoApiService.list().$promise.then(
                 function (response) {
                     seoList = response.result || [];
                     $scope.count = seoList.length;
@@ -113,7 +113,7 @@ angular.module("seoModule")
             _remove = function (id) {
                 var defer = $q.defer();
 
-                $seoApiService.remove({"itemID": id},
+                seoApiService.remove({"itemID": id},
                     function (response) {
                         if (response.result === "ok") {
                             defer.resolve(id);

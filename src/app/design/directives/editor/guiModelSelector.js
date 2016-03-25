@@ -3,7 +3,7 @@ angular.module("designModule")
 /**
  *  Directive used for automatic attribute editor creation
  */
-    .directive("guiModelSelector", ["$designApiService", function ($designApiService) {
+    .directive("guiModelSelector", ["designApiService", function (designApiService) {
         return {
             restrict: "E",
             templateUrl: "/views/design/gui/editor/modelSelector.html",
@@ -86,7 +86,7 @@ angular.module("designModule")
                         return true;
                     }
 
-                    $designApiService.attributesModel(params).$promise.then(
+                    designApiService.attributesModel(params).$promise.then(
                         function (response) {
                             try {
                                 var result = response.result || [];

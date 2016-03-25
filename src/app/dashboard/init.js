@@ -65,10 +65,10 @@ angular.module("dashboardModule", [
 
         $httpProvider.interceptors.push(otInterceptor);
 
-        function checkLoggedIn($q,$log,$loginLoginService){
+        function checkLoggedIn($q,$log,loginLoginService){
             var def = $q.defer();
 
-            $loginLoginService.init().then(function(auth){
+            loginLoginService.init().then(function(auth){
 
                 if (auth)
                     def.resolve(auth)
@@ -87,7 +87,7 @@ angular.module("dashboardModule", [
             route.resolve = route.resolve || {};
 
             angular.extend(route.resolve, {
-                isLoggedIn: ['$q','$log', '$loginLoginService', checkLoggedIn]
+                isLoggedIn: ['$q','$log', 'loginLoginService', checkLoggedIn]
             })
 
             return $routeProvider.when(path,route);
@@ -120,7 +120,7 @@ angular.module("dashboardModule", [
     "$rootScope",
     "$route",
     "$http",
-    "$dashboardListService",
+    "dashboardListService",
     "$location",
     "$log",
     function ($rootScope, $route, $http, DashboardListService,$location,$log) {

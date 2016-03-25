@@ -5,10 +5,10 @@ angular.module("visitorModule")
         "$routeParams",
         "$location",
         "$q",
-        "$dashboardListService",
-        "$visitorApiService",
+        "dashboardListService",
+        "visitorApiService",
         "COUNT_ITEMS_PER_PAGE",
-        function ($scope, $routeParams, $location, $q, DashboardListService, $visitorApiService, COUNT_ITEMS_PER_PAGE) {
+        function ($scope, $routeParams, $location, $q, DashboardListService, visitorApiService, COUNT_ITEMS_PER_PAGE) {
             var serviceList, getAddressesList, getAddressesCount, getAttributeList, showColumns;
             serviceList = new DashboardListService();
             showColumns = {};
@@ -45,7 +45,7 @@ angular.module("visitorModule")
                     "visitorID": $scope.visitorId,
                     "extra": serviceList.getExtraFields()
                 };
-                $visitorApiService.addresses(params).$promise.then(
+                visitorApiService.addresses(params).$promise.then(
                     function (response) {
                         var result, i;
                         $scope.addressesTmp = [];
@@ -62,7 +62,7 @@ angular.module("visitorModule")
             getAddressesCount = function () {
                 var params = $location.search();
                 params["visitorID"] = $scope.visitorId;
-                $visitorApiService.getCountAddresses(params).$promise.then(
+                visitorApiService.getCountAddresses(params).$promise.then(
                     function (response) {
                         if (response.error === null) {
                             $scope.count = response.result;
@@ -74,7 +74,7 @@ angular.module("visitorModule")
             };
 
             getAttributeList = function () {
-                $visitorApiService.addressAttributeInfo().$promise.then(
+                visitorApiService.addressAttributeInfo().$promise.then(
                     function (response) {
                         var result = response.result || [];
                         serviceList.init('addresses');
@@ -131,7 +131,7 @@ angular.module("visitorModule")
                 _remove = function (id) {
                     var defer = $q.defer();
 
-                    $visitorApiService.deleteAddress({"addressID": id},
+                    visitorApiService.deleteAddress({"addressID": id},
                         function (response) {
                             if (response.result === "ok") {
                                 defer.resolve(id);

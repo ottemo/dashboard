@@ -5,17 +5,17 @@ angular.module("impexModule")
 "$timeout",
 "$interval",
 "$sce",
-"$impexApiService",
-"$dashboardUtilsService",
+"impexApiService",
+"dashboardUtilsService",
 "REST_SERVER_URI",
-function ($scope, $timeout, $interval, $sce, $impexApiService, $dashboardUtilsService, REST_SERVER_URI) {
+function ($scope, $timeout, $interval, $sce, impexApiService, dashboardUtilsService, REST_SERVER_URI) {
 
 $scope.init = function () {
-    $impexApiService.getModels().$promise.then(function (response) {
+    impexApiService.getModels().$promise.then(function (response) {
         if(response.error === null) {
             $scope.modelList = response.result;
         } else {
-            $scope.message = $dashboardUtilsService.getMessage(response.error);
+            $scope.message = dashboardUtilsService.getMessage(response.error);
         }
     });
 
@@ -31,7 +31,7 @@ $scope.startImportTrack = function() {
 
     $scope.importTrackInterval = $interval(function() {
 
-        $impexApiService.importStatus().$promise.then(function(response) {
+        impexApiService.importStatus().$promise.then(function(response) {
             if (!response.result.position) return;
 
             $scope.importProgress = Math.round(response.result.position / response.result.size * 100);
@@ -83,14 +83,14 @@ $scope.import = function(method) {
 
     $scope.startImportTrack();
 
-    $impexApiService[apiMethodName](methodOptions, postData).$promise
+    impexApiService[apiMethodName](methodOptions, postData).$promise
         .then(function(response) {
             $scope.importMethod = null;
             $scope.cancelImportTrack();
 
             $scope.message = (response.error === null) ?
-                $dashboardUtilsService.getMessage(null, 'success', response.result) :
-                $dashboardUtilsService.getMessage(response);
+                dashboardUtilsService.getMessage(null, 'success', response.result) :
+                dashboardUtilsService.getMessage(response);
     });
 };
 

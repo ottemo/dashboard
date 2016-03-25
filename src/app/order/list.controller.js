@@ -3,13 +3,13 @@ angular.module('orderModule')
 .controller('orderListController', [
     '$scope',
     '$location',
-    '$dashboardListService',
-    '$orderApiService',
+    'dashboardListService',
+    'orderApiService',
     function(
         $scope,
         $location,
         DashboardListService,
-        $orderApiService
+        orderApiService
     ) {
 
         var serviceList = new DashboardListService();
@@ -92,7 +92,7 @@ angular.module('orderModule')
             var params = $location.search();
             params.extra = serviceList.getExtraFields();
 
-            $orderApiService.orderList(params).$promise
+            orderApiService.orderList(params).$promise
                 .then(function(response) {
                     var result = response.result || [];
                     $scope.orders = serviceList.getList(result);
@@ -104,21 +104,21 @@ angular.module('orderModule')
             angular.copy(searchDefaults, params);
             params.status = 'processed';
 
-            $orderApiService.getCount(params).$promise
+            orderApiService.getCount(params).$promise
                 .then(function(response) {
                     $scope.tabs.processedCount = response.result || 0;
                 });
         }
 
         function getOrderCount() {
-            $orderApiService.getCount($location.search()).$promise
+            orderApiService.getCount($location.search()).$promise
                 .then(function(response) {
                     $scope.count = (response.error === null) ? response.result : 0;
                 });
         }
 
         function getAttributeList() {
-            $orderApiService.getAttributes().$promise.then(
+            orderApiService.getAttributes().$promise.then(
                 function(response) {
                     var result = response.result || [];
                     serviceList.init('orders');

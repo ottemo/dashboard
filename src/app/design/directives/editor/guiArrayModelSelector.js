@@ -3,9 +3,9 @@ angular.module("designModule")
  *  Directive used for automatic attribute editor creation
  */
     .directive("guiArrayModelSelector", [
-        "$designApiService",
-        "$designImageService",
-        function ($designApiService, $designImageService) {
+        "designApiService",
+        "designImageService",
+        function (designApiService, designImageService) {
             return {
                 restrict: "E",
                 templateUrl: "/views/design/gui/editor/arrayModelSelector.html",
@@ -154,7 +154,7 @@ angular.module("designModule")
 
                         parseOptions($scope.attribute.Options);
 
-                        $designApiService.attributesModel(getParams(options.model, $scope.item)).$promise.then(
+                        designApiService.attributesModel(getParams(options.model, $scope.item)).$promise.then(
                             function (response) {
                                 var result = response.result || [];
                                 $scope.items = result;
@@ -169,7 +169,7 @@ angular.module("designModule")
                      * @returns {string}        - full path to image
                      */
                     $scope.getImage = function (image) {
-                        return $designImageService.getImage(image);
+                        return designImageService.getImage(image);
                     };
 
                 }

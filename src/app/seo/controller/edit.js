@@ -5,9 +5,9 @@ angular.module("seoModule")
     "$routeParams",
     "$location",
     "$q",
-    "$seoApiService",
-    "$dashboardUtilsService",
-    function ($scope, $routeParams, $location, $q, $seoApiService, $dashboardUtilsService) {
+    "seoApiService",
+    "dashboardUtilsService",
+    function ($scope, $routeParams, $location, $q, seoApiService, dashboardUtilsService) {
         // Functions
         var getAttributeList, getDefaultSEO, checkAttributePosition, getRewriteList;
         // Variables
@@ -81,7 +81,7 @@ angular.module("seoModule")
          * Gets values for url rewrites :(
          */
         var getSeoValues = function(id) {
-                $seoApiService.canonical({"id": id}).$promise.then(
+                seoApiService.canonical({"id": id}).$promise.then(
                     function (response) {
                         seoRewriteList[response.result["rewrite"]] = response.result["_id"];
                     }
@@ -89,7 +89,7 @@ angular.module("seoModule")
         };
 
         getRewriteList = function () {
-            $seoApiService.list().$promise.then(
+            seoApiService.list().$promise.then(
                 function (response) {
                     seoRewriteList = {};
                     var i, seoList = response.result || [];
@@ -103,7 +103,7 @@ angular.module("seoModule")
         getRewriteList();
 
         if (null !== seoId) {
-            $seoApiService.canonical({"id": seoId}).$promise.then(function (response) {
+            seoApiService.canonical({"id": seoId}).$promise.then(function (response) {
                 var result = response.result || {};
                 $scope.seo = result;
             });
@@ -134,7 +134,7 @@ angular.module("seoModule")
             saveSuccess = function (response) {
                 if (response.error === null) {
                     $scope.seo = response.result || getDefaultSEO();
-                    $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'URL rewrite was created successfully');
+                    $scope.message = dashboardUtilsService.getMessage(null, 'success', 'URL rewrite was created successfully');
                     defer.resolve(true);
                 }
                 $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
@@ -158,7 +158,7 @@ angular.module("seoModule")
             updateSuccess = function (response) {
                 if (response.error === null) {
                     $scope.seo = response.result || getDefaultSEO();
-                    $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'URL rewrite was updated successfully');
+                    $scope.message = dashboardUtilsService.getMessage(null, 'success', 'URL rewrite was updated successfully');
                     defer.resolve(true);
                     $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
                     $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
@@ -180,21 +180,21 @@ angular.module("seoModule")
             * checking is rewrite don't replace existing
             */
             if (!$scope.seo.rewrite || $scope.seo.rewrite === "" || $scope.seo.rewrite.length < 4 || !regexp.test($scope.seo.url)) {
-                $scope.message = $dashboardUtilsService.getMessage(null, 'warning', 'Need to specify object to rewrite and valid url');
+                $scope.message = dashboardUtilsService.getMessage(null, 'warning', 'Need to specify object to rewrite and valid url');
                 updateError();
             } else {
                 if (typeof seoRewriteList[$scope.seo.rewrite] === "undefined") {
                     if (typeof id !== "undefined") {
-                        $seoApiService.update({"itemID": id}, $scope.seo, updateSuccess, updateError);
+                        seoApiService.update({"itemID": id}, $scope.seo, updateSuccess, updateError);
                     } else {
-                        $seoApiService.add($scope.seo, saveSuccess, saveError);
+                        seoApiService.add($scope.seo, saveSuccess, saveError);
                     }
                 }
                 else {
                     if (id === seoRewriteList[$scope.seo.rewrite]) {
-                        $seoApiService.update({"itemID": id}, $scope.seo, updateSuccess, updateError);
+                        seoApiService.update({"itemID": id}, $scope.seo, updateSuccess, updateError);
                     }
-                    $scope.message = $dashboardUtilsService.getMessage(null, 'warning', 'Rewrite for this object is already exist');
+                    $scope.message = dashboardUtilsService.getMessage(null, 'warning', 'Rewrite for this object is already exist');
                     saveError();
                 }
             }

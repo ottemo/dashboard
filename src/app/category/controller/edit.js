@@ -5,10 +5,10 @@ angular.module("categoryModule")
 "$routeParams",
 "$location",
 "$q",
-"$categoryApiService",
-"$dashboardUtilsService",
+"categoryApiService",
+"dashboardUtilsService",
 "_",
-function ($scope, $routeParams, $location, $q, $categoryApiService, $dashboardUtilsService, _) {
+function ($scope, $routeParams, $location, $q, categoryApiService, dashboardUtilsService, _) {
     var categoryId, rememberProducts, oldProducts, getDefaultCategory;
     // Initialize SEO
     if (typeof $scope.initSeo === "function") {
@@ -45,13 +45,13 @@ function ($scope, $routeParams, $location, $q, $categoryApiService, $dashboardUt
     /**
      * Gets list all attributes of category
      */
-    $categoryApiService.attributesInfo().$promise.then(function (response) {
+    categoryApiService.attributesInfo().$promise.then(function (response) {
         var result = response.result || [];
         $scope.attributes = result;
     });
 
     if (null !== categoryId) {
-        $categoryApiService.getCategory({"categoryID": categoryId}).$promise.then(function (response) {
+        categoryApiService.getCategory({"categoryID": categoryId}).$promise.then(function (response) {
             var result = response.result || {};
             $scope.category = result;
             $scope.category.parent = $scope.category['parent_id'];
@@ -75,7 +75,7 @@ function ($scope, $routeParams, $location, $q, $categoryApiService, $dashboardUt
 
         if (products_to_remove.length){
             _.each(products_to_remove, function(productID){
-                promises.push($categoryApiService.removeProduct({
+                promises.push(categoryApiService.removeProduct({
                     categoryID: categoryId,
                     productID: productID
                 }))
@@ -84,7 +84,7 @@ function ($scope, $routeParams, $location, $q, $categoryApiService, $dashboardUt
 
         if (products_to_add.length){
             _.each(products_to_add, function(productID){
-                promises.push($categoryApiService.addProduct({
+                promises.push(categoryApiService.addProduct({
                     categoryId: categoryId,
                     productId: productID
                 }))
@@ -111,7 +111,7 @@ function ($scope, $routeParams, $location, $q, $categoryApiService, $dashboardUt
         saveSuccess = function (response) {
             if (response.error === null) {
                 $scope.category = response.result || getDefaultCategory();
-                $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Category was created successfully');
+                $scope.message = dashboardUtilsService.getMessage(null, 'success', 'Category was created successfully');
                 defer.resolve(true);
             }
             $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
@@ -127,7 +127,7 @@ function ($scope, $routeParams, $location, $q, $categoryApiService, $dashboardUt
         updateSuccess = function (response) {
             if (response.error === null) {
                 $scope.category = response.result || getDefaultCategory();
-                $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Product was updated successfully');
+                $scope.message = dashboardUtilsService.getMessage(null, 'success', 'Product was updated successfully');
                 defer.resolve(true);
                 $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
                 $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
@@ -148,7 +148,7 @@ function ($scope, $routeParams, $location, $q, $categoryApiService, $dashboardUt
             if ($scope.category.name !== '') {
 
                 delete $scope.category.products;
-                $categoryApiService.save($scope.category).$promise
+                categoryApiService.save($scope.category).$promise
                     .then(saveSuccess, saveError)
                     .then(function(){
                         $scope.category.products = $scope.category.product_ids;
@@ -160,7 +160,7 @@ function ($scope, $routeParams, $location, $q, $categoryApiService, $dashboardUt
 
                 // Clean the associated product list off, before posting up
                 delete $scope.category.products;
-                $categoryApiService.update($scope.category).$promise
+                categoryApiService.update($scope.category).$promise
                     .then(updateSuccess, updateError)
                     .then(function(){
                         $scope.category.products = $scope.category.product_ids;

@@ -3,11 +3,11 @@ angular.module('dashboardModule')
 .controller('dashboardMenuController', [
     '$scope',
     'menuService',
-    '$loginLoginService',
+    'loginLoginService',
     '$rootScope',
-    function($scope, menuService, $loginLoginService, $rootScope) {
+    function($scope, menuService, loginLoginService, $rootScope) {
 
-        $scope.userName = $loginLoginService.getFullName() || 'root';
+        $scope.userName = loginLoginService.getFullName() || 'root';
 
         $scope.items = menuService.items;
         $scope.closeAll = menuService.closeAll;

@@ -2,10 +2,10 @@ angular.module("discountsModule")
 
 .controller("editController", [
     "$scope",
-    "$discountsService",
+    "discountsService",
     "$routeParams",
     "$location",
-    function($scope, $discountsService, $routeParams, $location) {
+    function($scope, discountsService, $routeParams, $location) {
 
         var isEditPage = !!$routeParams.id;
 
@@ -21,12 +21,12 @@ angular.module("discountsModule")
 
         function activate() {
             if (isEditPage) {
-                $discountsService.one($routeParams.id)
+                discountsService.one($routeParams.id)
                     .then(function(discount) {
                         $scope.discount = discount;
                     });
             } else {
-                $scope.discount = $discountsService.defaults();
+                $scope.discount = discountsService.defaults();
             }
         }
 
@@ -38,15 +38,15 @@ angular.module("discountsModule")
 
         function save() {
             if (isEditPage) {
-                $discountsService.put($scope.discount);
+                discountsService.put($scope.discount);
             } else {
-                $discountsService.post($scope.discount)
+                discountsService.post($scope.discount)
                     .then(goToDiscount);
             }
         }
 
         function remove() {
-            $discountsService.remove($scope.discount._id)
+            discountsService.remove($scope.discount._id)
                 .then(function(){
                     $location.path('/discounts');
                 });

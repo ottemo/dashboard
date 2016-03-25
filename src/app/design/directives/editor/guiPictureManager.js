@@ -3,7 +3,7 @@
 */
 angular.module("designModule")
 
-.directive("guiPictureManager", ["$designImageService", function ($designImageService) {
+.directive("guiPictureManager", ["designImageService", function (designImageService) {
     return {
         restrict: "E",
         templateUrl: "/views/design/gui/editor/pictureManager.html",
@@ -44,7 +44,7 @@ angular.module("designModule")
             });
 
             $scope.getImage = function (filename) {
-                return $designImageService.getImage($scope.imagesPath + filename);
+                return designImageService.getImage($scope.imagesPath + filename);
             };
 
             $scope.selectImage = function (filename) {

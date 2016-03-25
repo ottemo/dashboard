@@ -4,9 +4,9 @@ angular.module("productModule")
 "$scope",
 "$routeParams",
 "$location",
-"$productApiService",
-"$dashboardUtilsService",
-function ($scope, $routeParams, $location, $productApiService, $dashboardUtilsService) {
+"productApiService",
+"dashboardUtilsService",
+function ($scope, $routeParams, $location, productApiService, dashboardUtilsService) {
     var editableFields, requiredFields, formDisable, formEnable, attr, formValidate;
 
     attr = $routeParams.attr;
@@ -50,7 +50,7 @@ function ($scope, $routeParams, $location, $productApiService, $dashboardUtilsSe
     /**
      * Gets list all attributes of product
      */
-    $productApiService.attributesInfo().$promise.then(
+    productApiService.attributesInfo().$promise.then(
         function (response) {
             var result, i;
             result = response.result || [];
@@ -85,11 +85,11 @@ function ($scope, $routeParams, $location, $productApiService, $dashboardUtilsSe
             if ($scope.attribute.hasOwnProperty(field)) {
                 value = $scope.attribute[field]  || "";
                 if (!value.match(requiredFields[field])) {
-                    $scope.message = $dashboardUtilsService.getMessage(null, 'warning', 'The field '+ field +' invalid');
+                    $scope.message = dashboardUtilsService.getMessage(null, 'warning', 'The field '+ field +' invalid');
                     return false;
                 }
             } else {
-                $scope.message = $dashboardUtilsService.getMessage(null, 'warning', 'The field '+ field +' is not specified');
+                $scope.message = dashboardUtilsService.getMessage(null, 'warning', 'The field '+ field +' is not specified');
                 return false;
             }
         }
@@ -108,19 +108,19 @@ function ($scope, $routeParams, $location, $productApiService, $dashboardUtilsSe
                 if (-1 !== ["multi_select"].indexOf($scope.attribute.Editors)) {
                     $scope.attribute.Type = "[]text";
                 }
-                $productApiService.addAttribute($scope.attribute).$promise.then(function (response) {
+                productApiService.addAttribute($scope.attribute).$promise.then(function (response) {
                     if (response.error === null) {
-                        $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Attribute was updated successfully');
+                        $scope.message = dashboardUtilsService.getMessage(null, 'success', 'Attribute was updated successfully');
                     } else {
-                        $scope.message = $dashboardUtilsService.getMessage(response);
+                        $scope.message = dashboardUtilsService.getMessage(response);
                     }
                 });
             } else {
-                $productApiService.updateAttribute({"attribute": attr}, $scope.attribute).$promise.then(function (response) {
+                productApiService.updateAttribute({"attribute": attr}, $scope.attribute).$promise.then(function (response) {
                     if (response.error === null) {
-                        $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Attribute was updated successfully');
+                        $scope.message = dashboardUtilsService.getMessage(null, 'success', 'Attribute was updated successfully');
                     } else {
-                        $scope.message = $dashboardUtilsService.getMessage(response);
+                        $scope.message = dashboardUtilsService.getMessage(response);
                     }
                 });
             }
