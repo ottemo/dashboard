@@ -8,7 +8,7 @@ angular.module("coreModule")
         scope: {
             "data": "=data"
         },
-        templateUrl: "/views/core/directives/editor/json.html",
+        templateUrl: "/views/core/directives/editor/ot-json.html",
 
         controller: ["$scope", function ($scope) {
             $scope.items = [

@@ -8,7 +8,7 @@ angular.module('coreModule')
             'attribute': '=editorScope',
             'item': '=item'
         },
-        templateUrl: '/views/core/directives/filter/range.html',
+        templateUrl: '/views/core/directives/filter/ot-range.html',
 
         controller: function($scope) {
 

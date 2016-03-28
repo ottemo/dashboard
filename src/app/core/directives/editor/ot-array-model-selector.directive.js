@@ -8,7 +8,7 @@ angular.module("coreModule")
         function (designApiService, designImageService) {
             return {
                 restrict: "E",
-                templateUrl: "/views/core/directives/editor/array-model-selector.html",
+                templateUrl: "/views/core/directives/editor/ot-array-model-selector.html",
 
                 scope: {
                     "attribute": "=editorScope",

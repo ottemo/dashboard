@@ -10,7 +10,7 @@ angular.module('coreModule')
             'attribute': '=editorScope',
             'item': '=item'
         },
-        templateUrl: '/views/core/directives/editor/html.html'
+        templateUrl: '/views/core/directives/editor/ot-html.html'
     };
 }]);
 

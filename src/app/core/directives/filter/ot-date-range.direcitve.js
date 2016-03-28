@@ -8,7 +8,7 @@ angular.module("coreModule")
             "attribute": "=editorScope",
             "item": "=item"
         },
-        templateUrl: "/views/core/directives/filter/date-range.html",
+        templateUrl: "/views/core/directives/filter/ot-date-range.html",
 
         controller: ["$scope", function($scope) {
             $scope.highInvalid = false;

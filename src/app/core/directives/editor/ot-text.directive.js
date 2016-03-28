@@ -10,7 +10,7 @@ angular.module('coreModule')
             'attribute': '=editorScope',
             'item': '=item'
         },
-        templateUrl: '/views/core/directives/editor/text.html',
+        templateUrl: '/views/core/directives/editor/ot-text.html',
 
         controller: ['$scope', function() {}]
     };

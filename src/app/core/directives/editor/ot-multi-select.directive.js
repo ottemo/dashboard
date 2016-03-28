@@ -6,7 +6,7 @@ angular.module("coreModule")
 .directive("otMultiSelect", [function () {
     return {
         restrict: "E",
-        templateUrl: "/views/core/directives/editor/multi-select.html",
+        templateUrl: "/views/core/directives/editor/ot-multi-select.html",
 
         scope: {
             "attribute": "=editorScope",

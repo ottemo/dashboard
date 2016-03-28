@@ -17,7 +17,7 @@ angular.module("coreModule")
 
         return {
             restrict: "E",
-            templateUrl: "/views/core/directives/editor/page-selector.html",
+            templateUrl: "/views/core/directives/editor/ot-page-selector.html",
 
             scope: {
                 "attribute": "=editorScope",

@@ -6,7 +6,7 @@ angular.module("coreModule")
 .directive("otPictureManager", ["designImageService", function (designImageService) {
     return {
         restrict: "E",
-        templateUrl: "/views/core/directives/editor/picture-manager.html",
+        templateUrl: "/views/core/directives/editor/ot-picture-manager.html",
 
         scope: {
             "parent": "=parent",

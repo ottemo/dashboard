@@ -12,7 +12,7 @@ angular.module('coreModule')
             'name': '=inputName', // file input name attribute
             'onChange': '&' // On change event listener
         },
-        templateUrl: '/views/core/directives/input-file.html',
+        templateUrl: '/views/core/directives/ot-input-file.html',
         replace: true,
         transclude: true,
 

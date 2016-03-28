@@ -1,6 +1,6 @@
 angular.module("productModule")
 
-.directive("guiCustomOptionsManager", [function () {
+.directive("otCustomOptionsManager", [function () {
     return {
         restrict: "E",
         scope: {
@@ -8,7 +8,7 @@ angular.module("productModule")
             "attribute": "=editorScope",
             "item": "=item"
         },
-        templateUrl: "/views/product/gui/custom_options_manager.html",
+        templateUrl: "/views/product/directive/ot-custom-options-manager.html",
         controller: function ($scope) {
             var isInit, initData, modifyData, normalizeJSON, getOptions, getOptionLength, cloneRow;
 

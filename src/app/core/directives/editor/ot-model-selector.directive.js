@@ -6,7 +6,7 @@ angular.module("coreModule")
     .directive("otModelSelector", ["designApiService", function (designApiService) {
         return {
             restrict: "E",
-            templateUrl: "/views/core/directives/editor/model-selector.html",
+            templateUrl: "/views/core/directives/editor/ot-model-selector.html",
 
             scope: {
                 "attribute": "=editorScope",

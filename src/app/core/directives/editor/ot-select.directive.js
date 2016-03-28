@@ -6,7 +6,7 @@ angular.module("coreModule")
 .directive("otSelect", [function () {
     return {
         restrict: "E",
-        templateUrl: "/views/core/directives/editor/select.html",
+        templateUrl: "/views/core/directives/editor/ot-select.html",
 
         scope: {
             "attribute": "=editorScope",

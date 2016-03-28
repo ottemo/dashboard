@@ -11,7 +11,7 @@ angular.module("coreModule")
             "attribute": "=editorScope",
             "item": "=item"
         },
-        templateUrl: "/views/core/directives/filter/text.html",
+        templateUrl: "/views/core/directives/filter/ot-text.html",
 
         controller: ["$scope",
             function ($scope) {

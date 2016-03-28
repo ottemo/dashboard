@@ -21,7 +21,7 @@ function ($location, $routeParams, DashboardListService, productApiService, desi
 
     return {
         restrict: "E",
-        templateUrl: "/views/core/directives/editor/products-selector.html",
+        templateUrl: "/views/core/directives/editor/ot-products-selector.html",
 
         scope: {
             "attribute": "=editorScope",

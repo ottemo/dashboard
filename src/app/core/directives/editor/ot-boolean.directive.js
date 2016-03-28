@@ -3,7 +3,7 @@ angular.module('coreModule')
 .directive('otBoolean', [function() {
     return {
         restrict: 'E',
-        templateUrl: '/views/core/directives/editor/select.html',
+        templateUrl: '/views/core/directives/editor/ot-select.html',
 
         scope: {
             'attribute': '=editorScope',

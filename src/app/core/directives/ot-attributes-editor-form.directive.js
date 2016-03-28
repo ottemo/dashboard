@@ -13,7 +13,7 @@ angular.module("coreModule")
             "item": "=item",
             "attributes": "=attributesList"
         },
-        templateUrl: "/views/core/directives/attributes-editor-form.html",
+        templateUrl: "/views/core/directives/ot-attributes-editor-form.html",
         controller: function ($scope) {
             var updateAttributes;
             updateAttributes = function () {

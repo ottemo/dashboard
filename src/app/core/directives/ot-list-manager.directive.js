@@ -28,7 +28,7 @@ angular.module("coreModule")
             "addNewDisable": "=addNewDisable",
             "mapping": "=mapping"
         },
-        templateUrl: "/views/core/directives/list.html",
+        templateUrl: "/views/core/directives/ot-list.html",
         controller: function ($scope) {
 
 			var assignMapping = function (mapping) {

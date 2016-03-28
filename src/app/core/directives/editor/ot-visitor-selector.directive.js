@@ -22,7 +22,7 @@ function ($location, $routeParams, DashboardListService, visitorApiService, desi
 
     return {
         restrict: "E",
-        templateUrl: "/views/core/directives/editor/visitor-selector.html",
+        templateUrl: "/views/core/directives/editor/ot-visitor-selector.html",
 
         scope: {
             "attribute": "=editorScope",

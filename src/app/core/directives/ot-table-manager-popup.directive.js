@@ -15,7 +15,7 @@ angular.module("coreModule")
                 "buttonData": "=buttons",
                 "mapping": "=mapping"
             },
-            templateUrl: "/views/core/directives/table-popup.html",
+            templateUrl: "/views/core/directives/ot-table-manager-popup.html",
             controller: function ($scope) {
                 // Variables
                 var isInit, isSelectedAll, activeFilters;

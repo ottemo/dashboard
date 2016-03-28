@@ -7,7 +7,7 @@ angular.module('coreModule')
             'attribute': '=editorScope',
             'item': '=item'
         },
-        templateUrl: '/views/core/directives/editor/password.html'
+        templateUrl: '/views/core/directives/editor/ot-password.html'
     };
 }]);
 

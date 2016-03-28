@@ -10,7 +10,7 @@ angular.module('coreModule')
             'attribute': '=editorScope',
             'item': '=item'
         },
-        templateUrl: '/views/core/directives/editor/not-editable.html',
+        templateUrl: '/views/core/directives/editor/ot-not-editable.html',
 
         controller: ['$scope', function() {
 

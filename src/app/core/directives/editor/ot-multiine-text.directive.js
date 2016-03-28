@@ -10,7 +10,7 @@ angular.module('coreModule')
             'attribute': '=editorScope',
             'item': '=item'
         },
-        templateUrl: '/views/core/directives/editor/multiline-text.html'
+        templateUrl: '/views/core/directives/editor/ot-multiline-text.html'
     };
 }]);
 

@@ -11,7 +11,7 @@ angular.module('coreModule')
         scope: {
             'parent': '=object'
         },
-        templateUrl: '/views/core/directives/paginator.html',
+        templateUrl: '/views/core/directives/ot-paginator.html',
         controller: ['$scope', function($scope) {
 
             var countNeighbors = 4;

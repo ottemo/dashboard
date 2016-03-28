@@ -6,7 +6,7 @@ angular.module("coreModule")
 .directive("otFilterSelect", [function () {
     return {
         restrict: "E",
-        templateUrl: "/views/core/directives/filter/select.html",
+        templateUrl: "/views/core/directives/filter/ot-select.html",
 
         scope: {
             "parent": "=object",

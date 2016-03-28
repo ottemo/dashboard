@@ -11,7 +11,7 @@ angular.module('coreModule')
             'item': '=item',
             'attributes': '=attributes'
         },
-        templateUrl: '/views/core/directives/form-builder.html',
+        templateUrl: '/views/core/directives/ot-form-builder.html',
         controller: ['$scope',
             function($scope) {
                 if (typeof $scope.parent === 'undefined') {

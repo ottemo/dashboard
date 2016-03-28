@@ -3,7 +3,7 @@ angular.module("coreModule")
 /**
 *  Directive used for automatic attributes editor form creation
 */
-.directive("guiConfigEditorForm", [function () {
+.directive("otConfigEditorForm", [function () {
     return {
         restrict: "E",
         scope: {
@@ -11,7 +11,7 @@ angular.module("coreModule")
             "item": "=item",
             "attributes": "=attributesList"
         },
-        templateUrl: "/views/config/gui/configEditorForm.html",
+        templateUrl: "/views/config/directives/ot-config-editor-form.html",
         controller: function ($scope) {
             var updateAttributes, addTab, addFields, sortFieldsInGroups;
 
