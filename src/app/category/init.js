@@ -1,4 +1,4 @@
-angular.module("categoryModule", ["ngRoute", "ngResource", "designModule"])
+angular.module("categoryModule", ["ngRoute", "ngResource", "coreModule"])
 
 /*
  *  Basic routing configuration

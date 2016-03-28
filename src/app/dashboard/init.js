@@ -13,7 +13,7 @@ angular.module('dashboardModule', [
     'categoryModule',
     'cmsModule',
     'configModule',
-    'designModule',
+    'coreModule',
     'discountsModule',
     'impexModule',
     'loginModule',

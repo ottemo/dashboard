@@ -4,7 +4,7 @@
 angular.module('visitorModule', [
     'ngRoute',
     'ngResource',
-    'designModule'
+    'coreModule'
 ])
 
 .config([

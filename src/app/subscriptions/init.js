@@ -1,7 +1,7 @@
 angular.module("subscriptionsModule", [
     "ngRoute",
     "ngResource",
-    "designModule",
+    "coreModule",
 ])
 
 .config(["$routeProvider", function ($routeProvider) {

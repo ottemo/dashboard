@@ -1,4 +1,4 @@
-angular.module("designModule")
+angular.module("coreModule")
 
 /**
 *  Directive used for automatic attributes editor form creation

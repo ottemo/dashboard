@@ -1,7 +1,7 @@
 angular.module('cmsModule', [
     'ngRoute',
     'ngResource',
-    'designModule'
+    'coreModule'
 ])
 
 .config(['$routeProvider', function($routeProvider) {
