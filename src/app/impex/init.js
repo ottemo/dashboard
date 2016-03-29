@@ -1,4 +1,4 @@
-angular.module("impexModule", ["ngRoute", "ngResource"])
+angular.module("impexModule", ["ngRoute", "ngResource", "coreModule"])
 
 /*
  *  Basic routing configuration
