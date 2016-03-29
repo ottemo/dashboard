@@ -3,9 +3,9 @@ angular.module("coreModule")
  *  Directive used for automatic attribute editor creation
  */
     .directive("otArrayModelSelector", [
-        "designApiService",
+        "coreApiService",
         "designImageService",
-        function (designApiService, designImageService) {
+        function (coreApiService, designImageService) {
             return {
                 restrict: "E",
                 templateUrl: "/views/core/directives/editor/ot-array-model-selector.html",
@@ -154,7 +154,7 @@ angular.module("coreModule")
 
                         parseOptions($scope.attribute.Options);
 
-                        designApiService.attributesModel(getParams(options.model, $scope.item)).$promise.then(
+                        coreApiService.attributesModel(getParams(options.model, $scope.item)).$promise.then(
                             function (response) {
                                 var result = response.result || [];
                                 $scope.items = result;

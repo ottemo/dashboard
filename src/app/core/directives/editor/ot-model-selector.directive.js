@@ -3,7 +3,7 @@ angular.module("coreModule")
 /**
  *  Directive used for automatic attribute editor creation
  */
-    .directive("otModelSelector", ["designApiService", function (designApiService) {
+    .directive("otModelSelector", ["coreApiService", function (coreApiService) {
         return {
             restrict: "E",
             templateUrl: "/views/core/directives/editor/ot-model-selector.html",
@@ -86,7 +86,7 @@ angular.module("coreModule")
                         return true;
                     }
 
-                    designApiService.attributesModel(params).$promise.then(
+                    coreApiService.attributesModel(params).$promise.then(
                         function (response) {
                             try {
                                 var result = response.result || [];
