@@ -8,9 +8,9 @@ angular.module("coreModule")
 "$routeParams",
 "dashboardListService",
 "visitorApiService",
-"designImageService",
+"coreImageService",
 "COUNT_ITEMS_PER_PAGE",
-function ($location, $routeParams, DashboardListService, visitorApiService, designImageService, COUNT_ITEMS_PER_PAGE) {
+function ($location, $routeParams, DashboardListService, visitorApiService, coreImageService, COUNT_ITEMS_PER_PAGE) {
     var serviceList = new DashboardListService(), showColumns;
     showColumns = {
         'name' : {'type' : 'select-link', 'label' : 'Name'},

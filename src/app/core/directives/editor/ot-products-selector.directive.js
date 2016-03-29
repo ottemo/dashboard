@@ -8,9 +8,9 @@ angular.module("coreModule")
 "$routeParams",
 "dashboardListService",
 "productApiService",
-"designImageService",
+"coreImageService",
 "COUNT_ITEMS_PER_PAGE",
-function ($location, $routeParams, DashboardListService, productApiService, designImageService, COUNT_ITEMS_PER_PAGE) {
+function ($location, $routeParams, DashboardListService, productApiService, coreImageService, COUNT_ITEMS_PER_PAGE) {
     var serviceList = new DashboardListService(), showColumns;
     showColumns = {
         'name' : {'type' : 'select-link', 'label' : 'Name'},
@@ -195,7 +195,7 @@ function ($location, $routeParams, DashboardListService, productApiService, desi
              * @returns {string}        - full path to image
              */
             $scope.getImage = function (image) {
-                return designImageService.getImage(image);
+                return coreImageService.getImage(image);
             };
 
             $scope.expand = function () {

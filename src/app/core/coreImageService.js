@@ -1,6 +1,6 @@
 angular.module('coreModule')
 
-.factory('designImageService', [
+.factory('coreImageService', [
     'MEDIA_BASE_PATH',
     function (MEDIA_BASE_PATH) {
 

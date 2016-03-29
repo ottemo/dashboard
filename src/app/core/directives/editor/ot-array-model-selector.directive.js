@@ -4,8 +4,8 @@ angular.module("coreModule")
  */
     .directive("otArrayModelSelector", [
         "coreApiService",
-        "designImageService",
-        function (coreApiService, designImageService) {
+        "coreImageService",
+        function (coreApiService, coreImageService) {
             return {
                 restrict: "E",
                 templateUrl: "/views/core/directives/editor/ot-array-model-selector.html",
@@ -169,7 +169,7 @@ angular.module("coreModule")
                      * @returns {string}        - full path to image
                      */
                     $scope.getImage = function (image) {
-                        return designImageService.getImage(image);
+                        return coreImageService.getImage(image);
                     };
 
                 }

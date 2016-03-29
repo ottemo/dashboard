@@ -3,7 +3,7 @@
 */
 angular.module("coreModule")
 
-.directive("otPictureManager", ["designImageService", function (designImageService) {
+.directive("otPictureManager", ["coreImageService", function (coreImageService) {
     return {
         restrict: "E",
         templateUrl: "/views/core/directives/editor/ot-picture-manager.html",
@@ -44,7 +44,7 @@ angular.module("coreModule")
             });
 
             $scope.getImage = function (filename) {
-                return designImageService.getImage($scope.imagesPath + filename);
+                return coreImageService.getImage($scope.imagesPath + filename);
             };
 
             $scope.selectImage = function (filename) {

@@ -6,9 +6,9 @@ angular.module("productModule")
 "$location",
 "$q",
 "productApiService",
-"designImageService",
+"coreImageService",
 "dashboardUtilsService",
-function ($scope, $routeParams, $location, $q, productApiService, designImageService, dashboardUtilsService) {
+function ($scope, $routeParams, $location, $q, productApiService, coreImageService, dashboardUtilsService) {
 
     var productId, getDefaultProduct, addImageManagerAttribute, addStockValues;
 
@@ -287,6 +287,6 @@ function ($scope, $routeParams, $location, $q, productApiService, designImageSer
      * @returns {string}        - full path to image
      */
     $scope.getImage = function (image) {
-        return designImageService.getImage(image);
+        return coreImageService.getImage(image);
     };
 }]);

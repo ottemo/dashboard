@@ -4,7 +4,7 @@ angular.module("dashboardModule")
     "$scope",
     "$location",
     "dashboardStatisticService",
-    "designImageService",
+    "coreImageService",
     "dashboardUtilsService",
     "$timeout",
     "moment",
@@ -12,7 +12,7 @@ angular.module("dashboardModule")
         $scope,
         $location,
         $statistic,
-        designImageService,
+        coreImageService,
         dashboardUtilsService,
         $timeout,
         moment
@@ -203,7 +203,7 @@ angular.module("dashboardModule")
 
         //TODO: delete this when images are attached to products
         function getProductImage(image) {
-            return designImageService.getImage(image);
+            return coreImageService.getImage(image);
         };
 
     }
