@@ -3,7 +3,8 @@ angular.module('reportingModule')
 .controller('reportingProductController', [
     '$scope',
     'reportingService',
-    function($scope, reportingService) {
+    'moment',
+    function($scope, reportingService, moment) {
         $scope.report = {};
         $scope.timeframe = {
             frame: 'today',
@@ -38,24 +39,23 @@ angular.module('reportingModule')
         
         function getDatesForFrame(frame) {
             // Default to today
-            var startDate = '2016-03-01';
-            var endDate = '2016-04-01';
+            var startDate = moment().startOf('day');
+            var endDate = moment().endOf('day');
             
             switch (frame) {
                 case 'today':
-                    // startDate = '';
                     break;
                 case 'yesterday':
-                    // startDate = '';
-                    // endDate = ''
+                    startDate = moment().subtract(1,'day').startOf('day');
+                    endDate = moment().subtract(1,'day').endOf('day');
                     break;
                 case 'last 7 days':
-                    // startDate = '';
+                    startDate = moment().subtract(7,'days').startOf('day');
                     break;
                 case 'last 30 days':
-                    // startDate = '';
+                    startDate = moment().subtract(30,'days').startOf('day');
                     break;
-            } 
+            }
             
             return {startDate: startDate, endDate: endDate}; 
         }
