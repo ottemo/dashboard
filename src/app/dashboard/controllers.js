@@ -75,37 +75,11 @@ angular.module("dashboardModule")
         }
 
         function configGraphs() {
-            // Highcharts settings that we can't adjust from ngHighcharts
             Highcharts.setOptions({
-                global: {
-                    timezoneOffset: 0 //default
-                },
-                chart: {
-                    spacingLeft: 15,
-                    spacingRight: 0,
-                    backgroundColor: 'rgba(0,0,0,0)'
-                },
-                plotOptions: {
-                    series: {
-                        marker: {
-                            enabled: false
-                        }
-                    }
-                },
-                yAxis: {
-                    labels: {
-                        style: {
-                            color: '#98978B'
-                        }
-                    }
-                },
                 colors: [
                     '#325D88',
-                    '#DFD7CA'
+                    '#DFD7CA',
                 ],
-                legend: {
-                    enabled: false
-                },
                 tooltip: {
                     formatter: function() {
                         return this.series.name + ' @ ' + moment.utc(this.x).format('ha') + ': ' + this.y;
