@@ -15,36 +15,20 @@ angular.module('reportsModule')
 
         ///////////////////////////
 
-        function getProductPerformance(startDate, endDate) {
-            return timezoneService.get().then(function(tz) {
-                var params = transformDates(tz, startDate, endDate);
-                return fetchProductReport(params)
-            })
+        function getProductPerformance(dates) {
+            var url = REST_SERVER_URI + '/reporting/product-performance';
+            var config = {
+                params: {
+                    start_date: dates.startDate.toISOString(),
+                    end_date: dates.endDate.toISOString(),
+                }
+            };
 
-            //////////
+            console.log('fetching product performance report for:', config.params);
 
-            // apply tz and format for server
-            function transformDates(tz, startDate, endDate) {
-                var params = {
-                    start_date: moment(startDate).utcOffset(tz).toISOString(),
-                    end_date: moment(endDate).utcOffset(tz).toISOString(),
-                };
-                console.log(params); //TODO: CLEANUP
-                return params;
-            }
-
-            // fetch report and parse response
-            function fetchProductReport(params) {
-                var url = REST_SERVER_URI + '/reporting/product-performance';
-                var config = {
-                    params: params
-                };
-
-                return $http.get(url, config).then(function(response) {
-                    return response.data.result
-                })
-
-            }
+            return $http.get(url, config).then(function(response) {
+                return response.data.result
+            });
         }
     }
 ]);

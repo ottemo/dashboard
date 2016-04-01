@@ -1,7 +1,8 @@
 angular.module('reportsModule', [
     'ngRoute',
     'ngResource',
-    'designModule'
+    'designModule',
+    'configModule',
 ])
 
 .config(["$routeProvider", function($routeProvider) {

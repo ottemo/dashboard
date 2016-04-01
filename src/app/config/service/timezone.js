@@ -1,3 +1,4 @@
+//TODO: Consider moving to coreModule
 angular.module('configModule')
 
 .factory('timezoneService', ['configApiService', '$q',
@@ -5,8 +6,9 @@ angular.module('configModule')
         var storeTz = null;
 
         var service = {
+            get: getTz,
+            makeDateRange: makeDateRange,
             init: init, // @deprecated
-            get: get,
             storeTz: 0, // @deprecated
         };
 
@@ -25,7 +27,7 @@ angular.module('configModule')
                 });
         }
 
-        function get() {
+        function getTz() {
             // We have the tz return a promise wrapped value
             if (null !== storeTz) {
                 return $q.resolve(storeTz)
@@ -41,6 +43,45 @@ angular.module('configModule')
                     return storeTz
                 })
 
+        }
+
+        /**
+         * @param  string; today, yesterday, last 7 days, last 30 days
+         * @return {[type]}
+         */
+        function makeDateRange(rangeString) {
+            return getTz().then(function(tz) {
+                return _make(tz, rangeString)
+            });
+
+            ////////////////////////
+
+            function _make(tz, rangeString) {
+                // Default to today
+                var startDate = moment().utcOffset(tz);
+                var endDate = moment().utcOffset(tz).endOf('day');
+
+                switch (rangeString.toLowerCase()) {
+                    case 'today':
+                        startDate = startDate.startOf('day');
+                        break;
+                    case 'yesterday':
+                        startDate = startDate.subtract(1, 'day').startOf('day');
+                        endDate = moment().utcOffset(tz).subtract(1, 'day').endOf('day');
+                        break;
+                    case 'last 7 days':
+                        startDate = startDate.subtract(7, 'days').startOf('day');
+                        break;
+                    case 'last 30 days':
+                        startDate = startDate.subtract(30, 'days').startOf('day');
+                        break;
+                }
+
+                return {
+                    startDate: startDate,
+                    endDate: endDate
+                };
+            }
         }
     }
 ]);

@@ -3,12 +3,13 @@ angular.module('reportsModule')
 .controller('reportsProductController', [
     '$scope',
     'reportsService',
+    'timezoneService',
     'moment',
-    function($scope, reportsService, moment) {
+    function($scope, reportsService, timezoneService, moment) {
         $scope.report = {};
         $scope.timeframe = {
             frame: 'today',
-            options: [
+            options: [          // Support is bound to what timezone.js can parse
                 'today',
                 'yesterday',
                 'last 7 days',
@@ -24,9 +25,8 @@ angular.module('reportsModule')
         /////////////////////////////////
 
         function activate() {
-            var frame = $scope.timeframe.frame;
-            var dateRange = getDatesForFrame(frame);
-            getReport(dateRange);
+            // Get a report on page load
+            fetchReport($scope.timeframe.frame);
         }
 
         /**
@@ -40,36 +40,7 @@ angular.module('reportsModule')
             $scope.timeframe.frame = frame;
             $scope.timeframe.isOpen = false;
 
-            var dateRange = getDatesForFrame(frame);
-            getReport(dateRange);
-        }
-
-        // Mapping date terms to js Date objects
-        function getDatesForFrame(frame) {
-
-            // Default to today
-            var startDate = moment().startOf('day');
-            var endDate = moment().endOf('day');
-
-            switch (frame) {
-                case 'today':
-                    break;
-                case 'yesterday':
-                    startDate = moment().subtract(1, 'day').startOf('day');
-                    endDate = moment().subtract(1, 'day').endOf('day');
-                    break;
-                case 'last 7 days':
-                    startDate = moment().subtract(7, 'days').startOf('day');
-                    break;
-                case 'last 30 days':
-                    startDate = moment().subtract(30, 'days').startOf('day');
-                    break;
-            }
-
-            return {
-                startDate: startDate,
-                endDate: endDate
-            };
+            fetchReport(frame);
         }
 
         // Open/Close the timeframe dropdown
@@ -77,12 +48,14 @@ angular.module('reportsModule')
             $scope.timeframe.isOpen = !$scope.timeframe.isOpen;
         }
 
-        /**
-         * Fetchs a report and updates the scoped var
-         * @param  {startDate: Date, endDate: Date}
-         */
-        function getReport(dates) {
-            reportsService.product(dates.startDate, dates.endDate)
+        // Fetch a report for a timeframe string, and make sure
+        // to modify the dates for the store tz
+        function fetchReport(frame) {
+
+            timezoneService.makeDateRange(frame)
+                .then(function(dateRange){
+                    return reportsService.product(dateRange);
+                })
                 .then(function(report) {
                     $scope.report = report;
                 });
