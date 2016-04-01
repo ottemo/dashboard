@@ -6,20 +6,20 @@
                 class="btn btn-default dropdown-toggle">
                 Timeframe: {{timeframe.frame}} <i class="caret"></i>
             </a>
-            
+
             <ul class="dropdown-menu dropdown-menu-right">
                 <li ng-repeat="opt in timeframe.options">
                     <a ng-click="timeframe.set(opt)">
                         {{opt}}
                     </a>
-               </li>
+                </li>
             </ul>
         </div>
     </div>
-    
+
     <h1>
         <span class="fa fa-area-chart"></span>
-        Reporting / Product
+        Reports / Product
     </h1>
 </div>
 
@@ -39,17 +39,23 @@
             <td>{{product.units_sold}}</td>
             <td>{{product.gross_sales | currency}}</td>
         </tr>
+        <tr ng-show="!report.aggregate_items">
+            <td colspan="4"
+                class="text-center">
+                No results found for this timeframe.
+            </td>
+        </tr>
     </tbody>
-    <tfoot>
+    <tfoot ng-show="report.aggregate_items">
         <tr>
             <th>
                 Totals
-                </th>
+            </th>
             <th>
             </th>
             <th>
-                {{report.total_items}} items in <br> 
-                {{report.total_orders}} orders
+                {{report.total_items}} items in
+                <br> {{report.total_orders}} orders
             </th>
             <th>
                 {{report.total_sales | currency}}
@@ -57,3 +63,4 @@
         </tr>
     </tfoot>
 </table>
+
