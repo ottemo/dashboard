@@ -19,6 +19,7 @@ angular.module('dashboardModule', [
     'loginModule',
     'orderModule',
     'productModule',
+    'reportsModule',
     'seoModule',
     'subscriptionsModule',
     'visitorModule'
