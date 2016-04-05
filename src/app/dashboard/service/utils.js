@@ -1,6 +1,6 @@
 angular.module("dashboardModule")
 
-.service("$dashboardUtilsService", function() {
+.service("dashboardUtilsService", function() {
 
     /**
      * Extends String object

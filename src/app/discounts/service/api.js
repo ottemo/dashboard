@@ -9,7 +9,7 @@ angular.module("discountsModule")
  * percent
  * times
  */
-.service("$discountsService", [
+.service("discountsService", [
     "$http",
     "REST_SERVER_URI",
     "moment",

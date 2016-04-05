@@ -1,11 +1,11 @@
-angular.module("designModule")
-
 /**
 *  Directive used for automatic attributes editor form creation
 *
 *  Form to edit with tabs
 */
-.directive("guiAttributesEditorFormTabs", ["$designService", "$dashboardUtilsService", function ($designService, $dashboardUtilsService) {
+angular.module("designModule")
+
+.directive("guiAttributesEditorFormTabs", ["dashboardUtilsService", function (dashboardUtilsService) {
     return {
         restrict: "E",
         scope: {
@@ -13,7 +13,7 @@ angular.module("designModule")
             "item": "=item",
             "attributes": "=attributesList"
         },
-        templateUrl: $designService.getTemplate("design/gui/attributesEditorFormTabs.html"),
+        templateUrl: "/views/design/gui/attributesEditorFormTabs.html",
         controller: function ($scope) {
             var updateAttributes;
 
@@ -30,7 +30,7 @@ angular.module("designModule")
                 if ($scope.otEditForm.$valid) {
                     $scope.parent.save();
                 } else {
-                    $scope.parent.message = $dashboardUtilsService.getMessage(null, "warning", "Form is invalid");
+                    $scope.parent.message = dashboardUtilsService.getMessage(null, "warning", "Form is invalid");
                 }
             };
 

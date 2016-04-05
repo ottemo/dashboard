@@ -1,11 +1,11 @@
 angular.module("seoModule")
 
-.service("$seoService", [
+.service("seoService", [
         "$resource",
-        "$seoApiService",
+        "seoApiService",
         "$q",
-        "$dashboardUtilsService",
-        function ($resource, $seoApiService, $q, $dashboardUtilsService) {
+        "dashboardUtilsService",
+        function ($resource, seoApiService, $q, dashboardUtilsService) {
 
             // Variables
             var list, oldValue, seoFields;
@@ -25,7 +25,7 @@ angular.module("seoModule")
             };
 
             init = function () {
-                $seoApiService.list().$promise.then(
+                seoApiService.list().$promise.then(
                     function (response) {
                         list = response.result || [];
                     }
@@ -39,7 +39,7 @@ angular.module("seoModule")
                 for (i = 0; i < list.length; i += 1) {
                     if (list[i].type === type && list[i].rewrite === rewrite) {
                         if(typeof oldValue === "undefined") {
-                            oldValue = $dashboardUtilsService.clone(list[i]);
+                            oldValue = dashboardUtilsService.clone(list[i]);
                         }
 
                         return list[i];
@@ -52,7 +52,7 @@ angular.module("seoModule")
 			canonical = function (id) {
                 var defer = $q.defer();
 
-                $seoApiService.canonical({"id": id}).$promise.then(
+                seoApiService.canonical({"id": id}).$promise.then(
                     function (response) {
                         defer.resolve(response);
                     }
@@ -66,14 +66,14 @@ angular.module("seoModule")
                 if (!isModified(obj)) {
                     defer.resolve(obj);
                 } else {
-                    $seoApiService.update({"itemID": obj._id}, obj).$promise.then(
+                    seoApiService.update({"itemID": obj._id}, obj).$promise.then(
                         function (response) {
                             var i;
 
                             for (i = 0; i < list.length; i += 1) {
                                 if (list[i]._id === response.result._id) {
                                     list[i] = response.result;
-                                    oldValue = $dashboardUtilsService.clone(list[i]);
+                                    oldValue = dashboardUtilsService.clone(list[i]);
 
                                     defer.resolve(list[i]);
                                 }
@@ -91,12 +91,12 @@ angular.module("seoModule")
                 if (!isModified(obj)) {
                     defer.resolve(obj);
                 } else {
-                    $seoApiService.add(obj).$promise.then(
+                    seoApiService.add(obj).$promise.then(
                         function (response) {
                             if (response.error === null) {
                                 var result = response.result || null;
                                 list.push(result);
-                                oldValue = $dashboardUtilsService.clone(result);
+                                oldValue = dashboardUtilsService.clone(result);
                                 defer.resolve(result);
                             }
                         }
@@ -108,7 +108,7 @@ angular.module("seoModule")
 
             remove = function (obj) {
                 var defer = $q.defer();
-                $seoApiService.remove({"itemID": obj._id}, obj).$promise.then(
+                seoApiService.remove({"itemID": obj._id}, obj).$promise.then(
                     function (response) {
                         if (response.error === null) {
                             var result = response.result || null;

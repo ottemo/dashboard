@@ -1,6 +1,6 @@
 angular.module("designModule")
 
-.directive("guiFilterDateRange", ["$designService", function($designService) {
+.directive("guiFilterDateRange", [function() {
     return {
         restrict: "E",
         scope: {
@@ -8,7 +8,7 @@ angular.module("designModule")
             "attribute": "=editorScope",
             "item": "=item"
         },
-        templateUrl: $designService.getTemplate("design/gui/filter/dateRange.html"),
+        templateUrl: "/views/design/gui/filter/dateRange.html",
 
         controller: ["$scope", function($scope) {
             $scope.highInvalid = false;

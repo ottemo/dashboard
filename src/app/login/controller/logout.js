@@ -2,12 +2,12 @@ angular.module("loginModule")
 
 .controller("loginLogoutController", [
 "$scope",
-"$loginLoginService",
+"loginLoginService",
 "$location",
-function ($scope, $loginLoginService, $location) {
+function ($scope, loginLoginService, $location) {
 
-    if ($loginLoginService.isLoggedIn()) {
-        $loginLoginService.logout().then(
+    if (loginLoginService.isLoggedIn()) {
+        loginLoginService.logout().then(
             function () {
                 $location.path("/login");
             }

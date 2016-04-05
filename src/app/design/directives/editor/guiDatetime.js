@@ -3,14 +3,14 @@ angular.module("designModule")
 *  Directive used for automatic attribute editor creation
 */
 
-.directive("guiDatetime", ["$designService", function ($designService) {
+.directive("guiDatetime", [function () {
     return {
         restrict: "E",
         scope: {
             "attribute": "=editorScope",
             "item": "=item"
         },
-        templateUrl: $designService.getTemplate("design/gui/editor/datetime.html"),
+        templateUrl: "/views/design/gui/editor/datetime.html",
 
         controller: [
             "$scope",

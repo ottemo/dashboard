@@ -5,10 +5,9 @@ angular.module("designModule")
 .directive("guiPageSelector", [
     "$location",
     "$routeParams",
-    "$designService",
-    "$dashboardListService",
-    "$cmsApiService",
-    function ($location, $routeParams, $designService, DashboardListService, $cmsApiService) {
+    "dashboardListService",
+    "cmsApiService",
+    function ($location, $routeParams, DashboardListService, cmsApiService) {
         var serviceList = new DashboardListService(), showColumns;
         showColumns = {
             'identifier' : {'type' : 'select-link'},
@@ -18,7 +17,7 @@ angular.module("designModule")
 
         return {
             restrict: "E",
-            templateUrl: $designService.getTemplate("design/gui/editor/pageSelector.html"),
+            templateUrl: "/views/design/gui/editor/pageSelector.html",
 
             scope: {
                 "attribute": "=editorScope",
@@ -84,7 +83,7 @@ angular.module("designModule")
                     var getPagesList = function () {
                         var params = $scope.search;
                         params["extra"] = serviceList.getExtraFields();
-                        $cmsApiService.pageList(params).$promise.then(
+                        cmsApiService.pageList(params).$promise.then(
                             function (response) {
                                 var result, i;
                                 $scope.pagesTmp = [];
@@ -101,7 +100,7 @@ angular.module("designModule")
                     /**
                      * Gets count of pages
                      */
-                    $cmsApiService.pageCount($scope.search).$promise.then(
+                    cmsApiService.pageCount($scope.search).$promise.then(
                         function (response) {
                             if (response.error === null) {
                                 $scope.count = response.result;
@@ -111,7 +110,7 @@ angular.module("designModule")
                         }
                     );
 
-                    $cmsApiService.pageAttributes().$promise.then(
+                    cmsApiService.pageAttributes().$promise.then(
                         function (response) {
                             var result = response.result || [];
                             serviceList.init('pages');

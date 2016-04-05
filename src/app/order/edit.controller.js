@@ -5,9 +5,9 @@ angular.module("orderModule")
 "$routeParams",
 "$location",
 "$q",
-"$orderApiService",
-"$dashboardUtilsService",
-function ($scope, $routeParams, $location, $q, $orderApiService, $dashboardUtilsService) {
+"orderApiService",
+"dashboardUtilsService",
+function ($scope, $routeParams, $location, $q, orderApiService, dashboardUtilsService) {
     var orderId, getDefaultOrder, oldString;
 
     orderId = $routeParams.id;
@@ -78,7 +78,7 @@ function ($scope, $routeParams, $location, $q, $orderApiService, $dashboardUtils
     /**
      * Gets list all attributes of order
      */
-    $orderApiService.getAttributes().$promise.then(
+    orderApiService.getAttributes().$promise.then(
         function (response) {
             var result = response.result || [];
             $scope.attributes = result;
@@ -86,7 +86,7 @@ function ($scope, $routeParams, $location, $q, $orderApiService, $dashboardUtils
     );
 
     if (null !== orderId) {
-        $orderApiService.getOrder({"orderID": orderId}).$promise.then(
+        orderApiService.getOrder({"orderID": orderId}).$promise.then(
             function (response) {
                 var result = response.result || {};
                 $scope.order = result;
@@ -107,11 +107,11 @@ function ($scope, $routeParams, $location, $q, $orderApiService, $dashboardUtils
         delete $scope.order.notes; // if you submit notes it will replace all notes
 
         if (orderId !== null && JSON.stringify(oldString) !== JSON.stringify($scope.order)) {
-            $orderApiService.update({"orderID": orderId}, $scope.order).$promise.then(function (response) {
+            orderApiService.update({"orderID": orderId}, $scope.order).$promise.then(function (response) {
 
                 // Success
                 if (response.error === null) {
-                    $scope.message = $dashboardUtilsService.getMessage(null , 'success', 'Order was updated successfully');
+                    $scope.message = dashboardUtilsService.getMessage(null , 'success', 'Order was updated successfully');
 
                     // Update the notes list with whatever is on the server.
                     // we get the whole order back, so we could set the entire thing
@@ -124,7 +124,7 @@ function ($scope, $routeParams, $location, $q, $orderApiService, $dashboardUtils
                         }
                     }
                 } else {
-                    $scope.message = $dashboardUtilsService.getMessage(response);
+                    $scope.message = dashboardUtilsService.getMessage(response);
                 }
                 $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
                 $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');

@@ -1,8 +1,8 @@
 angular.module("categoryModule")
 /*
-*  $productApiService interaction service
+*  productApiService interaction service
 */
-.service("$categoryApiService", ["$resource", "REST_SERVER_URI", function ($resource, REST_SERVER_URI) {
+.service("categoryApiService", ["$resource", "REST_SERVER_URI", function ($resource, REST_SERVER_URI) {
     return $resource(REST_SERVER_URI, {}, {
         "attributesInfo": {
             method: "GET",

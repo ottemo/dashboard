@@ -6,15 +6,15 @@ angular.module("cmsModule")
 "$routeParams",
 "$location",
 "$q",
-"$cmsApiService",
-"$dashboardUtilsService",
+"cmsApiService",
+"dashboardUtilsService",
 function (
     $scope,
     $routeParams,
     $location,
     $q,
-    $cmsApiService,
-    $dashboardUtilsService
+    cmsApiService,
+    dashboardUtilsService
 ) {
 
     // Initialize SEO
@@ -29,7 +29,7 @@ function (
     }
 
     // Get page attributes
-    $cmsApiService.pageAttributes().$promise.then(
+    cmsApiService.pageAttributes().$promise.then(
         function (response) {
             $scope.attributes = response.result;
         }
@@ -46,7 +46,7 @@ function (
     if (pageId === 'new') {
         $scope.page = getDefaultPage();
     } else {
-        $cmsApiService.pageGet({"pageID": pageId}).$promise.then(
+        cmsApiService.pageGet({"pageID": pageId}).$promise.then(
             function (response) {
                 // If we pass incorrect page ID
                 // we don't have an error from server
@@ -76,7 +76,7 @@ function (
 
         // If page._id !== null update existing page
         if ($scope.page._id !== null) {
-            var promise = $cmsApiService.pageUpdate($scope.page).$promise;
+            var promise = cmsApiService.pageUpdate($scope.page).$promise;
 
             promise.then(updateSuccess, updateError);
             // Enable buttons in any case
@@ -87,7 +87,7 @@ function (
 
         // else save new page
         } else {
-            var promise = $cmsApiService.pageAdd($scope.page).$promise;
+            var promise = cmsApiService.pageAdd($scope.page).$promise;
 
             promise.then(saveSuccess, saveError);
             // Enable buttons in any case
@@ -103,13 +103,13 @@ function (
             // Update page data
             $scope.page = response.result;
             // Show message
-            $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Page was updated successfully');
+            $scope.message = dashboardUtilsService.getMessage(null, 'success', 'Page was updated successfully');
 
             defer.resolve(response);
         }
 
         function updateError(response) {
-            $scope.message = $dashboardUtilsService.getMessage(response);
+            $scope.message = dashboardUtilsService.getMessage(response);
             defer.reject(response);
         }
 
@@ -117,13 +117,13 @@ function (
             // Update page data
             $scope.page = response.result;
             // Show message
-            $scope.message = $dashboardUtilsService.getMessage(null, 'success', 'Page was created successfully');
+            $scope.message = dashboardUtilsService.getMessage(null, 'success', 'Page was created successfully');
 
             defer.resolve(response);
         }
 
         function saveError(response) {
-            $scope.message = $dashboardUtilsService.getMessage(response);
+            $scope.message = dashboardUtilsService.getMessage(response);
             defer.reject(response);
         }
     };

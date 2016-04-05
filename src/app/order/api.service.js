@@ -1,6 +1,6 @@
 angular.module("orderModule")
 
-.service("$orderApiService", ["$resource", "REST_SERVER_URI", function ($resource, REST_SERVER_URI) {
+.service("orderApiService", ["$resource", "REST_SERVER_URI", function ($resource, REST_SERVER_URI) {
     return $resource(REST_SERVER_URI, {}, {
         "orderList": {
             method: "GET",

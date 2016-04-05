@@ -69,7 +69,7 @@
 
             <li class="navbar-user">
                 <a href="/logout">
-                    <i class="fa fa-fw fa-sign-out"></i> Log Out ({{userName}})
+                    <i class="fa fa-fw fa-sign-out"></i> Log Out ({{user.getFullName() || 'root'}})
                 </a>
             </li>
         </ul>

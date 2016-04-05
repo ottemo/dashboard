@@ -1,6 +1,6 @@
 {
   "name": "Dashboard",
-  "version": "1.1.10",
+  "version": "1.1.14",
   "description": "Ottemo Administration Tool",
   "main": "gulpfile.js",
   "repository": {
@@ -9,6 +9,7 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "chalk": "^1.1.1",
     "connect-modrewrite": "^0.8.1",
     "del": "^0.1.3",
     "express": "^4.12.3",
@@ -17,7 +18,8 @@
     "gulp-changed": "^1.0.0",
     "gulp-concat": "^2.5.2",
     "gulp-if": "^2.0.0",
-    "gulp-imagemin": "^1.2.1",
+    "gulp-imagemin": "^2.0.0",
+    "gulp-inline-css": "^3.0.1",
     "gulp-jshint": "^1.10.0",
     "gulp-livereload": "^3.8.0",
     "gulp-load-plugins": "^1.2.0",
@@ -27,12 +29,12 @@
     "gulp-rename": "^1.2.2",
     "gulp-replace-task": "^0.11.0",
     "gulp-rev-all": "^0.8.21",
-    "gulp-sass": "^2.0.1",
+    "gulp-sass": "^2.0.4",
     "gulp-sourcemaps": "^1.5.2",
     "gulp-task-listing": "^1.0.1",
-    "gulp-uglify": "^0.3.2",
+    "gulp-uglify": "^1.4.1",
     "gulp-util": "^3.0.6",
-    "jshint-stylish": "^2.0.1",
+    "jshint-stylish": "^2.1.0",
     "run-sequence": "^1.1.0",
     "yargs": "^3.29.0"
   },

@@ -4,10 +4,10 @@ angular.module("visitorModule")
         "$scope",
         "$routeParams",
         "$q",
-        "$visitorApiService",
+        "visitorApiService",
         "$location",
         "COUNT_ITEMS_PER_PAGE",
-        function ($scope, $routeParams, $q, $visitorApiService, $location, COUNT_ITEMS_PER_PAGE) {
+        function ($scope, $routeParams, $q, visitorApiService, $location, COUNT_ITEMS_PER_PAGE) {
             $scope.fields = [
                 {
                     "attribute": "Label",
@@ -40,7 +40,7 @@ angular.module("visitorModule")
              */
             var params = $location.search();
             params["extra"] = getFields();
-            $visitorApiService.attributesInfo(params).$promise.then(function (response) {
+            visitorApiService.attributesInfo(params).$promise.then(function (response) {
                 var result, i;
                 $scope.attributesList = [];
                 result = response.result || [];
@@ -92,7 +92,7 @@ angular.module("visitorModule")
                 _remove = function (attr) {
                     var defer = $q.defer();
 
-                    $visitorApiService.removeAttribute({"attribute": attr},
+                    visitorApiService.removeAttribute({"attribute": attr},
                         function (response) {
                             if (response.result === "ok") {
                                 defer.resolve(attr);

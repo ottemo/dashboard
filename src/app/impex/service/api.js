@@ -1,6 +1,6 @@
 angular.module("impexModule")
 
-.service("$impexApiService", ["$resource", "REST_SERVER_URI", function ($resource, REST_SERVER_URI) {
+.service("impexApiService", ["$resource", "REST_SERVER_URI", function ($resource, REST_SERVER_URI) {
   return $resource(REST_SERVER_URI, {}, {
       "importBatch": {
           method: "POST",

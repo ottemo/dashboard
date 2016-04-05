@@ -1,11 +1,12 @@
-angular.module("designModule")
 /**
 *  Directive used for automatic attribute editor creation
 */
-.directive("guiFilterSelect", ["$designService", function ($designService) {
+angular.module("designModule")
+
+.directive("guiFilterSelect", [function () {
     return {
         restrict: "E",
-        templateUrl: $designService.getTemplate("design/gui/filter/select.html"),
+        templateUrl: "/views/design/gui/filter/select.html",
 
         scope: {
             "parent": "=object",
@@ -58,7 +59,7 @@ angular.module("designModule")
                 var options, field, setNewFilterValues;
 
                 setNewFilterValues = function () {
-                    if (-1 !== ['text', 'string'].indexOf($scope.item.dataType)) {
+                    if (-1 !== ['text', 'string', 'varchar'].indexOf($scope.item.dataType)) {
                         $scope.item[$scope.attribute.Attribute] = $scope.item[$scope.attribute.Attribute].replace(/~/g, "");
                         $scope.parent.newFilters[$scope.attribute.Attribute] = $scope.item[$scope.attribute.Attribute].replace(/~/g, "").split(" ");
                     } else {

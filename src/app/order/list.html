@@ -1,4 +1,41 @@
 <div class="page-header">
+
+    <!-- Actions: export, print -->
+    <form class="pull-right"
+        action="{{ actions.export }}"
+        method="POST">
+
+        <!-- the goal with this is to post to an endpoint without using ajax, so that we can receive a
+        pdf download prompt back -->
+        <!-- stash the list of order ids here, so that we can post to the foundation endpoint -->
+        <input type="text"
+            name="orders"
+            ng-model="selectedIds"
+            style="display: none;">
+
+        <button type="submit"
+            class="btn btn-default"
+            ng-disabled="!selectedIds.length">
+            Export
+            <span style="text-transform:lowercase !important">.csv</span>
+        </button>
+
+
+        <!-- printing -->
+        <div class="btn-group" ng-class="{open: actions.isOpen}">
+            <a class="btn btn-default dropdown-toggle"
+                ng-class="{disabled: !selectedIds.length}"
+                ng-click="actions.isOpen = !actions.isOpen">
+                Print <i class="caret"></i>
+            </a>
+
+            <ul class="dropdown-menu dropdown-menu-right">
+                <li><a ng-href="{{ actions.printUrl() }}">Orders</a></li>
+                <li><a ng-href="{{ actions.packingSlipUrl() }}">Packing Slip</a></li>
+            </ul>
+        </div>
+    </form>
+
     <h1>
         <span class="fa fa-list-alt"></span>
         Orders
@@ -8,46 +45,50 @@
 <!-- Error message -->
 <gui-message-manager item="message"></gui-message-manager>
 
-
-<!-- export -->
-<form class="pull-right"
-    action="{{ actions.export }}"
-    method="POST">
-
-    <!-- the goal with this is to post to an endpoint without using ajax, so that we can receive a
-    pdf download prompt back -->
-    <!-- stash the list of order ids here, so that we can post to the foundation endpoint -->
-    <input type="text"
-        name="orders"
-        ng-model="selectedIds"
-        style="display: none;">
-
-    <button type="submit"
-        class="btn btn-default"
-        ng-disabled="!selectedIds.length">
-        Export
-        <span style="text-transform:lowercase !important">.csv</span>
-    </button>
-
-
-    <!-- printing -->
-    <div class="btn-group" ng-class="{open: actions.isOpen}">
-        <a class="btn btn-default dropdown-toggle"
-            ng-class="{disabled: !selectedIds.length}"
-            ng-click="actions.isOpen = !actions.isOpen">
-            Print <i class="caret"></i>
+<ul class="nav nav-tabs m-b">
+    <li ng-class="{active: tabs.isActive('processed')}">
+        <a ng-click="tabs.setStatus('processed')">
+            Processed
+            <span class="badge" ng-show="tabs.processedCount">{{tabs.processedCount}}</span>
         </a>
+    </li>
+    <li ng-class="{active: tabs.isActive('completed')}">
+        <a ng-click="tabs.setStatus('completed')">
+            Completed
+        </a>
+    </li>
+    <li ng-class="{active: tabs.isActive('pending,new')}">
+        <a ng-click="tabs.setStatus('pending,new')">
+            Incomplete
+        </a>
+    </li>
+    <li ng-class="{active: tabs.isActive('declined')}">
+        <a ng-click="tabs.setStatus('declined')">
+            Declined
+        </a>
+    </li>
+    <li ng-class="{active: tabs.isActive('cancelled')}">
+        <a ng-click="tabs.setStatus('cancelled')">
+            Cancelled
+        </a>
+    </li>
+</ul>
 
-        <ul class="dropdown-menu dropdown-menu-right">
-            <li><a ng-href="{{ actions.printUrl() }}">Orders</a></li>
-            <li><a ng-href="{{ actions.packingSlipUrl() }}">Packing Slip</a></li>
-        </ul>
-    </div>
-</form>
-<div class="clearfix"></div>
-
-<!-- Table -->
-<gui-table-manager items="orders"
+<!-- Order Reesults -->
+<gui-table-manager
+    items="orders"
     object="this"
-    buttons="{'new':false,'delete':false}"></gui-table-manager>
+    buttons="{'new':false,'delete':false}">
+</gui-table-manager>
+
+<div ng-show="!orders.length"
+    class="text-center">
+    <h3><i class="fa fa-flag-checkered"></i> 0 Orders</h3>
+    <p>
+        No orders to review in this tab. <br />
+        Active filters may be hiding any orders that you are looking for.
+    </p>
+</div>
+
+
 

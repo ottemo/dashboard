@@ -2,10 +2,10 @@ angular.module("configModule")
 /**
 *
 */
-.service("$configService", [
-    "$configApiService",
+.service("configService", [
+    "configApiService",
     "$q",
-    function ($configApiService, $q) {
+    function (configApiService, $q) {
 
         // Variables
         var isInit, configGroups, configTabs, items, itemsOld, isLoaded;
@@ -88,7 +88,7 @@ angular.module("configModule")
             configTabs = {};
             configGroups = [];
 
-            $configApiService.getGroups().$promise.then(
+            configApiService.getGroups().$promise.then(
                 function (response) {
                     var result, attr;
                     result = response.result || [];
@@ -106,7 +106,7 @@ angular.module("configModule")
         };
 
         checkOnDups = function (group, path, force) {
-            if (force) {
+            if (force && configTabs[group]) {
                 for (var pos = 0; pos < configTabs[group].length; pos += 1) {
                     if (path === configTabs[group][pos].Path) {
                         configTabs[group].splice(pos, 1);
@@ -127,16 +127,18 @@ angular.module("configModule")
             }
 
             if ((typeof isLoaded[path] === "undefined" && !force) || force) {
-                $configApiService.getInfo({"path": path}).$promise.then(
+                configApiService.getInfo({"path": path}).$promise.then(
                     function (response) {
 
                         var addAttributeInTab = function (attr) {
                             pos = checkOnDups(group, attr.Path, true);
 
-                            if (pos) {
-                                configTabs[group].splice(pos, 0, attr);
-                            } else {
-                                configTabs[group].push(attr);
+                            if (configTabs[group]){
+                                if (pos) {
+                                    configTabs[group].splice(pos, 0, attr);
+                                } else {
+                                    configTabs[group].push(attr);
+                                }
                             }
 
                         };
@@ -182,7 +184,7 @@ angular.module("configModule")
             var _save = function (field) {
                 var defer = $q.defer();
 
-                $configApiService.setPath({
+                configApiService.setPath({
                     "path": field,
                     "value": items[path][field]
                 }).$promise.then(function (response) {

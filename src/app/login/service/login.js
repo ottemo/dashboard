@@ -1,11 +1,10 @@
 angular.module("loginModule")
 
-.service('$loginLoginService', [
+.service('loginLoginService', [
     '$resource',
-    '$loginApiService',
+    'loginApiService',
     '$q',
-    '$designService',
-    function ($resource, $loginApiService, $q, $designService) {
+    function ($resource, loginApiService, $q) {
 
         /** Variables */
         var login, isAdmin, isLoggedIn, deferIsLoggedIn , mapFields, deferLogOut;
@@ -68,7 +67,7 @@ angular.module("loginModule")
                 return deferIsLoggedIn.promise;
             }
 
-            $loginApiService.info().$promise.then(
+            loginApiService.info().$promise.then(
                 function (response) {
                     if (response.error === null) {
                         isAdmin = response.result['is_admin'] || false;
@@ -95,7 +94,7 @@ angular.module("loginModule")
         logout = function () {
             deferLogOut = $q.defer();
 
-            $loginApiService.logout().$promise.then(function(res){
+            loginApiService.logout().$promise.then(function(res){
                 if (res.error === null){
                     isLoggedIn = false;
                     login = getDefaultLogin();

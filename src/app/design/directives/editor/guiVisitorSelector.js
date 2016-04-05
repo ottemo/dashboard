@@ -1,16 +1,16 @@
-angular.module("designModule")
 /**
 *  Directive used for automatic attribute editor creation
 */
+angular.module("designModule")
+
 .directive("guiVisitorSelector", [
 "$location",
 "$routeParams",
-"$designService",
-"$dashboardListService",
-"$visitorApiService",
-"$designImageService",
+"dashboardListService",
+"visitorApiService",
+"designImageService",
 "COUNT_ITEMS_PER_PAGE",
-function ($location, $routeParams, $designService, DashboardListService, $visitorApiService, $designImageService, COUNT_ITEMS_PER_PAGE) {
+function ($location, $routeParams, DashboardListService, visitorApiService, designImageService, COUNT_ITEMS_PER_PAGE) {
     var serviceList = new DashboardListService(), showColumns;
     showColumns = {
         'name' : {'type' : 'select-link', 'label' : 'Name'},
@@ -22,7 +22,7 @@ function ($location, $routeParams, $designService, DashboardListService, $visito
 
     return {
         restrict: "E",
-        templateUrl: $designService.getTemplate("design/gui/editor/visitorSelector.html"),
+        templateUrl: "/views/design/gui/editor/visitorSelector.html",
 
         scope: {
             "attribute": "=editorScope",
@@ -96,7 +96,7 @@ function ($location, $routeParams, $designService, DashboardListService, $visito
                 var getVisitorsList = function () {
                     var params = $scope.search;
                     params["extra"] = serviceList.getExtraFields();
-                    $visitorApiService.visitorList(params).$promise.then(
+                    visitorApiService.visitorList(params).$promise.then(
                         function (response) {
                             var result, i;
                             $scope.visitorsTmp = [];
@@ -111,7 +111,7 @@ function ($location, $routeParams, $designService, DashboardListService, $visito
                 /**
                  * Gets list of visitors
                  */
-                $visitorApiService.getCountVisitors($scope.search, {}).$promise.then(
+                visitorApiService.getCountVisitors($scope.search, {}).$promise.then(
                     function (response) {
                         if (response.error === null) {
                             $scope.count = response.result;
@@ -121,7 +121,7 @@ function ($location, $routeParams, $designService, DashboardListService, $visito
                     }
                 );
 
-                $visitorApiService.attributesInfo().$promise.then(
+                visitorApiService.attributesInfo().$promise.then(
                     function (response) {
                         var result = response.result || [];
                         serviceList.init('visitors');
