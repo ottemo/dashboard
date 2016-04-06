@@ -1,0 +1,13 @@
+<div class="page-header">
+	<h1>
+		<span class="fa fa-file-text-o"></span>
+		<a href="/cms/blocks">Blocks</a> / {{block._id ? block.identifier : 'New'}}
+	</h1>
+</div>
+
+
+<!-- Error message -->
+<ot-message-manager item="message"></ot-message-manager>
+
+<!-- Tabs editor -->
+<ot-attributes-editor-form-tabs attributes-list="attributes" object="this" item="block"></ot-attributes-editor-form-tabs>

@@ -4,7 +4,7 @@
 angular.module('visitorModule', [
     'ngRoute',
     'ngResource',
-    'designModule'
+    'coreModule'
 ])
 
 .config([
@@ -36,7 +36,7 @@ angular.module('visitorModule', [
                 controller: 'visitorAttributeEditController'
             })
             .when('/emails', {
-                templateUrl: '/views/visitor/send-email.html',
+                templateUrl: '/views/visitor/email.html',
                 controller: 'visitorEmailController'
             });
     }]

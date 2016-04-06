@@ -1,7 +1,7 @@
 /**
  * Products Modules
  */
-angular.module('productModule', ['ngRoute', 'ngResource', 'designModule'])
+angular.module('productModule', ['ngRoute', 'ngResource', 'coreModule'])
 
 .config(['$routeProvider', function ($routeProvider) {
     $routeProvider

@@ -1,7 +1,7 @@
 /**
  * Discounts Module
  */
-angular.module('discountsModule', ['ngRoute', 'designModule'])
+angular.module('discountsModule', ['ngRoute', 'coreModule'])
 
 .config([
     '$routeProvider',

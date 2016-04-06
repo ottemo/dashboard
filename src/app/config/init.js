@@ -1,7 +1,7 @@
 /**
  * Config Module
  */
-angular.module("configModule", ["ngRoute", "ngResource", "designModule"])
+angular.module("configModule", ["ngRoute", "ngResource", "coreModule"])
 
 .config(["$routeProvider", function ($routeProvider) {
     $routeProvider

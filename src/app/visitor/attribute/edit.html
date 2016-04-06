@@ -11,7 +11,7 @@
 </div>
 
 <!-- Error message -->
-<gui-message-manager item="message"></gui-message-manager>
+<ot-message-manager item="message"></ot-message-manager>
 
 <br>
 
@@ -51,7 +51,7 @@
                 data-ng-model="attribute.Editors"
                 data-ng-options="choice for choice in editorsList">
         </select>
-        <gui-json-editor data="attribute.Options" ng-if="isEditOptions"></gui-json-editor>
+        <ot-json-editor data="attribute.Options" ng-if="isEditOptions"></ot-json-editor>
     </div>
     <div class="col-xs-12 col-sm-6 form-group ">
         <label for="inpOptions">Options</label>

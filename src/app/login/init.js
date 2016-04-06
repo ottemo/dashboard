@@ -1,4 +1,4 @@
-angular.module("loginModule", ["ngRoute", "ngResource"])
+angular.module("loginModule", ["ngRoute", "ngResource", "coreModule"])
 
 /**
 *  Basic routing configuration

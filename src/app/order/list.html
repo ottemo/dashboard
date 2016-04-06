@@ -43,7 +43,7 @@
 </div>
 
 <!-- Error message -->
-<gui-message-manager item="message"></gui-message-manager>
+<ot-message-manager item="message"></ot-message-manager>
 
 <ul class="nav nav-tabs m-b">
     <li ng-class="{active: tabs.isActive('processed')}">
@@ -75,11 +75,11 @@
 </ul>
 
 <!-- Order Reesults -->
-<gui-table-manager
+<ot-table-manager
     items="orders"
     object="this"
     buttons="{'new':false,'delete':false}">
-</gui-table-manager>
+</ot-table-manager>
 
 <div ng-show="!orders.length"
     class="text-center">
