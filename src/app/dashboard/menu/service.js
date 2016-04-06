@@ -71,6 +71,10 @@ angular.module('dashboardModule')
             link: '/seo',
             icon: 'fa-random'
         }, {
+            title: 'Reports',
+            link: '/reports/product',
+            icon: 'fa-area-chart'
+        }, {
             title: 'Settings',
             icon: 'fa-cog',
             children: [{
