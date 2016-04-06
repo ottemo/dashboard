@@ -73,8 +73,8 @@ angular.module('reportsModule')
                 tooltip: {
                     formatter: function() {
                         return [
-                            this.series.name,': ',
-                            '<b>$',this.y,'</b>'
+                            this.series.name , ': ' ,
+                            '<b>' , this.point.units_sold , ' units @ $' ,  this.y , '</b>'
                         ].join('');
                     }
                 }
@@ -122,7 +122,7 @@ angular.module('reportsModule')
                 return {
                     // sku, units_sold
                     name: product.name,
-                    data: [product.gross_sales]
+                    data: [{y: product.gross_sales, units_sold: product.units_sold}]
                 };
             }
         }
