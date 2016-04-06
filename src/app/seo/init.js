@@ -1,4 +1,4 @@
-angular.module("seoModule", ["ngRoute", "ngResource"])
+angular.module("seoModule", ["ngRoute", "ngResource", "coreModule"])
 
 .config(["$routeProvider", function ($routeProvider) {
     $routeProvider

@@ -1,15 +1,15 @@
 angular.module('reportsModule', [
     'ngRoute',
     'ngResource',
-    'designModule',
+    'coreModule',
     'configModule',
 ])
 
-.config(["$routeProvider", function($routeProvider) {
+.config(['$routeProvider', function($routeProvider) {
     $routeProvider
-        .when("/reports/product", {
-            templateUrl: "/views/reports/product.html",
-            controller: "reportsProductController"
+        .when('/reports/product', {
+            templateUrl: '/views/reports/product.html',
+            controller: 'reportsProductController'
         });
 }]);
 

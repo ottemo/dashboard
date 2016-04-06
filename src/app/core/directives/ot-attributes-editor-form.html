@@ -1,0 +1,23 @@
+<form role="form" class="animated fadeIn">
+    <div class="panel-group" id="accordion">
+        <div class="form-group" ng-repeat="(key, items) in attributeGroups">
+            <div class="panel panel-default">
+
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{key}}"
+                           target="_self">
+                            {{key}}
+                        </a>
+                    </h4>
+                </div>
+
+                <div id="collapse{{key}}" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <ot-form-builder attributes="items" item="item"></ot-form-builder>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

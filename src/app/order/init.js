@@ -1,7 +1,7 @@
 angular.module("orderModule", [
     "ngRoute",
     "ngResource",
-    "designModule",
+    "coreModule",
     "cmsModule"
 ])
 
