@@ -73,11 +73,18 @@ angular.module('reportsModule')
                 tooltip: {
                     formatter: function() {
                         return [
-                            this.series.name , ': ' ,
-                            '<b>' , this.point.units_sold , ' units @ $' ,  this.y , '</b>'
+                            this.series.name , '<br/>',
+                            this.point.sku , ': <b>' , this.point.units_sold , ' units @ $' ,  this.y , '</b>',
                         ].join('');
                     }
-                }
+                },
+
+                // Removes the dead space to the sides of the column-group
+                plotOptions: {
+                    series: {
+                        groupPadding: 0
+                    },
+                },
             });
 
             return {
@@ -111,6 +118,11 @@ angular.module('reportsModule')
                 tooltip: {
                     headerFormat: ''
                 },
+                plotOptions: {
+                    series: {
+                        groupPadding: 0
+                    }
+                },
                 series: [],
             };
         }
@@ -122,7 +134,11 @@ angular.module('reportsModule')
                 return {
                     // sku, units_sold
                     name: product.name,
-                    data: [{y: product.gross_sales, units_sold: product.units_sold}]
+                    data: [{
+                        y: product.gross_sales,
+                        units_sold: product.units_sold,
+                        sku: product.sku,
+                    }],
                 };
             }
         }
