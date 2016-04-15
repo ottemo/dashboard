@@ -1,13 +1,13 @@
-angular.module("dashboardModule")
+angular.module('dashboardModule')
 
-.controller("dashboardController", [
-    "$scope",
-    "$location",
-    "dashboardStatisticService",
-    "coreImageService",
-    "dashboardUtilsService",
-    "$timeout",
-    "moment",
+.controller('dashboardController', [
+    '$scope',
+    '$location',
+    'dashboardStatisticService',
+    'coreImageService',
+    'dashboardUtilsService',
+    '$timeout',
+    'moment',
     function(
         $scope,
         $location,
@@ -35,7 +35,7 @@ angular.module("dashboardModule")
         // Other Widgets
         $scope.referrers = [];
         $scope.conversions = {};
-        $scope.topSellers = {}
+        $scope.topSellers = {};
 
         // REFACTOR OUT
         $scope.getProductImage = getProductImage;
@@ -110,7 +110,7 @@ angular.module("dashboardModule")
                     tickAmount: 24,
                     labels: {
                         formatter: function() {
-                            return moment.utc(this.value).format('ha')
+                            return moment.utc(this.value).format('ha');
                         }
                     }
                 },

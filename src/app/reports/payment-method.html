@@ -19,49 +19,42 @@
 
     <h1>
         <span class="fa fa-area-chart"></span>
-        <a href="/reports">Reports</a> / Product
+        <a href="/reports">Reports</a> / Payment Method
     </h1>
 </div>
-
-<highchart config="chartConfig"></highchart>
 
 <table class="table table-hover">
     <thead>
         <tr>
             <th>Name</th>
-            <th>Sku</th>
-            <th>Units Sold</th>
-            <th>Gross Sales</th>
+            <th>Total Sales</th>
+            <th>Total Orders</th>
+            <th>Average Order Size</th>
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="product in report.aggregate_items">
-            <td>{{product.name}}</td>
-            <td>{{product.sku}}</td>
-            <td>{{product.units_sold}}</td>
-            <td>{{product.gross_sales | currency}}</td>
+        <tr ng-repeat="pm in report.aggregate_items">
+            <td>{{pm.method_name}} ({{pm.key}})</td>
+            <td>{{pm.total_sales | currency}}</td>
+            <td>{{pm.total_orders}}</td>
+            <td>{{pm.avg_sales | currency}}</td>
         </tr>
         <tr ng-show="!report.aggregate_items">
-            <td colspan="4"
-                class="text-center">
+            <td colspan="7" class="text-center">
                 No results found for this timeframe.
             </td>
         </tr>
     </tbody>
-    <tfoot ng-show="report.aggregate_items">
+
+    <!-- for testing feedback -->
+    <tfoot>
         <tr>
-            <th>
-                Totals
-            </th>
-            <th>
-            </th>
-            <th>
-                {{report.total_items}} items in
-                <br> {{report.total_orders}} orders
-            </th>
-            <th>
-                {{report.total_sales | currency}}
-            </th>
+            <td colspan="7" class="text-center">
+                <small>
+                    perf: {{report.perf_ms.toFixed(2)}} ms,
+                    frame: {{timeframe.frame}}
+                </small>
+            </td>
         </tr>
     </tfoot>
 </table>

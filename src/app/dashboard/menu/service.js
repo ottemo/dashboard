@@ -72,7 +72,7 @@ angular.module('dashboardModule')
             icon: 'fa-random'
         }, {
             title: 'Reports',
-            link: '/reports/product',
+            link: '/reports',
             icon: 'fa-area-chart'
         }, {
             title: 'Settings',

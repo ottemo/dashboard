@@ -19,6 +19,7 @@
                             <th></th>
                             <th>Total Sales</th>
                             <th>Order Count</th>
+                            <th>Sales Avg.</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -26,21 +27,25 @@
                             <th>Today</th>
                             <td>$<span odometer="salesStats.sales.today"></span></td>
                             <td><span odometer="salesStats.orders.today" odometer-options="{format:'(,ddd)'}"></span></td>
+                            <td>$<span odometer="salesStats.salesAvg.today"></span></td>
                         </tr>
                         <tr>
                             <th>Yesterday</th>
                             <td>{{salesStats.sales.yesterday | currency}}</td>
                             <td>{{salesStats.orders.yesterday}}</td>
+                            <td>{{salesStats.salesAvg.yesterday | currency}}</td>
                         </tr>
                         <tr>
                             <th>Last 7 days</th>
                             <td>{{salesStats.sales.week | currency}}</td>
                             <td>{{salesStats.orders.week}}</td>
+                            <td>{{salesStats.salesAvg.week | currency}}</td>
                         </tr>
                         <tr>
                             <th>Month to date</th>
                             <td>{{salesStats.sales.monthToDate | currency}}</td>
                             <td>{{salesStats.orders.monthToDate}}</td>
+                            <td>{{salesStats.salesAvg.monthToDate | currency}}</td>
                         </tr>
                     </tbody>
                 </table>

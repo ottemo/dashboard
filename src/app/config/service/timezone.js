@@ -1,8 +1,8 @@
 //TODO: Consider moving to coreModule
 angular.module('configModule')
 
-.factory('timezoneService', ['configApiService', '$q',
-    function(configApiService, $q) {
+.factory('timezoneService', ['configApiService', '$q', 'moment',
+    function(configApiService, $q, moment) {
         var storeTz = null;
 
         var service = {
@@ -30,7 +30,7 @@ angular.module('configModule')
         function getTz() {
             // We have the tz return a promise wrapped value
             if (null !== storeTz) {
-                return $q.resolve(storeTz)
+                return $q.resolve(storeTz);
             }
 
             var config = {
@@ -40,9 +40,8 @@ angular.module('configModule')
             return configApiService.getPath(config).$promise
                 .then(function(response) {
                     storeTz = response.result.substr(3);
-                    return storeTz
-                })
-
+                    return storeTz;
+                });
         }
 
         /**
@@ -51,7 +50,7 @@ angular.module('configModule')
          */
         function makeDateRange(rangeString) {
             return getTz().then(function(tz) {
-                return _make(tz, rangeString)
+                return _make(tz, rangeString);
             });
 
             ////////////////////////
@@ -62,6 +61,8 @@ angular.module('configModule')
                 var endDate = moment().utcOffset(tz).endOf('day');
 
                 switch (rangeString.toLowerCase()) {
+                    case 'all time':
+                        return {};
                     case 'today':
                         startDate = startDate.startOf('day');
                         break;
@@ -75,11 +76,17 @@ angular.module('configModule')
                     case 'last 30 days':
                         startDate = startDate.subtract(30, 'days').startOf('day');
                         break;
+                    case 'month to date':
+                        startDate = startDate.startOf('month');
+                        break;
+                    case 'year to date':
+                        startDate = startDate.startOf('year');
+                        break;
                 }
 
                 return {
-                    startDate: startDate,
-                    endDate: endDate
+                    start_date: startDate.toISOString(),
+                    end_date: endDate.toISOString(),
                 };
             }
         }
