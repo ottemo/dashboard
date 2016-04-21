@@ -11,7 +11,7 @@ angular.module("categoryModule")
 function ($scope, $routeParams, $location, $q, categoryApiService, dashboardUtilsService, _) {
 
     var savedProducts = []
-    
+
     // Initialize SEO
     if (typeof $scope.initSeo === "function") {
         $scope.initSeo("category");
@@ -59,33 +59,31 @@ function ($scope, $routeParams, $location, $q, categoryApiService, dashboardUtil
     };
 
     $scope.saveProducts = function () {
-        var promises = [];
-
-        var categoryId = $scope.category.id || $scope.category._id;
+        var categoryID = $scope.category.id || $scope.category._id;
         var newProductList = $scope.category.product_ids;
 
-        var products_to_remove = _.difference(savedProducts,newProductList);
-        var products_to_add = _.difference(newProductList,savedProducts);
+        var toRemove = _.difference(savedProducts, newProductList);
+        var toAdd = _.difference(newProductList, savedProducts);
 
-        var removePromise = _.map(toRemove, removePid);
-        var addPromise = _.map(toAdd, addPid);
-        
+        var promises = _.map(toRemove, removePid);
+        promises = promises.concat( _.map(toAdd, addPid) );
+
         return $q.all(promises);
 
         /////////////////
-        
-        function removePids(productID){
+
+        function removePid(productID){
             var params = {
-                categoryID: categoryId,
-                productID: productID
+                categoryID: categoryID,
+                productID: productID,
             };
-            return categoryApiService.removeProduct(params).$promise
+            return categoryApiService.removeProduct(params).$promise;
         }
 
-        function addPids(productID){
+        function addPid(productID){
             var params = {
-                categoryID: categoryId,
-                productID: productID
+                categoryID: categoryID,
+                productID: productID,
             };
             return categoryApiService.addProduct(params).$promise;
         }
@@ -101,14 +99,17 @@ function ($scope, $routeParams, $location, $q, categoryApiService, dashboardUtil
         var defer = $q.defer();
         var id = $scope.category.id || $scope.category._id;
 
-        // Props that we don't want to pass up
+        // Props that aren't recognized by the server
         delete $scope.category.parent;
         delete $scope.category.path;
         delete $scope.category.products;
-        delete $scope.category.product_ids;
 
         if (!id) {
             if ($scope.category.name !== '') {
+
+                // Props that aren't recognized by the server
+                delete $scope.category.product_ids;
+
                 categoryApiService.save($scope.category).$promise
                     .then(saveSuccess, saveError)
                     .then(function(){
@@ -118,7 +119,10 @@ function ($scope, $routeParams, $location, $q, categoryApiService, dashboardUtil
         } else {
             $scope.category.id = id;
             $scope.saveProducts().then(function () {
-                
+
+                // Props that aren't recognized by the server
+                delete $scope.category.product_ids;
+
                 categoryApiService.update($scope.category).$promise
                     .then(updateSuccess, updateError)
                     .then(function(){
@@ -128,7 +132,7 @@ function ($scope, $routeParams, $location, $q, categoryApiService, dashboardUtil
         }
 
         return defer.promise;
-        
+
         ////////////////
 
         function saveSuccess(response) {
@@ -137,7 +141,7 @@ function ($scope, $routeParams, $location, $q, categoryApiService, dashboardUtil
                 $scope.message = dashboardUtilsService.getMessage(null, 'success', 'Category was created successfully');
                 defer.resolve(true);
             }
-            
+
             allowSaving();
         };
 
@@ -151,7 +155,7 @@ function ($scope, $routeParams, $location, $q, categoryApiService, dashboardUtil
                 $scope.category = response.result || getDefaultCategory();
                 $scope.message = dashboardUtilsService.getMessage(null, 'success', 'Product was updated successfully');
                 defer.resolve(true);
-                
+
                 allowSaving();
             }
         };
@@ -160,7 +164,7 @@ function ($scope, $routeParams, $location, $q, categoryApiService, dashboardUtil
             defer.resolve(false);
             allowSaving();
         };
-        
+
         // Refactor
         function allowSaving() {
             $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
