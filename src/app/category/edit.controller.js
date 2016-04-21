@@ -9,13 +9,15 @@ angular.module("categoryModule")
 "dashboardUtilsService",
 "_",
 function ($scope, $routeParams, $location, $q, categoryApiService, dashboardUtilsService, _) {
-    var categoryId, rememberProducts, oldProducts, getDefaultCategory;
+
+    var savedProducts = []
+    
     // Initialize SEO
     if (typeof $scope.initSeo === "function") {
         $scope.initSeo("category");
     }
 
-    categoryId = $routeParams.id;
+    var categoryId = $routeParams.id;
 
     if (!categoryId && categoryId !== "new") {
         $location.path("/categories");
@@ -25,9 +27,7 @@ function ($scope, $routeParams, $location, $q, categoryApiService, dashboardUtil
         categoryId = null;
     }
 
-    oldProducts = [];
-
-    getDefaultCategory = function () {
+    function getDefaultCategory() {
         return {
             name: "",
             "parent_id": "",
@@ -35,11 +35,6 @@ function ($scope, $routeParams, $location, $q, categoryApiService, dashboardUtil
         };
     };
 
-    /**
-     * Current selected category
-     *
-     * @type {Object}
-     */
     $scope.category = {};
 
     /**
@@ -55,7 +50,7 @@ function ($scope, $routeParams, $location, $q, categoryApiService, dashboardUtil
             var result = response.result || {};
             $scope.category = result;
             $scope.category.parent = $scope.category['parent_id'];
-            $scope.category.products = $scope.category.product_ids;
+            savedProducts = $scope.category.product_ids;
         });
     }
 
@@ -67,31 +62,33 @@ function ($scope, $routeParams, $location, $q, categoryApiService, dashboardUtil
         var promises = [];
 
         var categoryId = $scope.category.id || $scope.category._id;
-        var _prev = $scope.category.product_ids;
-        var _new = $scope.category.products;
+        var newProductList = $scope.category.product_ids;
 
-        var products_to_remove = _.difference(_prev,_new);
-        var products_to_add = _.difference(_new,_prev);
+        var products_to_remove = _.difference(savedProducts,newProductList);
+        var products_to_add = _.difference(newProductList,savedProducts);
 
-        if (products_to_remove.length){
-            _.each(products_to_remove, function(productID){
-                promises.push(categoryApiService.removeProduct({
-                    categoryID: categoryId,
-                    productID: productID
-                }))
-            })
-        }
-
-        if (products_to_add.length){
-            _.each(products_to_add, function(productID){
-                promises.push(categoryApiService.addProduct({
-                    categoryId: categoryId,
-                    productId: productID
-                }))
-            })
-        }
-
+        var removePromise = _.map(toRemove, removePid);
+        var addPromise = _.map(toAdd, addPid);
+        
         return $q.all(promises);
+
+        /////////////////
+        
+        function removePids(productID){
+            var params = {
+                categoryID: categoryId,
+                productID: productID
+            };
+            return categoryApiService.removeProduct(params).$promise
+        }
+
+        function addPids(productID){
+            var params = {
+                categoryID: categoryId,
+                productID: productID
+            };
+            return categoryApiService.addProduct(params).$promise;
+        }
     };
 
     /**
@@ -101,75 +98,75 @@ function ($scope, $routeParams, $location, $q, categoryApiService, dashboardUtil
     $scope.save = function () {
         $('[ng-click="save()"]').addClass('disabled').append('<i class="fa fa-spin fa-spinner"><i>').siblings('.btn').addClass('disabled');
 
-        var id, defer, saveSuccess, saveError, updateSuccess, updateError;
-        defer = $q.defer();
+        var defer = $q.defer();
+        var id = $scope.category.id || $scope.category._id;
 
-        if (typeof $scope.category !== "undefined") {
-            id = $scope.category.id || $scope.category._id;
-        }
-
-        saveSuccess = function (response) {
-            if (response.error === null) {
-                $scope.category = response.result || getDefaultCategory();
-                $scope.message = dashboardUtilsService.getMessage(null, 'success', 'Category was created successfully');
-                defer.resolve(true);
-            }
-            $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
-            $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
-        };
-
-        saveError = function () {
-            defer.resolve(false);
-            $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
-            $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
-        };
-
-        updateSuccess = function (response) {
-            if (response.error === null) {
-                $scope.category = response.result || getDefaultCategory();
-                $scope.message = dashboardUtilsService.getMessage(null, 'success', 'Product was updated successfully');
-                defer.resolve(true);
-                $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
-                $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
-            }
-        };
-
-        updateError = function () {
-            defer.resolve(false);
-            $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
-            $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
-        };
-
+        // Props that we don't want to pass up
         delete $scope.category.parent;
         delete $scope.category.path;
-
+        delete $scope.category.products;
+        delete $scope.category.product_ids;
 
         if (!id) {
             if ($scope.category.name !== '') {
-
-                delete $scope.category.products;
                 categoryApiService.save($scope.category).$promise
                     .then(saveSuccess, saveError)
                     .then(function(){
-                        $scope.category.products = $scope.category.product_ids;
+                        savedProducts = $scope.category.product_ids;
                     });
             }
         } else {
             $scope.category.id = id;
             $scope.saveProducts().then(function () {
-
-                // Clean the associated product list off, before posting up
-                delete $scope.category.products;
+                
                 categoryApiService.update($scope.category).$promise
                     .then(updateSuccess, updateError)
                     .then(function(){
-                        $scope.category.products = $scope.category.product_ids;
+                        savedProducts = $scope.category.product_ids;
                     });
             });
-
         }
 
         return defer.promise;
+        
+        ////////////////
+
+        function saveSuccess(response) {
+            if (response.error === null) {
+                $scope.category = response.result || getDefaultCategory();
+                $scope.message = dashboardUtilsService.getMessage(null, 'success', 'Category was created successfully');
+                defer.resolve(true);
+            }
+            
+            allowSaving();
+        };
+
+        function saveError() {
+            defer.resolve(false);
+            allowSaving();
+        };
+
+        function updateSuccess(response) {
+            if (response.error === null) {
+                $scope.category = response.result || getDefaultCategory();
+                $scope.message = dashboardUtilsService.getMessage(null, 'success', 'Product was updated successfully');
+                defer.resolve(true);
+                
+                allowSaving();
+            }
+        };
+
+        function updateError() {
+            defer.resolve(false);
+            allowSaving();
+        };
+        
+        // Refactor
+        function allowSaving() {
+            $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+            $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
+        }
+
     };
 
 }]);
