@@ -21,6 +21,18 @@ angular.module('reportsModule', [
         .when('/reports/payment-method', {
             templateUrl: '/views/reports/payment-method.html',
             controller: 'reportsPaymentMethodController',
+        })
+        .when('/reports/shipping-method', {
+            templateUrl: '/views/reports/shipping-method.html',
+            controller: 'reportsShippingMethodController',
+        })
+        .when('/reports/location-country', {
+            templateUrl: '/views/reports/location-country.html',
+            controller: 'reportsLocationCountryController',
+        })
+        .when('/reports/location-us', {
+            templateUrl: '/views/reports/location-us.html',
+            controller: 'reportsLocationUSController',
         });
 }]);
 

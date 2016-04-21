@@ -42,8 +42,8 @@
             <td>{{c.total_sales | currency}}</td>
             <td>{{c.total_orders}}</td>
             <td>{{c.avg_sales | currency}}</td>
-            <td>{{c.earliest_purchase | otStoreDate}}</td>
-            <td>{{c.latest_purchase | otStoreDate}}</td>
+            <td><span ot-store-date date="c.earliest_purchase"></span></td>
+            <td><span ot-store-date date="c.latest_purchase"></span></td>
         </tr>
         <tr ng-show="!report.aggregate_items">
             <td colspan="7" class="text-center">

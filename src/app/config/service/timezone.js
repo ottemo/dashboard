@@ -1,47 +1,30 @@
-//TODO: Consider moving to coreModule
 angular.module('configModule')
 
 .factory('timezoneService', ['configApiService', '$q', 'moment',
     function(configApiService, $q, moment) {
-        var storeTz = null;
+        var tzPromise = false;
 
         var service = {
             get: getTz,
             makeDateRange: makeDateRange,
-            init: init, // @deprecated
-            storeTz: 0, // @deprecated
         };
 
         return service;
 
         ////////////////////////
 
-        function init() {
-
-            // Cache the store tz
-            configApiService.getPath({
-                    path: 'general.store.timezone'
-                }).$promise
-                .then(function(response) {
-                    service.storeTz = response.result.substr(3);
-                });
-        }
-
         function getTz() {
-            // We have the tz return a promise wrapped value
-            if (null !== storeTz) {
-                return $q.resolve(storeTz);
+
+            if (!tzPromise){
+                var config = { path: 'general.store.timezone' };
+
+                tzPromise = configApiService.getPath(config).$promise
+                    .then(function(response) {
+                        return response.result.substr(3);
+                    });
             }
 
-            var config = {
-                path: 'general.store.timezone'
-            };
-
-            return configApiService.getPath(config).$promise
-                .then(function(response) {
-                    storeTz = response.result.substr(3);
-                    return storeTz;
-                });
+            return tzPromise;
         }
 
         /**

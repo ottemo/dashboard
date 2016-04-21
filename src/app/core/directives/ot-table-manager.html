@@ -105,7 +105,10 @@
                                 <span ng-switch-when="currency">{{_item[field.attribute] | currency}}</span>
 
                                 <!-- Date -->
-                                <span ng-switch-when="date">{{_item[field.attribute] | otStoreDate}}</span>
+                                <span ng-switch-when="date"
+                                    ot-store-date
+                                    date="_item[field.attribute]">
+                                </span>
 
                                 <!-- Link -->
                                 <span ng-switch-when="select-link">

@@ -1,4 +1,4 @@
-angular.module("discountsModule")
+angular.module('discountsModule')
 
 /**
  * code
@@ -9,12 +9,19 @@ angular.module("discountsModule")
  * percent
  * times
  */
-.service("discountsService", [
-    "$http",
-    "REST_SERVER_URI",
-    "moment",
-    "timezoneService",
-    function($http, REST_SERVER_URI, moment, timezoneService) {
+.service('discountsService', [
+    '$http',
+    '$q',
+    'REST_SERVER_URI',
+    'moment',
+    'timezoneService',
+    function(
+        $http,
+        $q,
+        REST_SERVER_URI,
+        moment,
+        timezoneService
+    ) {
         var _url = REST_SERVER_URI + '/coupons';
 
         var service = {
@@ -31,61 +38,66 @@ angular.module("discountsModule")
         ////////////////////////////
 
         function _transformResponse(discountSource) {
-            var _storeTz = timezoneService.storeTz;
-            var discount = {};
+            return timezoneService.get().then(adjustDiscount);
 
-            angular.merge(discount, defaults(), discountSource);
+            function adjustDiscount(tz) {
+                var discount = {};
 
-            // We aren't currently recognizing this
-            delete discount.name;
+                angular.merge(discount, defaults(), discountSource);
 
-            // Process the datetime into the storefront tz
-            discount.sinceLocal = moment(discount.since).utcOffset(_storeTz).format('YYYY-MM-DD HH:mm');
-            discount.untilLocal = moment(discount.until).utcOffset(_storeTz).format('YYYY-MM-DD HH:mm');
+                // We aren't currently recognizing this property
+                delete discount.name;
 
-            // hack for handling target
-            if ( ['order','cart'].indexOf(discount.target) === -1 ) {
-                // extra hack because the list comes back as a string of json `"[123,234]"`
-                discount.target_line_items = angular.fromJson(discount.target);
-                discount.target = 'product';
-            } else {
-                discount.target = 'order';
+                // Process the datetime into the storefront tz
+                discount.sinceLocal = moment(discount.since).utcOffset(tz).format('YYYY-MM-DD HH:mm');
+                discount.untilLocal = moment(discount.until).utcOffset(tz).format('YYYY-MM-DD HH:mm');
+
+                // hack for handling target
+                if ( ['order','cart'].indexOf(discount.target) === -1 ) {
+                    // extra hack because the list comes back as a string of json `"[123,234]"`
+                    discount.target_line_items = angular.fromJson(discount.target);
+                    discount.target = 'product';
+                } else {
+                    discount.target = 'order';
+                }
+
+                // hack for handling type
+                discount.type = discount.amount ? 'amount' : 'percent';
+
+                return discount;
             }
-
-            // hack for handling type
-            discount.type = discount.amount ? 'amount' : 'percent';
-
-            return discount;
         }
 
         function _transformRequest(discountSource) {
-            var _storeTz = ' ' + timezoneService.storeTz;
+            return timezoneService.get().then(adjustDiscount);
 
-            // processing the params can effect the source data, so we need to copy it out
-            var discount = {};
-            angular.merge(discount, discountSource);
+            function adjustDiscount(tz) {
+                // processing the params can effect the source data, so we need to copy it out
+                var discount = {};
+                angular.merge(discount, discountSource);
 
-            // We aren't currently recognizing this
-            discount.name = discount.code;
+                // We aren't currently recognizing this
+                discount.name = discount.code;
 
-            // Process the datetime back
-            discount.since = moment(discount.sinceLocal + _storeTz, 'YYYY-MM-DD HH:mm Z').toISOString();
-            discount.until = moment(discount.untilLocal + _storeTz, 'YYYY-MM-DD HH:mm Z').toISOString();
-            delete discount.sinceLocal;
-            delete discount.untilLocal;
+                // Process the datetime back
+                discount.since = moment(discount.sinceLocal + tz, 'YYYY-MM-DD HH:mm Z').toISOString();
+                discount.until = moment(discount.untilLocal + tz, 'YYYY-MM-DD HH:mm Z').toISOString();
+                delete discount.sinceLocal;
+                delete discount.untilLocal;
 
-            // hack for formatting target
-            if (discount.target === 'order') {
-                discount.target = 'cart';
-            } else {
-                discount.target = discount.target_line_items;
+                // hack for formatting target
+                if (discount.target === 'order') {
+                    discount.target = 'cart';
+                } else {
+                    discount.target = discount.target_line_items;
+                }
+
+                // Clean up empty variable
+                delete discount.target_line_items;
+                delete discount.type;
+
+                return discount;
             }
-
-            // Clean up empty variable
-            delete discount.target_line_items;
-            delete discount.type
-
-            return discount;
         }
 
         function one(id) {
@@ -95,19 +107,21 @@ angular.module("discountsModule")
         }
 
         function post(data) {
-            var params = _transformRequest(data);
-
-            return $http.post(_url, params).then(function(response) {
+            return _transformRequest(data).then(function(params){
+                return $http.post(_url, params);
+            }).then(function(response){
                 return response.data.result;
             });
         }
 
         function put(data) {
-            var params = _transformRequest(data);
-
-            return $http.put(_url + '/' + params._id, params).then(function(response) {
+            return _transformRequest(data).then(function(params){
+                return $http.put(_url + '/' + params._id, params);
+            })
+            .then(function(response) {
                 return response.data.result;
             });
+
         }
 
         function remove(id) {
@@ -119,9 +133,9 @@ angular.module("discountsModule")
         function getList() {
             return $http.get(_url).then(function(response) {
                 var results = response.data.result || [];
-                results = results.map(_transformResponse);
+                var promiseResults = results.map(_transformResponse);
 
-                return results;
+                return $q.all(promiseResults);
             });
         }
 
