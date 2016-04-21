@@ -28,7 +28,17 @@
         </div>
 
         <!-- Pagination -->
-        <ot-paginator object="this"></ot-paginator>
+        <div class="text-center" ng-show="paginator.countPages > 1">
+            <div uib-pagination
+                total-items="paginator.countItems"
+                items-per-page="paginator.countPerPage"
+                force-ellipses="true"
+                max-size="5"
+                boundary-link-numbers="true"
+                ng-model="paginator.page"
+                ng-change="updateSearch()">
+            </div>
+        </div>
 
         <div class="table-responsive">
             <table class="table table-hover table-bordered table-striped">
@@ -95,7 +105,10 @@
                                 <span ng-switch-when="currency">{{_item[field.attribute] | currency}}</span>
 
                                 <!-- Date -->
-                                <span ng-switch-when="date">{{_item[field.attribute] | otStoreDate}}</span>
+                                <span ng-switch-when="date"
+                                    ot-store-date
+                                    date="_item[field.attribute]">
+                                </span>
 
                                 <!-- Link -->
                                 <span ng-switch-when="select-link">
@@ -113,7 +126,17 @@
         </div>
 
         <!-- Pagination -->
-        <ot-paginator object="this"></ot-paginator>
+        <div class="text-center" ng-show="paginator.countPages > 1">
+            <div uib-pagination
+                total-items="paginator.countItems"
+                items-per-page="paginator.countPerPage"
+                force-ellipses="true"
+                max-size="5"
+                boundary-link-numbers="true"
+                ng-model="paginator.page"
+                ng-change="updateSearch()">
+            </div>
+        </div>
 
     </form>
 </section>

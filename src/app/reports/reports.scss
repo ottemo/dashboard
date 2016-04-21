@@ -1,0 +1,12 @@
+.td-perc-graph {
+	position: relative;
+	border-right: 1px solid $gray-light;
+}
+.td-perc-graph__g {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	z-index: -1;
+	height: 100%;
+	background-color: $gray-lighter;
+}

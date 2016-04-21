@@ -1,17 +1,17 @@
 <div class="page-header">
     <div class="pull-right">
-        <div class="btn-group"
-            ng-class="{open: timeframe.isOpen}">
-            <a ng-click="timeframe.toggle()"
+        <div uib-dropdown
+            class="btn-group">
+            <a uib-dropdown-toggle
                 class="btn btn-default dropdown-toggle">
                 Timeframe: {{timeframe.frame}} <i class="caret"></i>
             </a>
 
-            <ul class="dropdown-menu dropdown-menu-right">
-                <li ng-repeat="opt in timeframe.options">
-                    <a ng-click="timeframe.set(opt)">
-                        {{opt}}
-                    </a>
+            <ul uib-dropdown-menu
+                class="dropdown-menu dropdown-menu-right">
+                <li ng-repeat="opt in timeframe.options"
+                    ng-class="{active: timeframe.frame === opt}">
+                    <a ng-click="timeframe.set(opt)">{{opt}}</a>
                 </li>
             </ul>
         </div>
@@ -19,7 +19,7 @@
 
     <h1>
         <span class="fa fa-area-chart"></span>
-        Reports / Product
+        <a href="/reports">Reports</a> / Product
     </h1>
 </div>
 

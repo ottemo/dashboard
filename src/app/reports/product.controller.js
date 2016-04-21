@@ -16,9 +16,7 @@ angular.module('reportsModule')
                 'last 7 days',
                 'last 30 days',
             ],
-            isOpen: false,
             set: setTimeframe,
-            toggle: toggle,
         };
 
         $scope.chartConfig = getChartConfig();
@@ -41,14 +39,7 @@ angular.module('reportsModule')
          */
         function setTimeframe(frame) {
             $scope.timeframe.frame = frame;
-            $scope.timeframe.isOpen = false;
-
             fetchReport(frame);
-        }
-
-        // Open/Close the timeframe dropdown
-        function toggle() {
-            $scope.timeframe.isOpen = !$scope.timeframe.isOpen;
         }
 
         // Fetch a report for a timeframe string, and make sure
