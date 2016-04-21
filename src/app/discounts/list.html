@@ -30,8 +30,8 @@
                 {{ discount.times === -1 ? 'No limit' : discount.times }}
             </td>
             <td>
-                Begins: {{ discount.since | otStoreDate }} <br />
-                Ends: {{ discount.until | otStoreDate }}
+                Begins: <span ot-store-date date="discount.since"></span> <br />
+                Ends: <span ot-store-date date="discount.until"></span>
             </td>
         </tr>
     </tbody>

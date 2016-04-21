@@ -126,17 +126,17 @@
 
                 <dl class="dl-simple m-b-0">
                     <dt>Created At:</dt>
-                    <dd>{{ subscription.created_at | otStoreDate }}</dd>
+                    <dd><span ot-store-date date="subscription.created_at"></span></dd>
 
                     <dt>Last Submit:</dt>
-                    <dd ng-show="subscription.last_submit != '0001-01-01T00:00:00Z'">{{ subscription.last_submit | otStoreDate }}</dd>
+                    <dd ng-show="subscription.last_submit != '0001-01-01T00:00:00Z'"><span ot-store-date date="subscription.last_submit"></span></dd>
                     <dd ng-show="subscription.last_submit == '0001-01-01T00:00:00Z'">--</dd>
 
                     <dt>Updated At:</dt>
-                    <dd>{{ subscription.updated_at | otStoreDate }}</dd>
+                    <dd><span ot-store-date date="subscription.updated_at"></span></dd>
 
                     <dt>Next Action:</dt>
-                    <dd>{{ subscription.action_date | otStoreDate }}</dd>
+                    <dd><span ot-store-date date="subscription.action_date"></span></dd>
                 </dl>
 
             </div>

@@ -1,0 +1,26 @@
+<div class="page-header">
+    <div class="pull-right">
+        <div uib-dropdown
+            class="btn-group">
+            <a uib-dropdown-toggle
+                class="btn btn-default dropdown-toggle">
+                Timeframe: {{timeframe.frame}} <i class="caret"></i>
+            </a>
+
+            <ul uib-dropdown-menu
+                class="dropdown-menu dropdown-menu-right">
+                <li ng-repeat="opt in timeframe.options"
+                    ng-class="{active: timeframe.frame === opt}">
+                    <a ng-click="timeframe.set(opt)">{{opt}}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <h1>
+        <span class="fa fa-area-chart"></span>
+        <a href="/reports">Reports</a> / Payment Method
+    </h1>
+</div>
+
+<ot-simple-report report="report" frame="timeframe.frame"></ot-simple-report>

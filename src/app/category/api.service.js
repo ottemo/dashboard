@@ -52,8 +52,11 @@ angular.module("categoryModule")
         "addProduct": {
             method: "POST",
             params: {
-                categoryID: "@categoryId",
-                productID: "@productId"
+                // this is a post method, but we don't really care about the data as much
+                // as the params, the `@` extracts the param values from the post data
+                // so that we don't have to write `addProduct({},params)
+                categoryID: "@categoryID",
+                productID: "@productID"
             },
             url: REST_SERVER_URI + "/category/:categoryID/product/:productID"
         },
