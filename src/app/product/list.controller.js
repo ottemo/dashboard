@@ -82,7 +82,6 @@ function ($scope, $location, $routeParams, $q, DashboardListService, productApiS
             $scope.attributes = result;
             serviceList.setAttributes($scope.attributes);
             $scope.fields = $scope.fields.concat(serviceList.getFields(showColumns));
-
             getProductsList();
         });
     };

@@ -101,7 +101,7 @@
                                 </span>
 
                                 <!-- Currency -->
-                                <span ng-switch-when="price">{{_item[field.attribute] | currency}}</span>
+                                <div ng-switch-when="price" class="text-right">{{_item[field.attribute] | currency}}</div>
                                 <span ng-switch-when="currency">{{_item[field.attribute] | currency}}</span>
 
                                 <!-- Date -->
