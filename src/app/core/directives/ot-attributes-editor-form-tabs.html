@@ -14,7 +14,7 @@
         </li>
     </ul>
 
-    <div class="tab-content">
+    <div class="row tab-content">
         <div ng-class='{active:$first,in:$first}' id="collapse{{key}}" class="tab-pane fade"
              ng-repeat="(key, items) in attributeGroups">
             <ot-form-builder attributes="items" item="item" object="parent"></ot-form-builder>
