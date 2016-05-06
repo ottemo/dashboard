@@ -150,10 +150,10 @@
                 <div><strong>Payment Method:</strong></div>
                 <ul class="m-b-0 panel-list">
                     <li title="{{order.payment_method}}">{{order.payment_info.payment_method_name}}</li>
-                    <li ng-if="order.payment_info.ccBrand">
-                        {{order.payment_info.ccBrand}} xxx-{{order.payment_info.ccLastFour}} ({{order.payment_info.ccMonth}}/{{order.payment_info.ccYear}})
+                    <li ng-if="order.payment_info.creditCardType">
+                        {{order.payment_info.creditCardType}} xxx-{{order.payment_info.creditCardNumbers}}
                     </li>
-                    <li>
+                    <li ng-if="order.payment_info.transactionID">
                         Transaction ID: {{order.payment_info.transactionID || 'n/a'}}
                     </li>
                 </ul>
