@@ -1,94 +1,83 @@
-angular.module("coreModule")
+angular.module('coreModule')
 
-/**
-*  Directive used for automatic attributes editor form creation
-*/
-.directive("otConfigEditorForm", [function () {
+.directive('otConfigEditorForm', [function () {
     return {
-        restrict: "E",
+        restrict: 'E',
         scope: {
-            "parent": "=object",
-            "item": "=item",
-            "attributes": "=attributesList"
+            'parent': '=object',
+            'item': '=item',
+            'attributes': '=attributesList'
         },
-        templateUrl: "/views/config/directives/ot-config-editor-form.html",
-        controller: function ($scope) {
-            var updateAttributes, addTab, addFields, sortFieldsInGroups;
+        templateUrl: '/views/config/directives/ot-config-editor-form.html',
+        controller: function ($scope, _) {
 
-            $scope.tabs = {};
-            $scope.click = function (id) {
-                if (typeof $scope.parent.selectTab === "function") {
+            $scope.tabs = [];
+            $scope.attributeGroups = {};
+            $scope.click = click;
+
+            activate();
+
+            ///////////////////////
+
+            function activate() {
+                $scope.$watchCollection('attributes', updateAttributes);
+                $scope.$watchCollection('item', updateAttributes);
+            }
+
+            function click(id) {
+                if (typeof $scope.parent.selectTab === 'function') {
                     $scope.parent.selectTab(id);
                 } else {
                     return false;
                 }
-            };
+            }
 
-            addTab = function (attr) {
-                if (attr.Type === "group") {
-                    if (typeof $scope.tabs[attr.Group] === "undefined") {
-                        $scope.tabs[attr.Group] = [];
-                    }
-                    $scope.tabs[attr.Group].push(attr);
-                }
-            };
-
-            addFields = function (attr) {
-                if (typeof $scope.attributeGroups[attr.Group] === "undefined") {
-                    $scope.attributeGroups[attr.Group] = [];
-                }
-                $scope.attributeGroups[attr.Group].push(attr);
-            };
-
-            sortFieldsInGroups = function () {
-                // var sortByLabel, tab;
-                // sortByLabel = function (a, b) {
-                //     if (a.Label.toString() < b.Label.toString()) {
-                //         return -1;
-                //     }
-                //     if (a.Label.toString() > b.Label.toString()) {
-                //         return 1;
-                //     }
-
-                //     return 0;
-                // };
-                // for (tab in $scope.attributeGroups) {
-                //     if ($scope.attributeGroups.hasOwnProperty(tab)) {
-                //         $scope.attributeGroups[tab].sort(sortByLabel);
-                //     }
-                // }
-            };
-
-            updateAttributes = function () {
-                if ($scope.item === "undefined" ||
+             function updateAttributes() {
+                if ($scope.item === 'undefined' ||
                     JSON.stringify({}) === JSON.stringify($scope.item)) {
                     return true;
                 }
-                var i, attr, setAttrValue;
-                $scope.attributeGroups = {};
 
-                setAttrValue = function (attr) {
-                    if (typeof $scope.item !== "undefined") {
-                        attr.Value = $scope.item[attr.Attribute] || "";
+                $scope.attributeGroups = {};
+                if (typeof $scope.attributes !== 'undefined') {
+                    for (var i = 0; i < $scope.attributes.length; i += 1) {
+                        var attr = setAttrValue($scope.attributes[i]);
+                        addFields(attr);
                     }
 
-                    return attr;
-                };
+                    // only write tabs out once
+                    if ($scope.tabs.length === 0) {
+                        $scope.attributes.forEach(function(a){
+                            if (a.Type === 'group') {
+                                addTab(a.Label, a.Group);
+                            }
+                        });
 
-                if (typeof $scope.attributes !== "undefined") {
-                    for (i = 0; i < $scope.attributes.length; i += 1) {
-                        attr = setAttrValue($scope.attributes[i]);
-
-                        addFields(attr);
-                        addTab(attr);
+                        // activate the first tab
+                        $scope.click($scope.tabs[0].key);
                     }
                 }
+            }
 
-                sortFieldsInGroups();
-            };
+            function addTab(label, key) {
+                $scope.tabs.push({label:label, key:key});
+                $scope.tabs = _.sortBy($scope.tabs, 'label');
+            }
 
-            $scope.$watchCollection("attributes", updateAttributes);
-            $scope.$watchCollection("item", updateAttributes);
+            function addFields(attr) {
+                if (typeof $scope.attributeGroups[attr.Group] === 'undefined') {
+                    $scope.attributeGroups[attr.Group] = [];
+                }
+                $scope.attributeGroups[attr.Group].push(attr);
+            }
+
+            function setAttrValue(attr) {
+                if (typeof $scope.item !== 'undefined') {
+                    attr.Value = $scope.item[attr.Attribute] || '';
+                }
+
+                return attr;
+            }
         }
     };
 }]);

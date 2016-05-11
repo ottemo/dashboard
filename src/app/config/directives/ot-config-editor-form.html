@@ -1,11 +1,21 @@
-<form role="form" name="otEditForm" role="tabpanel" novalidate class="animated fadeIn">
+<form role="form"
+    name="otEditForm"
+    role="tabpanel"
+    novalidate
+    class="animated fadeIn">
 
     <div class="row">
         <div class="col-sm-3 col-md-2">
             <ul class="nav nav-pills nav-stacked animated fadeIn">
-                <li ng-class='{active:$first}' ng-repeat="(key, items) in tabs" ng-click="click(key)" role="presentation">
-                    <a href="#collapse{{key}}" target="_self" aria-controls="home" role="tab" data-toggle="tab">
-                        {{items[0].Label}}
+                <li ng-class='{active:$first}'
+                    ng-repeat="tab in tabs"
+                    ng-click="click(tab.key)"
+                    role="presentation">
+                    <a href="#collapse-{{tab.key}}"
+                        target="_self"
+                        role="tab"
+                        data-toggle="tab">
+                        {{tab.label}}
                     </a>
                 </li>
             </ul>
@@ -14,14 +24,24 @@
         <div class="col-sm-9 col-md-10">
 
             <div class="row tab-content animated fadeIn m-t-0">
-                <div ng-class='{active:$first,in:$first}' id="collapse{{key}}" class="tab-pane fade" ng-repeat="(key, items) in attributeGroups">
-                    <ot-form-builder attributes="items" item="item"></ot-form-builder>
-                <div>
+                <div ng-class='{active:$first,in:$first}'
+                    ng-repeat="tab in tabs"
+                    id="collapse-{{tab.key}}"
+                    class="tab-pane fade">
+                    <ot-form-builder attributes="attributeGroups[tab.key]"
+                        item="item"></ot-form-builder>
+
+                    <br>
+
+                    <div class="text-center animated fadeIn">
+                        <a class="btn btn-primary"
+                            ng-click="parent.save()">
+                            Save
+                        </a>
+                    </div>
+                </div>
             </div>
-            <br>
-            <div class="text-center animated fadeIn">
-                <div class="btn btn-primary" ng-click="parent.save()">Save</div>
-            </div>
+
         </div>
     </div>
 </form>
