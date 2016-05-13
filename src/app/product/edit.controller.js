@@ -45,6 +45,24 @@ function ($scope, $routeParams, $location, $q, productApiService, coreImageServi
         }
     };
 
+    function addInventoryTab(){
+        if(typeof $scope.attributes !== 'undefined' && typeof $scope.product._id !== 'undefined') {
+            $scope.attributes.unshift({
+                Attribute: 'default_image',
+                Collection: 'product',
+                Default: '',
+                Editors: 'inventory_manager',
+                Group: 'Inventory',
+                IsRequired: false,
+                IsStatic: false,
+                Label: 'Image',
+                Model: 'Product',
+                Options: '',
+                Type: 'text'
+            });
+        }
+    }
+
     getDefaultProduct = function () {
         return {
             "_id": undefined,
@@ -72,6 +90,7 @@ function ($scope, $routeParams, $location, $q, productApiService, coreImageServi
             var result = response.result || [];
             $scope.attributes = result;
             addImageManagerAttribute();
+            addInventoryTab();
         });
 
 	// Getting stock values for a product and assign qty values from response to current
@@ -84,7 +103,8 @@ function ($scope, $routeParams, $location, $q, productApiService, coreImageServi
                 for (var i = 0; i < result.length; i+=1) {
                     for (var option in result[i].options) {
                         if (typeof $scope.product.options[option] !== "undefined" && typeof $scope.product.options[option].options[result[i].options[option]] !== "undefined") {
-                        	$scope.product.options[option].options[result[i].options[option]]["qty"] = result[i].qty;
+                            var a = result[i].options[option];
+                            $scope.product.options[option].options[a]["qty"] = result[i].qty;
                         }
                     }
                 }
@@ -109,6 +129,7 @@ function ($scope, $routeParams, $location, $q, productApiService, coreImageServi
                 }
                 addStockValues();
                 addImageManagerAttribute();
+                addInventoryTab();
             }
         );
     }
