@@ -57,8 +57,8 @@ angular.module('dashboardModule', [
                 templateUrl: '/views/dashboard/welcome.html',
                 controller: 'dashboardController'
             })
-            .when('/help', {
-                templateUrl: '/views/help.html'
+            .when('/css-test', {
+                templateUrl: '/views/dashboard/css-test.html'
             })
             .otherwise({
                 redirectTo: '/'

@@ -1,4 +1,4 @@
-angular.module("loginModule")
+angular.module('loginModule')
 
 .service('loginLoginService', [
     '$resource',
@@ -10,7 +10,7 @@ angular.module("loginModule")
         var login, isAdmin, isLoggedIn, deferIsLoggedIn , mapFields, deferLogOut;
         /** Functions */
         var init, getLogin, getLoginId, setLogin, cleanLogin, getLoginProperty,
-            getFullName, fIsLoggedIn, getDefaultLogin, logout, fillFields;
+            getFullName, fIsLoggedIn, getDefaultLogin, getLoginEmail, logout, fillFields;
 
         isLoggedIn = null;
 
@@ -151,12 +151,17 @@ angular.module("loginModule")
             return isLoggedIn;
         };
 
+        getLoginEmail = function(){
+            return login.email;
+        };
+
         return {
             init: init,
             cleanLogin: cleanLogin,
             setLogin: setLogin,
             getLogin: getLogin,
-            getFullName: getFullName,
+            name: getFullName,
+            email: getLoginEmail,
             getLoginId: getLoginId,
             isLoggedIn: fIsLoggedIn,
             logout: logout
