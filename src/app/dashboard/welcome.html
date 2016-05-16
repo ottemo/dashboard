@@ -13,42 +13,44 @@
                 <div class="panel-heading">
                     <h3 class="panel-title">Sales</h3>
                 </div>
-                <table class="table table-dashboard">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Total Sales</th>
-                            <th>Order Count</th>
-                            <th>Sales Avg.</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="table-dashboard__highlight">
-                            <th>Today</th>
-                            <td>$<span odometer="salesStats.sales.today"></span></td>
-                            <td><span odometer="salesStats.orders.today" odometer-options="{format:'(,ddd)'}"></span></td>
-                            <td>$<span odometer="salesStats.salesAvg.today"></span></td>
-                        </tr>
-                        <tr>
-                            <th>Yesterday</th>
-                            <td>{{salesStats.sales.yesterday | currency}}</td>
-                            <td>{{salesStats.orders.yesterday}}</td>
-                            <td>{{salesStats.salesAvg.yesterday | currency}}</td>
-                        </tr>
-                        <tr>
-                            <th>Last 7 days</th>
-                            <td>{{salesStats.sales.week | currency}}</td>
-                            <td>{{salesStats.orders.week}}</td>
-                            <td>{{salesStats.salesAvg.week | currency}}</td>
-                        </tr>
-                        <tr>
-                            <th>Month to date</th>
-                            <td>{{salesStats.sales.monthToDate | currency}}</td>
-                            <td>{{salesStats.orders.monthToDate}}</td>
-                            <td>{{salesStats.salesAvg.monthToDate | currency}}</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-dashboard">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Total Sales</th>
+                                <th>Order Count</th>
+                                <th>Sales Avg.</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="table-dashboard__highlight">
+                                <th>Today</th>
+                                <td>$<span odometer="salesStats.sales.today"></span></td>
+                                <td><span odometer="salesStats.orders.today" odometer-options="{format:'(,ddd)'}"></span></td>
+                                <td>$<span odometer="salesStats.salesAvg.today"></span></td>
+                            </tr>
+                            <tr>
+                                <th>Yesterday</th>
+                                <td>{{salesStats.sales.yesterday | currency}}</td>
+                                <td>{{salesStats.orders.yesterday}}</td>
+                                <td>{{salesStats.salesAvg.yesterday | currency}}</td>
+                            </tr>
+                            <tr>
+                                <th>Last 7 days</th>
+                                <td>{{salesStats.sales.week | currency}}</td>
+                                <td>{{salesStats.orders.week}}</td>
+                                <td>{{salesStats.salesAvg.week | currency}}</td>
+                            </tr>
+                            <tr>
+                                <th>Month to date</th>
+                                <td>{{salesStats.sales.monthToDate | currency}}</td>
+                                <td>{{salesStats.orders.monthToDate}}</td>
+                                <td>{{salesStats.salesAvg.monthToDate | currency}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
                 <div class="chart-widget">
                     <highchart config="salesGraph"></highchart>
@@ -63,37 +65,39 @@
                 <div class="panel-heading">
                     <h3 class="panel-title">Visits</h3>
                 </div>
-                <table class="table table-dashboard">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Total Page Views</th>
-                            <th>Unique Visitors</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="table-dashboard__highlight">
-                            <th>Today</th>
-                            <td><span odometer-options="{format:'(,ddd)'}" odometer="visitStats.total.today"></span></td>
-                            <td><span odometer-options="{format:'(,ddd)'}" odometer="visitStats.unique.today"></span></td>
-                        </tr>
-                        <tr>
-                            <th>Yesterday</th>
-                            <td>{{visitStats.total.yesterday}}</td>
-                            <td>{{visitStats.unique.yesterday}}</td>
-                        </tr>
-                        <tr>
-                            <th>Last 7 days</th>
-                            <td>{{visitStats.total.week}}</td>
-                            <td>{{visitStats.unique.week}}</td>
-                        </tr>
-                        <tr>
-                            <th>Month to date</th>
-                            <td>{{visitStats.total.monthToDate}}</td>
-                            <td>{{visitStats.unique.monthToDate}}</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-dashboard">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Total Page Views</th>
+                                <th>Unique Visitors</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="table-dashboard__highlight">
+                                <th>Today</th>
+                                <td><span odometer-options="{format:'(,ddd)'}" odometer="visitStats.total.today"></span></td>
+                                <td><span odometer-options="{format:'(,ddd)'}" odometer="visitStats.unique.today"></span></td>
+                            </tr>
+                            <tr>
+                                <th>Yesterday</th>
+                                <td>{{visitStats.total.yesterday}}</td>
+                                <td>{{visitStats.unique.yesterday}}</td>
+                            </tr>
+                            <tr>
+                                <th>Last 7 days</th>
+                                <td>{{visitStats.total.week}}</td>
+                                <td>{{visitStats.unique.week}}</td>
+                            </tr>
+                            <tr>
+                                <th>Month to date</th>
+                                <td>{{visitStats.total.monthToDate}}</td>
+                                <td>{{visitStats.unique.monthToDate}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
                 <div class="chart-widget">
                     <highchart config="visitorGraph"></highchart>
