@@ -1,6 +1,6 @@
 angular.module('coreModule')
 
-.directive('otInventoryManager', [function() {
+.directive('otInventoryManager', ['_', function(_) {
     return {
         restrict: 'E',
         scope: {
@@ -10,20 +10,45 @@ angular.module('coreModule')
         templateUrl: '/views/core/directives/editor/ot-inventory-manager.html',
         link: function(scope, el, attr){
 
-            // TODO mutate the options to look like this array
-
-            var options = [
-              {code: "color",     selections: ["red", "blue", "green", "yellow"]}, // color
-              {code: "size",      selections: ["small", "medium", "large"]},       // size
-              {code: "thickness", selections: ["heavy", "light"]},                 // thickness
-            ];
-            scope.inventory = findPermutations(options);
+            scope.$watch('options', updateOptions, true);
 
             //////////////////////
 
+            function updateOptions() {
+                scope.inventory = findPermutations(formatOptions(scope.options));
+            }
+
+            function formatOptions(options){
+                return _.chain(options)
+                    .forEach(function addCodeField(o, code){
+                        o.code = code;
+                    })
+                    .filter('controls_inventory')
+                    .map(function formatOption(o){
+                        var it = {
+                            code: o.code,
+                            selections: _.keys(o.options)
+                        };
+                        return it;
+                    })
+                    .value();
+            }
+
+
+            /**
+             * var options = [
+             *   {code: "color",     selections: ["red", "blue", "green", "yellow"]}, // color
+             *   {code: "size",      selections: ["small", "medium", "large"]},       // size
+             *   {code: "thickness", selections: ["heavy", "light"]},                 // thickness
+             * ];
+             */
             function findPermutations(options) {
                 var resp = [];
-                recur(options); // kick off the recursion
+
+                // kick off the recursion
+                if (options.length) {
+                    recur(options);
+                }
                 return resp;
 
                 ////////////////

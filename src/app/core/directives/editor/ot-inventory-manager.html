@@ -1,4 +1,4 @@
-<div class="table-responsive">
+<div class="table-responsive" ng-show="inventory.length">
     <table class="table table-hover table-v-middle">
         <thead>
             <tr>
@@ -9,6 +9,7 @@
         </thead>
         <tbody>
             <tr ng-repeat="r in inventory">
+                <!-- TODO: this is just to get a permutation count -->
                 <td>{{$index +1}}</td>
                 <td ng-repeat="s in r">
                     {{s.selection}}
@@ -26,3 +27,15 @@
         </tbody>
     </table>
 </div>
+
+<div ng-show="!inventory.length">
+    <!-- TODO: WIRE UP TO BASE QTY -->
+    options don't control inventory
+</div>
+
+<pre>// options
+{{options | json}}
+</pre>
+<pre>// inventory
+{{inventory | json}}
+</pre>

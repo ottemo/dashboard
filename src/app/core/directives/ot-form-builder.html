@@ -250,9 +250,10 @@
 
         <!-- PDP: Inventory manager -->
         <div class="col-xs-12" ng-switch-when="inventory_manager">
-            <ot-inventory-manager options="item.options" inventory="item.inventory"></ot-inventory-manager>
-<pre>//parent
-{{parent | json}}</pre>
+            <ot-inventory-manager
+              options="item.options"
+              inventory="item.inventory">
+            </ot-inventory-manager>
         </div>
 
         <div class="form-group col-xs-12 col-sm-6" ng-switch-default
