@@ -1,0 +1,28 @@
+<div class="table-responsive">
+    <table class="table table-hover table-v-middle">
+        <thead>
+            <tr>
+                <th></th>
+                <th ng-repeat="th in inventory[0]">{{th.code}}</th>
+                <th>Count</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="r in inventory">
+                <td>{{$index +1}}</td>
+                <td ng-repeat="s in r">
+                    {{s.selection}}
+                </td>
+                <td>
+                    <!--
+                    NOTE: r is technichally an array so this
+                    is a little masked
+                    -->
+                    <input class="form-control input-sm"
+                        type="number"
+                        ng-model="r.qty"/>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

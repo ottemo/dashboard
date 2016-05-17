@@ -11,3 +11,7 @@
 .th-clickable {
     cursor: pointer;
 }
+
+.table-v-middle tbody > tr > td {
+    vertical-align: middle;
+}
