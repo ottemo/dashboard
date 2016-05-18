@@ -1,10 +1,19 @@
-<button class="btn btn-primary hidden-xs" ng-click="addNewOption()">Add new option</button>
-<div class="visible-xs text-center">
-    <button class="btn btn-primary" ng-click="addNewOption()">Add new option</button>
-</div>
-<br><br><br>
+<button class="btn btn-primary hidden-xs"
+    type="button"
+    ng-click="addNewOption()">
+    Add option
+</button>
 
-<div class="" ng-repeat="option in optionsData | getOrdered">
+<div class="visible-xs text-center">
+    <button class="btn btn-primary"
+        type="button"
+        ng-click="addNewOption()">
+        Add option
+    </button>
+</div>
+<br />
+
+<div ng-repeat="option in optionsData | getOrdered">
 
     <div class="table-responsive">
         <table class="table table-condensed">
@@ -64,81 +73,85 @@
         </table>
     </div>
 
-    <div id="field_options" ng-if="option.type === 'field'">
-        <div class="row">
-            <div class="form-group">
-                <label>Price</label>
-                <input class="form-control" type="text" ng-model="option.price" ng-blur="modifyData()" />
-            </div>
+    <div ng-if="option.type === 'field'"
+        class="table-responsive">
+        <table class="table table-condensed">
+            <tbody>
+                <tr>
+                    <td class="form-group">
+                        <label>Price</label>
+                        <input class="form-control" type="text" ng-model="option.price" ng-blur="modifyData()" />
+                    </td>
 
-            <div class="form-group">
-                <label>SKU</label>
-                <input class="form-control" type="text" ng-model="option.sku" ng-blur="modifyData()" />
-            </div>
-        </div>
+                    <td class="form-group">
+                        <label>SKU</label>
+                        <input class="form-control" type="text" ng-model="option.sku" ng-blur="modifyData()" />
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
     </div>
 
-    <div id="select_options"
-        ng-if="option.type === 'select' || option.type === 'multi_select' || option.type === 'radio' || option.type === 'checkbox'">
-        <div class="table-responsive">
-            <table class="table table-condensed">
-                <thead>
-                    <tr>
-                        <th>Selection Label</th>
-                        <th>Price</th>
-                        <th>Sku</th>
-                        <th>Sort Order</th>
-                        <th>&nbsp;</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="(key, row) in option.options | getOrdered">
-                        <td>
-                            <input class="form-control"
-                                type="text"
-                                ng-model="row.label"
-                                ng-blur="modifyData()" />
-                        </td>
-                        <td>
-                            <input class="form-control"
-                                type="text"
-                                ng-model="row.price"
-                                ng-blur="modifyData()" />
-                        </td>
-                        <td>
-                            <input class="form-control"
-                                type="text"
-                                ng-model="row.sku"
-                                ng-blur="modifyData()" />
-                        </td>
-                        <td>
-                            <input class="form-control"
-                                type="text"
-                                ng-model="row.order"
-                                ng-blur="modifyData()" />
-                        </td>
-                        <td class="text-right">
-                            <button class="btn btn-block btn-warning"
-                                type="button"
-                                ng-click="removeRow(option.label, row.label)">
-                                <i class="fa fa-remove"></i>
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="99" class="text-center">
-                            <button class="btn btn-primary btn-sm"
-                                type="button"
-                                ng-click="addRow(option.label)">
-                                Add new row
-                            </button>
-                        </td>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
+    <div ng-if="['select', 'multi_select', 'radio', 'checkbox'].indexOf(option.type) !== -1"
+        class="table-responsive">
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th>Selection Label</th>
+                    <th>Price</th>
+                    <th>Sku</th>
+                    <th>Sort Order</th>
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="(key, row) in option.options | getOrdered">
+                    <td>
+                        <input class="form-control"
+                            type="text"
+                            ng-model="row.label"
+                            ng-blur="modifyData()" />
+                    </td>
+                    <td>
+                        <input class="form-control"
+                            type="text"
+                            ng-model="row.price"
+                            ng-blur="modifyData()" />
+                    </td>
+                    <td>
+                        <input class="form-control"
+                            type="text"
+                            ng-model="row.sku"
+                            ng-blur="modifyData()" />
+                    </td>
+                    <td>
+                        <input class="form-control"
+                            type="text"
+                            ng-model="row.order"
+                            ng-blur="modifyData()" />
+                    </td>
+                    <td class="text-right">
+                        <button class="btn btn-block btn-warning"
+                            type="button"
+                            ng-click="removeRow(option.label, row.label)">
+                            <i class="fa fa-remove"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <button class="btn btn-primary btn-sm"
+                            type="button"
+                            ng-click="addRow(option.label)">
+                            Add selection
+                        </button>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
     </div>
 
     <hr />
