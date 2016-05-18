@@ -1,3 +1,4 @@
+
 <button class="btn btn-primary hidden-xs"
     type="button"
     ng-click="addNewOption()">
@@ -50,7 +51,7 @@
                             data-ng-options="o as o for o in [true, false]">
                         </select>
                     </td>
-                    <td class="form-group">
+                    <td class="form-group" ng-if="item.isManagingStock">
                         <label>Controls Inventory</label>
                         <select class="form-control" ng-blur="modifyData()"
                             ng-init="option.controls_inventory = option.controls_inventory || false"
@@ -156,3 +157,7 @@
 
     <hr />
 </div>
+
+<pre>//item
+{{item | json}}
+</pre>

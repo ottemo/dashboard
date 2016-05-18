@@ -5,6 +5,7 @@ angular.module('productModule')
 function ($scope, $routeParams, $location, $q, _, productApiService, coreImageService, dashboardUtilsService) {
 
     var productId = getProductID();
+    var isManagingStock = false;
 
     $scope.product = getDefaultProduct();
     $scope.clearForm = clearForm;
@@ -34,28 +35,37 @@ function ($scope, $routeParams, $location, $q, _, productApiService, coreImageSe
         }
 
         // Grab product attributes
-        productApiService.attributesInfo().$promise
+        var attrPromise = productApiService.attributesInfo().$promise
             .then(function (response) {
                 var attrs = response.result || [];
 
                 // Remove some fields
-                _.remove(attrs, {Attribute: 'qty'});
                 _.remove(attrs, {Attribute: 'default_image'});
+                var qtyAttr = _.remove(attrs, {Attribute: 'qty'});
+
+                // Set the global
+                isManagingStock = (qtyAttr.length > 0);
 
                 // Add some tabs
                 addImageManagerAttribute(attrs);
-                addInventoryTab(attrs);
+                if (isManagingStock) {
+                    addInventoryTab(attrs);
+                }
 
                 // Attach
                 $scope.attributes = attrs;
+                console.log('attr promise finish');
+                console.log('is stocking', isManagingStock);
             });
 
         // Grab product data
+        var prodPromise = true;
         if (productId) {
             var params = {'productID': productId};
-            productApiService.getProduct(params).$promise
+            prodPromise = productApiService.getProduct(params).$promise
                 .then(function (response) {
                     var result = response.result || {};
+
                     $scope.product = result;
                     $scope.excludeItems = result._id;
                     $scope.selectedImage = result.default_image;
@@ -63,8 +73,18 @@ function ($scope, $routeParams, $location, $q, _, productApiService, coreImageSe
                     if (typeof $scope.product.options === 'undefined') {
                         $scope.product.options = {};
                     }
+
+                    console.log('prod promise finish');
                 });
         }
+
+        // Set the stock flag on the product
+        // we pass the product around so this is a way to consolidate
+        // variables being passed around.
+        $q.all([attrPromise, prodPromise]).then(function(/*resp*/){
+            console.log('all done');
+            $scope.product.isManagingStock = isManagingStock;
+        });
 
         // NOTE: not sure why this is here
         $scope.$watch('product', function () {
@@ -142,71 +162,16 @@ function ($scope, $routeParams, $location, $q, _, productApiService, coreImageSe
             .siblings('.btn')
             .addClass('disabled');
 
-        var id, defer, saveSuccess, saveError, updateSuccess, updateError;
-        defer = $q.defer();
+        var id;
+        var defer = $q.defer();
 
         if (typeof $scope.product !== 'undefined') {
             id = $scope.product.id || $scope.product._id;
 
             // Don't send images as product attribute
             delete $scope.product.images;
+            delete $scope.product.isManagingStock;
         }
-
-        /**
-         *
-         * @param response
-         */
-        saveSuccess = function (response) {
-            if (response.error === null) {
-                $scope.product._id = response.result._id;
-                $scope.productImages = [];
-                $scope.message = dashboardUtilsService.getMessage(null, 'success', 'Product was created successfully');
-                addImageManagerAttribute();
-                defer.resolve($scope.product);
-            } else {
-                $scope.message = dashboardUtilsService.getMessage(response);
-            }
-            $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
-            $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
-        };
-
-        /**
-         *
-         * @param response
-         */
-        saveError = function () {
-            $scope.message = dashboardUtilsService.getMEssage(null, 'danger', 'Something went wrong');
-            $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
-            $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
-            defer.resolve(false);
-        };
-
-        /**
-         *
-         * @param response
-         */
-        updateSuccess = function (response) {
-            if (response.error === null) {
-                var result = response.result || getDefaultProduct();
-                $scope.message = dashboardUtilsService.getMessage(null, 'success', 'Product was updated successfully');
-                defer.resolve(result);
-            } else {
-                $scope.message = dashboardUtilsService.getMessage(response);
-            }
-            $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
-            $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
-        };
-
-        /**
-         *
-         * @param response
-         */
-        updateError = function () {
-            $scope.message = dashboardUtilsService.getMessage(null, 'danger', 'Something went wrong');
-            $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
-            $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
-            defer.resolve(false);
-        };
 
         if (!id) {
             productApiService.save($scope.product, saveSuccess, saveError);
@@ -216,6 +181,55 @@ function ($scope, $routeParams, $location, $q, _, productApiService, coreImageSe
         }
 
         return defer.promise;
+
+        //////////////////
+
+        function saveSuccess(response) {
+            if (response.error === null) {
+                $scope.product._id = response.result._id;
+                $scope.productImages = [];
+                $scope.message = dashboardUtilsService.getMessage(null, 'success', 'Product was created successfully');
+                addImageManagerAttribute();
+
+                // Reset stock management variable
+                $scope.product.isManagingStock = isManagingStock;
+
+                defer.resolve($scope.product);
+            } else {
+                $scope.message = dashboardUtilsService.getMessage(response);
+            }
+            enableButton();
+        }
+
+        function saveError() {
+            $scope.message = dashboardUtilsService.getMEssage(null, 'danger', 'Something went wrong');
+            enableButton();
+            defer.resolve(false);
+        }
+
+        function updateSuccess(response) {
+            if (response.error === null) {
+                var result = response.result || getDefaultProduct();
+                $scope.message = dashboardUtilsService.getMessage(null, 'success', 'Product was updated successfully');
+
+                // Reset stock management variable
+                $scope.product.isManagingStock = isManagingStock;
+
+                defer.resolve(result);
+            } else {
+                $scope.message = dashboardUtilsService.getMessage(response);
+            }
+            enableButton();
+        }
+
+        function updateError() {
+            saveError();
+        }
+
+        function enableButton() {
+            $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
+            $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
+        }
     }
 
     function back() {
