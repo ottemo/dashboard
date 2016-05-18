@@ -1,58 +1,78 @@
-angular.module("productModule")
+angular.module('productModule')
 
-.controller("productEditController", [
-"$scope",
-"$routeParams",
-"$location",
-"$q",
-"productApiService",
-"coreImageService",
-"dashboardUtilsService",
+.controller('productEditController', [
+'$scope', '$routeParams', '$location', '$q', 'productApiService', 'coreImageService', 'dashboardUtilsService',
 function ($scope, $routeParams, $location, $q, productApiService, coreImageService, dashboardUtilsService) {
 
-    var productId, getDefaultProduct, addImageManagerAttribute, addStockValues;
+    var productId = $routeParams.id;
 
-    productId = $routeParams.id;
-
-    if (!productId && productId !== "new") {
-        $location.path("/products");
+    if (!productId && productId !== 'new') {
+        $location.path('/products');
     }
 
-    if (productId === "new") {
+    if (productId === 'new') {
         productId = null;
     }
 
     // Initialize SEO
-    if (typeof $scope.initSeo === "function") {
-        $scope.initSeo("product");
+    if (typeof $scope.initSeo === 'function') {
+        $scope.initSeo('product');
     }
 
-    addImageManagerAttribute = function () {
-        if(typeof $scope.attributes !== "undefined" && typeof $scope.product._id !== "undefined") {
-            $scope.attributes.unshift({
-                Attribute: "default_image",
-                Collection: "product",
-                Default: "",
-                Editors: "picture_manager",
-                Group: "Pictures",
-                IsRequired: false,
-                IsStatic: false,
-                Label: "Image",
-                Model: "Product",
-                Options: "",
-                Type: "text"
-            });
-        }
-    };
+    $scope.product = getDefaultProduct();
+    $scope.clearForm = clearForm;
+    $scope.save = save;
+    $scope.back = back;
 
-    function addInventoryTab(){
+    // Images
+    $scope.imageAdd = imageAdd;
+    $scope.getImage = coreImageService.getImage;
+    $scope.reloadImages = reloadImages;
+    $scope.imageRemove = imageRemove;
+    $scope.imageDefault = imageDefault;
+
+    activate();
+
+    ///////////////////////////////
+
+    function activate() {
+        var attrPromise = productApiService.attributesInfo().$promise
+            .then(function (response) {
+                var result = response.result || [];
+                $scope.attributes = result;
+            });
+
+        var prodPromise = productApiService.getProduct({'productID': productId}).$promise
+            .then(function (response) {
+                var result = response.result || {};
+                $scope.product = result;
+                $scope.excludeItems = result._id;
+                $scope.selectedImage = result['default_image'];
+
+                if (typeof $scope.product.options === 'undefined') {
+                    $scope.product.options = {};
+                }
+            });
+
+        $q.all([attrPromise, prodPromise]).then(function(/*resp*/){
+            addImageManagerAttribute();
+            addInventoryTab();
+        });
+
+
+        $scope.$watch('product', function () {
+            $scope.reloadImages();
+        });
+    }
+
+    function addImageManagerAttribute() {
         if(typeof $scope.attributes !== 'undefined' && typeof $scope.product._id !== 'undefined') {
             $scope.attributes.unshift({
                 Attribute: 'default_image',
                 Collection: 'product',
                 Default: '',
-                Editors: 'inventory_manager',
-                Group: 'Inventory',
+                Editors: 'picture_manager',
+                Group: 'Pictures',
                 IsRequired: false,
                 IsStatic: false,
                 Label: 'Image',
@@ -63,93 +83,57 @@ function ($scope, $routeParams, $location, $q, productApiService, coreImageServi
         }
     }
 
-    getDefaultProduct = function () {
-        return {
-            "_id": undefined,
-            "sku": "",
-            "name": "",
-            "short_description": "",
-            "default_image": "",
-            "price": "",
-            "weight": ""
-        };
-    };
-
-    /**
-     * Current selected product
-     *
-     * @type {Object}
-     */
-    $scope.product = getDefaultProduct();
-
-    /**
-     * Gets list all attributes of product
-     */
-    productApiService.attributesInfo().$promise.then(
-        function (response) {
-            var result = response.result || [];
-            $scope.attributes = result;
-            addImageManagerAttribute();
-            addInventoryTab();
-        });
-
-	// Getting stock values for a product and assign qty values from response to current
-	// options of this product checking is the "Options" from response are present
-	// Map "$scope.product.options" with product options is to complicated and need to be simplified in future
-    addStockValues = function () {
-        productApiService.getStock({"productID": productId}).$promise.then(
-            function (response) {
-                var result = response.result || {};
-                for (var i = 0; i < result.length; i+=1) {
-                    for (var option in result[i].options) {
-                        if (typeof $scope.product.options[option] !== "undefined" && typeof $scope.product.options[option].options[result[i].options[option]] !== "undefined") {
-                            var a = result[i].options[option];
-                            $scope.product.options[option].options[a]["qty"] = result[i].qty;
-                        }
-                    }
-                }
-            }
-        );
-    };
-
-
-    /**
-     * Gets product data
-     */
-    if (null !== productId) {
-        productApiService.getProduct({"productID": productId}).$promise.then(
-            function (response) {
-                var result = response.result || {};
-                $scope.product = result;
-                $scope.excludeItems = result._id;
-                $scope.selectedImage = result['default_image'];
-
-                if (typeof $scope.product.options === "undefined") {
-                    $scope.product.options = {};
-                }
-                addStockValues();
-                addImageManagerAttribute();
-                addInventoryTab();
-            }
-        );
+    function addInventoryTab() {
+        if(typeof $scope.attributes !== 'undefined' && typeof $scope.product._id !== 'undefined') {
+            $scope.attributes.push({
+                Attribute: 'default_image',
+                Collection: 'product',
+                Default: '',
+                Editors: 'inventory_manager',
+                Group: 'Inventory',
+                IsRequired: false,
+                IsStatic: false,
+                Label: 'Inventory',
+                Model: 'Product',
+                Options: '',
+                Type: 'text'
+            });
+        }
     }
+
+    function getDefaultProduct() {
+        return {
+            '_id': undefined,
+            'sku': '',
+            'name': '',
+            'short_description': '',
+            'default_image': '',
+            'price': '',
+            'weight': ''
+        };
+    }
+
     /**
      * Clears the form to create a new product
      */
-    $scope.clearForm = function () {
+    function clearForm() {
         $scope.product = getDefaultProduct();
-    };
+    }
 
     /**
      * Event handler to save the product data.
      * Creates new product if ID in current product is empty OR updates current product if ID is set
      */
-    $scope.save = function () {
-        $('[ng-click="save()"]').addClass('disabled').append('<i class="fa fa-spin fa-spinner"><i>').siblings('.btn').addClass('disabled');
+    function save() {
+        $('[ng-click="save()"]').addClass('disabled')
+            .append('<i class="fa fa-spin fa-spinner"><i>')
+            .siblings('.btn')
+            .addClass('disabled');
+
         var id, defer, saveSuccess, saveError, updateSuccess, updateError;
         defer = $q.defer();
 
-        if (typeof $scope.product !== "undefined") {
+        if (typeof $scope.product !== 'undefined') {
             id = $scope.product.id || $scope.product._id;
 
             // Don't send images as product attribute
@@ -220,94 +204,78 @@ function ($scope, $routeParams, $location, $q, productApiService, coreImageServi
         }
 
         return defer.promise;
-    };
+    }
 
-    $scope.back = function () {
-        $location.path("/products");
-    };
+    function back() {
+        $location.path('/products');
+    }
 
     //-----------------
     // IMAGE FUNCTIONS
     //-----------------
 
-    $scope.reloadImages = function () {
+    function reloadImages() {
         if ($scope.product !== undefined && $scope.product._id !== undefined) {
             // taking media patch for new product
-            productApiService.getImagePath({"productID": $scope.product._id}).$promise.then(
+            productApiService.getImagePath({'productID': $scope.product._id}).$promise.then(
                 function (response) {
-                    $scope.imagesPath = response.result || "";
+                    $scope.imagesPath = response.result || '';
                 });
 
             // taking registered images for product
-            productApiService.listImages({"productID": $scope.product._id}).$promise.then(
+            productApiService.listImages({'productID': $scope.product._id}).$promise.then(
                 function (response) {
                     $scope.productImages = response.result || [];
                 });
         }
-    };
-
-    $scope.$watch("product", function () {
-        $scope.reloadImages();
-    });
+    }
 
     /**
      * Adds file to product
      *
      * @param fileElementId
      */
-    $scope.imageAdd = function (fileElementId) {
+    function imageAdd(fileElementId) {
         var file = document.getElementById(fileElementId);
 
         var pid = $scope.product._id, mediaName = file.files[0].name;
 
         var postData = new FormData();
-        postData.append("file", file.files[0]);
+        postData.append('file', file.files[0]);
 
         if (pid !== undefined) {
-            productApiService.addImage({"productID": pid, "mediaName": mediaName}, postData)
+            productApiService.addImage({'productID': pid, 'mediaName': mediaName}, postData)
                 .$promise.then(function () {
                     $scope.reloadImages();
                 });
         }
-    };
+    }
 
     /**
      * Removes image from product (from product folder) and sends request to saves
      *
      * @param {string} selected - image name
      */
-    $scope.imageRemove = function (selected) {
+    function imageRemove(selected) {
         var pid = $scope.product._id, mediaName = selected;
 
         if (pid !== undefined && selected !== undefined) {
-            productApiService.removeImage({"productID": pid, "mediaName": mediaName})
+            productApiService.removeImage({'productID': pid, 'mediaName': mediaName})
                 .$promise.then(function () {
                     $scope.selectedImage = undefined;
                     $scope.reloadImages();
-                    $scope.product['default_image'] = "";
+                    $scope.product['default_image'] = '';
                     $scope.save();
                 });
         }
-    };
+    }
 
     /**
      * Sets image as image default
      *
      * @param {string} selected - image name
      */
-    $scope.imageDefault = function (selected) {
+    function imageDefault(selected) {
         $scope.product['default_image'] = selected;
-
-    };
-
-    /**
-     * Returns full path to image
-     *
-     * @param {string} path     - the destination path to product folder
-     * @param {string} image    - image name
-     * @returns {string}        - full path to image
-     */
-    $scope.getImage = function (image) {
-        return coreImageService.getImage(image);
-    };
+    }
 }]);
