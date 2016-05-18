@@ -10,11 +10,13 @@ angular.module('coreModule')
         templateUrl: '/views/core/directives/editor/ot-inventory-manager.html',
         link: function(scope, el, attr){
 
+            //TODO: What do we do when we have inventory being passed in
             scope.$watch('options', updateOptions, true);
 
             //////////////////////
 
             function updateOptions() {
+                console.log('option update cycle');
                 scope.inventory = findPermutations(formatOptions(scope.options));
             }
 
