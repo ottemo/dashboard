@@ -6,6 +6,7 @@ angular.module('coreModule')
         scope: {
             'options': '=',
             'inventory': '=',
+            'qty': '=',
         },
         templateUrl: '/views/core/directives/editor/ot-inventory-manager.html',
         link: function(scope, el, attr){

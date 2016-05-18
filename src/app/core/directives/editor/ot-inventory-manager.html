@@ -1,4 +1,5 @@
-<div class="table-responsive" ng-show="inventory.length">
+<div class="table-responsive"
+    ng-show="inventory.length">
     <table class="table table-hover table-v-middle">
         <thead>
             <tr>
@@ -12,14 +13,12 @@
                 <!-- TODO: this is just to get a permutation count -->
                 <td>{{$index +1}}</td>
                 <td ng-repeat="(code, selection) in row.options">
-                    <!-- we could show this if the total number of rows is something hideous -->
-                    <b>{{code}}:</b>
-                    {{selection}}
+                    <b ng-show="inventory.length > 15">{{code}}:</b> {{selection}}
                 </td>
                 <td>
                     <input class="form-control input-sm"
                         type="number"
-                        ng-model="row.qty"/>
+                        ng-model="row.qty" />
                 </td>
             </tr>
         </tbody>
@@ -27,13 +26,11 @@
 </div>
 
 <div ng-show="!inventory.length">
-    <!-- TODO: WIRE UP TO BASE QTY -->
-    options don't control inventory
+    <div class="form-group">
+        <label>Total Count</label>
+        <input type="number"
+            class="form-control"
+            ng-model="qty" />
+    </div>
 </div>
 
-<pre>// options
-{{options | json}}
-</pre>
-<pre>// inventory
-{{inventory | json}}
-</pre>
