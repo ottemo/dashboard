@@ -54,24 +54,24 @@ angular.module('coreModule')
                 ////////////////
 
                 function recur(choices, aggr) {
-                    var aggr = aggr || []; // aggregator
+                    var aggr = aggr || {}; // aggregator
 
                     // We hit the bottom of our recursion
                     if (!choices.length) {
                         // write out to outer variable
-                        resp.push(aggr);
+                        resp.push({options:aggr});
                         return aggr;
                     }
 
                     // always loop over the first item we are given
                     for (var c = 0; c < choices[0].selections.length; c++) {
+                        // Copy it so that we don't just keep over-writing our data
+                        var newAggr = angular.copy(aggr);
+
                         // remove the first option and pass it back in
                         // pass the remaining choices
-                        var thisOption = {
-                            code: choices[0].code,
-                            selection: choices[0].selections[c]
-                        };
-                        recur(choices.slice(1), aggr.concat(thisOption));
+                        newAggr[choices[0].code] = choices[0].selections[c];
+                        recur(choices.slice(1), newAggr);
                     }
                 }
             }

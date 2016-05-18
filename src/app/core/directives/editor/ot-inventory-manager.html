@@ -3,25 +3,23 @@
         <thead>
             <tr>
                 <th></th>
-                <th ng-repeat="th in inventory[0]">{{th.code}}</th>
+                <th ng-repeat="(th, s) in inventory[0].options">{{th}}</th>
                 <th>Count</th>
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="r in inventory">
+            <tr ng-repeat="row in inventory">
                 <!-- TODO: this is just to get a permutation count -->
                 <td>{{$index +1}}</td>
-                <td ng-repeat="s in r">
-                    {{s.selection}}
+                <td ng-repeat="(code, selection) in row.options">
+                    <!-- we could show this if the total number of rows is something hideous -->
+                    <b>{{code}}:</b>
+                    {{selection}}
                 </td>
                 <td>
-                    <!--
-                    NOTE: r is technichally an array so this
-                    is a little masked
-                    -->
                     <input class="form-control input-sm"
                         type="number"
-                        ng-model="r.qty"/>
+                        ng-model="row.qty"/>
                 </td>
             </tr>
         </tbody>
