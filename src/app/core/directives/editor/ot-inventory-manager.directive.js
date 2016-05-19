@@ -10,6 +10,7 @@ angular.module('coreModule')
         },
         templateUrl: '/views/core/directives/editor/ot-inventory-manager.html',
         link: function(scope, el, attr){
+            var lastInventoryList = [];
 
             //TODO: What do we do when we have inventory being passed in
             scope.$watch('options', updateOptions, true);
@@ -17,8 +18,14 @@ angular.module('coreModule')
             //////////////////////
 
             function updateOptions() {
-                console.log('option update cycle');
-                scope.inventory = findPermutations(formatOptions(scope.options));
+                var newInventoryList = findPermutations(formatOptions(scope.options));
+                // console.log(newInventoryList, lastInventoryList);
+
+                if (!angular.equals(newInventoryList, lastInventoryList)) {
+                    console.log('options have changed enough to demand an inventory clean/update');
+                    scope.inventory = newInventoryList;
+                    lastInventoryList = angular.copy(newInventoryList);
+                }
             }
 
             function formatOptions(options){
