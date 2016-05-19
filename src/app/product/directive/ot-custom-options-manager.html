@@ -1,41 +1,56 @@
 
-<button class="btn btn-primary hidden-xs"
+<button class="btn btn-default hidden-xs"
     type="button"
     ng-click="addNewOption()">
     Add option
 </button>
 
 <div class="visible-xs text-center">
-    <button class="btn btn-primary"
+    <button class="btn btn-default"
         type="button"
         ng-click="addNewOption()">
         Add option
     </button>
 </div>
-<br />
 
-<div ng-repeat="option in optionsData | getOrdered">
+<br /><br />
+
+<div class="well" ng-repeat="option in optionsData | getOrdered">
+    <button class="btn btn-sm btn-warning pull-right"
+        type="button"
+        ng-click="removeOption(option.label)">
+        <i class="fa fa-remove"></i> Delete Option
+    </button>
+
+    <legend>Option: {{option.label}}</legend>
 
     <div class="table-responsive">
         <table class="table table-condensed">
+            <colgroup>
+                <col width=""/>
+                <col width="15%"/>
+                <col width="15%"/>
+                <col width="15%"/>
+                <col width="15%"/>
+            </colgroup>
             <thead>
                 <tr>
-                    <th colspan="99">
-                        <h4>Option: {{option.label}}</h4>
-                    </th>
+                    <th>Option Label</th>
+                    <th>Type</th>
+                    <th>Is Required</th>
+                    <th>Controls Inventory</th>
+                    <th>Sort</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td class="form-group">
-                        <label>Option Label</label>
                         <input class="form-control"
                             type="text"
                             ng-model="option.label"
                             ng-blur="modifyData()" />
                     </td>
                     <td class="form-group">
-                        <label>Type</label>
                         <select class="form-control" ng-blur="modifyData()"
                             ng-change="cleanOption(option.label)"
                             ng-init="option.type = option.type || types[0]"
@@ -44,7 +59,6 @@
                         </select>
                     </td>
                     <td class="form-group">
-                        <label>Is Required</label>
                         <select class="form-control" ng-blur="modifyData()"
                             ng-init="option.required = option.required || false"
                             data-ng-model="option.required"
@@ -52,7 +66,6 @@
                         </select>
                     </td>
                     <td class="form-group" ng-if="item.isManagingStock">
-                        <label>Controls Inventory</label>
                         <select class="form-control" ng-blur="modifyData()"
                             ng-init="option.controls_inventory = option.controls_inventory || false"
                             data-ng-model="option.controls_inventory"
@@ -60,14 +73,10 @@
                         </select>
                     </td>
                     <td class="form-group">
-                        <label>Sort</label>
-                        <input class="form-control" type="text" ng-model="option.order" ng-blur="modifyData()" />
-                    </td>
-                    <td class="form-group">
-                        <label for="">&nbsp;</label>
-                        <button class="btn btn-warning form-control" type="button" ng-click="removeOption(option.label)">
-                            <i class="fa fa-remove"></i>
-                        </button>
+                        <input class="form-control"
+                            type="text"
+                            ng-model="option.order"
+                            ng-blur="modifyData()" />
                     </td>
                 </tr>
             </tbody>
@@ -76,7 +85,7 @@
 
     <div ng-if="option.type === 'field'"
         class="table-responsive">
-        <table class="table table-condensed">
+        <table class="table table-condensed m-b-0">
             <tbody>
                 <tr>
                     <td class="form-group">
@@ -96,13 +105,20 @@
 
     <div ng-if="['select', 'multi_select', 'radio', 'checkbox'].indexOf(option.type) !== -1"
         class="table-responsive">
-        <table class="table table-condensed">
+        <table class="table table-condensed table-form m-b-0">
+            <colgroup>
+                <col width=""/>
+                <col width="15%"/>
+                <col width="15%"/>
+                <col width="15%"/>
+                <col width="15%"/>
+            </colgroup>
             <thead>
                 <tr>
                     <th>Selection Label</th>
                     <th>Price</th>
                     <th>Sku</th>
-                    <th>Sort Order</th>
+                    <th>Sort</th>
                     <th>&nbsp;</th>
                 </tr>
             </thead>
@@ -144,10 +160,10 @@
             <tfoot>
                 <tr>
                     <td colspan="99">
-                        <button class="btn btn-primary btn-sm"
+                        <button class="btn btn-default btn-sm"
                             type="button"
                             ng-click="addRow(option.label)">
-                            Add selection
+                            <i class="fa fa-plus"></i> Add selection
                         </button>
                     </td>
                 </tr>
@@ -155,5 +171,4 @@
         </table>
     </div>
 
-    <hr />
 </div>
