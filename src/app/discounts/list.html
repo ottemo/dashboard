@@ -24,7 +24,7 @@
                     You don't have any discounts <a href="/discounts/new">create a discount</a> to get started.
                 </td>
             </tr>
-            <tr ng-repeat="discount in discounts">
+            <tr ng-repeat="discount in discounts track by discount._id">
                 <td>
                     <a ng-href="/discounts/{{discount._id}}">{{ discount.code }}</a>
                 </td>
