@@ -19,7 +19,6 @@ angular.module('coreModule')
 
             function updateOptions() {
                 var newInventoryList = findPermutations(formatOptions(scope.options));
-                // console.log(newInventoryList, lastInventoryList);
 
                 if (!angular.equals(newInventoryList, lastInventoryList)) {
                     console.log('options have changed enough to demand an inventory clean/update');
@@ -28,6 +27,41 @@ angular.module('coreModule')
                 }
             }
 
+            /**
+             * Format options for use in an inventory list
+             *
+             * @param Object
+             * {
+             *   "Bottle Type": {
+             *     "label": "Bottle Type",
+             *     "options": {
+             *       "120 ml": {
+             *         "label": "120 ml",
+             *         "order": 2,
+             *         "price": "61.99"
+             *       },
+             *       "30 ml": {
+             *         "label": "30 ml",
+             *         "order": 1,
+             *         "price": "15.99"
+             *       }
+             *     },
+             *     "order": 3,
+             *     "required": true,
+             *     "type": "select",
+             *     "controls_inventory": false,
+             *     "code": "Bottle Type"
+             *   },
+             *   ...
+             * }
+             *
+             * @return Array
+             * [
+             *   {code: "color",     selections: ["red", "blue", "green", "yellow"]},
+             *   {code: "size",      selections: ["small", "medium", "large"]},
+             *   {code: "thickness", selections: ["heavy", "light"]},
+             * ];
+             */
             function formatOptions(options){
                 return _.chain(options)
                     .forEach(function addCodeField(o, code){
@@ -44,13 +78,33 @@ angular.module('coreModule')
                     .value();
             }
 
-
             /**
-             * var options = [
-             *   {code: "color",     selections: ["red", "blue", "green", "yellow"]}, // color
-             *   {code: "size",      selections: ["small", "medium", "large"]},       // size
-             *   {code: "thickness", selections: ["heavy", "light"]},                 // thickness
-             * ];
+             * Create an array of all combinations of options,
+             * each combination is under the "options" key which
+             * is comprised of a `optionCode: selectionCode`.
+             * This should match db / foundation nicely
+             *
+             * @param  Array see @formatOptions
+             * @return Array of all permutations
+             * [
+             *   {"options": { "color": "red"    }},
+             *   {"options": { "color": "blue"   }},
+             *   {"options": { "color": "yellow" }}
+             * ]
+             *
+             * or
+             *
+             * [
+             *   {"options": {"size": "small",  "color": "red"}},
+             *   {"options": {"size": "small",  "color": "blue"}},
+             *   {"options": {"size": "small",  "color": "yellow"}},
+             *   {"options": {"size": "medium", "color": "red"}},
+             *   {"options": {"size": "medium", "color": "blue"}},
+             *   {"options": {"size": "medium", "color": "yellow"}},
+             *   {"options": {"size": "large",  "color": "red"}},
+             *   {"options": {"size": "large",  "color": "blue"}},
+             *   {"options": {"size": "large",  "color": "yellow"}}
+             * ]
              */
             function findPermutations(options) {
                 var resp = [];
@@ -64,7 +118,7 @@ angular.module('coreModule')
                 ////////////////
 
                 function recur(choices, aggr) {
-                    var aggr = aggr || {}; // aggregator
+                    var aggr = aggr || {}; // jshint ignore:line
 
                     // We hit the bottom of our recursion
                     if (!choices.length) {
