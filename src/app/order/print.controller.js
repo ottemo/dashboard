@@ -30,7 +30,10 @@ angular.module('orderModule')
 
             var o = fetchOrders(ids);
             var c = fetchCmsHeader();
-            $q.all([o,c]).then(window.print);
+            $q.all([o,c]).then(function(){
+                // introduce a delay so angular has time to render before we print
+                $timeout(window.print, 500);
+            });
 
         }
 
