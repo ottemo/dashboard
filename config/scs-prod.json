@@ -1,0 +1,6 @@
+{
+    "useStrict"    : "use strict",
+    "apiUrl"       : "https://api.southcoastswords.com",
+    "mediaPath"    : "https://southcoastswords.com/media/",
+    "itemsPerPage" : "15"
+}

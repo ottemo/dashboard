@@ -15,7 +15,7 @@
         </div>
 
         <div class="table-responsive">
-            <table class="table table-hover table-bordered table-striped">
+            <table class="table table-hover table-bordered">
                 <thead>
                     <tr class=" ">
                         <!-- Checkboxes column thead -->
@@ -36,10 +36,6 @@
                         <th ng-repeat="filter in filters" ng-switch="filter.type" ng-show="parent.fields[$index].visible">
                             <div ng-switch-when="text">
                                 <ot-filter-text editor-scope="filter.attributes" item="filter" object="this"></ot-filter-text>
-                            </div>
-
-                            <div ng-switch-when="range">
-                                <ot-filter-range editor-scope="filter.attributes" item="filter" object="this"></ot-filter-range>
                             </div>
 
                             <div ng-switch-when="select">
@@ -63,14 +59,8 @@
                         <td ng-repeat="field in parent.fields" ng-show="field.visible" ng-class="{'select-link': field.type ==='select-link'}">
                             <span ng-switch="field.type">
 
-                                <!-- Image -->
-                                <span ng-switch-when="image">
-                                    <img class="media-object" ng-src="{{parent.getImage(_item[field.attribute])}}"
-                                         alt="{{item[map.name]}}" style="max-width: 75px; max-height: 75px;">
-                                </span>
-
                                 <!-- Currency -->
-                                <span ng-switch-when="price">{{_item[field.attribute] | currency}}</span>
+                                <div ng-switch-when="price" class="text-right">{{_item[field.attribute] | currency}}</div>
                                 <span ng-switch-when="currency">{{_item[field.attribute] | currency}}</span>
 
                                 <!-- Date -->

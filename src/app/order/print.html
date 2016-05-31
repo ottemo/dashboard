@@ -1,5 +1,8 @@
+<div ng-if="!orders.length" class="well text-center">
+    loading...
+</div>
 <div class="page-break-after"
-    ng-repeat="order in orders">
+    ng-repeat="order in orders track by order._id">
 
     <div class="page-header">
         <h1 ng-if="!cms.header">Order ID: {{order._id}}</h1>

@@ -2,9 +2,9 @@ angular.module('dashboardModule')
 
 .factory('menuService', [
     '$location',
+    'loginLoginService',
     '_',
-    function($location, _) {
-
+    function($location, loginLoginService, _) {
         // States:
         // - isActive (bool)
         // - isOpen   (bool)

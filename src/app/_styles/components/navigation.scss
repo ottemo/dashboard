@@ -23,24 +23,30 @@ body {
   width: 100%;
 }
 
+// xs navbar
+.navbar-default .navbar-nav {
+  float: right;
+  margin: 4px -15px;
+  @media (min-width: $screen-sm-min) {
+    margin: 0;
+  }
+}
 .navbar-brand {
   font-size: 22px;
 
   > img {
     display: inline-block;
-    height: 20px;
-    vertical-align: top;
-    position: relative;
-    top: -2px;
-    margin-right: 10px;
+    margin: -2px 2px 0 0;
+    width: 21px;
   }
 }
 
+// real menu, in sidebar
 .nav-menu {
   position: fixed;
   right: -$nav-width;
   top: 0;
-
+  z-index: 1001;
   width: $nav-width;
   height: 100%;
 
@@ -62,7 +68,6 @@ body {
   }
 
   &.nav-menu--active {
-    z-index: 20;
     right:0;
     -webkit-transition: all 0.4s ease;
     transition: all 0.4s ease;
@@ -73,16 +78,6 @@ body {
     left:0;
     right: auto;
   }
-
-  @media (min-width: $nav-break) and (min-height: 570px) {
-    .navbar-user {
-      position: absolute;
-      bottom: 0;
-      width: 100%;
-      border-bottom: 0;
-      border-top: 1px #343438 solid;
-    }
-  }
 }
 
 .nav-menu {
@@ -91,7 +86,7 @@ body {
     padding: 0;
   }
 
-  a {
+  .menu-link {
     display: block;
     line-height: 1;
     font-size: 16px;
@@ -101,32 +96,14 @@ body {
     padding: 15px 0px 15px 15px;
     border-bottom: 1px #343438 solid;
     position: relative;
-    transition: all 0.4s ease;
 
     &:hover {
       background: $navbar-default-link-hover-bg;
       color: $navbar-default-link-hover-color;
-      transition: all 0.4s ease;
     }
     &.active {
       background: $navbar-default-link-active-bg;
       color: $navbar-default-link-active-color;
-      transition: all 0.4s ease;
-    }
-  }
-
-
-  .navbar-branding {
-    height: 59px;
-    line-height: 59px;
-    padding: 1px 0 0 15px;
-    font-size: 22px;
-    color: #fff;
-
-    img {
-      width: 20px;
-      margin-right: 10px;
-      vertical-align: baseline;
     }
   }
 
@@ -139,6 +116,49 @@ body {
     right: 0;
   }
 }
+.menu-item__user {
+  .fa {
+    margin-top: -5px;
+    margin-right: 2px;
+  }
+  .branding {
+    font-size: 22px;
+    color: #fff;
+  }
+  .fa-angle-down {
+    font-size: 14px;
+    margin-left: 3px;
+    color: #98978B;
+  }
+  .user-name {
+    margin-top: 5px;
+    font-size: 14px;
+  }
+}
+.user-menu-dropdown {
+  z-index: 1002;
+  margin-left: 12px;
+  margin-top: -10px;
+  border-color: #343438;
+  overflow: hidden; // prevent :hover bg from ruining border-radius
+  width: 250px;
+
+  .menu-header {
+    padding: 3px 20px;
+    img {
+      float: left;
+      margin: 0 12px 0 0;
+    }
+    div {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+  .divider {
+    margin: 3px 0;
+  }
+}
 
 .nav-menu {
   .sub-menu {
@@ -147,16 +167,11 @@ body {
     overflow: hidden;
     transition: max-height .5s;
 
-    a {
+    .menu-link {
       padding-left: 55px;
     }
   }
-  .open {
-    a {
-      background: $navbar-default-link-active-bg;
-    }
-    .sub-menu {
-      max-height: 400px;
-    }
+  .open .sub-menu {
+    max-height: 400px; // 8 submenu items, hopefully pretty safe
   }
 }

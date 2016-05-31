@@ -1,15 +1,12 @@
 <div class="page-header">
-	<h1>
-		<span class="fa fa-tags"></span>
-		Products
-	</h1>
+    <h1>
+        <span class="fa fa-tags"></span>
+        Products
+    </h1>
 </div>
 
-<div class="col-sm-12">
+<ot-message-manager item="message"></ot-message-manager>
 
-	<!-- Error message -->
-	<ot-message-manager item="message"></ot-message-manager>
+<ot-table-manager items="products"
+    object="this"></ot-table-manager>
 
-	<!-- Table -->
-	<ot-table-manager items="products" object="this"></ot-table-manager>
-</div>

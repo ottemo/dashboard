@@ -23,47 +23,49 @@
     </h1>
 </div>
 
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th>Email</th>
-            <th>Name</th>
-            <th ng-class="{active: sort !== 'total_orders'}">Total Sales</th>
-            <th ng-class="{active: sort === 'total_orders'}">Total Orders</th>
-            <th>Avg Order Amount</th>
-            <th>First Purchase Date</th>
-            <th>Most Recent Purchase</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr ng-repeat="c in report.aggregate_items">
-            <td>{{c.email}}</td>
-            <td>{{c.name}}</td>
-            <td>{{c.total_sales | currency}}</td>
-            <td>{{c.total_orders}}</td>
-            <td>{{c.avg_sales | currency}}</td>
-            <td><span ot-store-date date="c.earliest_purchase"></span></td>
-            <td><span ot-store-date date="c.latest_purchase"></span></td>
-        </tr>
-        <tr ng-show="!report.aggregate_items">
-            <td colspan="7" class="text-center">
-                No results found for this timeframe.
-            </td>
-        </tr>
-    </tbody>
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Name</th>
+                <th ng-class="{active: sort !== 'total_orders'}">Total Sales</th>
+                <th ng-class="{active: sort === 'total_orders'}">Total Orders</th>
+                <th>Avg Order Amount</th>
+                <th>First Purchase Date</th>
+                <th>Most Recent Purchase</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="c in report.aggregate_items">
+                <td>{{c.email}}</td>
+                <td>{{c.name}}</td>
+                <td>{{c.total_sales | currency}}</td>
+                <td>{{c.total_orders}}</td>
+                <td>{{c.avg_sales | currency}}</td>
+                <td><span ot-store-date date="c.earliest_purchase"></span></td>
+                <td><span ot-store-date date="c.latest_purchase"></span></td>
+            </tr>
+            <tr ng-show="!report.aggregate_items">
+                <td colspan="7" class="text-center">
+                    No results found for this timeframe.
+                </td>
+            </tr>
+        </tbody>
 
-    <!-- for testing feedback -->
-    <tfoot>
-        <tr>
-            <td colspan="7" class="text-center">
-                <small>
-                    count: {{ report.meta.count }},
-                    limit: {{report.meta.limit}},
-                    perf: {{report.perf_ms.toFixed(2)}} ms,
-                    frame: {{timeframe.frame}}
-                </small>
-            </td>
-        </tr>
-    </tfoot>
-</table>
+        <!-- for testing feedback -->
+        <tfoot>
+            <tr>
+                <td colspan="7" class="text-center">
+                    <small>
+                        count: {{ report.meta.count }},
+                        limit: {{report.meta.limit}},
+                        perf: {{report.perf_ms.toFixed(2)}} ms,
+                        frame: {{timeframe.frame}}
+                    </small>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
 

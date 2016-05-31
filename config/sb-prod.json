@@ -1,0 +1,6 @@
+{
+    "useStrict"    : "use strict",
+    "apiUrl"       : "https://api.mystembox.com",
+    "mediaPath"    : "https://mystembox.com/media/",
+    "itemsPerPage" : "15"
+}

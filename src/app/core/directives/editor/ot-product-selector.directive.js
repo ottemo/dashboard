@@ -16,7 +16,7 @@ function ($location, $routeParams, DashboardListService, productApiService, core
         'name' : {'type' : 'select-link', 'label' : 'Name'},
         'enabled' : {},
         'sku' : {},
-        'price' : {}
+        'price' : {'type': 'price', 'label': 'Price'}
     };
 
     return {
@@ -80,14 +80,7 @@ function ($location, $routeParams, DashboardListService, productApiService, core
             };
 
             loadData = function () {
-                $scope.fields = [
-                    {
-                        "attribute": "Image",
-                        "type": "image",
-                        "label": "",
-                        "visible": true
-                    }
-                ];
+                $scope.fields = [];
                 if (typeof $scope.search === "undefined") {
                     $scope.search = {};
                     $scope.search.limit = "0," + COUNT_ITEMS_PER_PAGE;
@@ -141,7 +134,12 @@ function ($location, $routeParams, DashboardListService, productApiService, core
                         serviceList.init('products');
                         $scope.attributes = result;
                         serviceList.setAttributes($scope.attributes);
-                        $scope.fields = $scope.fields.concat(serviceList.getFields(showColumns));
+
+                        $scope.fields = $scope.fields.concat(serviceList.getFields(showColumns))
+                            .filter(function(obj){
+                                return ['name', 'enabled', 'sku', 'price'].indexOf(obj.attribute) >= 0
+                            });
+
                         getProductsList();
                     });
                 };

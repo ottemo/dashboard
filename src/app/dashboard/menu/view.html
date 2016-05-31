@@ -1,78 +1,106 @@
-<!-- Sidebar view -->
-<div class="navbar navbar-default navbar-static-top visible-xs visible-sm">
-    <div class="container-fluid">
-        <div class="navbar-header pull-left">
-            <a class="navbar-brand"
-                href="/">
-                <img src="/images/logo.png" />
-                <span>Ottemo</span>
-            </a>
+<div ng-controller="dashboardMenuController">
+    <!-- XS, SM Header -->
+    <div class="navbar navbar-default navbar-static-top visible-xs visible-sm">
+        <div class="container-fluid">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a ng-click="isMenuActive = !isMenuActive"
+                        class="nav-menu__expand">
+                        <i class="fa fa-bars"></i> Menu
+                    </a>
+                </li>
+            </ul>
+            <div class="navbar-header">
+                <a class="navbar-brand"
+                    href="/">
+                    <img src="/images/logo.png" />
+                    <span>ottemo</span>
+                </a>
+            </div>
         </div>
-
-        <ul class="nav navbar-nav pull-right">
-            <li>
-                <a ng-click="isMenuActive = !isMenuActive"
-                    class="nav-menu__expand">
-                    <i class="fa fa-bars"></i> Menu
-                </a>
-            </li>
-        </ul>
     </div>
+
+    <!-- Main menu -->
+    <nav id="offcanvas"
+        class="nav-menu"
+        ng-class="{'nav-menu--active': isMenuActive}">
+        <div class="sidebar-wrapper">
+            <ul>
+                <li class="menu-item menu-item__user hidden-xs hidden-sm"
+                    uib-dropdown
+                    dropdown-append-to-body>
+                    <a class="menu-link"
+                        uib-dropdown-toggle>
+                        <img class="fa fa-fw"
+                            src="/images/logo.png" />
+                        <span class="branding">ottemo <i class="fa fa-angle-down"></i></span>
+                        <div class="user-name">
+                            {{user.name()}}
+                        </div>
+                    </a>
+
+                    <ul class="dropdown-menu user-menu-dropdown" uib-dropdown-menu>
+                        <li class="menu-header">
+                            <h4>
+                                <!-- <img src="" alt="" width="36" height="36" /> -->
+                                <div>{{user.name()}}</div>
+                                <div class="text-mute small">{{user.email()}}</div>
+                            </h4>
+                        </li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/logout">Sign out of ottemo</a></li>
+                    </ul>
+                </li>
+                <li class="menu-item hidden-md hidden-lg">
+                    <a class="menu-link"
+                        ng-click="isMenuActive = !isMenuActive">
+                        <i class="fa fa-fw fa-times"></i>
+                        <span>Close Menu</span>
+                    </a>
+                </li>
+                <li class="menu-item"
+                    ng-repeat="item in ::items"
+                    ng-class="{'open': item.isOpen && item.children}">
+
+                    <a class="menu-link"
+                        ng-class="{'active': item.isActive }"
+                        ng-href="{{::item.link}}"
+                        ng-click="closeAll(); item.isOpen = true;">
+
+                        <i class="fa fa-fw {{::item.icon}}"
+                            ng-if="::item.icon"></i>
+
+                        <span>{{::item.title}}</span>
+
+                        <i class="fa fa-angle-down children-icon"
+                            ng-if="::item.children"></i>
+                    </a>
+
+                    <!-- Sub menu -->
+                    <ul class="sub-menu"
+                        ng-if="::item.children">
+                        <li class="menu-item"
+                            ng-repeat="item in ::item.children">
+                            <a class="menu-link"
+                                ng-class="{'active' : item.isActive}"
+                                ng-href="{{::item.link}}">
+
+                                <i class="fa fa-fw {{::item.icon}}"
+                                    ng-if="::item.icon"></i>
+
+                                <span>{{::item.title}}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="hidden-md hidden-lg">
+                    <a class="menu-link" href="/logout">
+                        <i class="fa fa-fw fa-sign-out"></i> Log Out
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
 </div>
-
-<nav id="offcanvas"
-    class="nav-menu"
-    ng-class="{'nav-menu--active': isMenuActive}"
-    ng-controller="dashboardMenuController">
-    <div class="sidebar-wrapper">
-        <a href="/"
-            class="navbar-branding">
-            <img src="/images/logo.png" />
-            <span>Ottemo</span>
-        </a>
-
-        <ul>
-            <!-- Main menu -->
-            <li class="menu-item"
-                ng-repeat="item in items"
-                ng-class="{'open': item.isOpen && item.children}">
-
-                <a ng-class="{'active': item.isActive }"
-                    ng-href="{{item.link}}"
-                    ng-click="closeAll(); item.isOpen = true;">
-
-                    <i class="fa fa-fw {{item.icon}}"
-                        ng-if="item.icon"></i>
-
-                    <span>{{item.title}}</span>
-
-                    <i class="fa fa-angle-down children-icon"
-                        ng-if="item.children"></i>
-                </a>
-
-                <!-- Sub menu -->
-                <ul class="sub-menu"
-                    ng-if="item.children">
-                    <li class="menu-item"
-                        ng-repeat="item in item.children">
-                        <a ng-class="{'active' : item.isActive}"
-                            ng-href="{{item.link}}">
-
-                            <i class="fa fa-fw {{item.icon}}"
-                                ng-if="item.icon"></i>
-
-                            <span>{{item.title}}</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-
-            <li class="navbar-user">
-                <a href="/logout">
-                    <i class="fa fa-fw fa-sign-out"></i> Log Out ({{user.getFullName() || 'root'}})
-                </a>
-            </li>
-        </ul>
-    </div>
-</nav>
-
