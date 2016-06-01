@@ -10,20 +10,28 @@ angular.module('coreModule')
         },
         templateUrl: '/views/core/directives/editor/ot-inventory-manager.html',
         link: function(scope, el, attr){
-            var lastInventoryList = [];
+            var lastOptionSet = [];
 
             //TODO: What do we do when we have inventory being passed in
             scope.$watch('options', updateOptions, true);
 
+            activate();
+
             //////////////////////
 
-            function updateOptions() {
-                var newInventoryList = findPermutations(formatOptions(scope.options));
+            function activate() {
+                lastOptionSet = formatOptions(scope.options);
+            }
 
-                if (!angular.equals(newInventoryList, lastInventoryList)) {
+            // It is important that we manage the formatted options in a POJO
+            // if it was bound to the scope angular will try to attach an $$hashKey
+            function updateOptions(a, b) {
+                var newOptionSet = formatOptions(scope.options);
+
+                if (!angular.equals(newOptionSet, lastOptionSet)) {
                     console.log('options have changed enough to demand an inventory clean/update');
-                    scope.inventory = newInventoryList;
-                    lastInventoryList = angular.copy(newInventoryList);
+                    lastOptionSet = angular.copy(newOptionSet);
+                    scope.inventory = findPermutations(newOptionSet);
                 }
             }
 
