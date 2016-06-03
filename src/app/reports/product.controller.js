@@ -65,7 +65,7 @@ angular.module('reportsModule')
                     formatter: function() {
                         return [
                             this.series.name , '<br/>',
-                            this.point.sku , ': <b>' , this.point.units_sold , ' units @ $' ,  this.y , '</b>',
+                            this.point.sku , ': <b>' , this.point.units_sold , ' units @ $' ,  this.point.gross_sales , '</b>',
                         ].join('');
                     }
                 },
@@ -118,7 +118,28 @@ angular.module('reportsModule')
             };
         }
 
-        function updateChart() {
+        var sortedByGross = false;
+        $scope.sort = function(e){
+            sortedByGross = e.target.innerText.indexOf('Gross Sales') > -1;
+
+            updateChart(sortedByGross);
+        };
+
+        function updateChart(sortedByGross) {
+            if (sortedByGross){
+                $scope.report.aggregate_items = _.sortBy($scope.report.aggregate_items, 'gross_sales').reverse();
+
+                $scope.chartConfig.yAxis.title.text = 'Gross Sales';
+                $scope.chartConfig.yAxis.labels.format = '${value}';
+
+            } else {
+                $scope.report.aggregate_items = _.sortBy($scope.report.aggregate_items, 'units_sold').reverse();
+
+                $scope.chartConfig.yAxis.title.text = 'Units Sold';
+                $scope.chartConfig.yAxis.labels.format = '{value}';
+
+            }
+
             $scope.chartConfig.series = _.map($scope.report.aggregate_items, toChartData);
 
             function toChartData(product) {
@@ -126,7 +147,8 @@ angular.module('reportsModule')
                     // sku, units_sold
                     name: product.name,
                     data: [{
-                        y: product.gross_sales,
+                        y: sortedByGross ? product.gross_sales : product.units_sold,
+                        gross_sales: product.gross_sales,
                         units_sold: product.units_sold,
                         sku: product.sku,
                     }],
