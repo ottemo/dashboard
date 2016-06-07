@@ -141,7 +141,7 @@ angular.module('reportsModule')
             $scope.chartConfig.yAxis.labels.format = '${value}';
 
             //this should be request to foundation
-            $scope.report.aggregate_items = _.sortBy($scope.report.aggregate_items, 'gross_sales').reverse();
+            $scope.report.aggregate_items = _.sortByOrder($scope.report.aggregate_items, 'gross_sales', 'desc');
 
             $scope.yAxis = 'Gross Sales';
             updateChart()
@@ -152,7 +152,7 @@ angular.module('reportsModule')
             $scope.chartConfig.yAxis.labels.format = '{value}';
 
             //this should be request to foundation
-            $scope.report.aggregate_items = _.sortBy($scope.report.aggregate_items, 'units_sold').reverse();
+            $scope.report.aggregate_items = _.sortByOrder($scope.report.aggregate_items, 'units_sold', 'desc');
 
             $scope.yAxis = 'Units Sold';
             updateChart()
