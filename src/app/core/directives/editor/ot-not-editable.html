@@ -1,6 +1,7 @@
 <p ng-switch="attribute.Type" class="form-control-static">
-    <span ng-switch-when="datetime">
-        {{ item[attribute.Attribute] | otStoreDate }}
+    <span ng-switch-when="datetime"
+        ot-store-date
+        date="item[attribute.Attribute]">
     </span>
     <span ng-switch-default>
         {{ item[attribute.Attribute] }}

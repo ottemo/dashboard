@@ -7,33 +7,33 @@
     </h1>
 </div>
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Details</th>
-            <th>Total Redemption Limit</th>
-            <th>Begins / Ends</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr ng-if="!discounts">
-            <td colspan="100"
-                class="text-center">
-                You don't have any discounts <a href="/discounts/new">create a discount</a> to get started.
-            </td>
-        </tr>
-        <tr ng-repeat="discount in discounts">
-            <td>
-                <h4 class="td__title"><a ng-href="/discounts/{{discount._id}}">{{ discount.code }}</a></h4>
-            </td>
-            <td>
-                {{ discount.times === -1 ? 'No limit' : discount.times }}
-            </td>
-            <td>
-                Begins: {{ discount.since | otStoreDate }} <br />
-                Ends: {{ discount.until | otStoreDate }}
-            </td>
-        </tr>
-    </tbody>
-</table>
-
+<div class="table-responsive">
+    <table class="table table-hover table-bordered">
+        <thead>
+            <tr>
+                <th>Details</th>
+                <th>Total Redemption Limit</th>
+                <th>Begins</th>
+                <th>Ends</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-if="!discounts">
+                <td colspan="100"
+                    class="text-center">
+                    You don't have any discounts <a href="/discounts/new">create a discount</a> to get started.
+                </td>
+            </tr>
+            <tr ng-repeat="discount in discounts track by discount._id">
+                <td>
+                    <a ng-href="/discounts/{{discount._id}}">{{ discount.code }}</a>
+                </td>
+                <td>
+                    {{ discount.times === -1 ? 'No limit' : discount.times }}
+                </td>
+                <td><span ot-store-date date="discount.since"></span></td>
+                <td><span ot-store-date date="discount.until"></span></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

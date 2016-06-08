@@ -2,9 +2,9 @@ angular.module('dashboardModule')
 
 .factory('menuService', [
     '$location',
+    'loginLoginService',
     '_',
-    function($location, _) {
-
+    function($location, loginLoginService, _) {
         // States:
         // - isActive (bool)
         // - isOpen   (bool)
@@ -72,7 +72,7 @@ angular.module('dashboardModule')
             icon: 'fa-random'
         }, {
             title: 'Reports',
-            link: '/reports/product',
+            link: '/reports',
             icon: 'fa-area-chart'
         }, {
             title: 'Settings',

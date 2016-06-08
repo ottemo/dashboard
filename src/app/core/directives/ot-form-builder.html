@@ -252,8 +252,15 @@
              ng-class="{ 'has-error' : (parent.form.submitted && parent.form.{{attribute.Attribute}}.$invalid) ||
                        (parent.form.{{attribute.Attribute}}.$invalid && !parent.form.{{attribute.Attribute}}.$pristine) }">
 
-            <label>{{attribute.Label}} <span class="asterisk"
-                                             ng-show="attribute.IsRequired">*</span></label>
+            <label>
+              {{attribute.Label}}
+              <span class="asterisk"
+                ng-show="attribute.IsRequired">*</span>
+                <a uib-tooltip="{{attribute.Description}}"
+                    ng-show="attribute.Description">
+                    <i class="fa fa-info-circle"></i>
+                </a>
+            </label>
             <ot-text editor-scope="attribute" item="item"></ot-text>
 
             <p ng-show="(parent.form.submitted && parent.form.{{attribute.Attribute}}.$error.required)"

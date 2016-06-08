@@ -26,15 +26,13 @@
     <!-- main content -->
     <content id="content">
         <!-- Sidebar -->
-        <ng-include src="'/views/dashboard/menu/view.html'"></ng-include>
+        <ng-include src="::'/views/dashboard/menu/view.html'"></ng-include>
 
         <!-- Main content -->
         <section class="container-fluid" ng-controller="seoEditController">
             <ng-view></ng-view>
         </section><!-- main content end-->
 
-        <!-- processing -->
-        <ng-include src="'/views/dashboard/processing/view.html'"></ng-include>
     </content>
 
 

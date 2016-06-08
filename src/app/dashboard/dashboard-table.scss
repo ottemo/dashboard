@@ -3,6 +3,7 @@
 
     th {
         font-weight: normal;
+        white-space: nowrap
     }
     tbody th {
         white-space: nowrap;
@@ -10,6 +11,10 @@
 }
 
 .table-dashboard__highlight {
-    font-size: 20px;
+    font-size: 16px;
     color: $brand-primary;
+
+    td {
+        white-space: nowrap;
+    }
 }

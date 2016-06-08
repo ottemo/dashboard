@@ -1,0 +1,6 @@
+{
+    "useStrict"    : "use strict",
+    "apiUrl"       : "https://api.slayglam.com",
+    "mediaPath"    : "https://slayglam.com/media/",
+    "itemsPerPage" : "15"
+}

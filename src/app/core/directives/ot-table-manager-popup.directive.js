@@ -100,7 +100,7 @@ angular.module("coreModule")
                     possibleButtons = ["new", "delete", "checkbox"];
                     if (typeof $scope.buttons === "undefined") {
                         $scope.buttons = {};
-                        for (i = 0; i < possibleButtons.length; i += 1) {
+                        for (i = 0; i < possibleButtons.length; i++) {
                             if (typeof $scope.buttonData !== "undefined") {
                                 if (typeof $scope.buttonData[possibleButtons[i]] !== "undefined") {
                                     $scope.buttons[possibleButtons[i]] = $scope.buttonData[possibleButtons[i]];
@@ -123,7 +123,7 @@ angular.module("coreModule")
                         }
                         catch (e) {
                             var parts = opt.replace(/[{}]/g, "").split(",");
-                            for (var i = 0; i < parts.length; i += 1) {
+                            for (var i = 0; i < parts.length; i++) {
                                 options[parts[i]] = parts[i];
                             }
                         }
@@ -172,7 +172,8 @@ angular.module("coreModule")
 
                         return details;
                     };
-                    for (i = 0; i < $scope.parent.fields.length; i += 1) {
+
+                    for (i = 0; i < $scope.parent.fields.length; i++) {
 
                         if (typeof $scope.parent.fields[i].filter === "undefined") {
                             $scope.filters.push({});
@@ -259,77 +260,9 @@ angular.module("coreModule")
                     return true;
                 };
 
-                /** PAGINATOR */
-
-                $scope.getPages = function () {
-                    if (typeof $scope.paginator === "undefined") {
-                        return false;
-                    }
-                    var p, result;
-                    result = [];
-
-                    for (p = 1; p <= $scope.paginator.countPages; p += 1) {
-                        result.push(p);
-                    }
-                    return result;
-                };
-
-                $scope.setPage = function (page) {
-                    if (typeof $scope.paginator === "undefined" || page === $scope.paginator.page) {
-                        return false;
-                    }
-
-                    var _setPage = function (page) {
-                        if ("prev" === page && $scope.paginator.page !== 1) {
-                            $scope.paginator.page = $scope.paginator.page - 1;
-                        } else if ("next" === page && $scope.paginator.page !== $scope.paginator.countPages) {
-                            $scope.paginator.page = $scope.paginator.page + 1;
-                        } else if (-1 === ["prev", "next"].indexOf(page)) {
-                            $scope.paginator.page = page;
-                        } else {
-                            return false;
-                        }
-
-                        return true;
-                    };
-
-                    if (!_setPage(page)) {
-                        return false;
-                    }
-
-                    $("#selectAll").removeAttr("checked");
-                    isSelectedAll = false;
-
+                $scope.updateSearch = function () {
                     $scope.parent.search = getSearchObj();
                 };
-
-                /**
-                 * Gets class for item of paginator
-                 *
-                 * @param {string} page
-                 * @returns {string}
-                 */
-                $scope.getClass = function (page) {
-                    if (typeof $scope.paginator === "undefined") {
-                        return '';
-                    }
-
-                    var _class;
-                    _class = '';
-
-                    if (page === parseInt($scope.paginator.page, 10)) {
-                        _class = 'active';
-                    }
-
-                    if (("prev" === page && $scope.paginator.page === 1) ||
-                        ("next" === page && $scope.paginator.page >= $scope.paginator.countPages)) {
-                        _class = 'disabled';
-                    }
-
-                    return _class;
-                };
-
-                /** PAGINATOR END*/
 
                 /** Sorting */
 
@@ -363,7 +296,7 @@ angular.module("coreModule")
 
                     search = {};
                     removeEmpty = function (arr) {
-                        for (var i = 0; i < arr.length; i += 1) {
+                        for (var i = 0; i < arr.length; i++) {
                             if ("" === arr[i].trim()) {
                                 arr.splice(i, 1);
                             }
@@ -412,7 +345,7 @@ angular.module("coreModule")
 
                 $scope.selectAll = function () {
                     isSelectedAll = isSelectedAll ? false : true;
-                    for (var i = 0; i < $scope.items.length; i += 1) {
+                    for (var i = 0; i < $scope.items.length; i++) {
                         $scope.parent.selected[$scope.items[i][$scope.map.id]] = isSelectedAll;
                     }
                 };
@@ -445,7 +378,7 @@ angular.module("coreModule")
                         }
                     };
 
-                    for (i = 0; i < $scope.items.length; i += 1) {
+                    for (i = 0; i < $scope.items.length; i++) {
                         item = $scope.items[i];
                         if (item.Extra !== null) {
                             splitExtraData(item);

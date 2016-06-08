@@ -26,63 +26,61 @@
         ng-click="addressForm()">Addresses</div>
 </div>
 
+<br /><br />
+
 <uib-tabset>
     <uib-tab heading="Orders">
         <p ng-if="!orders">No orders to report</p>
-        <table class="table table-bordered table-striped"
-            ng-if="orders">
-            <thead>
-                <tr>
-                    <th>Order Date</th>
-                    <th>ID</th>
-                    <th>Notes</th>
-                    <th class="text-right">Total</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="order in orders">
-                    <td>{{ order.Extra.created_at | otStoreDate }}</td>
-                    <td>{{ order.Extra._id }}</td>
-                    <td>
-                        <div ng-if="order.Extra.notes">
-                            <div ng-repeat="note in order.Extra.notes">
-                                {{ note }}
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered"
+                ng-if="orders">
+                <thead>
+                    <tr>
+                        <th>Order Date</th>
+                        <th>ID</th>
+                        <th>Notes</th>
+                        <th class="text-right">Total</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="order in orders">
+                        <td><span ot-store-date date="order.Extra.created_at"></span></td>
+                        <td><a ng-href="/orders/{{ order.ID }}">{{ order.ID }}</a></td>
+                        <td>
+                            <div ng-if="order.Extra.notes">
+                                <div ng-repeat="note in order.Extra.notes">
+                                    {{ note }}
+                                </div>
                             </div>
-                        </div>
-                    </td>
-                    <td class="text-right">{{ order.Extra.grand_total | currency }}</td>
-                    <td>{{ order.Extra.status }}</td>
-                    <td>
-                        <a ng-href="/orders/{{ order.ID }}">View Order</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                        </td>
+                        <td class="text-right">{{ order.Extra.grand_total | currency }}</td>
+                        <td>{{ order.Extra.status }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </uib-tab>
     <uib-tab heading="Subscriptions">
         <p ng-if="!subscriptions">No subscriptions to report</p>
-        <table class="table table-bordered table-striped"
-            ng-if="subscriptions">
-            <thead>
-                <tr>
-                    <th>Order Date</th>
-                    <th>ID</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="subscription in subscriptions">
-                    <td>{{ subscription.Extra.created_at | otStoreDate }}</td>
-                    <td>{{ subscription.Extra._id }}</td>
-                    <td>{{ subscription.Extra.status }}</td>
-                    <td>
-                        <a ng-href="/subscriptions/{{ subscription.ID }}">View Subscription</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered"
+                ng-if="subscriptions">
+                <thead>
+                    <tr>
+                        <th>Order Date</th>
+                        <th>ID</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="subscription in subscriptions">
+                        <td><span ot-store-date date="subscription.Extra.created_at"></span></td>
+                        <td><a ng-href="/subscriptions/{{ subscription.ID }}">{{ subscription.ID }}</a></td>
+                        <td>{{ subscription.Extra.status }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </uib-tab>
 </uib-tabset>

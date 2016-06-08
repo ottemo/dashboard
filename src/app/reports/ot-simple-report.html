@@ -1,0 +1,47 @@
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Total Sales</th>
+                <th>Total Orders</th>
+                <th>Average Order Size</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="m in report.aggregate_items">
+                <td class="td-perc-graph"
+                    title="{{m.key}}">
+                    {{m.name}}
+                    <div class="td-perc-graph__g"
+                        ng-show="report.aggregate_items.length > 1"
+                        ng-style="{width: percentWidth(m)}">
+                    </div>
+                </td>
+                <td>{{m.total_sales | currency}}</td>
+                <td>{{m.total_orders}}</td>
+                <td>{{m.avg_sales | currency}}</td>
+            </tr>
+            <tr ng-show="!report.aggregate_items">
+                <td colspan="7"
+                    class="text-center">
+                    No results found for this timeframe.
+                </td>
+            </tr>
+        </tbody>
+
+        <!-- for testing feedback -->
+        <tfoot>
+            <tr>
+                <td colspan="7"
+                    class="text-center">
+                    <small>
+                        perf: {{report.perf_ms.toFixed(2)}} ms,
+                        frame: {{frame}}
+                    </small>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
