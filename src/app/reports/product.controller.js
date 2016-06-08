@@ -19,6 +19,7 @@ angular.module('reportsModule')
             set: setTimeframe,
         };
 
+        $scope.yAxis;
         $scope.chartConfig = getChartConfig();
 
         activate();
@@ -65,7 +66,7 @@ angular.module('reportsModule')
                     formatter: function() {
                         return [
                             this.series.name , '<br/>',
-                            this.point.sku , ': <b>' , this.point.units_sold , ' units @ $' ,  this.y , '</b>',
+                            this.point.sku , ': <b>' , this.point.units_sold , ' units @ $' ,  this.point.gross_sales , '</b>',
                         ].join('');
                     }
                 },
@@ -126,13 +127,36 @@ angular.module('reportsModule')
                     // sku, units_sold
                     name: product.name,
                     data: [{
-                        y: product.gross_sales,
+                        y: $scope.yAxis == 'Gross Sales' ? product.gross_sales : product.units_sold,
+                        gross_sales: product.gross_sales,
                         units_sold: product.units_sold,
                         sku: product.sku,
                     }],
                 };
             }
         }
+
+        $scope.sortByGrossSales = function() {
+            $scope.chartConfig.yAxis.title.text = 'Gross Sales';
+            $scope.chartConfig.yAxis.labels.format = '${value}';
+
+            //this should be request to foundation
+            $scope.report.aggregate_items = _.sortByOrder($scope.report.aggregate_items, 'gross_sales', 'desc');
+
+            $scope.yAxis = 'Gross Sales';
+            updateChart()
+        };
+
+        $scope.sortByUnitsSold = function() {
+            $scope.chartConfig.yAxis.title.text = 'Units Sold';
+            $scope.chartConfig.yAxis.labels.format = '{value}';
+
+            //this should be request to foundation
+            $scope.report.aggregate_items = _.sortByOrder($scope.report.aggregate_items, 'units_sold', 'desc');
+
+            $scope.yAxis = 'Units Sold';
+            updateChart()
+        };
     }
 ]);
 
