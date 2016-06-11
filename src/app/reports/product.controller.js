@@ -19,7 +19,18 @@ angular.module('reportsModule')
             set: setTimeframe,
         };
 
-        $scope.yAxis;
+        var yAxisConfig = {
+            'gross_sales': {
+                title: 'Gross Sales',
+                format: '${value}'
+            },
+            'units_sold': {
+                title: 'Units Sold',
+                format: '{value}'
+            },
+        };
+
+        $scope.sortedBy = 'units_sold';
         $scope.chartConfig = getChartConfig();
 
         activate();
@@ -91,10 +102,10 @@ angular.module('reportsModule')
                 yAxis: {
                     min: 0,
                     title: {
-                        text: 'Gross Sales',
+                        text: yAxisConfig[$scope.sortedBy].title,
                     },
                     labels: {
-                        format: '${value}',
+                        format: yAxisConfig[$scope.sortedBy].format,
                     },
                 },
                 xAxis: {
@@ -127,7 +138,7 @@ angular.module('reportsModule')
                     // sku, units_sold
                     name: product.name,
                     data: [{
-                        y: $scope.yAxis == 'Gross Sales' ? product.gross_sales : product.units_sold,
+                        y: product[$scope.sortedBy],
                         gross_sales: product.gross_sales,
                         units_sold: product.units_sold,
                         sku: product.sku,
@@ -136,26 +147,13 @@ angular.module('reportsModule')
             }
         }
 
-        $scope.sortByGrossSales = function() {
-            $scope.chartConfig.yAxis.title.text = 'Gross Sales';
-            $scope.chartConfig.yAxis.labels.format = '${value}';
+        $scope.sortBy = function(field) {
+            $scope.chartConfig.yAxis.title.text = yAxisConfig[field].title;
+            $scope.chartConfig.yAxis.labels.format = yAxisConfig[field].format;
 
-            //this should be request to foundation
-            $scope.report.aggregate_items = _.sortByOrder($scope.report.aggregate_items, 'gross_sales', 'desc');
-
-            $scope.yAxis = 'Gross Sales';
-            updateChart()
-        };
-
-        $scope.sortByUnitsSold = function() {
-            $scope.chartConfig.yAxis.title.text = 'Units Sold';
-            $scope.chartConfig.yAxis.labels.format = '{value}';
-
-            //this should be request to foundation
-            $scope.report.aggregate_items = _.sortByOrder($scope.report.aggregate_items, 'units_sold', 'desc');
-
-            $scope.yAxis = 'Units Sold';
-            updateChart()
+            $scope.report.aggregate_items = _.sortByOrder($scope.report.aggregate_items, field, 'desc');
+            $scope.sortedBy = field;
+            updateChart();
         };
     }
 ]);
