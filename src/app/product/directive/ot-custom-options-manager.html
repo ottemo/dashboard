@@ -1,10 +1,12 @@
-<button class="btn btn-primary hidden-xs" ng-click="addNewOption()">Add new option</button>
+<div class="container-fluid">
+    <button class="btn btn-primary hidden-xs" ng-click="addNewOption()">Add new option</button>
+</div>
 <div class="visible-xs text-center">
     <button class="btn btn-primary" ng-click="addNewOption()">Add new option</button>
 </div>
 <br><br><br>
 
-<div class="" ng-repeat="option in optionsData | getOrdered">
+<div class="container-fluid" ng-repeat="option in optionsData | getOrdered">
 
     <div class="row">
         <div class="form-group col-xs-12 col-sm-4">
