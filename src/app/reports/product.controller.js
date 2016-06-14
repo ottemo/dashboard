@@ -31,6 +31,7 @@ angular.module('reportsModule')
         };
 
         $scope.sortedBy = 'units_sold';
+        $scope.sortBy = sortBy;
         $scope.chartConfig = getChartConfig();
 
         activate();
@@ -131,11 +132,15 @@ angular.module('reportsModule')
         }
 
         function updateChart() {
+            $scope.chartConfig.yAxis.title.text = yAxisConfig[$scope.sortedBy].title;
+            $scope.chartConfig.yAxis.labels.format = yAxisConfig[$scope.sortedBy].format;
+            $scope.report.aggregate_items = _.sortByOrder($scope.report.aggregate_items, $scope.sortedBy, 'desc');
             $scope.chartConfig.series = _.map($scope.report.aggregate_items, toChartData);
+
 
             function toChartData(product) {
                 return {
-                    // sku, units_sold
+                    // sku, units_sold, gross_sales
                     name: product.name,
                     data: [{
                         y: product[$scope.sortedBy],
@@ -147,14 +152,10 @@ angular.module('reportsModule')
             }
         }
 
-        $scope.sortBy = function(field) {
-            $scope.chartConfig.yAxis.title.text = yAxisConfig[field].title;
-            $scope.chartConfig.yAxis.labels.format = yAxisConfig[field].format;
-
-            $scope.report.aggregate_items = _.sortByOrder($scope.report.aggregate_items, field, 'desc');
+        function sortBy(field) {
             $scope.sortedBy = field;
             updateChart();
-        };
+        }
     }
 ]);
 
