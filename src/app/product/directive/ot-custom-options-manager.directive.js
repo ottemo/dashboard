@@ -36,32 +36,6 @@ angular.module("productModule")
                 return result;
             };
 
-            normalizeJSON = function () {
-                var prepareOptions = function (list) {
-                    if (typeof list !== "undefined") {
-                        for (var opt in list) {
-                            if (list.hasOwnProperty(opt) &&
-                                (typeof list[opt].label === "undefined" ||
-                                    list[opt].label !== opt)) {
-                                {
-                                    list[opt].label = opt;
-                                }
-                            }
-                        }
-                    }
-                };
-                for (var option in $scope.optionsData) {
-                    if ($scope.optionsData.hasOwnProperty(option)) {
-                        if (typeof $scope.optionsData[option].label === "undefined" ||
-                            $scope.optionsData[option].label !== option) {
-                            $scope.optionsData[option].label = option;
-                        }
-                        var list = $scope.optionsData[option].options;
-                        prepareOptions(list);
-                    }
-                }
-            };
-
             getOptions = function (opt) {
                 var options;
 
@@ -79,13 +53,13 @@ angular.module("productModule")
             initData = function () {
                 if (!isInit) {
                     $scope.optionsData = $scope.item[$scope.attribute.Attribute] = getOptions($scope.item[$scope.attribute.Attribute]);
-                    normalizeJSON();
+
                     isInit = true;
                 }
             };
 
             modifyData = function () {
-                var option, list, saveOrderIfGluing;
+                var option, subOption, list, saveOrderIfGluing;
 
                 saveOrderIfGluing = function (obj1, obj2) {
                     if (typeof obj2 !== "undefined") {
@@ -108,13 +82,28 @@ angular.module("productModule")
 
                             saveOrderIfGluing($scope.optionsData[option], $scope.optionsData[$scope.optionsData[option].label]);
 
-                            $scope.optionsData[$scope.optionsData[option].label] = $scope.optionsData[option];
 
-                            delete $scope.optionsData[option];
+                            //replace option's keys with JSON format keys
+                            var optionKey = $scope.toJsonKey($scope.optionsData[option].label);
+                            $scope.optionsData[optionKey] = $scope.optionsData[option];
+
+                            for (subOption in $scope.optionsData[optionKey].options){
+                                var subOptionKey = $scope.toJsonKey($scope.optionsData[optionKey].options[subOption].label);
+
+                                if(subOptionKey != subOption){
+                                    $scope.optionsData[optionKey].options[subOptionKey] = $scope.optionsData[optionKey].options[subOption];
+
+                                    delete $scope.optionsData[optionKey].options[subOption];
+                                }
+                            }
                         }
-
                     }
                 }
+            };
+
+            $scope.toJsonKey = function(str) {
+                //'$' and '.' are illegal characters in mongoDB
+                return _.snakeCase(str).replace('$', 'd').replace('.', 'p');
             };
 
             $scope.$watch("item", function () {

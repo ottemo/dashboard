@@ -158,7 +158,7 @@ function ($scope, $routeParams, $location, $q, productApiService, coreImageServi
          * @param response
          */
         saveError = function () {
-            $scope.message = dashboardUtilsService.getMEssage(null, 'danger', 'Something went wrong');
+            $scope.message = dashboardUtilsService.getMessage(null, 'danger', 'Something went wrong');
             $('[ng-click="save()"]').removeClass('disabled').children('i').remove();
             $('[ng-click="save()"]').siblings('.btn').removeClass('disabled');
             defer.resolve(false);
