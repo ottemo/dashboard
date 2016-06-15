@@ -1,0 +1,6 @@
+{
+    "useStrict"    : "",
+    "apiUrl"       : "https://api.elb.karigran.com",
+    "mediaPath"    : "https://elb.karigran.com/media/",
+    "itemsPerPage" : "15"
+}
