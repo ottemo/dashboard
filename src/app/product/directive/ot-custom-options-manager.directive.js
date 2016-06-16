@@ -28,13 +28,13 @@ angular.module("productModule")
             $scope.removeRow = removeRow;
             $scope.addNewOption = addNewOption;
 
-            function getMaxOptionOrder(obj) {
+            function getMaxOptionOrder(options) {
                 var result = 0;
 
-                if (typeof obj !== "undefined") {
-                    for (var key in obj) {
-                        if (obj.hasOwnProperty(key) && typeof obj[key].label !== "undefined" && result < obj[key].order) {
-                            result = obj[key].order;
+                if (options) {
+                    for (var key in options) {
+                        if (options.hasOwnProperty(key) && typeof options[key].label !== "undefined" && result < options[key].order) {
+                            result = options[key].order;
                         }
                     }
                 }
@@ -65,6 +65,7 @@ angular.module("productModule")
             }
 
             function updateOptionsKeys(options) {
+                // If called with empty params - use $scope.optonsData
                 options = options || $scope.optionsData;
                 
                 for (var oldOptionKey in options) {
@@ -76,6 +77,8 @@ angular.module("productModule")
 
                         if (option.options) {
                             var subOptions = option.options;
+
+                            // Calls itself recursively to update child options
                             updateOptionsKeys(subOptions);
                         }
 
@@ -106,15 +109,15 @@ angular.module("productModule")
             }, true);
 
             function cleanOption(key) {
-                //var optionsFields = ["label", "type", "required", "order"];
-                //var options = $scope.item.options[key];
-                //for (var field in options) {
-                //    if (options.hasOwnProperty(field) && -1 === optionsFields.indexOf(field)) {
-                //        // TODO: for some period need ability switch to Radio and Checkbox without options loss
-                //        //delete options[field];
-                //    }
-                //}
-                //delete $scope.item.options[""];
+                var optionsFields = ["label", "type", "required", "order"];
+                var options = $scope.item.options[key];
+                for (var field in options) {
+                    if (options.hasOwnProperty(field) && -1 === optionsFields.indexOf(field)) {
+                        // TODO: for some period need ability switch to Radio and Checkbox without options loss
+                        //delete options[field];
+                    }
+                }
+                delete $scope.item.options[""];
             }
 
             function addRow(option) {
