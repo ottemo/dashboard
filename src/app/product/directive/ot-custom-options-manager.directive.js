@@ -28,15 +28,29 @@ angular.module("productModule")
             $scope.removeRow = removeRow;
             $scope.addNewOption = addNewOption;
 
+            //////////////////////////
+
+            $scope.$watch("item", function () {
+                if ($scope.item[$scope.attribute.Attribute] === undefined) {
+                    $scope.optionsData = [];
+                    return false;
+                }
+                if (isInit) {
+                    return false;
+                }
+                initData();
+                updateOptionsKeys();
+            }, true);
+
             function getMaxOptionOrder(options) {
                 var result = 0;
 
                 if (options) {
-                    for (var key in options) {
-                        if (options.hasOwnProperty(key) && typeof options[key].label !== "undefined" && result < options[key].order) {
-                            result = options[key].order;
-                        }
-                    }
+                    _.each(options, function(option) {
+                       if (option.label !== undefined) {
+                           result = Math.max(result, option.order);
+                       }
+                    });
                 }
 
                 return result;
@@ -64,8 +78,17 @@ angular.module("productModule")
                 }
             }
 
+            /**
+             * Makes new snake cased keys from labels for all options and their child options
+             * So that options.<key> = option
+             * Where <key> is snake cased option.label
+             *
+             * Called recursively over options
+             *
+             * @param options
+             */
             function updateOptionsKeys(options) {
-                // If called with empty params - use $scope.optonsData
+                // If called with empty params - use $scope.optionsData
                 options = options || $scope.optionsData;
                 
                 for (var oldOptionKey in options) {
@@ -75,17 +98,16 @@ angular.module("productModule")
                         var option = options[oldOptionKey];
                         var newOptionKey = toJsonKey(option.label);
 
+                        if (newOptionKey && oldOptionKey !== newOptionKey) {
+                            options[newOptionKey] = options[oldOptionKey];
+                            delete options[oldOptionKey];
+                        }
+
                         if (option.options) {
                             var subOptions = option.options;
 
-                            // Calls itself recursively to update child options
+                            // Calls itself recursively to update child options keys
                             updateOptionsKeys(subOptions);
-                        }
-
-                        if (newOptionKey && oldOptionKey !== newOptionKey) {
-                            console.log('new key', newOptionKey);
-                            options[newOptionKey] = options[oldOptionKey];
-                            delete options[oldOptionKey];
                         }
                     }
                 }
@@ -95,18 +117,6 @@ angular.module("productModule")
                 //'$' and '.' are illegal characters in mongoDB
                 return _.snakeCase(str).replace('$', 'd').replace('.', 'p');
             }
-
-            $scope.$watch("item", function () {
-                if ($scope.item[$scope.attribute.Attribute] === undefined) {
-                    $scope.optionsData = [];
-                    return false;
-                }
-                if (isInit) {
-                    return false;
-                }
-                initData();
-                updateOptionsKeys();
-            }, true);
 
             function cleanOption(key) {
                 var optionsFields = ["label", "type", "required", "order"];
@@ -132,7 +142,7 @@ angular.module("productModule")
                 }
 
                 $scope.optionsData[option].options[""] = {
-                    "order": (typeof $scope.optionsData[option].options === "undefined" ? 0 : getMaxOptionOrder($scope.optionsData[option].options) + 1)
+                    "order": (getMaxOptionOrder($scope.optionsData[option].options) + 1)
                 };
             }
 
@@ -186,7 +196,7 @@ angular.module("productModule")
                 $scope.optionsData[""] = {
                     "type": $scope.types[0],
                     "required": false,
-                    "order": (typeof $scope.optionsData === "undefined" ? 0 : getMaxOptionOrder($scope.optionsData) + 1)
+                    "order": (getMaxOptionOrder($scope.optionsData) + 1)
                 };
             }
         }
