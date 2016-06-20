@@ -108,7 +108,7 @@ angular.module("coreModule")
                         if (-1 !== ['text', 'string', 'varchar', 'id'].indexOf(filterDetails.dataType)) {
                             activeFilters[filterDetails.attribute.toLowerCase()] = filterDetails.filterValue.replace(/~/g, "").split(",");
                         } else {
-                            activeFilters[filterDetails.attribute.toLowerCase()] = filterDetails.filterValue.replace(/~/g, "");
+                            activeFilters[filterDetails.attribute.toLowerCase()] = new Array(filterDetails.filterValue.replace(/~/g, ""));
                         }
                     }
                 };
@@ -313,7 +313,7 @@ angular.module("coreModule")
                                     if (filters[key].length > 0) {
                                         // I'm not sure why we are using the like comparison operator
                                         // for everything, but we don't want it for order.status...
-                                        var op = (key === 'status') ? '=' : '=~'
+                                        var op = (key === 'status') ? '=' : '=~';
                                         filtersArr.push(key.toLowerCase() + op + filters[key].join());
                                     }
                                 } else {
