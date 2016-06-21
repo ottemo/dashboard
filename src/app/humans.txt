@@ -1,0 +1,44 @@
+
+Site         :   ottemo.io
+Demo Store   :   github.com/ottemo/ultimo
+
+
+/* Related Links */
+
+    Github     :   github.com/ottemo
+    LinkedIn   :   linkedin.com/company/ottemo-inc
+    Facebook   :   facebook.com/getottemo
+    Twitter    :   twitter.com/getottemo
+
+
+/* Technology Stack */
+
+    AngularJS      :   angularjs.org
+    Lodash         :   lodash.com
+    jQuery         :   jquery.com
+    Bootstrap      :   getbootstrap.com
+    Font Awesome   :   fontawesome.io
+    Go             :   golang.org
+    Ansible        :   ansible.com
+
+
+/* Contributors to Ottemo */
+
+    James Vastbinder       : github.com/vastbinderj
+    Adam Willoughby-Knox   : github.com/drKnoxy
+    Ian Wendt              : github.com/iwendt
+    Michael Nishizawa      : github.com/mnishizawa
+    Maaz Ghani             : github.com/maazghani
+    Anish Patel            : github.com/loungerider
+    Victor Nazarov         : github.com/vnaz
+    Andrew Poddubny        : github.com/poddubny
+    Igor Krivoruchko       : github.com/n4bcak3
+    Alex Balahanov         : github.com/CyberCookie
+    Ihor Parkhomenko       : github.com/Gigor911
+    Oksana Lalak           : github.com/OksanaL
+    Oleksij Besarab        : github.com/Besarab
+    Victor Silvestrov      : github.com/vsilvestrov
+    Dmitry Glushenkov      : github.com/dglushenkov
+    Evgeniy Yakush         : github.com/zheyakush
+    Alexey Savchenko       : github.com/asavchenko
+    Alex Kozachenko        : github.com/ale-ttt
