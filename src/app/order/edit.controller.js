@@ -34,6 +34,8 @@ function ($scope, $routeParams, $location, $q, orderApiService, dashboardUtilsSe
         };
     };
 
+    $scope.getOptionValueLabel = dashboardUtilsService.getOptionValueLabel;
+
     /**
      * Current selected order
      *
@@ -95,27 +97,6 @@ function ($scope, $routeParams, $location, $q, orderApiService, dashboardUtilsSe
             }
         );
     }
-
-    /**
-     * Returns a label of selected product option
-     * @param {Object} option
-     * @returns {string}
-     */
-    $scope.getOptionLabel = function(option) {
-        // If option is a field return option value
-        if (option.type === 'field') {
-            return option.value;
-
-        // If option is a multi-select return a list of labels
-        } else if (option.type === 'multi_select') {
-            return _.map(option.options, 'label').join(', ');
-
-        // In other cases (select, radio, subscription select)
-        } else {
-            var childOptions = option.options;
-            return childOptions[option.value].label;
-        }
-    };
 
     /**
      * Event handler to save the order data.

@@ -87,7 +87,11 @@
                 <td>{{product.Sku}}</td>
                 <td>
                     <div ng-repeat="option in product.Options">
-                        {{ option.label }}: {{ option.value }}
+                        {{ option.label }}:
+                        <span ng-switch="option.type">
+                            <span ng-switch-when="date">{{ option.value | date}}</span>
+                            <span ng-switch-default>{{ getOptionValueLabel(option) }}</span>
+                        </span>
                     </div>
                 </td>
                 <td ng-if="options.showPrice">{{product.Price | currency}}</td>

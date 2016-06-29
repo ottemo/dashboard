@@ -46,7 +46,7 @@
                                     {{ option.label }}:
                                     <span ng-switch="option.type">
                                         <span ng-switch-when="date">{{ option.value | date}}</span>
-                                        <span ng-switch-default>{{ getOptionLabel(option) }}</span>
+                                        <span ng-switch-default>{{ getOptionValueLabel(option) }}</span>
                                     </span>
                                 </div>
                             </td>
