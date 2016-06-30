@@ -41,26 +41,32 @@
         </div>
 
         <div class="table-responsive">
-            <table class="table table-hover table-bordered table-striped">
+            <table class="table table-hover table-bordered">
                 <!-- Labels -->
                 <thead>
                     <tr>
                         <th class="checkboxes-column">
                             <input type="checkbox" id="selectAll" ng-click="selectAll()">
                         </th>
+                        <!--
+                        note: parent.fields is sometimes dynamically added to,
+                        as in the products grid
+                        -->
                         <th class="th-clickable"
                             ng-repeat="field in parent.fields"
-                            ng-show="field.visible"
-                            ng-class="{'text-uppercase': field.label}"
+                            ng-show="::field.visible"
+                            ng-class="::{'text-uppercase': field.label}"
                             ng-click="field.label ? setSort(field.attribute) : ''">
-                            {{field.label}}
+                            {{::field.label}}
                             <span ng-class="getSortClass(field.attribute)"></span>
                         </th>
                     </tr>
                     <!-- Filters -->
                     <tr ng-show="isFiltersVisible">
                         <td>&nbsp;</td>
-                        <td ng-repeat="filter in filters" ng-switch="filter.type" ng-show="parent.fields[$index].visible">
+                        <td ng-repeat="filter in filters"
+                            ng-switch="filter.type"
+                            ng-show="parent.fields[$index].visible">
                             <div ng-switch-when="text">
                                 <ot-filter-text editor-scope="filter.attributes" item="filter" object="this"></ot-filter-text>
                             </div>
@@ -84,39 +90,42 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="_item in items">
+                    <tr ng-repeat="_item in ::items">
                         <td class="checkboxes-column">
-                            <input type="checkbox" ng-if="!_item.IsStatic" ng-model="parent.idsSelectedRows[_item[map.id]]">
+                            <input type="checkbox"
+                                ng-if="::!_item.IsStatic"
+                                ng-model="parent.idsSelectedRows[_item[map.id]]">
                         </td>
-                        <td ng-click="parent.select(_item[map.id])" ng-repeat="field in parent.fields" ng-show="field.visible"
-                        ng-class="{'select-link': field.type ==='select-link'}">
-                            <span ng-switch="field.type">
+                        <td ng-click="parent.select(_item[map.id])"
+                            ng-repeat="field in ::parent.fields"
+                            ng-show="::field.visible"
+                            ng-class="::{'select-link': field.type ==='select-link'}">
+                            <span ng-switch="::field.type">
 
                                 <!-- Image -->
                                 <span ng-switch-when="image">
-                                    <img
-                                    class="media-object"
-                                    ng-src="{{ _item.Images[0].thumb }}"
-                                    style="width: 50px; height: 50px;">
+                                    <img class="media-object"
+                                        ng-src="{{ _item.Images[0].thumb }}"
+                                        style="width: 50px; height: 50px;">
                                 </span>
 
                                 <!-- Currency -->
-                                <div ng-switch-when="price" class="text-right">{{_item[field.attribute] | currency}}</div>
-                                <span ng-switch-when="currency">{{_item[field.attribute] | currency}}</span>
+                                <span ng-switch-when="price" class="text-right">{{::_item[field.attribute] | currency}}</span>
+                                <span ng-switch-when="currency">{{::_item[field.attribute] | currency}}</span>
 
                                 <!-- Date -->
                                 <span ng-switch-when="date"
                                     ot-store-date
-                                    date="_item[field.attribute]">
+                                    date="::_item[field.attribute]">
                                 </span>
 
                                 <!-- Link -->
                                 <span ng-switch-when="select-link">
-                                    <div>{{_item[field.attribute]}}</div>
+                                    <div>{{::_item[field.attribute]}}</div>
                                 </span>
 
                                 <!-- String, text -->
-                                <span ng-switch-default="">{{_item[field.attribute]}}</span>
+                                <span ng-switch-default="">{{::_item[field.attribute]}}</span>
 
                             </span>
                         </td>

@@ -25,51 +25,57 @@
     <div class="col-sm-8">
         <div class="panel panel-default">
             <div class="panel-heading">Order Items</div>
-            <table class="table table-bordered order-details">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>SKU</th>
-                        <th>Options</th> <!-- dynamic options -->
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th class="text-right">Totals</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="product in order.items">
-                        <td>{{product.Name}}</td>
-                        <td>{{product.Sku}}</td>
-                        <td>
-                            <div ng-repeat="option in product.Options">
-                                {{ option.label }}: {{ option.value }}
-                            </div>
-                        </td>
-                        <td>{{product.Price | currency}}</td>
-                        <td>{{product.Qty}}</td>
-                        <td class="text-right">{{product.Qty * product.Price | currency}}</td>
-                    </tr>
-                </tbody>
-                <tbody>
-                    <tr>
-                        <td colspan="3"></td>
-                        <td colspan="2">
-                            <div>Subtotal:</div>
-                            <div>Shipping:</div>
-                            <div>Tax:</div>
-                            <div ng-if="order.discount">Discounts:</div>
-                            <div>Order Total:</div>
-                        </td>
-                        <td class="text-right">
-                            <div>{{order.subtotal | currency}}</div>
-                            <div>{{order.shipping_amount | currency}}</div>
-                            <div>{{order.tax_amount | currency}}</div>
-                            <div ng-if="order.discount">({{order.discount | currency}})</div>
-                            <div>{{order.grand_total | currency}}</div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-bordered order-details">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>SKU</th>
+                            <th>Options</th> <!-- dynamic options -->
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th class="text-right">Totals</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="product in order.items">
+                            <td>{{product.Name}}</td>
+                            <td>{{product.Sku}}</td>
+                            <td>
+                                <div ng-repeat="option in product.Options">
+                                    {{ option.label }}:
+                                    <span ng-switch="option.type">
+                                        <span ng-switch-when="date">{{ option.value | date}}</span>
+                                        <span ng-switch-default>{{ getOptionValueLabel(option) }}</span>
+                                    </span>
+                                </div>
+                            </td>
+                            <td>{{product.Price | currency}}</td>
+                            <td>{{product.Qty}}</td>
+                            <td class="text-right">{{product.Qty * product.Price | currency}}</td>
+                        </tr>
+                    </tbody>
+                    <tbody>
+                        <tr>
+                            <td colspan="3"></td>
+                            <td colspan="2">
+                                <div>Subtotal:</div>
+                                <div>Shipping:</div>
+                                <div>Tax:</div>
+                                <div ng-if="order.discount">Discounts:</div>
+                                <div>Order Total:</div>
+                            </td>
+                            <td class="text-right">
+                                <div>{{order.subtotal | currency}}</div>
+                                <div>{{order.shipping_amount | currency}}</div>
+                                <div>{{order.tax_amount | currency}}</div>
+                                <div ng-if="order.discount">{{order.discount | currency}}</div>
+                                <div>{{order.grand_total | currency}}</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <div class="panel panel-default">

@@ -33,7 +33,10 @@ module.exports = function() {
             app + '**/*.{png,gif,jpg,jpeg,ico,svg,mp4,ogv,webm,pdf}',
             '!' + app + '_fonts/*',
         ],
-        misc: app + '*.{htaccess,ico,xml}',
+        misc: [
+            app + '*.{htaccess,ico,xml}',
+            app + 'humans.txt'
+        ],
         robots: {
             default: app + 'robots.txt',
             prod: app + 'robots.txt',

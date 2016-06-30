@@ -4,15 +4,13 @@ angular.module("productModule")
     return {
         restrict: "E",
         scope: {
-            "parent": "=object",
             "attribute": "=editorScope",
             "item": "=item"
         },
         templateUrl: "/views/product/directive/ot-custom-options-manager.html",
-        controller: function ($scope) {
-            var isInit, initData, modifyData, normalizeJSON, getOptions, getOptionLength, cloneRow;
 
-            isInit = false;
+        controller: function ($scope) {
+            var isInit = false;
 
             $scope.types = [
                 "field",
@@ -22,47 +20,43 @@ angular.module("productModule")
                 "date"
             ];
 
-            getOptionLength = function (obj) {
+            $scope.updateOptionsKeys = updateOptionsKeys;
+            $scope.toJsonKey = toJsonKey;
+            $scope.cleanOption = cleanOption;
+            $scope.addRow = addRow;
+            $scope.removeOption = removeOption;
+            $scope.removeRow = removeRow;
+            $scope.addNewOption = addNewOption;
+
+            //////////////////////////
+
+            $scope.$watch("item", function () {
+                if ($scope.item[$scope.attribute.Attribute] === undefined) {
+                    $scope.optionsData = [];
+                    return false;
+                }
+                if (isInit) {
+                    return false;
+                }
+                initData();
+                updateOptionsKeys();
+            }, true);
+
+            function getMaxOptionOrder(options) {
                 var result = 0;
 
-                if (typeof obj !== "undefined") {
-                    for (var key in obj) {
-                        if (obj.hasOwnProperty(key) && typeof obj[key].label !== "undefined" && result < obj[key].order) {
-                            result = obj[key].order;
-                        }
-                    }
+                if (options) {
+                    _.each(options, function(option) {
+                       if (option.label !== undefined) {
+                           result = Math.max(result, option.order);
+                       }
+                    });
                 }
 
                 return result;
-            };
+            }
 
-            normalizeJSON = function () {
-                var prepareOptions = function (list) {
-                    if (typeof list !== "undefined") {
-                        for (var opt in list) {
-                            if (list.hasOwnProperty(opt) &&
-                                (typeof list[opt].label === "undefined" ||
-                                    list[opt].label !== opt)) {
-                                {
-                                    list[opt].label = opt;
-                                }
-                            }
-                        }
-                    }
-                };
-                for (var option in $scope.optionsData) {
-                    if ($scope.optionsData.hasOwnProperty(option)) {
-                        if (typeof $scope.optionsData[option].label === "undefined" ||
-                            $scope.optionsData[option].label !== option) {
-                            $scope.optionsData[option].label = option;
-                        }
-                        var list = $scope.optionsData[option].options;
-                        prepareOptions(list);
-                    }
-                }
-            };
-
-            getOptions = function (opt) {
+            function getOptions(opt) {
                 var options;
 
                 if (typeof $scope.item === "string") {
@@ -74,123 +68,94 @@ angular.module("productModule")
                 }
 
                 return options;
-            };
+            }
 
-            initData = function () {
+            function initData() {
                 if (!isInit) {
                     $scope.optionsData = $scope.item[$scope.attribute.Attribute] = getOptions($scope.item[$scope.attribute.Attribute]);
-                    normalizeJSON();
+
                     isInit = true;
                 }
-            };
+            }
 
-            modifyData = function () {
-                var option, list, saveOrderIfGluing;
+            /**
+             * Makes new snake cased keys from labels for all options and their child options
+             * So that options.<key> = option
+             * Where <key> is snake cased option.label
+             *
+             * Called recursively over options
+             *
+             * @param options
+             */
+            function updateOptionsKeys(options) {
+                // If called with empty params - use $scope.optionsData
+                options = options || $scope.optionsData;
+                
+                for (var oldOptionKey in options) {
+                    
+                    if (options.hasOwnProperty(oldOptionKey) && options[oldOptionKey]) {
+                        
+                        var option = options[oldOptionKey];
+                        var newOptionKey = toJsonKey(option.label);
 
-                saveOrderIfGluing = function (obj1, obj2) {
-                    if (typeof obj2 !== "undefined") {
-                        obj1.order = obj2.order;
-                    }
-                };
-
-                for (option in $scope.optionsData) {
-                    if ($scope.optionsData.hasOwnProperty(option) && typeof $scope.optionsData[option] !== "undefined") {
-
-                        if (typeof $scope.optionsData[option].options !== "undefined") {
-                            list = $scope.optionsData[option].options;
-                            cloneRow(list);
+                        if (newOptionKey && oldOptionKey !== newOptionKey) {
+                            options[newOptionKey] = options[oldOptionKey];
+                            delete options[oldOptionKey];
                         }
 
-                        if (typeof $scope.optionsData[option].label !== "undefined" &&
-                            $scope.optionsData[option].label !== "" &&
-                            $scope.optionsData[option].label !== option &&
-                            $scope.optionsData[option] !== "") {
+                        if (option.options) {
+                            var subOptions = option.options;
 
-                            saveOrderIfGluing($scope.optionsData[option], $scope.optionsData[$scope.optionsData[option].label]);
-
-                            $scope.optionsData[$scope.optionsData[option].label] = $scope.optionsData[option];
-
-                            delete $scope.optionsData[option];
-                        }
-
-                    }
-                }
-            };
-
-            $scope.$watch("item", function () {
-                if (typeof $scope.item[$scope.attribute.Attribute] === "undefined") {
-                    $scope.optionsData = [];
-                    return false;
-                }
-                if (isInit) {
-                    return false;
-                }
-                initData();
-                modifyData();
-            }, true);
-
-            cloneRow = function (list) {
-                var opt;
-
-                var copy = function (opt) {
-                    if (typeof list[list[opt].label] !== "undefined") {
-                        list[opt].order = list[list[opt].label].order;
-                    }
-
-                    list[list[opt].label] = list[opt];
-                    delete list[opt];
-                };
-
-                for (opt in list) {
-                    if (list.hasOwnProperty(opt) && (typeof list[opt].label === "undefined" || list[opt].label !== opt)) {
-                        if (typeof list[opt] !== "undefined" &&
-                            typeof list[opt].label !== "undefined" &&
-                            list[opt] !== "" &&
-                            list[opt].label !== "order") {
-                            copy(opt);
+                            // Calls itself recursively to update child options keys
+                            updateOptionsKeys(subOptions);
                         }
                     }
                 }
-            };
+            }
 
-            $scope.cleanOption = function (label) {
+            function toJsonKey(str) {
+                //'$' and '.' are illegal characters in mongoDB
+                return _.snakeCase(str).replace('$', 'd').replace('.', 'p');
+            }
+
+            function cleanOption(key) {
                 var optionsFields = ["label", "type", "required", "order"];
-                var options = $scope.item.options[label];
+                var options = $scope.item.options[key];
                 for (var field in options) {
                     if (options.hasOwnProperty(field) && -1 === optionsFields.indexOf(field)) {
-						// TODO: for some period need ability switch to Radio and Checkbox without options loss
+                        // TODO: for some period need ability switch to Radio and Checkbox without options loss
                         //delete options[field];
                     }
                 }
                 delete $scope.item.options[""];
-            };
+            }
 
-            $scope.addRow = function (option) {
-
+            function addRow(option) {
                 if (typeof $scope.optionsData[option] === "undefined") {
                     return false;
                 }
-                modifyData();
+
+                updateOptionsKeys();
+
                 if (typeof $scope.optionsData[option].options === "undefined") {
                     $scope.optionsData[option].options = {};
                 }
 
                 $scope.optionsData[option].options[""] = {
-                    "order": (typeof $scope.optionsData[option].options === "undefined" ? 0 : getOptionLength($scope.optionsData[option].options) + 1)
+                    "order": (getMaxOptionOrder($scope.optionsData[option].options) + 1)
                 };
-            };
+            }
 
-            $scope.removeOption = function (key) {
+            function removeOption(key) {
                 if (typeof key === "undefined") {
                     delete $scope.optionsData[""];
 
                     return true;
                 }
 
-                var option;
-                modifyData();
+                updateOptionsKeys();
 
-                for (option in $scope.optionsData) {
+                for (var option in $scope.optionsData) {
                     if ($scope.optionsData.hasOwnProperty(option)) {
                         if (option === key) {
                             delete $scope.optionsData[option];
@@ -200,9 +165,9 @@ angular.module("productModule")
                 }
 
                 return false;
-            };
+            }
 
-            $scope.removeRow = function (option, key) {
+            function removeRow(option, key) {
                 if (typeof key === "undefined") {
                     delete $scope.optionsData[option].options[""];
 
@@ -210,7 +175,7 @@ angular.module("productModule")
                 }
 
                 var row, options;
-                modifyData();
+                updateOptionsKeys();
                 options = $scope.optionsData[option].options;
 
                 for (row in options) {
@@ -223,31 +188,33 @@ angular.module("productModule")
                 }
 
                 return false;
+            }
 
-            };
-
-            $scope.modifyData = function () {
-                modifyData();
-            };
-
-            $scope.addNewOption = function () {
-                modifyData();
+            function addNewOption() {
+                updateOptionsKeys();
 
                 $scope.optionsData[""] = {
                     "type": $scope.types[0],
                     "required": false,
-                    "order": (typeof $scope.optionsData === "undefined" ? 0 : getOptionLength($scope.optionsData) + 1)
+                    "order": (getMaxOptionOrder($scope.optionsData) + 1)
                 };
-            };
+            }
         }
     };
 }])
 
 
-.filter('getOrdered', ['_',
-    function (_) {
-        return function (input) {
-            return _.sortBy(input, 'order');
-        };
+.filter('toArray', function() {
+    return function(input) {
+        return _.map(input, function(item, key) {
+            item.key = key;
+            return item;
+        });
     }
-]);
+})
+
+.filter('getOrdered', function() {
+    return function(input) {
+        return _.sortBy(input, 'order');
+    }
+});

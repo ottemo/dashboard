@@ -1,10 +1,6 @@
-
-<button class="btn btn-default hidden-xs"
-    type="button"
-    ng-click="addNewOption()">
-    Add option
-</button>
-
+<div class="container-fluid">
+    <button class="btn btn-default hidden-xs" ng-click="addNewOption()">Add option</button>
+</div>
 <div class="visible-xs text-center">
     <button class="btn btn-default"
         type="button"
@@ -13,12 +9,12 @@
     </button>
 </div>
 
-<br /><br />
+<br/><br/>
 
-<div class="well" ng-repeat="option in optionsData | getOrdered">
+<div class="well" ng-repeat="option in optionsData | toArray | getOrdered">
     <button class="btn btn-sm btn-warning pull-right"
         type="button"
-        ng-click="removeOption(option.label)">
+        ng-click="removeOption(option.key)">
         <i class="fa fa-remove"></i> Delete Option
     </button>
 
@@ -48,25 +44,25 @@
                         <input class="form-control"
                             type="text"
                             ng-model="option.label"
-                            ng-blur="modifyData()" />
+                            ng-blur="updateOptionsKeys()" />
                     </td>
                     <td class="form-group">
-                        <select class="form-control" ng-blur="modifyData()"
-                            ng-change="cleanOption(option.label)"
+                        <select class="form-control" ng-blur="updateOptionsKeys()"
+                            ng-change="cleanOption(option.key)"
                             ng-init="option.type = option.type || types[0]"
                             data-ng-model="option.type"
                             data-ng-options="o as o for o in types">
                         </select>
                     </td>
                     <td class="form-group">
-                        <select class="form-control" ng-blur="modifyData()"
+                        <select class="form-control" ng-blur="updateOptionsKeys()"
                             ng-init="option.required = option.required || false"
                             data-ng-model="option.required"
                             data-ng-options="o as o for o in [true, false]">
                         </select>
                     </td>
                     <td class="form-group" ng-if="item.isManagingStock">
-                        <select class="form-control" ng-blur="modifyData()"
+                        <select class="form-control" ng-blur="updateOptionsKeys()"
                             ng-init="option.controls_inventory = option.controls_inventory || false"
                             data-ng-model="option.controls_inventory"
                             data-ng-options="o as o for o in [true, false]">
@@ -76,7 +72,7 @@
                         <input class="form-control"
                             type="text"
                             ng-model="option.order"
-                            ng-blur="modifyData()" />
+                            ng-blur="updateOptionsKeys()" />
                     </td>
                 </tr>
             </tbody>
@@ -90,12 +86,12 @@
                 <tr>
                     <td class="form-group">
                         <label>Price</label>
-                        <input class="form-control" type="text" ng-model="option.price" ng-blur="modifyData()" />
+                        <input class="form-control" type="text" ng-model="option.price" ng-blur="updateOptionsKeys()" />
                     </td>
 
                     <td class="form-group">
                         <label>SKU</label>
-                        <input class="form-control" type="text" ng-model="option.sku" ng-blur="modifyData()" />
+                        <input class="form-control" type="text" ng-model="option.sku" ng-blur="updateOptionsKeys()" />
                     </td>
 
                 </tr>
@@ -123,35 +119,35 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="(key, row) in option.options | getOrdered">
+                <tr ng-repeat="(key, row) in option.options | toArray | getOrdered">
                     <td>
                         <input class="form-control"
                             type="text"
                             ng-model="row.label"
-                            ng-blur="modifyData()" />
+                            ng-blur="updateOptionsKeys()" />
                     </td>
                     <td>
                         <input class="form-control"
                             type="text"
                             ng-model="row.price"
-                            ng-blur="modifyData()" />
+                            ng-blur="updateOptionsKeys()" />
                     </td>
                     <td>
                         <input class="form-control"
                             type="text"
                             ng-model="row.sku"
-                            ng-blur="modifyData()" />
+                            ng-blur="updateOptionsKeys()" />
                     </td>
                     <td>
                         <input class="form-control"
                             type="text"
                             ng-model="row.order"
-                            ng-blur="modifyData()" />
+                            ng-blur="updateOptionsKeys()" />
                     </td>
                     <td class="text-right">
                         <button class="btn btn-block btn-warning"
                             type="button"
-                            ng-click="removeRow(option.label, row.label)">
+                            ng-click="removeRow(option.key, row.key)">
                             <i class="fa fa-remove"></i>
                         </button>
                     </td>
@@ -162,7 +158,7 @@
                     <td colspan="99">
                         <button class="btn btn-default btn-sm"
                             type="button"
-                            ng-click="addRow(option.label)">
+                            ng-click="addRow(option.key)">
                             <i class="fa fa-plus"></i> Add selection
                         </button>
                     </td>
@@ -170,5 +166,4 @@
             </tfoot>
         </table>
     </div>
-
 </div>

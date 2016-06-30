@@ -89,6 +89,9 @@ angular.module('dashboardModule')
             }, {
                 title: 'Import / Export',
                 link: '/impex'
+            }, {
+                title: 'API',
+                link: '/settings/api'
             }]
         }];
 

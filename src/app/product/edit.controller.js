@@ -24,10 +24,7 @@ function ($scope, $routeParams, $location, $q, _, productApiService, coreImageSe
     ///////////////////////////////
 
     function activate() {
-        // Redirect
-        if (!productId && productId !== 'new') {
-            $location.path('/products');
-        }
+
 
         // Initialize SEO
         if (typeof $scope.initSeo === 'function') {
@@ -62,6 +59,7 @@ function ($scope, $routeParams, $location, $q, _, productApiService, coreImageSe
             var params = {'productID': productId};
             prodPromise = productApiService.getProduct(params).$promise
                 .then(function (response) {
+
                     var result = response.result || {};
 
                     $scope.product = result;
@@ -88,12 +86,15 @@ function ($scope, $routeParams, $location, $q, _, productApiService, coreImageSe
     }
 
     function getProductID() {
-        var productID = $routeParams.id;
-        if (productID === 'new') {
-            productID = null;
+        var productId = $routeParams.id;
+
+        if (!productId) {
+            $location.path('/products');
+        } else if (productId === 'new') {
+            productId = null;
         }
 
-        return productID;
+        return productId;
     }
 
     function addImageManagerAttribute(attributes) {

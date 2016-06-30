@@ -59,36 +59,36 @@
                     </a>
                 </li>
                 <li class="menu-item"
-                    ng-repeat="item in items"
+                    ng-repeat="item in ::items"
                     ng-class="{'open': item.isOpen && item.children}">
 
                     <a class="menu-link"
                         ng-class="{'active': item.isActive }"
-                        ng-href="{{item.link}}"
+                        ng-href="{{::item.link}}"
                         ng-click="closeAll(); item.isOpen = true;">
 
-                        <i class="fa fa-fw {{item.icon}}"
-                            ng-if="item.icon"></i>
+                        <i class="fa fa-fw {{::item.icon}}"
+                            ng-if="::item.icon"></i>
 
-                        <span>{{item.title}}</span>
+                        <span>{{::item.title}}</span>
 
                         <i class="fa fa-angle-down children-icon"
-                            ng-if="item.children"></i>
+                            ng-if="::item.children"></i>
                     </a>
 
                     <!-- Sub menu -->
                     <ul class="sub-menu"
-                        ng-if="item.children">
+                        ng-if="::item.children">
                         <li class="menu-item"
-                            ng-repeat="item in item.children">
+                            ng-repeat="item in ::item.children">
                             <a class="menu-link"
                                 ng-class="{'active' : item.isActive}"
-                                ng-href="{{item.link}}">
+                                ng-href="{{::item.link}}">
 
-                                <i class="fa fa-fw {{item.icon}}"
-                                    ng-if="item.icon"></i>
+                                <i class="fa fa-fw {{::item.icon}}"
+                                    ng-if="::item.icon"></i>
 
-                                <span>{{item.title}}</span>
+                                <span>{{::item.title}}</span>
                             </a>
                         </li>
                     </ul>

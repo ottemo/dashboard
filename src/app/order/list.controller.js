@@ -46,7 +46,7 @@ angular.module('orderModule')
 
         $scope.actions = {
             isOpen: false,
-            export: angular.appConfigValue('general.app.foundation_url') + '/export/quickbooks',
+            export: angular.appConfigValue('general.app.foundation_url') + '/orders/exportToCSV',
             printUrl: printUrl,
             packingSlipUrl: packingSlipUrl,
         };

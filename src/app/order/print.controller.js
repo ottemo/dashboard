@@ -6,11 +6,21 @@ angular.module('orderModule')
     '$q',
     '$timeout',
     'orderApiService',
+    'dashboardUtilsService',
     'cmsApiService',
-    function($scope, $location, $q, $timeout, orderApiService, cmsApiService) {
+    function(
+        $scope,
+        $location,
+        $q,
+        $timeout,
+        orderApiService,
+        dashboardUtilsService,
+        cmsApiService
+    ) {
 
+        $scope.getOptionValueLabel = dashboardUtilsService.getOptionValueLabel;
         $scope.options = {
-            showPrice: 0
+            showPrice: showPrice()
         };
         $scope.orders = [];
 
@@ -28,35 +38,31 @@ angular.module('orderModule')
         function activate() {
             var ids = $location.search().ids.split(',');
 
-            fetchOrders(ids);
-            fetchCmsHeader();
-            showPrice();
+            var o = fetchOrders(ids);
+            var c = fetchCmsHeader();
+            $q.all([o,c]).then(function(){
+                // introduce a delay so angular has time to render before we print
+                $timeout(window.print, 500);
+            });
+
         }
 
         // REFACTOR: We should just be making a single request to the server
         // http://api.ottemo.io/orders?_id=562125eb30dd91015200003d,5621252c30dd91015200001f
         // but right now the response from /orders is different than /order/:id
         function fetchOrders(ids) {
-            var allPromises = [];
-            angular.forEach(ids, function(id) {
-                var promise = orderApiService.getOrder({
-                        'orderID': id
-                    }).$promise
-                    .then(function(resp) {
-                        $scope.orders.push(resp.result);
-                    });
-
-                allPromises.push(promise);
+            var allPromises = ids.map(function(id) {
+                var params = { 'orderID': id };
+                return orderApiService.getOrder(params).$promise;
             });
 
             // Wait for all requests to complete
-            $q.all(allPromises)
-                .then(function( /*results*/ ) {
+            return $q.all(allPromises).then(function(results) {
+                    var orders = results.map(function(resp){
+                        return resp.result;
+                    });
 
-                    // Trigger the print dialog once we've had time to render
-                    $timeout(function() {
-                        window.print();
-                    }, 1000);
+                    $scope.orders = orders;
                 });
         }
 
@@ -71,7 +77,7 @@ angular.module('orderModule')
                 'extra': 'content',
             };
 
-            cmsApiService.blockList(params).$promise
+            return cmsApiService.blockList(params).$promise
                 .then(function(resp) {
                     // Normalize response
                     if (resp.result) {
@@ -98,7 +104,7 @@ angular.module('orderModule')
                 showPrice = parseInt($location.search().price, 10);
             }
 
-            $scope.options.showPrice = showPrice;
+            return showPrice;
         }
     }
 ]);
