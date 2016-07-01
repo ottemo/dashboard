@@ -6,7 +6,6 @@ angular.module('coreModule')
         scope: {
             'options': '=',
             'inventory': '=',
-            'qty': '=',
         },
         templateUrl: '/views/core/directives/editor/ot-inventory-manager.html',
         link: function(scope, el, attr){
@@ -29,7 +28,9 @@ angular.module('coreModule')
                     if (!angular.equals(newOptionSet, lastOptionSet)) {
                         console.log('options have changed enough to demand an inventory clean/update');
                         lastOptionSet = angular.copy(newOptionSet);
-                        scope.inventory = findPermutations(newOptionSet);
+                        var inventory = findPermutations(newOptionSet);
+                        inventory.unshift(scope.inventory[0]);
+                        scope.inventory = inventory;
                     }
                 }
             }
@@ -149,5 +150,15 @@ angular.module('coreModule')
 
         }
     };
-}]);
+}])
+
+.filter('startFrom', function() {
+    return function(input, start) {
+        if(input) {
+            start = +start; //parse to int
+            return input.slice(start);
+        }
+        return [];
+    }
+});
 

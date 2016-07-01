@@ -1,40 +1,37 @@
 <div class="table-responsive"
     ng-show="inventory.length">
-    <table class="table table-hover table-v-middle">
+    <table class="table table-hover table-v-middle" ng-if="inventory.length > 1">
         <thead>
             <tr>
                 <th></th>
-                <th ng-repeat="(th, s) in inventory[0].options">{{th}}</th>
+                <th ng-repeat="(th, s) in inventory[1].options">{{options[th].label}}</th>
                 <th>Count</th>
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="row in inventory">
+            <tr ng-repeat="row in inventory | startFrom : 1">
                 <!-- TODO: this is just to get a permutation count -->
-                <td>{{$index +1}}</td>
+                <td>{{$index + 1}} </td>
                 <td ng-repeat="(code, selection) in row.options">
-                    <b ng-show="inventory.length > 15">{{code}}:</b> {{selection}}
+
+                    <b ng-show="inventory.length > 15">{{options[code].label}}:</b>
+                    {{options[code].options[selection].label}}
                 </td>
                 <td>
                     <input class="form-control input-sm"
                         type="number"
-                        ng-model="row.qty" />
+                        ng-model="row.qty"/>
                 </td>
             </tr>
         </tbody>
     </table>
 </div>
 
-<div ng-show="!inventory.length">
+<div>
     <div class="form-group">
         <label>Total Count</label>
         <input type="number"
             class="form-control"
-            ng-model="qty" />
+            ng-model="inventory[0].qty" />
     </div>
 </div>
-
-
-<pre> //TODO: REMOVE
-// product.inventory
-{{inventory | json}}</pre>
