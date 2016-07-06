@@ -32,8 +32,15 @@
                             <td>{{ product.name }}</td>
                             <td>{{ product.sku }}</td>
                             <td>
-                                <div ng-repeat="(label, value) in product.options">
-                                    {{ label }}: {{ value }}
+                                <div ng-if="subscription.info && subscription.info.options">
+                                     <div ng-repeat="(optionLabel, optionValueLabel) in subscription.info.options">
+                                         {{ optionLabel }}: {{ optionValueLabel }}
+                                     </div>
+                                </div>
+                                <div ng-if="!(subscription.info && subscription.info.options)">
+                                    <div ng-repeat="(label, value) in product.options">
+                                        {{ label }}: {{ value }}
+                                    </div>
                                 </div>
                             </td>
                             <td>{{ product.price | currency }}</td>
