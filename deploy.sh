@@ -28,10 +28,10 @@ if [ "$BRANCH" == 'develop'  ]; then
         HOST=sb-staging
     elif [ "$REMOTE_HOST" == 'scs.staging.ottemo.io' ]; then
         HOST=scs-staging
-    elif [ "$REMOTE_HOST" == 'sg.staging.ottemo.io' ]; then
-        HOST=sg-staging
     elif [ "$REMOTE_HOST" == 'gk.staging.ottemo.io' ]; then
-        HOST=gk-staging       
+        HOST=gk-staging
+    elif [ "$REMOTE_HOST" == 'sg.staging.ottemo.io' ]; then
+        HOST=sg-staging       
     fi
     # gulp build on remote host
     ssh ottemo@$REMOTE_HOST "cd $SRCDIR && npm install && gulp build --env=staging --config=${HOST}"
