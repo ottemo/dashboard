@@ -63,9 +63,10 @@
                     </td>
                     <td class="form-group" ng-if="item.isManagingStock">
                         <select class="form-control" ng-blur="updateOptionsKeys()"
-                            ng-init="option.controls_inventory = option.controls_inventory || false"
+                            ng-init="option.controls_inventory = (option.type === 'select' || option.type === 'radio') ? option.controls_inventory || false : false"
                             data-ng-model="option.controls_inventory"
-                            data-ng-options="o as o for o in [true, false]">
+                            data-ng-options="o as o for o in [true, false]"
+                            ng-disabled="option.type !== 'select' && option.type !== 'radio'">
                         </select>
                     </td>
                     <td class="form-group">

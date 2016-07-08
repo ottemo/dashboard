@@ -20,7 +20,8 @@
                 <td>
                     <input class="form-control input-sm"
                         type="number"
-                        ng-model="row.qty"/>
+                        ng-model="row.qty"
+                        ng-blur="calcTotalQty()"/>
                 </td>
             </tr>
         </tbody>
@@ -32,6 +33,8 @@
         <label>Total Count</label>
         <input type="number"
             class="form-control"
-            ng-model="inventory[0].qty" />
+            ng-model="inventory[0].qty"
+            ng-init="calcTotatlQty()"
+            ng-disabled="inventory.length > 1" />
     </div>
 </div>

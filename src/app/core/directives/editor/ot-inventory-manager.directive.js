@@ -8,8 +8,9 @@ angular.module('coreModule')
             'inventory': '=',
         },
         templateUrl: '/views/core/directives/editor/ot-inventory-manager.html',
-        link: function(scope, el, attr){
+        link: function(scope){
             scope.$watch('options', updateOptions, true);
+            scope.calcTotalQty = calcTotalQty;
 
             //////////////////////
 
@@ -17,22 +18,35 @@ angular.module('coreModule')
             // if it was bound to the scope angular will try to attach an $$hashKey
             var lastOptionSet;
 
-            function updateOptions(newOptions, oldOptions) {
+            function updateOptions(newOptions) {
                 if (newOptions === undefined) {
                     return;
-                } else if (lastOptionSet === undefined) {
-                    lastOptionSet = formatOptions(scope.options);
-                } else {
-                    var newOptionSet = formatOptions(scope.options);
-
-                    if (!angular.equals(newOptionSet, lastOptionSet)) {
-                        console.log('options have changed enough to demand an inventory clean/update');
-                        lastOptionSet = angular.copy(newOptionSet);
-                        var inventory = findPermutations(newOptionSet);
-                        inventory.unshift(scope.inventory[0]);
-                        scope.inventory = inventory;
-                    }
                 }
+
+                if (lastOptionSet === undefined) {
+                    lastOptionSet = formatOptions(scope.options);
+                    return;
+                }
+
+                var newOptionSet = formatOptions(scope.options);
+
+                if (!angular.equals(newOptionSet, lastOptionSet)) {
+                    console.log('options have changed enough to demand an inventory clean/update');
+                    lastOptionSet = angular.copy(newOptionSet);
+                    var inventory = findPermutations(newOptionSet);
+                    inventory.unshift(scope.inventory[0]);
+                    scope.inventory = inventory;
+                    calcTotalQty();
+                }
+            }
+
+            function calcTotalQty() {
+                var total = 0;
+                for (var i = 1; i < scope.inventory.length; i++) {
+                    var rowQty = scope.inventory[i].qty || 0;
+                    total += rowQty;
+                }
+                scope.inventory[0].qty = total;
             }
 
             /**
