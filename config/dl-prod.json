@@ -1,0 +1,6 @@
+{
+    "useStrict"    : "use strict",
+    "apiUrl"       : "https://api.david-lawrence.com",
+    "mediaPath"    : "https://david-lawrence.com/media/",
+    "itemsPerPage" : "15"
+}
