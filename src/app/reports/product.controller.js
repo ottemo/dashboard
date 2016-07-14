@@ -19,7 +19,19 @@ angular.module('reportsModule')
             set: setTimeframe,
         };
 
-        $scope.yAxis;
+        var yAxisConfig = {
+            'gross_sales': {
+                title: 'Gross Sales',
+                format: '${value}'
+            },
+            'units_sold': {
+                title: 'Units Sold',
+                format: '{value}'
+            },
+        };
+
+        $scope.sortedBy = 'units_sold';
+        $scope.sortBy = sortBy;
         $scope.chartConfig = getChartConfig();
 
         activate();
@@ -91,10 +103,10 @@ angular.module('reportsModule')
                 yAxis: {
                     min: 0,
                     title: {
-                        text: 'Gross Sales',
+                        text: yAxisConfig[$scope.sortedBy].title,
                     },
                     labels: {
-                        format: '${value}',
+                        format: yAxisConfig[$scope.sortedBy].format,
                     },
                 },
                 xAxis: {
@@ -120,14 +132,18 @@ angular.module('reportsModule')
         }
 
         function updateChart() {
+            $scope.chartConfig.yAxis.title.text = yAxisConfig[$scope.sortedBy].title;
+            $scope.chartConfig.yAxis.labels.format = yAxisConfig[$scope.sortedBy].format;
+            $scope.report.aggregate_items = _.sortByOrder($scope.report.aggregate_items, $scope.sortedBy, 'desc');
             $scope.chartConfig.series = _.map($scope.report.aggregate_items, toChartData);
+
 
             function toChartData(product) {
                 return {
-                    // sku, units_sold
+                    // sku, units_sold, gross_sales
                     name: product.name,
                     data: [{
-                        y: $scope.yAxis == 'Gross Sales' ? product.gross_sales : product.units_sold,
+                        y: product[$scope.sortedBy],
                         gross_sales: product.gross_sales,
                         units_sold: product.units_sold,
                         sku: product.sku,
@@ -136,27 +152,10 @@ angular.module('reportsModule')
             }
         }
 
-        $scope.sortByGrossSales = function() {
-            $scope.chartConfig.yAxis.title.text = 'Gross Sales';
-            $scope.chartConfig.yAxis.labels.format = '${value}';
-
-            //this should be request to foundation
-            $scope.report.aggregate_items = _.sortByOrder($scope.report.aggregate_items, 'gross_sales', 'desc');
-
-            $scope.yAxis = 'Gross Sales';
-            updateChart()
-        };
-
-        $scope.sortByUnitsSold = function() {
-            $scope.chartConfig.yAxis.title.text = 'Units Sold';
-            $scope.chartConfig.yAxis.labels.format = '{value}';
-
-            //this should be request to foundation
-            $scope.report.aggregate_items = _.sortByOrder($scope.report.aggregate_items, 'units_sold', 'desc');
-
-            $scope.yAxis = 'Units Sold';
-            updateChart()
-        };
+        function sortBy(field) {
+            $scope.sortedBy = field;
+            updateChart();
+        }
     }
 ]);
 

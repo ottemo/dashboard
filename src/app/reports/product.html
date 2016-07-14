@@ -31,8 +31,8 @@
             <tr>
                 <th>Name</th>
                 <th>Sku</th>
-                <th ng-click="sortByUnitsSold()" class="table-dashboard__highlight">Units Sold <i class="fa fa-sort-desc" /></th>
-                <th ng-click="sortByGrossSales()" class="table-dashboard__highlight">Gross Sales <i class="fa fa-sort-desc" /></th>
+                <th ng-click="sortBy('units_sold')" class="table-dashboard__highlight">Units Sold <i ng-show="sortedBy === 'units_sold'" class="fa fa-sort-desc" /></th>
+                <th ng-click="sortBy('gross_sales')" class="table-dashboard__highlight">Gross Sales <i ng-show="sortedBy === 'gross_sales'" class="fa fa-sort-desc" /></th>
             </tr>
         </thead>
         <tbody>

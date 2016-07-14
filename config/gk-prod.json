@@ -1,0 +1,6 @@
+{
+    "useStrict"    : "use strict",
+    "apiUrl"       : "https://api.gholkars.com",
+    "mediaPath"    : "https://gholkars.com/media/",
+    "itemsPerPage" : "15"
+}

@@ -6,9 +6,19 @@ angular.module('orderModule')
     '$q',
     '$timeout',
     'orderApiService',
+    'dashboardUtilsService',
     'cmsApiService',
-    function($scope, $location, $q, $timeout, orderApiService, cmsApiService) {
+    function(
+        $scope,
+        $location,
+        $q,
+        $timeout,
+        orderApiService,
+        dashboardUtilsService,
+        cmsApiService
+    ) {
 
+        $scope.getOptionValueLabel = dashboardUtilsService.getOptionValueLabel;
         $scope.options = {
             showPrice: showPrice()
         };

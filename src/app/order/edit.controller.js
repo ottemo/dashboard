@@ -34,6 +34,8 @@ function ($scope, $routeParams, $location, $q, orderApiService, dashboardUtilsSe
         };
     };
 
+    $scope.getOptionValueLabel = dashboardUtilsService.getOptionValueLabel;
+
     /**
      * Current selected order
      *

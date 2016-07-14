@@ -112,10 +112,29 @@ angular.module("dashboardModule")
         return messageObj;
     };
 
+    /**
+     * Returns a label of product option value
+     * @param {Object} option
+     * @returns {string}
+     */
+    function getOptionValueLabel(option) {
+        if (option.type === 'field') {
+            return option.value;
+
+        } else if (option.type === 'multi_select') {
+            return _.map(option.options, 'label').join(', ');
+
+        } else {
+            var childOptions = option.options;
+            return childOptions[option.value].label;
+        }
+    }
+
     return {
-        "clone": clone,
-        "getMessage": getMessage,
-        "isJson": isJson
+        clone: clone,
+        getMessage: getMessage,
+        isJson: isJson,
+        getOptionValueLabel: getOptionValueLabel
     };
 
 });

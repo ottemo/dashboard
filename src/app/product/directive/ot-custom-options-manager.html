@@ -1,21 +1,21 @@
-<button class="btn btn-primary hidden-xs" ng-click="addNewOption()">Add new option</button>
+<div class="container-fluid">
+    <button class="btn btn-primary hidden-xs" ng-click="addNewOption()">Add new option</button>
+</div>
 <div class="visible-xs text-center">
     <button class="btn btn-primary" ng-click="addNewOption()">Add new option</button>
 </div>
 <br><br><br>
-
-<div class="" ng-repeat="option in optionsData | getOrdered">
-
+<div class="container-fluid" ng-repeat="option in optionsData | toArray | getOrdered">
     <div class="row">
         <div class="form-group col-xs-12 col-sm-4">
             <label>Option Label</label>
-            <input class="form-control" type="text" ng-model="option.label" ng-blur="modifyData()" />
+            <input class="form-control" type="text" ng-model="option.label" ng-blur="updateOptionsKeys()" />
         </div>
 
         <div class="form-group col-xs-12 col-sm-3">
             <label>Type</label>
-            <select class="form-control" ng-blur="modifyData()"
-                    ng-change="cleanOption(option.label)"
+            <select class="form-control" ng-blur="updateOptionsKeys()"
+                    ng-change="cleanOption(option.key)"
                     ng-init="option.type = option.type || types[0]"
                     data-ng-model="option.type"
                     data-ng-options="o as o for o in types">
@@ -24,7 +24,7 @@
 
         <div class="form-group col-xs-12 col-sm-2">
             <label>Is Required</label>
-            <select class="form-control" ng-blur="modifyData()"
+            <select class="form-control" ng-blur="updateOptionsKeys()"
                     ng-init="option.required = option.required || false"
                     data-ng-model="option.required"
                     data-ng-options="o as o for o in [true, false]">
@@ -33,11 +33,11 @@
 
         <div class="form-group col-xs-12 col-sm-2">
             <label>Sort</label>
-            <input class="form-control" type="text" ng-model="option.order" ng-blur="modifyData()" />
+            <input class="form-control" type="text" ng-model="option.order" ng-blur="updateOptionsKeys()" />
         </div>
         <div class="form-group col-xs-12 col-sm-1">
             <label for="">&nbsp;</label>
-            <button class="btn btn-warning form-control" type="button" ng-click="removeOption(option.label)">
+            <button class="btn btn-warning form-control" type="button" ng-click="removeOption(option.key)">
                 <i class="fa fa-remove"></i>
             </button>
         </div>
@@ -47,17 +47,17 @@
         <div class="row">
             <div class="form-group col-xs-12 col-sm-4">
                 <label>Price</label>
-                <input class="form-control" type="text" ng-model="option.price" ng-blur="modifyData()" />
+                <input class="form-control" type="text" ng-model="option.price" ng-blur="updateOptionsKeys()" />
             </div>
 
             <div class="form-group col-xs-12 col-sm-4">
                 <label>QTY</label>
-                <input class="form-control" type="text" ng-model="option.qty" ng-blur="modifyData()" />
+                <input class="form-control" type="text" ng-model="option.qty" ng-blur="updateOptionsKeys()" />
             </div>
 
             <div class="form-group col-xs-12 col-sm-4">
                 <label>SKU</label>
-                <input class="form-control" type="text" ng-model="option.sku" ng-blur="modifyData()" />
+                <input class="form-control" type="text" ng-model="option.sku" ng-blur="updateOptionsKeys()" />
             </div>
         </div>
     </div>
@@ -71,31 +71,31 @@
             <div class="col-xs-12 col-sm-2 col-lg-2"><label>Sort Order</label></div>
             <div class="col-xs-12 col-sm-1">&nbsp;</div>
         </div>
-        <div class="option_row row" ng-repeat="(key, row) in option.options | getOrdered">
+        <div class="option_row row" ng-repeat="row in option.options | toArray | getOrdered">
             <div class="form-group col-xs-12 col-sm-3">
-                <input class="form-control" type="text" ng-model="row.label" ng-blur="modifyData()" />
+                <input class="form-control" type="text" ng-model="row.label" ng-blur="updateOptionsKeys()" />
             </div>
             <div class="form-group col-xs-12 col-sm-2 col-lg-2">
-                <input class="form-control" type="text" ng-model="row.price" ng-blur="modifyData()" />
+                <input class="form-control" type="text" ng-model="row.price" ng-blur="updateOptionsKeys()" />
             </div>
             <div class="form-group col-xs-12 col-sm-2 col-lg-2">
-                <input class="form-control" type="text" ng-model="row.qty" ng-blur="modifyData()" />
+                <input class="form-control" type="text" ng-model="row.qty" ng-blur="updateOptionsKeys()" />
             </div>
             <div class="form-group col-xs-12 col-sm-2 col-lg-2">
-                <input class="form-control" type="text" ng-model="row.sku" ng-blur="modifyData()" />
+                <input class="form-control" type="text" ng-model="row.sku" ng-blur="updateOptionsKeys()" />
             </div>
             <div class="form-group col-xs-12 col-sm-2 col-lg-2">
-                <input class="form-control" type="text" ng-model="row.order" ng-blur="modifyData()" />
+                <input class="form-control" type="text" ng-model="row.order" ng-blur="updateOptionsKeys()" />
             </div>
             <div class="form-group col-xs-12 col-sm-1">
-                <button class="btn btn-warning form-control" type="button" ng-click="removeRow(option.label, row.label)">
+                <button class="btn btn-warning form-control" type="button" ng-click="removeRow(option.key, row.key)">
                     <i class="fa fa-remove"></i>
                 </button>
             </div>
         </div>
 
         <div class="text-center">
-            <button class="btn btn-primary" type="button" ng-click="addRow(option.label)">Add new row</button>
+            <button class="btn btn-primary" type="button" ng-click="addRow(option.key)">Add new row</button>
         </div>
     </div>
 
