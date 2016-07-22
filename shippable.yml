@@ -30,6 +30,7 @@ after_success:
     - REMOTE_HOST=gk.staging.ottemo.io bash deploy.sh
     - REMOTE_HOST=dl.staging.ottemo.io bash deploy.sh
     - REMOTE_HOST=kkr.staging.ottemo.io bash deploy.sh
+    - REMOTE_HOST=sg.staging.ottemo.io bash deploy.sh
     - python slack_notifier.py --org $SLACK_ORG --project $PROJECT --token $SLACK_TOKEN -s
 
 notifications:
