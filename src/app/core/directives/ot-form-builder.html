@@ -238,14 +238,22 @@
           <ot-products-selector editor-scope="attribute" item="item" parent="parent"></ot-products-selector>
         </div>
 
-        <!-- Product options -->
-        <div ng-switch-when="product_options">
+        <!-- PDP: Product options -->
+        <div class="col-xs-12" ng-switch-when="product_options">
             <ot-custom-options-manager editor-scope="attribute" item="item"></ot-custom-options-manager>
         </div>
 
-        <!-- Pictures manager -->
-         <div class="container text-center" ng-switch-when="picture_manager">
+        <!-- PDP: Pictures manager -->
+        <div class="container text-center" ng-switch-when="picture_manager">
             <ot-picture-manager item="item" parent="parent"></ot-picture-manager>
+        </div>
+
+        <!-- PDP: Inventory manager -->
+        <div class="col-xs-12" ng-switch-when="inventory_manager">
+            <ot-inventory-manager
+              options="item.options"
+              inventory="item.inventory">
+            </ot-inventory-manager>
         </div>
 
         <div class="form-group col-xs-12 col-sm-6" ng-switch-default

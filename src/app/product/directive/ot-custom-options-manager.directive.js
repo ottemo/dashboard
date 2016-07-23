@@ -121,6 +121,12 @@ angular.module("productModule")
             function cleanOption(key) {
                 var optionsFields = ["label", "type", "required", "order"];
                 var options = $scope.item.options[key];
+
+                // Disable inventory for unsupported option types
+                if (options.type !== 'select' && options.type !== 'radio') {
+                    options.controls_inventory = false;
+                }
+
                 for (var field in options) {
                     if (options.hasOwnProperty(field) && -1 === optionsFields.indexOf(field)) {
                         // TODO: for some period need ability switch to Radio and Checkbox without options loss
