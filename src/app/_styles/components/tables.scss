@@ -12,6 +12,14 @@
     cursor: pointer;
 }
 
+.table-v-middle tbody > tr > td {
+    vertical-align: middle;
+}
+
+.table-form td {
+    min-width: 60px;
+}
+
 // Shadow hinting for responsive tables
 // https://github.com/iKristjan/bootstrap-responsive-table-scrolling-shadows/blob/master/bootstrap-responsive-table-scrolling-shadows.css
 .table-responsive {
