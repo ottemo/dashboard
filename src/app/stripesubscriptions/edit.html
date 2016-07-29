@@ -1,0 +1,154 @@
+<div class="page-header">
+    <a class="btn btn-primary pull-right"
+        ng-show="isCancelVis"
+        ng-click="cancel()">Cancel</a>
+
+    <h1>
+        <span class="fa fa-history"></span>
+        <a href="/stripesubscriptions">Stripe Subscriptions</a> / {{ subscription._id }}
+    </h1>
+</div>
+
+<ot-message-manager item="message"></ot-message-manager>
+
+<div class="row">
+    <div class="col-sm-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">Order Items</div>
+            <div class="table-responsive">
+                <table class="table table-bordered order-details">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>SKU</th>
+                            <th>Options</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th class="text-right">Totals</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="product in subscription.items">
+                            <td>{{ product.name }}</td>
+                            <td>{{ product.sku }}</td>
+                            <td>
+                                <div ng-if="subscription.info && subscription.info.options">
+                                     <div ng-repeat="(optionLabel, optionValueLabel) in subscription.info.options">
+                                         {{ optionLabel }}: {{ optionValueLabel }}
+                                     </div>
+                                </div>
+                                <div ng-if="!(subscription.info && subscription.info.options)">
+                                    <div ng-repeat="(label, value) in product.options">
+                                        {{ label }}: {{ value }}
+                                    </div>
+                                </div>
+                            </td>
+                            <td>{{ product.price | currency }}</td>
+                            <td>{{ product.qty }}</td>
+                            <td class="text-right">{{ product.qty * product.price | currency }}</td>
+                        </tr>
+                    </tbody>
+                    <!-- <tbody>
+                        <tr>
+                            <td colspan="3"></td>
+                            <td colspan="2">
+                                <div>Subtotal:</div>
+                                <div>Shipping:</div>
+                                <div>Tax:</div>
+                                <div ng-if="subscription.discount">Discounts:</div>
+                                <div>Order Total:</div>
+                            </td>
+                            <td class="text-right">
+                                <div>{{subscription.subtotal | currency}}</div>
+                                <div>{{subscription.shipping_amount | currency}}</div>
+                                <div>{{subscription.tax_amount | currency}}</div>
+                                <div ng-if="subscription.discount">({{subscription.discount | currency}})</div>
+                                <div>{{subscription.grand_total | currency}}</div>
+                            </td>
+                        </tr>
+                    </tbody> -->
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <h4>Shipping Address</h4>
+                <div>
+                    <a ng-if="subscription.visitor_id"
+                        ng-href="/visitors/{{subscription.visitor_id}}">
+                        {{ subscription.shipping_address.first_name }} {{ subscription.shipping_address.last_name }}
+                    </a>
+                    <span ng-if="!subscription.visitor_id">
+                        {{ subscription.shipping_address.first_name }} {{ subscription.shipping_address.last_name }}
+                    </span>
+                </div>
+
+                <div ng-if="subscription.shipping_address.company">
+                    {{ subscription.shipping_address.company }}
+                </div>
+
+                {{ subscription.shipping_address.address_line1 }}
+                <br> {{ subscription.shipping_address.address_line2 }}
+                <br ng-if="subscription.shipping_address.address_line2">
+                {{ subscription.shipping_address.city }},
+                {{ subscription.shipping_address.state }}
+                {{ subscription.shipping_address.zip_code }}
+                {{ subscription.shipping_address.country }}
+                <div>Phone: {{ subscription.shipping_address.phone }}</div>
+                <div>Email: {{ subscription.customer_email }}</div>
+            </div>
+
+            <!-- <div class="panel-heading">Billing Address</div> -->
+            <div class="panel-body">
+                <h4>Billing Address</h4>
+                <div>{{ subscription.billing_address.first_name }} {{ subscription.billing_address.last_name }}</div>
+
+                <div ng-if="subscription.billing_address.company">
+                    {{ subscription.billing_address.company }}
+                </div>
+
+                {{ subscription.billing_address.address_line1 }} <br>
+                {{ subscription.billing_address.address_line2 }} <br ng-if="subscription.billing_address.address_line2">
+                {{ subscription.billing_address.city }}, {{ subscription.billing_address.state }} {{ subscription.billing_address.zip_code }}
+                {{ subscription.billing_address.country }}
+
+                <div>Phone: {{ subscription.billing_address.phone }}</div>
+            </div>
+
+            <div class="panel-body">
+                <h4>Details</h4>
+
+                <div><strong>ID:</strong> {{ subscription._id }}</div>
+                <div><strong>Status:</strong> {{ subscription.status }}</div>
+                <div title="{{ subscription.shipping_method }}">
+                    <strong>Shipping Method:</strong> {{ subscription.shipping_method_name }}
+                </div>
+                <div><strong>Payment Info:</strong></div>
+                <ul>
+                    <li title="{{ subscription.payment_instrument.payment }}">
+                        {{ subscription.payment_method_name }}
+                    </li>
+                    <li>{{ subscription.payment_instrument.type }} xxx-{{ subscription.payment_instrument.number }}</li>
+                </ul>
+
+                <dl class="dl-simple m-b-0">
+                    <dt>Created At:</dt>
+                    <dd><span ot-store-date date="subscription.created_at"></span></dd>
+
+                    <dt>Last Submit:</dt>
+                    <dd ng-show="subscription.last_submit != '0001-01-01T00:00:00Z'"><span ot-store-date date="subscription.last_submit"></span></dd>
+                    <dd ng-show="subscription.last_submit == '0001-01-01T00:00:00Z'">--</dd>
+
+                    <dt>Updated At:</dt>
+                    <dd><span ot-store-date date="subscription.updated_at"></span></dd>
+
+                    <dt>Next Action:</dt>
+                    <dd><span ot-store-date date="subscription.action_date"></span></dd>
+                </dl>
+
+            </div>
+        </div>
+    </div>
+</div>

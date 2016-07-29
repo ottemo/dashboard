@@ -21,6 +21,9 @@ angular.module('dashboardModule')
             }, {
                 title: 'Subscriptions',
                 link: '/subscriptions'
+            }, {
+                title: 'Stripe Subscriptions',
+                link: '/stripesubscriptions'
             }]
         }, {
             title: 'Products',
