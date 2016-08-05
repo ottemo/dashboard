@@ -1,10 +1,21 @@
 <div class="page-header">
     <a class="btn btn-primary pull-right" ng-click="save()">Save</a>
+
     <!-- <a href="/orders/print?ids={{order._id}}"
     class="btn btn-default pull-right"
     ng-if="order._id">
         Print
     </a> -->
+
+    <div class="btn-group pull-right" ng-class="{open: actions.isOpen}">
+        <a class="btn btn-default dropdown-toggle" ng-click="actions.isOpen = !actions.isOpen">
+            Actions <i class="caret"></i>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-right">
+            <li><a href="/orders/print?ids={{order._id}}"  ng-if="order._id">Print</a></li>
+            <li><a href="" ng-click="actions.isOpen = !actions.isOpen; sendConfirmation()">Send confirmation email</a></li>
+        </ul>
+    </div>
 
     <h1 ng-if="order._id">
         <span class="fa fa-list-alt"></span>
@@ -15,7 +26,6 @@
         <a href="/orders">Orders</a> / New
     </h1>
 </div>
-
 
 <!-- Error message -->
 <ot-message-manager item="message"></ot-message-manager>

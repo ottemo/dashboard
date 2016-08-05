@@ -26,6 +26,10 @@ angular.module("orderModule")
         "remove": {
             method: "DELETE",
             url: REST_SERVER_URI + "/order/:orderID"
+        },
+        "sendConfirmation": {
+            method: "GET",
+            url: REST_SERVER_URI + "/order/:orderID/emailOrderConfirmation"
         }
     });
 }]);

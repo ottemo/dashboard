@@ -136,4 +136,19 @@ function ($scope, $routeParams, $location, $q, orderApiService, dashboardUtilsSe
 
     };
 
+    /**
+     * Resending confirmation email in case if it was clicked on the "Send confirmation email" button
+     */
+    $scope.sendConfirmation = function()
+    {
+        orderApiService.sendConfirmation({"orderID": orderId}, $scope.order).$promise.then(function (response) {
+            // Success
+            if (response.error === null) {
+                $scope.message = dashboardUtilsService.getMessage(null , 'success', 'Confirmation emails sent');
+            } else {
+                $scope.message = dashboardUtilsService.getMessage(response);
+            }
+        });
+    }
+
 }]);
