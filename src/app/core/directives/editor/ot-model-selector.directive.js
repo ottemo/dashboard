@@ -41,10 +41,12 @@ angular.module("coreModule")
 				};
 
 				getParams = function (model, item) {
-					var params;
-					params = {};
+					var params = {};
 					switch (model) {
 						case "VisitorAddress":
+							if (!item._id) {
+								return null;
+							}
 							params = {
 								"uri_1": "visitor",
 								"uri_2": item._id,
@@ -81,6 +83,9 @@ angular.module("coreModule")
 
                     parseOptions($scope.attribute.Options);
                     var params = getParams(options.model, $scope.item);
+					if (params === null) {
+						return;
+					}
 
                     if (params.hasOwnProperty("params") && typeof params.params === "undefined") {
                         return true;
