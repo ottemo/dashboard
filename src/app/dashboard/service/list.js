@@ -5,7 +5,7 @@ angular.module("dashboardModule")
 .service("dashboardListService", ["$routeParams", function ($routeParams) {
     return function () {
         // Variables
-        var ID, filters, attributes, fields, isInitFields;
+        var filters, attributes, fields, isInitFields;
 
         // Functions
         var init, getFilter, getFields, setAttributes, getAttributes, getList, getExtraFields;
@@ -23,14 +23,6 @@ angular.module("dashboardModule")
         };
 
         isInitFields = false;
-
-        //TODO we don't use ID anywhere here, so we should remove thid func
-        init = function (_id) {
-            if (ID !== _id) {
-                isInitFields = false;
-                ID = _id;
-            }
-        };
 
         setAttributes = function (attr) {
             attributes = attr;

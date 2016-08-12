@@ -56,7 +56,6 @@ function ($scope, $location, $routeParams, $q, DashboardListService, cmsApiServi
         cmsApiService.blockAttributes().$promise.then(
             function (response) {
                 var result = response.result || [];
-                serviceList.init('blocks');
                 $scope.attributes = result;
                 serviceList.setAttributes($scope.attributes);
                 $scope.fields = serviceList.getFields(showColumns);

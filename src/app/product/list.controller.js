@@ -77,7 +77,6 @@ function ($scope, $location, $routeParams, $q, DashboardListService, productApiS
     getAttributeList = function () {
         productApiService.attributesInfo().$promise.then(function (response) {
             var result = response.result || [];
-            serviceList.init('products');
 
             $scope.attributes = result;
             serviceList.setAttributes($scope.attributes);

@@ -66,7 +66,6 @@ function ($location, $routeParams, DashboardListService, visitorApiService, core
             };
 
             $scope.show = function (id) {
-                serviceList.init('visitors');
                 $("#" + id).modal("show");
             };
 
@@ -124,7 +123,6 @@ function ($location, $routeParams, DashboardListService, visitorApiService, core
                 visitorApiService.attributesInfo().$promise.then(
                     function (response) {
                         var result = response.result || [];
-                        serviceList.init('visitors');
                         $scope.attributes = result;
                         serviceList.setAttributes($scope.attributes);
                         $scope.fields = serviceList.getFields(showColumns);
