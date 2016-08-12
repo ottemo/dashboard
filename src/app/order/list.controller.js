@@ -1,10 +1,10 @@
-angular.module('orderModule')
+angular.module("orderModule")
 
-.controller('orderListController', [
-    '$scope',
-    '$location',
-    'dashboardListService',
-    'orderApiService',
+.controller("orderListController", [
+    "$scope",
+    "$location",
+    "dashboardListService",
+    "orderApiService",
     function(
         $scope,
         $location,
@@ -13,30 +13,30 @@ angular.module('orderModule')
     ) {
 
         var serviceList = new DashboardListService();
+
         var showColumns = {
             _id: {
-                type: 'select-link',
-                label: 'Order ID',
-                filter: 'text'
+                type: "select-link",
+                label: "Order ID",
+                filter: "text"
             },
             status: {},
             customer_email: {},
             customer_name: {},
             grand_total: {
-                label: 'Total',
-                filter: 'range',
-                type: 'price'
+                label: "Total",
+                filter: "range",
+                type: "price"
             },
             created_at: {
-                label: 'Date',
-                type: 'date'
+                label: "Date",
+                type: "date"
             }
         };
 
         var searchDefaults = {
-            status: 'processed',
-            sort: '^created_at',
-            limit: '0,50',
+            sort: "^created_at",
+            limit: "0,50",
         };
 
         // REFACTOR: I only want to work with the selected ids
@@ -44,9 +44,9 @@ angular.module('orderModule')
         $scope.selectedIds = [];
         $scope.idsSelectedRows = {};
 
+        $scope.openButton = openButton;
         $scope.actions = {
-            isOpen: false,
-            export: angular.appConfigValue('general.app.foundation_url') + '/orders/exportToCSV',
+            export: angular.appConfigValue("general.app.foundation_url") + "/orders/exportToCSV",
             printUrl: printUrl,
             packingSlipUrl: packingSlipUrl,
         };
@@ -59,13 +59,14 @@ angular.module('orderModule')
 
         $scope.select = select;
         $scope.create = create;
+        $scope.changeOrderStatus = changeOrderStatus;
 
         activate();
 
         ///////////////////////////////////////
 
         function activate() {
-            $scope.$watch('idsSelectedRows', function(newVal, oldVal) {
+            $scope.$watch("idsSelectedRows", function(newVal, oldVal) {
                 var ids = [];
                 angular.forEach($scope.idsSelectedRows, function(active, id) {
                     if (active) {
@@ -102,7 +103,7 @@ angular.module('orderModule')
         function getProcessedOrderCount() {
             var params = {};
             angular.copy(searchDefaults, params);
-            params.status = 'processed';
+            params.status = "processed";
 
             orderApiService.getCount(params).$promise
                 .then(function(response) {
@@ -121,7 +122,7 @@ angular.module('orderModule')
             orderApiService.getAttributes().$promise.then(
                 function(response) {
                     var result = response.result || [];
-                    serviceList.init('orders');
+                    serviceList.init("orders");
                     $scope.attributes = result;
                     serviceList.setAttributes($scope.attributes);
                     $scope.fields = serviceList.getFields(showColumns);
@@ -130,12 +131,28 @@ angular.module('orderModule')
             );
         }
 
+        function changeOrderStatus(status){
+            var index;
+
+            orderApiService.updateOrderStatus({
+                "order_id": $scope.selectedIds,
+                "status": status
+            }).$promise.then(function(responce){
+                for (var i = 0; i < $scope.selectedIds.length; i++){
+
+                    index = _.findIndex($scope.orders, {"ID" : $scope.selectedIds[i]});
+                    $scope.orders[index].status = status;
+                }
+            })
+
+        }
+
         function select(id) {
-            $location.path('/orders/' + id).search('');
+            $location.path("/orders/" + id).search("");
         }
 
         function create() {
-            $location.path('/orders/new');
+            $location.path("/orders/new");
         }
 
         function hasSelectedRows() {
@@ -143,11 +160,11 @@ angular.module('orderModule')
         }
 
         function printUrl() {
-            return '/orders/print?ids=' + $scope.selectedIds.join(',');
+            return "/orders/print?ids=" + $scope.selectedIds.join(",");
         }
 
         function packingSlipUrl() {
-            return '/orders/print?price=0&ids=' + $scope.selectedIds.join(',');
+            return "/orders/print?price=0&ids=" + $scope.selectedIds.join(",");
         }
 
         function isTabActive(compareStatus) {
@@ -159,6 +176,14 @@ angular.module('orderModule')
             // Use the default search params as a starting point
             searchDefaults.status = newStatus;
             $location.search(searchDefaults);
+        }
+
+        function openButton(e){
+            var btn = e.currentTarget,
+                isOpened = btn.classList.contains("open");
+
+            $(".actions").removeClass("open");
+            isOpened ? btn.classList.remove("open") : btn.classList.add("open");
         }
     }
 ]);

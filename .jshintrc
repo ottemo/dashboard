@@ -21,7 +21,7 @@
     "nonbsp"        : true,     // Prohibit "non-breaking whitespace" characters.
     "nonew"         : true,     // Prohibit use of constructors for side-effects (without assignment)
     "plusplus"      : false,    // Prohibit use of `++` and `--`
-    "quotmark"      : "single", // Quotation mark consistency
+    "quotmark"      : "double", // Quotation mark consistency
     "undef"         : true,     // Require all non-global variables to be declared (prevents global leaks)
     "unused"        : false,    // Unused variables
     "strict"        : false,    // Requires all functions run in ES5 Strict Mode

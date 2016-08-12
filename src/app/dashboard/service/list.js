@@ -24,6 +24,7 @@ angular.module("dashboardModule")
 
         isInitFields = false;
 
+        //TODO we don't use ID anywhere here, so we should remove thid func
         init = function (_id) {
             if (ID !== _id) {
                 isInitFields = false;
@@ -96,6 +97,7 @@ angular.module("dashboardModule")
                 for (var j = 0; j < fields.length; j += 1) {
                     fields[j].filterValue = $routeParams[fields[j].attribute];
                 }
+
                 return fields;
             }
 
@@ -141,6 +143,7 @@ angular.module("dashboardModule")
 
             prepareGroups();
             isInitFields = true;
+
             return fields;
         };
 
