@@ -3,27 +3,27 @@
  */
 $(document).ready(function () {
     // click on tab link
-    $('.nav-tabs a').click(function (e) {
+    $(".nav-tabs a").click(function (e) {
         e.preventDefault();
-        $(this).tab('show');
+        $(this).tab("show");
     });
 
     // uploading files
-    $(document).on('click', '.upl-btn', function () {
-        $(this).prev('.upl-input').trigger('click');
+    $(document).on("click", ".upl-btn", function () {
+        $(this).prev(".upl-input").trigger("click");
     });
 
     // modals table checkbox active on tr click
-    $(document).on('click', '.modal-dialog table tbody tr', function (event) {
-        $(this).children('td:first-child').children('input').trigger('click');
+    $(document).on("click", ".modal-dialog table tbody tr", function (event) {
+        $(this).children("td:first-child").children("input").trigger("click");
     });
 
     // modals table checkbox prevent self click for double result
-    $(document).on('click', '.modal-dialog table tbody tr td:first-child input', function (event) {
+    $(document).on("click", ".modal-dialog table tbody tr td:first-child input", function (event) {
         event.stopPropagation();
     });
 
-    // Highcharts settings that we can't adjust from ngHighcharts
+    // Highcharts settings that we can"t adjust from ngHighcharts
     Highcharts.setOptions({
         global: {
             timezoneOffset: 0 //default
@@ -31,7 +31,7 @@ $(document).ready(function () {
         chart: {
             spacingLeft: 15,
             spacingRight: 0,
-            backgroundColor: 'rgba(0,0,0,0)'
+            backgroundColor: "rgba(0,0,0,0)"
         },
         plotOptions: {
             series: {
@@ -43,7 +43,7 @@ $(document).ready(function () {
         yAxis: {
             labels: {
                 style: {
-                    color: '#98978B'
+                    color: "#98978B"
                 }
             }
         },

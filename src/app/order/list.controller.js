@@ -143,7 +143,7 @@ angular.module("orderModule")
                     index = _.findIndex($scope.orders, {"ID" : $scope.selectedIds[i]});
                     $scope.orders[index].status = status;
                 }
-            })
+            });
 
         }
 

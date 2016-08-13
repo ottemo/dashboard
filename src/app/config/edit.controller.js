@@ -59,7 +59,7 @@ angular.module("configModule")
         $scope.save = function () {
             configService.save($scope.currentPath).then(
                 function () {
-                    $scope.message = dashboardUtilsService.getMessage(null, 'success', 'config was saved successfully');
+                    $scope.message = dashboardUtilsService.getMessage(null, "success", "config was saved successfully");
                 }
             );
         };

@@ -54,8 +54,8 @@ angular.module("dashboardModule")
                 }
             }
 
-            if (['datetime'].indexOf(attribute.Type) >= 0){
-                return 'date_range';
+            if (["datetime"].indexOf(attribute.Type) >= 0){
+                return "date_range";
             }
 
             return filters[editor];
@@ -121,7 +121,7 @@ angular.module("dashboardModule")
                                 }
                             }
                             // check is it a main column type and it's persistence
-                            if (obj['type'] !== "select-link"){
+                            if (obj["type"] !== "select-link"){
                                 fields.push(obj);
                             } else {
                                 obj["visible"] = true;

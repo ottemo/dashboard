@@ -1,7 +1,7 @@
-angular.module('coreModule')
+angular.module("coreModule")
 
-.factory('coreImageService', [
-    'MEDIA_BASE_PATH',
+.factory("coreImageService", [
+    "MEDIA_BASE_PATH",
     function (MEDIA_BASE_PATH) {
 
         var service = {
