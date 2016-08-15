@@ -30,8 +30,6 @@ if [ "$BRANCH" == 'develop'  ]; then
         HOST=scs-staging
     elif [ "$REMOTE_HOST" == 'gk.staging.ottemo.io' ]; then
         HOST=gk-staging
-    elif [ "$REMOTE_HOST" == 'dl.staging.ottemo.io' ]; then
-        HOST=dl-staging
     elif [ "$REMOTE_HOST" == 'kkr.staging.ottemo.io' ]; then
         HOST=kkr-staging
     elif [ "$REMOTE_HOST" == 'sg.staging.ottemo.io' ]; then
