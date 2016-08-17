@@ -122,7 +122,6 @@ angular.module("orderModule")
             orderApiService.getAttributes().$promise.then(
                 function(response) {
                     var result = response.result || [];
-                    serviceList.init("orders");
                     $scope.attributes = result;
                     serviceList.setAttributes($scope.attributes);
                     $scope.fields = serviceList.getFields(showColumns);

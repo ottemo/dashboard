@@ -114,6 +114,7 @@ function ($scope, $routeParams, $location, $q, _, productApiService, coreImageSe
     }
 
     function addInventoryTab(attributes) {
+        _.remove(attributes, {Attribute: 'inventory'});
         attributes.push({
             Attribute: 'inventory_manager',
             Collection: 'product',
