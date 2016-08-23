@@ -1,0 +1,6 @@
+{
+    "useStrict"    : "use strict",
+    "apiUrl"       : "https://api.ferastyle.com",
+    "mediaPath"    : "https://ferastyle.com/media/",
+    "itemsPerPage" : "15"
+}
