@@ -32,7 +32,7 @@ angular.module("configModule")
                             tabs[attr.Group].push(attr);
                         }
                     }
-                    activeTab = Object.keys(tabs)[0];
+                    activeTab = Object.keys(tabs).sort()[0];
                     parts = tabs[activeTab][0].Path.match(regExp);
 
                     if (parts instanceof Array) {
