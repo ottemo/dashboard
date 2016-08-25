@@ -227,7 +227,6 @@ angular.module("dashboardModule")
         };
 
         return {
-            "init": init,
             "getExtraFields": getExtraFields,
             "setAttributes": setAttributes,
             "getAttributes": getAttributes,

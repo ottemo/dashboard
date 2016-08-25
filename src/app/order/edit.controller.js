@@ -9,6 +9,7 @@ angular.module("orderModule")
 "dashboardUtilsService",
 function ($scope, $routeParams, $location, $q, orderApiService, dashboardUtilsService) {
     var orderId, getDefaultOrder, oldString;
+    $scope.trackingInfo = {};
 
     orderId = $routeParams.id;
 
@@ -139,8 +140,7 @@ function ($scope, $routeParams, $location, $q, orderApiService, dashboardUtilsSe
     /**
      * Resending confirmation email in case if it was clicked on the "Send confirmation email" button
      */
-    $scope.sendConfirmation = function()
-    {
+    $scope.sendConfirmation = function() {
         orderApiService.sendConfirmation({"orderID": orderId}).$promise.then(function (response) {
             // Success
             if (response.error === null) {
@@ -149,6 +149,32 @@ function ($scope, $routeParams, $location, $q, orderApiService, dashboardUtilsSe
                 $scope.message = dashboardUtilsService.getMessage(response);
             }
         });
+    };
+
+    $scope.showTrackingForm = function(){
+        $('#tracking-form').modal('show');
+    };
+
+    /**
+     * Sending tracking email with tracking info
+     */
+    $scope.sendTracking = function() {
+        $('#tracking-form').modal('hide');
+        orderApiService.sendTracking({"orderID" : orderId}, $scope.trackingInfo)
+            .$promise.then(function(response){
+                if (response.error === null) {
+                    orderApiService.getOrder({"orderID": orderId}).$promise
+                        .then(function (response) {
+                            $scope.order = response.result || {};
+                            oldString = $.extend({}, $scope.order);
+                            delete oldString["updated_at"];
+                        }
+                    );
+                    $scope.message = dashboardUtilsService.getMessage(null , 'success', 'Tracking information was updated successfully');
+                } else {
+                    $scope.message = dashboardUtilsService.getMessage(response);
+                }
+            })
     }
 
 }]);
