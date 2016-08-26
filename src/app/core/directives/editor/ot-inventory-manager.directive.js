@@ -10,6 +10,8 @@ angular.module('coreModule')
         templateUrl: '/views/core/directives/editor/ot-inventory-manager.html',
         link: function(scope){
             scope.$watch('options', updateOptions, true);
+            scope.$watch('inventory', handleEmptyInventory);
+
             scope.calcTotalQty = calcTotalQty;
 
             //////////////////////
@@ -17,6 +19,18 @@ angular.module('coreModule')
             // It is important that we manage the formatted options in a POJO
             // if it was bound to the scope angular will try to attach an $$hashKey
             var lastOptionSet;
+
+            // Initialize inventory with zero values if it's null
+            function handleEmptyInventory(inventory) {
+                if (inventory === null) {
+                    scope.inventory = {
+                        '0': {
+                            options: {},
+                            qty: 0
+                        }
+                    }
+                }
+            }
 
             function updateOptions(newOptions) {
                 if (newOptions === undefined) {

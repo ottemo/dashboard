@@ -33,8 +33,7 @@
     "debug"         : false,    // Allow debugger statements e.g. browser breakpoints.
     "eqnull"        : true,     // Tolerate use of `== null`
     "evil"          : false,    // Tolerate use of `eval` and `new Function()`
-    "expr"          : false,    // Tolerate `ExpressionStatement` as Programs
-    "esversion"     : 5,        // {int} Specify the ECMAScript version to which the code must adhere.
+    "expr"          : true,    // Tolerate `ExpressionStatement` as Programs
     "funcscope"     : false,    // Tolerate defining variables inside control statements
     "globalstrict"  : false,    // Allow global "use strict" (also enables 'strict')
     "iterator"      : false,    // Tolerate using the `__iterator__` property
@@ -57,6 +56,8 @@
     "node"          : false,    // Node.js
     "jquery"        : true,     // jQuery
     "globals": {                // Additional libs
-        "angular": false
+        "angular": false,
+        "Highcharts": false,
+        "_": false
     }
 }

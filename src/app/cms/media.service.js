@@ -1,16 +1,16 @@
-angular.module('cmsModule')
+angular.module("cmsModule")
 
-.factory('cmsMedia', ['$http', 'REST_SERVER_URI',
+.factory("cmsMedia", ["$http", "REST_SERVER_URI",
     function($http, REST_SERVER_URI) {
 
-        var baseUri = REST_SERVER_URI + '/cms/media'
+        var baseUri = REST_SERVER_URI + "/cms/media";
 
         // https://uncorkedstudios.com/blog/multipartformdata-file-upload-with-angularjs
-        // the browser will adjust the content-type to 'multipart/form-data' and set the
+        // the browser will adjust the content-type to "multipart/form-data" and set the
         // proper boundary parameter
         var _fileUploadConfig = {
             transformRequest: angular.identity,
-            headers: { 'Content-Type': undefined }
+            headers: { "Content-Type": undefined }
         };
 
         return {

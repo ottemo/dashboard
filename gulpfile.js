@@ -311,7 +311,7 @@ gulp.task('serve_server', function serve_server() {
     app.listen(config.node.port, function() {
         logHead('Server Started');
         logBody([
-            'Storefront: http://localhost:' + config.node.port,
+            'Dashboard: http://localhost:' + config.node.port,
             'Foundation: ' + config.settings['apiUrl'],
             '',
         ]);

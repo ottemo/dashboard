@@ -1,26 +1,26 @@
 angular.module("dashboardModule")
 
-.provider('LoadingBar', function() {
+.provider("LoadingBar", function() {
 
     this.includeSpinner = false;
     this.includeBar = true;
     this.latencyThreshold = 100;
     this.startSize = 0.02;
-    this.parentSelector = 'body';
+    this.parentSelector = "body";
     this.spinnerTemplate = '<div id="loading-bar-spinner"><div class="spinner-icon"></div></div>';
     this.loadingBarTemplate = '<div id="loading-bar">'+
       '<div class="progress">'+
         '<div class="progress-bar active" >'+
-        '</div>'+
-      '</div>'+
-    '</div>';
+        "</div>"+
+      "</div>"+
+    "</div>";
 
-    this.$get = ['$injector', '$document', '$timeout', '$rootScope', function ($injector, $document, $timeout, $rootScope) {
+    this.$get = ["$injector", "$document", "$timeout", "$rootScope", function ($injector, $document, $timeout, $rootScope) {
       var $animate;
       var $parentSelector = this.parentSelector,
         loadingBarContainer = angular.element(this.loadingBarTemplate),
         // loadingBar = loadingBarContainer.find('div').eq(0),
-        loadingBar = loadingBarContainer.find('div').eq(1),
+        loadingBar = loadingBarContainer.find("div").eq(1),
         spinner = angular.element(this.spinnerTemplate);
 
       var incTimeout,
@@ -37,7 +37,7 @@ angular.module("dashboardModule")
        */
       function _start() {
         if (!$animate) {
-          $animate = $injector.get('$animate');
+          $animate = $injector.get("$animate");
         }
 
         var $parent = $document.find($parentSelector).eq(0);
@@ -48,7 +48,7 @@ angular.module("dashboardModule")
           return;
         }
 
-        $rootScope.$broadcast('LoadingBar:started');
+        $rootScope.$broadcast("LoadingBar:started");
         started = true;
 
         if (includeBar) {
@@ -71,8 +71,8 @@ angular.module("dashboardModule")
         if (!started) {
           return;
         }
-        var pct = (n * 100) + '%';
-        loadingBar.css('width', pct);
+        var pct = (n * 100) + "%";
+        loadingBar.css("width", pct);
         status = n;
 
         // increment loadingbar to give the illusion that there is always
@@ -130,10 +130,10 @@ angular.module("dashboardModule")
 
       function _complete() {
         if (!$animate) {
-          $animate = $injector.get('$animate');
+          $animate = $injector.get("$animate");
         }
 
-        $rootScope.$broadcast('LoadingBar:completed');
+        $rootScope.$broadcast("LoadingBar:completed");
         _set(1);
 
         $timeout.cancel(completeTimeout);
@@ -161,6 +161,6 @@ angular.module("dashboardModule")
       };
 
 
-    }]     //
+    }];     //
 
 });

@@ -1,9 +1,9 @@
 angular.module("dashboardModule")
 
 
-.config(['$httpProvider', function ($httpProvider) {
+.config(["$httpProvider", function ($httpProvider) {
 
-    var interceptor = ['$q', '$cacheFactory', '$timeout', '$rootScope', '$log', 'LoadingBar', 
+    var interceptor = ["$q", "$cacheFactory", "$timeout", "$rootScope", "$log", "LoadingBar", 
       function ($q, $cacheFactory, $timeout, $rootScope, $log, LoadingBar) {
 
       /**
@@ -45,12 +45,12 @@ angular.module("dashboardModule")
        */
       function isCached(config) {
         var cache;
-        var defaultCache = $cacheFactory.get('$http');
+        var defaultCache = $cacheFactory.get("$http");
         var defaults = $httpProvider.defaults;
 
         // Choose the proper cache source. Borrowed from angular: $http service
         if ((config.cache || defaults.cache) && config.cache !== false &&
-          (config.method === 'GET' || config.method === 'JSONP')) {
+          (config.method === "GET" || config.method === "JSONP")) {
             cache = angular.isObject(config.cache) ? config.cache
               : angular.isObject(defaults.cache) ? defaults.cache
               : defaultCache;
@@ -68,11 +68,11 @@ angular.module("dashboardModule")
 
 
       return {
-        'request': function(config) {
-          // Check to make sure this request hasn't already been cached and that
-          // the requester didn't explicitly ask us to ignore this request:
+        "request": function(config) {
+          // Check to make sure this request hasn"t already been cached and that
+          // the requester didn"t explicitly ask us to ignore this request:
           if (!config.ignoreLoadingBar && !isCached(config)) {
-            $rootScope.$broadcast('LoadingBar:loading', {url: config.url});
+            $rootScope.$broadcast("LoadingBar:loading", {url: config.url});
             if (reqsTotal === 0) {
               startTimeout = $timeout(function() {
                 LoadingBar.start();
@@ -84,15 +84,15 @@ angular.module("dashboardModule")
           return config;
         },
 
-        'response': function(response) {
+        "response": function(response) {
           if (!response || !response.config) {
-            $log.error('Broken interceptor detected: Config object not supplied in response:\n https://github.com/chieffancypants/angular-loading-bar/pull/50');
+            $log.error("Broken interceptor detected: Config object not supplied in response:\n https://github.com/chieffancypants/angular-loading-bar/pull/50");
             return response;
           }
 
           if (!response.config.ignoreLoadingBar && !isCached(response.config)) {
             reqsCompleted++;
-            $rootScope.$broadcast('LoadingBar:loaded', {url: response.config.url, result: response});
+            $rootScope.$broadcast("LoadingBar:loaded", {url: response.config.url, result: response});
             if (reqsCompleted >= reqsTotal) {
               setComplete();
             } else {
@@ -102,15 +102,15 @@ angular.module("dashboardModule")
           return response;
         },
 
-        'responseError': function(rejection) {
+        "responseError": function(rejection) {
           if (!rejection || !rejection.config) {
-            $log.error('Broken interceptor detected: Config object not supplied in rejection:\n https://github.com/chieffancypants/angular-loading-bar/pull/50');
+            $log.error("Broken interceptor detected: Config object not supplied in rejection:\n https://github.com/chieffancypants/angular-loading-bar/pull/50");
             return $q.reject(rejection);
           }
 
           if (!rejection.config.ignoreLoadingBar && !isCached(rejection.config)) {
             reqsCompleted++;
-            $rootScope.$broadcast('LoadingBar:loaded', {url: rejection.config.url, result: rejection});
+            $rootScope.$broadcast("LoadingBar:loaded", {url: rejection.config.url, result: rejection});
             if (reqsCompleted >= reqsTotal) {
               setComplete();
             } else {

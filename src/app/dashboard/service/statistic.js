@@ -1,10 +1,10 @@
-angular.module('dashboardModule')
+angular.module("dashboardModule")
 
-.service('dashboardStatisticService', [
-    'dashboardApiService',
-    '$q',
-    'moment',
-    '_',
+.service("dashboardStatisticService", [
+    "dashboardApiService",
+    "$q",
+    "moment",
+    "_",
     function(
         $api,
         $q,
@@ -60,10 +60,10 @@ angular.module('dashboardModule')
                 .then(function(result){
                     // Add in average cart size
                     result.salesAvg = {
-                        today:          getAverageOrderSize('today'),
-                        yesterday:      getAverageOrderSize('yesterday'),
-                        week:           getAverageOrderSize('week'),
-                        monthToDate:    getAverageOrderSize('monthToDate'),
+                        today:          getAverageOrderSize("today"),
+                        yesterday:      getAverageOrderSize("yesterday"),
+                        week:           getAverageOrderSize("week"),
+                        monthToDate:    getAverageOrderSize("monthToDate"),
                     };
 
                     return result;
@@ -84,7 +84,7 @@ angular.module('dashboardModule')
             // Split into two sets
             var set1 = points.splice(0, 24).map(function(point) {
                 var pointTime = point[0];
-                pointTime = moment.unix(pointTime).add(1, 'day').valueOf();
+                pointTime = moment.unix(pointTime).add(1, "day").valueOf();
 
                 return [pointTime, point[1]];
             });
@@ -98,11 +98,11 @@ angular.module('dashboardModule')
 
             // z-index insures that today is on top
             var dataSets = [{
-                name: 'Today',
+                name: "Today",
                 data: set2,
                 zIndex: 2
             }, {
-                name: 'Yesterday',
+                name: "Yesterday",
                 data: set1,
                 zIndex: 1
             }, ];
@@ -113,8 +113,8 @@ angular.module('dashboardModule')
         function getVisitsDetail() {
 
             var options = {
-                'from': moment().subtract(1, 'day').format('YYYY-MM-DD'),
-                'to': moment().add(1, 'day').format('YYYY-MM-DD')
+                "from": moment().subtract(1, "day").format("YYYY-MM-DD"),
+                "to": moment().add(1, "day").format("YYYY-MM-DD")
             };
 
             return $api.getVisitsDetails(options).$promise.then(function(response) {
@@ -124,8 +124,8 @@ angular.module('dashboardModule')
 
         function getSalesDetail() {
             var options = {
-                'from': moment().subtract(1, 'day').format('YYYY-MM-DD'),
-                'to': moment().add(1, 'day').format('YYYY-MM-DD')
+                "from": moment().subtract(1, "day").format("YYYY-MM-DD"),
+                "to": moment().add(1, "day").format("YYYY-MM-DD")
             };
 
             return $api.getSalesDetails(options).$promise.then(function(response) {

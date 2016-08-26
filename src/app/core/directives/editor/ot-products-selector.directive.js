@@ -81,7 +81,6 @@ function ($location, $routeParams, DashboardListService, productApiService, core
             };
 
             $scope.show = function (id) {
-                serviceList.init('products');
                 $("#" + id).modal("show");
             };
 
@@ -154,7 +153,6 @@ function ($location, $routeParams, DashboardListService, productApiService, core
                 var getAttributeList = function () {
                     productApiService.attributesInfo().$promise.then(function (response) {
                         var result = response.result || [];
-                        serviceList.init('products');
                         $scope.attributes = result;
                         serviceList.setAttributes($scope.attributes);
                         $scope.fields = $scope.fields.concat(serviceList.getFields(showColumns));

@@ -61,7 +61,6 @@ function ($scope, $location, $routeParams, $q, DashboardListService, cmsApiServi
         cmsApiService.pageAttributes().$promise.then(
             function (response) {
                 var result = response.result || [];
-                serviceList.init('pages');
 
                 $scope.attributes = result;
                 serviceList.setAttributes($scope.attributes);
