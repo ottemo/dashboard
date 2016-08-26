@@ -1,0 +1,91 @@
+<form data-ng-submit="insert()">
+    <div class="modal-header">
+        <div class="row">
+            <div class="col-md-3">
+                <img class="img-responsive" data-ng-src="{{image}}">
+            </div>
+            <div class="col-md-9">
+                <a class="close" href data-ng-click="$dismiss()"><span class="glyphicon glyphicon-remove"></span></a>
+            </div>
+        </div>
+    </div>
+    <div class="modal-body" ng-controller="cmsMediaListController">
+        <div class="row">
+            <div class="col-xs-12">
+                <progressbar data-ng-show="progress > 0 && progress < 100" class="progress-striped active" value="progress"></progressbar>
+
+                <div class="page-header">
+                    <h1><i class="fa fa-file-image-o"></i> CMS / Images</h1>
+                </div>
+
+
+
+                <!-- Upload Area -->
+                <div class="well">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h4>Uploading Images</h4>
+                            <p>Accepted file formats: .jpg, .jpeg, .png, .gif</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <ot-message-manager item="up.message"></ot-message-manager>
+
+                            <div class="row">
+                                <div class="col-xs-7">
+                                    <div class="file form-control">
+                                        <label>
+                                            <input ot-bind-file="up.files"
+                                                   type="file"
+                                                   multiple
+                                                   accept=".jpg, .jpeg, .png, .gif" />
+                                            <span class="file-text">{{up.files.length ? up.files.length + ' file(s) selected' : 'Select files...'}}</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-xs-5">
+                                    <button class="btn btn-primary btn-block"
+                                            ng-disabled="!up.files.length || up.isInProgress"
+                                            ng-click="up.upload()">
+                                        <i class="fa fa-spin fa-circle-o-notch" ng-show="up.isInProgress"></i>
+                                        Upload
+                                    </button>
+                                </div>
+                            </div>
+                            <ul class="file-list" ng-show="up.files.length">
+                                <li ng-repeat="file in up.files">{{file.name}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- List of media items -->
+                <div class="row">
+                    <div class="col-xs-6 col-sm-4 col-md-3"
+                         ng-repeat="img in mediaList">
+                        <div class="panel panel-default" ng-click="insertImage(img.url,$event)">
+                            <img ng-src="{{img.url}}"
+                                 class="img-responsive" />
+                            <div class="panel-body">
+                                <div>
+                                    <input id="{{img.id}}" class="form-control input-sm" type="text" readonly value="{{img.url}}" />
+                                </div>
+                                <div class="text-muted"><small>{{img.created_at | date }}</small></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal-footer center clearfix">
+        <button data-ng-click="$dismiss()" type="button" class="btn btn-default pull-left">Cancel</button>
+        <button type="submit" data-ng-disabled="image == null || image == '' || image == 'img/posts/default.svg'" class="btn btn-primary pull-right">Insert Image</button>
+    </div>
+
+
+
+</form>
+

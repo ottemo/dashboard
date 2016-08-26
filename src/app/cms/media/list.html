@@ -46,9 +46,9 @@
 <div class="row">
     <div class="col-xs-6 col-sm-4 col-md-3"
         ng-repeat="img in mediaList">
-        <div class="panel panel-default">
+        <div class="panel panel-default" ng-click="insertImage(img.url,$event)">
             <img ng-src="{{img.url}}"
-                class="img-responsive" />
+                 class="img-responsive" />
             <div class="panel-body">
                 <div>
                     <input id="{{img.id}}" class="form-control input-sm" type="text" readonly value="{{img.url}}" />
