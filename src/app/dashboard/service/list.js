@@ -5,7 +5,7 @@ angular.module("dashboardModule")
 .service("dashboardListService", ["$routeParams", function ($routeParams) {
     return function () {
         // Variables
-        var ID, filters, attributes, fields, isInitFields;
+        var filters, attributes, fields, isInitFields;
 
         // Functions
         var init, getFilter, getFields, setAttributes, getAttributes, getList, getExtraFields;
@@ -23,13 +23,6 @@ angular.module("dashboardModule")
         };
 
         isInitFields = false;
-
-        init = function (_id) {
-            if (ID !== _id) {
-                isInitFields = false;
-                ID = _id;
-            }
-        };
 
         setAttributes = function (attr) {
             attributes = attr;
@@ -61,8 +54,8 @@ angular.module("dashboardModule")
                 }
             }
 
-            if (['datetime'].indexOf(attribute.Type) >= 0){
-                return 'date_range';
+            if (["datetime"].indexOf(attribute.Type) >= 0){
+                return "date_range";
             }
 
             return filters[editor];
@@ -96,6 +89,7 @@ angular.module("dashboardModule")
                 for (var j = 0; j < fields.length; j += 1) {
                     fields[j].filterValue = $routeParams[fields[j].attribute];
                 }
+
                 return fields;
             }
 
@@ -127,7 +121,7 @@ angular.module("dashboardModule")
                                 }
                             }
                             // check is it a main column type and it's persistence
-                            if (obj['type'] !== "select-link"){
+                            if (obj["type"] !== "select-link"){
                                 fields.push(obj);
                             } else {
                                 obj["visible"] = true;
@@ -141,6 +135,7 @@ angular.module("dashboardModule")
 
             prepareGroups();
             isInitFields = true;
+
             return fields;
         };
 
@@ -232,7 +227,6 @@ angular.module("dashboardModule")
         };
 
         return {
-            "init": init,
             "getExtraFields": getExtraFields,
             "setAttributes": setAttributes,
             "getAttributes": getAttributes,

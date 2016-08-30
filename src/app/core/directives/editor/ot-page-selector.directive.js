@@ -58,7 +58,6 @@ angular.module("coreModule")
                 };
 
                 $scope.show = function (id) {
-                    serviceList.init('pages');
                     $("#" + id).modal("show");
                 };
 
@@ -113,7 +112,6 @@ angular.module("coreModule")
                     cmsApiService.pageAttributes().$promise.then(
                         function (response) {
                             var result = response.result || [];
-                            serviceList.init('pages');
                             $scope.attributes = result;
                             serviceList.setAttributes($scope.attributes);
                             $scope.fields = serviceList.getFields(showColumns);

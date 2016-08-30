@@ -67,7 +67,6 @@ angular.module("seoModule")
                     "Value": ""
                 });
             }
-            serviceList.init('seo');
             serviceList.setAttributes($scope.attributes);
             $scope.fields = $scope.fields.concat(serviceList.getFields(showColumns));
         };

@@ -23,9 +23,21 @@ angular.module("orderModule")
             method: "PUT",
             url: REST_SERVER_URI + "/order/:orderID"
         },
+        "updateOrderStatus": {
+            method: "POST",
+            url: REST_SERVER_URI + "/orders/setStatus"
+        },
         "remove": {
             method: "DELETE",
             url: REST_SERVER_URI + "/order/:orderID"
+        },
+        "sendConfirmation": {
+            method: "GET",
+            url: REST_SERVER_URI + "/order/:orderID/emailOrderConfirmation"
+        },
+        "sendTracking": {
+            method: "POST",
+            url: REST_SERVER_URI + "/order/:orderID/emailTrackingCode"
         }
     });
 }]);

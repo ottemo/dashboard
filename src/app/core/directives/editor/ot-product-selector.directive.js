@@ -68,8 +68,6 @@ function ($location, $routeParams, DashboardListService, productApiService, core
             };
 
             $scope.show = function (id) {
-                serviceList.init('products');
-
                 // escape any dots in our selector
                 var selector = '#' + id.split('.').join("\\.");
                 $(selector).modal("show");
@@ -131,7 +129,6 @@ function ($location, $routeParams, DashboardListService, productApiService, core
                 var getAttributeList = function () {
                     productApiService.attributesInfo().$promise.then(function (response) {
                         var result = response.result || [];
-                        serviceList.init('products');
                         $scope.attributes = result;
                         serviceList.setAttributes($scope.attributes);
 

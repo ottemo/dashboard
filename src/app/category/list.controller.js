@@ -61,7 +61,6 @@ function ($scope, $location, $routeParams, $q, DashboardListService, categoryApi
         categoryApiService.attributesInfo().$promise.then(
             function (response) {
                 var result = response.result || [];
-                serviceList.init('categories');
                 $scope.attributes = result;
                 serviceList.setAttributes($scope.attributes);
                 $scope.fields = serviceList.getFields(showColumns);

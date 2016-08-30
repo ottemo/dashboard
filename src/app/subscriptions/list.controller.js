@@ -103,7 +103,6 @@ function ($rootScope, $scope, $location, $routeParams, $q, DashboardListService,
             },
           ];
 
-        serviceList.init('subscriptions'); // not sure what this does
         serviceList.setAttributes(result);
         $scope.fields = serviceList.getFields(showColumns);
     }

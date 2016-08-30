@@ -58,7 +58,6 @@ angular.module("coreModule")
                 };
 
                 $scope.show = function (id) {
-                    serviceList.init('categories');
                     $("#" + id).modal("show");
                 };
 
@@ -113,7 +112,6 @@ angular.module("coreModule")
                     categoryApiService.attributesInfo().$promise.then(
                         function (response) {
                             var result = response.result || [];
-                            serviceList.init('categories');
                             $scope.attributes = result;
                             serviceList.setAttributes($scope.attributes);
                             $scope.fields = serviceList.getFields(showColumns);

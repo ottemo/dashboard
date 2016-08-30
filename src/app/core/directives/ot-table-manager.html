@@ -110,8 +110,8 @@
                                 </span>
 
                                 <!-- Currency -->
-                                <span ng-switch-when="price" class="text-right">{{::_item[field.attribute] | currency}}</span>
-                                <span ng-switch-when="currency">{{::_item[field.attribute] | currency}}</span>
+                                <span ng-switch-when="price" class="text-right">{{_item[field.attribute] | currency}}</span>
+                                <span ng-switch-when="currency">{{_item[field.attribute] | currency}}</span>
 
                                 <!-- Date -->
                                 <span ng-switch-when="date"
@@ -121,11 +121,11 @@
 
                                 <!-- Link -->
                                 <span ng-switch-when="select-link">
-                                    <div>{{::_item[field.attribute]}}</div>
+                                    <div>{{_item[field.attribute]}}</div>
                                 </span>
 
                                 <!-- String, text -->
-                                <span ng-switch-default="">{{::_item[field.attribute]}}</span>
+                                <span ng-switch-default="">{{_item[field.attribute]}}</span>
 
                             </span>
                         </td>

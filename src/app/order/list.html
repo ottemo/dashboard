@@ -20,12 +20,26 @@
             <span style="text-transform:lowercase !important">.csv</span>
         </button>
 
+        <div class="btn-group actions"
+             ng-click="openButton($event)">
+            <a class="btn btn-default dropdown-toggle"
+               ng-class="{disabled: !selectedIds.length}">
+                    Change order status <i class="caret"></i>
+            </a>
+
+            <ul class="dropdown-menu dropdown-menu-right">
+                <li><a ng-click="changeOrderStatus('processed')">Processed</a></li>
+                <li><a ng-click="changeOrderStatus('cancelled')">Cancelled</a></li>
+                <li><a ng-click="changeOrderStatus('completed')">Completed</a></li>
+            </ul>
+       </div>
+
 
         <!-- printing -->
-        <div class="btn-group" ng-class="{open: actions.isOpen}">
+        <div class="btn-group actions"
+             ng-click="openButton($event)">
             <a class="btn btn-default dropdown-toggle"
-                ng-class="{disabled: !selectedIds.length}"
-                ng-click="actions.isOpen = !actions.isOpen">
+                ng-class="{disabled: !selectedIds.length}">
                 Print <i class="caret"></i>
             </a>
 
