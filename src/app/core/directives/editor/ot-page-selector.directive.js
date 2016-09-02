@@ -76,6 +76,13 @@ angular.module("coreModule")
                         $scope.search = {};
                     }
 
+                    //remove empty query strings
+                    for (var k in $scope.search){
+                        if (!$scope.search[k] || $scope.search[k] == "~") {
+                            delete $scope.search[k]
+                        }
+                    }
+
                     /**
                      * Gets list of pages
                      */

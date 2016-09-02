@@ -87,6 +87,13 @@ function ($location, $routeParams, DashboardListService, visitorApiService, core
                     return false;
                 }
 
+                //remove empty query strings
+                for (var k in $scope.search){
+                    if (!$scope.search[k] || $scope.search[k] == "~") {
+                        delete $scope.search[k]
+                    }
+                }
+
                 $scope.oldSearch = clone($scope.search);
 
                 /**
