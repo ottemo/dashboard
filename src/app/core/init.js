@@ -11,7 +11,7 @@ angular.module('coreModule',['textAngular'])
 
     $provide.decorator('taOptions', ['taRegisterTool', '$delegate', '$uibModal', function (taRegisterTool, taOptions, $uibModal) {
         taRegisterTool('uploadImage', {
-            buttontext: 'Upload Image',
+            buttontext: 'Insert Image',
             tooltiptext: 'Upload image',
             iconclass: "fa fa-image",
             action: function (deferred,restoreSelection) {

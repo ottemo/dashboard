@@ -14,6 +14,7 @@ angular.module("cmsModule")
     };
 
     activate();
+    console.log('pageUploadCtrl');
 
     ///////////////////////////
 
@@ -25,10 +26,12 @@ angular.module("cmsModule")
     function populateMediaList() {
         cmsMedia.all().then(function(mediaList) {
             $scope.mediaList = mediaList;
+            console.log(mediaList);
         });
     }
 
     function upload() {
+        console.log('upload');
         $scope.up.isInProgress = true;
         $scope.up.message = undefined;
 
@@ -43,24 +46,39 @@ angular.module("cmsModule")
         });
     }
 
-    $scope.image = "/images/image-icon.png";
-
     $scope.progress = 0;
     $scope.files = [];
 
-    $scope.insert = function(){
-        $uibModalInstance.close($scope.image);
+    $scope.insert = function(url){
+        if($scope.selectedMediaIndex !== undefined){
+            $uibModalInstance.close($scope.mediaList[$scope.selectedMediaIndex].url);
+        }
+        if(url){
+            console.log(url);
+            $uibModalInstance.close(url);
+        }
     };
 
-    $scope.insertImage = function(url,event) {
-
-        $(event.target).closest('.col-xs-6').siblings().children().removeClass('img-border');
-        $(event.target).closest('.col-xs-6').children().toggleClass('img-border');
-        if($(event.target).closest('.col-xs-6').children().hasClass('img-border')){
-            $scope.image = url;
+    $scope.selectImage = function(index) {
+        if($scope.selectedMediaIndex === index){
+            $scope.selectedMediaIndex = undefined;
+        }else{
+            $scope.selectedMediaIndex = index;
         }
-        else {
-            $scope.image = "/images/image-icon.png"
+    };
+
+    $scope.selectedImage = function(){
+        if($(".media-list .panel").hasClass("img-border")){
+            return false;
+        }else {
+            return true;
+        }
+    }
+
+    $scope.insertImg = function() {
+        var url = $scope.externalImageUrl;
+        if (url && url !== ''){
+            $scope.insert(url);
         }
     };
 
