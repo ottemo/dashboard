@@ -3,6 +3,7 @@ angular.module('dashboardModule', [
     'ngRoute',
     'ngResource',
     'ngSanitize',
+    'ngAnimate',
 
     // Lib
     'ui.odometer',
