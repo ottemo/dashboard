@@ -212,7 +212,7 @@ li {
     }
 }
 
-.img-wrapper {
+.media-list .img-wrapper {
     position: absolute;
     left: 0;
     top: 0;
@@ -220,7 +220,7 @@ li {
     height: 100%;
 }
 
-.panel.panel-default {
+.media-list .panel.panel-default {
     padding-top: 100%;
     .img-responsive {
         padding: 2px;
