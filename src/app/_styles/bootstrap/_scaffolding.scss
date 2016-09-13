@@ -189,6 +189,9 @@ hr {
             opacity: .8;
             text-decoration: none;
         }
+        &.remove-btn {
+            padding: 16px 25px;
+        }
     }
 
 }
@@ -210,14 +213,6 @@ li {
         border: 0;
         margin-bottom: 0;
     }
-}
-
-.media-list .img-wrapper {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
 }
 
 .media-list .panel.panel-default {

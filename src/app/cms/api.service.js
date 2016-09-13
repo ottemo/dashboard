@@ -62,6 +62,10 @@ angular.module("cmsModule")
             method: "PUT",
             params: { pageID: "@_id" },
             url: REST_SERVER_URI + "/cms/page/:pageID"
+        },
+        "imageRemove": {
+            method: "DELETE",
+            url: REST_SERVER_URI + "/cms/media/:mediaName"
         }
     });
 }]);
