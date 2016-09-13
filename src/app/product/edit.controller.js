@@ -49,6 +49,12 @@ function ($scope, $routeParams, $location, $q, _, productApiService, coreImageSe
                     addInventoryTab(attrs);
                 }
 
+                var salePriceAttr = _.remove(attrs, { Attribute: 'sale_prices' });
+                var isSalePricesEnabled = (salePriceAttr.length > 0);
+                if (isSalePricesEnabled) {
+                    addSalePriceTab(attrs);
+                }
+
                 // Attach
                 $scope.attributes = attrs;
             });
@@ -107,6 +113,22 @@ function ($scope, $routeParams, $location, $q, _, productApiService, coreImageSe
             IsRequired: false,
             IsStatic: false,
             Label: 'Image',
+            Model: 'Product',
+            Options: '',
+            Type: 'text'
+        });
+    }
+
+    function addSalePriceTab(attributes) {
+        attributes.unshift({
+            Attribute: 'sale_prices',
+            Collection: 'product',
+            Default: '',
+            Editors: 'sale_prices',
+            Group: 'SalePrice',
+            IsRequired: false,
+            IsStatic: false,
+            Label: 'Sale Price',
             Model: 'Product',
             Options: '',
             Type: 'text'
