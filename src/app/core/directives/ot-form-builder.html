@@ -243,9 +243,9 @@
             <ot-custom-options-manager editor-scope="attribute" item="item"></ot-custom-options-manager>
         </div>
 
-        <!-- PDP: Pictures manager -->
-        <div class="container text-center" ng-switch-when="picture_manager">
-            <ot-picture-manager item="item" parent="parent"></ot-picture-manager>
+        <!-- Pictures manager -->
+        <div class="container-fluid text-center" ng-switch-when="picture_manager">
+            <ot-picture-manager image-handler="parent" images="parent.productImages" images-path="parent.imagesPath"></ot-picture-manager>
         </div>
 
         <!-- PDP: Inventory manager -->

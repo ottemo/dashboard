@@ -142,3 +142,60 @@ textarea.ng-invalid.ng-dirty {
   box-shadow: 0 0 10px rgba(255,0,0,0.5);
   border: 1px solid red;
 }
+
+.image-thumb {
+  height: 100px;
+  width: 100px;
+  background-position: 50% 50%;
+  background-size: cover;
+  margin-bottom: 15px;
+  cursor: pointer;
+  border: 2px solid $gray-light;
+  border-radius: $border-radius-base;
+  display: inline-block;
+  margin-right: 15px;
+  vertical-align: top;
+  position: relative;
+  
+  &.selected {
+    border-width: 2px;
+    border-color: $brand-info;
+  }
+  
+  .mark-image-default {
+    position: absolute;
+    color: #fff;
+    border-radius: 50%;
+    height: 25px;
+    width: 25px;
+    bottom: 5px;
+    line-height: 25px;
+    right: 5px;
+    background-color: $brand-info;
+    top: auto;
+  }
+}
+
+.image-controls {
+  .btn {
+    width: 150px;
+    margin-bottom: 5px;
+
+    .glyphicon {
+      font-size: 14px;
+      margin-right: 5px;
+      top: 2px;
+    }
+  }
+}
+
+.active-image-container {
+  height: 250px;
+  margin-bottom: 15px;
+
+  img {
+    max-width: 100%;
+    height: 100%;
+    width: auto;
+  }
+}

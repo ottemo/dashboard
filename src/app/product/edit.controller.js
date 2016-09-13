@@ -260,8 +260,11 @@ function ($scope, $routeParams, $location, $q, _, productApiService, coreImageSe
      */
     function imageAdd(fileElementId) {
         var file = document.getElementById(fileElementId);
+        var pid = $scope.product._id;
 
-        var pid = $scope.product._id, mediaName = file.files[0].name;
+        var mediaName = file.files[0] ? file.files[0].name : undefined;
+
+        if (pid === undefined || mediaName === undefined) return;
 
         var postData = new FormData();
         postData.append('file', file.files[0]);
@@ -300,5 +303,20 @@ function ($scope, $routeParams, $location, $q, _, productApiService, coreImageSe
      */
     function imageDefault(selected) {
         $scope.product['default_image'] = selected;
+
     }
+
+    $scope.getDefaultImage = function() {
+        return $scope.product['default_image'];
+    };
+
+    /**
+     * Returns full path of an image
+     *
+     * @param {string} image    - image name
+     * @returns {string}        - full path
+     */
+    $scope.getImage = function (image) {
+        return coreImageService.getImage(image);
+    };
 }]);

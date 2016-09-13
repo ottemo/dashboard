@@ -1,29 +1,50 @@
-<!-- Main image -->
-<img ng-src="{{getImage(parent.selectedImage)}}" alt="selected image" class="main-image">
-
-<!-- Image previews -->
-<div class="text-center" ng-repeat="row in splitedImages">
-    <span ng-click="selectImage(image)" ng-repeat="image in row track by $index">
-        <img class="thum" ng-src="{{getImage(image)}}">
-    </span>
+<!-- Active image -->
+<div class="row">
+    <div class="col-xs-12 active-image-container">
+        <img ng-if="selectedImage != -1 && getImageUrl(imagesFiles[selectedImage])"
+            ng-src="{{getImageUrl(imagesFiles[selectedImage])}}"
+            alt="selected image"
+            class="selected-image">
+    </div>
 </div>
-<br>
-<!-- Upload file -->
-<div class="btn-group">
+
+<div class="image-controls">
+    <!-- Upload file -->
     <ot-input-file class="btn btn-success upl-btn"
         input-id="'uploadfile'"
         input-name="'uploadfile'"
-        file="parent.uploadfile"
-        on-change="parent.imageAdd('uploadfile')">
+        file="imageHandler.uploadfile"
+        on-change="uploadImage()">
+
         <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span>
-        Upload file
+        Upload
+
     </ot-input-file>
+
     <!-- Remove button -->
-    <button class="btn btn-danger" ng-click="parent.imageRemove(parent.selectedImage)" aria-label="Left Align">
+    <button class="btn btn-danger" ng-click="removeImage()">
         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
         Remove
     </button>
+
     <!-- Default button -->
-    <button class="btn btn-info" ng-click="parent.imageDefault(parent.selectedImage)">Mark as Default</button>
+    <button class="btn btn-info" ng-click="setDefaultImage()">
+        <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
+        Default
+    </button>
 </div>
+
+<hr>
+
+<div class="text-center">
+    <div ng-repeat="imageFile in imagesFiles track by $index"
+        class="image-thumb"
+        ng-class="{selected: $index == selectedImage}"
+        style="background-image: url('{{getImageUrl(imageFile)}}')"
+        ng-click="selectImage($index)">
+
+        <span ng-if="isDefaultImage($index)" class="mark-image-default glyphicon glyphicon-ok"></span>
+    </div>
+</div>
+
 <hr>
