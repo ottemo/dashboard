@@ -1,65 +1,54 @@
 /**
 *  Directive used for automatic attribute editor creation
 */
-angular.module("coreModule")
+angular.module('coreModule')
 
-.directive("otPictureManager", ["coreImageService", function (coreImageService) {
+.directive('otPictureManager', ['coreImageService', function (coreImageService) {
     return {
-        restrict: "E",
-        templateUrl: "/views/core/directives/editor/ot-picture-manager.html",
+        restrict: 'E',
+        templateUrl: '/views/core/directives/editor/ot-picture-manager.html',
 
         scope: {
-            "parent": "=parent",
-            "item": "=item"
+            imageHandler: '=imageHandler',
+            imagesFiles: '=images',
+            imagesPath: '=imagesPath'
         },
 
         controller: function ($scope) {
-            // function to split array on rows by x-elements
-            var splitBy = function (arr, x) {
-                var result = [], row = [], i = 0;
+            $scope.selectedImage = 0;
 
-                for (var idx in arr) {
-                    if (arr.hasOwnProperty(idx)) {
-                        i += 1;
-                        row.push(arr[idx]);
-                        if (i % x === 0) {
-                            result.push(row);
-                            i = 0;
-                            row = [];
-                        }
-                    }
-                }
-                if (i !== 0) {
-                    result.push(row);
-                }
+            $scope.getImageUrl = getImageUrl;
+            $scope.selectImage = selectImage;
+            $scope.uploadImage = uploadImage;
+            $scope.removeImage = removeImage;
+            $scope.isDefaultImage = isDefaultImage;
+            $scope.setDefaultImage = setDefaultImage;
 
-                return result;
-            };
 
-            $scope.$watch("parent.productImages", function () {
-                if(typeof $scope.parent.productImages !== "undefined") {
-                    $scope.imagesPath = $scope.parent.imagesPath;
-                    $scope.splitedImages = splitBy($scope.parent.productImages, 4);
-                }
-            });
+            function getImageUrl(file) {
+                return file ? coreImageService.getImage($scope.imagesPath + file) : false;
+            }
 
-            $scope.getImage = function (filename) {
-                return coreImageService.getImage($scope.imagesPath + filename);
-            };
+            function selectImage(index) {
+                $scope.selectedImage = index;
+            }
 
-            $scope.selectImage = function (filename) {
-                if (typeof filename !== "undefined" && filename !== "") {
-                    $scope.parent.selectedImage = filename;
-                }
-            };
+            function uploadImage() {
+                $scope.imageHandler.imageAdd('uploadfile');
+            }
 
-            $scope.isDefault = function (filename) {
-                var _class = " img-default ";
-                if (filename === $scope.defaultImg) {
-                    return _class;
-                }
-                return "";
-            };
+            function removeImage() {
+                $scope.imageHandler.imageRemove($scope.imagesFiles[$scope.selectedImage]);
+                $scope.selectedImage--;
+            }
+
+            function setDefaultImage() {
+                $scope.imageHandler.imageDefault($scope.imagesFiles[$scope.selectedImage]);
+            }
+
+            function isDefaultImage(index) {
+                return $scope.imagesFiles[index] == $scope.imageHandler.getDefaultImage();
+            }
         }
     };
 }]);

@@ -1,0 +1,57 @@
+<div class="container-fluid">
+    <button class="btn btn-default hidden-xs" ng-click="addNewSalePrice()">Add Sale Price</button>
+</div>
+<div class="visible-xs text-center">
+    <button class="btn btn-default"
+        type="button"
+        ng-click="addNewSalePrice()">
+        Add Sale Price
+    </button>
+</div>
+
+<br/><br/>
+
+<div class="well" ng-repeat="salePrice in salePrices">
+    <button class="btn btn-sm btn-warning pull-right"
+        type="button"
+        ng-click="removeSalePrice($index)">
+        <i class="fa fa-remove"></i> Delete Sale Price
+    </button>
+
+    <legend>Sale Price</legend>
+    <div class="table-responsive">
+        <table class="table table-condensed">
+            <colgroup>
+                <col width="15%"/>
+                <col width="15%"/>
+                <col width="15%"/>
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>Sale Price</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="form-group">
+                        <input class="form-control"
+                            type="text"
+                            ng-model="salePrice.amount" />
+                    </td>
+                    <td class="form-group">
+                        <input class="form-control"
+                               type="date"
+                               ng-model="salePrice.start_datetime"  />
+                    </td>
+                    <td class="form-group">
+                        <input class="form-control"
+                               type="date"
+                               ng-model="salePrice.end_datetime"  />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

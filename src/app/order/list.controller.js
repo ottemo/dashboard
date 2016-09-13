@@ -37,6 +37,7 @@ angular.module("orderModule")
         var searchDefaults = {
             sort: "^created_at",
             limit: "0,50",
+            status: "processed"
         };
 
         // REFACTOR: I only want to work with the selected ids
@@ -101,11 +102,7 @@ angular.module("orderModule")
         }
 
         function getProcessedOrderCount() {
-            var params = {};
-            angular.copy(searchDefaults, params);
-            params.status = "processed";
-
-            orderApiService.getCount(params).$promise
+            orderApiService.getCount({ status: "processed" }).$promise
                 .then(function(response) {
                     $scope.tabs.processedCount = response.result || 0;
                 });
