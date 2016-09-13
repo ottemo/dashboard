@@ -51,7 +51,7 @@ function (
                 // If we pass incorrect page ID
                 // we don't have an error from server
                 // instead we have empty page here (_id === '')
-                if (response.result._id !== '') {
+                if (response.error === null && response.result._id !== '') {
                     $scope.page = response.result;
                 // so we redirect to new page page
                 } else {

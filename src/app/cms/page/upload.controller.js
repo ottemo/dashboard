@@ -14,7 +14,6 @@ angular.module("cmsModule")
     };
 
     activate();
-    console.log('pageUploadCtrl');
 
     ///////////////////////////
 
@@ -26,12 +25,10 @@ angular.module("cmsModule")
     function populateMediaList() {
         cmsMedia.all().then(function(mediaList) {
             $scope.mediaList = mediaList;
-            console.log(mediaList);
         });
     }
 
     function upload() {
-        console.log('upload');
         $scope.up.isInProgress = true;
         $scope.up.message = undefined;
 
