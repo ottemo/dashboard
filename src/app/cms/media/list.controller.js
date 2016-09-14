@@ -1,12 +1,20 @@
-angular.module("cmsModule")
+angular.module('cmsModule')
 
     .controller('cmsMediaListController', [
         '$scope',
         'cmsMedia',
-        "$location",
-        "$q",
-        "cmsApiService",
-        function($scope, cmsMedia, $location, $q, cmsApiService) {
+        '$location',
+        '$q',
+        'cmsApiService',
+        'coreConfirmService',
+        function(
+            $scope,
+            cmsMedia,
+            $location,
+            $q,
+            cmsApiService,
+            coreConfirmService
+        ) {
 
             // Uploaded files
             $scope.mediaList = [];
@@ -77,15 +85,28 @@ angular.module("cmsModule")
              */
             $scope.removeImage = function () {
                 if ($scope.selectedMediaIndex !== undefined) {
-                    var answer = window.confirm("You really want to remove this image?");
-                    if(answer){
-                        cmsApiService.imageRemove({"mediaName": $scope.mediaList[$scope.selectedMediaIndex].name}).$promise
+
+                    var modalMessage = 'Do you really want to remove this image?';
+                    var selectedMediaIndexName = $scope.mediaList[$scope.selectedMediaIndex].name;
+                    coreConfirmService.openModal(modalMessage)
+                        .then(function(result) {
+                            removeImage();
+                        }, function(result) {
+                            $scope.up.message = {message: 'The image was NOT removed!'};
+                        });
+
+                    function removeImage(){
+                        cmsApiService.imageRemove({"mediaName": selectedMediaIndexName}).$promise
                             .then(populateMediaList)
                             .then(function() {
                                 $scope.up.message = {message: 'The image was removed!'};
                             });
                     }
+
+
+
                 }
             };
+
 
         }]);
