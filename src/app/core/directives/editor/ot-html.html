@@ -1,22 +1,33 @@
 <label>
-	{{attribute.Label}}
-	<span class="asterisk" ng-show="attribute.IsRequired">*</span>
+    {{attribute.Label}}
+    <span class="asterisk" ng-show="attribute.IsRequired">*</span>
+
 </label>
 
-<!--<textarea type="text"-->
-<!--class="form-control"-->
-<!--style="resize:vertical;"-->
-<!--rows="40"-->
-<!--placeholder="{{attribute.Label}}"-->
-<!--dynamic-name="attribute.Attribute"-->
-<!--ng-required="attribute.IsRequired"-->
-<!--ng-model="item[attribute.Attribute]">-->
-<!--</textarea>-->
+<a ng-click="showEditor = !showEditor">
+    <span ng-if="showEditor">Hide editor</span>
+    <span ng-if="!showEditor">Show editor</span>
+</a>
 
-<div id="ng-app" class="ng-scope">
-    <div text-angular ng-required="attribute.IsRequired" ng-model="item[attribute.Attribute]" name="demo-editor" ta-text-editor-class="border-around" ta-html-editor-class="border-around"></div>
-    <br>
+<div ng-if="showEditor"
+     text-angular
+     ng-required="attribute.IsRequired"
+     ng-model="item[attribute.Attribute]"
+     ta-unsafe-sanitizer
+     ta-text-editor-class="border-around"
+     ta-html-editor-class="border-around">
 </div>
+
+<textarea type="text"
+    ng-if="!showEditor"
+    class="form-control"
+    style="resize:vertical;"
+    rows="40"
+    placeholder="{{attribute.Label}}"
+    dynamic-name="attribute.Attribute"
+    ng-required="attribute.IsRequired"
+    ng-model="item[attribute.Attribute]">
+</textarea>
 
 
 
