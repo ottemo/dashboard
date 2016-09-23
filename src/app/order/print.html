@@ -71,7 +71,7 @@
 
     <h3>Order Items</h3>
     <table class="table table-bordered order-details">
-        <thead>
+        <tbody>
             <tr>
                 <th>Name</th>
                 <th>SKU</th>
@@ -80,7 +80,7 @@
                 <th>Qty</th>
                 <th class="text-right" ng-if="options.showPrice">Total</th>
             </tr>
-        </thead>
+        </tbody>
         <tbody>
             <tr ng-repeat="product in order.items">
                 <td>{{product.Name}}</td>
