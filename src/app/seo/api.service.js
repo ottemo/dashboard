@@ -23,6 +23,9 @@ angular.module("seoModule")
 		},
         "list": {
             method: "GET",
+            params: {
+                extra: '_id,title,url,type'
+            },
             url: REST_SERVER_URI + "/seo/items"
         },
         "update": {

@@ -28,16 +28,8 @@ angular.module("seoModule")
         getSeoList = function() {
             seoApiService.list().$promise.then(
                 function (response) {
-                    seoList = response.result || [];
-                    $scope.count = seoList.length;
-                    $scope.rewritesTmp = [];
-                    seoIdToUrl = {};
-
-                    for (var i = 0; i < seoList.length; i += 1) {
-						seoList[i]["ID"] = seoList[i]["_id"];
-						seoIdToUrl[seoList[i]["_id"]] =  seoList[i]["url"];
-						$scope.rewritesTmp.push(seoList[i]);
-                    }
+                    $scope.rewritesTmp = response.result || [];
+                    $scope.count = $scope.rewritesTmp.length;
                 }
             );
         };
