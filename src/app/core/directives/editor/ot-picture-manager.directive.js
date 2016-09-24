@@ -34,16 +34,20 @@ angular.module('coreModule')
             }
 
             function uploadImage() {
-                $scope.imageHandler.imageAdd('uploadfile');
+                $scope.imageHandler.addImage('uploadfile');
             }
 
             function removeImage() {
-                $scope.imageHandler.imageRemove($scope.imagesFiles[$scope.selectedImage]);
+                if (!$scope.imagesFiles || $scope.imagesFiles.length == 0) return;
+
+                $scope.imageHandler.removeImage($scope.imagesFiles[$scope.selectedImage]);
                 $scope.selectedImage--;
             }
 
             function setDefaultImage() {
-                $scope.imageHandler.imageDefault($scope.imagesFiles[$scope.selectedImage]);
+                if (!$scope.imagesFiles || $scope.imagesFiles.length == 0) return;
+
+                $scope.imageHandler.setDefaultImage($scope.imagesFiles[$scope.selectedImage]);
             }
 
             function isDefaultImage(index) {

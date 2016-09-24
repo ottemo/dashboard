@@ -13,11 +13,12 @@ function ($scope, $routeParams, $location, $q, _, productApiService, coreImageSe
     $scope.back = back;
 
     // Images
-    $scope.imageAdd = imageAdd;
+    $scope.addImage = addImage;
     $scope.getImage = coreImageService.getImage;
     $scope.reloadImages = reloadImages;
-    $scope.imageRemove = imageRemove;
-    $scope.imageDefault = imageDefault;
+    $scope.removeImage = removeImage;
+    $scope.setDefaultImage = setDefaultImage;
+    $scope.getDefaultImage = getDefaultImage;
 
     activate();
 
@@ -196,6 +197,10 @@ function ($scope, $routeParams, $location, $q, _, productApiService, coreImageSe
             productApiService.save($scope.product, saveSuccess, saveError);
         } else {
             $scope.product.id = id;
+            if ($scope.images && $scope.images.indexOf($scope.product['default_image']) == -1) {
+                $scope.product['default_image'] = $scope.images[0] || '';
+            }
+
             productApiService.update($scope.product, updateSuccess, updateError);
         }
 
@@ -206,7 +211,7 @@ function ($scope, $routeParams, $location, $q, _, productApiService, coreImageSe
         function saveSuccess(response) {
             if (response.error === null) {
                 $scope.product._id = response.result._id;
-                $scope.productImages = [];
+                $scope.images = [];
                 $scope.message = dashboardUtilsService.getMessage(null, 'success', 'Product was created successfully');
                 addImageManagerAttribute();
 
@@ -270,7 +275,7 @@ function ($scope, $routeParams, $location, $q, _, productApiService, coreImageSe
             // taking registered images for product
             productApiService.listImages({'productID': $scope.product._id}).$promise.then(
                 function (response) {
-                    $scope.productImages = response.result || [];
+                    $scope.images = response.result || [];
                 });
         }
     }
@@ -280,7 +285,7 @@ function ($scope, $routeParams, $location, $q, _, productApiService, coreImageSe
      *
      * @param fileElementId
      */
-    function imageAdd(fileElementId) {
+    function addImage(fileElementId) {
         var file = document.getElementById(fileElementId);
         var pid = $scope.product._id;
 
@@ -304,7 +309,7 @@ function ($scope, $routeParams, $location, $q, _, productApiService, coreImageSe
      *
      * @param {string} selected - image name
      */
-    function imageRemove(selected) {
+    function removeImage(selected) {
         var pid = $scope.product._id, mediaName = selected;
 
         if (pid !== undefined && selected !== undefined) {
@@ -313,6 +318,8 @@ function ($scope, $routeParams, $location, $q, _, productApiService, coreImageSe
                     $scope.selectedImage = undefined;
                     $scope.reloadImages();
                     $scope.product['default_image'] = '';
+
+
                     $scope.save();
                 });
         }
@@ -323,22 +330,12 @@ function ($scope, $routeParams, $location, $q, _, productApiService, coreImageSe
      *
      * @param {string} selected - image name
      */
-    function imageDefault(selected) {
+    function setDefaultImage(selected) {
         $scope.product['default_image'] = selected;
 
     }
 
-    $scope.getDefaultImage = function() {
+    function getDefaultImage() {
         return $scope.product['default_image'];
-    };
-
-    /**
-     * Returns full path of an image
-     *
-     * @param {string} image    - image name
-     * @returns {string}        - full path
-     */
-    $scope.getImage = function (image) {
-        return coreImageService.getImage(image);
-    };
+    }
 }]);

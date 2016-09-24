@@ -131,7 +131,7 @@ angular.module("seoModule")
 							delete $scope[itemName][seoUniqueFields[i]];
 						}
 
-						save().then(
+						return save().then(
 							function () {
 								saveSeo(oldSeo);
 							}
