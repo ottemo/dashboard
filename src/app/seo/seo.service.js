@@ -7,38 +7,44 @@ angular.module("seoModule")
         "dashboardUtilsService",
         function ($resource, seoApiService, $q, dashboardUtilsService) {
 
-            // Variables
-            var list, oldValue, seoFields;
-            // Functions
-            var init, find, save, update, remove, isModified, getDefaultSeo, getSeoFields, canonical;
+            var oldValue;
 
-            list = [];
-            seoFields = ["url", "title", "meta_keywords", "meta_description"];
+            var list = [];
+            var seoFields = ["url", "title", "meta_keywords", "meta_description"];
 
-            getDefaultSeo = function () {
+            function getDefaultSeo() {
                 return {
                     "url": "",
                     "title": "",
                     "meta_keywords": "",
                     "meta_description": ""
                 };
-            };
+            }
 
-            init = function () {
-                seoApiService.list().$promise.then(
+            function init() {
+                var params = {
+                    extra: 'url,title,meta_keywords,meta_description,rewrite,type'
+                };
+
+                return seoApiService.listSeo(params).$promise.then(
                     function (response) {
                         list = response.result || [];
+                        angular.forEach(list, function(seoItem) {
+                            seoItem._id = seoItem.ID;
+                            angular.forEach(seoItem.Extra, function(seoField, key) {
+                                seoItem[key] = seoField;
+                            });
+                        });
                     }
                 );
-            };
+            }
 
+            function find(type, rewrite) {
+                for (var i = 0; i < list.length; i++) {
+                    if (list[i].type === type &&
+                        list[i].rewrite === rewrite) {
 
-            find = function (type, rewrite) {
-                var i;
-
-                for (i = 0; i < list.length; i += 1) {
-                    if (list[i].type === type && list[i].rewrite === rewrite) {
-                        if(typeof oldValue === "undefined") {
+                        if (oldValue === undefined) {
                             oldValue = dashboardUtilsService.clone(list[i]);
                         }
 
@@ -47,51 +53,42 @@ angular.module("seoModule")
                 }
 
                 return null;
-            };
+            }
 
-			canonical = function (id) {
-                var defer = $q.defer();
+            function canonical(id) {
+                return seoApiService.canonical({"id": id}).$promise;
+            }
 
-                seoApiService.canonical({"id": id}).$promise.then(
-                    function (response) {
-                        defer.resolve(response);
-                    }
-                );
+            function update(seoItem) {
+                var deferred = $q.defer();
 
-                return defer.promise;
-            };
-
-            update = function (obj) {
-                var defer = $q.defer();
-                if (!isModified(obj)) {
-                    defer.resolve(obj);
+                if (!isModified(seoItem)) {
+                    deferred.resolve(seoItem);
                 } else {
-                    seoApiService.update({"itemID": obj._id}, obj).$promise.then(
+                    seoApiService.update({"itemID": seoItem._id}, seoItem).$promise.then(
                         function (response) {
-                            var i;
-
-                            for (i = 0; i < list.length; i += 1) {
+                            for (var i = 0; i < list.length; i++) {
                                 if (list[i]._id === response.result._id) {
                                     list[i] = response.result;
                                     oldValue = dashboardUtilsService.clone(list[i]);
 
-                                    defer.resolve(list[i]);
+                                    deferred.resolve(list[i]);
                                 }
                             }
                         }
                     );
                 }
 
-                return defer.promise;
-            };
+                return deferred.promise;
+            }
 
-            save = function (obj) {
+            function save(seoItem) {
                 var defer = $q.defer();
 
-                if (!isModified(obj)) {
-                    defer.resolve(obj);
+                if (!isModified(seoItem)) {
+                    defer.resolve(seoItem);
                 } else {
-                    seoApiService.add(obj).$promise.then(
+                    seoApiService.add(seoItem).$promise.then(
                         function (response) {
                             if (response.error === null) {
                                 var result = response.result || null;
@@ -104,9 +101,9 @@ angular.module("seoModule")
                 }
 
                 return defer.promise;
-            };
+            }
 
-            remove = function (obj) {
+            function remove(obj) {
                 var defer = $q.defer();
                 seoApiService.remove({"itemID": obj._id}, obj).$promise.then(
                     function (response) {
@@ -119,11 +116,11 @@ angular.module("seoModule")
                     }
                 );
                 return defer.promise;
-            };
+            }
 
-            isModified = function (newValue) {
+            function isModified(newValue) {
 
-                if (typeof newValue === "undefined") {
+                if (newValue === undefined) {
                     return false;
                 }
 
@@ -146,11 +143,11 @@ angular.module("seoModule")
                 }
 
                 return result;
-            };
+            }
 
-            getSeoFields = function () {
+            function getSeoFields() {
                 return seoFields;
-            };
+            }
 
             return {
                 "init": init,
@@ -158,7 +155,7 @@ angular.module("seoModule")
                 "update": update,
                 "save": save,
                 "remove": remove,
-                "get": canonical,
+                "canonical": canonical,
                 "getDefaultSeo": getDefaultSeo,
                 "getSeoFields": getSeoFields
             };

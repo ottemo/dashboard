@@ -1,294 +1,289 @@
 angular.module("seoModule")
 
-	.controller("seoEditController", [
-		"$scope",
-		"seoService",
-		"dashboardUtilsService",
-		"$timeout",
-		function ($scope, seoService, dashboardUtilsService, $timeout) {
+.controller("seoEditController", [
+    "$scope",
+    "seoService",
+    "dashboardUtilsService",
+    "$timeout",
+    function ($scope, seoService, dashboardUtilsService) {
 
-			var isInit, seo, seoFields, seoUniqueFields, itemName, hasAttribute, save, remove, isModifySave, isInitUrlRewrite,
-				modifyRemoveMethod, isModifyRemove, modifySaveMethod, addAttributes, addAttributesValue, getDefaultSeo,
-				removeAttributes, saveSeo, getUniqueSeoNames;
+        var seo, itemName;
 
-			seoService.init();
+        var seoFields = seoService.getSeoFields(),
+            seoUniqueFields = [],
+            isModifySave = false,
+            isModifyRemove = false,
+            isInitUrlRewrite = false,
+            isInit = false;
 
-			getDefaultSeo = function () {
-				var defObj = seoService.getDefaultSeo();
-				defObj.rewrite = typeof $scope[itemName] !== "undefined" ? $scope[itemName]._id : "";
-				defObj.type = itemName;
-				return defObj;
-			};
+        var seoServiceInitPromise = seoService.init();
 
-			seoFields = seoService.getSeoFields();
-			seoUniqueFields = [];
-			isModifySave = false;
-			isModifyRemove = false;
-			isInitUrlRewrite = false;
-			isInit = false;
+        /////////////////////////////////////////////////
 
-			/**
-			 * Checks on the existing attribute
-			 *
-			 * @param {string} attr
-			 * @returns {boolean}
-			 */
-			hasAttribute = function (attr) {
-				var i, flag;
-				flag = false;
-				if (typeof $scope.attributes !== "undefined") {
+        function getDefaultSeo() {
+            var defaultSeoItem = seoService.getDefaultSeo();
 
-					for (i = 0; i < $scope.attributes.length; i += 1) {
-						if ($scope.attributes[i].Attribute === attr && $scope.attributes[i].Group === "SEO") {
-							flag = true;
-							break;
-						}
-					}
-				}
-				return flag;
-			};
+            defaultSeoItem.rewrite = $scope[itemName] !== undefined ? $scope[itemName]._id : '';
+            defaultSeoItem.type = itemName;
 
-			/**
-			 * Checks existing attributes and add "seo_"
-			 * to seo attribute names that can replace original
-			 * unique fields are saved in seoUniqueFields variable
-			 *
-			 */
-			getUniqueSeoNames = function () { /*jshint maxcomplexity:6 */
-				if (typeof $scope.attributes !== "undefined" && seoUniqueFields.length < 1) {
-					var seoUniqueNames = seoUniqueFields;
-					var i, uniqueSeoFirstWord = "seo_", existingAttributes = [];
+            return defaultSeoItem;
+        }
 
-					for (i = 0; i < $scope.attributes.length; i += 1) {
-						if ($scope.attributes[i].Group !== "SEO") {
-							existingAttributes[$scope.attributes[i].Attribute] = "";
-						}
-					}
+        /**
+         * Checks on the existing attribute
+         */
+        function hasSeoAttribute(attributeName, attributes) {
+            for (var i = 0; i < attributes.length; i++) {
+                if (attributes[i].Attribute === attributeName && attributes[i].Group === 'SEO') {
+                    return true;
+                }
+            }
 
-					for (i = 0; i < seoFields.length; i += 1) {
-						seoUniqueNames[i] = seoFields[i];
-						if (existingAttributes.hasOwnProperty(seoFields[i])) {
-							seoUniqueNames[i] = uniqueSeoFirstWord + seoUniqueNames[i];
-						}
-					}
-				}
-			};
+            return false;
+        }
 
-			saveSeo = function (oldSeo) {
-				var existingSeo = seoService.find(itemName, oldSeo.rewrite);
-				if (existingSeo) {
-					var callback = function (response) {
-						seo._id = response.result._id;
-						seoService.update(seo).then(
-							function (response) {
-								seo = response || null;
-								for (var i = 0; i < seoFields.length; i += 1) {
-									$scope[itemName][seoUniqueFields[i]] = seo[seoFields[i]];
-								}
-								isInitUrlRewrite = true;
-							}
-						);
-					};
-					seoService.get(oldSeo._id).then(callback);
-				} else {
-					seoService.save(seo).then(
-						function (response) {
-							seo = response || null;
-							for (var i = 0; i < seoFields.length; i += 1) {
-								$scope[itemName][seoUniqueFields[i]] = seo[seoFields[i]];
-							}
-							isInitUrlRewrite = true;
-						}
-					);
+        /**
+         * Checks existing attributes and add "seo_"
+         * to seo attribute names that can replace original
+         * unique fields are saved in seoUniqueFields variable
+         *
+         */
+        function getUniqueSeoNames() { /*jshint maxcomplexity:6 */
+            if (typeof $scope.attributes !== "undefined" && seoUniqueFields.length < 1) {
+                var seoUniqueNames = seoUniqueFields;
+                var i, uniqueSeoFirstWord = "seo_", existingAttributes = [];
 
-					isInitUrlRewrite = true;
-				}
-			};
+                for (i = 0; i < $scope.attributes.length; i += 1) {
+                    if ($scope.attributes[i].Group !== "SEO") {
+                        existingAttributes[$scope.attributes[i].Attribute] = "";
+                    }
+                }
 
-			/**
-			 * Overrides the method save
-			 */
-			modifySaveMethod = function () {
-				if (!isModifySave) {
-					save = $scope.save;
-					delete $scope.save;
+                for (i = 0; i < seoFields.length; i += 1) {
+                    seoUniqueNames[i] = seoFields[i];
+                    if (existingAttributes.hasOwnProperty(seoFields[i])) {
+                        seoUniqueNames[i] = uniqueSeoFirstWord + seoUniqueNames[i];
+                    }
+                }
+            }
+        }
 
-					if (typeof seo._id === "undefined" && seo.url !== "") {
-						seoService.get(seo._id).then(function (response) {
-							if (response.result !== null) {
-								for (var i = 0; i < seoFields.length; i += 1) {
-									$scope[itemName][seoUniqueFields[i]] = response.result[seoFields[i]];
-								}
-							}
-						});
-					}
+        function saveSeo(oldSeo) {
+            var existingSeo = seoService.find(itemName, oldSeo.rewrite);
+            if (existingSeo) {
+                var callback = function (response) {
+                    seo._id = response.result._id;
+                    seoService.update(seo).then(
+                        function (response) {
+                            seo = response || null;
+                            for (var i = 0; i < seoFields.length; i += 1) {
+                                $scope[itemName][seoUniqueFields[i]] = seo[seoFields[i]];
+                            }
+                            isInitUrlRewrite = true;
+                        }
+                    );
+                };
+                seoService.canonical(oldSeo._id).then(callback);
+            } else {
+                seoService.save(seo).then(
+                    function (response) {
+                        seo = response || null;
+                        for (var i = 0; i < seoFields.length; i += 1) {
+                            $scope[itemName][seoUniqueFields[i]] = seo[seoFields[i]];
+                        }
+                        isInitUrlRewrite = true;
+                    }
+                );
 
-					$scope.save = function () {
-						var oldSeo = dashboardUtilsService.clone(seo);
-						for (var i = 0; i < seoFields.length; i += 1) {
-							seo[seoFields[i]] = $scope[itemName][seoUniqueFields[i]];
+                isInitUrlRewrite = true;
+            }
+        }
 
-							delete $scope[itemName][seoUniqueFields[i]];
-						}
+        /**
+         * Overrides the method save
+         */
+        function modifySaveMethod() {
+            if (!isModifySave) {
+                var itemSaveHandler = $scope.save;
+                delete $scope.save;
 
-						return save().then(
-							function () {
-								saveSeo(oldSeo);
-							}
-						);
+                if (typeof seo._id === "undefined" && seo.url !== "") {
+                    seoService.canonical(seo._id).then(function (response) {
+                        if (response.result !== null) {
+                            for (var i = 0; i < seoFields.length; i += 1) {
+                                $scope[itemName][seoUniqueFields[i]] = response.result[seoFields[i]];
+                            }
+                        }
+                    });
+                }
 
-					};
+                $scope.save = function () {
+                    var oldSeo = dashboardUtilsService.clone(seo);
+                    for (var i = 0; i < seoFields.length; i += 1) {
+                        seo[seoFields[i]] = $scope[itemName][seoUniqueFields[i]];
 
-					isInitUrlRewrite = false;
-					isModifySave = true;
-				}
-			};
+                        delete $scope[itemName][seoUniqueFields[i]];
+                    }
 
-			/**
-			 * Overrides the method review. Added remove rewrite rules
-			 */
-			modifyRemoveMethod = function () {
-				if (!isModifyRemove) {
-					remove = $scope.remove;
-					delete $scope.remove;
+                    return itemSaveHandler().then(
+                        function () {
+                            saveSeo(oldSeo);
+                        }
+                    );
 
-					$scope.remove = function () {
-						var seo;
-						var callback = function (response) {
-							if (response.result !== null) {
-								seoService.remove(response.result);
-							}
-						};
-						for (var id in $scope.idsSelectedRows) {
-							if ($scope.idsSelectedRows.hasOwnProperty(id) && true === $scope.idsSelectedRows[id]) {
-								seo = seoService.find(itemName, id);
-								if (seo !== null) {
-									seoService.get(seo._id).then(callback);
-								}
-							}
-						}
+                };
 
-						remove(id);
-					};
+                isInitUrlRewrite = false;
+                isModifySave = true;
+            }
+        }
 
-					isInitUrlRewrite = false;
-					isModifyRemove = true;
-				}
-			};
-			/**
-			 * Initializes module
-			 *
-			 * @param {string} item - Type item with which will be work. Name object in child scope
-			 */
-			$scope.initSeo = function (item) {
-				$scope = this;
-				itemName = item;
-				isModifySave = false;
-				isModifyRemove = false;
-				isInitUrlRewrite = false;
-				isInit = true;
-				seo = getDefaultSeo();
-			};
+        /**
+         * Overrides the method review. Added remove rewrite rules
+         */
+        function modifyRemoveMethod() {
+            if (!isModifyRemove) {
+                var itemRemoveHandler = $scope.remove;
+                delete $scope.remove;
 
-			/**
-			 * Adds attributes for seo
-			 */
-			addAttributes = function () {
-				if (typeof $scope.attributes !== "undefined") {
-					for (var i=0; i < seoUniqueFields.length; i+=1) {
-						if (!hasAttribute(seoUniqueFields[i])) {
-							$scope.attributes.push({
-								"Attribute": seoUniqueFields[i],
-								"Collection": "product",
-								"Default": "",
-								"Editors": "text",
-								"Group": "SEO",
-								"IsRequired": false,
-								"IsStatic": true,
-								"Label": seoFields[i].charAt(0).toUpperCase() + seoFields[i].slice(1),
-								"Model": "Product",
-								"Options": "",
-								"Type": "text",
-								"Value": ""
-							});
-						}
-					}
-				}
-			};
+                $scope.remove = function () {
+                    var seo;
+                    var callback = function (response) {
+                        if (response.result !== null) {
+                            seoService.remove(response.result);
+                        }
+                    };
+                    for (var id in $scope.idsSelectedRows) {
+                        if ($scope.idsSelectedRows.hasOwnProperty(id) && true === $scope.idsSelectedRows[id]) {
+                            seo = seoService.find(itemName, id);
+                            if (seo !== null) {
+                                seoService.canonical(seo._id).then(callback);
+                            }
+                        }
+                    }
 
-			removeAttributes = function () {
-				if (typeof $scope.attributes !== "undefined") {
-					for (var i=0; i < $scope.attributes.length; i+=1) {
-						if (seoUniqueFields.indexOf($scope.attributes[i].Attribute) !== -1 && $scope.attributes[i].Group === "SEO") {
-							$scope.attributes.splice(i, 1);
-						}
-					}
+                    return itemRemoveHandler(id);
+                };
 
-				}
-			};
+                isInitUrlRewrite = false;
+                isModifyRemove = true;
+            }
+        }
 
-			/**
-			 * Filling attributes for seo
-			 */
-			addAttributesValue = function () {
-				$timeout(function() {
-					if (typeof $scope[itemName] !== "undefined" && !isInitUrlRewrite) {
-						seo = seoService.find(itemName, $scope[itemName]._id);
-						if (seo === null) {
-							seo = getDefaultSeo();
-						}
-						for (var i = 0; i < seoFields.length; i += 1) {
-							$scope[itemName][seoUniqueFields[i]] = seo[seoFields[i]];
-						}
-						isInitUrlRewrite = true;
-					}
-				}, 1000);
-			};
+        /**
+         * Initializes module
+         *
+         * @param {string} item - Type item with which will be work. Name object in child scope
+         */
+        $scope.initSeo = function(item) {
+            var self = this;
 
-			/**
-			 * Watches for the attributes
-			 */
-			$scope.$watch(function () {
-				if (!isInit) {
-					return false;
-				}
+            seoServiceInitPromise.then(function() {
+                $scope = self;
+                isModifySave = false;
+                isModifyRemove = false;
+                itemName = item;
+                isInitUrlRewrite = false;
+                isInit = true;
+                seo = getDefaultSeo();
 
-				return $scope.attributes;
-			}, function () {
-				if (!isInit) {
-					return false;
-				}
+                /**
+                 * Watches for the attributes
+                 */
+                $scope.$watch(function() {
+                    if (!isInit) {
+                        return false;
+                    }
 
-				if (typeof $scope[itemName] !== "undefined" && typeof $scope[itemName]._id !== "undefined") {
-					getUniqueSeoNames();
-					addAttributes();
+                    return $scope.attributes;
 
-					addAttributesValue();
-					modifySaveMethod();
-				} else {
-					modifyRemoveMethod();
-					removeAttributes();
-				}
-			}, true);
+                }, function () {
+                    if (!isInit) {
+                        return false;
+                    }
 
-			/**
-			 * Watches for the selected item in child scope
-			 */
-			$scope.$watch(function () {
-				if (!isInit || typeof $scope[itemName] === "undefined") {
-					return false;
-				}
+                    if (typeof $scope[itemName] !== "undefined" && typeof $scope[itemName]._id !== "undefined") {
+                        getUniqueSeoNames();
+                        addAttributes();
+                        addAttributesValue();
+                        modifySaveMethod();
+                    } else {
+                        modifyRemoveMethod();
+                        removeAttributes();
+                    }
+                }, true);
 
-				return $scope[itemName]._id;
-			}, function () {
-				if (!isInit) {
-					return false;
-				}
+                /**
+                 * Watches for the selected item in child scope
+                 */
+                $scope.$watch(function () {
+                    if (!isInit || typeof $scope[itemName] === "undefined") {
+                        return false;
+                    }
 
-				isInitUrlRewrite = false;
+                    return $scope[itemName]._id;
+                }, function () {
+                    if (!isInit) {
+                        return false;
+                    }
 
-			}, true);
+                    isInitUrlRewrite = false;
 
-		}
-	]
-);
+                }, true);
+            })
+        };
+
+        /**
+         * Adds attributes for seo
+         */
+        function addAttributes() {
+            if ($scope.attributes !== undefined) {
+                for (var i = 0; i < seoUniqueFields.length; i++) {
+                    if (!hasSeoAttribute(seoUniqueFields[i], $scope.attributes)) {
+
+                        $scope.attributes.push({
+                            "Attribute": seoUniqueFields[i],
+                            "Collection": "product",
+                            "Default": "",
+                            "Editors": "text",
+                            "Group": "SEO",
+                            "IsRequired": false,
+                            "IsStatic": true,
+                            "Label": seoFields[i].charAt(0).toUpperCase() + seoFields[i].slice(1),
+                            "Model": "Product",
+                            "Options": "",
+                            "Type": "text",
+                            "Value": ""
+                        });
+                    }
+                }
+            }
+        }
+
+        function removeAttributes() {
+            if (typeof $scope.attributes !== "undefined") {
+                for (var i=0; i < $scope.attributes.length; i+=1) {
+                    if (seoUniqueFields.indexOf($scope.attributes[i].Attribute) !== -1 && $scope.attributes[i].Group === "SEO") {
+                        $scope.attributes.splice(i, 1);
+                    }
+                }
+
+            }
+        }
+
+        /**
+         * Filling attributes for seo
+         */
+        function addAttributesValue() {
+            if (typeof $scope[itemName] !== "undefined" && !isInitUrlRewrite) {
+                seo = seoService.find(itemName, $scope[itemName]._id);
+                if (seo === null) {
+                    seo = getDefaultSeo();
+                }
+                for (var i = 0; i < seoFields.length; i += 1) {
+                    $scope[itemName][seoUniqueFields[i]] = seo[seoFields[i]];
+                }
+                isInitUrlRewrite = true;
+            }
+        }
+}]);

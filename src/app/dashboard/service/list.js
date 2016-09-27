@@ -5,12 +5,9 @@ angular.module("dashboardModule")
 .service("dashboardListService", ["$routeParams", function ($routeParams) {
     return function () {
         // Variables
-        var filters, attributes, fields, isInitFields;
+        var attributes, fields;
 
-        // Functions
-        var init, getFilter, getFields, setAttributes, getAttributes, getList, getExtraFields;
-
-        filters = {
+        var filters = {
             "text": "text",
             "line_text": "text",
             "boolean": "select{'false':\"False\",'true':\"True\"}",
@@ -22,44 +19,55 @@ angular.module("dashboardModule")
             "date_range": "date_range"
         };
 
-        isInitFields = false;
+        var isInitFields = false;
 
-        setAttributes = function (attr) {
-            attributes = attr;
+        //////////////////////////////////////////
 
+        /**
+         * Saves attributes in the service instance
+         */
+        function setAttributes(newAttributes) {
+            attributes = newAttributes;
             return attributes;
-        };
+        }
 
-        getAttributes = function () {
+        /**
+         * Gets saved attributes
+         */
+        function getAttributes() {
             return attributes;
-        };
+        }
 
-        getFilter = function (attribute) {
-
+        function getFilter(attribute) {
             var editor = attribute.Editors;
-            if (-1 !== ["selector", "select", "multi_select"].indexOf(editor)) {
 
+            if (isEditorSelect()) {
                 try {
-                    JSON.parse(attribute.Options.replace(/'/g, "\""));
+                    JSON.parse(attribute.Options.replace(/'/g, '\"'));
                     return filters[editor] + attribute.Options;
 
                 }
                 catch (e) {
                     var options = {};
                     var parts = attribute.Options.split(",");
-                    for (var i = 0; i < parts.length; i += 1) {
-                        options[parts[i]] = parts[i];
-                    }
+                    angular.forEach(parts, function(part) {
+                       options[part] = part;
+                    });
                     return filters[editor] + JSON.stringify(options);
                 }
             }
 
-            if (["datetime"].indexOf(attribute.Type) >= 0){
+            if (attribute.Type == "datetime"){
                 return "date_range";
             }
 
             return filters[editor];
-        };
+
+            function isEditorSelect(editor) {
+                var selects = ["selector", "select", "multi_select"];
+                return selects.indexOf(editor) !== -1;
+            }
+        }
 
 
     /*  showColumns Define set of attributes that will be added to fields list value
@@ -83,155 +91,172 @@ angular.module("dashboardModule")
         // TODO: Refactor, too complex
         // also if we could pass in an array we could control the order of the fields
         // from the request.
-        getFields = function (showColumns) {
+        function getFields(showColumns) {
 
             if (isInitFields) {
-                for (var j = 0; j < fields.length; j += 1) {
-                    fields[j].filterValue = $routeParams[fields[j].attribute];
-                }
+                angular.forEach(fields, function(field) {
+                   field.filterValue = $routeParams[field.attribute];
+                });
 
                 return fields;
             }
 
             fields = [];
-
-            var prepareGroups = function () {
-                var  j, attributeName;
-
-                // use showColumns if it have specified attributes to show
-                if (showColumns && showColumns !== "null" && showColumns!== "undefined") {
-                    for (j = 0; j < attributes.length; j += 1) {
-                    attributeName = attributes[j].Attribute;
-                        if (-1 !== Object.keys(showColumns).indexOf(attributeName) || (!attributes[j].IsStatic && -1 !== Object.keys(filters).indexOf(attributes[j].Editors))){
-                            // default set of params for object
-                            var obj = {
-                                "attribute": attributeName,
-                                "type": "string",
-                                "label": attributes[j].Label,
-                                "dataType": attributes[j].Type,
-                                "visible": true,
-                                "notDisable": false,
-                                "filter": getFilter(attributes[j]),
-                                "filterValue": $routeParams[attributes[j].Attribute]
-                            };
-                            // add properties defined in controller
-                            for (var attributeKeys in showColumns[attributeName]) {
-                                if  ( obj.hasOwnProperty(attributeKeys) ) {
-                                    obj[attributeKeys] = showColumns[attributeName][attributeKeys];
-                                }
-                            }
-                            // check is it a main column type and it's persistence
-                            if (obj["type"] !== "select-link"){
-                                fields.push(obj);
-                            } else {
-                                obj["visible"] = true;
-                                obj["notDisable"] = true;
-                                fields.unshift(obj);
-                            }
-                        }
-                    }
-                }
-            };
-
-            prepareGroups();
+            prepareFields();
             isInitFields = true;
 
             return fields;
-        };
 
-        getList = function (oldList) {
-            var getOptions, substituteKeyToValue, prepareList, regExp;
-            regExp = new RegExp("({.+})", "i");
-            getOptions = function (opt) {
+            //////////////////////////////////////////
+
+            function prepareFields() {
+
+                // use showColumns if it has specified attributes to show
+                if (showColumns) {
+                    angular.forEach(attributes, function(attribute) {
+
+                        var attributeName = attribute.Attribute;
+
+                        // Attribute is in showColumns or
+                        // it's a custom filterable attribute
+                        if (isAttributeInColumns(attributeName, showColumns) ||
+                            isCustomFilterableAttribute(attribute)) {
+
+                            // Default params for a field
+                            var field = {
+                                "attribute": attributeName,
+                                "type": "string",
+                                "label": attribute.Label,
+                                "dataType": attribute.Type,
+                                "visible": true,
+                                "notDisable": false,
+                                "filter": getFilter(attribute),
+                                "filterValue": $routeParams[attributeName]
+                            };
+
+                            // add properties defined in controller
+                            var columnProps = showColumns[attributeName];
+                            angular.extend(field, columnProps);
+
+                            // check is it a main column type and it's persistence
+                            if (field.type === 'select-link') {
+                                field.visible = true;
+                                field.notDisable = true;
+                                fields.unshift(field);
+
+                            } else {
+                                fields.push(field);
+                            }
+                        }
+                    });
+                }
+
+                function isAttributeInColumns(attributeName, columns) {
+                    var columnsKeys = Object.keys(columns);
+                    return columnsKeys.indexOf(attributeName) !== -1;
+                }
+
+                function isCustomFilterableAttribute(attribute) {
+                    var isCustom = !attribute.IsStatic;
+                    var canUseFilter =  Object.keys(filters).indexOf(attribute.Editors) !== -1;
+                    return  isCustom && canUseFilter;
+                }
+            }
+        }
+
+
+        function getList(oldList) {
+            return prepareList();
+
+            //////////////////////////////////////////
+
+            function getOptions(option) {
                 var options = {};
 
-                if (typeof opt === "string") {
+                if (typeof option === "string") {
                     try {
-                        options = JSON.parse(opt.replace(/'/g, "\""));
+                        options = JSON.parse(option.replace(/'/g, '\"'));
                     }
                     catch (e) {
-                        var parts = opt.split(",");
-                        for (var i = 0; i < parts.length; i += 1) {
-                            options[parts[i]] = parts[i];
-                        }
+                        var parts = option.split(",");
+                        angular.forEach(parts, function(part) {
+                            options[part] = part;
+                        });
                     }
+
                 } else {
-                    options = opt;
+                    options = option;
                 }
 
                 return options;
-            };
+            }
 
-            substituteKeyToValue = function (attribute, jsonStr) {
+            function substituteKeyToValue(attribute, jsonStr) {
                 var options = getOptions(jsonStr);
-                var replace = function (key) {
-                    return options[key];
-                };
 
-                for (var i = 0; i < oldList.length; i += 1) {
-                    if (oldList[i].Extra === null) {
-                        continue;
+                angular.forEach(oldList, function(item) {
+                    if (item.Extra !== null) {
+                        if (item.Extra[attribute] instanceof  Array) {
+
+                            item.Extra[attribute] = item.Extra[attribute].map(function(key) {
+                                return options[key];
+                            });
+                            item.Extra[attribute] = item.Extra[attribute].join(", ");
+
+                        } else if (options[item.Extra[attribute]] !== undefined) {
+                            item.Extra[attribute] = options[item.Extra[attribute]];
+                        }
                     }
-                    if (oldList[i].Extra[attribute] instanceof  Array) {
+                });
+            }
 
-                        oldList[i].Extra[attribute] = oldList[i].Extra[attribute].map(replace);
-                        oldList[i].Extra[attribute] = oldList[i].Extra[attribute].join(", ");
+            function prepareList() {
+                var optionsRegex = new RegExp('({.+})', 'i');
 
-                    } else if (typeof options[oldList[i].Extra[attribute]] !== "undefined") {
-                        oldList[i].Extra[attribute] = options[oldList[i].Extra[attribute]];
+                angular.forEach(fields, function(field) {
+                    if (field.filter !== undefined && field.filter.indexOf('select') !== -1) {
+                        angular.forEach(attributes, function(attribute) {
+                            if (field.attribute === attribute.Attribute) {
+                                substituteKeyToValue(field.attribute, getOptionsData(field, attribute));
+                            }
+                        });
                     }
-                }
-            };
+                });
 
-            prepareList = function () {
-                var i, j, getOptionsData;
+                return oldList;
 
-                getOptionsData = function (field, attr) {
+                function getOptionsData(field, attr) {
                     var match;
-                    match = field.filter.match(regExp);
+                    match = field.filter.match(optionsRegex);
                     if (match === null) {
                         return attr.Options;
                     } else {
                         return match[1];
                     }
-                };
-
-                for (i = 0; i < fields.length; i += 1) {
-                    if (typeof fields[i].filter !== "undefined" && -1 !== fields[i].filter.indexOf("select")) {
-
-                        for (j = 0; j < attributes.length; j += 1) {
-                            if (fields[i].attribute === attributes[j].Attribute) {
-
-                                substituteKeyToValue(fields[i].attribute, getOptionsData(fields[i], attributes[j]));
-                            }
-                        }
-                    }
-                }
-
-                return oldList;
-            };
-
-            return prepareList();
-        };
-
-        getExtraFields = function () {
-            var arr, i;
-            arr = [];
-
-            for (i = 0; i < fields.length; i += 1) {
-                if (fields[i].attribute !== "Name") {
-                    arr.push(fields[i].attribute);
                 }
             }
-            return arr.join(",");
-        };
+
+        }
+
+        function getExtraFields() {
+            var result = [];
+
+            angular.forEach(fields, function(field) {
+                var fieldName = field.attribute;
+                if (fieldName !== 'Name') {
+                    result.push(fieldName);
+                }
+            });
+
+            return result.join(',');
+        }
 
         return {
-            "getExtraFields": getExtraFields,
-            "setAttributes": setAttributes,
-            "getAttributes": getAttributes,
-            "getFields": getFields,
-            "getList": getList
+            'getExtraFields': getExtraFields,
+            'setAttributes': setAttributes,
+            'getAttributes': getAttributes,
+            'getFields': getFields,
+            'getList': getList
         };
     };
 }]);
