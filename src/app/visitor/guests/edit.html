@@ -1,0 +1,60 @@
+<div class="page-header">
+    <h1>
+        <span class="fa fa-users"></span>
+        <a href="/guests">Guests</a> / {{guestName}}
+    </h1>
+</div>
+
+<!-- Message -->
+<ot-message-manager item="message"></ot-message-manager>
+
+<div class="row tab-content">
+    <div class="form-group col-xs-12 col-sm-6"
+         ng-repeat="field in fields">
+        <label>{{field.label}}</label>
+        <p class="form-control-static">
+            <span> {{field.value}} </span>
+        </p>
+    </div>
+
+    <div class="text-center col-xs-12">
+        <button class="btn btn-default" ng-click="back()">Back</button>
+    </div>
+</div>
+
+<br>
+
+<uib-tabset>
+    <uib-tab heading="Orders">
+        <p ng-if="!orders">No orders to report</p>
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered"
+                ng-if="orders">
+                <thead>
+                    <tr>
+                        <th>Order Date</th>
+                        <th>ID</th>
+                        <th>Notes</th>
+                        <th class="text-right">Total</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="order in orders">
+                        <td><span ot-store-date date="order.Extra.created_at"></span></td>
+                        <td><a ng-href="/orders/{{ order.ID }}">{{ order.ID }}</a></td>
+                        <td>
+                            <div ng-if="order.Extra.notes">
+                                <div ng-repeat="note in order.Extra.notes">
+                                    {{ note }}
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-right">{{ order.Extra.grand_total | currency }}</td>
+                        <td>{{ order.Extra.status }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </uib-tab>
+</uib-tabset>

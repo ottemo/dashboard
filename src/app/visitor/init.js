@@ -38,6 +38,14 @@ angular.module('visitorModule', [
             .when('/emails', {
                 templateUrl: '/views/visitor/email.html',
                 controller: 'visitorEmailController'
+            })
+            .when('/guests', {
+                templateUrl: '/views/visitor/guests/list.html',
+                controller: 'visitorGuestsController'
+            })
+            .when('/guests/:email', {
+                templateUrl: '/views/visitor/guests/edit.html',
+                controller: 'visitorGuestsEditController'
             });
     }]
 );

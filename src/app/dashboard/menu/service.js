@@ -44,6 +44,9 @@ angular.module('dashboardModule')
             title: 'Visitors',
             icon: 'fa-users',
             children: [{
+                title: 'Guests',
+                link: '/guests'
+            }, {
                 title: 'Visitors',
                 link: '/visitors'
             }, {

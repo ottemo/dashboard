@@ -43,6 +43,18 @@ angular.module("visitorModule")
             params: { action: "count" },
             url: REST_SERVER_URI + "/visitors"
         },
+        "guestsList": {
+            method: "GET",
+            url: REST_SERVER_URI + "/visitors/guests"
+        },
+        "getGuestOrders": {
+            method: "GET",
+            params: {
+                extra: '_id,status,grand_total,notes,created_at,billing_address',
+                visitor_id: ''
+            },
+            url: REST_SERVER_URI + "/orders"
+        },
 
         // Addresses API
         "addressAttributeInfo": {
