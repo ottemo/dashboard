@@ -1,0 +1,6 @@
+{
+    "useStrict"    : "use strict",
+    "apiUrl"       : "https://api.newcenturydiagnostics.com",
+    "mediaPath"    : "https://newcenturydiagnostics.com/media/",
+    "itemsPerPage" : "15"
+}
