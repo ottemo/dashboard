@@ -27,6 +27,7 @@ angular.module("productModule")
             $scope.removeOption = removeOption;
             $scope.removeRow = removeRow;
             $scope.addNewOption = addNewOption;
+            $scope.unfoldedOptions = [];
 
             //////////////////////////
 
