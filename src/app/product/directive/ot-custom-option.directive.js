@@ -5,19 +5,20 @@ angular.module('productModule')
         restrict: 'EA',
         scope: {
             option: '=',
-            isManagingStock: '='
+            optionsManager: '=',
+            isManagingStock: '=',
         },
         templateUrl: '/views/product/directive/ot-custom-option.html',
 
-        controller: function ($scope) {
-            $scope.types = [
+        link: function (scope) {
+            scope.types = [
                 "field",
                 "select",
                 "radio",
                 "multi_select",
                 "date"
             ];
-            $scope.unfoldedSelections = [];
+            scope.unfoldedSelections = [];
         }
     }
 }]);

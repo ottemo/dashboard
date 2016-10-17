@@ -86,27 +86,27 @@ angular.module('coreModule')
              *     "required": true,
              *     "type": "select",
              *     "controls_inventory": false,
-             *     "code": "Bottle Type"
+             *     "key": "bottle_type"
              *   },
              *   ...
              * }
              *
              * @return Array
              * [
-             *   {code: "color",     selections: ["red", "blue", "green", "yellow"]},
-             *   {code: "size",      selections: ["small", "medium", "large"]},
-             *   {code: "thickness", selections: ["heavy", "light"]},
+             *   {key: "color",     selections: ["red", "blue", "green", "yellow"]},
+             *   {key: "size",      selections: ["small", "medium", "large"]},
+             *   {key: "thickness", selections: ["heavy", "light"]},
              * ];
              */
             function formatOptions(options){
                 return _.chain(options)
-                    .forEach(function addCodeField(o, code){
-                        o.code = code;
+                    .forEach(function addkKeyField(o, key){
+                        o.key = key;
                     })
                     .filter('controls_inventory')
                     .map(function formatOption(o){
                         var it = {
-                            code: o.code,
+                            key: o.key,
                             selections: _.keys(o.options)
                         };
                         return it;
@@ -117,7 +117,7 @@ angular.module('coreModule')
             /**
              * Create an array of all combinations of options,
              * each combination is under the "options" key which
-             * is comprised of a `optionCode: selectionCode`.
+             * is comprised of a `optionKey: selectionKey`.
              * This should match db / foundation nicely
              *
              * @param  Array see @formatOptions
@@ -170,7 +170,7 @@ angular.module('coreModule')
 
                         // remove the first option and pass it back in
                         // pass the remaining choices
-                        newAggr[choices[0].code] = choices[0].selections[c];
+                        newAggr[choices[0].key] = choices[0].selections[c];
                         recur(choices.slice(1), newAggr);
                     }
                 }

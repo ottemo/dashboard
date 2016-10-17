@@ -1,4 +1,4 @@
-<div ng-repeat="attribute in attributes" ng-if="attribute.Type!=='group'">
+<div ng-repeat="attribute in attributes" ng-if="attribute.Type!=='group'" class="form-item">
     <div ng-switch="attribute.Editors">
 
         <div class="form-group col-xs-12 col-sm-6" ng-switch-when="not_editable">

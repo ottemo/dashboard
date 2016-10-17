@@ -1,0 +1,9 @@
+.product-option {
+    .panel-heading {
+        cursor: pointer;
+    }
+}
+
+.form-item:nth-child(2n + 1) {
+    clear: both;
+}

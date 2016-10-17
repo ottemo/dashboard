@@ -89,6 +89,7 @@ angular.module("productModule")
              * @param options
              */
             function updateOptionsKeys(options) {
+                console.log('update keys');
                 // If called with empty params - use $scope.optionsData
                 options = options || $scope.optionsData;
                 
@@ -154,6 +155,8 @@ angular.module("productModule")
             }
 
             function removeOption(key) {
+                console.log('remove options');
+
                 if (typeof key === "undefined") {
                     delete $scope.optionsData[""];
 

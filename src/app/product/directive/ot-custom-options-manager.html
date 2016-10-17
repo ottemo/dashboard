@@ -9,12 +9,14 @@
     </button>
 </p>
 
-
-<div class="panel panel-default product-option"
-    ot-custom-option
-    option="option"
-    is-managing-stock="item.isManagingStock"
-    ng-repeat="option in optionsData | toArray | getOrdered">
+<div class="panel-group">
+    <div class="panel panel-lg panel-default product-option"
+         ot-custom-option
+         option="option"
+         options-manager="this"
+         is-managing-stock="item.isManagingStock"
+         ng-repeat="option in optionsData | toArray | getOrdered">
+    </div>
 </div>
 
 <!--<br/><br/>-->
