@@ -2,187 +2,178 @@
     {{option.label}}
     <i class="fa" ng-class="{'fa-caret-down': !isUnfolded, 'fa-caret-up': isUnfolded}"></i>
 </div>
-
 <div class="panel-body" ng-show="isUnfolded">
     <div class="row">
-        <div class="form-group col-sm-6 col-sm-push-6 text-right">
+        <div class="form-group col-sm-6 col-sm-push-6 text-right form-item">
             <button class="btn btn-danger" ng-click="optionsManager.removeOption(option.key)">
                 <i class="fa fa-times"></i>
                 Delete Option
             </button>
         </div>
-        <div class="form-group col-sm-6 col-sm-pull-6">
-            <label>Code</label>
-            <p class="form-control-static">
-                {{option.key}}
-            </p>
+        <div class="form-group col-sm-6 col-sm-pull-6 form-item">
+            <label>Code: </label> {{option.key}}
+        </div>
+        <div class="form-group col-sm-6 form-item">
+            <label>Label *</label>
+            <input class="form-control"
+                   type="text"
+                   ng-model="option.label"
+                   ng-blur="updateOptionsKeys()"/>
+        </div>
+        <div class="form-group col-sm-6 form-item">
+            <label>Type</label>
+            <select class="form-control"
+                    ng-blur="updateOptionsKeys()"
+                    ng-change="cleanOption(option.key)"
+                    ng-init="option.type = option.type || types[0]"
+                    ng-model="option.type"
+                    ng-options="o as o for o in types">
+            </select>
         </div>
         <div class="form-group col-sm-6">
             <label>Sort</label>
             <input class="form-control"
-                type="text"
-                size="2"
-                ng-model="option.order"
-                ng-blur="updateOptionsKeys()"/>
-        </div>
-        <div class="form-group col-sm-6">
-            <label>Label *</label>
-            <input class="form-control"
-                type="text"
-                ng-model="option.label"
-                ng-blur="updateOptionsKeys()" />
-        </div>
-        <div class="form-group col-sm-6">
-            <label>Type</label>
-            <select class="form-control"
-                 ng-blur="updateOptionsKeys()"
-                 ng-change="cleanOption(option.key)"
-                 ng-init="option.type = option.type || types[0]"
-                 ng-model="option.type"
-                 ng-options="o as o for o in types">
-            </select>
+                   type="text"
+                   size="2"
+                   ng-model="option.order"
+                   ng-blur="updateOptionsKeys()"/>
         </div>
         <div class="form-group col-sm-6">
             <label>Required</label>
             <select class="form-control"
-                 ng-blur="updateOptionsKeys()"
-                 ng-init="option.required = option.required || false"
-                 ng-model="option.required"
-                 ng-options="o as o for o in [true, false]">
+                    ng-blur="updateOptionsKeys()"
+                    ng-init="option.required = option.required || false"
+                    ng-model="option.required"
+                    ng-options="o as o for o in [true, false]">
             </select>
         </div>
         <div class="form-group col-sm-6"
-            ng-if="(option.type === 'select' || option.type === 'radio') && optionsManager.item.isManagingStock">
+             ng-if="(option.type === 'select' || option.type === 'radio') && optionsManager.item.isManagingStock">
             <label>Controls inventory</label>
             <select class="form-control"
-                 ng-blur="updateOptionsKeys()"
-                 ng-init="option.controls_inventory = option.controls_inventory || false"
-                 ng-model="option.controls_inventory"
-                 ng-options="o as o for o in [true, false]">
+                    ng-blur="updateOptionsKeys()"
+                    ng-init="option.controls_inventory = option.controls_inventory || false"
+                    ng-model="option.controls_inventory"
+                    ng-options="o as o for o in [true, false]">
             </select>
         </div>
         <div class="form-group col-sm-6"
-            ng-if="option.type === 'select' || option.type === 'radio'">
+             ng-if="option.type === 'select' || option.type === 'radio'">
             <label>Controls image</label>
             <select class="form-control"
-                 ng-blur="updateOptionsKeys()"
-                 ng-init="option.controls_image = option.controls_image || false"
-                 ng-model="option.controls_image"
-                 ng-options="o as o for o in [true, false]">
+                    ng-blur="updateOptionsKeys()"
+                    ng-init="option.controls_image = option.controls_image || false"
+                    ng-model="option.controls_image"
+                    ng-options="o as o for o in [true, false]">
             </select>
         </div>
         <div class="form-group col-sm-6">
             <label>Controls attribute</label>
             <select class="form-control"
-                 ng-blur="updateOptionsKeys()"
-                 ng-init="option.controls_attribute = option.controls_attribute || false"
-                 ng-model="option.controls_attribute"
-                 ng-options="o as o for o in [true, false]">
+                    ng-blur="updateOptionsKeys()"
+                    ng-init="option.controls_attribute = option.controls_attribute || false"
+                    ng-model="option.controls_attribute"
+                    ng-options="o as o for o in [true, false]">
             </select>
         </div>
         <div class="form-group col-sm-6"
-            ng-if="option.type === 'select' || option.type === 'radio'">
+             ng-if="option.type === 'select' || option.type === 'radio'">
             <label>Has associated products</label>
             <select class="form-control"
-                 ng-blur="updateOptionsKeys()"
-                 ng-init="option.has_simple_products = option.has_simple_products || false"
-                 ng-model="option.has_simple_products"
-                 ng-options="o as o for o in [true, false]">
+                    ng-blur="updateOptionsKeys()"
+                    ng-init="option.has_simple_products = option.has_simple_products || false"
+                    ng-model="option.has_simple_products"
+                    ng-options="o as o for o in [true, false]">
             </select>
         </div>
         <div class="form-group col-sm-6"
-            ng-if="option.type === 'field'">
+             ng-if="option.type === 'field'">
             <label>Price</label>
             <input class="form-control"
-                type="text"
-                ng-model="option.price"
-                ng-blur="updateOptionsKeys()" />
+                   type="text"
+                   ng-model="option.price"
+                   ng-blur="updateOptionsKeys()"/>
         </div>
         <div class="form-group col-sm-6"
-            ng-if="option.type === 'field'">
+             ng-if="option.type === 'field'">
             <label>SKU</label>
             <input class="form-control"
-                type="text"
-                ng-model="option.sku"
-                ng-blur="updateOptionsKeys()" />
+                   type="text"
+                   ng-model="option.sku"
+                   ng-blur="updateOptionsKeys()"/>
         </div>
     </div>
 
     <div class="option-selections"
-        ng-if="['select', 'multi_select', 'radio', 'checkbox'].indexOf(option.type) !== -1">
-
+         ng-if="['select', 'multi_select', 'radio', 'checkbox'].indexOf(option.type) !== -1">
         <h3>Selections</h3>
-
-        <div class="panel-group">
-            <div class="panel panel-default" ng-repeat="(key, selection) in option.options | toArray | getOrdered">
-                <div class="panel-heading" ng-click="unfoldedSelections[$index] = !unfoldedSelections[$index]">
-                    {{selection.label}}
-                    <i class="fa" ng-class="{'fa-caret-down': !unfoldedSelections[$index], 'fa-caret-up': unfoldedSelections[$index]}"></i>
-                </div>
-
-
-                <div class="panel-body" ng-show="unfoldedSelections[$index]">
-                    <div class="hidden-xs">
-                        <div class="form-group">
-                            <label>Sort</label>
-                            <input class="form-control input-sm"
+        <div class="table-responsive">
+            <table class="table table-bordered table-condensed"
+                   ng-show="isUnfolded"
+                   ng-if="['select', 'multi_select', 'radio', 'checkbox'].indexOf(option.type) !== -1">
+                <thead>
+                    <tr>
+                        <th ng-if="option.controls_image">Image</th>
+                        <th>Label</th>
+                        <th>Price</th>
+                        <th>Sku</th>
+                        <th ng-if="option.has_simple_products">Products</th>
+                        <th>Sort</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="(key, selection) in option.options | toArray | getOrdered">
+                        <td ng-if="option.controls_image">
+                            <img class="media-object"
+                                 ng-src="{{}}"
+                                 style="width: 50px; height: 50px;">
+                        </td>
+                        <td>
+                            <input class="form-control"
+                                   type="text"
+                                   ng-model="selection.label"
+                                   ng-blur="updateOptionsKeys()"/>
+                        </td>
+                        <td>
+                            <input class="form-control"
+                                   type="text"
+                                   ng-model="selection.price"
+                                   ng-blur="updateOptionsKeys()"/>
+                        </td>
+                        <td>
+                            <input class="form-control"
+                                   type="text"
+                                   ng-model="selection.sku"
+                                   ng-blur="updateOptionsKeys()"/>
+                        </td>
+                        <td ng-if="option.has_simple_products">
+                            <select class="form-control"
+                                    ng-blur="updateOptionsKeys()"
+                                    ng-init="option.has_simple_products = option.has_simple_products || false"
+                                    ng-model="option.has_simple_products"
+                                    ng-options="o as o for o in [true, false]">
+                            </select>
+                        </td>
+                        <td>
+                            <input class="form-control"
                                    type="text"
                                    size="2"
                                    ng-model="selection.order"
                                    ng-blur="updateOptionsKeys()"/>
-                        </div>
-                        <div class="form-group">
-                            <button class="btn btn-warning btn-sm">
+                        </td>
+                        <td>
+                            <button class="btn btn-danger btn-sm">
                                 <i class="fa fa-times"></i>
                             </button>
-                        </div>
-                    </div>
-                    <div class="form-group col-xs-12 col-sm-4 col-md-3">
-                        <label>Label *</label>
-                        <input class="form-control"
-                               type="text"
-                               ng-model="selection.label"
-                               ng-blur="updateOptionsKeys()" />
-                    </div>
-                    <div class="form-group col-xs-12 col-sm-4 col-md-3">
-                        <label>Code</label>
-                        <input class="form-control"
-                               type="text"
-                               disabled
-                               ng-model="selection.key"/>
-                    </div>
-                    <div class="form-group col-xs-12 col-sm-4 col-md-3"
-                         ng-if="option.controls_image">
-                        <label>Image</label>
-
-                    </div>
-                    <div class="form-group col-xs-12 col-sm-4 col-md-3"
-                         ng-if="option.has_simple_products">
-                        <label>Associated products</label>
-                        <select class="form-control"
-                                ng-blur="updateOptionsKeys()"
-                                ng-init="option.has_simple_products = option.has_simple_products || false"
-                                ng-model="option.has_simple_products"
-                                ng-options="o as o for o in [true, false]">
-                        </select>
-                    </div>
-                    <div class="form-group col-xs-12 col-sm-4 col-md-3">
-                        <label>Price</label>
-                        <input class="form-control"
-                               type="text"
-                               ng-model="selection.price"
-                               ng-blur="updateOptionsKeys()" />
-                    </div>
-                    <div class="form-group col-xs-12 col-sm-4 col-md-3">
-                        <label>SKU</label>
-                        <input class="form-control"
-                               type="text"
-                               ng-model="selection.sku"
-                               ng-blur="updateOptionsKeys()" />
-                    </div>
-                </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-
     </div>
-
 </div>
+
+
+
+

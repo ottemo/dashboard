@@ -13,8 +13,7 @@
     <div class="panel panel-lg panel-default product-option"
          ot-custom-option
          option="option"
-         options-manager="this"
-         is-managing-stock="item.isManagingStock"
+         options-manager="self"
          ng-repeat="option in optionsData | toArray | getOrdered">
     </div>
 </div>

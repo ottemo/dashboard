@@ -1,9 +1,32 @@
 .product-option {
-    .panel-heading {
+    & > .panel-heading {
         cursor: pointer;
-    }
-}
+        font-size: 16px;
 
-.form-item:nth-child(2n + 1) {
-    clear: both;
+        .fa {
+            margin-left: 7px;
+            font-size: 18px;
+        }
+    }
+
+    .option-selections {
+        h3 {
+            text-transform: uppercase;
+            color: $gray;
+            font-weight: 500;
+        }
+
+        th {
+            background-color: $gray-lighter;
+        }
+
+        td {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        img {
+            display: inline-block;
+        }
+    }
 }

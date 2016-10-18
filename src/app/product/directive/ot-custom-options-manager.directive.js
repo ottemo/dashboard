@@ -5,11 +5,13 @@ angular.module("productModule")
         restrict: "E",
         scope: {
             "attribute": "=editorScope",
-            "item": "=item"
+            "item": "=item",
+            "images": "="
         },
         templateUrl: "/views/product/directive/ot-custom-options-manager.html",
 
         controller: function ($scope) {
+            $scope.self = $scope;
             var isInit = false;
 
             $scope.types = [
@@ -27,7 +29,6 @@ angular.module("productModule")
             $scope.removeOption = removeOption;
             $scope.removeRow = removeRow;
             $scope.addNewOption = addNewOption;
-            $scope.unfoldedOptions = [];
 
             //////////////////////////
 
@@ -89,7 +90,6 @@ angular.module("productModule")
              * @param options
              */
             function updateOptionsKeys(options) {
-                console.log('update keys');
                 // If called with empty params - use $scope.optionsData
                 options = options || $scope.optionsData;
                 
