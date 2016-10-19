@@ -4,28 +4,22 @@ angular.module('productModule')
 '$scope', '$routeParams', '$location', '$q', '_', 'productApiService', 'coreImageService', 'dashboardUtilsService',
 function ($scope, $routeParams, $location, $q, _, productApiService, coreImageService, dashboardUtilsService) {
 
-    var productId = getProductID();
-
-    $scope.product = getDefaultProduct();
-    $scope.clearForm = clearForm;
-    $scope.save = save;
-    $scope.back = back;
-
-    // Images
     $scope.addImage = addImage;
     $scope.getImage = coreImageService.getImage;
     $scope.reloadImages = reloadImages;
     $scope.removeImage = removeImage;
     $scope.setDefaultImage = setDefaultImage;
     $scope.getDefaultImage = getDefaultImage;
+    $scope.product = getDefaultProduct();
+    $scope.clearForm = clearForm;
+    $scope.save = save;
+    $scope.back = back;
 
     activate();
 
     ///////////////////////////////
 
     function activate() {
-
-
         // Initialize SEO
         if (typeof $scope.initSeo === 'function') {
             $scope.initSeo('product');
@@ -39,6 +33,7 @@ function ($scope, $routeParams, $location, $q, _, productApiService, coreImageSe
                 // Remove some fields
                 _.remove(attrs, {Attribute: 'default_image'});
                 var qtyAttr = _.remove(attrs, {Attribute: 'qty'});
+                var salePriceAttr = _.remove(attrs, { Attribute: 'sale_prices' });
 
                 // Set the global
                 $scope.isManagingStock = (qtyAttr.length > 0);
@@ -49,17 +44,16 @@ function ($scope, $routeParams, $location, $q, _, productApiService, coreImageSe
                     addInventoryTab(attrs);
                 }
 
-                var salePriceAttr = _.remove(attrs, { Attribute: 'sale_prices' });
                 var isSalePricesEnabled = (salePriceAttr.length > 0);
                 if (isSalePricesEnabled) {
                     addSalePriceTab(attrs);
                 }
 
-                // Attach
                 return attrs;
             });
 
         // Grab product data
+        var productId = getProductID();
         var prodPromise = true;
         if (productId) {
             var params = {'productID': productId};

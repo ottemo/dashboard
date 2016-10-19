@@ -16,7 +16,7 @@ function ($location, $routeParams, DashboardListService, productApiService, core
         'name' : {'type' : 'select-link', 'label' : 'Name'},
         'enabled' : {},
         'sku' : {},
-        'price' : {}
+        'price' : {'type': 'price', 'label': 'Price'}
     };
 
     return {
@@ -37,72 +37,48 @@ function ($location, $routeParams, DashboardListService, productApiService, core
             $scope.isExpand = false;
             $scope.countSelected = 0;
 
-            var oldWidth;
+            var oldWidth, getCountItems;
 
-			var clone = function (obj) {
-				if (null === obj || "object" !== typeof obj) {
-					return obj;
-				}
-				var copy = obj.constructor();
-				for (var attr in obj) {
-					if (obj.hasOwnProperty(attr)) {
-						copy[attr] = obj[attr];
-					}
-				}
-				return copy;
-			};
-            /**
-             * Get Name of selected object
-             *
-             * @returns string
-             */
-            $scope.getParentName = function () {
-                var name = "";
-                if (typeof $scope.item !== "undefined" &&
-                    typeof $scope.items !== "undefined" &&
-                    typeof $scope.item[$scope.attribute.Attribute] !== "undefined") {
-
-                    for (var i = 0; i < $scope.items.length; i += 1) {
-
-                        if ($scope.items[i].ID === $scope.item[$scope.attribute.Attribute] ||
-                            $scope.items[i].ID === $scope.item.parent) {
-                            name = $scope.items[i].Name;
-                            break;
-                        }
+            var clone = function (obj) {
+                if (null === obj || "object" !== typeof obj) {
+                    return obj;
+                }
+                var copy = obj.constructor();
+                for (var attr in obj) {
+                    if (obj.hasOwnProperty(attr)) {
+                        copy[attr] = obj[attr];
                     }
                 }
-
-                return name;
+                return copy;
             };
 
-            $scope.select = function (id) {
-                $scope.item[$scope.attribute.Attribute] = id;
-                $scope.hide($scope.attribute.Attribute);
+            /**
+             * Gets count items
+             *
+             * @returns {number}
+             */
+            getCountItems = function () {
+                $scope.countSelected = 0;
+                if (typeof $scope.item !== "undefined" &&
+                    typeof $scope.item[$scope.attribute.Attribute] !== "undefined" &&
+                    $scope.item[$scope.attribute.Attribute].length
+                ) {
+                    $scope.countSelected = $scope.item[$scope.attribute.Attribute].length;
+                }
             };
 
             $scope.show = function (id) {
-                $("#" + id).modal("show");
+                // escape any dots in our selector
+                var selector = '#' + id.split('.').join("\\.");
+                $(selector).modal("show");
             };
 
             $scope.hide = function (id) {
                 $("#" + id).modal("hide");
             };
 
-            $scope.clear = function () {
-                $scope.item[$scope.attribute.Attribute] = "";
-                $scope.item.parent = "";
-            };
-
-
             loadData = function () {
-                $scope.fields = [
-                    {
-                        "attribute": "Image",
-                        "type": "image",
-                        "label": "",
-                        "visible": true
-                    }
-                ];
+                $scope.fields = [];
                 if (typeof $scope.search === "undefined") {
                     $scope.search = {};
                     $scope.search.limit = "0," + COUNT_ITEMS_PER_PAGE;
@@ -162,7 +138,12 @@ function ($location, $routeParams, DashboardListService, productApiService, core
                         var result = response.result || [];
                         $scope.attributes = result;
                         serviceList.setAttributes($scope.attributes);
+
                         $scope.fields = $scope.fields.concat(serviceList.getFields(showColumns));
+                            //.filter(function(obj){
+                            //    return ['name', 'enabled', 'sku', 'price'].indexOf(obj.attribute) >= 0
+                            //});
+
                         getProductsList();
                     });
                 };
@@ -185,12 +166,41 @@ function ($location, $routeParams, DashboardListService, productApiService, core
                 })();
             };
 
+            $scope.$watch("item", function () {
+                if (typeof $scope.item !== "undefined" &&
+                    $scope.item[$scope.attribute.Attribute] instanceof Array
+                ) {
+
+                    $scope.selected = {};
+                    for (var i = 0; i < $scope.item[$scope.attribute.Attribute].length; i += 1) {
+
+                        //TODO: it would be great if there were some explanation here
+                        if (typeof $scope.item[$scope.attribute.Attribute][i] === "object") {
+                            $scope.selected[$scope.item[ $scope.attribute.Attribute][i]._id ] = true;
+                        } else {
+                            $scope.selected[ $scope.item[$scope.attribute.Attribute][i] ] = true;
+                        }
+                    }
+                    getCountItems();
+                }
+            });
+
             $scope.$watch("search", function () {
                 delete $scope.productsTmp;
                 loadData();
             });
 
-
+            $scope.$watch("selected", function () {
+                if ($scope.item) {
+                    $scope.item[$scope.attribute.Attribute] = [];
+                    for (var id in $scope.selected) {
+                        if ($scope.selected[id]) {
+                            $scope.item[$scope.attribute.Attribute].push(id);
+                        }
+                    }
+                    getCountItems();
+                };
+            }, true);
 
             /**
              * Returns full path to image
