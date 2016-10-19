@@ -57,7 +57,7 @@ function ($scope, $routeParams, $location, $q, _, productApiService, coreImageSe
                 }
 
                 // Attach
-                $scope.attributes = attrs;
+                return attrs;
             });
 
         // Grab product data
@@ -66,23 +66,27 @@ function ($scope, $routeParams, $location, $q, _, productApiService, coreImageSe
             var params = {'productID': productId};
             prodPromise = productApiService.getProduct(params).$promise
                 .then(function (response) {
-
-                    var result = response.result || {};
-
-                    $scope.product = result;
-                    $scope.excludeItems = result._id;
-                    $scope.selectedImage = result.default_image;
-
-                    if (typeof $scope.product.options === 'undefined') {
-                        $scope.product.options = {};
-                    }
+                    return response.result || {};
                 });
         }
 
         // Set the stock flag on the product
         // we pass the product around so this is a way to consolidate
         // variables being passed around.
-        $q.all([attrPromise, prodPromise]).then(function(/*resp*/){
+        $q.all([attrPromise, prodPromise]).then(function(response){
+            var attrs = response[0];
+            var product = response[1];
+
+            $scope.attributes = attrs;
+            $scope.product = product;
+
+            $scope.excludeItems = product._id;
+            $scope.selectedImage = product.default_image;
+
+            if (product.options === 'undefined') {
+                $scope.product.options = {};
+            }
+
             $scope.product.isManagingStock = isManagingStock;
         });
 

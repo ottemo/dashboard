@@ -9,6 +9,14 @@
         }
     }
 
+    .option-delete-container {
+        text-align: left;
+
+        @media (min-width: $screen-sm-min) {
+            text-align: right;
+        }
+    }
+
     .option-selections {
         h3 {
             text-transform: uppercase;

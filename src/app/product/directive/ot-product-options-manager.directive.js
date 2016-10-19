@@ -1,25 +1,24 @@
-angular.module("productModule")
+angular.module('productModule')
 
-.directive("otCustomOptionsManager", [function () {
+.directive('otProductOptionsManager', ['_', 'productApiService', function (_, productApiService) {
     return {
-        restrict: "E",
+        restrict: 'E',
         scope: {
-            "attribute": "=editorScope",
-            "item": "=item",
-            "images": "="
+            'product': '=',
+            'productScope': '='
         },
-        templateUrl: "/views/product/directive/ot-custom-options-manager.html",
+        templateUrl: '/views/product/directive/ot-product-options-manager.html',
 
         controller: function ($scope) {
+            var vm = this;
             $scope.self = $scope;
-            var isInit = false;
 
             $scope.types = [
-                "field",
-                "select",
-                "radio",
-                "multi_select",
-                "date"
+                'field',
+                'select',
+                'radio',
+                'multi_select',
+                'date'
             ];
 
             $scope.updateOptionsKeys = updateOptionsKeys;
@@ -29,20 +28,31 @@ angular.module("productModule")
             $scope.removeOption = removeOption;
             $scope.removeRow = removeRow;
             $scope.addNewOption = addNewOption;
+            $scope.productAttributes = [];
+
+            activate();
 
             //////////////////////////
 
-            $scope.$watch("item", function () {
-                if ($scope.item[$scope.attribute.Attribute] === undefined) {
-                    $scope.optionsData = [];
-                    return false;
-                }
-                if (isInit) {
-                    return false;
-                }
-                initData();
-                updateOptionsKeys();
-            }, true);
+            function activate() {
+                productApiService.attributesInfo().$promise
+                    .then(function(response) {
+                        if (response.error === null) {
+                            var attributes = response.result || [];
+                            $scope.layeredAttributes = _.filter(attributes, function(attribute) {
+                                return attribute.IsLayered && isTypeArray(attribute.Type);
+                            });
+                        }
+                    });
+
+                var productOptions = parseOptions($scope.product.options);
+                $scope.product.options = productOptions;
+                $scope.optionsData = productOptions;
+            }
+
+            function isTypeArray(type) {
+                return type.indexOf('[]') === 0;
+            }
 
             function getMaxOptionOrder(options) {
                 var result = 0;
@@ -58,12 +68,12 @@ angular.module("productModule")
                 return result;
             }
 
-            function getOptions(opt) {
+            function parseOptions(opt) {
                 var options;
 
-                if (typeof $scope.item === "string") {
-                    options = JSON.parse(opt.replace(/'/g, "\""));
-                } else if (typeof opt === "undefined" || opt === null) {
+                if (typeof $scope.product === 'string') {
+                    options = JSON.parse(opt.replace(/'/g, '\''));
+                } else if (typeof opt === 'undefined' || opt === null) {
                     options = {};
                 } else {
                     options = opt;
@@ -73,11 +83,7 @@ angular.module("productModule")
             }
 
             function initData() {
-                if (!isInit) {
-                    $scope.optionsData = $scope.item[$scope.attribute.Attribute] = getOptions($scope.item[$scope.attribute.Attribute]);
 
-                    isInit = true;
-                }
             }
 
             /**
@@ -121,8 +127,8 @@ angular.module("productModule")
             }
 
             function cleanOption(key) {
-                var optionsFields = ["label", "type", "required", "order"];
-                var options = $scope.item.options[key];
+                var optionsFields = ['label', 'type', 'required', 'order'];
+                var options = $scope.product.options[key];
 
                 // Disable inventory for unsupported option types
                 if (options.type !== 'select' && options.type !== 'radio') {
@@ -135,30 +141,30 @@ angular.module("productModule")
                         //delete options[field];
                     }
                 }
-                delete $scope.item.options[""];
+                delete $scope.product.options[''];
             }
 
             function addRow(option) {
-                if (typeof $scope.optionsData[option] === "undefined") {
+                if (typeof $scope.optionsData[option] === 'undefined') {
                     return false;
                 }
 
                 updateOptionsKeys();
 
-                if (typeof $scope.optionsData[option].options === "undefined") {
+                if (typeof $scope.optionsData[option].options === 'undefined') {
                     $scope.optionsData[option].options = {};
                 }
 
-                $scope.optionsData[option].options[""] = {
-                    "order": (getMaxOptionOrder($scope.optionsData[option].options) + 1)
+                $scope.optionsData[option].options[''] = {
+                    'order': (getMaxOptionOrder($scope.optionsData[option].options) + 1)
                 };
             }
 
             function removeOption(key) {
                 console.log('remove options');
 
-                if (typeof key === "undefined") {
-                    delete $scope.optionsData[""];
+                if (typeof key === 'undefined') {
+                    delete $scope.optionsData[''];
 
                     return true;
                 }
@@ -178,8 +184,8 @@ angular.module("productModule")
             }
 
             function removeRow(option, key) {
-                if (typeof key === "undefined") {
-                    delete $scope.optionsData[option].options[""];
+                if (typeof key === 'undefined') {
+                    delete $scope.optionsData[option].options[''];
 
                     return true;
                 }
@@ -203,11 +209,15 @@ angular.module("productModule")
             function addNewOption() {
                 updateOptionsKeys();
 
-                $scope.optionsData[""] = {
-                    "type": $scope.types[0],
-                    "required": false,
-                    "order": (getMaxOptionOrder($scope.optionsData) + 1)
+                $scope.optionsData[''] = {
+                    'type': $scope.types[0],
+                    'required': false,
+                    'order': (getMaxOptionOrder($scope.optionsData) + 1)
                 };
+            }
+            
+            vm.canHaveAssociatedProducts = function(optionKey) {
+                
             }
         }
     };
