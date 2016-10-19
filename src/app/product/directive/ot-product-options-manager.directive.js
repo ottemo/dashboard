@@ -8,12 +8,8 @@ angular.module('productModule')
             'productScope': '='
         },
         templateUrl: '/views/product/directive/ot-product-options-manager.html',
-
-        controller: function ($scope) {
-            var vm = this;
-            $scope.self = $scope;
-
-            $scope.types = [
+        link: function(scope) {
+            scope.optionTypes = [
                 'field',
                 'select',
                 'radio',
@@ -21,14 +17,14 @@ angular.module('productModule')
                 'date'
             ];
 
-            $scope.updateOptionsKeys = updateOptionsKeys;
-            $scope.toJsonKey = toJsonKey;
-            $scope.cleanOption = cleanOption;
-            $scope.addRow = addRow;
-            $scope.removeOption = removeOption;
-            $scope.removeRow = removeRow;
-            $scope.addNewOption = addNewOption;
-            $scope.productAttributes = [];
+            scope.updateOptionsKeys = updateOptionsKeys;
+            scope.toJsonKey = toJsonKey;
+            scope.cleanOption = cleanOption;
+            scope.addRow = addRow;
+            scope.removeOption = removeOption;
+            scope.removeRow = removeRow;
+            scope.newOption = newOption;
+            scope.productAttributes = [];
 
             activate();
 
@@ -39,51 +35,41 @@ angular.module('productModule')
                     .then(function(response) {
                         if (response.error === null) {
                             var attributes = response.result || [];
-                            $scope.layeredAttributes = _.filter(attributes, function(attribute) {
-                                return attribute.IsLayered && isTypeArray(attribute.Type);
+                            scope.configurableAttributes = _.filter(attributes, function(attribute) {
+                                return attribute.IsLayered && isAttrTypeArray(attribute);
                             });
                         }
                     });
 
-                var productOptions = parseOptions($scope.product.options);
-                $scope.product.options = productOptions;
-                $scope.optionsData = productOptions;
+                var productOptions = parseOptions(scope.product.options);
+                scope.product.options = productOptions;
+                scope.optionsData = productOptions;
             }
 
-            function isTypeArray(type) {
-                return type.indexOf('[]') === 0;
+            function isAttrTypeArray(attr) {
+                return attr.Type.indexOf('[]') === 0;
             }
 
             function getMaxOptionOrder(options) {
                 var result = 0;
 
-                if (options) {
-                    _.each(options, function(option) {
-                       if (option.label !== undefined) {
-                           result = Math.max(result, option.order);
-                       }
-                    });
-                }
+                _.each(options, function(option) {
+                    if (option.label !== undefined) {
+                        result = Math.max(result, option.order);
+                    }
+                });
 
                 return result;
             }
 
-            function parseOptions(opt) {
-                var options;
-
-                if (typeof $scope.product === 'string') {
-                    options = JSON.parse(opt.replace(/'/g, '\''));
-                } else if (typeof opt === 'undefined' || opt === null) {
-                    options = {};
+            function parseOptions(options) {
+                if (typeof scope.product === 'string') {
+                    return JSON.parse(options.replace(/'/g, '\''));
+                } else if (options == undefined) {
+                    return {};
                 } else {
-                    options = opt;
+                    return options;
                 }
-
-                return options;
-            }
-
-            function initData() {
-
             }
 
             /**
@@ -96,17 +82,17 @@ angular.module('productModule')
              * @param options
              */
             function updateOptionsKeys(options) {
-                // If called with empty params - use $scope.optionsData
-                options = options || $scope.optionsData;
-                
+                // If called with empty params - use scope.optionsData
+                options = options || scope.optionsData;
+
                 for (var oldOptionKey in options) {
-                    
+
                     if (options.hasOwnProperty(oldOptionKey) && options[oldOptionKey]) {
-                        
+
                         var option = options[oldOptionKey];
                         var newOptionKey = toJsonKey(option.label);
 
-                        if (newOptionKey && oldOptionKey !== newOptionKey) {
+                        if (newOptionKey && (oldOptionKey !== newOptionKey)) {
                             options[newOptionKey] = options[oldOptionKey];
                             delete options[oldOptionKey];
                         }
@@ -128,7 +114,7 @@ angular.module('productModule')
 
             function cleanOption(key) {
                 var optionsFields = ['label', 'type', 'required', 'order'];
-                var options = $scope.product.options[key];
+                var options = scope.product.options[key];
 
                 // Disable inventory for unsupported option types
                 if (options.type !== 'select' && options.type !== 'radio') {
@@ -141,58 +127,43 @@ angular.module('productModule')
                         //delete options[field];
                     }
                 }
-                delete $scope.product.options[''];
+                delete scope.product.options[''];
             }
 
             function addRow(option) {
-                if (typeof $scope.optionsData[option] === 'undefined') {
+                if (typeof scope.optionsData[option] === 'undefined') {
                     return false;
                 }
 
                 updateOptionsKeys();
 
-                if (typeof $scope.optionsData[option].options === 'undefined') {
-                    $scope.optionsData[option].options = {};
+                if (typeof scope.optionsData[option].options === 'undefined') {
+                    scope.optionsData[option].options = {};
                 }
 
-                $scope.optionsData[option].options[''] = {
-                    'order': (getMaxOptionOrder($scope.optionsData[option].options) + 1)
+                scope.optionsData[option].options[''] = {
+                    'order': (getMaxOptionOrder(scope.optionsData[option].options) + 1)
                 };
             }
 
             function removeOption(key) {
-                console.log('remove options');
-
-                if (typeof key === 'undefined') {
-                    delete $scope.optionsData[''];
-
-                    return true;
+                if (key === undefined) {
+                    key = '';
                 }
 
-                updateOptionsKeys();
-
-                for (var option in $scope.optionsData) {
-                    if ($scope.optionsData.hasOwnProperty(option)) {
-                        if (option === key) {
-                            delete $scope.optionsData[option];
-                            return true;
-                        }
-                    }
-                }
-
-                return false;
+                delete scope.optionsData[key];
             }
 
             function removeRow(option, key) {
                 if (typeof key === 'undefined') {
-                    delete $scope.optionsData[option].options[''];
+                    delete scope.optionsData[option].options[''];
 
                     return true;
                 }
 
                 var row, options;
                 updateOptionsKeys();
-                options = $scope.optionsData[option].options;
+                options = scope.optionsData[option].options;
 
                 for (row in options) {
                     if (options.hasOwnProperty(row)) {
@@ -206,19 +177,23 @@ angular.module('productModule')
                 return false;
             }
 
-            function addNewOption() {
-                updateOptionsKeys();
+            function newOption() {
+                if (scope.optionsData['']) return;
 
-                $scope.optionsData[''] = {
-                    'type': $scope.types[0],
+                scope.optionsData[''] = {
+                    'type': scope.optionTypes[0],
                     'required': false,
-                    'order': (getMaxOptionOrder($scope.optionsData) + 1)
+                    'order': (getMaxOptionOrder(scope.optionsData) + 1)
                 };
             }
-            
-            vm.canHaveAssociatedProducts = function(optionKey) {
-                
-            }
+
+            scope.canHaveAssociatedProducts = function(optionKey) {
+                return _.find(scope.configurableAttributes, { 'Attribute': optionKey });
+            };
+
+            scope.updateAssociatedProductList = function() {
+
+            };
         }
     };
 }])

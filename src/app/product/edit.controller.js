@@ -5,7 +5,6 @@ angular.module('productModule')
 function ($scope, $routeParams, $location, $q, _, productApiService, coreImageService, dashboardUtilsService) {
 
     var productId = getProductID();
-    var isManagingStock = false;
 
     $scope.product = getDefaultProduct();
     $scope.clearForm = clearForm;
@@ -42,11 +41,11 @@ function ($scope, $routeParams, $location, $q, _, productApiService, coreImageSe
                 var qtyAttr = _.remove(attrs, {Attribute: 'qty'});
 
                 // Set the global
-                isManagingStock = (qtyAttr.length > 0);
+                $scope.isManagingStock = (qtyAttr.length > 0);
 
                 // Add some tabs
                 addImageManagerAttribute(attrs);
-                if (isManagingStock) {
+                if ($scope.isManagingStock) {
                     addInventoryTab(attrs);
                 }
 
@@ -70,9 +69,6 @@ function ($scope, $routeParams, $location, $q, _, productApiService, coreImageSe
                 });
         }
 
-        // Set the stock flag on the product
-        // we pass the product around so this is a way to consolidate
-        // variables being passed around.
         $q.all([attrPromise, prodPromise]).then(function(response){
             var attrs = response[0];
             var product = response[1];
@@ -86,8 +82,6 @@ function ($scope, $routeParams, $location, $q, _, productApiService, coreImageSe
             if (product.options === 'undefined') {
                 $scope.product.options = {};
             }
-
-            $scope.product.isManagingStock = isManagingStock;
         });
 
         // NOTE: not sure why this is here
@@ -194,7 +188,6 @@ function ($scope, $routeParams, $location, $q, _, productApiService, coreImageSe
 
             // Don't send images as product attribute
             delete $scope.product.images;
-            delete $scope.product.isManagingStock;
         }
 
         if (!id) {
@@ -219,9 +212,6 @@ function ($scope, $routeParams, $location, $q, _, productApiService, coreImageSe
                 $scope.message = dashboardUtilsService.getMessage(null, 'success', 'Product was created successfully');
                 addImageManagerAttribute();
 
-                // Reset stock management variable
-                $scope.product.isManagingStock = isManagingStock;
-
                 defer.resolve($scope.product);
             } else {
                 $scope.message = dashboardUtilsService.getMessage(response);
@@ -239,9 +229,6 @@ function ($scope, $routeParams, $location, $q, _, productApiService, coreImageSe
             if (response.error === null) {
                 var result = response.result || getDefaultProduct();
                 $scope.message = dashboardUtilsService.getMessage(null, 'success', 'Product was updated successfully');
-
-                // Reset stock management variable
-                $scope.product.isManagingStock = isManagingStock;
 
                 defer.resolve(result);
             } else {
