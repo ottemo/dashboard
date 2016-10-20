@@ -5,9 +5,9 @@ angular.module("coreModule")
     function(
         $uibModal
     ) {
-        var modalMessage, getModalMessage, openModal;
+        var modalMessage;
 
-        openModal = function(text){
+        function openModal(text){
             modalMessage = text;
             return $uibModal.open({
                 controller: 'coreConfirmController',
@@ -16,7 +16,7 @@ angular.module("coreModule")
             }).result;
         }
 
-        getModalMessage = function() {
+        function getModalMessage() {
             return modalMessage;
         }
 

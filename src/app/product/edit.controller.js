@@ -1,8 +1,26 @@
 angular.module('productModule')
 
 .controller('productEditController', [
-'$scope', '$routeParams', '$location', '$q', '_', 'productApiService', 'coreImageService', 'dashboardUtilsService',
-function ($scope, $routeParams, $location, $q, _, productApiService, coreImageService, dashboardUtilsService) {
+    '$scope',
+    '$routeParams',
+    '$location',
+    '$q',
+    '_',
+    'productApiService',
+    'coreImageService',
+    'dashboardUtilsService',
+    'coreCollectionItemsSelectorService',
+    function (
+        $scope,
+        $routeParams,
+        $location,
+        $q,
+        _,
+        productApiService,
+        coreImageService,
+        dashboardUtilsService,
+        coreCollectionItemsSelectorService
+    ) {
 
     $scope.addImage = addImage;
     $scope.getImage = coreImageService.getImage;
@@ -16,6 +34,49 @@ function ($scope, $routeParams, $location, $q, _, productApiService, coreImageSe
     $scope.back = back;
 
     activate();
+
+    $scope.getSelectedProducts = function() {
+        coreCollectionItemsSelectorService.modalSelector({
+            collection: 'product',
+            searchQuery: 'price=123,345&id=~123',
+            mapping: {
+                id: 'ID',
+                image: 'Image',
+                description: 'Desc'
+            },
+            columns: [
+                {
+                    label: 'Image',
+                    key: 'image',
+                    type: 'image'
+                },
+                {
+                    label: 'ID',
+                    key: 'id',
+                    editor: 'text',
+                    type: 'text'
+                },
+                {
+                    label: 'Name',
+                    key: 'name',
+                    editor: 'text',
+                    type: 'text'
+                },
+                {
+                    label: 'Description',
+                    key: 'description',
+                    editor: 'text',
+                    type: 'text'
+                },
+                {
+                    label: 'Price',
+                    key: 'price',
+                    editor: 'text',
+                    type: 'text'
+                }
+            ]
+        });
+    };
 
     ///////////////////////////////
 

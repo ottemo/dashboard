@@ -1,0 +1,102 @@
+<div class="modal-header">
+    <h3 class="modal-title" id="modal-title">I'm a modal!</h3>
+</div>
+<div class="modal-body" id="modal-body">
+    <!-- Pagination -->
+    <div class="text-center" ng-show="pagination.pages > 1">
+        <div uib-pagination
+             total-items="pagination.count"
+             items-per-page="pagination.itemsPerPage"
+             force-ellipses="true"
+             max-size="5"
+             boundary-link-numbers="true"
+             ng-model="pagination.page"
+             ng-change="updateCollection()">
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered">
+            <thead>
+                <tr>
+                    <!-- Checkboxes column thead -->
+                    <!--<th class="checkboxes-column" ng-if="buttons.checkbox">-->
+                        <!--<input type="checkbox" id="selectAll" ng-click="selectAll()">-->
+                    <!--</th>-->
+
+                    <!-- Other columns thead -->
+                    <th ng-repeat="column in columns">
+                        {{column.label}}
+                    </th>
+                </tr>
+
+                <!-- Filters row -->
+                <!--<tr class=" " ng-hide="filters.length <= 1 && !filters[0].visible">-->
+                    <!--<th ng-if="buttons.checkbox">&nbsp;</th>-->
+                    <!--<th ng-repeat="filter in filters" ng-switch="filter.type" ng-show="parent.fields[$index].visible">-->
+                        <!--<div ng-switch-when="text">-->
+                            <!--<ot-filter-text editor-scope="filter.attributes" item="filter" object="this"></ot-filter-text>-->
+                        <!--</div>-->
+
+                        <!--<div ng-switch-when="select">-->
+                            <!--<ot-filter-select editor-scope="filter.attributes" item="filter" object="this"></ot-filter-select>-->
+                        <!--</div>-->
+                        <!--<div ng-switch-default="">-->
+                            <!--&nbsp;-->
+                        <!--</div>-->
+                    <!--</th>-->
+                <!--</tr>-->
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in items">
+                    <td ng-repeat="column in columns">
+                        <span ng-switch="column.type">
+
+                            <!-- Image -->
+                            <span ng-switch-when="image">
+                                <img class="media-object"
+                                     ng-src="{{ item.Images[0].thumb }}"
+                                     style="width: 50px; height: 50px;">
+                            </span>
+
+                            <!--&lt;!&ndash; Currency &ndash;&gt;-->
+                            <!--<div ng-switch-when="price" class="text-right">{{_item[field.attribute] | currency}}</div>-->
+                            <!--<span ng-switch-when="currency">{{_item[field.attribute] | currency}}</span>-->
+
+                            <!--&lt;!&ndash; Date &ndash;&gt;-->
+                            <!--<span ng-switch-when="date"-->
+                                  <!--ot-store-date-->
+                                  <!--date="_item[field.attribute]">-->
+                            <!--</span>-->
+
+                            <!--&lt;!&ndash; Link &ndash;&gt;-->
+                            <!--<span ng-switch-when="select-link">-->
+                                <!--<div ng-click="parent.select(_item[map.id])">{{_item[field.attribute]}}</div>-->
+                            <!--</span>-->
+
+                            <!-- String, text -->
+                            <span ng-switch-default="">{{item[column.key]}}</span>
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    <div class="text-center" ng-show="pagination.pages > 1">
+        <div uib-pagination
+             total-items="pagination.count"
+             items-per-page="pagination.itemsPerPage"
+             force-ellipses="true"
+             max-size="5"
+             boundary-link-numbers="true"
+             ng-model="pagination.page"
+             ng-change="updateCollection()">
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="$ctrl.ok()">OK</button>
+    <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
+</div>
