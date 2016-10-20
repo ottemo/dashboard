@@ -13,11 +13,6 @@ $(document).ready(function () {
         $(this).prev(".upl-input").trigger("click");
     });
 
-    // modals table checkbox active on tr click
-    $(document).on("click", ".modal-dialog table tbody tr", function (event) {
-        $(this).children("td:first-child").children("input").trigger("click");
-    });
-
     // modals table checkbox prevent self click for double result
     $(document).on("click", ".modal-dialog table tbody tr td:first-child input", function (event) {
         event.stopPropagation();

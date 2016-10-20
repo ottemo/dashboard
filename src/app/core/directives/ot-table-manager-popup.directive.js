@@ -286,6 +286,14 @@ angular.module("coreModule")
                     $scope.parent.search = getSearchObj();
                 };
 
+                $scope.rowClick = function(rowItem) {
+                    if ($scope.buttons.checkbox) {
+                        $scope.parent.selected[rowItem[$scope.map.id]] = !$scope.parent.selected[rowItem[$scope.map.id]];
+                    } else {
+                        $scope.parent.select(rowItem[$scope.map.id]);
+                    }
+                };
+
                 /** Sorting end*/
 
                 var getSearchObj = function (reset) {

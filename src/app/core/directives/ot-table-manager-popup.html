@@ -1,5 +1,6 @@
 <section ng-init="init()">
     <form role="form" class="form-group  ">
+        modal
 
         <!-- Pagination -->
         <div class="text-center" ng-show="paginator.countPages > 1">
@@ -48,11 +49,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class=" " ng-repeat="_item in items">
+                    <tr class=" " ng-repeat="_item in items" ng-click="rowClick(_item)">
 
                         <!-- Checkboxes column -->
                         <td class="checkboxes-column" ng-if="buttons.checkbox">
-                            <input type="checkbox" ng-model="parent.selected[_item[map.id]]" ng-if="!_item.IsStatic">
+                            <input type="checkbox" ng-checked="parent.selected[_item[map.id]]" ng-if="!_item.IsStatic">
                         </td>
 
                         <!-- Other columns with ng-switcher -->
