@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h3 class="modal-title" id="modal-title">I'm a modal!</h3>
+    <h3 class="modal-title" id="modal-title">{{vm.config.heading}}</h3>
 </div>
 <div class="modal-body" id="modal-body">
     <!-- Pagination -->
@@ -19,13 +19,11 @@
         <table class="table table-hover table-bordered">
             <thead>
                 <tr>
-                    <!-- Checkboxes column thead -->
-                    <!--<th class="checkboxes-column" ng-if="buttons.checkbox">-->
+                    <th class="checkboxes-column" ng-if="vm.config.multiSelect">
                         <!--<input type="checkbox" id="selectAll" ng-click="selectAll()">-->
-                    <!--</th>-->
+                    </th>
 
-                    <!-- Other columns thead -->
-                    <th ng-repeat="column in columns">
+                    <th ng-repeat="column in vm.columns">
                         {{column.label}}
                     </th>
                 </tr>
@@ -48,14 +46,17 @@
                 <!--</tr>-->
             </thead>
             <tbody>
-                <tr ng-repeat="item in items">
-                    <td ng-repeat="column in columns">
+                <tr ng-repeat="item in vm.items" ng-click="selectItem(item, $event)">
+                    <td ng-if="vm.config.multiSelect">
+                        <input type="checkbox" ng-checked="{{item._selected}}">
+                    </td>
+                    <td ng-repeat="column in vm.columns">
                         <span ng-switch="column.type">
 
                             <!-- Image -->
-                            <span ng-switch-when="image">
+                            <span ng-switch-when="images">
                                 <img class="media-object"
-                                     ng-src="{{ item.Images[0].thumb }}"
+                                     ng-src="{{ item.Images[0].small }}"
                                      style="width: 50px; height: 50px;">
                             </span>
 
@@ -84,14 +85,14 @@
     </div>
 
     <!-- Pagination -->
-    <div class="text-center" ng-show="pagination.pages > 1">
+    <div class="text-center" ng-show="vm.pagination.pages > 1">
         <div uib-pagination
-             total-items="pagination.count"
-             items-per-page="pagination.itemsPerPage"
+             total-items="vm.pagination.count"
+             items-per-page="vm.pagination.itemsPerPage"
              force-ellipses="true"
              max-size="5"
              boundary-link-numbers="true"
-             ng-model="pagination.page"
+             ng-model="vm.pagination.page"
              ng-change="updateCollection()">
         </div>
     </div>

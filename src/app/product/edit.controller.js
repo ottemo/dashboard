@@ -38,43 +38,16 @@ angular.module('productModule')
     $scope.getSelectedProducts = function() {
         coreCollectionItemsSelectorService.modalSelector({
             collection: 'product',
-            searchQuery: 'price=123,345&id=~123',
-            mapping: {
-                id: 'ID',
-                image: 'Image',
-                description: 'Desc'
-            },
-            columns: [
-                {
-                    label: 'Image',
-                    key: 'image',
-                    type: 'image'
-                },
-                {
-                    label: 'ID',
-                    key: 'id',
-                    editor: 'text',
-                    type: 'text'
-                },
-                {
-                    label: 'Name',
-                    key: 'name',
-                    editor: 'text',
-                    type: 'text'
-                },
-                {
-                    label: 'Description',
-                    key: 'description',
-                    editor: 'text',
-                    type: 'text'
-                },
-                {
-                    label: 'Price',
-                    key: 'price',
-                    editor: 'text',
-                    type: 'text'
+            extraFields: 'price,sku',
+            multiSelect: true,
+            onItemLoad: function(item) {
+                if (item.images && item.images.length > 0) {
+                    item.image = item.images[0].small;
                 }
-            ]
+            },
+            onItemSelect: function(item, selection, collection) {
+
+            }
         });
     };
 

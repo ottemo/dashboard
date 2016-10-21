@@ -3,83 +3,83 @@ angular.module('coreModule')
     .controller('coreCollectionItemsSelectorController', [
         '$scope',
         'coreCollectionItemsSelectorApiService',
-        'collection',
-        'entities',
-        'view',
-        function ($scope, coreCollectionItemsSelectorApiService, collection, entities, view) {
+        'config',
+        'callbacks',
+        '$uibModalInstance',
+        function ($scope, coreCollectionItemsSelectorApiService, config, callbacks, $uibModalInstance) {
             var vm = this;
-            $scope.filters = [];
-            $scope.page = 1;
-            $scope.columns = collection.columns;
+            $scope.model = {
+                activate: activate
+            };
 
-            activate();
+            activate(config, callbacks);
 
             /////////////////////////////////////////
 
-            function activate() {
-                vm.mapping = getColumnMapping(collection.columns, collection.mapping);
-                console.log(vm.mapping);
-                vm.extraQuery = getExtraQuery(vm.mapping);
-                console.log(vm.extraQuery);
+            function activate(config, callbacks) {
+                vm.config = config;
+                vm.callbacks = callbacks;
+                vm.columns = config.columns;
+                vm.searchParams = config.searchParams;
+                vm.mapping = getColumnMapping(vm.columns, config.mapping, config.extraFields);
+                vm.extraQuery = getExtraQuery(vm.mapping, config.privateFields);
+                vm.filters = initFilters(vm.columns, vm.searchParams);
+                vm.pagination = initPagination(vm.searchParams, config.itemsPerPage);
 
-                var searchParams = getSearchParams(collection.searchQuery);
-                console.log(searchParams);
-
-                vm.filters = getFiltersConfig(searchParams, collection.columns);
-                console.log(vm.filters);
-
-                $scope.pagination = getPaginationConfig(searchParams, view.itemsPerPage);
-                console.log($scope.pagination);
-
-                getEntities().then(function(response) {
+                initEntities().then(function(response) {
                     if (response.error === null) {
                         var collectionItems = response.result;
-                        var viewItems = _.map(collectionItems, convertToViewItem)
-                        $scope.items = viewItems;
+                        vm.items = _.map(collectionItems, convertToViewItem);
                     }
                 });
             }
 
-            function updateCollection() {
+            $scope.selectItem = function(item, $event) {
+                if (vm.config.multiSelect) {
 
-                console.log('update');
-            }
+                } else {
+                    $uibModalInstance.close(true);
+                }
+
+                if ($event) {
+                    $event.preventDefault();
+                }
+            };
 
             function convertToViewItem(collectionItem) {
                 var viewItem = {};
 
-                _.each(collection.columns, function(column) {
-                    var key = column.key;
-                    var mapping = vm.mapping[key];
-
+                _.each(vm.mapping, function(map, key) {
                     var columnValue;
-                    if (mapping.extraField) {
-                        columnValue = collectionItem.Extra[mapping.extraField];
-                    } else {
-                        columnValue = collectionItem[mapping.entityField];
+                    if (map.extraField !== undefined) {
+                        if (collectionItem.Extra) {
+                            columnValue = collectionItem.Extra[map.extraField];
+                        }
+                    } else if (map.entityField !== undefined) {
+                        columnValue = collectionItem[map.entityField];
                     }
 
                     viewItem[key] = columnValue;
                 });
 
-                if (entities.handle) {
-                    return entities.handle(viewItem);
-                } else {
-                    return viewItem;
+                if (vm.callbacks.onItemLoad) {
+                    vm.callbacks.onItemLoad(viewItem);
                 }
+
+                return viewItem;
             }
 
 
             function getLimitQuery() {
                 return [
-                    $scope.pagination.itemsPerPage * ($scope.pagination.page - 1),
-                    $scope.pagination.itemsPerPage * ($scope.pagination.page)
+                    vm.pagination.itemsPerPage * (vm.pagination.page - 1),
+                    vm.pagination.itemsPerPage * (vm.pagination.page)
                 ].join(',');
             }
 
             function getViewFilters() {
                 var currentFilters = [];
-                _.each($scope.filters, function(filter) {
+                _.each(vm.filters, function(filter) {
                     if (filter.type && filter.model) {
                         currentFilters.push(filter.key + '=' + filter.model.getFilter());
                     }
@@ -88,7 +88,7 @@ angular.module('coreModule')
                 return currentFilters;
             }
 
-            function getPaginationConfig(searchParams, itemsPerPageConfig) {
+            function initPagination(searchParams, itemsPerPageConfig) {
                 var itemsPerPage = itemsPerPageConfig;
                 var currentPage = 1;
 
@@ -110,33 +110,23 @@ angular.module('coreModule')
                 };
             }
 
-            function getSearchParams(query) {
-                var searchItems = query.split('&');
-
-                var searchParams = {};
-                _.each(searchItems, function(searchItem) {
-                    var searchItemParts = searchItem.split('=');
-                    if (searchItemParts.length === 2) {
-                        var searchItemKey = searchItemParts[0];
-                        var searchItemValue = searchItemParts[1];
-                        searchParams[searchItemKey] = searchItemValue;
-                    }
-                });
-
-                return searchParams;
-            }
-
-            function getColumnMapping(columns, mappingSetting) {
+            function getColumnMapping(columns, mappingConfig, extraFields) {
                 var mapping = {};
 
                 _.each(columns, function(column) {
                     var key = column.key;
 
-                    if (key in mappingSetting) {
-                        mapping[key] = { entityField: mappingSetting[key] };
+                    if (key in mappingConfig) {
+                        mapping[key] = { entityField: mappingConfig[key] };
                     } else {
                         mapping[key] = { extraField: key };
                     }
+                });
+
+                _.each(extraFields.split(','), function(extraField) {
+                   if (!(extraField in mapping)) {
+                       mapping[extraField] = { extraField: extraField };
+                   }
                 });
 
                 return mapping;
@@ -145,17 +135,17 @@ angular.module('coreModule')
             function getExtraQuery(mapping) {
                 var extraQuery = [];
 
-                _.each(mapping, function(columnMapping) {
-                    if ('extraField' in columnMapping) {
-                        extraQuery.push(columnMapping.extraField)
+                _.each(mapping, function(mappingItem) {
+                    if (mappingItem.extraField !== undefined) {
+                        extraQuery.push(mappingItem.extraField)
                     }
                 });
 
                 return extraQuery.join(',');
             }
 
-            function getFiltersConfig(searchParams, columns) {
-                var filterConfig = [];
+            function initFilters(columns, searchParams) {
+                var filters = [];
                 _.each(columns, function(column) {
                     var filter = {
                         key: column.key
@@ -168,22 +158,16 @@ angular.module('coreModule')
                         }
                     }
 
-                    filterConfig.push(filter);
+                    filters.push(filter);
                 });
 
-                return filterConfig;
+                return filters;
             }
 
-            function getRequestParams() {
+            function initEntities() {
                 var params = getViewFilters() || {};
                 params.limit = getLimitQuery();
                 params.extra = vm.extraQuery;
-                console.log(params);
-                return params;
-            }
-
-            function getEntities() {
-                var params = getRequestParams();
-                return coreCollectionItemsSelectorApiService[collection.name + 'List'](params).$promise;
+                return coreCollectionItemsSelectorApiService[vm.config.collection + 'List'](params).$promise;
             }
         }]);
