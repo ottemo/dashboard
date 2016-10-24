@@ -1,0 +1,91 @@
+<div class="grid-heading">
+    <!-- Top pagination -->
+    <div class="text-center" ng-show="grid.pagination.pages > 1">
+        <div uib-pagination
+             total-items="grid.pagination.count"
+             items-per-page="grid.limit.itemsPerPage"
+             force-ellipses="true"
+             max-size="5"
+             boundary-link-numbers="true"
+             ng-model="grid.pagination.page"
+             ng-change="pageChanged()">
+        </div>
+    </div>
+</div>
+
+<div class="grid-body">
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th class="checkboxes-column" ng-if="grid.multiSelect">
+                        placeholder
+                    </th>
+
+                    <th ng-repeat="column in grid.columns">
+                        {{column.label}}
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr ng-repeat="row in grid.rows track by $index"
+                    ng-click="clickRow(row, $index, $event)"
+                    ng-class="{'disabled': row._disabled}"
+                    class="grid-row">
+
+                    <td ng-if="grid.multiSelect">
+                        <input type="checkbox" ng-checked="row._selected" ng-disabled="row._disabled">
+                    </td>
+
+                    <td ng-repeat="column in grid.columns">
+
+                        <!--TODO: Create a directive for conditional link wrapper-->
+                        <a href="{{row._link}}"
+                           ng-if="column.isLink && row._link && !row._disabled"
+                           class="row-select-link">
+                            <span ng-switch="column.type">
+
+                                <!-- images -->
+                                <span ng-switch-when="images">
+                                    <img class="media-object"
+                                         ng-src="{{ row.images[0].small }}"
+                                         style="width: 50px; height: 50px;">
+                                </span>
+
+                                <span ng-switch-default="">{{row[column.key]}}</span>
+                            </span>
+                        </a>
+
+                        <span ng-if="!column.isLink || !row._link || row._disabled" ng-switch="column.type">
+
+                                <!-- images -->
+                                <span ng-switch-when="images">
+                                    <img class="media-object"
+                                         ng-src="{{ row.images[0].small }}"
+                                         style="width: 50px; height: 50px;">
+                                </span>
+
+                                <span ng-switch-default="">{{row[column.key]}}</span>
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="grid-footer">
+    <!-- Bottom pagination -->
+    <div class="text-center" ng-show="grid.pagination.pages > 1">
+        <div uib-pagination
+             total-items="grid.pagination.count"
+             items-per-page="grid.limit.itemsPerPage"
+             force-ellipses="true"
+             max-size="5"
+             boundary-link-numbers="true"
+             ng-model="grid.pagination.page"
+             ng-change="pageChanged()">
+        </div>
+    </div>
+</div>

@@ -55,12 +55,13 @@ angular.module('dashboardModule')
             ],
 
             /**
-             * Default mapping object
-             * defines how value for each column is obtained from collection item
-             * field: { ID: 'id' }                  item.ID -> column 'id'
-             * extra: { customer_email: 'email' }   item.Extra.customer_email -> column 'email'
+             * Mapping object
+             * defines how value for each row column is obtained from collection entity
+             * field: { ID: 'id' }                  entity.ID -> row.id
+             * extra: { customer_email: 'email' }   entity.Extra.customer_email -> row.email
              *
-             * It may make filters, that are visible in view, be different from filters, that are sent to the server
+             * It may make filters, that are visible in view, be different from filters,
+             * that are sent to the server
              * in view:                     email=~ottemo
              * actual filter in request:    customer_email=~ottemo
              */
@@ -99,13 +100,30 @@ angular.module('dashboardModule')
             itemsPerPage: ITEMS_PER_PAGE,
 
             /**
-             * callback or an array of callbacks that are invoked for each row in grid
+             * Callback or an array of callbacks that are invoked for each row in grid
              * callback parameters:
              *      row - row object
              *      key - entity index in collection
              *      collection
              */
-            rowCallback: null
+            rowCallback: null,
+
+            /**
+             * Callback before row selection/deselection
+             * invoked before selection, parameters:
+             *      row - row object
+             *
+             * Should return Boolean value
+             * that will be assigned to row._selected
+             */
+            beforeSelect: null,
+
+            /**
+             * Function should return id value when there is no `ID` field in collection entity
+             */
+            resolveEntityId: null,
+
+            multiSelect: false
         };
 
         /**
@@ -117,7 +135,7 @@ angular.module('dashboardModule')
             this.collection = config.collection;
             this.columns = config.columns;
             this.applyMapping(config.mapping);
-            this.rowCallback = config.rowCallback;
+
             this.limit = {
                 start: dashboardQueryService.limitStartFromString(config.searchParams.limit),
                 perPage: config.itemsPerPage
@@ -127,6 +145,12 @@ angular.module('dashboardModule')
             this.initFilters();
             this.applyFilters(config.searchParams);
             this.setSort(config.searchParams.sort);
+
+            this.rowCallback = config.rowCallback;
+            this.beforeSelect = config.beforeSelect;
+            this.resolveEntityId = config.resolveEntityId;
+
+            this.multiSelect = config.multiSelect;
         }
 
         /**
@@ -135,7 +159,16 @@ angular.module('dashboardModule')
         Grid.prototype = {
 
             /**
-             * Loads collection and converts each collection item into grid row item
+             * Loads collection and converts each collection entity into grid row item
+             * Row item is an object that copies all fields form entity item
+             * accordingly to mapping object
+             *
+             * Row has system fields:
+             * _id          - {String} required, unique entity ID string
+             * _selected    - {Boolean} changed while selecting in grid
+             * _link        - {String} link for a column with 'isLink'=true
+             * _source      - {Object} collection entity object
+             * _disabled    - {Boolean} row is disabled for selection
              */
             load: function() {
                 var loadDeferred = $q.defer();
@@ -149,6 +182,7 @@ angular.module('dashboardModule')
                             var rows = [];
                             _.forEach(response.result, function(entity, key, collection) {
                                 var row = self.convertEntityToRow(entity);
+                                row._source = entity;
 
                                 // Apply callbacks to each row
                                 var rowCallbacks = self.rowCallback;
@@ -167,6 +201,7 @@ angular.module('dashboardModule')
                                 rows.push(row);
                             });
 
+                            self.rows = rows;
                             loadDeferred.resolve(rows);
 
                         } else {
@@ -213,6 +248,13 @@ angular.module('dashboardModule')
                     _.forEach(this.mapping.extra, function(columnKey, extraKey) {
                         row[columnKey] = entity.Extra[extraKey]
                     });
+                }
+
+                // Always set _id for selection implementation
+                if (entity.ID) {
+                    row._id = entity.ID;
+                } else {
+                    row._id = this.resolveEntityId(entity);
                 }
 
                 return row;
@@ -325,7 +367,9 @@ angular.module('dashboardModule')
                 return sortParam;
             },
 
-
+            /**
+             * Returns sorting parameter for a request to the server
+             */
             getRequestSortParam: function() {
                 var sortParam = '';
                 _.forEach(this.columns, function(column) {
