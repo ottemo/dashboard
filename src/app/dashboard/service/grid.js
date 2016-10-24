@@ -14,7 +14,7 @@ angular.module('dashboardModule')
 
         var ITEMS_PER_PAGE = 15;
 
-        // TODO: split config fields into smaller objects ?
+        // TODO: split config fields into smaller self-documented objects ?
         var defaults = {
 
             /**
@@ -198,11 +198,12 @@ angular.module('dashboardModule')
              * accordingly to mapping object
              *
              * Row has system fields:
-             *      _id          - {String} required, unique entity ID string
-             *      _selected    - {Boolean} changed while selecting in grid
-             *      _link        - {String} link for a column with 'isLink'=true
-             *      _source      - {Object} collection entity object
-             *      _disabled    - {Boolean} row is disabled for selection
+             *      _id           - {String} required, unique entity ID string
+             *      _selected     - {Boolean} changed while selecting in grid
+             *      _link         - {String} link for a column with 'isLink'=true
+             *      _source       - {Object} collection entity object
+             *      _disabled     - {Boolean} row is disabled for selection
+             *      _unselectable - {Boolean} row cannot be selected
              */
             load: function(settings) {
                 var config = _.assign({}, defaultLoadSettings, settings);
@@ -524,7 +525,6 @@ angular.module('dashboardModule')
 
                 return this.count(this.getRequestParams()).then(function(count) {
                     pagination.count = count;
-                    pagination.pages = 300;
                     pagination.page = Math.floor(self.limit.start / self.limit.perPage) + 1;
                     self.pagination = pagination;
                 });

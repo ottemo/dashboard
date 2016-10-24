@@ -10,13 +10,30 @@
              ng-model="grid.pagination.page"
              ng-change="pageChanged()">
         </div>
-    </div>
+    </div><!--/end Top pagination-->
 </div>
 
+<!--Table-->
 <div class="grid-body">
     <div class="table-responsive">
         <table class="table table-hover table-bordered">
             <thead>
+                <!--Filters-->
+                <tr class="row-filters" ng-show="isFiltersVisible">
+
+                    <!--Selection filter-->
+                    <th ng-if="grid.multiSelect">
+
+                    </th><!--/end Selection filter-->
+
+                    <th ng-repeat="filter in grid.filters">
+
+                        {{filter.type}}
+                    </th>
+
+                </tr><!--/end Filters-->
+
+                <!--Headings-->
                 <tr>
                     <th class="checkboxes-column" ng-if="grid.multiSelect">
                         placeholder
@@ -25,16 +42,17 @@
                     <th ng-repeat="column in grid.columns">
                         {{column.label}}
                     </th>
-                </tr>
+                </tr><!--/end Headings-->
             </thead>
 
+            <!--Body-->
             <tbody>
                 <tr ng-repeat="row in grid.rows track by $index"
                     ng-click="clickRow(row, $index, $event)"
                     ng-class="{'disabled': row._disabled}"
                     class="grid-row">
 
-                    <td ng-if="grid.multiSelect" class="row-checkbox-col">
+                    <td ng-if="grid.multiSelect && !rowl._unselectable" class="row-checkbox-col">
                         <input type="checkbox" ng-checked="row._selected === true" ng-disabled="row._disabled">
                     </td>
 
@@ -51,9 +69,10 @@
                                     <img class="media-object"
                                          ng-src="{{ row.images[0].small }}"
                                          style="width: 50px; height: 50px;">
-                                </span>
+                                </span><!--/end images-->
 
-                                <span ng-switch-default="">{{row[column.key]}}</span>
+                                <!--default-->
+                                <span ng-switch-default="">{{row[column.key]}}</span><!--/end default-->
                             </span>
                         </a>
 
@@ -64,19 +83,23 @@
                                     <img class="media-object"
                                          ng-src="{{ row.images[0].small }}"
                                          style="width: 50px; height: 50px;">
-                                </span>
+                                </span><!--/end images-->
 
-                                <span ng-switch-default="">{{row[column.key]}}</span>
+                                <!--default-->
+                                <span ng-switch-default="">{{row[column.key]}}</span><!--/end default-->
                         </span>
                     </td>
                 </tr>
-            </tbody>
+            </tbody><!--/end Body-->
 
+            <!--Footer-->
             <tfoot ng-if="grid.multiSelect">
                 <tr>
-                    <th colspan="{{grid.columns.length + 1}}">Selected: {{grid.selectedIds.length}} item(s)</th>
+                    <th colspan="{{(grid.multiSelect) ? grid.columns.length + 1 : grid.columns.length}}">
+                        Selected: {{grid.selectedIds.length}} item(s)
+                    </th>
                 </tr>
-            </tfoot>
+            </tfoot><!--/end footer-->
         </table>
     </div>
 </div>
@@ -93,5 +116,5 @@
              ng-model="grid.pagination.page"
              ng-change="pageChanged()">
         </div>
-    </div>
+    </div><!--/end Bottom pagination-->
 </div>

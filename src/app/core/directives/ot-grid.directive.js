@@ -45,7 +45,7 @@ angular.module('coreModule')
                 var config = _.assign({}, configDefaults, $scope.config);
 
                 if (config.changeSearch) {
-                    // TODO: create setter for callbacks
+                    // TODO: create setters for callbacks
                     $scope.grid.loadCallbacks.push(function() {
                         $location.search($scope.grid.getViewSearchParams());
                     });
@@ -60,8 +60,14 @@ angular.module('coreModule')
                     activate();
                 }
 
+                // TODO: remove - testing code
+                $scope.isFiltersVisible = true;
+
                 //////////////////////////////////////
 
+                /**
+                 * Initialize
+                 */
                 function activate() {
                     $scope.grid.load({resetPagination: true});
                 }
