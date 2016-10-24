@@ -39,7 +39,8 @@ angular.module('productModule')
         collection: 'order',
         columns: [
             { key: 'total', label: 'Total', type: 'text' },
-            { key: 'id', label: 'ID', type: 'text', isLink: true }
+            { key: 'id', label: 'ID', type: 'text', isLink: true },
+            { key: 'ololo', label: 'OLOLO', type: 'text'}
         ],
         mapping: {
             field: { ID: 'id' },
@@ -51,17 +52,15 @@ angular.module('productModule')
             sort: '^total',
             limit: '0,30'
         },
-        rowCallback: function(row) {
+        rowCallback: function(row, index) {
             row._link = '/orders/' + row.id;
-
+            row.ololo = 'ololo' + index;
         },
         multiSelect: true,
         beforeSelect: function(row) {
-            row._disabled = true;
-            //console.log('before')
-            //return true;
         },
-        selectedIds: ['55ba078075f8335d60ad6e57', '55a8ce4a81393ef2e8084bca']
+        selectedIds: ['55ba078075f8335d60ad6e57', '55a8ce4a81393ef2e8084bca'],
+        //enforceSelection: true
     });
     $scope.productsGrid.load().then(function() {
         console.log($scope.productsGrid.rows);

@@ -34,7 +34,7 @@
                     ng-class="{'disabled': row._disabled}"
                     class="grid-row">
 
-                    <td ng-if="grid.multiSelect">
+                    <td ng-if="grid.multiSelect" class="row-checkbox-col">
                         <input type="checkbox" ng-checked="row._selected === true" ng-disabled="row._disabled">
                     </td>
 

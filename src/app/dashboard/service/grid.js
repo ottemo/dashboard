@@ -80,7 +80,7 @@ angular.module('dashboardModule')
              * may contain filters, sort and limit parameters
              * { sort: '^created_at', limit: '10,25' }
              *
-             * Used to initialize grid with parameters of page url
+             * Used to initialize grid with parameters from page url
              */
             searchParams: {},
 
@@ -131,7 +131,8 @@ angular.module('dashboardModule')
 
             multiSelect: false,
             selectedIds: null,
-            keepSingleSelection: true
+            keepSingleSelection: true,
+            enforceSelection: false
         };
 
         /**
@@ -162,6 +163,7 @@ angular.module('dashboardModule')
             this.multiSelect = config.multiSelect;
             this.selectedIds = config.selectedIds;
             this.keepSingleSelection = config.keepSingleSelection;
+            this.enforceSelection = config.enforceSelection;
         }
 
 
@@ -176,11 +178,11 @@ angular.module('dashboardModule')
              * accordingly to mapping object
              *
              * Row has system fields:
-             * _id          - {String} required, unique entity ID string
-             * _selected    - {Boolean} changed while selecting in grid
-             * _link        - {String} link for a column with 'isLink'=true
-             * _source      - {Object} collection entity object
-             * _disabled    - {Boolean} row is disabled for selection
+             *      _id          - {String} required, unique entity ID string
+             *      _selected    - {Boolean} changed while selecting in grid
+             *      _link        - {String} link for a column with 'isLink'=true
+             *      _source      - {Object} collection entity object
+             *      _disabled    - {Boolean} row is disabled for selection
              */
             load: function() {
                 var loadDeferred = $q.defer();

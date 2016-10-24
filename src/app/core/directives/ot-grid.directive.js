@@ -1,6 +1,6 @@
 angular.module('coreModule')
 
-    .directive('otGrid', [function() {
+    .directive('otGrid', ['$location', function($location) {
         return {
             restrict: 'EA',
             scope: {
@@ -13,7 +13,6 @@ angular.module('coreModule')
                  * Row click handler
                  */
                 $scope.clickRow = function(row, index, event) {
-                    console.log('click');
                     if (row._disabled) {
                         event.preventDefault();
                         return;
@@ -22,6 +21,12 @@ angular.module('coreModule')
                     var isLink = isLinkClicked(event);
                     if (isLink) {
                         return;
+                    }
+
+                    if (!isCheckboxClicked(event) && !$scope.grid.enforceSelection
+                        && row._link) {
+                        $location.search({});
+                        $location.path(row._link);
                     }
 
                     // Don't change selection when grid is single select
@@ -52,6 +57,22 @@ angular.module('coreModule')
             var target = $(event.target);
             while (true) {
                 if (target.is('.row-select-link')) {
+                    return true;
+                } else if (target.is('.grid-row')) {
+                    return false;
+                } else {
+                    target = target.parent();
+                }
+            }
+        }
+
+        /**
+         * Check if user clicked on selection checkbox in row
+         */
+        function isCheckboxClicked(event) {
+            var target = $(event.target);
+            while (true) {
+                if (target.is('.row-checkbox-col')) {
                     return true;
                 } else if (target.is('.grid-row')) {
                     return false;
