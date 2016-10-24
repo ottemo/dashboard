@@ -9,7 +9,7 @@ angular.module('productModule')
     'productApiService',
     'coreImageService',
     'dashboardUtilsService',
-    'coreCollectionItemsSelectorService',
+    'dashboardGridService',
     function (
         $scope,
         $routeParams,
@@ -19,7 +19,7 @@ angular.module('productModule')
         productApiService,
         coreImageService,
         dashboardUtilsService,
-        coreCollectionItemsSelectorService
+        dashboardGridService
     ) {
 
     $scope.addImage = addImage;
@@ -35,21 +35,37 @@ angular.module('productModule')
 
     activate();
 
-    $scope.getSelectedProducts = function() {
-        coreCollectionItemsSelectorService.modalSelector({
-            collection: 'product',
-            extraFields: 'price,sku',
-            multiSelect: true,
-            onItemLoad: function(item) {
-                if (item.images && item.images.length > 0) {
-                    item.image = item.images[0].small;
-                }
-            },
-            onItemSelect: function(item, selection, collection) {
+    $scope.productsGrid = dashboardGridService.grid({
+        collection: 'order',
+        columns: [
+            { key: 'total', label: 'Total', type: 'text' },
+            { key: 'id', label: 'ID', type: 'text', isLink: true }
+        ],
+        mapping: {
+            field: { ID: 'id' },
+            extra: { grand_total: 'total', customer_email: 'email'}
+        },
+        forcedExtra: 'status',
+        searchParams: {
+            total: '>200',
+            sort: '^total',
+            limit: '0,30'
+        },
+        rowCallback: function(row) {
+            row._link = '/orders/' + row.id;
 
-            }
-        });
-    };
+        },
+        multiSelect: true,
+        beforeSelect: function(row) {
+            row._disabled = true;
+            //console.log('before')
+            //return true;
+        },
+        selectedIds: ['55ba078075f8335d60ad6e57', '55a8ce4a81393ef2e8084bca']
+    });
+    $scope.productsGrid.load().then(function() {
+        console.log($scope.productsGrid.rows);
+    });
 
     ///////////////////////////////
 

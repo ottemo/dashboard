@@ -119,7 +119,13 @@ angular.module('dashboardModule')
             beforeSelect: null,
 
             /**
-             * Function should return id value when there is no `ID` field in collection entity
+             * Callback after row selection/deselection
+             */
+            afterSelect: null,
+
+            /**
+             * Function should return an unique id value
+             * when there is no `ID` field in collection entity
              */
             resolveEntityId: null,
 
@@ -150,6 +156,7 @@ angular.module('dashboardModule')
 
             this.rowCallback = config.rowCallback;
             this.beforeSelect = config.beforeSelect;
+            this.afterSelect = config.afterSelect;
             this.resolveEntityId = config.resolveEntityId;
 
             this.multiSelect = config.multiSelect;
@@ -472,6 +479,11 @@ angular.module('dashboardModule')
                 }
 
                 this.selectedIds = selectedIds;
+
+                // Invoke callback after selection
+                if (this.afterSelect) {
+                    this.afterSelect();
+                }
             }
         };
 
