@@ -123,7 +123,9 @@ angular.module('dashboardModule')
              */
             resolveEntityId: null,
 
-            multiSelect: false
+            multiSelect: false,
+            selectedIds: null,
+            keepSingleSelection: true
         };
 
         /**
@@ -151,11 +153,14 @@ angular.module('dashboardModule')
             this.resolveEntityId = config.resolveEntityId;
 
             this.multiSelect = config.multiSelect;
+            this.selectedIds = config.selectedIds;
+            this.keepSingleSelection = config.keepSingleSelection;
         }
 
-        /**
-         * Methods
-         */
+
+        // Methods
+        /////////////////////////////////////////
+
         Grid.prototype = {
 
             /**
@@ -256,6 +261,8 @@ angular.module('dashboardModule')
                 } else {
                     row._id = this.resolveEntityId(entity);
                 }
+
+                row._selected = isIdSelected(row._id, this.selectedIds);
 
                 return row;
             },
@@ -426,8 +433,64 @@ angular.module('dashboardModule')
                 params.limit = dashboardQueryService.limitToString(this.limit);
 
                 return params;
+            },
+
+            /**
+             * Updates rows._selected states and selectedIds after selection in grid
+             */
+            updateSelection: function(affectedRow, selectionState) {
+                var _id = affectedRow._id;
+                if (_id === undefined) return;
+
+                var selectedIds = this.selectedIds;
+
+                // When grid is multi select
+                if (this.multiSelect) {
+                    if (selectionState === true) {
+                        affectedRow._selected = true;
+                        if (!(selectedIds instanceof Array)) {
+                            selectedIds = [];
+                        }
+                        selectedIds.push(_id);
+                    } else {
+                        affectedRow._selected = false;
+                        var idIndex = selectedIds.indexOf(_id);
+                        selectedIds.splice(idIndex, 1);
+                    }
+
+                // When is single select
+                } else {
+                    if (selectionState === true) {
+                        _.forEach(this.rows, function(row) {
+                            row._selected = Boolean(row._id === _id);
+                        });
+                        selectedIds = _id;
+                    } else {
+                        affectedRow._selected = false;
+                        selectedIds = null;
+                    }
+                }
+
+                this.selectedIds = selectedIds;
             }
         };
+
+
+        // Helpers
+        /////////////////////////////////////////
+
+        /**
+         * Checks if id in selectedIds
+         */
+        function isIdSelected(id, selectedIds) {
+            if (!selectedIds) {
+                return false;
+            } else if (selectedIds instanceof Array) {
+                return selectedIds.indexOf(id) !== -1;
+            } else {
+                return id === selectedIds;
+            }
+        }
 
         return {
             grid: function(settings) {

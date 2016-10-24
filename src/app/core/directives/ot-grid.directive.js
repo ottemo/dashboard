@@ -13,6 +13,7 @@ angular.module('coreModule')
                  * Row click handler
                  */
                 $scope.clickRow = function(row, index, event) {
+                    console.log('click');
                     if (row._disabled) {
                         event.preventDefault();
                         return;
@@ -23,18 +24,23 @@ angular.module('coreModule')
                         return;
                     }
 
-                    if ($scope.grid.beforeSelect) {
-                        var isSelected = $scope.grid.beforeSelect(row);
-                        if (typeof(isSelected) === 'boolean') {
-                            row._selected = isSelected;
-                        } else {
-                            row._selected = !row._selected;
-                        }
-                    } else {
-                        row._selected = !row._selected;
+                    // Don't change selection when grid is single select
+                    // and we want always keep one item selected
+                    // and it's a click on the selected item
+                    if (!$scope.grid.multiSelect && $scope.grid.keepSingleSelection
+                        && row._selected === true) {
+                        return;
                     }
 
-                    event.preventDefault();
+                    var forcedSelectionState;
+                    if ($scope.grid.beforeSelect) {
+                        forcedSelectionState = $scope.grid.beforeSelect(row);
+                    }
+                    var newSelectionState = (typeof(forcedSelectionState) === 'boolean') ?
+                        forcedSelectionState : !row._selected;
+                    if (newSelectionState !== Boolean(row._selected)) {
+                        $scope.grid.updateSelection(row, newSelectionState);
+                    }
                 }
             }
         };
