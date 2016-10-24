@@ -1,35 +1,62 @@
 angular.module('coreModule')
 
-    .directive('otGrid', ['$location', function($location) {
+    .directive('otGrid', ['_', '$location', function(_, $location) {
+
+        /**
+         * Default directive config
+         */
+        var configDefaults = {
+
+            /**
+             * If `true`, while clicking on a row,
+             * selection will have more priority
+             * than redirecting to row._link
+             */
+            enforceSelection: false,
+
+            /**
+             * if set to `true`, load grid data on controller initialization
+             */
+            autoload: true,
+
+            /**
+             * If set to `true`, changing filters, sort or page in grid
+             * will modify search parameters in url
+             */
+            changeSearch: false
+        };
+
         return {
             restrict: 'EA',
             scope: {
                 /**
-                 * grid object created via dashboardGridService.grid(),
+                 * Grid object created via dashboardGridService.grid(),
                  * required
                  */
                 grid: '=',
 
                 /**
-                 * {Object} - grid view config, options are:
-                 * enforceSelection {Boolean} : if `true`, while clicking on a row,
-                 *                  selection will have more priority
-                 *                  than redirecting to row._link
-                 * autoload {Boolean} : `true` - load grid data on controller initialization
-                 * changeSearch {Boolean} : `true` - changing filters, sort or page in grid
-                 *                  will modify search parameters in url
+                 * Directive config
                  */
                 config: '='
             },
             templateUrl: '/views/core/directives/ot-grid.html',
             controller: function($scope) {
+                var config = _.assign({}, configDefaults, $scope.config);
 
-                if ($scope.config.changeSearch) {
+                if (config.changeSearch) {
+                    // TODO: create setter for callbacks
                     $scope.grid.loadCallbacks.push(function() {
                         $location.search($scope.grid.getViewSearchParams());
                     });
+
+                    if ($scope.grid.multiSelect) {
+                        $scope.grid.afterSelectCallbacks.push(function() {
+                            $location.search($scope.grid.getViewSearchParams());
+                        });
+                    }
                 }
-                if ($scope.config.autoload) {
+                if (config.autoload) {
                     activate();
                 }
 
@@ -53,10 +80,12 @@ angular.module('coreModule')
                         return;
                     }
 
-                    if (!isCheckboxClicked(event) && !$scope.config.enforceSelection
+                    if (!isCheckboxClicked(event) && !config.enforceSelection
                         && row._link) {
+
                         $location.search({});
                         $location.path(row._link);
+                        return;
                     }
 
                     // Don't change selection when grid is single select

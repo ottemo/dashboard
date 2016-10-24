@@ -48,20 +48,19 @@ angular.module('productModule')
         },
         forcedExtra: 'status',
         searchParams: $location.search(),
-        rowCallback: function(row, index) {
+        rowCallbacks: [function(row, index) {
             row._link = '/orders/' + row.id;
             row.ololo = 'ololo' + index;
-        },
-        //multiSelect: true,
+        }],
+        multiSelect: true,
         beforeSelect: function(row) {
         },
-        selectedIds: ['55ba078075f8335d60ad6e57', '55a8ce4a81393ef2e8084bca'],
     });
 
     $scope.gridViewConfig = {
-        enforceSelection: false,
+        enforceSelection: true,
         autoload: true,
-        changeSearch: true,
+        changeSearch: true
     };
 
     ///////////////////////////////

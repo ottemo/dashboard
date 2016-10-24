@@ -64,10 +64,35 @@ angular.module('dashboardModule')
             return sortStr;
         }
 
+        /**
+         * Converts selected ids string to an array or single string
+         * accordingly to isMultiSelect value
+         */
+        function idsFromString(ids, isMultiselect) {
+            if (isMultiselect) {
+                return (ids) ? ids.split(',') : [];
+            } else {
+                return ids;
+            }
+        }
+
+        /**
+         * Converts selected ids array or single string to an url search parameter string
+         */
+        function idsToString(ids, isMultiSelect) {
+            if (isMultiSelect) {
+                return ids.join(',');
+            } else {
+                return ids;
+            }
+        }
+
         return {
             limitStartFromString: limitStartFromString,
             limitToString: limitToString,
             sortFromString: sortFromString,
-            sortToString: sortToString
+            sortToString: sortToString,
+            idsFromString: idsFromString,
+            idsToString: idsToString
         }
     }]);

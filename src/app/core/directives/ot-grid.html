@@ -71,6 +71,12 @@
                     </td>
                 </tr>
             </tbody>
+
+            <tfoot ng-if="grid.multiSelect">
+                <tr>
+                    <th colspan="{{grid.columns.length + 1}}">Selected: {{grid.selectedIds.length}} item(s)</th>
+                </tr>
+            </tfoot>
         </table>
     </div>
 </div>

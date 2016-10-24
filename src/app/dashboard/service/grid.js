@@ -127,7 +127,7 @@ angular.module('dashboardModule')
             /**
              * Callback after row selection/deselection
              */
-            afterSelect: null,
+            afterSelectCallbacks: [],
 
             /**
              * Function should return an unique id value
@@ -174,11 +174,15 @@ angular.module('dashboardModule')
             this.rowCallbacks = config.rowCallbacks;
             this.loadCallbacks = config.loadCallbacks;
             this.beforeSelect = config.beforeSelect;
-            this.afterSelect = config.afterSelect;
+            this.afterSelectCallbacks = config.afterSelectCallbacks;
             this.resolveEntityId = config.resolveEntityId;
 
             this.multiSelect = config.multiSelect;
-            this.selectedIds = config.selectedIds;
+            if (!config.selectedIds) {
+                this.selectedIds = dashboardQueryService.idsFromString(config.searchParams._selected_ids, this.multiSelect);
+            } else {
+                this.selectedIds = config.selectedIds;
+            }
             this.keepSingleSelection = config.keepSingleSelection;
         }
 
@@ -460,6 +464,7 @@ angular.module('dashboardModule')
                     params.sort = sortParam;
                 }
                 params.limit = dashboardQueryService.limitToString(this.limit);
+                params._selected_ids = dashboardQueryService.idsToString(this.selectedIds, this.multiSelect);
 
                 return params;
             },
@@ -468,6 +473,7 @@ angular.module('dashboardModule')
              * Updates rows._selected states and selectedIds after selection in grid
              */
             updateSelection: function(affectedRow, selectionState) {
+                var self = this;
                 var _id = affectedRow._id;
                 if (_id === undefined) return;
 
@@ -502,10 +508,11 @@ angular.module('dashboardModule')
 
                 this.selectedIds = selectedIds;
 
-                // Invoke callback after selection
-                if (this.afterSelect) {
-                    this.afterSelect();
-                }
+
+                // Invoke callbacks after selection
+                _.forEach(this.afterSelectCallbacks, function(callback) {
+                    callback.call(self);
+                });
             },
 
             /**
