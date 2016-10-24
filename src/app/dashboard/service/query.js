@@ -27,8 +27,7 @@ angular.module('dashboardModule')
          * { start: 20, perPage: 15 } -> '20, 35'
          */
         function limitToString(limit) {
-            var limitEnd = limit.start + limit.perPage;
-            return limit.start + ',' + limitEnd;
+            return limit.start + ',' + limit.perPage;
         }
 
         /**

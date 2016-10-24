@@ -35,36 +35,34 @@ angular.module('productModule')
 
     activate();
 
+    //TODO: remove - testing code
     $scope.productsGrid = dashboardGridService.grid({
         collection: 'order',
         columns: [
             { key: 'total', label: 'Total', type: 'text' },
             { key: 'id', label: 'ID', type: 'text', isLink: true },
-            { key: 'ololo', label: 'OLOLO', type: 'text'}
         ],
         mapping: {
             field: { ID: 'id' },
             extra: { grand_total: 'total', customer_email: 'email'}
         },
         forcedExtra: 'status',
-        searchParams: {
-            total: '>200',
-            sort: '^total',
-            limit: '0,30'
-        },
+        searchParams: $location.search(),
         rowCallback: function(row, index) {
             row._link = '/orders/' + row.id;
             row.ololo = 'ololo' + index;
         },
-        multiSelect: true,
+        //multiSelect: true,
         beforeSelect: function(row) {
         },
         selectedIds: ['55ba078075f8335d60ad6e57', '55a8ce4a81393ef2e8084bca'],
-        //enforceSelection: true
     });
-    $scope.productsGrid.load().then(function() {
-        console.log($scope.productsGrid.rows);
-    });
+
+    $scope.gridViewConfig = {
+        enforceSelection: false,
+        autoload: true,
+        changeSearch: true,
+    };
 
     ///////////////////////////////
 

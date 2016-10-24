@@ -11,7 +11,8 @@ angular.module('productModule', ['ngRoute', 'ngResource', 'coreModule'])
         })
         .when('/products/:id', {
             templateUrl: '/views/product/edit.html',
-            controller: 'productEditController'
+            controller: 'productEditController',
+            reloadOnSearch: false
         })
         .when('/attributes', {
             templateUrl: '/views/product/attribute/list.html',

@@ -4,10 +4,40 @@ angular.module('coreModule')
         return {
             restrict: 'EA',
             scope: {
-                grid: '='
+                /**
+                 * grid object created via dashboardGridService.grid(),
+                 * required
+                 */
+                grid: '=',
+
+                /**
+                 * {Object} - grid view config, options are:
+                 * enforceSelection {Boolean} : if `true`, while clicking on a row,
+                 *                  selection will have more priority
+                 *                  than redirecting to row._link
+                 * autoload {Boolean} : `true` - load grid data on controller initialization
+                 * changeSearch {Boolean} : `true` - changing filters, sort or page in grid
+                 *                  will modify search parameters in url
+                 */
+                config: '='
             },
             templateUrl: '/views/core/directives/ot-grid.html',
             controller: function($scope) {
+
+                if ($scope.config.changeSearch) {
+                    $scope.grid.loadCallbacks.push(function() {
+                        $location.search($scope.grid.getViewSearchParams());
+                    });
+                }
+                if ($scope.config.autoload) {
+                    activate();
+                }
+
+                //////////////////////////////////////
+
+                function activate() {
+                    $scope.grid.load({resetPagination: true});
+                }
 
                 /**
                  * Row click handler
@@ -23,7 +53,7 @@ angular.module('coreModule')
                         return;
                     }
 
-                    if (!isCheckboxClicked(event) && !$scope.grid.enforceSelection
+                    if (!isCheckboxClicked(event) && !$scope.config.enforceSelection
                         && row._link) {
                         $location.search({});
                         $location.path(row._link);
@@ -46,9 +76,18 @@ angular.module('coreModule')
                     if (newSelectionState !== Boolean(row._selected)) {
                         $scope.grid.updateSelection(row, newSelectionState);
                     }
-                }
+                };
+
+                /**
+                 * Page changed handler
+                 */
+                $scope.pageChanged = function() {
+                    $scope.grid.changePage($scope.grid.pagination.page);
+                    $scope.grid.load({resetPagination: false});
+                };
             }
         };
+
 
         /**
          * Check if user clicked on select link in row

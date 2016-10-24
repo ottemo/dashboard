@@ -14,6 +14,7 @@ angular.module('dashboardModule')
 
         var ITEMS_PER_PAGE = 15;
 
+        // TODO: split config fields into smaller objects ?
         var defaults = {
 
             /**
@@ -100,13 +101,18 @@ angular.module('dashboardModule')
             itemsPerPage: ITEMS_PER_PAGE,
 
             /**
-             * Callback or an array of callbacks that are invoked for each row in grid
+             * An array of callbacks that are invoked for each row in grid
              * callback parameters:
              *      row - row object
              *      key - entity index in collection
              *      collection
              */
-            rowCallback: null,
+            rowCallbacks: [],
+
+            /**
+             * Callback after grid data loading
+             */
+            loadCallbacks: [],
 
             /**
              * Callback before row selection/deselection
@@ -131,8 +137,17 @@ angular.module('dashboardModule')
 
             multiSelect: false,
             selectedIds: null,
-            keepSingleSelection: true,
-            enforceSelection: false
+            keepSingleSelection: true
+        };
+
+        /**
+         * Default setting for grid.load method
+         */
+        var defaultLoadSettings = {
+            /**
+             * Indicates if grid pagination will be reinitialized
+             */
+            resetPagination: false
         };
 
         /**
@@ -141,6 +156,7 @@ angular.module('dashboardModule')
         function Grid(settings) {
             var config = _.assign({}, defaults, settings);
 
+            // TODO: split these into private variables and public getters/setters ?
             this.collection = config.collection;
             this.columns = config.columns;
             this.applyMapping(config.mapping);
@@ -155,7 +171,8 @@ angular.module('dashboardModule')
             this.applyFilters(config.searchParams);
             this.setSort(config.searchParams.sort);
 
-            this.rowCallback = config.rowCallback;
+            this.rowCallbacks = config.rowCallbacks;
+            this.loadCallbacks = config.loadCallbacks;
             this.beforeSelect = config.beforeSelect;
             this.afterSelect = config.afterSelect;
             this.resolveEntityId = config.resolveEntityId;
@@ -163,7 +180,6 @@ angular.module('dashboardModule')
             this.multiSelect = config.multiSelect;
             this.selectedIds = config.selectedIds;
             this.keepSingleSelection = config.keepSingleSelection;
-            this.enforceSelection = config.enforceSelection;
         }
 
 
@@ -184,10 +200,16 @@ angular.module('dashboardModule')
              *      _source      - {Object} collection entity object
              *      _disabled    - {Boolean} row is disabled for selection
              */
-            load: function() {
+            load: function(settings) {
+                var config = _.assign({}, defaultLoadSettings, settings);
+
                 var loadDeferred = $q.defer();
                 var self = this;
                 var apiLoadCollection = dashboardGridApiService[this.collection + 'List'];
+
+                if (config.resetPagination) {
+                    this.setupPagination();
+                }
 
                 apiLoadCollection(this.getRequestParams()).$promise
                     .then(function(response) {
@@ -199,23 +221,22 @@ angular.module('dashboardModule')
                                 row._source = entity;
 
                                 // Apply callbacks to each row
-                                var rowCallbacks = self.rowCallback;
-                                if (rowCallbacks) {
-                                    if (!(rowCallbacks instanceof Array)) {
-                                        rowCallbacks = [rowCallbacks]
+                                _.forEach(self.rowCallbacks, function(callback) {
+                                    var result = callback.call(self, row, key, collection);
+                                    if (result !== undefined) {
+                                        row = result;
                                     }
-                                    _.forEach(rowCallbacks, function(callback) {
-                                        var result = callback.call(self, row, key, collection);
-                                        if (result !== undefined) {
-                                            row = result;
-                                        }
-                                    });
-                                }
+                                });
 
                                 rows.push(row);
                             });
-
                             self.rows = rows;
+
+                            // Apply load callbacks
+                            _.forEach(self.loadCallbacks, function(callback) {
+                                callback.call(self);
+                            });
+
                             loadDeferred.resolve(rows);
 
                         } else {
@@ -224,7 +245,6 @@ angular.module('dashboardModule')
                     }, function() {
                         loadDeferred.reject(null);
                     });
-
 
                 return loadDeferred.promise;
             },
@@ -281,7 +301,7 @@ angular.module('dashboardModule')
              */
             count: function() {
                 var countDeferred = $q.defer();
-                var apiGetCount = dashboardGridApiService[self.collection + 'Count'];
+                var apiGetCount = dashboardGridApiService[this.collection + 'Count'];
 
                 apiGetCount(this.getRequestParams()).$promise
                     .then(function(response) {
@@ -486,6 +506,29 @@ angular.module('dashboardModule')
                 if (this.afterSelect) {
                     this.afterSelect();
                 }
+            },
+
+            /**
+             * Setups pagination settings
+             */
+            setupPagination: function() {
+                var self = this;
+                var pagination = {};
+
+                return this.count(this.getRequestParams()).then(function(count) {
+                    pagination.count = count;
+                    pagination.pages = 300;
+                    pagination.page = Math.floor(self.limit.start / self.limit.perPage) + 1;
+                    self.pagination = pagination;
+                });
+            },
+
+            /**
+             * Sets grid limit settings accordingly to page parameter
+             */
+            changePage: function(page) {
+                if (!this.pagination.count) return;
+                this.limit.start = (page - 1) * this.limit.perPage;
             }
         };
 

@@ -1,9 +1,9 @@
 <div class="grid-heading">
     <!-- Top pagination -->
-    <div class="text-center" ng-show="grid.pagination.pages > 1">
+    <div class="text-center" ng-show="grid.pagination.count > grid.limit.perPage">
         <div uib-pagination
              total-items="grid.pagination.count"
-             items-per-page="grid.limit.itemsPerPage"
+             items-per-page="grid.limit.perPage"
              force-ellipses="true"
              max-size="5"
              boundary-link-numbers="true"
@@ -77,10 +77,10 @@
 
 <div class="grid-footer">
     <!-- Bottom pagination -->
-    <div class="text-center" ng-show="grid.pagination.pages > 1">
+    <div class="text-center" ng-show="grid.pagination.count > grid.limit.perPage">
         <div uib-pagination
              total-items="grid.pagination.count"
-             items-per-page="grid.limit.itemsPerPage"
+             items-per-page="grid.limit.perPage"
              force-ellipses="true"
              max-size="5"
              boundary-link-numbers="true"
