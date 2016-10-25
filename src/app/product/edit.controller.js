@@ -39,12 +39,11 @@ angular.module('productModule')
     $scope.productsGrid = dashboardGridService.grid({
         collection: 'order',
         columns: [
-            { key: 'total', label: 'Total', type: 'text' },
-            { key: 'id', label: 'ID', type: 'text', isLink: true },
+            { key: 'total', label: 'Total', type: 'text', editor: 'text' },
+            { key: 'id', label: 'ID', type: 'text', isLink: true, editor: 'text' },
         ],
         mapping: {
-            field: { ID: 'id' },
-            extra: { grand_total: 'total', customer_email: 'email'}
+            extra: { grand_total: 'total', customer_email: 'email', '_id': 'id'}
         },
         forcedExtra: 'status',
         searchParams: $location.search(),

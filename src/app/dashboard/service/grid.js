@@ -303,6 +303,7 @@ angular.module('dashboardModule')
             /**
              * Init filters for each column
              */
+            // TODO: use columns objects instead of filters ?
             initFilters: function() {
                 var filters = [];
                 _.forEach(this.columns, function(column) {
@@ -311,6 +312,7 @@ angular.module('dashboardModule')
                     filter.key = column.key;
                     filter.entityKey = column.entityKey;
                     filter.options = column.options;
+                    filter.label = column.label;
                     filters.push(filter);
                 });
 
@@ -481,7 +483,11 @@ angular.module('dashboardModule')
                     params.sort = sortParam;
                 }
                 params.limit = dashboardQueryService.limitToString(this.limit);
-                params._selected_ids = dashboardQueryService.idsToString(this.selectedIds, this.multiSelect);
+
+                var selectedIdsStr = dashboardQueryService.idsToString(this.selectedIds, this.multiSelect);
+                if (selectedIdsStr !== '') {
+                    params._selected_ids = selectedIdsStr;
+                }
 
                 return params;
             },

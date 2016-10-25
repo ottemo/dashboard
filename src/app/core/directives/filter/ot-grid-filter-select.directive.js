@@ -17,7 +17,6 @@ angular.module('coreModule')
                     onApply: '='
                 },
                 controller: function ($scope) {
-                    console.log('activate');
 
                     activate();
 
