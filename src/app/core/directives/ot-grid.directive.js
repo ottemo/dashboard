@@ -227,7 +227,7 @@ angular.module('coreModule')
         function isCheckboxClicked(event) {
             var target = $(event.target);
             while (true) {
-                if (target.is('.row-col-selection')) {
+                if (target.is('.row-col-_selection')) {
                     return true;
                 } else if (target.is('.grid-row')) {
                     return false;

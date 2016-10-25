@@ -165,7 +165,7 @@ angular.module('dashboardModule')
             this.resolveEntityId = config.resolveEntityId;
 
             if (!config.selectedIds) {
-                this.selectedIds = dashboardQueryService.idsFromString(config.searchParams._selected_ids, this.multiSelect);
+                this.selectedIds = dashboardQueryService.idsFromString(config.searchParams._sel, this.multiSelect);
             } else {
                 this.selectedIds = config.selectedIds;
             }
@@ -496,7 +496,7 @@ angular.module('dashboardModule')
 
                 var selectedIdsStr = dashboardQueryService.idsToString(this.selectedIds, this.multiSelect);
                 if (selectedIdsStr !== '') {
-                    params._selected_ids = selectedIdsStr;
+                    params._sel = selectedIdsStr;
                 }
 
                 return params;
