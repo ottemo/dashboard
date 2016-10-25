@@ -38,16 +38,16 @@
                             ng-switch-when="select"
                             options="filter.options"
                             init-value="{{filter.value}}"
-                            on-apply="setFilters"
+                            on-apply="applyFilters"
                             get-filter="filter.getFilter">
                         </ot-grid-filter-select><!--/end Filter type select-->
 
                         <!--Filter type text-->
                         <ot-grid-filter-text
-                                ng-switch-when="text"
-                                init-value="{{filter.value}}"
-                                on-apply="setFilters"
-                                get-filter="filter.getFilter">
+                            ng-switch-when="text"
+                            init-value="{{filter.value}}"
+                            on-apply="applyFilters"
+                            get-filter="filter.getFilter">
                         </ot-grid-filter-text><!--/end Filter type text-->
 
                         <!--Filter default-->

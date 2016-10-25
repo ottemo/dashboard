@@ -120,14 +120,16 @@ angular.module('coreModule')
                     $scope.grid.load({resetPagination: false});
                 };
 
-                $scope.setFilters = function() {
+                /**
+                 * Apply filters handler
+                 */
+                $scope.applyFilters = function() {
                     var filterParams = {},
-                        isFiltersChanged = true;
+                        isFiltersChanged = false;
 
                     _.forEach($scope.grid.filters, function(filter) {
                         if (_.isFunction(filter.getFilter)) {
                             var newFilterValue = filter.getFilter();
-
                             filterParams[filter.key] = newFilterValue;
 
                             if (newFilterValue !== filter.value) {
