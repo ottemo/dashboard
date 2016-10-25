@@ -124,7 +124,7 @@ angular.module('dashboardModule')
             if (isNaN(parseFloat(range.low)) || isNaN(parseFloat(range.high))) {
                 return '';
             } else {
-                return range.low + '..' + range.high;
+                return parseFloat(range.low) + '..' + parseFloat(range.high);
             }
         }
 
