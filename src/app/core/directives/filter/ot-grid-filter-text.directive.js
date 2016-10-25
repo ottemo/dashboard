@@ -11,13 +11,22 @@ angular.module('coreModule')
                     label: '@',
                     onApply: '='
                 },
-                controller: function ($scope) {
+                controller: function ($scope, $attrs) {
+                    var strictComparison = 'strictComparison' in $attrs;
+
+                    if ($scope.initValue) {
+                        if (!strictComparison && $scope.initValue.indexOf('~') === 0) {
+                            $scope.initValue = $scope.initValue.slice(1);
+                        }
+                    }
                     $scope.filter = ($scope.initValue) ? $scope.initValue : '';
 
                     $scope.getFilter = function() {
-                        // TODO: extra option for LIKE ?
-                        // Return LIKE filter
-                        return ($scope.filter !== '') ? '~' + $scope.filter : undefined;
+                        if ($scope.filter !== '') {
+                            return strictComparison ? $scope.filter : '~' + $scope.filter;
+                        } else {
+                            return undefined;
+                        }
                     };
 
                     $scope.apply = function() {

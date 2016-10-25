@@ -335,7 +335,7 @@ angular.module('dashboardModule')
             applyFilters: function(params) {
                 _.forEach(this.filters, function(filter) {
                     if (params[filter.key] !== undefined) {
-                        filter.value = params[filter.key];
+                        filter.value = dashboardQueryService.filterValueFromUrl(params[filter.key], filter.type);
                     } else {
                         filter.value = undefined;
                     }
@@ -349,7 +349,7 @@ angular.module('dashboardModule')
                 var filtersParams = {};
                 _.forEach(this.filters, function(filter) {
                     if (filter.value !== undefined) {
-                        filtersParams[filter.key] = filter.value;
+                        filtersParams[filter.key] = dashboardQueryService.filterValueToUrl(filter.value, filter.type);
                     }
                 });
 

@@ -39,7 +39,7 @@ angular.module('productModule')
     $scope.productsGrid = dashboardGridService.grid({
         collection: 'order',
         columns: [
-            { key: 'total', label: 'Total', type: 'text', editor: 'text' },
+            { key: 'total', label: 'Total', type: 'text', editor: 'range' },
             { key: 'id', label: 'ID', type: 'text', isLink: true, editor: 'text' },
         ],
         mapping: {
@@ -56,7 +56,8 @@ angular.module('productModule')
     $scope.gridViewConfig = {
         forceSelection: false,
         autoload: true,
-        changeSearch: true
+        changeSearch: true,
+        isFiltersOpen: true
     };
 
     ///////////////////////////////

@@ -107,6 +107,53 @@ angular.module('dashboardModule')
             return options;
         }
 
+        /**
+         * Parses range string to object
+         * '2..10' -> { low: 2, high: 10 }
+         */
+        function rangeFromString(rangeStr) {
+            var rangeParts = rangeStr.split('..');
+            if (!_.isNumber(parseFloat(rangeParts[0])) || !_.isNumber(parseFloat(rangeParts[1]))) {
+                return { low: '', high: ''}
+            } else {
+                return { low: rangeParts[0], high: rangeParts[1] };
+            }
+        }
+
+        /**
+         * Converts range object to string
+         * { low: 2, high: 10 } -> '2..10'
+         */
+        function rangeToString(range) {
+            if (!_.isNumber(parseFloat(range.low)) || !_.isNumber(parseFloat(range.high))) {
+                return '';
+            } else {
+                return range.low + '..' + range.high;
+            }
+        }
+
+        /**
+         * Convert filter value from url format
+         */
+        function filterValueFromUrl(filterValue, filterType) {
+            switch(filterType) {
+                case 'range':
+                    return filterValue.replace('_', '..');
+                default: return filterValue;
+            }
+        }
+
+        /**
+         * Convert filter value to format that can be stored in url
+         */
+        function filterValueToUrl(filterValue, filterType) {
+            switch(filterType) {
+                case 'range':
+                    return filterValue.replace('..', '_');
+                default: return filterValue;
+            }
+        }
+
         return {
             limitStartFromString: limitStartFromString,
             limitToString: limitToString,
@@ -114,6 +161,10 @@ angular.module('dashboardModule')
             sortToString: sortToString,
             idsFromString: idsFromString,
             idsToString: idsToString,
-            optionsStringToObject: optionsStringToObject
+            optionsStringToObject: optionsStringToObject,
+            rangeFromString: rangeFromString,
+            rangeToString: rangeToString,
+            filterValueFromUrl: filterValueFromUrl,
+            filterValueToUrl: filterValueToUrl
         }
     }]);

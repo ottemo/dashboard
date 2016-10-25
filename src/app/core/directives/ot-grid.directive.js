@@ -23,7 +23,17 @@ angular.module('coreModule')
              * If set to `true`, changing filters, sort or page in grid
              * will modify search parameters in url
              */
-            changeSearch: false
+            changeSearch: false,
+
+            /**
+             * Allow filtering in grid
+             */
+            filtering: true,
+
+            /**
+             * Filters are visible by default
+             */
+            isFiltersOpen: false
         };
 
         return {
@@ -38,7 +48,15 @@ angular.module('coreModule')
                 /**
                  * Directive config
                  */
-                config: '='
+                config: '=',
+
+                /**
+                 * Directive methods that are allowed to use in external code:
+                 *      toggleFilters   - change filters visibility
+                 *      applyFilters    - apply filters
+                 *      getSelectedIds  - returns selectedIds as array of strings
+                 */
+                methods: '='
             },
             templateUrl: '/views/core/directives/ot-grid.html',
             controller: function($scope) {
@@ -55,12 +73,18 @@ angular.module('coreModule')
                         });
                     }
                 }
+
+                $scope.methods = {
+                    applyFilters: applyFilters,
+                    toggleFilters: toggleFilters,
+                    getSelectedIds: getSelectedIds
+                };
+                $scope.applyFilters = applyFilters;
+                $scope.isFiltersOpen = config.isFiltersOpen;
+
                 if (config.autoload) {
                     activate();
                 }
-
-                // TODO: remove - testing code
-                $scope.isFiltersVisible = true;
 
                 //////////////////////////////////////
 
@@ -123,7 +147,7 @@ angular.module('coreModule')
                 /**
                  * Apply filters handler
                  */
-                $scope.applyFilters = function() {
+                function applyFilters(force) {
                     var filterParams = {},
                         isFiltersChanged = false;
 
@@ -138,10 +162,24 @@ angular.module('coreModule')
                         }
                     });
 
-                    if (isFiltersChanged) {
+                    if (isFiltersChanged || force) {
                         $scope.grid.applyFilters(filterParams);
                         $scope.grid.load({resetPagination: true});
                     }
+                }
+
+                /**
+                 * Toggles filters visibility
+                 */
+                function toggleFilters() {
+                    $scope.isFiltersOpen = config.isFiltersOpen;
+                }
+
+                /**
+                 * Returns selected ids
+                 */
+                function getSelectedIds() {
+                    return $scope.grid.selectedIds;
                 }
             }
         };
