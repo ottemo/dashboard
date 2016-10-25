@@ -3,8 +3,6 @@
 }
 
 .heading-filters .filter-title-_selection {
-    max-width: 25px;
-
     select {
         padding-left: 2px;
         padding-right: 2px;
@@ -13,4 +11,5 @@
 
 .row-col-_selection {
     text-align: center;
+    width: 80px !important;
 }

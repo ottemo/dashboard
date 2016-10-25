@@ -3,46 +3,10 @@ angular.module('coreModule')
     .directive('otGrid', [
         '_',
         '$location',
-        'dashboardQueryService',
         function(
             _,
-            $location,
-            dashboardQueryService) {
-
-        /**
-         * Default directive config
-         */
-        var configDefaults = {
-
-            /**
-             * If `true`, while clicking on a row,
-             * selection will have more priority
-             * than redirecting to row._link
-             */
-            forceSelection: false,
-
-            /**
-             * if set to `true`, load grid data on controller initialization
-             */
-            autoload: true,
-
-            /**
-             * If set to `true`, changing filters, sort or page in grid
-             * will modify search parameters in url
-             */
-            changeSearch: false,
-
-            /**
-             * Allow filtering in grid
-             */
-            filtering: true,
-
-            /**
-             * Filters are visible by default
-             */
-            isFiltersOpen: false
-        };
-
+            $location
+        ) {
         return {
             restrict: 'EA',
             scope: {
@@ -67,7 +31,42 @@ angular.module('coreModule')
             },
             templateUrl: '/views/core/directives/ot-grid.html',
             controller: function($scope) {
-                var config = _.assign({}, configDefaults, $scope.config);
+
+                /**
+                 * Default directive config
+                 */
+                var configDefaults = {
+
+                    /**
+                     * If `true`, while clicking on a row,
+                     * selection will have more priority
+                     * than redirecting to row._link
+                     */
+                    forceSelection: false,
+
+                    /**
+                     * if set to `true`, load grid data on controller initialization
+                     */
+                    autoload: true,
+
+                    /**
+                     * If set to `true`, changing filters, sort or page in grid
+                     * will modify search parameters in url
+                     */
+                    changeSearch: false,
+
+                    /**
+                     * Allow filtering in grid
+                     */
+                    filtering: true,
+
+                    /**
+                     * Filters are visible by default
+                     */
+                    isFiltersOpen: false
+                };
+
+                var config = $.extend(true, {}, configDefaults, $scope.config);
 
                 if (config.changeSearch) {
                     $scope.grid.on('load', function() {

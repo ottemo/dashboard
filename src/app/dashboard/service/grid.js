@@ -14,133 +14,124 @@ angular.module('dashboardModule')
 
         var ITEMS_PER_PAGE = 15;
 
-        // TODO: split config fields into smaller self-documented objects ?
-        var defaults = {
-
-            /**
-             * Default grid columns
-             * Each columns is object with properties:
-             *      key
-             *      label       - column title,
-             *      type        - value type,
-             *      editor      - filter type,
-             *      isSortable  - column is sortable
-             *      isLink      - {Boolean} column value is wrapped with <a> element
-             *                              with 'href' = row._link
-             *      options     - {JSON} options for filter with type select
-             *                          {"red": "Red", "blue": "Blue"}
-             */
-            columns: [
-                {
-                    key: 'image',
-                    label: 'Image',
-                    type: 'image'
-                },
-                {
-                    key: 'id',
-                    label: 'ID',
-                    type: 'text',
-                    editor: 'text',
-                    isLink: true
-                },
-                {
-                    key: 'name',
-                    label: 'Name',
-                    type: 'text',
-                    editor: 'text'
-                },
-                {
-                    key: 'description',
-                    label: 'Description',
-                    type: 'text',
-                    editor: 'text'
-                }
-            ],
-
-            /**
-             * Mapping object
-             * defines how value for each row column is obtained from collection entity
-             * field: { ID: 'id' }                  entity.ID -> row.id
-             * extra: { customer_email: 'email' }   entity.Extra.customer_email -> row.email
-             *
-             * It may make filters, that are visible in view, be different from filters,
-             * that are sent to the server
-             * in view:                     email=~ottemo
-             * actual filter in request:    customer_email=~ottemo
-             */
-            mapping: {
-                field: {
-                    ID: 'id',
-                    Image: 'image',
-                    Name: 'name',
-                    Desc: 'description'
-                },
-                extra: {}
-            },
-
-            requestIdKey: '_id',
-
-            /**
-             * Initial search params object
-             * may contain filters, sort and limit parameters
-             * { sort: '^created_at', limit: '10,25' }
-             *
-             * Used to initialize grid with parameters from page url
-             */
-            searchParams: {},
-
-            /**
-             * Additional extra parameters that are passed to the server and can be used in rowCallback
-             * e.g: 'weight,price'
-             */
-            forcedExtra: '',
-
-            /**
-             * Filters that are not visible in view and always passed to the server
-             * e.g.:
-             * { status=processed } - users are not allowed to change that filter, but it will be send to the server
-             */
-            forcedFilters: {},
-
-            itemsPerPage: ITEMS_PER_PAGE,
-
-            /**
-             * Callback before row selection/deselection
-             * invoked before selection, parameters:
-             *      row - row object
-             *
-             * Should return Boolean value
-             * that will be assigned to row._selected
-             */
-            beforeSelect: null,
-
-            /**
-             * Function should return an unique id value
-             * when there is no `ID` field in collection entity
-             */
-            resolveEntityId: null,
-
-            multiSelect: false,
-            selectedIds: [],
-            keepSingleSelection: true
-        };
-
-        /**
-         * Default setting for grid.load method
-         */
-        var defaultLoadSettings = {
-            /**
-             * Indicates if grid pagination will be reinitialized
-             */
-            resetPagination: false
-        };
-
         /**
          * Constructor
          */
         // TODO: move code inside service `grid` function to use private variables instead of `this`
         function Grid(settings) {
-            var config = _.assign({}, defaults, settings);
+
+            // TODO: split config fields into smaller self-documented objects ?
+            var defaults = {
+
+                /**
+                 * Default grid columns
+                 * Each columns is object with properties:
+                 *      key
+                 *      label       - column title,
+                 *      type        - value type,
+                 *      editor      - filter type,
+                 *      isSortable  - column is sortable
+                 *      isLink      - {Boolean} column value is wrapped with <a> element
+                 *                              with 'href' = row._link
+                 *      options     - {JSON} options for filter with type select
+                 *                          {"red": "Red", "blue": "Blue"}
+                 */
+                columns: [
+                    {
+                        key: 'image',
+                        label: 'Image',
+                        type: 'image'
+                    },
+                    {
+                        key: 'id',
+                        label: 'ID',
+                        type: 'text',
+                        editor: 'text',
+                        isLink: true
+                    },
+                    {
+                        key: 'name',
+                        label: 'Name',
+                        type: 'text',
+                        editor: 'text'
+                    },
+                    {
+                        key: 'description',
+                        label: 'Description',
+                        type: 'text',
+                        editor: 'text'
+                    }
+                ],
+
+                /**
+                 * Mapping object
+                 * defines how value for each row column is obtained from collection entity
+                 * field: { ID: 'id' }                  entity.ID -> row.id
+                 * extra: { customer_email: 'email' }   entity.Extra.customer_email -> row.email
+                 *
+                 * It may make filters, that are visible in view, be different from filters,
+                 * that are sent to the server
+                 * in view:                     email=~ottemo
+                 * actual filter in request:    customer_email=~ottemo
+                 */
+                mapping: {
+                    field: {
+                        ID: 'id',
+                        Image: 'image',
+                        Name: 'name',
+                        Desc: 'description'
+                    },
+                    extra: {}
+                },
+
+                requestIdKey: '_id',
+
+                /**
+                 * Initial search params object
+                 * may contain filters, sort and limit parameters
+                 * { sort: '^created_at', limit: '10,25' }
+                 *
+                 * Used to initialize grid with parameters from page url
+                 */
+                searchParams: {},
+
+                /**
+                 * Additional extra parameters that are passed to the server and can be used in rowCallback
+                 * e.g: 'weight,price'
+                 */
+                forcedExtra: '',
+
+                /**
+                 * Filters that are not visible in view and always passed to the server
+                 * e.g.:
+                 * { status=processed } - users are not allowed to change that filter, but it will be send to the server
+                 */
+                forcedFilters: {},
+
+                itemsPerPage: ITEMS_PER_PAGE,
+
+                /**
+                 * Callback before row selection/deselection
+                 * invoked before selection, parameters:
+                 *      row - row object
+                 *
+                 * Should return Boolean value
+                 * that will be assigned to row._selected
+                 */
+                beforeSelect: null,
+
+                /**
+                 * Function should return an unique id value
+                 * when there is no `ID` field in collection entity
+                 */
+                resolveEntityId: null,
+
+                multiSelect: false,
+                selectedIds: [],
+                keepSingleSelection: true
+            };
+
+            var config = $.extend({}, defaults, settings);
 
             // TODO: split these into private variables and public getters/setters ?
             this.collection = config.collection;
@@ -164,8 +155,8 @@ angular.module('dashboardModule')
             this.beforeSelect = config.beforeSelect;
             this.resolveEntityId = config.resolveEntityId;
 
-            if (!config.selectedIds) {
-                this.selectedIds = dashboardQueryService.idsFromString(config.searchParams._sel, this.multiSelect);
+            if (config.selectedIds.length === 0) {
+                this.selectedIds = dashboardQueryService.idsFromString(config.searchParams._sel);
             } else {
                 this.selectedIds = config.selectedIds;
             }
@@ -191,14 +182,13 @@ angular.module('dashboardModule')
              *      _disabled     - {Boolean} row is disabled for selection
              *      _unselectable - {Boolean} row cannot be selected
              */
-            load: function(settings) {
-                var config = _.assign({}, defaultLoadSettings, settings);
+            load: function(resetPagination) {
 
                 var loadDeferred = $q.defer();
                 var self = this;
                 var apiLoadCollection = dashboardGridApiService[this.collection + 'List'];
 
-                if (config.resetPagination) {
+                if (resetPagination) {
                     this.setupPagination();
                 }
 
@@ -239,7 +229,7 @@ angular.module('dashboardModule')
              */
             getRequestParams: function() {
                 var requestFilterParams = this.getRequestFiltersParams();
-                var params = _.assign({}, requestFilterParams, this.forcedFilters);
+                var params = $.extend({}, requestFilterParams, this.forcedFilters);
                 var extraParam = this.getRequestExtraParam();
                 if (extraParam !== '') {
                     params.extra = extraParam;
@@ -599,13 +589,7 @@ angular.module('dashboardModule')
          * Checks if id in selectedIds
          */
         function isIdSelected(id, selectedIds) {
-            if (!selectedIds) {
-                return false;
-            } else if (selectedIds instanceof Array) {
-                return selectedIds.indexOf(id) !== -1;
-            } else {
-                return id === selectedIds;
-            }
+            return selectedIds.indexOf(id) !== -1;
         }
 
         return {

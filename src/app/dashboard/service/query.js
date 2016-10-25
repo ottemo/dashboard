@@ -4,6 +4,11 @@ angular.module('dashboardModule')
      * Provides helper functions for converting request parameters
      */
     .service('dashboardQueryService', [function() {
+        /**
+         * We save selected ids in url that has limit about 2000 chars,
+         * so maximum ids count is approximately 80 when id is 24 chars length
+         */
+        var SELECTED_IDS_LIMIT = 80;
 
         /**
          * Returns limit start value as number from limit string
@@ -65,26 +70,17 @@ angular.module('dashboardModule')
         }
 
         /**
-         * Converts selected ids string to an array or single string
-         * accordingly to isMultiSelect value
+         * Converts selected ids string to an array of strings
          */
-        function idsFromString(ids, isMultiselect) {
-            if (isMultiselect) {
-                return (ids) ? ids.split(',') : [];
-            } else {
-                return ids;
-            }
+        function idsFromString(ids) {
+            return (Boolean(ids)) ? ids.split(',') : [];
         }
 
         /**
          * Converts selected ids array or single string to an url search parameter string
          */
-        function idsToString(ids, isMultiSelect) {
-            if (isMultiSelect) {
-                return ids.join(',');
-            } else {
-                return ids;
-            }
+        function idsToString(ids) {
+            return (ids.length <= SELECTED_IDS_LIMIT) ? ids.join(',') : '';
         }
 
         /**
