@@ -87,12 +87,33 @@ angular.module('dashboardModule')
             }
         }
 
+        /**
+         * Parses options string to an object
+         */
+        function optionsStringToObject(optionsStr) {
+            var options = {};
+
+            try {
+                // JSON
+                options = JSON.parse(optionsStr.replace('\'', '"'));
+            } catch(e) {
+                // String '{red,blue}' -> Object {red: red, blue: blue}
+                var optionItems = optionsStr.replace(/[{}]/g, '').split(',');
+                _.forEach(optionItems, function(optionItem) {
+                    options[optionItem] = optionItem;
+                });
+            }
+
+            return options;
+        }
+
         return {
             limitStartFromString: limitStartFromString,
             limitToString: limitToString,
             sortFromString: sortFromString,
             sortToString: sortToString,
             idsFromString: idsFromString,
-            idsToString: idsToString
+            idsToString: idsToString,
+            optionsStringToObject: optionsStringToObject
         }
     }]);

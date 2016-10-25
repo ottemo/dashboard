@@ -32,14 +32,26 @@
                 <!--Filters-->
                 <tr class="heading-filters" ng-show="isFiltersVisible">
 
-                    <!--Selection filter-->
-                    <th class="filter-col-selection" ng-if="grid.multiSelect">
+                    <th ng-repeat="filter in grid.filters" ng-switch="filter.type">
+                        <!--Filter type select-->
+                        <ot-grid-filter-select
+                            ng-switch-when="select"
+                            options="filter.options"
+                            init-value="{{filter.value}}"
+                            on-apply="setFilters"
+                            get-filter="filter.getFilter">
+                        </ot-grid-filter-select><!--/end Filter type select-->
 
-                    </th><!--/end Selection filter-->
+                        <!--Filter type text-->
+                        <ot-grid-filter-text
+                                ng-switch-when="text"
+                                init-value="{{filter.value}}"
+                                on-apply="setFilters"
+                                get-filter="filter.getFilter">
+                        </ot-grid-filter-text><!--/end Filter type text-->
 
-                    <th ng-repeat="filter in grid.filters">
-
-                        {{filter.type}}
+                        <!--Filter default-->
+                        <div ng-switch-default>&nbsp;</div><!--/end Filter default-->
                     </th>
 
                 </tr><!--/end Filters-->

@@ -27,6 +27,8 @@ angular.module('dashboardModule')
              *      isSortable  - column is sortable
              *      isLink      - {Boolean} column value is wrapped with <a> element
              *                              with 'href' = row._link
+             *      options     - {JSON} options for filter with type select
+             *                          {"red": "Red", "blue": "Blue"}
              */
             columns: [
                 {
@@ -76,6 +78,8 @@ angular.module('dashboardModule')
                 extra: {}
             },
 
+            requestIdKey: '_id',
+
             /**
              * Initial search params object
              * may contain filters, sort and limit parameters
@@ -117,7 +121,7 @@ angular.module('dashboardModule')
             resolveEntityId: null,
 
             multiSelect: false,
-            selectedIds: null,
+            selectedIds: [],
             keepSingleSelection: true
         };
 
@@ -142,6 +146,8 @@ angular.module('dashboardModule')
             this.collection = config.collection;
             this.columns = config.columns;
             this.applyMapping(config.mapping);
+            this.requestIdKey = config.requestIdKey;
+            this.multiSelect = config.multiSelect;
 
             this.limit = {
                 start: dashboardQueryService.limitStartFromString(config.searchParams.limit),
@@ -158,7 +164,6 @@ angular.module('dashboardModule')
             this.beforeSelect = config.beforeSelect;
             this.resolveEntityId = config.resolveEntityId;
 
-            this.multiSelect = config.multiSelect;
             if (!config.selectedIds) {
                 this.selectedIds = dashboardQueryService.idsFromString(config.searchParams._selected_ids, this.multiSelect);
             } else {
@@ -305,8 +310,18 @@ angular.module('dashboardModule')
                     filter.type = column.editor || 'not_editable';
                     filter.key = column.key;
                     filter.entityKey = column.entityKey;
+                    filter.options = column.options;
                     filters.push(filter);
                 });
+
+                if (this.multiSelect) {
+                    filters.unshift({
+                        type: 'select',
+                        key: '_selection',
+                        entityKey: '_id',
+                        options: { yes: 'Yes', no: 'No' }
+                    });
+                }
 
                 this.filters = filters;
             },
@@ -319,6 +334,8 @@ angular.module('dashboardModule')
                 _.forEach(this.filters, function(filter) {
                     if (params[filter.key] !== undefined) {
                         filter.value = params[filter.key];
+                    } else {
+                        filter.value = undefined;
                     }
                 })
             },
@@ -343,10 +360,36 @@ angular.module('dashboardModule')
             getRequestFiltersParams: function() {
                 var filtersParams = {};
                 _.forEach(this.filters, function(filter) {
-                    if (filter.value !== undefined) {
+                    if (filter.value !== undefined && filter.key !== '_selection') {
                         filtersParams[filter.entityKey] = filter.value;
                     }
                 });
+
+                // Process selection filter,
+                // it should be the first filter in multi-select grid
+                if (this.multiSelect && this.filters[0] &&
+                    this.filters[0].key === '_selection') {
+
+                    var selectionFilter =  this.filters[0];
+                    var idKey = this.requestIdKey;
+
+                    // Don't apply selection filter
+                    // if '_id' field already present in filters
+                    // or if selection in grid is empty
+                    if (selectionFilter.value !== undefined
+                        && filtersParams[idKey] === undefined
+                        && this.selectedIds.length > 0) {
+
+                        switch(selectionFilter.value) {
+                            case 'yes':
+                                filtersParams[idKey] = this.selectedIds.join(',');
+                                break;
+                            case 'no':
+                                filtersParams[idKey] = '!=' + this.selectedIds.join(',');
+                                break;
+                        }
+                    }
+                }
 
                 return filtersParams;
             },
@@ -472,10 +515,10 @@ angular.module('dashboardModule')
                         _.forEach(this.rows, function(row) {
                             row._selected = Boolean(row._id === _id);
                         });
-                        selectedIds = _id;
+                        selectedIds = [_id];
                     } else {
                         affectedRow._selected = false;
-                        selectedIds = null;
+                        selectedIds = [];
                     }
                 }
 

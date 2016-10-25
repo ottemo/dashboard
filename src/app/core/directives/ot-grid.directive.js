@@ -119,6 +119,28 @@ angular.module('coreModule')
                     $scope.grid.changePage($scope.grid.pagination.page);
                     $scope.grid.load({resetPagination: false});
                 };
+
+                $scope.setFilters = function() {
+                    var filterParams = {},
+                        isFiltersChanged = true;
+
+                    _.forEach($scope.grid.filters, function(filter) {
+                        if (_.isFunction(filter.getFilter)) {
+                            var newFilterValue = filter.getFilter();
+
+                            filterParams[filter.key] = newFilterValue;
+
+                            if (newFilterValue !== filter.value) {
+                                isFiltersChanged = true;
+                            }
+                        }
+                    });
+
+                    if (isFiltersChanged) {
+                        $scope.grid.applyFilters(filterParams);
+                        $scope.grid.load({resetPagination: true});
+                    }
+                }
             }
         };
 
