@@ -25,15 +25,21 @@
 
                     </th>
 
-                    <th ng-repeat="column in grid.columns">
+                    <th ng-repeat="column in grid.columns"
+                        ng-click="titleClick(column)"
+                        class="text-uppercase"
+                        ng-class="{'th-clickable': !column.unselectable}">
+
                         {{column.label}}
+                        <span ng-class="{'fa-long-arrow-up': column.sort === 'ASC', 'fa-long-arrow-down': column.sort === 'DESC'}"
+                              class="fa"></span>
                     </th>
                 </tr><!--/end Headings-->
 
                 <!--Filters-->
                 <tr class="heading-filters" ng-show="isFiltersOpen">
 
-                    <th ng-repeat="filter in grid.filters" ng-switch="filter.type">
+                    <th ng-repeat="filter in grid.filters" ng-switch="filter.type" class="filter-title-{{filter.key}}">
                         <!--Filter type select-->
                         <ot-grid-filter-select
                                 ng-switch-when="select"
@@ -51,6 +57,16 @@
                                 label="{{filter.label}}"
                                 get-filter="filter.getFilter">
                         </ot-grid-filter-text><!--/end Filter type text-->
+
+                        <!--Filter type text-strict-->
+                        <ot-grid-filter-text
+                                ng-switch-when="text-strict"
+                                strict-comparison
+                                init-value="{{filter.value}}"
+                                on-apply="applyFilters"
+                                label="{{filter.label}}"
+                                get-filter="filter.getFilter">
+                        </ot-grid-filter-text><!--/end Filter type text-strict-->
 
                         <!--Filter type range-->
                         <ot-grid-filter-range

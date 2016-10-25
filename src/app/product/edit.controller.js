@@ -40,7 +40,7 @@ angular.module('productModule')
         collection: 'order',
         columns: [
             { key: 'total', label: 'Total', type: 'text', editor: 'range' },
-            { key: 'id', label: 'ID', type: 'text', isLink: true, editor: 'text' },
+            { key: 'id', label: 'ID', type: 'text', isLink: true, editor: 'text-strict' },
         ],
         mapping: {
             extra: { grand_total: 'total', customer_email: 'email', '_id': 'id'}

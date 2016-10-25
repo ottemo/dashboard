@@ -1,3 +1,12 @@
 .form-item:nth-child(2n + 1) {
     clear: both;
 }
+
+.heading-filters .filter-title-_selection {
+    max-width: 45px;
+
+    select {
+        padding-left: 2px;
+        padding-right: 2px;
+    }
+}

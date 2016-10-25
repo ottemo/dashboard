@@ -1,6 +1,13 @@
 angular.module('coreModule')
 
-    .directive('otGrid', ['_', '$location', function(_, $location) {
+    .directive('otGrid', [
+        '_',
+        '$location',
+        'dashboardQueryService',
+        function(
+            _,
+            $location,
+            dashboardQueryService) {
 
         /**
          * Default directive config
@@ -141,6 +148,19 @@ angular.module('coreModule')
                  */
                 $scope.pageChanged = function() {
                     $scope.grid.changePage($scope.grid.pagination.page);
+                    $scope.grid.load({resetPagination: false});
+                };
+
+                $scope.titleClick = function(column) {
+                    if (column._unsortable) {
+                        return;
+                    }
+
+                    var direction = 'ASC';
+                    if (column.sort && column.sort === 'ASC') {
+                        direction = 'DESC';
+                    }
+                    $scope.grid.setSort({ column: column.key, direction: direction});
                     $scope.grid.load({resetPagination: false});
                 };
 

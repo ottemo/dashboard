@@ -125,7 +125,7 @@ angular.module('dashboardModule')
          * { low: 2, high: 10 } -> '2..10'
          */
         function rangeToString(range) {
-            if (!_.isNumber(parseFloat(range.low)) || !_.isNumber(parseFloat(range.high))) {
+            if (isNaN(parseFloat(range.low)) || isNaN(parseFloat(range.high))) {
                 return '';
             } else {
                 return range.low + '..' + range.high;

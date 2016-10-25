@@ -397,12 +397,22 @@ angular.module('dashboardModule')
             },
 
             /**
-             * Assign sort parameter defined in search parameters to a grid column
-             * search: { sort: 'name' } -> column { key: 'name', ... , sort: 'ASC' }
+             * Assign sort parameter, which can be a string or an object, to a grid column
+             * 'name' -> column { key: 'name', ... , sort: 'ASC' }
+             * { column: 'name', direction: 'ASC' } -> column { key: 'name', ... , sort: 'ASC' }
              */
-            setSort: function(sortStr) {
-                var sort = dashboardQueryService.sortFromString(sortStr);
-                if (sort !== null) {
+            setSort: function(sortParam) {
+                var sort = sortParam;
+                if (typeof(sort) === 'string') {
+                    sort = dashboardQueryService.sortFromString(sort);
+                }
+                if (sort) {
+                    // Reset previous sort
+                    _.forEach(this.columns, function(column) {
+                        if (column.sort) {
+                            column.sort = undefined;
+                        }
+                    });
                     var column = _.filter(this.columns, { key: sort.column})[0];
                     if (column) {
                         column.sort = sort.direction;
