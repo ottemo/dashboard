@@ -18,11 +18,22 @@
     <div class="table-responsive">
         <table class="table table-hover table-bordered">
             <thead>
+                <!--Headings-->
+                <tr class="heading-titles">
+                    <th class="title-col-selection" ng-if="grid.multiSelect">
+
+                    </th>
+
+                    <th ng-repeat="column in grid.columns">
+                        {{column.label}}
+                    </th>
+                </tr><!--/end Headings-->
+
                 <!--Filters-->
-                <tr class="row-filters" ng-show="isFiltersVisible">
+                <tr class="heading-filters" ng-show="isFiltersVisible">
 
                     <!--Selection filter-->
-                    <th ng-if="grid.multiSelect">
+                    <th class="filter-col-selection" ng-if="grid.multiSelect">
 
                     </th><!--/end Selection filter-->
 
@@ -32,17 +43,6 @@
                     </th>
 
                 </tr><!--/end Filters-->
-
-                <!--Headings-->
-                <tr>
-                    <th class="checkboxes-column" ng-if="grid.multiSelect">
-                        placeholder
-                    </th>
-
-                    <th ng-repeat="column in grid.columns">
-                        {{column.label}}
-                    </th>
-                </tr><!--/end Headings-->
             </thead>
 
             <!--Body-->
@@ -52,7 +52,7 @@
                     ng-class="{'disabled': row._disabled}"
                     class="grid-row">
 
-                    <td ng-if="grid.multiSelect && !rowl._unselectable" class="row-checkbox-col">
+                    <td ng-if="grid.multiSelect && !rowl._unselectable" class="row-col-selection">
                         <input type="checkbox" ng-checked="row._selected === true" ng-disabled="row._disabled">
                     </td>
 

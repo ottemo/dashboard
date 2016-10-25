@@ -101,20 +101,6 @@ angular.module('dashboardModule')
             itemsPerPage: ITEMS_PER_PAGE,
 
             /**
-             * An array of callbacks that are invoked for each row in grid
-             * callback parameters:
-             *      row - row object
-             *      key - entity index in collection
-             *      collection
-             */
-            rowCallbacks: [],
-
-            /**
-             * Callback after grid data loading
-             */
-            loadCallbacks: [],
-
-            /**
              * Callback before row selection/deselection
              * invoked before selection, parameters:
              *      row - row object
@@ -123,11 +109,6 @@ angular.module('dashboardModule')
              * that will be assigned to row._selected
              */
             beforeSelect: null,
-
-            /**
-             * Callback after row selection/deselection
-             */
-            afterSelectCallbacks: [],
 
             /**
              * Function should return an unique id value
@@ -153,6 +134,7 @@ angular.module('dashboardModule')
         /**
          * Constructor
          */
+        // TODO: move code inside service `grid` function to use private variables instead of `this`
         function Grid(settings) {
             var config = _.assign({}, defaults, settings);
 
@@ -171,10 +153,9 @@ angular.module('dashboardModule')
             this.applyFilters(config.searchParams);
             this.setSort(config.searchParams.sort);
 
-            this.rowCallbacks = config.rowCallbacks;
-            this.loadCallbacks = config.loadCallbacks;
+            // Events
+            this.events = {};
             this.beforeSelect = config.beforeSelect;
-            this.afterSelectCallbacks = config.afterSelectCallbacks;
             this.resolveEntityId = config.resolveEntityId;
 
             this.multiSelect = config.multiSelect;
@@ -225,23 +206,17 @@ angular.module('dashboardModule')
                                 var row = self.convertEntityToRow(entity);
                                 row._source = entity;
 
-                                // Apply callbacks to each row
-                                _.forEach(self.rowCallbacks, function(callback) {
-                                    var result = callback.call(self, row, key, collection);
-                                    if (result !== undefined) {
-                                        row = result;
-                                    }
+                                self.trigger('rowCreated', {
+                                    row: row,
+                                    index: key,
+                                    collection: collection
                                 });
 
                                 rows.push(row);
                             });
                             self.rows = rows;
 
-                            // Apply load callbacks
-                            _.forEach(self.loadCallbacks, function(callback) {
-                                callback.call(self);
-                            });
-
+                            self.trigger('load');
                             loadDeferred.resolve(rows);
 
                         } else {
@@ -283,11 +258,9 @@ angular.module('dashboardModule')
                    row[columnKey] = entity[entityKey];
                 });
 
-                if (entity.Extra !== null) {
-                    _.forEach(this.mapping.extra, function(columnKey, extraKey) {
-                        row[columnKey] = entity.Extra[extraKey]
-                    });
-                }
+                _.forEach(this.mapping.extra, function(columnKey, extraKey) {
+                    row[columnKey] = (entity.Extra !== null) ? entity.Extra[extraKey] : null;
+                });
 
                 // Always set _id for selection implementation
                 if (entity.ID) {
@@ -474,7 +447,6 @@ angular.module('dashboardModule')
              * Updates rows._selected states and selectedIds after selection in grid
              */
             updateSelection: function(affectedRow, selectionState) {
-                var self = this;
                 var _id = affectedRow._id;
                 if (_id === undefined) return;
 
@@ -508,12 +480,7 @@ angular.module('dashboardModule')
                 }
 
                 this.selectedIds = selectedIds;
-
-
-                // Invoke callbacks after selection
-                _.forEach(this.afterSelectCallbacks, function(callback) {
-                    callback.call(self);
-                });
+                this.trigger('afterSelect', {});
             },
 
             /**
@@ -536,6 +503,32 @@ angular.module('dashboardModule')
             changePage: function(page) {
                 if (!this.pagination.count) return;
                 this.limit.start = (page - 1) * this.limit.perPage;
+            },
+
+            // Events
+            /////////////////////////////////////////
+
+            /**
+             * Adds event listeners to an event
+             */
+            on: function(eventName, listener) {
+                if (eventName in this.events) {
+                    this.events[eventName].push(listener);
+                } else {
+                    this.events[eventName] = [listener];
+                }
+            },
+
+            /**
+             * Triggers an event and invokes listeners that assigned to the event
+             */
+            trigger: function(eventName, event) {
+                var self = this;
+                _.forEach(this.events[eventName], function(listener) {
+                    if (_.isFunction(listener)) {
+                        listener.call(self, event);
+                    }
+                });
             }
         };
 

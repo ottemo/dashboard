@@ -12,7 +12,7 @@ angular.module('coreModule')
              * selection will have more priority
              * than redirecting to row._link
              */
-            enforceSelection: false,
+            forceSelection: false,
 
             /**
              * if set to `true`, load grid data on controller initialization
@@ -45,13 +45,12 @@ angular.module('coreModule')
                 var config = _.assign({}, configDefaults, $scope.config);
 
                 if (config.changeSearch) {
-                    // TODO: create setters for callbacks
-                    $scope.grid.loadCallbacks.push(function() {
+                    $scope.grid.on('load', function() {
                         $location.search($scope.grid.getViewSearchParams());
                     });
 
                     if ($scope.grid.multiSelect) {
-                        $scope.grid.afterSelectCallbacks.push(function() {
+                        $scope.grid.on('afterSelect', function() {
                             $location.search($scope.grid.getViewSearchParams());
                         });
                     }
@@ -86,7 +85,7 @@ angular.module('coreModule')
                         return;
                     }
 
-                    if (!isCheckboxClicked(event) && !config.enforceSelection
+                    if (!isCheckboxClicked(event) && !config.forceSelection
                         && row._link) {
 
                         $location.search({});
@@ -146,7 +145,7 @@ angular.module('coreModule')
         function isCheckboxClicked(event) {
             var target = $(event.target);
             while (true) {
-                if (target.is('.row-checkbox-col')) {
+                if (target.is('.row-col-selection')) {
                     return true;
                 } else if (target.is('.grid-row')) {
                     return false;

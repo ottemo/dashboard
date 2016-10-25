@@ -48,17 +48,14 @@ angular.module('productModule')
         },
         forcedExtra: 'status',
         searchParams: $location.search(),
-        rowCallbacks: [function(row, index) {
-            row._link = '/orders/' + row.id;
-            row.ololo = 'ololo' + index;
-        }],
-        multiSelect: true,
-        beforeSelect: function(row) {
-        },
+        multiSelect: true
+    });
+    $scope.productsGrid.on('rowCreated', function(event) {
+        event.row._link = 'orders/' + event.row.id;
     });
 
     $scope.gridViewConfig = {
-        enforceSelection: true,
+        forceSelection: false,
         autoload: true,
         changeSearch: true
     };
