@@ -310,7 +310,6 @@ angular.module('dashboardModule')
                     filters.unshift({
                         type: 'select',
                         key: '_selection',
-                        entityKey: '_id',
                         options: { yes: 'Yes', no: 'No' }
                     });
                 }

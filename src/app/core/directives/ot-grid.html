@@ -28,7 +28,7 @@
                     <th ng-repeat="column in grid.columns"
                         ng-click="titleClick(column)"
                         class="text-uppercase"
-                        ng-class="{'th-clickable': !column.unselectable}">
+                        ng-class="{'th-clickable': !column.unsortable}">
 
                         {{column.label}}
                         <span ng-class="{'fa-long-arrow-up': column.sort === 'ASC', 'fa-long-arrow-down': column.sort === 'DESC'}"
