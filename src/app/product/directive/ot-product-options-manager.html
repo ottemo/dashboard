@@ -64,7 +64,7 @@
                             ng-init="option.required = option.required || false"
                             ng-model="option.required"
                             ng-options="o as o for o in [true, false]"
-                            ng-disabled="option.has_simple_products">
+                            ng-disabled="option.has_associated_products">
                     </select>
                 </div>
 
@@ -98,8 +98,8 @@
                     </label>
                     <select class="form-control"
                             ng-change="updateAssociatedProductsList()"
-                            ng-init="option.has_simple_products = option.has_simple_products || false"
-                            ng-model="option.has_simple_products"
+                            ng-init="option.has_associated_products = option.has_associated_products || false"
+                            ng-model="option.has_associated_products"
                             ng-options="o as o for o in [true, false]"
                             ng-disabled="!canHaveAssociatedProducts(option.key)">
                     </select>
@@ -137,7 +137,7 @@
                             <th>Label</th>
                             <th>Price</th>
                             <th>Sku</th>
-                            <th ng-if="option.has_simple_products">Products</th>
+                            <th ng-if="option.has_associated_products">Products</th>
                             <th>Sort</th>
                             <th></th>
                         </tr>
@@ -165,11 +165,11 @@
                                        type="text"
                                        ng-model="selection.sku"/>
                             </td>
-                            <td ng-if="option.has_simple_products">
+                            <td ng-if="option.has_associated_products">
                                 <select class="form-control"
                                         ng-change="updateAssociatedProductList()"
-                                        ng-init="option.has_simple_products = option.has_simple_products || false"
-                                        ng-model="option.has_simple_products"
+                                        ng-init="option.has_associated_products = option.has_associated_products || false"
+                                        ng-model="option.has_associated_products"
                                         ng-options="o as o for o in [true, false]">
                                 </select>
                             </td>
@@ -192,4 +192,6 @@
             </div>
         </div>
     </div>
+
+    <ot-grid grid="productsGrid" config="gridViewConfig"></ot-grid>
 </div>

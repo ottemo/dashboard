@@ -528,7 +528,7 @@ angular.module('dashboardModule')
                 }
 
                 this.selectedIds = selectedIds;
-                this.trigger('afterSelect', {});
+                this.trigger('afterSelect', { row: affectedRow, selectionState: selectionState });
             },
 
             /**

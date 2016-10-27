@@ -6,7 +6,7 @@ angular.module('dashboardModule')
     .service('dashboardQueryService', [function() {
         /**
          * We save selected ids in url that has limit about 2000 chars,
-         * so maximum ids count is approximately 80 when id is 24 chars length
+         * so maximum ids count is approximately 80 when id is 24 chars long
          */
         var SELECTED_IDS_LIMIT = 80;
 
@@ -150,6 +150,14 @@ angular.module('dashboardModule')
             }
         }
 
+        /**
+         * Checks if attribute type is configurable
+         * '[]text', '[]id'
+         */
+        function isConfigurableAttrType(typeStr) {
+            return typeStr.indexOf('[]') === 0;
+        }
+
         return {
             limitStartFromString: limitStartFromString,
             limitToString: limitToString,
@@ -161,6 +169,7 @@ angular.module('dashboardModule')
             rangeFromString: rangeFromString,
             rangeToString: rangeToString,
             filterValueFromUrl: filterValueFromUrl,
-            filterValueToUrl: filterValueToUrl
+            filterValueToUrl: filterValueToUrl,
+            isConfigurableAttrType: isConfigurableAttrType
         }
     }]);

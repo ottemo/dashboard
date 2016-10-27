@@ -54,7 +54,7 @@ angular.module('productModule')
     });
 
     $scope.gridViewConfig = {
-        forceSelection: false,
+        forceSelection: true,
         autoload: true,
         changeSearch: true,
         isFiltersOpen: true
@@ -97,27 +97,30 @@ angular.module('productModule')
 
         // Grab product data
         var productId = getProductID();
-        var prodPromise = true;
         if (productId) {
             var params = {'productID': productId};
-            prodPromise = productApiService.getProduct(params).$promise
+            var prodPromise = productApiService.getProduct(params).$promise
                 .then(function (response) {
                     return response.result || {};
                 });
         }
 
-        $q.all([attrPromise, prodPromise]).then(function(response){
+        var promises = (productId) ? [attrPromise, prodPromise] : [attrPromise];
+        $q.all(promises).then(function(response){
             var attrs = response[0];
             var product = response[1];
 
             $scope.attributes = attrs;
-            $scope.product = product;
 
-            $scope.excludeItems = product._id;
-            $scope.selectedImage = product.default_image;
+            if (product) {
+                $scope.product = product;
 
-            if (product.options === 'undefined') {
-                $scope.product.options = {};
+                $scope.excludeItems = product._id;
+                $scope.selectedImage = product.default_image;
+
+                if (product.options === 'undefined') {
+                    $scope.product.options = {};
+                }
             }
         });
 
@@ -247,7 +250,7 @@ angular.module('productModule')
                 $scope.product._id = response.result._id;
                 $scope.images = [];
                 $scope.message = dashboardUtilsService.getMessage(null, 'success', 'Product was created successfully');
-                addImageManagerAttribute();
+                addImageManagerAttribute($scope.attributes);
 
                 defer.resolve($scope.product);
             } else {
