@@ -110,6 +110,12 @@
                                          style="width: 50px; height: 50px;">
                                 </span><!--/end images-->
 
+                                <!-- multi select -->
+                                <ot-grid-multi-select ng-switch-when="multi-select"
+                                        options="column.options"
+                                        values="row[column.key]">
+                                </ot-grid-multi-select><!--/multi select-->
+
                                 <!--default-->
                                 <span ng-switch-default="">{{row[column.key]}}</span><!--/end default-->
                             </span>
@@ -123,6 +129,14 @@
                                          ng-src="{{ row.images[0].small }}"
                                          style="width: 50px; height: 50px;">
                                 </span><!--/end images-->
+
+                                 <!-- []text -->
+                                <span ng-switch-when="[]text">
+                                    <ot-grid-text-array
+                                            options="column.options"
+                                            values="row[column.key]">
+                                    </ot-grid-text-array>
+                                </span><!--/end []text-->
 
                                 <!--default-->
                                 <span ng-switch-default="">{{row[column.key]}}</span><!--/end default-->

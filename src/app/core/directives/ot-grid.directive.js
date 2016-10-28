@@ -105,6 +105,7 @@ angular.module('coreModule')
                  * Row click handler
                  */
                 $scope.clickRow = function(row, index, event) {
+
                     if (row._disabled) {
                         event.preventDefault();
                         return;

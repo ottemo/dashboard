@@ -135,9 +135,8 @@
                         <tr>
                             <th ng-if="option.controls_image">Image</th>
                             <th>Label</th>
-                            <th>Price</th>
-                            <th>Sku</th>
-                            <th ng-if="option.has_associated_products">Products</th>
+                            <th ng-if="!option.has_associated_products">Price</th>
+                            <th ng-if="!option.has_associated_products">Sku</th>
                             <th>Sort</th>
                             <th></th>
                         </tr>
@@ -155,23 +154,15 @@
                                        ng-model="selection.label"
                                        ng-blur="updateOptionsKeys()"/>
                             </td>
-                            <td>
+                            <td ng-if="!option.has_associated_products">
                                 <input class="form-control"
                                        type="text"
                                        ng-model="selection.price"/>
                             </td>
-                            <td>
+                            <td ng-if="!option.has_associated_products">
                                 <input class="form-control"
                                        type="text"
                                        ng-model="selection.sku"/>
-                            </td>
-                            <td ng-if="option.has_associated_products">
-                                <select class="form-control"
-                                        ng-change="updateAssociatedProductList()"
-                                        ng-init="option.has_associated_products = option.has_associated_products || false"
-                                        ng-model="option.has_associated_products"
-                                        ng-options="o as o for o in [true, false]">
-                                </select>
                             </td>
                             <td>
                                 <input class="form-control"
@@ -193,5 +184,13 @@
         </div>
     </div>
 
-    <ot-grid grid="productsGrid" config="gridViewConfig"></ot-grid>
+    <div class="panel panel-default panel-associated-products product-option" ng-if="isConfigurable">
+        <div class="panel-heading" ng-click="isProductsUnfolded = !isProductsUnfolded">
+            Associated Products
+            <i class="fa" ng-class="{'fa-caret-down': !isUnfolded, 'fa-caret-up': isUnfolded}"></i>
+        </div>
+        <div class="panel-body" ng-show="isProductsUnfolded">
+            <ot-grid grid="productsGrid" config="gridViewConfig"></ot-grid>
+        </div>
+    </div>
 </div>

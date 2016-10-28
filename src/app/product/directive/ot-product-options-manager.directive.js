@@ -56,6 +56,7 @@ angular.module('productModule')
                             $scope.product.type === 'configurable';
 
                         if ($scope.isConfigurable) {
+                            //$scope.isProductsUnfolded = false;
                             configurable.init($scope.optionsData);
                             initProductsGrid();
                         }
@@ -208,7 +209,7 @@ angular.module('productModule')
                             mapping: configurable.getGridMapping(),
                             multiSelect: true,
                             searchParams: { _selection: 'yes' },
-                            selectedIds: configurable.getProductIdsFromOptions(),
+                            selectedIds: configurable.getProductIdsFromOptions($scope.optionsData),
                             forcedFilters: { type: '!=configurable' }
                         });
 

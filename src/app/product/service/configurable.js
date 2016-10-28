@@ -117,12 +117,16 @@ angular.module('productModule')
                     ];
 
                     _.forEach(this.options, function(o, optionKey) {
-                        var column = { key: optionKey, type: 'text', editor: 'text' };
+                        var column = {
+                            key: optionKey,
+                            type: '[]text',
+                            editor: 'multi-select',
+                            options:  self.attributes[optionKey].values
+                        };
                         column.label = self.attributes[optionKey].label;
                         columns.push(column);
                     });
 
-                    console.log(columns);
                     return columns;
                 },
 
@@ -206,7 +210,6 @@ angular.module('productModule')
                     var id = row._id;
                     _.forEach(this.options, function(o, optionKey) {
                         var subOptionKey = row[optionKey][0];
-                        console.log(subOptionKey);
                         var subOptionLabel = self.attributes[optionKey].values[subOptionKey];
 
                         var productOption = productOptions[optionKey];
@@ -231,8 +234,6 @@ angular.module('productModule')
                             };
                         }
                     });
-
-                    console.log(productOptions);
                 },
 
                 removeProductIdFromOptions: function(row, productOptions) {
@@ -249,8 +250,6 @@ angular.module('productModule')
                             }
                         }
                     });
-
-                    console.log(productOptions);
                 }
             };
 

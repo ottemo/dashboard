@@ -37,4 +37,20 @@
             display: inline-block;
         }
     }
+
+    &.panel-associated-products {
+        .panel-body {
+            padding: 0;
+
+            .table-responsive {
+                margin-bottom: 0px;
+            }
+        }
+        
+        tr.disabled {
+            background-color: #F8F5F0;
+            color: #98978B;
+        }
+    }
 }
+
