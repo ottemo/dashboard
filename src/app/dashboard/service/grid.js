@@ -4,12 +4,12 @@ angular.module('dashboardModule')
         '_',
         '$q',
         'dashboardGridApiService',
-        'dashboardQueryService',
+        'coreParserService',
         function (
             _,
             $q,
             dashboardGridApiService,
-            dashboardQueryService
+            coreParserService
         ) {
 
         var ITEMS_PER_PAGE = 15;
@@ -135,13 +135,13 @@ angular.module('dashboardModule')
 
             // TODO: split these into private variables and public getters/setters ?
             this.collection = config.collection;
-            this.columns = config.columns;
+            this.initColumns(config.columns);
             this.applyMapping(config.mapping);
             this.requestIdKey = config.requestIdKey;
             this.multiSelect = config.multiSelect;
 
             this.limit = {
-                start: dashboardQueryService.limitStartFromString(config.searchParams.limit),
+                start: coreParserService.limitStartFromString(config.searchParams.limit),
                 perPage: config.itemsPerPage
             };
             this.forcedExtra = config.forcedExtra;
@@ -156,7 +156,7 @@ angular.module('dashboardModule')
             this.resolveEntityId = config.resolveEntityId;
 
             if (config.selectedIds.length === 0) {
-                this.selectedIds = dashboardQueryService.idsFromString(config.searchParams._sel);
+                this.selectedIds = coreParserService.idsFromString(config.searchParams._sel);
             } else {
                 this.selectedIds = config.selectedIds;
             }
@@ -238,7 +238,7 @@ angular.module('dashboardModule')
                 if (sortParam !== '') {
                     params.sort = sortParam;
                 }
-                params.limit = dashboardQueryService.limitToString(this.limit);
+                params.limit = coreParserService.limitToString(this.limit);
 
                 return params;
             },
@@ -291,6 +291,21 @@ angular.module('dashboardModule')
             },
 
             /**
+             * Initialize grid columns from config
+             */
+            initColumns: function(columnsConfig) {
+                var columns = [];
+                _.forEach(columnsConfig, function(columnsConfigItem) {
+                    var column = $.extend({}, columnsConfigItem);
+                    column.type = coreParserService.resolveColumnType(columnsConfigItem.type);
+
+                    columns.push(column);
+                });
+
+                this.columns = columns;
+            },
+
+            /**
              * Init filters for each column
              */
             // TODO: use columns objects instead of filters ?
@@ -298,7 +313,7 @@ angular.module('dashboardModule')
                 var filters = [];
                 _.forEach(this.columns, function(column) {
                     var filter = {};
-                    filter.type = dashboardQueryService.resolveFilterType(column.editor);
+                    filter.type = coreParserService.resolveFilterType(column.editor);
                     filter.key = column.key;
                     filter.entityKey = column.entityKey;
                     filter.options = column.options;
@@ -324,7 +339,7 @@ angular.module('dashboardModule')
             applyFilters: function(params) {
                 _.forEach(this.filters, function(filter) {
                     if (params[filter.key] !== undefined) {
-                        filter.value = dashboardQueryService.filterValueFromUrl(params[filter.key], filter.type);
+                        filter.value = coreParserService.filterValueFromUrl(params[filter.key], filter.type);
                     } else {
                         filter.value = undefined;
                     }
@@ -338,7 +353,7 @@ angular.module('dashboardModule')
                 var filtersParams = {};
                 _.forEach(this.filters, function(filter) {
                     if (filter.value !== undefined) {
-                        filtersParams[filter.key] = dashboardQueryService.filterValueToUrl(filter.value, filter.type);
+                        filtersParams[filter.key] = coreParserService.filterValueToUrl(filter.value, filter.type);
                     }
                 });
 
@@ -393,7 +408,7 @@ angular.module('dashboardModule')
             setSort: function(sortParam) {
                 var sort = sortParam;
                 if (typeof(sort) === 'string') {
-                    sort = dashboardQueryService.sortFromString(sort);
+                    sort = coreParserService.sortFromString(sort);
                 }
                 if (sort) {
                     // Reset previous sort
@@ -417,7 +432,7 @@ angular.module('dashboardModule')
                 var sortParam = '';
                 _.forEach(this.columns, function(column) {
                     if (column.sort) {
-                        sortParam = dashboardQueryService.sortToString({ column: column.key, direction: column.sort });
+                        sortParam = coreParserService.sortToString({ column: column.key, direction: column.sort });
                         return false;
                     }
                 });
@@ -432,7 +447,7 @@ angular.module('dashboardModule')
                 var sortParam = '';
                 _.forEach(this.columns, function(column) {
                     if (column.sort) {
-                        sortParam = dashboardQueryService.sortToString({ column: column.entityKey, direction: column.sort });
+                        sortParam = coreParserService.sortToString({ column: column.entityKey, direction: column.sort });
                         return false;
                     }
                 });
@@ -481,9 +496,9 @@ angular.module('dashboardModule')
                 if (sortParam !== '') {
                     params.sort = sortParam;
                 }
-                params.limit = dashboardQueryService.limitToString(this.limit);
+                params.limit = coreParserService.limitToString(this.limit);
 
-                var selectedIdsStr = dashboardQueryService.idsToString(this.selectedIds, this.multiSelect);
+                var selectedIdsStr = coreParserService.idsToString(this.selectedIds, this.multiSelect);
                 if (selectedIdsStr !== '') {
                     params._sel = selectedIdsStr;
                 }

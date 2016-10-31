@@ -2,10 +2,10 @@ angular.module('productModule')
 
     .service('productConfigurableService', [
         '_',
-        'dashboardQueryService',
+        'coreParserService',
         function (
             _,
-            dashboardQueryService
+            coreParserService
         ) {
             /**
              * Constructor
@@ -90,9 +90,9 @@ angular.module('productModule')
                     var configurableAttributes = {};
 
                     _.forEach(attributes, function (attribute) {
-                        if (dashboardQueryService.isConfigurableAttrType(attribute.Type)) {
+                        if (coreParserService.isConfigurableAttrType(attribute.Type)) {
                             var attributeKey = attribute.Attribute;
-                            var attributeOptions = dashboardQueryService.optionsStringToObject(attribute.Options);
+                            var attributeOptions = coreParserService.optionsStringToObject(attribute.Options);
 
                             configurableAttributes[attributeKey] = {
                                 label: attribute.Label,
@@ -112,14 +112,14 @@ angular.module('productModule')
                     var self = this;
 
                     var columns = [
-                        { key: 'name', label: 'Name', type: 'text', editor: 'text'},
+                        { key: 'name', label: 'Name', type: 'text', editor: 'text', isLink: true},
                         { key: 'sku', label: 'SKU', type: 'text', editor: 'text' }
                     ];
 
                     _.forEach(this.options, function(o, optionKey) {
                         var column = {
                             key: optionKey,
-                            type: '[]text',
+                            type: self.attributes[optionKey].Type,
                             editor: 'select',
                             options:  self.attributes[optionKey].values
                         };

@@ -2,10 +2,10 @@ angular.module('coreModule')
 
     .directive('otGridFilterSelect', [
         '_',
-        'dashboardQueryService',
+        'coreParserService',
         function (
             _,
-            dashboardQueryService
+            coreParserService
         ) {
             return {
                 restrict: 'EA',
@@ -27,7 +27,7 @@ angular.module('coreModule')
 
                         // If options is a string - convert to object
                         if (typeof(options) === 'string') {
-                            options = dashboardQueryService.optionsStringToObject($scope.options);
+                            options = coreParserService.optionsStringToObject($scope.options);
                         }
                         // If options is an object and not an array, convert to array
                         if (!_.isArray(options) && _.isObject(options)) {

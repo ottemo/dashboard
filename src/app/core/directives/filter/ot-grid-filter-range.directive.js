@@ -2,10 +2,10 @@ angular.module('coreModule')
 
     .directive('otGridFilterRange', [
         '_',
-        'dashboardQueryService',
+        'coreParserService',
         function (
             _,
-            dashboardQueryService
+            coreParserService
         ) {
             return {
                 restrict: 'EA',
@@ -30,10 +30,10 @@ angular.module('coreModule')
                     }
 
                     $scope.filter = ($scope.initValue) ?
-                        dashboardQueryService.rangeFromString($scope.initValue) : { low: '', high: '' };
+                        coreParserService.rangeFromString($scope.initValue) : { low: '', high: '' };
 
                     $scope.getFilter = function() {
-                        var filterValue = dashboardQueryService.rangeToString($scope.filter);
+                        var filterValue = coreParserService.rangeToString($scope.filter);
                         return (filterValue !== '') ? filterValue : undefined;
                     };
 

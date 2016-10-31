@@ -96,11 +96,7 @@
                     </td>
 
                     <td ng-repeat="column in grid.columns">
-
-                        <!--TODO: Create a directive for conditional link wrapper-->
-                        <a href="{{row._link}}"
-                           ng-if="column.isLink && row._link && !row._disabled"
-                           class="row-select-link">
+                        <ot-link-wrapper url="row._link" show-link="column.isLink && row._link && !row._disabled">
                             <span ng-switch="column.type">
 
                                 <!-- images -->
@@ -110,37 +106,15 @@
                                          style="width: 50px; height: 50px;">
                                 </span><!--/end images-->
 
-                                <!-- multi select -->
-                                <ot-grid-multi-select ng-switch-when="multi-select"
-                                        options="column.options"
-                                        values="row[column.key]">
-                                </ot-grid-multi-select><!--/multi select-->
+                                <!-- array -->
+                                <span ng-switch-when="array">
+                                    {{row[column.key] | otKeysToString:column.options}}
+                                </span><!--/end array-->
 
                                 <!--default-->
                                 <span ng-switch-default="">{{row[column.key]}}</span><!--/end default-->
                             </span>
-                        </a>
-
-                        <span ng-if="!column.isLink || !row._link || row._disabled" ng-switch="column.type">
-
-                                <!-- images -->
-                                <span ng-switch-when="images">
-                                    <img class="media-object"
-                                         ng-src="{{ row.images[0].small }}"
-                                         style="width: 50px; height: 50px;">
-                                </span><!--/end images-->
-
-                                 <!-- []text -->
-                                <span ng-switch-when="[]text">
-                                    <ot-grid-text-array
-                                            options="column.options"
-                                            values="row[column.key]">
-                                    </ot-grid-text-array>
-                                </span><!--/end []text-->
-
-                                <!--default-->
-                                <span ng-switch-default="">{{row[column.key]}}</span><!--/end default-->
-                        </span>
+                        </ot-link-wrapper>
                     </td>
                 </tr>
             </tbody><!--/end Body-->

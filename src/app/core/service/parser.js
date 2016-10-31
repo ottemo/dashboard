@@ -1,9 +1,9 @@
-angular.module('dashboardModule')
+angular.module('coreModule')
 
     /**
-     * Provides helper functions for converting request parameters
+     * Provides helper functions for parsing data from the server
      */
-    .service('dashboardQueryService', [function() {
+    .service('coreParserService', [function() {
         /**
          * We save selected ids in url that has limit about 2000 chars,
          * so maximum ids count is approximately 80 when id is 24 chars long
@@ -158,6 +158,9 @@ angular.module('dashboardModule')
             return typeStr.indexOf('[]') === 0;
         }
 
+        /**
+         *
+         */
         function resolveFilterType(columnEditorType) {
             switch (columnEditorType) {
                 case 'multi_select':
@@ -189,6 +192,7 @@ angular.module('dashboardModule')
             filterValueFromUrl: filterValueFromUrl,
             filterValueToUrl: filterValueToUrl,
             isConfigurableAttrType: isConfigurableAttrType,
-            resolveFilterType: resolveFilterType
+            resolveFilterType: resolveFilterType,
+            resolveColumnType: resolveColumnType
         }
     }]);
