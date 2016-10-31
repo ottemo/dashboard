@@ -120,7 +120,7 @@ angular.module('productModule')
                         var column = {
                             key: optionKey,
                             type: '[]text',
-                            editor: 'multi-select',
+                            editor: 'select',
                             options:  self.attributes[optionKey].values
                         };
                         column.label = self.attributes[optionKey].label;

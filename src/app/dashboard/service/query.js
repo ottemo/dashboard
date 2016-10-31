@@ -158,6 +158,24 @@ angular.module('dashboardModule')
             return typeStr.indexOf('[]') === 0;
         }
 
+        function resolveFilterType(columnEditorType) {
+            switch (columnEditorType) {
+                case 'multi_select':
+                case 'select':
+                    return 'select';
+                case '':
+                    return 'not_editable';
+                default:
+                    return columnEditorType;
+            }
+        }
+
+        function resolveColumnType(columnType) {
+            if (columnType.indexOf('[]') === 0) {
+                return 'array';
+            } else return columnType;
+        }
+
         return {
             limitStartFromString: limitStartFromString,
             limitToString: limitToString,
@@ -170,6 +188,7 @@ angular.module('dashboardModule')
             rangeToString: rangeToString,
             filterValueFromUrl: filterValueFromUrl,
             filterValueToUrl: filterValueToUrl,
-            isConfigurableAttrType: isConfigurableAttrType
+            isConfigurableAttrType: isConfigurableAttrType,
+            resolveFilterType: resolveFilterType
         }
     }]);

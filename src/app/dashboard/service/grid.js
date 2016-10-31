@@ -298,7 +298,7 @@ angular.module('dashboardModule')
                 var filters = [];
                 _.forEach(this.columns, function(column) {
                     var filter = {};
-                    filter.type = column.editor || 'not_editable';
+                    filter.type = dashboardQueryService.resolveFilterType(column.editor);
                     filter.key = column.key;
                     filter.entityKey = column.entityKey;
                     filter.options = column.options;
