@@ -22,14 +22,14 @@
         <div class="panel-body" ng-show="isUnfolded">
             <div class="row">
                 <div class="form-group col-sm-6 col-sm-push-6 form-item option-delete-container">
-                    <button class="btn btn-danger" ng-click="removeOption(option.key)">
+                    <button class="btn btn-danger btn-sm" ng-click="removeOption(option.key)">
                         <i class="fa fa-times"></i>
                         Delete Option
                     </button>
                 </div>
 
                 <div class="form-group col-sm-6 col-sm-pull-6 form-item">
-                    <label>Code: </label> {{option.key}}
+                    <label>Code: </label>
                 </div>
 
                 <div class="form-group col-sm-6 form-item">
@@ -37,7 +37,7 @@
                     <input class="form-control"
                            type="text"
                            ng-model="option.label"
-                           ng-blur="updateOptionsKeys()"/>
+                           ng-blur="changedOptionsLabels(optionsData, true)"/>
                 </div>
 
                 <div class="form-group col-sm-6 form-item">
@@ -63,8 +63,7 @@
                     <select class="form-control"
                             ng-init="option.required = option.required || false"
                             ng-model="option.required"
-                            ng-options="o as o for o in [true, false]"
-                            ng-disabled="option.has_associated_products">
+                            ng-options="o as o for o in [true, false]">
                     </select>
                 </div>
 
@@ -97,11 +96,11 @@
                         </a>
                     </label>
                     <select class="form-control"
-                            ng-change="updateAssociatedProductsList()"
+                            ng-change="reloadAssociatedProducts()"
                             ng-init="option.has_associated_products = option.has_associated_products || false"
                             ng-model="option.has_associated_products"
                             ng-options="o as o for o in [true, false]"
-                            ng-disabled="!canHaveAssociatedProducts(option.key)">
+                            ng-disabled="canHaveAssociatedProducts(option.key) === false">
                     </select>
                 </div>
 
@@ -110,8 +109,7 @@
                     <label>Price</label>
                     <input class="form-control"
                            type="text"
-                           ng-model="option.price"
-                           ng-blur="updateOptionsKeys()"/>
+                           ng-model="option.price"/>
                 </div>
 
                 <div class="form-group col-sm-6"
@@ -119,14 +117,19 @@
                     <label>SKU</label>
                     <input class="form-control"
                            type="text"
-                           ng-model="option.sku"
-                           ng-blur="updateOptionsKeys()"/>
+                           ng-model="option.sku"/>
                 </div>
             </div>
 
             <div class="option-selections"
                  ng-if="['select', 'multi_select', 'radio', 'checkbox'].indexOf(option.type) !== -1">
-                <h3>Selections</h3>
+                <h2>Selections
+                    <button class="btn btn-sm btn-primary"
+                            ng-click="addRow(option.key)"
+                            ng-show="!option.has_associated_products">
+                        add selection
+                    </button>
+                </h2>
                 <div class="table-responsive">
                     <table class="table table-bordered table-condensed"
                            ng-show="isUnfolded"
@@ -138,21 +141,21 @@
                             <th ng-if="!option.has_associated_products">Price</th>
                             <th ng-if="!option.has_associated_products">Sku</th>
                             <th>Sort</th>
-                            <th></th>
+                            <th ng-if="!option.has_associated_products"></th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr ng-repeat="(key, selection) in option.options | toArray | getOrdered">
-                            <td ng-if="option.controls_image">
+                            <td ng-if="option.controls_image" ng-click="selectImage(selection)">
                                 <img class="media-object"
-                                     ng-src="{{}}"
+                                     ng-src="{{getImagePath(selection.image_name)}}"
                                      style="width: 50px; height: 50px;">
                             </td>
                             <td>
                                 <input class="form-control"
                                        type="text"
                                        ng-model="selection.label"
-                                       ng-blur="updateOptionsKeys()"/>
+                                       ng-blur="changedOptionsLabels(option.options)"/>
                             </td>
                             <td ng-if="!option.has_associated_products">
                                 <input class="form-control"
@@ -168,10 +171,9 @@
                                 <input class="form-control"
                                        type="text"
                                        size="2"
-                                       ng-model="selection.order"
-                                       ng-blur="updateOptionsKeys()"/>
+                                       ng-model="selection.order"/>
                             </td>
-                            <td>
+                            <td ng-if="!option.has_associated_products">
                                 <button class="btn btn-danger btn-sm">
                                     <i class="fa fa-times"></i>
                                 </button>
@@ -184,7 +186,8 @@
         </div>
     </div>
 
-    <div class="panel panel-default panel-associated-products product-option" ng-if="isConfigurable">
+    <div class="panel panel-default panel-associated-products product-option"
+         ng-if="isConfigurable && hasConfigurableOptions()">
         <div class="panel-heading" ng-click="isProductsUnfolded = !isProductsUnfolded">
             Associated Products
             <i class="fa" ng-class="{'fa-caret-down': !isUnfolded, 'fa-caret-up': isUnfolded}"></i>

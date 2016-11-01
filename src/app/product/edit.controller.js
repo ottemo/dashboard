@@ -9,7 +9,7 @@ angular.module('productModule')
     'productApiService',
     'coreImageService',
     'dashboardUtilsService',
-    'dashboardGridService',
+    'coreGridService',
     function (
         $scope,
         $routeParams,
@@ -19,7 +19,7 @@ angular.module('productModule')
         productApiService,
         coreImageService,
         dashboardUtilsService,
-        dashboardGridService
+        coreGridService
     ) {
 
     $scope.addImage = addImage;
@@ -36,7 +36,7 @@ angular.module('productModule')
     activate();
 
     //TODO: remove - testing code
-    $scope.productsGrid = dashboardGridService.grid({
+    $scope.productsGrid = coreGridService.grid({
         collection: 'order',
         columns: [
             { key: 'total', label: 'Total', type: 'text', editor: 'range' },

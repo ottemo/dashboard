@@ -36,8 +36,8 @@ angular.module('productModule')
             Configurable.prototype = {
 
                 init: function(productOptions) {
-                    this.products = this.getProductIdsFromOptions(productOptions);
                     this.options = this.getConfigurableOptions(productOptions);
+                    this.products = this.getProductIdsFromOptions(productOptions);
                 },
 
                 /**
@@ -150,9 +150,8 @@ angular.module('productModule')
                  * or if such options combination is already selected
                  * skip selected rows
                  */
-                validateRow: function(row) {
-                    if (row._selected) return;
-
+                validateRow: function(row, productOptions, skipSelected) {
+                    if (row._selected && skipSelected) return;
                     var self = this;
 
                     var isValid = true;
@@ -171,7 +170,17 @@ angular.module('productModule')
                         }
                     }
 
-                    row._disabled = !isValid;
+                    if (row._selected === true) {
+                        if (isValid) {
+                            this.saveOptionsCombination(row);
+                        } else {
+                            row._selected = false;
+                            row._disabled = true;
+                            this.removeProductIdFromOptions(row, productOptions);
+                        }
+                    } else {
+                        row._disabled = !isValid;
+                    }
                 },
 
                 /**
@@ -240,6 +249,8 @@ angular.module('productModule')
                     var id = row._id;
                     _.forEach(this.options, function(o, optionKey) {
                         var subOptionKey = row[optionKey][0];
+
+                        if (!productOptions[optionKey]) return;
 
                         var ids = productOptions[optionKey].options[subOptionKey].ids;
                         var index = ids.indexOf(id);

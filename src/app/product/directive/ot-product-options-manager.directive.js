@@ -6,12 +6,16 @@ angular.module('productModule')
         'coreParserService',
         'coreGridService',
         'productConfigurableService',
+        '$uibModal',
+        'MEDIA_BASE_PATH',
         function (
             _,
             productApiService,
             coreParserService,
             coreGridService,
-            productConfigurableService
+            productConfigurableService,
+            $uibModal,
+            MEDIA_BASE_PATH
         ) {
             return {
                 restrict: 'EA',
@@ -39,6 +43,10 @@ angular.module('productModule')
                     $scope.removeRow = removeRow;
                     $scope.newOption = newOption;
 
+                    $scope.canHaveAssociatedProducts = canHaveAssociatedProducts;
+                    $scope.reloadAssociatedProducts = reloadAssociatedProducts;
+                    $scope.hasConfigurableOptions = hasConfigurableOptions;
+
                     $scope.productsGrid = {};
                     $scope.gridViewConfig = {
                         autoload: false,
@@ -56,10 +64,18 @@ angular.module('productModule')
                             $scope.product.type === 'configurable';
 
                         if ($scope.isConfigurable) {
-                            //$scope.isProductsUnfolded = false;
-                            $scope.configurable.init($scope.optionsData);
-                            initProductsGrid();
+                            reloadAssociatedProducts();
                         }
+                    }
+
+                    function reloadAssociatedProducts() {
+                        $scope.configurable = productConfigurableService.configurable($scope.attributes);
+                        $scope.configurable.init($scope.optionsData);
+                        initProductsGrid();
+                    }
+
+                    function hasConfigurableOptions() {
+                        return !_.isEmpty($scope.configurable.options);
                     }
 
                     function getMaxOptionOrder(options) {
@@ -74,6 +90,48 @@ angular.module('productModule')
                         return result;
                     }
 
+                    $scope.selectImage = function(selection) {
+                        $uibModal.open({
+                            controller: 'productSelectImageController',
+                            templateUrl: "/views/product/select-image.html",
+                            size: 'lg',
+                            resolve: {
+                                product: function() {
+                                    return $scope.product;
+                                },
+                                productScope: function() {
+                                    return $scope.productScope;
+                                }
+                            }
+                        }).result.then(
+                            function (result) {
+                                selection.image_name = result;
+                            }
+                        );
+                    };
+
+                    $scope.getImagePath = function(mediaName) {
+                        if (mediaName) {
+                            return MEDIA_BASE_PATH + 'image/Product/' + $scope.product._id + '/' + mediaName;
+                        } else return '';
+                    };
+
+                    $scope.changedOptionsLabels = function(options, resetAssociatedProducts) {
+                        updateOptionsKeys(options);
+                        if ($scope.isConfigurable && resetAssociatedProducts) {
+                            validateConfigurableOption(options);
+                            reloadAssociatedProducts();
+                        }
+                    };
+
+                    function validateConfigurableOption(options) {
+                        _.forEach(options, function(option) {
+                            if (option.has_associated_products && !canHaveAssociatedProducts(option.key)) {
+                                option.has_associated_products = false;
+                            }
+                        })
+                    }
+
                     /**
                      * Makes new snake cased keys from labels for all options and their child options
                      * So that options.<key> = option
@@ -84,9 +142,6 @@ angular.module('productModule')
                      * @param options
                      */
                     function updateOptionsKeys(options) {
-                        // If called with empty params - use $scope.optionsData
-                        options = options || $scope.optionsData;
-
                         for (var oldOptionKey in options) {
 
                             if (options.hasOwnProperty(oldOptionKey) && options[oldOptionKey]) {
@@ -97,6 +152,7 @@ angular.module('productModule')
                                 if (newOptionKey && (oldOptionKey !== newOptionKey)) {
                                     options[newOptionKey] = options[oldOptionKey];
                                     delete options[oldOptionKey];
+                                    options[newOptionKey].key = newOptionKey;
                                 }
 
                                 if (option.options) {
@@ -154,6 +210,9 @@ angular.module('productModule')
                         }
 
                         delete $scope.optionsData[key];
+
+                        updateOptionsKeys();
+                        reloadAssociatedProducts();
                     }
 
                     function removeRow(option, key) {
@@ -195,9 +254,9 @@ angular.module('productModule')
                     /**
                      * Check if product option can be configurable option
                      */
-                    $scope.canHaveAssociatedProducts = function(optionKey) {
+                    function canHaveAssociatedProducts(optionKey) {
                         return Boolean($scope.configurable.attributes[optionKey]);
-                    };
+                    }
 
                     /**
                      * Initialize associated products grid
@@ -213,15 +272,10 @@ angular.module('productModule')
                             forcedFilters: { type: '!=configurable' }
                         });
 
+                        var skipSelected = false;
                         $scope.productsGrid.on('rowCreated', function(event) {
                             var row = event.row;
-                            if (row._selected) {
-                                $scope.configurable.saveOptionsCombination(row);
-                            } else {
-                                $scope.configurable.validateRow(row);
-                            }
-
-                            row._link = '/abc';
+                            $scope.configurable.validateRow(row, $scope.optionsData, skipSelected);
                         });
 
                         $scope.productsGrid.on('afterSelect', function(event) {
@@ -235,11 +289,14 @@ angular.module('productModule')
                             }
 
                             _.forEach(this.rows, function(row) {
-                                $scope.configurable.validateRow(row);
+                                $scope.configurable.validateRow(row, $scope.optionsData, true);
                             });
                         });
 
-                        $scope.productsGrid.load({});
+                        $scope.productsGrid.load({}).then(function() {
+                            skipSelected = true;
+
+                        });
                     }
                 }
             };
