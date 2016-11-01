@@ -1,6 +1,6 @@
 angular.module('dashboardModule')
 
-    .service('dashboardGridApiService', [
+    .service('coreGridApiService', [
         '$resource',
         'REST_SERVER_URI',
         function(

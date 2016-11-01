@@ -4,13 +4,13 @@ angular.module('productModule')
         '_',
         'productApiService',
         'coreParserService',
-        'dashboardGridService',
+        'coreGridService',
         'productConfigurableService',
         function (
             _,
             productApiService,
             coreParserService,
-            dashboardGridService,
+            coreGridService,
             productConfigurableService
         ) {
             return {
@@ -203,7 +203,7 @@ angular.module('productModule')
                      * Initialize associated products grid
                      */
                     function initProductsGrid() {
-                        $scope.productsGrid = dashboardGridService.grid({
+                        $scope.productsGrid = coreGridService.grid({
                             collection: 'product',
                             columns: $scope.configurable.getGridColumns(),
                             mapping: $scope.configurable.getGridMapping(),
@@ -239,7 +239,7 @@ angular.module('productModule')
                             });
                         });
 
-                        $scope.productsGrid.load();
+                        $scope.productsGrid.load({});
                     }
                 }
             };

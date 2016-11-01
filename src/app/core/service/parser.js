@@ -11,28 +11,21 @@ angular.module('coreModule')
         var SELECTED_IDS_LIMIT = 80;
 
         /**
-         * Returns limit start value as number from limit string
-         * '20,40' -> 20
-         * 'abc' -> 0
+         * Returns page as a number from string
+         * '20' -> 20, '20abc' -> 1, 'abc' -> 1
          */
-        function limitStartFromString(limitStr) {
-            if (typeof(limitStr) !== 'string') {
-                return 0;
-            }
-            var limitStart = Number(limitStr.split(',')[0]);
-            if (!isNaN(limitStart) && isFinite(limitStart) && limitStart >= 0) {
-                return limitStart;
-            } else {
-                return 0;
-            }
+        function pageFromString(pageStr) {
+            if (!isNaN(parseFloat(pageStr)) && isFinite(pageStr)) {
+                return Number(pageStr);
+            } else return 1;
         }
 
         /**
-         * Converts limit object to string
-         * { start: 20, perPage: 15 } -> '20, 35'
+         * Converts pagination object to request limit string
+         * { page: 3, itemsPerPage: 20 } -> '40, 20'
          */
-        function limitToString(limit) {
-            return limit.start + ',' + limit.perPage;
+        function paginationToString(pagination) {
+            return (pagination.page - 1) * pagination.itemsPerPage + ',' + pagination.itemsPerPage;
         }
 
         /**
@@ -180,8 +173,8 @@ angular.module('coreModule')
         }
 
         return {
-            limitStartFromString: limitStartFromString,
-            limitToString: limitToString,
+            pageFromString: pageFromString,
+            paginationToString: paginationToString,
             sortFromString: sortFromString,
             sortToString: sortToString,
             idsFromString: idsFromString,

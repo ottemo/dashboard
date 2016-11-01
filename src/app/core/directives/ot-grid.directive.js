@@ -1,17 +1,11 @@
 angular.module('coreModule')
 
-    .directive('otGrid', [
-        '_',
-        '$location',
-        function(
-            _,
-            $location
-        ) {
+    .directive('otGrid', ['_', '$location', function(_, $location) {
         return {
             restrict: 'EA',
             scope: {
                 /**
-                 * Grid object created via dashboardGridService.grid(),
+                 * Grid object created via coreGridService.grid(),
                  * required
                  */
                 grid: '=',
@@ -53,7 +47,7 @@ angular.module('coreModule')
                      * If set to `true`, changing filters, sort or page in grid
                      * will modify search parameters in url
                      */
-                    changeSearch: false,
+                    showParamsInUrl: false,
 
                     /**
                      * Allow filtering in grid
@@ -67,44 +61,42 @@ angular.module('coreModule')
                 };
 
                 var config = $.extend(true, {}, configDefaults, $scope.config);
+                activate();
 
-                if (config.changeSearch) {
-                    $scope.grid.on('load', function() {
-                        $location.search($scope.grid.getViewSearchParams());
-                    });
-
-                    if ($scope.grid.multiSelect) {
-                        $scope.grid.on('afterSelect', function() {
-                            $location.search($scope.grid.getViewSearchParams());
-                        });
-                    }
-                }
-
-                $scope.methods = {
-                    applyFilters: applyFilters,
-                    toggleFilters: toggleFilters,
-                    getSelectedIds: getSelectedIds
-                };
-                $scope.applyFilters = applyFilters;
-                $scope.isFiltersOpen = config.isFiltersOpen;
-
-                if (config.autoload) {
-                    activate();
-                }
 
                 //////////////////////////////////////
 
-                /**
-                 * Initialize
-                 */
                 function activate() {
-                    $scope.grid.load({resetPagination: true});
+                    if (config.showParamsInUrl) {
+                        $scope.grid.on('load', function() {
+                            $location.search($scope.grid.getViewSearchParams());
+                        });
+
+                        if ($scope.grid.multiSelect) {
+                            $scope.grid.on('afterSelect', function() {
+                                $location.search($scope.grid.getViewSearchParams());
+                            });
+                        }
+                    }
+
+                    $scope.methods = {
+                        applyFilters: applyFilters,
+                        toggleFilters: toggleFilters,
+                        getSelectedIds: getSelectedIds
+                    };
+                    $scope.applyFilters = applyFilters;
+                    $scope.isFiltersOpen = config.isFiltersOpen;
+                    $scope.page = $scope.grid.pagination.page;
+
+                    if (config.autoload) {
+                        $scope.grid.load({ getCount: true });
+                    }
                 }
 
                 /**
                  * Row click handler
                  */
-                $scope.clickRow = function(row, index, event) {
+                $scope.rowClick = function(row, index, event) {
 
                     if (row._disabled) {
                         event.preventDefault();
@@ -132,27 +124,19 @@ angular.module('coreModule')
                         return;
                     }
 
-                    var forcedSelectionState;
-                    if ($scope.grid.beforeSelect) {
-                        forcedSelectionState = $scope.grid.beforeSelect(row);
-                    }
-                    var newSelectionState = (typeof(forcedSelectionState) === 'boolean') ?
-                        forcedSelectionState : !row._selected;
-                    if (newSelectionState !== Boolean(row._selected)) {
-                        $scope.grid.updateSelection(row, newSelectionState);
-                    }
+                    $scope.grid.updateSelection(row, !row._selected);
                 };
 
                 /**
                  * Page changed handler
                  */
                 $scope.pageChanged = function() {
-                    $scope.grid.changePage($scope.grid.pagination.page);
-                    $scope.grid.load({resetPagination: false});
+                    $scope.grid.applyPage($scope.page);
+                    $scope.grid.load({});
                 };
 
                 $scope.titleClick = function(column) {
-                    if (column._unsortable) {
+                    if (column._not_sortable) {
                         return;
                     }
 
@@ -160,7 +144,7 @@ angular.module('coreModule')
                     if (column.sort && column.sort === 'ASC') {
                         direction = 'DESC';
                     }
-                    $scope.grid.setSort({ column: column.key, direction: direction});
+                    $scope.grid.applySort({ column: column.key, direction: direction});
                     $scope.grid.load({resetPagination: false});
                 };
 
@@ -184,7 +168,7 @@ angular.module('coreModule')
 
                     if (isFiltersChanged || force) {
                         $scope.grid.applyFilters(filterParams);
-                        $scope.grid.load({resetPagination: true});
+                        $scope.grid.load({ resetPage: true, getCount: true });
                     }
                 }
 

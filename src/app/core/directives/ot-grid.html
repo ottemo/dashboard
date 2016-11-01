@@ -1,14 +1,14 @@
 <div class="grid-heading">
     <!-- Top pagination -->
-    <div class="text-center" ng-show="grid.pagination.count > grid.limit.perPage">
+    <div class="text-center" ng-show="grid.pagination.count > grid.pagination.itemsPerPage">
         <div class="grid-pagination"
              uib-pagination
              total-items="grid.pagination.count"
-             items-per-page="grid.limit.perPage"
+             items-per-page="grid.pagination.itemsPerPage"
              force-ellipses="true"
              max-size="5"
              boundary-link-numbers="true"
-             ng-model="grid.pagination.page"
+             ng-model="page"
              ng-change="pageChanged()">
         </div>
     </div><!--/end Top pagination-->
@@ -21,9 +21,7 @@
             <thead>
                 <!--Headings-->
                 <tr class="heading-titles">
-                    <th class="title-col-selection" ng-if="grid.multiSelect">
-
-                    </th>
+                    <th class="title-col-selection" ng-if="grid.multiSelect"></th>
 
                     <th ng-repeat="column in grid.columns"
                         ng-click="titleClick(column)"
@@ -87,11 +85,11 @@
             <!--Body-->
             <tbody>
                 <tr ng-repeat="row in grid.rows track by $index"
-                    ng-click="clickRow(row, $index, $event)"
+                    ng-click="rowClick(row, $index, $event)"
                     ng-class="{'disabled': row._disabled}"
                     class="grid-row">
 
-                    <td ng-if="grid.multiSelect && !rowl._unselectable" class="row-col-_selection">
+                    <td ng-if="grid.multiSelect && !rowl._not_selectable" class="row-col-_selection">
                         <input type="checkbox" ng-checked="row._selected === true" ng-disabled="row._disabled">
                     </td>
 
@@ -133,14 +131,15 @@
 
 <div class="grid-footer">
     <!-- Bottom pagination -->
-    <div class="text-center" ng-show="grid.pagination.count > grid.limit.perPage">
-        <div uib-pagination
+    <div class="text-center" ng-show="grid.pagination.count > grid.pagination.itemsPerPage">
+        <div class="grid-pagination"
+             uib-pagination
              total-items="grid.pagination.count"
-             items-per-page="grid.limit.perPage"
+             items-per-page="grid.pagination.itemsPerPage"
              force-ellipses="true"
              max-size="5"
              boundary-link-numbers="true"
-             ng-model="grid.pagination.page"
+             ng-model="page"
              ng-change="pageChanged()">
         </div>
     </div><!--/end Bottom pagination-->

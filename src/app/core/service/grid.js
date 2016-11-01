@@ -1,14 +1,18 @@
 angular.module('dashboardModule')
 
-    .service('dashboardGridService', [
+/**
+ * coreGridService creates Grid instances - models of collections on the server
+ */
+
+    .service('coreGridService', [
         '_',
         '$q',
-        'dashboardGridApiService',
+        'coreGridApiService',
         'coreParserService',
         function (
             _,
             $q,
-            dashboardGridApiService,
+            coreGridApiService,
             coreParserService
         ) {
 
@@ -17,37 +21,36 @@ angular.module('dashboardModule')
         /**
          * Constructor
          */
-        // TODO: move code inside service `grid` function to use private variables instead of `this`
         function Grid(settings) {
 
-            // TODO: split config fields into smaller self-documented objects ?
             var defaults = {
 
                 /**
-                 * Default grid columns
-                 * Each columns is object with properties:
+                 * Grid columns
+                 * Each columns is an object with properties:
                  *      key
-                 *      label       - column title,
-                 *      type        - value type,
-                 *      editor      - filter type,
-                 *      isSortable  - column is sortable
-                 *      isLink      - {Boolean} column value is wrapped with <a> element
-                 *                              with 'href' = row._link
-                 *      options     - {JSON} options for filter with type select
+                 *      label         - column title,
+                 *      type          - value type,
+                 *      editor        - filter type,
+                 *      options       - {JSON} key-value pairs for filter type='select'
                  *                          {"red": "Red", "blue": "Blue"}
+                 *      _not_sortable - {Boolean} forbid sorting for the column
+                 *      _link         - {Boolean} column value is wrapped with <a> element
+                 *                              with 'href' = row._link
                  */
                 columns: [
                     {
                         key: 'image',
                         label: 'Image',
-                        type: 'image'
+                        type: 'image',
+                        _not_sortable: true
                     },
                     {
                         key: 'id',
                         label: 'ID',
                         type: 'text',
                         editor: 'text',
-                        isLink: true
+                        _link: true
                     },
                     {
                         key: 'name',
@@ -65,11 +68,11 @@ angular.module('dashboardModule')
 
                 /**
                  * Mapping object
-                 * defines how value for each row column is obtained from collection entity
+                 * defines how value for each column in row is obtained from collection entity
                  * field: { ID: 'id' }                  entity.ID -> row.id
                  * extra: { customer_email: 'email' }   entity.Extra.customer_email -> row.email
                  *
-                 * It may make filters, that are visible in view, be different from filters,
+                 * It may make filters, that are visible in a view, be different from filters,
                  * that are sent to the server
                  * in view:                     email=~ottemo
                  * actual filter in request:    customer_email=~ottemo
@@ -84,10 +87,13 @@ angular.module('dashboardModule')
                     extra: {}
                 },
 
-                requestIdKey: '_id',
+                /**
+                 * Collection primary key
+                 */
+                collectionPrimaryKey: '_id',
 
                 /**
-                 * Initial search params object
+                 * Search params object
                  * may contain filters, sort and limit parameters
                  * { sort: '^created_at', limit: '10,25' }
                  *
@@ -96,7 +102,7 @@ angular.module('dashboardModule')
                 searchParams: {},
 
                 /**
-                 * Additional extra parameters that are passed to the server and can be used in rowCallback
+                 * Extra parameters that are always passed in request
                  * e.g: 'weight,price'
                  */
                 forcedExtra: '',
@@ -104,63 +110,48 @@ angular.module('dashboardModule')
                 /**
                  * Filters that are not visible in view and always passed to the server
                  * e.g.:
-                 * { status=processed } - users are not allowed to change that filter, but it will be send to the server
+                 * { status=processed } - users are not allowed to change that filter,
+                 * and it will be always passed in request
                  */
                 forcedFilters: {},
 
                 itemsPerPage: ITEMS_PER_PAGE,
 
                 /**
-                 * Callback before row selection/deselection
-                 * invoked before selection, parameters:
-                 *      row - row object
-                 *
-                 * Should return Boolean value
-                 * that will be assigned to row._selected
-                 */
-                beforeSelect: null,
-
-                /**
-                 * Function should return an unique id value
+                 * Function should return an unique entity id value
                  * when there is no `ID` field in collection entity
                  */
                 resolveEntityId: null,
 
                 multiSelect: false,
-                selectedIds: [],
-                keepSingleSelection: true
+                selectedIds: []
             };
 
             var config = $.extend({}, defaults, settings);
 
-            // TODO: split these into private variables and public getters/setters ?
-            this.collection = config.collection;
-            this.initColumns(config.columns);
-            this.applyMapping(config.mapping);
-            this.requestIdKey = config.requestIdKey;
+            this.collection = config.collection; // Collection name, e.g. 'product', 'order'
             this.multiSelect = config.multiSelect;
-
-            this.limit = {
-                start: coreParserService.limitStartFromString(config.searchParams.limit),
-                perPage: config.itemsPerPage
-            };
+            this.collectionPrimaryKey = config.collectionPrimaryKey;
             this.forcedExtra = config.forcedExtra;
             this.forcedFilters = config.forcedFilters;
-            this.initFilters();
-            this.applyFilters(config.searchParams);
-            this.setSort(config.searchParams.sort);
-
-            // Events
-            this.events = {};
-            this.beforeSelect = config.beforeSelect;
             this.resolveEntityId = config.resolveEntityId;
+            this.events = {};
 
-            if (config.selectedIds.length === 0) {
-                this.selectedIds = coreParserService.idsFromString(config.searchParams._sel);
-            } else {
+            this.initColumns(config.columns);
+            this.initMapping(config.mapping);
+            this.initFilters();
+            this.initPagination(config.itemsPerPage);
+
+            this.applyParams(config.searchParams);
+
+            // Set selected rows from either
+            //      {Array} config.selectedIds, or
+            //      {String} config.searchParams._sel
+            if (config.selectedIds.length !== 0) {
                 this.selectedIds = config.selectedIds;
+            } else {
+                this.selectedIds = coreParserService.idsFromString(config.searchParams._sel);
             }
-            this.keepSingleSelection = config.keepSingleSelection;
         }
 
 
@@ -174,22 +165,26 @@ angular.module('dashboardModule')
              * Row item is an object that copies all fields form entity item
              * accordingly to mapping object
              *
+             * {Object} settings
+             * getCount             - {Boolean} get collection entities count for pagination
+             * resetPage            - {Boolean} reset pagination on the first page
+             *
              * Row has system fields:
-             *      _id           - {String} required, unique entity ID string
-             *      _selected     - {Boolean} changed while selecting in grid
-             *      _link         - {String} link for a column with 'isLink'=true
-             *      _source       - {Object} collection entity object
-             *      _disabled     - {Boolean} row is disabled for selection
-             *      _unselectable - {Boolean} row cannot be selected
+             *      _id             - {String} required, unique entity ID string
+             *      _selected       - {Boolean} changed while selecting in grid
+             *      _links          - {Object} urls for column links
+             *      _source         - {Object} collection entity object
+             *      _disabled       - {Boolean} row is disabled for selection
+             *      _not_selectable - {Boolean} row cannot be selected
              */
-            load: function(resetPagination) {
+            load: function(settings) {
 
-                var loadDeferred = $q.defer();
                 var self = this;
-                var apiLoadCollection = dashboardGridApiService[this.collection + 'List'];
+                var loadDeferred = $q.defer();
+                var apiLoadCollection = coreGridApiService[this.collection + 'List'];
 
-                if (resetPagination) {
-                    this.setupPagination();
+                if (settings.getCount) {
+                    this.resetPagination(settings.resetPage);
                 }
 
                 apiLoadCollection(this.getRequestParams()).$promise
@@ -225,26 +220,29 @@ angular.module('dashboardModule')
             },
 
             /**
-             * Returns parameters object for api call
+             * Returns object with parameters for server request
              */
             getRequestParams: function() {
-                var requestFilterParams = this.getRequestFiltersParams();
-                var params = $.extend({}, requestFilterParams, this.forcedFilters);
+                var filterParams = this.getRequestFiltersParams();
+                var params = $.extend({}, filterParams, this.forcedFilters);
+
                 var extraParam = this.getRequestExtraParam();
                 if (extraParam !== '') {
                     params.extra = extraParam;
                 }
+
                 var sortParam = this.getRequestSortParam();
                 if (sortParam !== '') {
                     params.sort = sortParam;
                 }
-                params.limit = coreParserService.limitToString(this.limit);
+
+                params.limit = coreParserService.paginationToString(this.pagination);
 
                 return params;
             },
 
             /**
-             * Converts collection entity into row item accordingly to mapping
+             * Converts collection entity into a row item accordingly to mapping settings
              */
             convertEntityToRow: function(entity) {
                 var row = {};
@@ -258,7 +256,7 @@ angular.module('dashboardModule')
                 });
 
                 // Always set _id for selection implementation
-                if (entity.ID) {
+                if (entity.ID != undefined) { // ID !== undefined && ID !== null
                     row._id = entity.ID;
                 } else {
                     row._id = this.resolveEntityId(entity);
@@ -270,11 +268,11 @@ angular.module('dashboardModule')
             },
 
             /**
-             * Return count of collection items
+             * Return count of collection entities
              */
             count: function() {
                 var countDeferred = $q.defer();
-                var apiGetCount = dashboardGridApiService[this.collection + 'Count'];
+                var apiGetCount = coreGridApiService[this.collection + 'Count'];
 
                 apiGetCount(this.getRequestParams()).$promise
                     .then(function(response) {
@@ -298,7 +296,6 @@ angular.module('dashboardModule')
                 _.forEach(columnsConfig, function(columnsConfigItem) {
                     var column = $.extend({}, columnsConfigItem);
                     column.type = coreParserService.resolveColumnType(columnsConfigItem.type);
-
                     columns.push(column);
                 });
 
@@ -308,28 +305,43 @@ angular.module('dashboardModule')
             /**
              * Init filters for each column
              */
-            // TODO: use columns objects instead of filters ?
             initFilters: function() {
                 var filters = [];
-                _.forEach(this.columns, function(column) {
-                    var filter = {};
-                    filter.type = coreParserService.resolveFilterType(column.editor);
-                    filter.key = column.key;
-                    filter.entityKey = column.entityKey;
-                    filter.options = column.options;
-                    filter.label = column.label;
-                    filters.push(filter);
-                });
 
                 if (this.multiSelect) {
-                    filters.unshift({
+                    filters.push({
                         type: 'select',
                         key: '_selection',
                         options: { yes: 'Yes', no: 'No' }
                     });
                 }
 
+                _.forEach(this.columns, function(column) {
+                    var filter = $.extend({}, column);
+                    filter.type = coreParserService.resolveFilterType(column.editor);
+                    filters.push(filter);
+                });
+
                 this.filters = filters;
+            },
+
+            /**
+             * Initialize pagination
+             */
+            initPagination: function(itemsPerPage) {
+                this.pagination = {
+                    page: 1,
+                    itemsPerPage: itemsPerPage
+                };
+            },
+
+            /**
+             * Apply search params to the grid
+             */
+            applyParams: function(params) {
+                this.applyFilters(params);
+                this.applySort(params.sort);
+                this.applyPage(params.p);
             },
 
             /**
@@ -347,9 +359,25 @@ angular.module('dashboardModule')
             },
 
             /**
+             *  Sets page
+             */
+            applyPage: function(page) {
+                if (page !== undefined) {
+                    if (typeof(page) === 'string') {
+                        page = coreParserService.pageFromString(page);
+                    }
+
+                    this.pagination.page = page;
+                    if (this.pagination.count === undefined) {
+                        this.pagination.count = page * this.pagination.itemsPerPage;
+                    }
+                }
+            },
+
+            /**
              *  Returns an object of filters key-values that can be shown in the view
              */
-            getColumnsFiltersParams: function() {
+            getViewFiltersParams: function() {
                 var filtersParams = {};
                 _.forEach(this.filters, function(filter) {
                     if (filter.value !== undefined) {
@@ -367,7 +395,7 @@ angular.module('dashboardModule')
                 var filtersParams = {};
                 _.forEach(this.filters, function(filter) {
                     if (filter.value !== undefined && filter.key !== '_selection') {
-                        filtersParams[filter.entityKey] = filter.value;
+                        filtersParams[filter._entityKey] = filter.value;
                     }
                 });
 
@@ -377,7 +405,7 @@ angular.module('dashboardModule')
                     this.filters[0].key === '_selection') {
 
                     var selectionFilter =  this.filters[0];
-                    var idKey = this.requestIdKey;
+                    var idKey = this.collectionPrimaryKey;
 
                     // Don't apply selection filter
                     // if '_id' field already present in filters
@@ -405,7 +433,7 @@ angular.module('dashboardModule')
              * 'name' -> column { key: 'name', ... , sort: 'ASC' }
              * { column: 'name', direction: 'ASC' } -> column { key: 'name', ... , sort: 'ASC' }
              */
-            setSort: function(sortParam) {
+            applySort: function(sortParam) {
                 var sort = sortParam;
                 if (typeof(sort) === 'string') {
                     sort = coreParserService.sortFromString(sort);
@@ -428,7 +456,7 @@ angular.module('dashboardModule')
              * Return current sort parameter as a string
              * column { key: 'name', ... , sort: 'DESC' } -> '^name'
              */
-            getColumnSortParam: function() {
+            getViewSortParam: function() {
                 var sortParam = '';
                 _.forEach(this.columns, function(column) {
                     if (column.sort) {
@@ -447,7 +475,7 @@ angular.module('dashboardModule')
                 var sortParam = '';
                 _.forEach(this.columns, function(column) {
                     if (column.sort) {
-                        sortParam = coreParserService.sortToString({ column: column.entityKey, direction: column.sort });
+                        sortParam = coreParserService.sortToString({ column: column._entityKey, direction: column.sort });
                         return false;
                     }
                 });
@@ -460,18 +488,18 @@ angular.module('dashboardModule')
              * adds to each column 'entityKey' - actual field key in collection entity,
              * from which column value is obtained
              */
-            applyMapping: function(mapping) {
+            initMapping: function(mapping) {
                 var self = this;
                 _.forEach(mapping.field, function(columnKey, entityKey) {
                     var column = _.filter(self.columns, { key: columnKey })[0];
                     if (column) {
-                        column.entityKey = entityKey;
+                        column._entityKey = entityKey;
                     }
                 });
                 _.forEach(mapping.extra, function(columnKey, entityKey) {
                     var column = _.filter(self.columns, { key: columnKey })[0];
                     if (column) {
-                        column.entityKey = entityKey;
+                        column._entityKey = entityKey;
                     }
                 });
 
@@ -491,12 +519,12 @@ angular.module('dashboardModule')
              * Returns search parameters that are shown in the view
              */
             getViewSearchParams: function() {
-                var params = this.getColumnsFiltersParams();
-                var sortParam = this.getColumnSortParam();
+                var params = this.getViewFiltersParams();
+                var sortParam = this.getViewSortParam();
                 if (sortParam !== '') {
                     params.sort = sortParam;
                 }
-                params.limit = coreParserService.limitToString(this.limit);
+                params.p = this.pagination.page;
 
                 var selectedIdsStr = coreParserService.idsToString(this.selectedIds, this.multiSelect);
                 if (selectedIdsStr !== '') {
@@ -549,23 +577,15 @@ angular.module('dashboardModule')
             /**
              * Setups pagination settings
              */
-            setupPagination: function() {
+            resetPagination: function(resetPage) {
                 var self = this;
-                var pagination = {};
+                if (resetPage) {
+                    this.pagination.page = 1;
+                }
 
-                return this.count(this.getRequestParams()).then(function(count) {
-                    pagination.count = count;
-                    pagination.page = Math.floor(self.limit.start / self.limit.perPage) + 1;
-                    self.pagination = pagination;
+                return this.count().then(function(count) {
+                    self.pagination.count = count;
                 });
-            },
-
-            /**
-             * Sets grid limit settings accordingly to page parameter
-             */
-            changePage: function(page) {
-                if (!this.pagination.count) return;
-                this.limit.start = (page - 1) * this.limit.perPage;
             },
 
             // Events

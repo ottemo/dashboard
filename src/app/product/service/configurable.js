@@ -119,7 +119,7 @@ angular.module('productModule')
                     _.forEach(this.options, function(o, optionKey) {
                         var column = {
                             key: optionKey,
-                            type: self.attributes[optionKey].Type,
+                            type: '[]text',
                             editor: 'select',
                             options:  self.attributes[optionKey].values
                         };
