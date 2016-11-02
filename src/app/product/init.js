@@ -21,5 +21,9 @@ angular.module('productModule', ['ngRoute', 'ngResource', 'coreModule'])
         .when('/attributes/:attr', {
             templateUrl: '/views/product/attribute/edit.html',
             controller: 'productAttributeEditController'
+        })
+        .when('/swatches', {
+            templateUrl: '/views/product/swatch/list.html',
+            controller: 'productSwatchListController'
         });
 }]);

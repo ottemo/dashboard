@@ -54,3 +54,25 @@
     }
 }
 
+.swatch-item {
+    position: relative;
+    border: 2px solid transparent;
+    cursor: pointer;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    &.selected {
+        border: 2px solid $brand-info;
+    }
+
+    .btn-remove-swatch {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .swatch-item-name {
+        margin: 10px 0 0;
+    }
+}
+
