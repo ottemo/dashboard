@@ -9,7 +9,6 @@ angular.module('productModule')
     'productApiService',
     'coreImageService',
     'dashboardUtilsService',
-    'coreGridService',
     function (
         $scope,
         $routeParams,
@@ -18,8 +17,7 @@ angular.module('productModule')
         _,
         productApiService,
         coreImageService,
-        dashboardUtilsService,
-        coreGridService
+        dashboardUtilsService
     ) {
 
     $scope.addImage = addImage;
@@ -34,31 +32,6 @@ angular.module('productModule')
     $scope.back = back;
 
     activate();
-
-    //TODO: remove - testing code
-    $scope.productsGrid = coreGridService.grid({
-        collection: 'order',
-        columns: [
-            { key: 'total', label: 'Total', type: 'text', editor: 'range' },
-            { key: 'id', label: 'ID', type: 'text', isLink: true, editor: 'text-strict' },
-        ],
-        mapping: {
-            extra: { grand_total: 'total', customer_email: 'email', '_id': 'id'}
-        },
-        forcedExtra: 'status',
-        searchParams: $location.search(),
-        multiSelect: true
-    });
-    $scope.productsGrid.on('rowCreated', function(event) {
-        event.row._link = 'orders/' + event.row.id;
-    });
-
-    $scope.gridViewConfig = {
-        forceSelection: true,
-        autoload: true,
-        changeSearch: true,
-        isFiltersOpen: true
-    };
 
     ///////////////////////////////
 
@@ -230,6 +203,11 @@ angular.module('productModule')
             delete $scope.product.images;
         }
 
+        if ($scope.product.type === 'configurable') {
+            setConfigurableAttributesFromOptions($scope.product);
+            console.log($scope.product);
+        }
+
         if (!id) {
             productApiService.save($scope.product, saveSuccess, saveError);
         } else {
@@ -289,6 +267,17 @@ angular.module('productModule')
 
     function back() {
         $location.path('/products');
+    }
+
+    // Synchronize configurable options and attributes
+    function setConfigurableAttributesFromOptions(product) {
+        var productOptions = product.options;
+        _.forEach(productOptions, function(option) {
+            if (option.has_associated_products && product[option.key] !== undefined && option.options) {
+                var selections = Object.keys(option.options);
+                product[option.key] = selections;
+            }
+        })
     }
 
     //-----------------

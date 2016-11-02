@@ -295,7 +295,6 @@ angular.module('productModule')
 
                         $scope.productsGrid.load({}).then(function() {
                             skipSelected = true;
-
                         });
                     }
                 }
