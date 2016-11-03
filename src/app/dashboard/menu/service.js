@@ -68,6 +68,9 @@ angular.module('dashboardModule')
             }, {
                 title: 'Images',
                 link: '/cms/media'
+            }, {
+                title: 'Blog',
+                link: '/cms/posts'
             }]
         }, {
             title: 'URL Rewrite',

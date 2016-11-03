@@ -19,7 +19,7 @@ angular.module('seoModule')
             'title':{},
             'meta_keywords':{},
             'meta_description':{},
-            'type':{'IsRequired': true, 'Editors': 'select', 'Options': 'page,category,product', 'Default': 'page'},
+            'type':{'IsRequired': true, 'Editors': 'select', 'Options': 'page,category,product,post', 'Default': 'page'},
             'rewrite':{'IsRequired': true, 'Label': 'Object'}
         };
 
@@ -236,6 +236,11 @@ angular.module('seoModule')
                     case 'page':
                         $scope.attributes[seoRewriteNum]['Editors'] = 'page_selector';
                         break;
+
+                    case 'post':
+                        $scope.attributes[seoRewriteNum]['Editors'] = 'post_selector';
+                        break;
+
 
                     default:
                         $scope.attributes[seoRewriteNum]['Editors'] = 'not_editable';

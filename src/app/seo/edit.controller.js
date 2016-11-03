@@ -202,7 +202,7 @@ angular.module("seoModule")
                         return false;
                     }
 
-                    if (typeof $scope[itemName] !== "undefined" && typeof $scope[itemName]._id !== "undefined") {
+                    if (typeof $scope[itemName] !== "undefined" && $scope[itemName]._id != undefined) {
                         getUniqueSeoNames();
                         addAttributes();
                         addAttributesValue();
