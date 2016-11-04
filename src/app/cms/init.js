@@ -25,7 +25,14 @@ angular.module("cmsModule", [
         .when("/cms/media", {
             templateUrl: "/views/cms/media/list.html",
             controller: "cmsMediaListController"
+        })
+        .when("/cms/posts", {
+            templateUrl: "/views/cms/blog/list.html",
+            controller: "cmsBlogListController"
+        })
+        .when("/cms/posts/:id", {
+            templateUrl: "/views/cms/blog/edit.html",
+            controller: "cmsBlogEditController"
         });
-
 }]);
 

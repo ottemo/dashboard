@@ -15,7 +15,7 @@ if [ "$BRANCH" == 'develop'  ]; then
     ssh ottemo@$REMOTE_HOST "cd $SRCDIR && rm -rf dist"
 
     echo ""
-    echo RUNNING PRODUCTION GULP BUILD 
+    echo RUNNING PRODUCTION GULP BUILD
     if [ "$REMOTE_HOST" == 'rk.staging.ottemo.io' ]; then
         HOST=rk-staging
     elif [ "$REMOTE_HOST" == 'kg.staging.ottemo.io' ]; then
@@ -33,7 +33,9 @@ if [ "$BRANCH" == 'develop'  ]; then
     elif [ "$REMOTE_HOST" == 'kkr.staging.ottemo.io' ]; then
         HOST=kkr-staging
     elif [ "$REMOTE_HOST" == 'fs.staging.ottemo.io' ]; then
-        HOST=fs-staging  
+        HOST=fs-staging
+    elif [ "$REMOTE_HOST" == 'ncd.staging.ottemo.io' ]; then
+        HOST=ncd-staging
     fi
     # gulp build on remote host
     ssh ottemo@$REMOTE_HOST "cd $SRCDIR && npm install && gulp build --env=staging --config=${HOST}"
