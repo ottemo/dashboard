@@ -205,7 +205,6 @@ angular.module('productModule')
 
         if ($scope.product.type === 'configurable') {
             setConfigurableAttributesFromOptions($scope.product);
-            console.log($scope.product);
         }
 
         if (!id) {

@@ -50,8 +50,8 @@ angular.module('productModule')
                     _.forEach(productOptions, function (option) {
                         if (option.options && option.has_associated_products) {
                             _.forEach(option.options, function (subOption) {
-                                if (subOption.ids) {
-                                    _.forEach(subOption.ids, function (productId) {
+                                if (subOption._ids) {
+                                    _.forEach(subOption._ids, function (productId) {
                                         productIds[productId] = true;
                                     });
                                 }
@@ -214,6 +214,9 @@ angular.module('productModule')
                     return optionCombination.join('&');
                 },
 
+                /**
+                 * Adds selected associated product _id to options
+                 */
                 addProductIdToOptions: function(row, productOptions) {
                     var self = this;
                     var id = row._id;
@@ -223,14 +226,19 @@ angular.module('productModule')
 
                         var productOption = productOptions[optionKey];
                         if (productOption.options) {
-                            if (productOption.options[subOptionKey]) {
-                                productOption.options[subOptionKey].ids.push(id);
+                            var subOption = productOption.options[subOptionKey];
+                            if (subOption !== undefined) {
+                                if (_.isArray(subOption._ids)) {
+                                    subOption._ids.push(id);
+                                } else {
+                                    subOption._ids = [id];
+                                }
                             } else {
                                 productOption.options[subOptionKey] = {
                                     key: subOptionKey,
                                     label: subOptionLabel,
                                     order: 0,
-                                    ids: [id]
+                                    _ids: [id]
                                 };
                             }
                         } else {
@@ -239,7 +247,7 @@ angular.module('productModule')
                                 key: subOptionKey,
                                 label: subOptionLabel,
                                 order: 0,
-                                ids: [id]
+                                _ids: [id]
                             };
                         }
                     });
@@ -252,7 +260,7 @@ angular.module('productModule')
 
                         if (!productOptions[optionKey]) return;
 
-                        var ids = productOptions[optionKey].options[subOptionKey].ids;
+                        var ids = productOptions[optionKey].options[subOptionKey]._ids;
                         var index = ids.indexOf(id);
                         if (index !== -1) {
                             ids.splice(index, 1);

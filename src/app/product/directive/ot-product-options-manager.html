@@ -152,6 +152,7 @@
                                 <input class="form-control"
                                        type="text"
                                        ng-model="selection.label"
+                                       ng-disabled="option.has_associated_products"
                                        ng-blur="changedOptionsLabels(option.options)"/>
                             </td>
                             <td ng-if="!option.has_associated_products">
