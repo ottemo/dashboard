@@ -88,23 +88,14 @@ angular.module('cmsModule')
 
                     var modalMessage = 'Do you really want to remove this image?';
                     var selectedMediaIndexName = $scope.mediaList[$scope.selectedMediaIndex].name;
-                    coreConfirmService.openModal(modalMessage)
-                        .then(function(result) {
-                            removeImage();
-                        }, function(result) {
-                            $scope.up.message = {message: 'The image was NOT removed!'};
+                    coreConfirmService.openModal({ message: modalMessage }).result
+                        .then(function() {
+                            cmsApiService.imageRemove({"mediaName": selectedMediaIndexName}).$promise
+                                .then(populateMediaList)
+                                .then(function() {
+                                    $scope.up.message = {message: 'The image was removed!'};
+                                });
                         });
-
-                    function removeImage(){
-                        cmsApiService.imageRemove({"mediaName": selectedMediaIndexName}).$promise
-                            .then(populateMediaList)
-                            .then(function() {
-                                $scope.up.message = {message: 'The image was removed!'};
-                            });
-                    }
-
-
-
                 }
             };
 

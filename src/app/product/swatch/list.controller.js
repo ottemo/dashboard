@@ -29,7 +29,6 @@ angular.module('productModule')
                 getSwatches();
             }
 
-            // Retrieve any media
             function getSwatches() {
                 return productApiService.listSwatches().$promise
                     .then(function(response) {
@@ -55,7 +54,7 @@ angular.module('productModule')
                             getSwatches();
                             $scope.upload.message = { message: 'Image was uploaded!'};
                         } else {
-                            $scope.upload.message = dashboardUtilsService.getMessage(response);;
+                            $scope.upload.message = dashboardUtilsService.getMessage(response);
                         }
                     });
             }
@@ -65,14 +64,13 @@ angular.module('productModule')
             };
 
             $scope.removeItem = function(swatchItem) {
-                var modalMessage = 'Do you really want to remove this item?';
-                var mediaName = swatchItem.name;
-                coreConfirmService.openModal(modalMessage)
+                var modalMessage = 'Do you really want to remove ' + swatchItem.name + ' ?';
+                coreConfirmService.openModal({ message: modalMessage }).result
                     .then(function() {
-                        productApiService.removeSwatch({'mediaName': mediaName}).$promise
+                        productApiService.removeSwatch({'mediaName': swatchItem.name}).$promise
                             .then(function() {
                                 getSwatches();
-                                $scope.upload.message = {message: 'The swatch was removed!'};
+                                $scope.upload.message = {message: swatchItem.name + ' was removed!'};
                             });
                     });
             };

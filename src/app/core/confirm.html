@@ -1,18 +1,22 @@
-<div class="modal-header" style="height: auto;">
+<div class="modal-header" ng-if="modalData.heading">
     <div class="row">
         <div class="col-md-12">
-            <h1>Confirmation window</h1>
+            <h3>{{modalData.heading}}</h3>
         </div>
     </div>
 </div>
 
 <div class="modal-body">
-    <h4>{{modalMessage}}</h4>
+    <h4>{{modalData.message}}</h4>
 </div>
 
 <div class="modal-footer center clearfix">
-    <button data-ng-click="$dismiss()" type="button" class="btn btn-default pull-left">Cancel</button>
-    <button ng-click="confirm()" class="btn btn-primary pull-right">Confirm</button>
+    <button data-ng-click="$dismiss()" type="button" class="btn btn-default pull-left">
+        {{modalData.cancel}}
+    </button>
+    <button ng-click="confirm()" class="btn btn-primary pull-right">
+        {{modalData.confirm}}
+    </button>
 </div>
 
 
