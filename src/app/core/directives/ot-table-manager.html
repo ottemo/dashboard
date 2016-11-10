@@ -65,7 +65,7 @@
                     <tr ng-show="isFiltersVisible">
                         <td>&nbsp;</td>
                         <td ng-repeat="filter in filters"
-                            ng-switch="filter.type"
+                            ng-switch="filter._type"
                             ng-show="parent.fields[$index].visible">
                             <div ng-switch-when="text">
                                 <ot-filter-text editor-scope="filter.attributes" item="filter" object="this"></ot-filter-text>

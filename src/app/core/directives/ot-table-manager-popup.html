@@ -33,7 +33,7 @@
                     <!-- Filters row -->
                     <tr class=" " ng-hide="filters.length <= 1 && !filters[0].visible">
                         <th ng-if="buttons.checkbox">&nbsp;</th>
-                        <th ng-repeat="filter in filters" ng-switch="filter.type" ng-show="parent.fields[$index].visible">
+                        <th ng-repeat="filter in filters" ng-switch="filter._type" ng-show="parent.fields[$index].visible">
                             <div ng-switch-when="text">
                                 <ot-filter-text editor-scope="filter.attributes" item="filter" object="this"></ot-filter-text>
                             </div>
