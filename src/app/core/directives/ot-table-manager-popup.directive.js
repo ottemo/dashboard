@@ -159,14 +159,14 @@ angular.module("coreModule")
 
                         details = {
                             "options": parts === null ? {} : getOptions(parts[1]),
-                            "type": filterInfo.substr(0, (-1 !== filterInfo.indexOf("{") ? filterInfo.indexOf("{") : filterInfo.length)),
+                            "_type": filterInfo.substr(0, (-1 !== filterInfo.indexOf("{") ? filterInfo.indexOf("{") : filterInfo.length)),
                             "dataType": field.dataType,
                             "filterValue": field.filterValue,
                             "attribute": field.attribute,
                             "visible": field.visible
                         };
 
-                        if ("select" === details.type) {
+                        if ("select" === details._type) {
                             details.options[""] = "";
                         }
 
@@ -183,7 +183,7 @@ angular.module("coreModule")
                         filterDetails = getFilterDetails($scope.parent.fields[i]);
 
                         filter = {
-                            "type": filterDetails.type,
+                            "_type": filterDetails._type,
                             "dataType": filterDetails.dataType,
                             "visible": filterDetails.visible || false,
                             "attributes": {

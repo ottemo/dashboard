@@ -119,7 +119,7 @@
             </div>
 
             <div class="option-selections"
-                 ng-if="['select', 'multi_select', 'radio', 'checkbox', 'swatch', 'text-swatch'].indexOf(option.type) !== -1">
+                 ng-if="['select', 'multi_select', 'radio', 'checkbox', 'select_image', 'select_text'].indexOf(option.type) !== -1">
                 <h2>Selections
                     <button class="btn btn-sm btn-primary"
                             ng-click="addRow(option.key)"
@@ -130,7 +130,7 @@
                 <div class="table-responsive">
                     <table class="table table-bordered table-condensed"
                            ng-show="isUnfolded"
-                           ng-if="['select', 'multi_select', 'radio', 'checkbox', 'swatch', 'text-swatch'].indexOf(option.type) !== -1">
+                           ng-if="['select', 'multi_select', 'radio', 'checkbox', 'select_image', 'select_text'].indexOf(option.type) !== -1">
                         <thead>
                         <tr>
                             <th ng-if="option.controls_image">Image</th>

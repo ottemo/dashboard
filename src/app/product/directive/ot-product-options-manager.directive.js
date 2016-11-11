@@ -30,8 +30,8 @@ angular.module('productModule')
                     $scope.optionTypes = [
                         'field',
                         'select',
-                        'swatch',
-                        'text-swatch',
+                        'select_text',
+                        'select_image',
                         'radio',
                         'multi_select',
                         'date'
