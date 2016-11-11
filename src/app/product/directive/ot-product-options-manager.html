@@ -68,7 +68,7 @@
                 </div>
 
                 <div class="form-group col-sm-6"
-                     ng-if="(option.type === 'select' || option.type === 'radio') && productScope.isManagingStock">
+                     ng-if="(options.type !== 'field' || options.type !== 'multi_select' || options.type !== 'date') && productScope.isManagingStock">
                     <label>Controls inventory</label>
                     <select class="form-control"
                             ng-init="option.controls_inventory = option.controls_inventory || false"
@@ -78,7 +78,7 @@
                 </div>
 
                 <div class="form-group col-sm-6"
-                     ng-if="option.type === 'select' || option.type === 'radio'">
+                     ng-if="options.type !== 'field' || options.type !== 'multi_select' || options.type !== 'date'">
                     <label>Controls image</label>
                     <select class="form-control"
                             ng-init="option.controls_image = option.controls_image || false"
@@ -88,7 +88,7 @@
                 </div>
 
                 <div class="form-group col-sm-6"
-                     ng-if="option.type === 'select' || option.type === 'radio'">
+                     ng-if="options.type !== 'field' || options.type !== 'multi_select' || options.type !== 'date'">
                     <label>
                         Has associated products
                     </label>
@@ -119,7 +119,7 @@
             </div>
 
             <div class="option-selections"
-                 ng-if="['select', 'multi_select', 'radio', 'checkbox'].indexOf(option.type) !== -1">
+                 ng-if="['select', 'multi_select', 'radio', 'checkbox', 'swatch', 'text-swatch'].indexOf(option.type) !== -1">
                 <h2>Selections
                     <button class="btn btn-sm btn-primary"
                             ng-click="addRow(option.key)"
@@ -130,7 +130,7 @@
                 <div class="table-responsive">
                     <table class="table table-bordered table-condensed"
                            ng-show="isUnfolded"
-                           ng-if="['select', 'multi_select', 'radio', 'checkbox'].indexOf(option.type) !== -1">
+                           ng-if="['select', 'multi_select', 'radio', 'checkbox', 'swatch', 'text-swatch'].indexOf(option.type) !== -1">
                         <thead>
                         <tr>
                             <th ng-if="option.controls_image">Image</th>

@@ -30,6 +30,8 @@ angular.module('productModule')
                     $scope.optionTypes = [
                         'field',
                         'select',
+                        'swatch',
+                        'text-swatch',
                         'radio',
                         'multi_select',
                         'date'
@@ -175,7 +177,7 @@ angular.module('productModule')
                         var options = $scope.product.options[key];
 
                         // Disable inventory for unsupported option types
-                        if (options.type !== 'select' && options.type !== 'radio') {
+                        if (options.type === 'field' || options.type === 'multi_select' || options.type === 'date') {
                             options.controls_inventory = false;
                         }
 
