@@ -27,6 +27,14 @@ angular.module('visitorModule', [
                 templateUrl: '/views/visitor/address/edit.html',
                 controller: 'visitorAddressEditController'
             })
+            .when("/reviews", {
+                templateUrl: "/views/visitor/reviews/list.html",
+                controller: "reviewsListController"
+            })
+            .when("/review/:reviewID", {
+                templateUrl: "/views/visitor/reviews/edit.html",
+                controller: "reviewsEditController"
+            })
             .when('/v/attributes', {
                 templateUrl: '/views/visitor/attribute/list.html',
                 controller: 'visitorAttributeListController'

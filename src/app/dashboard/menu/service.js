@@ -50,6 +50,9 @@ angular.module('dashboardModule')
                 title: 'Visitors',
                 link: '/visitors'
             }, {
+                title: 'Reviews',
+                link: '/reviews'
+            }, {
                 title: 'Attributes',
                 link: '/v/attributes'
             }, {
