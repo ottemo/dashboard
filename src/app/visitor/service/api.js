@@ -91,6 +91,30 @@ angular.module("visitorModule")
         "sendMail": {
             method: "POST",
             url: REST_SERVER_URI + "/visitors/mail"
+        },
+
+        // Reviews API
+        "reviewList": {
+            method: "GET",
+            url: REST_SERVER_URI + "/reviews"
+        },
+        "getReview": {
+            method: "GET",
+            url: REST_SERVER_URI + "/review/:reviewID"
+        },
+        "editReview": {
+            method: "PUT",
+            params: { reviewID: "@_id" },
+            url: REST_SERVER_URI + "/review/:reviewID"
+        },
+        "getCount": {
+            method: "GET",
+            params: { action: "count" },
+            url: REST_SERVER_URI + "/reviews"
+        },
+        "deleteReview": {
+            method: "DELETE",
+            url: REST_SERVER_URI + "/review/:reviewID"
         }
     });
 }]);
