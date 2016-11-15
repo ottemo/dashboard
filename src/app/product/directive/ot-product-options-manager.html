@@ -43,7 +43,7 @@
                 <div class="form-group col-sm-6 form-item">
                     <label>Type</label>
                     <select class="form-control"
-                            ng-change="cleanOption(option.key)"
+                            ng-change="adjustOptionFields(option)"
                             ng-init="option.type = option.type || optionTypes[0]"
                             ng-model="option.type"
                             ng-options="o as o for o in optionTypes">
@@ -61,24 +61,26 @@
                 <div class="form-group col-sm-6">
                     <label>Required</label>
                     <select class="form-control"
-                            ng-init="option.required = option.required || false"
+                            ng-init="option.required = option.required || option.has_associated_products || false"
+                            ng-disabled="option.has_associated_products"
                             ng-model="option.required"
                             ng-options="o as o for o in [true, false]">
                     </select>
                 </div>
 
                 <div class="form-group col-sm-6"
-                     ng-if="(options.type !== 'field' || options.type !== 'multi_select' || options.type !== 'date') && productScope.isManagingStock">
+                     ng-if="(option.type !== 'field' && option.type !== 'multi_select' && option.type !== 'date') && productScope.isManagingStock">
                     <label>Controls inventory</label>
                     <select class="form-control"
-                            ng-init="option.controls_inventory = option.controls_inventory || false"
+                            ng-init="option.controls_inventory = option.controls_inventory || option.has_associated_products || false"
+                            ng-disabled="option.has_associated_products"
                             ng-model="option.controls_inventory"
                             ng-options="o as o for o in [true, false]">
                     </select>
                 </div>
 
                 <div class="form-group col-sm-6"
-                     ng-if="options.type !== 'field' || options.type !== 'multi_select' || options.type !== 'date'">
+                     ng-if="option.type !== 'field' && option.type !== 'multi_select' && option.type !== 'date'">
                     <label>Controls image</label>
                     <select class="form-control"
                             ng-init="option.controls_image = option.controls_image || false"
@@ -88,12 +90,12 @@
                 </div>
 
                 <div class="form-group col-sm-6"
-                     ng-if="options.type !== 'field' || options.type !== 'multi_select' || options.type !== 'date'">
+                     ng-if="option.type !== 'field' && option.type !== 'multi_select' && option.type !== 'date'">
                     <label>
-                        Has associated products
+                        Used in product configurations
                     </label>
                     <select class="form-control"
-                            ng-change="reloadAssociatedProducts()"
+                            ng-change="adjustOptionFields(option)"
                             ng-init="option.has_associated_products = option.has_associated_products || false"
                             ng-model="option.has_associated_products"
                             ng-options="o as o for o in [true, false]"
@@ -185,7 +187,7 @@
     </div>
 
     <div class="panel panel-default panel-associated-products product-option"
-         ng-if="isConfigurable && hasConfigurableOptions()">
+         ng-if="hasConfigurableOptions()">
         <div class="panel-heading" ng-click="isProductsUnfolded = !isProductsUnfolded">
             Associated Products
             <i class="fa" ng-class="{'fa-caret-down': !isUnfolded, 'fa-caret-up': isUnfolded}"></i>

@@ -38,6 +38,7 @@ angular.module('productModule')
                     ];
 
                     $scope.updateOptionsKeys = updateOptionsKeys;
+                    $scope.changedOptionsLabels = changedOptionsLabels;
                     $scope.toJsonKey = toJsonKey;
                     $scope.cleanOption = cleanOption;
                     $scope.addRow = addRow;
@@ -48,11 +49,16 @@ angular.module('productModule')
                     $scope.canHaveAssociatedProducts = canHaveAssociatedProducts;
                     $scope.reloadAssociatedProducts = reloadAssociatedProducts;
                     $scope.hasConfigurableOptions = hasConfigurableOptions;
+                    $scope.adjustOptionFields = adjustOptionFields;
+
+                    $scope.selectImage = selectImage;
+                    $scope.getImagePath = getImagePath;
 
                     $scope.productsGrid = {};
                     $scope.gridViewConfig = {
                         autoload: false,
-                        isFiltersOpen: true
+                        isFiltersOpen: true,
+                        forceSelection: true
                     };
                     $scope.configurable = productConfigurableService.configurable($scope.attributes);
 
@@ -61,13 +67,70 @@ angular.module('productModule')
                     //////////////////////////
 
                     function activate() {
-                        $scope.optionsData = $scope.product.options;
+                        $scope.optionsData = $scope.product.options || {};
                         $scope.isConfigurable = !_.isEmpty($scope.configurable.attributes) &&
                             $scope.product.type === 'configurable';
 
                         if ($scope.isConfigurable) {
                             reloadAssociatedProducts();
                         }
+                    }
+
+                    function adjustOptionFields(option) {
+                        var notSelectOptionTypes = ['field', 'multi_select', 'date'];
+
+                        if (notSelectOptionTypes.indexOf(option.type) !== -1) {
+                            option.has_associated_products = false;
+                        }
+
+                        if (option.has_associated_products) {
+                            option.required = true;
+                            option.controls_inventory = true;
+                        }
+
+                        reloadAssociatedProducts();
+                    }
+
+                    function selectImage(selection) {
+                        $uibModal.open({
+                            controller: 'productSelectImageController',
+                            templateUrl: "/views/product/select-image.html",
+                            size: 'lg',
+                            resolve: {
+                                product: function() {
+                                    return $scope.product;
+                                },
+                                productScope: function() {
+                                    return $scope.productScope;
+                                }
+                            }
+                        }).result.then(
+                            function (result) {
+                                selection.image_name = result;
+                            }
+                        );
+                    }
+
+                    function getImagePath(mediaName) {
+                        if (mediaName) {
+                            return MEDIA_BASE_PATH + 'image/Product/' + $scope.product._id + '/' + mediaName;
+                        } else return '';
+                    }
+
+                    function changedOptionsLabels(options, resetAssociatedProducts) {
+                        updateOptionsKeys(options);
+                        if ($scope.isConfigurable && resetAssociatedProducts) {
+                            validateConfigurableOption(options);
+                            reloadAssociatedProducts();
+                        }
+                    }
+
+                    function validateConfigurableOption(options) {
+                        _.forEach(options, function(option) {
+                            if (option.has_associated_products && !canHaveAssociatedProducts(option.key)) {
+                                option.has_associated_products = false;
+                            }
+                        });
                     }
 
                     function reloadAssociatedProducts() {
@@ -90,48 +153,6 @@ angular.module('productModule')
                         });
 
                         return result;
-                    }
-
-                    $scope.selectImage = function(selection) {
-                        $uibModal.open({
-                            controller: 'productSelectImageController',
-                            templateUrl: "/views/product/select-image.html",
-                            size: 'lg',
-                            resolve: {
-                                product: function() {
-                                    return $scope.product;
-                                },
-                                productScope: function() {
-                                    return $scope.productScope;
-                                }
-                            }
-                        }).result.then(
-                            function (result) {
-                                selection.image_name = result;
-                            }
-                        );
-                    };
-
-                    $scope.getImagePath = function(mediaName) {
-                        if (mediaName) {
-                            return MEDIA_BASE_PATH + 'image/Product/' + $scope.product._id + '/' + mediaName;
-                        } else return '';
-                    };
-
-                    $scope.changedOptionsLabels = function(options, resetAssociatedProducts) {
-                        updateOptionsKeys(options);
-                        if ($scope.isConfigurable && resetAssociatedProducts) {
-                            validateConfigurableOption(options);
-                            reloadAssociatedProducts();
-                        }
-                    };
-
-                    function validateConfigurableOption(options) {
-                        _.forEach(options, function(option) {
-                            if (option.has_associated_products && !canHaveAssociatedProducts(option.key)) {
-                                option.has_associated_products = false;
-                            }
-                        })
                     }
 
                     /**
@@ -277,6 +298,7 @@ angular.module('productModule')
                         var skipSelected = false;
                         $scope.productsGrid.on('rowCreated', function(event) {
                             var row = event.row;
+                            row._link = 'products/' + row._id;
                             $scope.configurable.validateRow(row, $scope.optionsData, skipSelected);
                         });
 
