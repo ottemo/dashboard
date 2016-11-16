@@ -68,6 +68,7 @@ angular.module('productModule')
 
                     function activate() {
                         $scope.optionsData = $scope.product.options || {};
+                        $scope.product.options =  $scope.optionsData;
                         $scope.isConfigurable = !_.isEmpty($scope.configurable.attributes) &&
                             $scope.product.type === 'configurable';
 
