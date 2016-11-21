@@ -27,6 +27,14 @@ angular.module('visitorModule', [
                 templateUrl: '/views/visitor/address/edit.html',
                 controller: 'visitorAddressEditController'
             })
+            .when("/reviews", {
+                templateUrl: "/views/visitor/reviews/list.html",
+                controller: "reviewsListController"
+            })
+            .when("/review/:reviewID", {
+                templateUrl: "/views/visitor/reviews/edit.html",
+                controller: "reviewsEditController"
+            })
             .when('/v/attributes', {
                 templateUrl: '/views/visitor/attribute/list.html',
                 controller: 'visitorAttributeListController'
@@ -38,6 +46,14 @@ angular.module('visitorModule', [
             .when('/emails', {
                 templateUrl: '/views/visitor/email.html',
                 controller: 'visitorEmailController'
+            })
+            .when('/guests', {
+                templateUrl: '/views/visitor/guests/list.html',
+                controller: 'visitorGuestsController'
+            })
+            .when('/guests/:email', {
+                templateUrl: '/views/visitor/guests/edit.html',
+                controller: 'visitorGuestsEditController'
             });
     }]
 );

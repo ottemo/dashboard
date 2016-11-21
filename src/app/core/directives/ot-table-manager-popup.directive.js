@@ -220,17 +220,18 @@ angular.module("coreModule")
                     };
 
                     compareArrays = function (key) {
-                        if ($scope.newFilters[key] instanceof Array && typeof activeFilters[key] !== "undefined") {
-                            if ($scope.newFilters[key].sort().join() !== activeFilters[key].sort().join()) {
-                                return false;
-                            }
-                        } else {
-                            if ($scope.newFilters[key] !== activeFilters[key]) {
-                                return false;
-                            }
-                        }
+                        if (activeFilters[key] &&
+                            $scope.newFilters[key] instanceof Array &&
+                            activeFilters[key] instanceof Array &&
+                            $scope.newFilters[key].sort().join() !== activeFilters[key].sort().join()) {
 
-                        return true;
+                            return false;
+
+                        } else if ($scope.newFilters[key] !== activeFilters[key]){
+                            return false;
+                        } else {
+                            return true;
+                        }
                     };
 
                     check = function (key) {
@@ -248,12 +249,8 @@ angular.module("coreModule")
                     };
 
                     for (var key in $scope.newFilters) {
-                        if ($scope.newFilters.hasOwnProperty(key)) {
-                            if (check(key)) {
-                                continue;
-                            } else {
-                                return false;
-                            }
+                        if ($scope.newFilters.hasOwnProperty(key) && !check(key)) {
+                            return false
                         }
                     }
 
@@ -292,16 +289,9 @@ angular.module("coreModule")
                 /** Sorting end*/
 
                 var getSearchObj = function (reset) {
-                    var addFilter, getPaginatorSearch, getSortSearch, removeEmpty, search;
+                    var addFilter, getPaginatorSearch, getSortSearch, search;
 
                     search = {};
-                    removeEmpty = function (arr) {
-                        for (var i = 0; i < arr.length; i++) {
-                            if ("" === arr[i].trim()) {
-                                arr.splice(i, 1);
-                            }
-                        }
-                    };
 
                     getPaginatorSearch = function (search, reset) {
                         if (reset) {
@@ -315,7 +305,6 @@ angular.module("coreModule")
 
                     addFilter = function (key) {
                         if ($scope.newFilters[key] instanceof Array) {
-                            removeEmpty($scope.newFilters[key]);
                             if ($scope.newFilters[key].length > 0) {
                                 search[key.toLowerCase()] = '~' + $scope.newFilters[key].join();
                             }
@@ -330,13 +319,11 @@ angular.module("coreModule")
 
                         return search;
                     };
-
                     for (var key in $scope.newFilters) {
                         if ($scope.newFilters.hasOwnProperty(key)) {
                             addFilter(key);
                         }
                     }
-
                     search = getPaginatorSearch(search, reset);
                     search = getSortSearch(search);
 
@@ -351,7 +338,7 @@ angular.module("coreModule")
                 };
 
                 $scope.$watch("newFilters", function () {
-                    if (typeof $scope.filters === "undefined") {
+                    if (!$scope.filters) {
                         return false;
                     }
 

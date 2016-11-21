@@ -44,8 +44,14 @@ angular.module('dashboardModule')
             title: 'Visitors',
             icon: 'fa-users',
             children: [{
+                title: 'Guests',
+                link: '/guests'
+            }, {
                 title: 'Visitors',
                 link: '/visitors'
+            }, {
+                title: 'Reviews',
+                link: '/reviews'
             }, {
                 title: 'Attributes',
                 link: '/v/attributes'
@@ -65,6 +71,9 @@ angular.module('dashboardModule')
             }, {
                 title: 'Images',
                 link: '/cms/media'
+            }, {
+                title: 'Blog',
+                link: '/cms/posts'
             }]
         }, {
             title: 'URL Rewrite',

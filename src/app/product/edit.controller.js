@@ -13,11 +13,12 @@ function ($scope, $routeParams, $location, $q, _, productApiService, coreImageSe
     $scope.back = back;
 
     // Images
-    $scope.imageAdd = imageAdd;
+    $scope.addImage = addImage;
     $scope.getImage = coreImageService.getImage;
     $scope.reloadImages = reloadImages;
-    $scope.imageRemove = imageRemove;
-    $scope.imageDefault = imageDefault;
+    $scope.removeImage = removeImage;
+    $scope.setDefaultImage = setDefaultImage;
+    $scope.getDefaultImage = getDefaultImage;
 
     activate();
 
@@ -47,6 +48,12 @@ function ($scope, $routeParams, $location, $q, _, productApiService, coreImageSe
                 addImageManagerAttribute(attrs);
                 if (isManagingStock) {
                     addInventoryTab(attrs);
+                }
+
+                var salePriceAttr = _.remove(attrs, { Attribute: 'sale_prices' });
+                var isSalePricesEnabled = (salePriceAttr.length > 0);
+                if (isSalePricesEnabled) {
+                    addSalePriceTab(attrs);
                 }
 
                 // Attach
@@ -107,6 +114,22 @@ function ($scope, $routeParams, $location, $q, _, productApiService, coreImageSe
             IsRequired: false,
             IsStatic: false,
             Label: 'Image',
+            Model: 'Product',
+            Options: '',
+            Type: 'text'
+        });
+    }
+
+    function addSalePriceTab(attributes) {
+        attributes.unshift({
+            Attribute: 'sale_prices',
+            Collection: 'product',
+            Default: '',
+            Editors: 'sale_prices',
+            Group: 'SalePrice',
+            IsRequired: false,
+            IsStatic: false,
+            Label: 'Sale Price',
             Model: 'Product',
             Options: '',
             Type: 'text'
@@ -174,6 +197,10 @@ function ($scope, $routeParams, $location, $q, _, productApiService, coreImageSe
             productApiService.save($scope.product, saveSuccess, saveError);
         } else {
             $scope.product.id = id;
+            if ($scope.images && $scope.images.indexOf($scope.product['default_image']) == -1) {
+                $scope.product['default_image'] = $scope.images[0] || '';
+            }
+
             productApiService.update($scope.product, updateSuccess, updateError);
         }
 
@@ -184,7 +211,7 @@ function ($scope, $routeParams, $location, $q, _, productApiService, coreImageSe
         function saveSuccess(response) {
             if (response.error === null) {
                 $scope.product._id = response.result._id;
-                $scope.productImages = [];
+                $scope.images = [];
                 $scope.message = dashboardUtilsService.getMessage(null, 'success', 'Product was created successfully');
                 addImageManagerAttribute();
 
@@ -248,7 +275,7 @@ function ($scope, $routeParams, $location, $q, _, productApiService, coreImageSe
             // taking registered images for product
             productApiService.listImages({'productID': $scope.product._id}).$promise.then(
                 function (response) {
-                    $scope.productImages = response.result || [];
+                    $scope.images = response.result || [];
                 });
         }
     }
@@ -258,10 +285,13 @@ function ($scope, $routeParams, $location, $q, _, productApiService, coreImageSe
      *
      * @param fileElementId
      */
-    function imageAdd(fileElementId) {
+    function addImage(fileElementId) {
         var file = document.getElementById(fileElementId);
+        var pid = $scope.product._id;
 
-        var pid = $scope.product._id, mediaName = file.files[0].name;
+        var mediaName = file.files[0] ? file.files[0].name : undefined;
+
+        if (pid === undefined || mediaName === undefined) return;
 
         var postData = new FormData();
         postData.append('file', file.files[0]);
@@ -279,7 +309,7 @@ function ($scope, $routeParams, $location, $q, _, productApiService, coreImageSe
      *
      * @param {string} selected - image name
      */
-    function imageRemove(selected) {
+    function removeImage(selected) {
         var pid = $scope.product._id, mediaName = selected;
 
         if (pid !== undefined && selected !== undefined) {
@@ -288,6 +318,8 @@ function ($scope, $routeParams, $location, $q, _, productApiService, coreImageSe
                     $scope.selectedImage = undefined;
                     $scope.reloadImages();
                     $scope.product['default_image'] = '';
+
+
                     $scope.save();
                 });
         }
@@ -298,7 +330,12 @@ function ($scope, $routeParams, $location, $q, _, productApiService, coreImageSe
      *
      * @param {string} selected - image name
      */
-    function imageDefault(selected) {
+    function setDefaultImage(selected) {
         $scope.product['default_image'] = selected;
+
+    }
+
+    function getDefaultImage() {
+        return $scope.product['default_image'];
     }
 }]);

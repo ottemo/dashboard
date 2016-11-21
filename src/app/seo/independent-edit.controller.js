@@ -1,12 +1,12 @@
-angular.module("seoModule")
+angular.module('seoModule')
 
-.controller("seoIndependentEditController", [
-    "$scope",
-    "$routeParams",
-    "$location",
-    "$q",
-    "seoApiService",
-    "dashboardUtilsService",
+.controller('seoIndependentEditController', [
+    '$scope',
+    '$routeParams',
+    '$location',
+    '$q',
+    'seoApiService',
+    'dashboardUtilsService',
     function ($scope, $routeParams, $location, $q, seoApiService, dashboardUtilsService) {
         // Functions
         var getAttributeList, getDefaultSEO, checkAttributePosition, getRewriteList;
@@ -15,31 +15,31 @@ angular.module("seoModule")
 
 
         seoRewriteNum = 5;
-        seoAttributes = {"url":{"IsRequired": true, "Label": "URL"},
-            "title":{},
-            "meta_keywords":{},
-            "meta_description":{},
-            "type":{"IsRequired": true, "Editors": "select", "Options": "page,category,product", "Default": "page"},
-            "rewrite":{"IsRequired": true, "Label": "Object"}
+        seoAttributes = {'url':{'IsRequired': true, 'Label': 'URL'},
+            'title':{},
+            'meta_keywords':{},
+            'meta_description':{},
+            'type':{'IsRequired': true, 'Editors': 'select', 'Options': 'page,category,product,post', 'Default': 'page'},
+            'rewrite':{'IsRequired': true, 'Label': 'Object'}
         };
 
-		seoId = $routeParams.id;
+        seoId = $routeParams.id;
 
-        if (!seoId && seoId !== "new") {
-            $location.path("/seo");
+        if (!seoId && seoId !== 'new') {
+            $location.path('/seo');
         }
 
-        if (seoId === "new") {
-			seoId = null;
+        if (seoId === 'new') {
+            seoId = null;
         }
 
         getDefaultSEO = function () {
             return {
-                "url": "",
-                "title": "",
-                "type": "",
-                "meta_keywords": "",
-                "meta_description": ""
+                'url': '',
+                'title': '',
+                'type': '',
+                'meta_keywords': '',
+                'meta_description': ''
             };
         };
 
@@ -49,20 +49,20 @@ angular.module("seoModule")
             $scope.attributes = [];
 
             for (var attributeName in seoAttributes) {
-                if (typeof seoAttributes[attributeName] !== "undefined") {
+                if (typeof seoAttributes[attributeName] !== 'undefined') {
                     var obj = {
-                        "Attribute": attributeName,
-                        "Collection": "seo",
-                        "Default": "",
-                        "Editors": "text",
-                        "Group": "SEO",
-                        "IsRequired": false,
-                        "IsStatic": true,
-                        "Label": attributeName.charAt(0).toUpperCase() + attributeName.slice(1),
-                        "Model": "Seo",
-                        "Options": "",
-                        "Type": "text",
-                        "Value": ""
+                        'Attribute': attributeName,
+                        'Collection': 'seo',
+                        'Default': '',
+                        'Editors': 'text',
+                        'Group': 'SEO',
+                        'IsRequired': false,
+                        'IsStatic': true,
+                        'Label': attributeName.charAt(0).toUpperCase() + attributeName.slice(1),
+                        'Model': 'Seo',
+                        'Options': '',
+                        'Type': 'text',
+                        'Value': ''
                     };
 
                     for (var attributeKeys in seoAttributes[attributeName]) {
@@ -81,20 +81,20 @@ angular.module("seoModule")
          * Gets values for url rewrites :(
          */
         var getSeoValues = function(id) {
-                seoApiService.canonical({"id": id}).$promise.then(
+                seoApiService.canonical({'id': id}).$promise.then(
                     function (response) {
-                        seoRewriteList[response.result["rewrite"]] = response.result["_id"];
+                        seoRewriteList[response.result['rewrite']] = response.result['_id'];
                     }
                 );
         };
 
         getRewriteList = function () {
-            seoApiService.list().$promise.then(
+            seoApiService.listSeo().$promise.then(
                 function (response) {
                     seoRewriteList = {};
                     var i, seoList = response.result || [];
                     for (i = 0; i < seoList.length; i += 1) {
-                        getSeoValues(seoList[i]["_id"]);
+                        getSeoValues(seoList[i]['ID']);
                     }
                 }
             );
@@ -103,14 +103,14 @@ angular.module("seoModule")
         getRewriteList();
 
         if (null !== seoId) {
-            seoApiService.canonical({"id": seoId}).$promise.then(function (response) {
+            seoApiService.canonical({'id': seoId}).$promise.then(function (response) {
                 var result = response.result || {};
                 $scope.seo = result;
             });
         }
 
         $scope.back = function () {
-            $location.path("/seo");
+            $location.path('/seo');
         };
 
         /**
@@ -123,7 +123,7 @@ angular.module("seoModule")
             var id, defer, saveSuccess, saveError, updateSuccess, updateError, regexp = /^\w*/;
             defer = $q.defer();
 
-            if (typeof $scope.seo !== "undefined") {
+            if (typeof $scope.seo !== 'undefined') {
                 id = $scope.seo.Id || $scope.seo._id;
             }
 
@@ -179,20 +179,20 @@ angular.module("seoModule")
             * Check for valid rewrite and url if not, drop a message for it
             * checking is rewrite don't replace existing
             */
-            if (!$scope.seo.rewrite || $scope.seo.rewrite === "" || $scope.seo.rewrite.length < 4 || !regexp.test($scope.seo.url)) {
+            if (!$scope.seo.rewrite || $scope.seo.rewrite === '' || $scope.seo.rewrite.length < 4 || !regexp.test($scope.seo.url)) {
                 $scope.message = dashboardUtilsService.getMessage(null, 'warning', 'Need to specify object to rewrite and valid url');
                 updateError();
             } else {
-                if (typeof seoRewriteList[$scope.seo.rewrite] === "undefined") {
-                    if (typeof id !== "undefined") {
-                        seoApiService.update({"itemID": id}, $scope.seo, updateSuccess, updateError);
+                if (typeof seoRewriteList[$scope.seo.rewrite] === 'undefined') {
+                    if (typeof id !== 'undefined') {
+                        seoApiService.update({'itemID': id}, $scope.seo, updateSuccess, updateError);
                     } else {
                         seoApiService.add($scope.seo, saveSuccess, saveError);
                     }
                 }
                 else {
                     if (id === seoRewriteList[$scope.seo.rewrite]) {
-                        seoApiService.update({"itemID": id}, $scope.seo, updateSuccess, updateError);
+                        seoApiService.update({'itemID': id}, $scope.seo, updateSuccess, updateError);
                     }
                     $scope.message = dashboardUtilsService.getMessage(null, 'warning', 'Rewrite for this object is already exist');
                     saveError();
@@ -203,11 +203,11 @@ angular.module("seoModule")
         };
 
         checkAttributePosition = function () {
-            if ($scope.attributes[seoRewriteNum]["Attribute"] === "rewrite") {
+            if ($scope.attributes[seoRewriteNum]['Attribute'] === 'rewrite') {
                 return seoRewriteNum;
             } else {
                 for (var i=0; i < $scope.attributes.length; i+=1){
-                    if ($scope.attributes[i]["Attribute"] === "rewrite") {
+                    if ($scope.attributes[i]['Attribute'] === 'rewrite') {
                         seoRewriteNum = i;
                         return i;
                     }
@@ -219,26 +219,31 @@ angular.module("seoModule")
                 return $scope.seo.type;
 
         }, function (newVal, oldVal) {/*jshint maxcomplexity:6 */
-            if (typeof $scope.attributes !== "undefined") {
+            if (typeof $scope.attributes !== 'undefined') {
                 checkAttributePosition();
-                if (typeof newVal !== "undefined" && typeof oldVal !== "undefined"){
-                    $scope.seo.rewrite = "";
+                if (typeof newVal !== 'undefined' && typeof oldVal !== 'undefined'){
+                    $scope.seo.rewrite = '';
                 }
                 switch (newVal) {
-                    case "category":
-                        $scope.attributes[seoRewriteNum]["Editors"] = "category_selector";
+                    case 'category':
+                        $scope.attributes[seoRewriteNum]['Editors'] = 'category_selector';
                         break;
 
-                    case "product":
-                        $scope.attributes[seoRewriteNum]["Editors"] = "products_selector";
+                    case 'product':
+                        $scope.attributes[seoRewriteNum]['Editors'] = 'products_selector';
                         break;
 
-                    case "page":
-                        $scope.attributes[seoRewriteNum]["Editors"] = "page_selector";
+                    case 'page':
+                        $scope.attributes[seoRewriteNum]['Editors'] = 'page_selector';
                         break;
+
+                    case 'post':
+                        $scope.attributes[seoRewriteNum]['Editors'] = 'post_selector';
+                        break;
+
 
                     default:
-                        $scope.attributes[seoRewriteNum]["Editors"] = "not_editable";
+                        $scope.attributes[seoRewriteNum]['Editors'] = 'not_editable';
                 }
             }
         }, true);

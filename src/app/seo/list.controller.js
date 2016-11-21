@@ -9,93 +9,114 @@ angular.module("seoModule")
     "dashboardListService",
     "seoApiService",
     "COUNT_ITEMS_PER_PAGE",
-    function ($rootScope, $scope, $location, $routeParams, $q, DashboardListService, seoApiService, COUNT_ITEMS_PER_PAGE) {
-        var getSeoList, serviceList, getAttributeList, showColumns, seoList, seoIdToUrl;
+    function (
+        $rootScope,
+        $scope,
+        $location,
+        $routeParams,
+        $q,
+        DashboardListService,
+        seoApiService,
+        COUNT_ITEMS_PER_PAGE) {
 
-        serviceList = new DashboardListService();
-        showColumns = {
-            'url' : {'type' : 'select-link', 'label' : 'URL'},
-            'type' : {'label' : 'Type', 'filter' : 'text'},
+        var serviceList = new DashboardListService();
+
+        var showColumns = {
+            'url' : {
+                'type' : 'select-link',
+                'label' : 'URL'
+            },
+            'type' : {
+                'label' : 'Type',
+                'filter' : 'text'
+            },
             'title': {}
         };
 
+        var searchDefaults = {
+            sort: "^url",
+            limit: "0,15"
+        };
+
+        $scope.selectedIds = [];
         $scope.idsSelectedRows = {};
         $scope.fields = [];
+
+        $scope.select = select;
+        $scope.create = create;
+
+        activate();
+
+        ///////////////////////////////////////
+
+        function activate() {
+            $scope.$watch("idsSelectedRows", function(newVal, oldVal) {
+                var ids = [];
+                angular.forEach($scope.idsSelectedRows, function(active, id) {
+                    if (active) {
+                        ids.push(id);
+                    }
+                });
+                $scope.selectedIds = ids;
+            }, true);
+
+            setSearchDefaults();
+
+            getSeoCount();
+            getAttributeList();
+        }
+
+        function setSearchDefaults() {
+            if (JSON.stringify({}) === JSON.stringify($location.search())) {
+                $location.search(searchDefaults).replace();
+            }
+        }
 
         /**
          * Gets list and count of url rewrites
          */
-        getSeoList = function() {
-            seoApiService.list().$promise.then(
-                function (response) {
-                    seoList = response.result || [];
-                    $scope.count = seoList.length;
-                    $scope.rewritesTmp = [];
-                    seoIdToUrl = {};
+        function getSeoList() {
+            var params = $location.search();
+            params.extra = serviceList.getExtraFields();
 
-                    for (var i = 0; i < seoList.length; i += 1) {
-						seoList[i]["ID"] = seoList[i]["_id"];
-						seoIdToUrl[seoList[i]["_id"]] =  seoList[i]["url"];
-						$scope.rewritesTmp.push(seoList[i]);
-                    }
+            seoApiService.listSeo(params).$promise
+                .then(function (response) {
+                    var result = response.result || [];
+                    $scope.rewrites = serviceList.getList(result);
                 }
             );
-        };
+        }
 
-
-
-        /**
-         * Gets list of attributes for url rewrites
-         */
-        getAttributeList = function() {
-            var fields = ["url", "title", "meta_keywords", "meta_description", "type"];
-            $scope.attributes = [];
-
-            for (var i = 0; i < fields.length; i+=1) {
-                $scope.attributes.push({
-                    "Attribute": fields[i],
-                    "Collection": "seo",
-                    "Default": "",
-                    "Editors": "text",
-                    "Group": "SEO",
-                    "IsRequired": false,
-                    "IsStatic": true,
-                    "Label": fields[i].charAt(0).toUpperCase() + fields[i].slice(1),
-                    "Model": "Seo",
-                    "Options": "",
-                    "Type": "text",
-                    "Value": ""
+        function getSeoCount() {
+            seoApiService.getCount($location.search()).$promise
+                .then(function(response) {
+                    $scope.count = (response.error === null) ? response.result : 0;
                 });
-            }
-            serviceList.setAttributes($scope.attributes);
-            $scope.fields = $scope.fields.concat(serviceList.getFields(showColumns));
-        };
+        }
 
-        /**
-         * Handler event when selecting the seo in the list
-         *
-         * @param id
-         */
-        $scope.select = function (id) {
-            $location.path("/seo/" + id);
-        };
+        function getAttributeList() {
+            seoApiService.getAttributes().$promise.then(
+                function(response) {
+                    $scope.attributes = response.result || [];
+                    serviceList.setAttributes($scope.attributes);
+                    $scope.fields = serviceList.getFields(showColumns);
 
-        /**
-         *
-         */
-        $scope.create = function () {
-            $location.path("/seo/new");
-        };
-
-        var hasSelectedRows = function () {
-            var result = false;
-            for (var _id in $scope.idsSelectedRows) {
-                if ($scope.idsSelectedRows.hasOwnProperty(_id) && $scope.idsSelectedRows[_id]) {
-                    result = true;
+                    getSeoList();
                 }
-            }
-            return result;
-        };
+            );
+        }
+
+        function select (id) {
+            $location.path("/seo/" + id).search("");
+        }
+
+        function create() {
+            $location.path("/seo/new");
+        }
+
+        function hasSelectedRows() {
+            return $scope.selectedIds.length;
+        }
 
         /**
          * Removes seo by ID
@@ -144,28 +165,6 @@ angular.module("seoModule")
             }
             $('[ng-click="parent.remove()"]').removeClass('disabled').children('i').remove();
             $('[ng-click="parent.remove()"]').siblings('.btn').removeClass('disabled');
-
         };
-
-        $scope.$watch(function () {
-            if (typeof $scope.attributes !== "undefined" && typeof $scope.rewritesTmp !== "undefined") {
-                return ($scope.rewritesTmp.length === $scope.count);
-            }
-
-            return false;
-        }, function (isInitAll) {
-            if(isInitAll) {
-                $scope.rewrites = serviceList.getList($scope.rewritesTmp);
-            }
-        });
-
-        $scope.init = (function () {
-            if (JSON.stringify({}) === JSON.stringify($location.search())) {
-                $location.search('limit', '0,' + COUNT_ITEMS_PER_PAGE).replace();
-                return;
-            }
-            getAttributeList();
-            getSeoList();
-        })();
     }
 ]);

@@ -62,6 +62,35 @@ angular.module("cmsModule")
             method: "PUT",
             params: { pageID: "@_id" },
             url: REST_SERVER_URI + "/cms/page/:pageID"
+        },
+        "imageRemove": {
+            method: "DELETE",
+            url: REST_SERVER_URI + "/cms/media/:mediaName"
+        },
+        "blogAdd": {
+            method: "POST",
+            url: REST_SERVER_URI + "/blog/post"
+        },
+        "blogRemove": {
+            method: "DELETE",
+            url: REST_SERVER_URI + "/blog/post/:postID"
+        },
+        "blogAttributes": {
+            method: "GET",
+            url: REST_SERVER_URI + "/blog/posts/attributes"
+        },
+        "blogGet": {
+            method: "GET",
+            url: REST_SERVER_URI + "/blog/post/:postID"
+        },
+        "blogUpdate": {
+            method: "PUT",
+            params: { postID: "@_id" },
+            url: REST_SERVER_URI + "/blog/post/:postID"
+        },
+        "blogList": {
+            method: "GET",
+            url: REST_SERVER_URI + "/blog/posts"
         }
     });
 }]);

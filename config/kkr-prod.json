@@ -1,6 +1,6 @@
 {
     "useStrict"    : "use strict",
-    "apiUrl"       : "https://api.knickknackrecords.com",
-    "mediaPath"    : "https://knickknackrecords.com/media/",
+    "apiUrl"       : "https://api.knickknackrecordstore.com",
+    "mediaPath"    : "https://knickknackrecordstore.com/media/",
     "itemsPerPage" : "15"
 }

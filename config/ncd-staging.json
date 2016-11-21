@@ -1,0 +1,6 @@
+{
+    "useStrict"    : "use strict",
+    "apiUrl"       : "https://api.ncd.staging.ottemo.io",
+    "mediaPath"    : "https://ncd.staging.ottemo.io/media/",
+    "itemsPerPage" : "15"
+}
