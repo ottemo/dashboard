@@ -20,6 +20,15 @@ function ($scope, $routeParams, $location, $q, _, productApiService, coreImageSe
     $scope.setDefaultImage = setDefaultImage;
     $scope.getDefaultImage = getDefaultImage;
 
+    $scope.picker = {
+        isOpen: false,
+        date: new Date()
+    };
+
+    $scope.openPicker = function() {
+        $scope.picker.isOpen = true;
+    };
+
     activate();
 
     ///////////////////////////////

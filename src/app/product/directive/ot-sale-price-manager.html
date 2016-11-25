@@ -9,6 +9,8 @@
     </button>
 </div>
 
+
+
 <br/><br/>
 
 <div class="well" ng-repeat="salePrice in salePrices">
@@ -40,16 +42,20 @@
                             type="text"
                             ng-model="salePrice.amount" />
                     </td>
-                    <td class="form-group">
-                        <input class="form-control"
-                               type="date"
-                               ng-model="salePrice.start_datetime"  />
-                    </td>
-                    <td class="form-group">
-                        <input class="form-control"
-                               type="date"
-                               ng-model="salePrice.end_datetime"  />
-                    </td>
+                    <!--<td class="form-group">-->
+                        <!--<input class="form-control"-->
+                               <!--type="text"-->
+                               <!--datetime-picker="MM/dd/yyyy HH:mm"-->
+                               <!--is-open="startDateIsOpen"-->
+                               <!--ng-model="salePrice.start_datetime"  />-->
+                    <!--</td>-->
+                    <!--<td class="form-group">-->
+                        <!--<input class="form-control"-->
+                               <!--type="text"-->
+                               <!--datetime-picker="MM/dd/yyyy HH:mm"-->
+                               <!--is-open="endDateIsOpen"-->
+                               <!--ng-model="salePrice.end_datetime"  />-->
+                    <!--</td>-->
                 </tr>
             </tbody>
         </table>

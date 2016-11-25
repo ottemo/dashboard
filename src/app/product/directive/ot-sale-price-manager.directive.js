@@ -16,6 +16,9 @@ angular.module('productModule')
             $scope.removeSalePrice = removeSalePrice;
             $scope.addNewSalePrice = addNewSalePrice;
 
+            $scope.startDateIsOpen = true;
+            $scope.endDateIsOpen = true;
+
             $scope.$watch('item', function () {
                 if ($scope.item[$scope.attribute.Attribute] === undefined) {
                     $scope.salePrices = [];
@@ -30,6 +33,7 @@ angular.module('productModule')
                 }
 
             }, true);
+
 
             function initData() {
                 if (!isInit) {

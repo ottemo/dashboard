@@ -8,6 +8,7 @@ angular.module('dashboardModule', [
     // Lib
     'ui.odometer',
     'ui.bootstrap',
+    'ui.bootstrap.datetimepicker',
     'highcharts-ng',
 
     // Ottemo
