@@ -94,6 +94,10 @@ angular.module('productModule')
                 if (product.options === 'undefined') {
                     $scope.product.options = {};
                 }
+
+                if (product.type === 'configurable') {
+                    addProductConfigurationsTab($scope.attributes);
+                }
             }
         });
 
@@ -176,6 +180,22 @@ angular.module('productModule')
         };
     }
 
+    function addProductConfigurationsTab(attributes) {
+        attributes.push({
+            Attribute: 'product_configurations',
+            Collection: 'product',
+            Default: '',
+            Editors: 'product_configurations_manager',
+            Group: 'Configurations',
+            IsRequired: false,
+            IsStatic: false,
+            Label: 'Product Configurations',
+            Model: 'Product',
+            Options: '',
+            Type: 'text'
+        });
+    }
+
     /**
      * Clears the form to create a new product
      */
@@ -229,6 +249,10 @@ angular.module('productModule')
                 $scope.message = dashboardUtilsService.getMessage(null, 'success', 'Product was created successfully');
                 addImageManagerAttribute($scope.attributes);
 
+                if ($scope.product.type === 'configurable') {
+                    addProductConfigurationsTab($scope.attributes);
+                }
+
                 defer.resolve($scope.product);
             } else {
                 $scope.message = dashboardUtilsService.getMessage(response);
@@ -237,7 +261,7 @@ angular.module('productModule')
         }
 
         function saveError() {
-            $scope.message = dashboardUtilsService.getMEssage(null, 'danger', 'Something went wrong');
+            $scope.message = dashboardUtilsService.getMessage(null, 'danger', 'Something went wrong');
             enableButton();
             defer.resolve(false);
         }
