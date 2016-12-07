@@ -1,148 +1,47 @@
 angular.module('productModule')
 
-    .directive('otProductOptionsManager', [
-        '_',
-        'productApiService',
-        'coreParserService',
-        'coreGridService',
-        'productConfigurableService',
-        '$uibModal',
-        'MEDIA_BASE_PATH',
-        function (
-            _,
-            productApiService,
-            coreParserService,
-            coreGridService,
-            productConfigurableService,
-            $uibModal,
-            MEDIA_BASE_PATH
-        ) {
+    .directive('otProductOptionsManager', ['_', function (_) {
             return {
-                restrict: 'EA',
+                restrict: 'E',
                 scope: {
-                    product: '=',
-                    productScope: '=',
-                    attributes: '='
+                    'attribute': '=editorScope',
+                    'product': '=',
+                    'productScope': '='
                 },
                 templateUrl: '/views/product/directive/ot-product-options-manager.html',
-                controller: function($scope) {
 
-                    $scope.optionTypes = [
+                controller: function ($scope) {
+                    var isInit = false;
+
+                    $scope.types = [
                         'field',
                         'select',
-                        'select_text',
-                        'select_image',
                         'radio',
                         'multi_select',
                         'date'
                     ];
 
                     $scope.updateOptionsKeys = updateOptionsKeys;
-                    $scope.changedOptionsLabels = changedOptionsLabels;
                     $scope.toJsonKey = toJsonKey;
                     $scope.cleanOption = cleanOption;
                     $scope.addRow = addRow;
                     $scope.removeOption = removeOption;
                     $scope.removeRow = removeRow;
-                    $scope.newOption = newOption;
-
-                    $scope.canHaveAssociatedProducts = canHaveAssociatedProducts;
-                    $scope.reloadAssociatedProducts = reloadAssociatedProducts;
-                    $scope.hasConfigurableOptions = hasConfigurableOptions;
-                    $scope.adjustOptionFields = adjustOptionFields;
-
-                    $scope.selectImage = selectImage;
-                    $scope.getImagePath = getImagePath;
-
-                    $scope.productsGrid = {};
-                    $scope.gridViewConfig = {
-                        autoload: false,
-                        isFiltersOpen: true,
-                        forceSelection: true
-                    };
-                    $scope.configurable = productConfigurableService.configurable($scope.attributes);
-
-                    activate();
+                    $scope.addNewOption = addNewOption;
 
                     //////////////////////////
 
-                    function activate() {
-                        $scope.optionsData = $scope.product.options || {};
-                        $scope.product.options =  $scope.optionsData;
-                        $scope.isConfigurable = !_.isEmpty($scope.configurable.attributes) &&
-                            $scope.product.type === 'configurable';
-
-                        if ($scope.isConfigurable) {
-                            reloadAssociatedProducts();
+                    $scope.$watch('item', function () {
+                        if ($scope.product[$scope.attribute.Attribute] === undefined) {
+                            $scope.optionsData = [];
+                            return false;
                         }
-                    }
-
-                    function adjustOptionFields(option) {
-                        var notSelectOptionTypes = ['field', 'multi_select', 'date'];
-
-                        if (notSelectOptionTypes.indexOf(option.type) !== -1) {
-                            option.has_associated_products = false;
+                        if (isInit) {
+                            return false;
                         }
-
-                        if (option.has_associated_products) {
-                            option.required = true;
-                            option.controls_inventory = true;
-                        }
-
-                        reloadAssociatedProducts();
-                    }
-
-                    function selectImage(selection) {
-                        $uibModal.open({
-                            controller: 'productSelectImageController',
-                            templateUrl: "/views/product/select-image.html",
-                            size: 'lg',
-                            resolve: {
-                                product: function() {
-                                    return $scope.product;
-                                },
-                                productScope: function() {
-                                    return $scope.productScope;
-                                }
-                            }
-                        }).result.then(
-                            function (result) {
-                                selection.image_name = result;
-                            }
-                        );
-                    }
-
-                    function getImagePath(mediaName) {
-                        if (mediaName) {
-                            return MEDIA_BASE_PATH + 'image/Product/' + $scope.product._id + '/' + mediaName;
-                        } else return '';
-                    }
-
-                    function changedOptionsLabels(options, resetAssociatedProducts) {
-                        updateOptionsKeys(options);
-                        if ($scope.isConfigurable && resetAssociatedProducts) {
-                            validateConfigurableOption(options);
-                            reloadAssociatedProducts();
-                        }
-                    }
-
-                    function validateConfigurableOption(options) {
-                        _.forEach(options, function(option) {
-                            if (option.has_associated_products && !canHaveAssociatedProducts(option.key)) {
-                                option.has_associated_products = false;
-                            }
-                        });
-                    }
-
-                    function reloadAssociatedProducts() {
-                        $scope.configurable = productConfigurableService.configurable($scope.attributes);
-                        $scope.configurable.init($scope.optionsData);
-                        initProductsGrid();
-                    }
-
-                    function hasConfigurableOptions() {
-                        return !_.isEmpty($scope.configurable.options);
-                    }
+                        initData();
+                        updateOptionsKeys();
+                    }, true);
 
                     function getMaxOptionOrder(options) {
                         var result = 0;
@@ -156,6 +55,52 @@ angular.module('productModule')
                         return result;
                     }
 
+                    function getOptions(opt) {
+                        var options;
+
+                        if (typeof $scope.product === 'string') {
+                            options = JSON.parse(opt.replace(/'/g, '\''));
+                        } else if (typeof opt === 'undefined' || opt === null) {
+                            options = {};
+                        } else {
+                            options = opt;
+                        }
+
+                        // Remove options that are used for product configurations
+                        // to manage them on a separate tab
+                        // TODO: move configurable type constant into a separate angular constant value
+                        if ($scope.product.type === 'configurable') {
+                            var superOptionsKeys = getSuperOptionsKeys(options);
+                            _.forEach(superOptionsKeys, function(optionKey) {
+                                delete options[optionKey];
+                            });
+                        }
+
+                        return options;
+                    }
+
+                    function initData() {
+                        if (!isInit) {
+                            $scope.optionsData = $scope.product[$scope.attribute.Attribute] = getOptions($scope.product[$scope.attribute.Attribute]);
+
+                            isInit = true;
+                        }
+                    }
+
+                    /**
+                     *  Returns keys of options that are used for product configurations
+                     */
+                    function getSuperOptionsKeys(options) {
+                        var superOptionKeys = [];
+                        _.forEach(options, function(option, optionKey) {
+                            if (option.has_associated_products) {
+                                superOptionKeys.push(optionKey);
+                            }
+                        });
+
+                        return superOptionKeys;
+                    }
+
                     /**
                      * Makes new snake cased keys from labels for all options and their child options
                      * So that options.<key> = option
@@ -166,6 +111,8 @@ angular.module('productModule')
                      * @param options
                      */
                     function updateOptionsKeys(options) {
+                        options = options || $scope.optionsData;
+
                         for (var oldOptionKey in options) {
 
                             if (options.hasOwnProperty(oldOptionKey) && options[oldOptionKey]) {
@@ -236,7 +183,6 @@ angular.module('productModule')
                         delete $scope.optionsData[key];
 
                         updateOptionsKeys();
-                        reloadAssociatedProducts();
                     }
 
                     function removeRow(option, key) {
@@ -262,65 +208,14 @@ angular.module('productModule')
                         return false;
                     }
 
-                    function newOption() {
+                    function addNewOption() {
                         if ($scope.optionsData['']) return;
 
                         $scope.optionsData[''] = {
-                            'type': $scope.optionTypes[0],
+                            'type': $scope.types[0],
                             'required': false,
                             'order': (getMaxOptionOrder($scope.optionsData) + 1)
                         };
-                    }
-
-                    // Configurable product
-                    //////////////////////////////////////////////////////////
-
-                    /**
-                     * Check if product option can be configurable option
-                     */
-                    function canHaveAssociatedProducts(optionKey) {
-                        return Boolean($scope.configurable.attributes[optionKey]);
-                    }
-
-                    /**
-                     * Initialize associated products grid
-                     */
-                    function initProductsGrid() {
-                        $scope.productsGrid = coreGridService.grid({
-                            collection: 'product',
-                            columns: $scope.configurable.getGridColumns(),
-                            mapping: $scope.configurable.getGridMapping(),
-                            multiSelect: true,
-                            searchParams: { _selection: 'yes' },
-                            selectedIds: $scope.configurable.getProductIdsFromOptions($scope.optionsData),
-                            forcedFilters: { type: '!=configurable' }
-                        });
-
-                        var skipSelected = false;
-                        $scope.productsGrid.on('rowCreated', function(event) {
-                            var row = event.row;
-                            row._link = 'products/' + row._id;
-                            $scope.configurable.validateRow(row, $scope.optionsData, skipSelected);
-                        });
-
-                        $scope.productsGrid.on('afterSelect', function(event) {
-                            var row = event.row;
-                            if (event.selectionState === true) {
-                                $scope.configurable.saveOptionsCombination(row);
-                                $scope.configurable.addProductIdToOptions(row, $scope.optionsData);
-                            } else {
-                                $scope.configurable.removeOptionsCombination(row);
-                                $scope.configurable.removeProductIdFromOptions(row, $scope.optionsData);
-                            }
-
-                            _.forEach(this.rows, function(row) {
-                                $scope.configurable.validateRow(row, $scope.optionsData, true);
-                            });
-                        });
-
-                        $scope.productsGrid.load({}).then(function() {
-                            skipSelected = true;
-                        });
                     }
                 }
             };

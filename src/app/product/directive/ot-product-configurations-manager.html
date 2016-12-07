@@ -1,0 +1,199 @@
+<p class="hidden-xs">
+    <button class="btn btn-default" ng-click="newOption()">Add option</button>
+</p>
+<p class="visible-xs text-center">
+    <button class="btn btn-default"
+            type="button"
+            ng-click="newOption()">
+        Add option
+    </button>
+</p>
+
+<div class="panel-group">
+    <div class="panel panel-default product-option"
+         ng-repeat="option in optionsData | toArray | getOrdered"
+         ng-init="isUnfolded = (option.key) ? false : true">
+
+        <div class="panel-heading" ng-click="isUnfolded = !isUnfolded">
+            {{option.label}}
+            <i class="fa" ng-class="{'fa-caret-down': !isUnfolded, 'fa-caret-up': isUnfolded}"></i>
+        </div>
+
+        <div class="panel-body" ng-show="isUnfolded">
+            <div class="row">
+                <div class="form-group col-sm-6 col-sm-push-6 form-item option-delete-container">
+                    <button class="btn btn-danger btn-sm" ng-click="removeOption(option.key)">
+                        <i class="fa fa-times"></i>
+                        Delete Option
+                    </button>
+                </div>
+
+                <div class="form-group col-sm-6 col-sm-pull-6 form-item">
+                    <label>Code: </label>
+                </div>
+
+                <div class="form-group col-sm-6 form-item">
+                    <label>Label *</label>
+                    <input class="form-control"
+                           type="text"
+                           ng-model="option.label"
+                           ng-blur="changedOptionsLabels(optionsData, true)"/>
+                </div>
+
+                <div class="form-group col-sm-6 form-item">
+                    <label>Type</label>
+                    <select class="form-control"
+                            ng-change="adjustOptionFields(option)"
+                            ng-init="option.type = option.type || optionTypes[0]"
+                            ng-model="option.type"
+                            ng-options="o as o for o in optionTypes">
+                    </select>
+                </div>
+
+                <div class="form-group col-sm-6">
+                    <label>Sort</label>
+                    <input class="form-control"
+                           type="text"
+                           size="2"
+                           ng-model="option.order"/>
+                </div>
+
+                <div class="form-group col-sm-6">
+                    <label>Required</label>
+                    <select class="form-control"
+                            ng-init="option.required = option.required || option.has_associated_products || false"
+                            ng-disabled="option.has_associated_products"
+                            ng-model="option.required"
+                            ng-options="o as o for o in [true, false]">
+                    </select>
+                </div>
+
+                <div class="form-group col-sm-6"
+                     ng-if="(option.type !== 'field' && option.type !== 'multi_select' && option.type !== 'date') && productScope.isManagingStock">
+                    <label>Controls inventory</label>
+                    <select class="form-control"
+                            ng-init="option.controls_inventory = option.controls_inventory || option.has_associated_products || false"
+                            ng-disabled="option.has_associated_products"
+                            ng-model="option.controls_inventory"
+                            ng-options="o as o for o in [true, false]">
+                    </select>
+                </div>
+
+                <div class="form-group col-sm-6"
+                     ng-if="option.type !== 'field' && option.type !== 'multi_select' && option.type !== 'date'">
+                    <label>Controls image</label>
+                    <select class="form-control"
+                            ng-init="option.controls_image = option.controls_image || false"
+                            ng-model="option.controls_image"
+                            ng-options="o as o for o in [true, false]">
+                    </select>
+                </div>
+
+                <div class="form-group col-sm-6"
+                     ng-if="option.type !== 'field' && option.type !== 'multi_select' && option.type !== 'date'">
+                    <label>
+                        Used in product configurations
+                    </label>
+                    <select class="form-control"
+                            ng-change="adjustOptionFields(option)"
+                            ng-init="option.has_associated_products = option.has_associated_products || false"
+                            ng-model="option.has_associated_products"
+                            ng-options="o as o for o in [true, false]"
+                            ng-disabled="canHaveAssociatedProducts(option.key) === false">
+                    </select>
+                </div>
+
+                <div class="form-group col-sm-6"
+                     ng-if="option.type === 'field'">
+                    <label>Price</label>
+                    <input class="form-control"
+                           type="text"
+                           ng-model="option.price"/>
+                </div>
+
+                <div class="form-group col-sm-6"
+                     ng-if="option.type === 'field'">
+                    <label>SKU</label>
+                    <input class="form-control"
+                           type="text"
+                           ng-model="option.sku"/>
+                </div>
+            </div>
+
+            <div class="option-selections"
+                 ng-if="['select', 'multi_select', 'radio', 'checkbox', 'select_image', 'select_text'].indexOf(option.type) !== -1">
+                <h2>Selections
+                    <button class="btn btn-sm btn-primary"
+                            ng-click="addRow(option.key)"
+                            ng-show="!option.has_associated_products">
+                        add selection
+                    </button>
+                </h2>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-condensed"
+                           ng-show="isUnfolded"
+                           ng-if="['select', 'multi_select', 'radio', 'checkbox', 'select_image', 'select_text'].indexOf(option.type) !== -1">
+                        <thead>
+                        <tr>
+                            <th ng-if="option.controls_image">Image</th>
+                            <th>Label</th>
+                            <th ng-if="!option.has_associated_products">Price</th>
+                            <th ng-if="!option.has_associated_products">Sku</th>
+                            <th>Sort</th>
+                            <th ng-if="!option.has_associated_products"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="(key, selection) in option.options | toArray | getOrdered">
+                            <td ng-if="option.controls_image" ng-click="selectImage(selection)">
+                                <img class="media-object"
+                                     ng-src="{{getImagePath(selection.image_name)}}"
+                                     style="width: 50px; height: 50px;">
+                            </td>
+                            <td>
+                                <input class="form-control"
+                                       type="text"
+                                       ng-model="selection.label"
+                                       ng-disabled="option.has_associated_products"
+                                       ng-blur="changedOptionsLabels(option.options)"/>
+                            </td>
+                            <td ng-if="!option.has_associated_products">
+                                <input class="form-control"
+                                       type="text"
+                                       ng-model="selection.price"/>
+                            </td>
+                            <td ng-if="!option.has_associated_products">
+                                <input class="form-control"
+                                       type="text"
+                                       ng-model="selection.sku"/>
+                            </td>
+                            <td>
+                                <input class="form-control"
+                                       type="text"
+                                       size="2"
+                                       ng-model="selection.order"/>
+                            </td>
+                            <td ng-if="!option.has_associated_products">
+                                <button class="btn btn-danger btn-sm">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default panel-associated-products product-option"
+         ng-if="hasConfigurableOptions()">
+        <div class="panel-heading" ng-click="isProductsUnfolded = !isProductsUnfolded">
+            Associated Products
+            <i class="fa" ng-class="{'fa-caret-down': !isUnfolded, 'fa-caret-up': isUnfolded}"></i>
+        </div>
+        <div class="panel-body" ng-show="isProductsUnfolded">
+            <ot-grid grid="productsGrid" config="gridViewConfig"></ot-grid>
+        </div>
+    </div>
+</div>
