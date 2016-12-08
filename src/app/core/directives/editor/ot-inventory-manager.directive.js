@@ -22,7 +22,7 @@ angular.module('coreModule')
 
             // Initialize inventory with zero values if it's null
             function handleEmptyInventory(inventory) {
-                if (inventory === null) {
+                if (inventory == null) {
                     scope.inventory = {
                         '0': {
                             options: {},

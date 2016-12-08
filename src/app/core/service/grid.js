@@ -329,6 +329,7 @@ angular.module('dashboardModule')
              * Initialize pagination
              */
             initPagination: function(itemsPerPage) {
+                console.log('init');
                 this.pagination = {
                     page: 1,
                     itemsPerPage: itemsPerPage

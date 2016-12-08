@@ -20,7 +20,7 @@
                 <input ng-model="attribute.selected"
                        type="checkbox">
             </td>
-            <td>{{ key }}</td>
+            <td>{{key}}</td>
             <td>
                 <input ng-model="attribute.label"
                        type="text" class="form-control input-sm"
@@ -52,50 +52,6 @@
 </div>
 
 <div ng-if="hasConfigurations">
-    <h3>Attributes Configuration</h3>
-
-    <div class="panel-group">
-        <div ng-repeat="option in superOptions"
-             class="panel panel-default panel-configurations">
-            <div class="panel-heading">
-                {{option.label}}
-            </div>
-            <div class="panel-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-attributes-configurations">
-                        <thead>
-                        <tr>
-                            <th ng-if="option.controls_image">Image</th>
-                            <th>Label</th>
-                            <th>Sort</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr ng-repeat="(key, selection) in option.options | toArray | getOrdered">
-                            <td ng-if="option.controls_image" ng-click="selectImage(selection)">
-                                <img class="media-object"
-                                     ng-src="{{getImagePath(selection.image_name)}}"
-                                     style="width: 50px; height: 50px;">
-                            </td>
-                            <td>
-                                <input ng-model="selection.label"
-                                       class="form-control input-sm"
-                                       type="text"/>
-                            </td>
-                            <td>
-                                <input ng-model="selection.order"
-                                       class="form-control input-sm"
-                                       type="text"
-                                       size="2"/>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="panel panel-default panel-associated-products panel-configurations">
         <div class="panel-heading">
             Associated Products
@@ -104,6 +60,81 @@
             <ot-grid grid="productsGrid" config="gridViewConfig"></ot-grid>
         </div>
     </div>
+
+    <div class="panel-group">
+        <div ng-repeat="option in superOptions"
+             class="panel panel-default panel-configurations">
+            <div class="panel-heading">
+                Attribute : {{option.key}}
+            </div>
+            <div class="panel-body">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>Label</label>
+                        <input ng-model="option.label"
+                               type="text" class="form-control input-sm">
+                    </div>
+                    <div class="form-group">
+                        <label>Display type</label>
+                        <select ng-model="option.type"
+                                ng-options="k as v for (k, v) in optionTypes"
+                                class="form-control input-sm">
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Controls product image</label>
+                        <select ng-model="option.controls_image"
+                                ng-options="o as o for o in [true, false]"
+                                class="form-control input-sm">
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Sort</label>
+                        <input ng-model="option.order"
+                               type="text" class="form-control input-sm">
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <label>Values</label>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-attributes-configurations">
+                            <thead>
+                            <tr>
+                                <th ng-if="option.controls_image" class="table-heading-image">Image</th>
+                                <th>Label</th>
+                                <th>Sort</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="(key, selection) in option.options | toArray | getOrdered">
+                                <td ng-if="option.controls_image" ng-click="selectImage(selection)"
+                                    class="table-cell-image">
+                                    <img class="media-object"
+                                         ng-src="{{getImagePath(selection.image_name)}}"
+                                         style="width: 50px; height: 50px;">
+                                </td>
+                                <td>
+                                    <input ng-model="selection.label"
+                                           class="form-control input-sm"
+                                           type="text"/>
+                                </td>
+                                <td>
+                                    <input ng-model="selection.order"
+                                           class="form-control input-sm"
+                                           type="text"
+                                           size="2"/>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </div>
 
 

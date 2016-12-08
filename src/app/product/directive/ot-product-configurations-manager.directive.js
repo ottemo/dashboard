@@ -185,13 +185,14 @@ angular.module('productModule')
                      * Initialize associated products grid
                      */
                     function initProductsGrid() {
+                        var selectedIds = $scope.configurable.getProductIdsFromOptions($scope.superOptions);
                         $scope.productsGrid = coreGridService.grid({
                             collection: 'product',
                             columns: $scope.configurable.getGridColumns(),
                             mapping: $scope.configurable.getGridMapping(),
                             multiSelect: true,
-                            searchParams: { _selection: 'yes' },
-                            selectedIds: $scope.configurable.getProductIdsFromOptions($scope.superOptions),
+                            searchParams: (selectedIds.length > 0) ? { _selection: 'yes' } : {},
+                            selectedIds: selectedIds,
                             forcedFilters: { type: '!=configurable' }
                         });
 
@@ -215,11 +216,9 @@ angular.module('productModule')
                             _.forEach(this.rows, function(row) {
                                 $scope.configurable.validateRow(row, $scope.superOptions, true);
                             });
-
-                            console.log($scope.configurable);
                         });
 
-                        $scope.productsGrid.load({}).then(function() {
+                        $scope.productsGrid.load({ getCount: true }).then(function() {
                             skipSelected = true;
                         });
                     }

@@ -109,6 +109,11 @@
                                     {{row[column.key] | otKeysToString:column.options}}
                                 </span><!--/end array-->
 
+                                <!-- price -->
+                                <span ng-switch-when="price">
+                                    {{row[column.key] | currency}}
+                                </span><!--/end array-->
+
                                 <!--default-->
                                 <span ng-switch-default="">{{row[column.key]}}</span><!--/end default-->
                             </span>
