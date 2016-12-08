@@ -29,19 +29,22 @@ angular.module('productModule')
                     $scope.removeRow = removeRow;
                     $scope.addNewOption = addNewOption;
 
+                    activate();
+
                     //////////////////////////
 
-                    $scope.$watch('item', function () {
-                        if ($scope.product[$scope.attribute.Attribute] === undefined) {
-                            $scope.optionsData = [];
-                            return false;
+                    function activate() {
+                        if ($scope.product.options == null) {
+                            $scope.product.options = {};
                         }
-                        if (isInit) {
-                            return false;
-                        }
-                        initData();
-                        updateOptionsKeys();
-                    }, true);
+
+                        $scope.optionsData = {};
+                        _.forEach($scope.product.options, function(option) {
+                            if (!option.has_associated_products) {
+                                $scope.optionsData[option.key] = option;
+                            }
+                        });
+                    }
 
                     function getMaxOptionOrder(options) {
                         var result = 0;
@@ -53,52 +56,6 @@ angular.module('productModule')
                         });
 
                         return result;
-                    }
-
-                    function getOptions(opt) {
-                        var options;
-
-                        if (typeof $scope.product === 'string') {
-                            options = JSON.parse(opt.replace(/'/g, '\''));
-                        } else if (typeof opt === 'undefined' || opt === null) {
-                            options = {};
-                        } else {
-                            options = opt;
-                        }
-
-                        // Remove options that are used for product configurations
-                        // to manage them on a separate tab
-                        // TODO: move configurable type constant into a separate angular constant value
-                        if ($scope.product.type === 'configurable') {
-                            var superOptionsKeys = getSuperOptionsKeys(options);
-                            _.forEach(superOptionsKeys, function(optionKey) {
-                                delete options[optionKey];
-                            });
-                        }
-
-                        return options;
-                    }
-
-                    function initData() {
-                        if (!isInit) {
-                            $scope.optionsData = $scope.product[$scope.attribute.Attribute] = getOptions($scope.product[$scope.attribute.Attribute]);
-
-                            isInit = true;
-                        }
-                    }
-
-                    /**
-                     *  Returns keys of options that are used for product configurations
-                     */
-                    function getSuperOptionsKeys(options) {
-                        var superOptionKeys = [];
-                        _.forEach(options, function(option, optionKey) {
-                            if (option.has_associated_products) {
-                                superOptionKeys.push(optionKey);
-                            }
-                        });
-
-                        return superOptionKeys;
                     }
 
                     /**
@@ -143,7 +100,7 @@ angular.module('productModule')
 
                     function cleanOption(key) {
                         var optionsFields = ['label', 'type', 'required', 'order'];
-                        var options = $scope.product.options[key];
+                        var options = $scope.optionsData[key];
 
                         // Disable inventory for unsupported option types
                         if (options.type === 'field' || options.type === 'multi_select' || options.type === 'date') {

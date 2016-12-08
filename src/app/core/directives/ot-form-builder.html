@@ -243,10 +243,14 @@
             <ot-post-selector editor-scope="attribute" item="item"></ot-post-selector>
         </div>
 
-
         <!-- PDP: Product options -->
         <div class="col-xs-12" ng-switch-when="product_options">
             <ot-product-options-manager product="item" product-scope="parent" editor-scope="attribute"></ot-product-options-manager>
+        </div>
+
+        <!-- Product Configurations -->
+        <div class="col-xs-12" ng-switch-when="product_configurations">
+            <ot-product-configurations-manager product="item" product-scope="parent" attributes="parent.attributes"></ot-product-configurations-manager>
         </div>
 
         <!-- PDP: Product Sale Price -->

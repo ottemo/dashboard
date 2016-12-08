@@ -143,17 +143,6 @@ angular.module('coreModule')
             }
         }
 
-        /**
-         * Checks if attribute type is configurable
-         * '[]text', '[]id'
-         */
-        function isConfigurableAttrType(typeStr) {
-            return typeStr.indexOf('[]') === 0;
-        }
-
-        /**
-         *
-         */
         function resolveFilterType(columnEditorType) {
             switch (columnEditorType) {
                 case 'multi_select':
@@ -184,7 +173,6 @@ angular.module('coreModule')
             rangeToString: rangeToString,
             filterValueFromUrl: filterValueFromUrl,
             filterValueToUrl: filterValueToUrl,
-            isConfigurableAttrType: isConfigurableAttrType,
             resolveFilterType: resolveFilterType,
             resolveColumnType: resolveColumnType
         }

@@ -17,7 +17,7 @@ angular.module('productModule')
                  *  { color: { label: 'Color', values: { red: 'Red', blue: 'Blue' },
                  *    size: {label: 'Size', values: {...} }
                  */
-                this.attributes = this.getConfigurableAttributes(attributes);
+                this.attributes = getConfigurableAttributes(attributes);
 
                 /**
                  * Option with 'has_associated_products'=true
@@ -36,7 +36,7 @@ angular.module('productModule')
             Configurable.prototype = {
 
                 init: function(productOptions) {
-                    this.options = this.getConfigurableOptions(productOptions);
+                    this.options = productOptions;
                     this.products = this.getProductIdsFromOptions(productOptions);
                 },
 
@@ -60,48 +60,6 @@ angular.module('productModule')
                     });
 
                     return Object.keys(productIds);
-                },
-
-                /**
-                 * Get configurable options keys
-                 * Returns { color: true, size: true }
-                 */
-                getConfigurableOptions: function(productOptions) {
-                    var configurableOptions = {};
-                    _.forEach(productOptions, function(option) {
-                        if (option.has_associated_products) {
-                            configurableOptions[option.key] = true;
-                        }
-                    });
-
-                    return configurableOptions;
-                },
-
-                /**
-                 * Returns all product attributes that can be used
-                 * for configurable product creation
-                 * and parses their options to an object
-                 *
-                 * Currently we suppose that only attributes with an array type
-                 * may be configurable
-                 * e.g. []text, []id,
-                 */
-                getConfigurableAttributes: function(attributes) {
-                    var configurableAttributes = {};
-
-                    _.forEach(attributes, function (attribute) {
-                        if (coreParserService.isConfigurableAttrType(attribute.Type)) {
-                            var attributeKey = attribute.Attribute;
-                            var attributeOptions = coreParserService.optionsStringToObject(attribute.Options);
-
-                            configurableAttributes[attributeKey] = {
-                                label: attribute.Label,
-                                values: attributeOptions
-                            };
-                        }
-                    });
-
-                    return configurableAttributes;
                 },
 
                 /**
@@ -272,10 +230,45 @@ angular.module('productModule')
                 }
             };
 
+            /**
+             * Returns all product attributes that can be used
+             * for configurable product creation
+             * and parses their options to an object
+             *
+             * Currently we suppose that only attributes with an array type
+             * may be configurable
+             * e.g. []text, []id,
+             */
+            function getConfigurableAttributes(attributes) {
+                var configurableAttributes = {};
+
+                _.forEach(attributes, function (attribute) {
+                    if (isConfigurableAttribute(attribute)) {
+                        var attributeKey = attribute.Attribute;
+                        var attributeOptions = coreParserService.optionsStringToObject(attribute.Options);
+
+                        configurableAttributes[attributeKey] = {
+                            label: attribute.Label,
+                            values: attributeOptions
+                        };
+                    }
+                });
+
+                return configurableAttributes;
+            }
+
+            /**
+             * Checks if attribute can be used for product configurations
+             */
+            function isConfigurableAttribute(attribute) {
+                return attribute.Type.indexOf('[]') === 0 &&
+                    attribute.Attribute !== 'related_pids';
+            }
 
             return {
                 configurable: function(attributes) {
                     return new Configurable(attributes);
-                }
+                },
+                getConfigurableAttributes: getConfigurableAttributes
             }
         }]);

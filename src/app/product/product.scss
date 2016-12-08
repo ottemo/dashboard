@@ -1,56 +1,29 @@
-.product-option {
+.panel-configurations {
     & > .panel-heading {
         cursor: pointer;
         font-size: 16px;
+    }
 
-        .fa {
-            margin-left: 7px;
-            font-size: 18px;
+    .panel-body {
+        padding: 0;
+
+        .table-responsive {
+            margin-bottom: 0px;
         }
     }
 
-    .option-delete-container {
-        text-align: left;
-
-        @media (min-width: $screen-sm-min) {
-            text-align: right;
-        }
+    tr.disabled {
+        background-color: #F8F5F0;
+        color: #98978B;
     }
+}
 
-    .option-selections {
-        h3 {
-            text-transform: uppercase;
-            color: $gray;
-            font-weight: 500;
-        }
-
-        th {
-            background-color: $gray-lighter;
-        }
-
-        td {
-            text-align: center;
-            vertical-align: middle;
-        }
-
-        img {
-            display: inline-block;
-        }
+.table-attributes-configurations {
+    tbody > tr > td {
+        vertical-align: middle;
     }
-
-    &.panel-associated-products {
-        .panel-body {
-            padding: 0;
-
-            .table-responsive {
-                margin-bottom: 0px;
-            }
-        }
-        
-        tr.disabled {
-            background-color: #F8F5F0;
-            color: #98978B;
-        }
+    input {
+        max-width: 1000px;
     }
 }
 

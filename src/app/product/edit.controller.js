@@ -185,7 +185,7 @@ angular.module('productModule')
             Attribute: 'product_configurations',
             Collection: 'product',
             Default: '',
-            Editors: 'product_configurations_manager',
+            Editors: 'product_configurations',
             Group: 'Configurations',
             IsRequired: false,
             IsStatic: false,
