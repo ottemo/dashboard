@@ -16,13 +16,15 @@ angular.module("coreModule")
                 "mapping": "=mapping"
             },
             templateUrl: "/views/core/directives/ot-table-manager.html",
-            controller: function ($scope) {
+            controller: function ($scope, $element, $attrs) {
                 // Variables
                 var isInit, isSelectedAll, activeFilters;
 
                 // Functions
                 var prepareFilters, getOptions, getFilterStr, compareFilters, saveCurrentActiveFilters,
                     getFilterDetails, getQueryStr, getLimitStr, getSortStr;
+
+                $scope.alwaysShowFilters = 'alwaysShowFilters' in $attrs;
 
                 isInit = false;
                 isSelectedAll = false;

@@ -19,9 +19,9 @@
                 <div class="btn-group pull-right">
                     <button class="filters btn btn-default"
                         type="button"
-                        ng-show="parent.fields.length > 1"
+                        ng-show="parent.fields.length > 1 && !alwaysShowFilters"
                         ng-click="isFiltersVisible = !isFiltersVisible">
-                        Filters
+                        Search
                     </button>
                 </div>
             </div>
@@ -62,7 +62,7 @@
                         </th>
                     </tr>
                     <!-- Filters -->
-                    <tr ng-show="isFiltersVisible">
+                    <tr ng-show="isFiltersVisible || alwaysShowFilters">
                         <td>&nbsp;</td>
                         <td ng-repeat="filter in filters"
                             ng-switch="filter._type"

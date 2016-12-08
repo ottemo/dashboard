@@ -6,9 +6,14 @@ SRCDIR=$HOME/code/dash
 MEDIADIR=$HOME/media
 
 if [ "$BRANCH" == 'develop'  ]; then
+    currentBranch=`ssh ottemo@$REMOTE_HOST "cd $SRCDIR && git symbolic-ref --quiet --short HEAD 2> /dev/null || git rev-parse --short HEAD 2> /dev/null || echo '(unknown)'"`
     echo ""
-    echo UPDATING REMOTE GIT REPOSITORY WITH DEVELOP BRANCH.
-    ssh ottemo@$REMOTE_HOST "cd $SRCDIR && git stash && git checkout develop && git fetch --prune && git pull"
+    echo "DASHBOARD BRANCH IS ${currentBranch}"
+
+    if [ "$currentBranch" == 'develop' ]; then
+        echo UPDATING REMOTE GIT REPOSITORY WITH DEVELOP BRANCH.
+        ssh ottemo@$REMOTE_HOST "cd $SRCDIR && git stash && git checkout develop && git fetch --prune && git pull"
+    fi
 
     echo ""
     echo REMOVING DIST DIRECTORY.
