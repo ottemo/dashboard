@@ -103,6 +103,8 @@ angular.module('productModule')
 
                     function setupConfigurations(configurationAttributes) {
                         _.forEach(configurationAttributes, function(attr, key) {
+                            if (!attr.selected) return;
+
                             $scope.product.options[key] = {
                                 key: key,
                                 label: attr.label,
