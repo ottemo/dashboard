@@ -247,7 +247,6 @@ angular.module('productModule')
                 $scope.product._id = response.result._id;
                 $scope.images = [];
                 $scope.message = dashboardUtilsService.getMessage(null, 'success', 'Product was created successfully');
-                addImageManagerAttribute($scope.attributes);
 
                 if ($scope.product.type === 'configurable') {
                     addProductConfigurationsTab($scope.attributes);
