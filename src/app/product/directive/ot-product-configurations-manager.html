@@ -1,8 +1,7 @@
-<div ng-if="!hasConfigurations"
-     ng-form="configurationsSetup.formCtrl"
+<div ng-form="configurationsSetup.formCtrl"
      class="panel panel-default">
     <div class="panel-heading">
-        Select configurable attributes
+        Configurable attributes
     </div>
     <table class="table">
         <thead>
@@ -12,10 +11,11 @@
             <th>Label</th>
             <th>Type</th>
             <th>Controls Image</th>
+            <th>Sort</th>
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="(key, attribute) in configurationAttributes">
+        <tr ng-repeat="(key, attribute) in superAttributes">
             <td>
                 <input ng-model="attribute.selected"
                        type="checkbox">
@@ -39,14 +39,20 @@
                         class="form-control input-sm">
                 </select>
             </td>
+            <td>
+                <input ng-model="attribute.sort"
+                       type="text" class="form-control input-sm"
+                       name="attribute[{{key}}]sort"
+                       required>
+            </td>
         </tr>
         </tbody>
     </table>
     <div class="panel-footer text-right">
         <button ng-disabled="!canInitConfigurations()"
-                ng-click="setupConfigurations(configurationAttributes)"
+                ng-click="setupConfigurations(superAttributes)"
                 type="submit" class="btn btn-primary">
-            Continue
+            Aplly
         </button>
     </div>
 </div>
@@ -68,73 +74,42 @@
                 Attribute : {{option.key}}
             </div>
             <div class="panel-body">
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label>Label</label>
-                        <input ng-model="option.label"
-                               type="text" class="form-control input-sm">
-                    </div>
-                    <div class="form-group">
-                        <label>Display type</label>
-                        <select ng-model="option.type"
-                                ng-options="k as v for (k, v) in optionTypes"
-                                class="form-control input-sm">
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Controls product image</label>
-                        <select ng-model="option.controls_image"
-                                ng-options="o as o for o in [true, false]"
-                                class="form-control input-sm">
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Sort</label>
-                        <input ng-model="option.order"
-                               type="text" class="form-control input-sm">
-                    </div>
-                </div>
-
-                <div class="col-sm-6">
-                    <label>Values</label>
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-attributes-configurations">
-                            <thead>
-                            <tr>
-                                <th ng-if="option.controls_image" class="table-heading-image">Image</th>
-                                <th>Label</th>
-                                <th>Sort</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr ng-repeat="(key, selection) in option.options | toArray | getOrdered">
-                                <td ng-if="option.controls_image" ng-click="selectImage(selection)"
-                                    class="table-cell-image">
-                                    <img class="media-object"
-                                         ng-src="{{getImagePath(selection.image_name)}}"
-                                         style="width: 50px; height: 50px;">
-                                </td>
-                                <td>
-                                    <input ng-model="selection.label"
-                                           class="form-control input-sm"
-                                           type="text"/>
-                                </td>
-                                <td>
-                                    <input ng-model="selection.order"
-                                           class="form-control input-sm"
-                                           type="text"
-                                           size="2"/>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                <label>Values</label>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-attributes-configurations">
+                        <thead>
+                        <tr>
+                            <th ng-if="option.controls_image" class="table-heading-image">Image</th>
+                            <th>Label</th>
+                            <th>Sort</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="(key, selection) in option.options | toArray | getOrdered">
+                            <td ng-if="option.controls_image" ng-click="selectImage(selection)"
+                                class="table-cell-image">
+                                <img class="media-object"
+                                     ng-src="{{getImagePath(selection.image_name)}}"
+                                     style="width: 50px; height: 50px;">
+                            </td>
+                            <td>
+                                <input ng-model="selection.label"
+                                       class="form-control input-sm"
+                                       type="text"/>
+                            </td>
+                            <td>
+                                <input ng-model="selection.order"
+                                       class="form-control input-sm"
+                                       type="text"
+                                       size="2"/>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
-
-
 </div>
 
 

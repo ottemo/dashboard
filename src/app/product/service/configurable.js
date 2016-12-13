@@ -13,19 +13,18 @@ angular.module('productModule')
             function Configurable(attributes) {
 
                 /**
-                 * Configurable attributes {Object}
+                 * Super Attributes {Object} - attributes that are used in configurations
                  *  { color: { label: 'Color', values: { red: 'Red', blue: 'Blue' },
                  *    size: {label: 'Size', values: {...} }
                  */
-                this.attributes = getConfigurableAttributes(attributes);
+                this.superAttributes = getSuperAttributes(attributes);
 
                 /**
                  * Option with 'has_associated_products'=true
                  * { color: true, size: true }
                  */
-                this.options = {};
+                this.superOptions = {};
 
-                this.products = {};
                 this.optionsCombinations = {};
             }
 
@@ -36,8 +35,7 @@ angular.module('productModule')
             Configurable.prototype = {
 
                 init: function(productOptions) {
-                    this.options = productOptions;
-                    this.products = this.getProductIdsFromOptions(productOptions);
+                    this.superOptions = productOptions;
                 },
 
                 /**
@@ -75,14 +73,14 @@ angular.module('productModule')
                         { key: 'price', label: 'Price', type: 'price', editor: 'text' }
                     ];
 
-                    _.forEach(this.options, function(o, optionKey) {
+                    _.forEach(this.superOptions, function(o, optionKey) {
                         var column = {
                             key: optionKey,
                             type: '[]text',
                             editor: 'select',
-                            options:  self.attributes[optionKey].values
+                            options:  self.superAttributes[optionKey].values
                         };
-                        column.label = self.attributes[optionKey].label;
+                        column.label = self.superAttributes[optionKey].label;
                         columns.push(column);
                     });
 
@@ -97,7 +95,7 @@ angular.module('productModule')
                         extra: { name: 'name', sku: 'sku', price: 'price' }
                     };
 
-                    _.forEach(this.attributes, function(attribute, attributeKey) {
+                    _.forEach(this.superAttributes, function(attribute, attributeKey) {
                         mapping.extra[attributeKey] = attributeKey;
                     });
 
@@ -109,12 +107,12 @@ angular.module('productModule')
                  * or if such options combination is already selected
                  * skip selected rows
                  */
-                validateRow: function(row, productOptions, skipSelected) {
-                    if (row._selected && skipSelected) return;
+                validateRow: function(row, productOptions, skipSelectedRows) {
+                    if (row._selected && skipSelectedRows) return;
                     var self = this;
 
                     var isValid = true;
-                    _.forEach(this.options, function(o, optionKey) {
+                    _.forEach(this.superOptions, function(o, optionKey) {
                         var rowColumnValue = row[optionKey];
                         if (!_.isArray(rowColumnValue) || rowColumnValue.length !== 1) {
                             isValid = false;
@@ -165,7 +163,7 @@ angular.module('productModule')
                  */
                 getRowOptionsCombination: function(row) {
                     var optionCombination = [];
-                    _.forEach(this.options, function(o, optionKey) {
+                    _.forEach(this.superOptions, function(o, optionKey) {
                         var rowColumnValue = row[optionKey];
                         optionCombination.push(optionKey + '=' + rowColumnValue);
                     });
@@ -176,12 +174,12 @@ angular.module('productModule')
                 /**
                  * Adds selected associated product _id to options
                  */
-                addProductIdToOptions: function(row, productOptions) {
+                saveProductIdInSuperOptions: function(row, productOptions) {
                     var self = this;
                     var id = row._id;
-                    _.forEach(this.options, function(o, optionKey) {
+                    _.forEach(this.superOptions, function(o, optionKey) {
                         var subOptionKey = row[optionKey][0];
-                        var subOptionLabel = self.attributes[optionKey].values[subOptionKey];
+                        var subOptionLabel = self.superAttributes[optionKey].values[subOptionKey];
 
                         var productOption = productOptions[optionKey];
                         if (productOption.options) {
@@ -214,7 +212,7 @@ angular.module('productModule')
 
                 removeProductIdFromOptions: function(row, productOptions) {
                     var id = row._id;
-                    _.forEach(this.options, function(o, optionKey) {
+                    _.forEach(this.superOptions, function(o, optionKey) {
                         var subOptionKey = row[optionKey][0];
 
                         if (!productOptions[optionKey]) return;
@@ -240,7 +238,7 @@ angular.module('productModule')
              * may be configurable
              * e.g. []text, []id,
              */
-            function getConfigurableAttributes(attributes) {
+            function getSuperAttributes(attributes) {
                 var configurableAttributes = {};
 
                 _.forEach(attributes, function (attribute) {
@@ -270,6 +268,6 @@ angular.module('productModule')
                 configurable: function(attributes) {
                     return new Configurable(attributes);
                 },
-                getConfigurableAttributes: getConfigurableAttributes
+                getSuperAttributes: getSuperAttributes
             }
         }]);
