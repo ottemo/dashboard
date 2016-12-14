@@ -107,7 +107,7 @@ angular.module('productModule')
                  * or if such options combination is already selected
                  * skip selected rows
                  */
-                validateRow: function(row, productOptions, skipSelectedRows) {
+                validateRow: function(row, productOptions, skipSelectedRows, grid) {
                     if (row._selected && skipSelectedRows) return;
                     var self = this;
 
@@ -130,10 +130,15 @@ angular.module('productModule')
                     if (row._selected === true) {
                         if (isValid) {
                             this.saveOptionsCombination(row);
+                            this.saveProductIdInSuperOptions(row, productOptions);
                         } else {
                             row._selected = false;
                             row._disabled = true;
                             this.removeProductIdFromOptions(row, productOptions);
+                            var idIndex = grid.selectedIds.indexOf(row._id);
+                            if (idIndex !== -1) {
+                                grid.selectedIds.splice(idIndex, 1);
+                            }
                         }
                     } else {
                         row._disabled = !isValid;
@@ -186,7 +191,9 @@ angular.module('productModule')
                             var subOption = productOption.options[subOptionKey];
                             if (subOption !== undefined) {
                                 if (_.isArray(subOption._ids)) {
-                                    subOption._ids.push(id);
+                                    if (subOption._ids.indexOf(id) === -1) {
+                                        subOption._ids.push(id);
+                                    }
                                 } else {
                                     subOption._ids = [id];
                                 }
@@ -213,8 +220,9 @@ angular.module('productModule')
                 removeProductIdFromOptions: function(row, productOptions) {
                     var id = row._id;
                     _.forEach(this.superOptions, function(o, optionKey) {
-                        var subOptionKey = row[optionKey][0];
+                        if (row[optionKey] == null) return;
 
+                        var subOptionKey = row[optionKey][0];
                         if (!productOptions[optionKey]) return;
 
                         var ids = productOptions[optionKey].options[subOptionKey]._ids;

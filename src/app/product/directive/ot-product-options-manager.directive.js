@@ -38,12 +38,7 @@ angular.module('productModule')
                             $scope.product.options = {};
                         }
 
-                        $scope.optionsData = {};
-                        _.forEach($scope.product.options, function(option) {
-                            if (!option.has_associated_products) {
-                                $scope.optionsData[option.key] = option;
-                            }
-                        });
+                        $scope.optionsData = $scope.product.options;
                     }
 
                     function getMaxOptionOrder(options) {

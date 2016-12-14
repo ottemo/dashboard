@@ -11,7 +11,7 @@
 
 <br/><br/>
 
-<div class="well" ng-repeat="option in optionsData | toArray | getOrdered">
+<div class="well" ng-repeat="option in optionsData | toArray | getOrdered" ng-if="!option.has_associated_products">
     <button class="btn btn-sm btn-warning pull-right"
             type="button"
             ng-click="removeOption(option.key)">

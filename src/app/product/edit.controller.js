@@ -295,7 +295,7 @@ angular.module('productModule')
     function setConfigurableAttributesFromOptions(product) {
         var productOptions = product.options;
         _.forEach(productOptions, function(option) {
-            if (option.has_associated_products && product[option.key] !== undefined && option.options) {
+            if (option.has_associated_products && option.options) {
                 var selections = Object.keys(option.options);
                 product[option.key] = selections;
             }

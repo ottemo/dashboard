@@ -205,7 +205,7 @@ angular.module('productModule')
                         $scope.productsGrid.on('rowCreated', function(event) {
                             var row = event.row;
                             row._link = 'products/' + row._id;
-                            $scope.configurable.validateRow(row, $scope.superOptions, skipSelected);
+                            $scope.configurable.validateRow(row, $scope.superOptions, skipSelected, $scope.productsGrid);
                         });
 
                         $scope.productsGrid.on('afterSelect', function(event) {
@@ -216,6 +216,7 @@ angular.module('productModule')
                             } else {
                                 $scope.configurable.removeOptionsCombination(row);
                                 $scope.configurable.removeProductIdFromOptions(row, $scope.superOptions);
+
                             }
 
                             _.forEach(this.rows, function(row) {

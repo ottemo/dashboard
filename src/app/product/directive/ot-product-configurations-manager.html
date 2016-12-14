@@ -1,53 +1,59 @@
 <div ng-form="configurationsSetup.formCtrl"
-     class="panel panel-default">
+     class="panel panel-default panel-configurations">
     <div class="panel-heading">
-        Configurable attributes
+        Attributes used in product configurations
     </div>
-    <table class="table">
-        <thead>
-        <tr>
-            <th></th>
-            <th>Attribute</th>
-            <th>Label</th>
-            <th>Type</th>
-            <th>Controls Image</th>
-            <th>Sort</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="(key, attribute) in superAttributes">
-            <td>
-                <input ng-model="attribute.selected"
-                       type="checkbox">
-            </td>
-            <td>{{key}}</td>
-            <td>
-                <input ng-model="attribute.label"
-                       type="text" class="form-control input-sm"
-                       name="attribute[{{key}}]type"
-                       required>
-            </td>
-            <td>
-                <select ng-model="attribute.type"
-                        ng-options="k as v for (k, v) in optionTypes"
-                        class="form-control input-sm">
-                </select>
-            </td>
-            <td>
-                <select ng-model="attribute.controls_image"
-                        ng-options="o as o for o in [true, false]"
-                        class="form-control input-sm">
-                </select>
-            </td>
-            <td>
-                <input ng-model="attribute.sort"
-                       type="text" class="form-control input-sm"
-                       name="attribute[{{key}}]sort"
-                       required>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>Attribute</th>
+                    <th>Label</th>
+                    <th>Display type</th>
+                    <th>Controls Image</th>
+                    <th>Sort</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="(key, attribute) in superAttributes">
+                    <td>
+                        <input ng-model="attribute.selected"
+                               type="checkbox">
+                    </td>
+                    <td>{{key}}</td>
+                    <td>
+                        <input ng-model="attribute.label"
+                               type="text" class="form-control input-sm"
+                               name="attribute[{{key}}]type"
+                               required>
+                    </td>
+                    <td>
+                        <select ng-model="attribute.type"
+                                ng-options="k as v for (k, v) in optionTypes"
+                                class="form-control input-sm">
+                        </select>
+                    </td>
+                    <td>
+                        <select ng-model="attribute.controls_image"
+                                ng-options="o as o for o in [true, false]"
+                                class="form-control input-sm">
+                        </select>
+                    </td>
+                    <td>
+                        <input ng-model="attribute.sort"
+                               type="text" class="form-control input-sm"
+                               name="attribute[{{key}}]sort"
+                               required>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
     <div class="panel-footer text-right">
         <button ng-disabled="!canInitConfigurations()"
                 ng-click="setupConfigurations(superAttributes)"
@@ -71,10 +77,9 @@
         <div ng-repeat="option in superOptions"
              class="panel panel-default panel-configurations">
             <div class="panel-heading">
-                Attribute : {{option.key}}
+                Configurations for {{option.label}}
             </div>
             <div class="panel-body">
-                <label>Values</label>
                 <div class="table-responsive">
                     <table class="table table-bordered table-attributes-configurations">
                         <thead>
