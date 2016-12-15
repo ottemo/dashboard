@@ -143,6 +143,9 @@ angular.module('coreModule')
             }
         }
 
+        /**
+         * Normalize filter types
+         */
         function resolveFilterType(columnEditorType) {
             switch (columnEditorType) {
                 case 'multi_select':
@@ -155,6 +158,9 @@ angular.module('coreModule')
             }
         }
 
+        /**
+         * Normalize column types
+         */
         function resolveColumnType(columnType) {
             if (columnType.indexOf('[]') === 0) {
                 return 'array';

@@ -217,6 +217,9 @@ angular.module('productModule')
                     });
                 },
 
+                /**
+                 * Removes product ID, connected to grid row, from product options
+                 */
                 removeProductIdFromOptions: function(row, productOptions) {
                     var id = row._id;
                     _.forEach(this.superOptions, function(o, optionKey) {

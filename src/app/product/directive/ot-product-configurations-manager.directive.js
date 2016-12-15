@@ -26,15 +26,16 @@ angular.module('productModule')
                 },
                 templateUrl: '/views/product/directive/ot-product-configurations-manager.html',
                 controller: function($scope) {
+
+                    // Possible types of options for displaying on frontend
                     $scope.optionTypes = {
                         'select_text': 'Text boxes',
                         'select_image': 'Swatches',
                         'select': 'Dropdown'
                     };
 
-                    $scope.canInitConfigurations = canInitConfigurations;
-                    $scope.setupConfigurations = setupConfigurations;
-                    $scope.loadAssociatedProducts = loadAssociatedProducts;
+                    $scope.isValidAttributesSettings = isValidAttributesSettings;
+                    $scope.applySuperAttributesSettings = applySuperAttributesSettings;
 
                     $scope.selectImage = selectImage;
                     $scope.getImagePath = getImagePath;
@@ -53,9 +54,12 @@ angular.module('productModule')
                     ///////////////////////////////////////////////
 
                     function activate() {
+                        // Super options of product - options with `has_associated_products` = true
                         var superOptionKeys = getSuperOptionsKeys($scope.product.options);
+                        // All possible super attributes - with Array type, except `related_pid` attribute
                         var superAttributes = productConfigurableService.getSuperAttributes($scope.attributes);
 
+                        // Initialize settings for super attributes
                         _.forEach(superAttributes, function(attr, attrKey) {
                             if (superOptionKeys.indexOf(attrKey) !== -1) {
                                 var superOption = $scope.product.options[attrKey];
@@ -85,8 +89,11 @@ angular.module('productModule')
                         }
                     }
 
-                    function canInitConfigurations() {
-                        if ($scope.configurationsSetup.formCtrl.$invalid) return false;
+                    /**
+                     * Validates settings of super attributes
+                     */
+                    function isValidAttributesSettings() {
+                        if ($scope.attributesSettingsCtrl.$invalid) return false;
 
                         var hasSelectedAttributes = false;
                         _.forEach($scope.superAttributes, function(attr) {
@@ -113,8 +120,12 @@ angular.module('productModule')
                         return superOptionKeys;
                     }
 
-                    function setupConfigurations(superAttributes) {
+                    /**
+                     * Applies super attributes settings and reloads associated products grid
+                     */
+                    function applySuperAttributesSettings(superAttributes) {
                         $scope.superOptions = {};
+
                         _.forEach(superAttributes, function(attr, key) {
                             if (!attr.selected) {
                                 if ($scope.product.options[key] !== undefined) {
@@ -149,8 +160,9 @@ angular.module('productModule')
                         loadAssociatedProducts();
                     }
 
-                    //////////////////////////
-
+                    /**
+                     * Opens modal for image selection
+                     */
                     function selectImage(selection) {
                         $uibModal.open({
                             controller: 'productSelectImageController',
@@ -171,6 +183,9 @@ angular.module('productModule')
                         );
                     }
 
+                    /**
+                     * Return image path from product ID and media name
+                     */
                     function getImagePath(mediaName) {
                         if (mediaName) {
                             return MEDIA_BASE_PATH + 'image/Product/' + $scope.product._id + '/' + mediaName;
@@ -183,14 +198,13 @@ angular.module('productModule')
                         initProductsGrid();
                     }
 
-                    // Configurable product
-                    //////////////////////////////////////////////////////////
-
                     /**
                      * Initialize associated products grid
                      */
                     function initProductsGrid() {
                         var selectedIds = $scope.configurable.getProductIdsFromOptions($scope.superOptions);
+
+                        // Setup grid
                         $scope.productsGrid = coreGridService.grid({
                             collection: 'product',
                             columns: $scope.configurable.getGridColumns(),
@@ -201,6 +215,7 @@ angular.module('productModule')
                             forcedFilters: { type: '!=configurable' }
                         });
 
+                        // Validate each row on it's creation
                         var skipSelected = false;
                         $scope.productsGrid.on('rowCreated', function(event) {
                             var row = event.row;
@@ -208,6 +223,7 @@ angular.module('productModule')
                             $scope.configurable.validateRow(row, $scope.superOptions, skipSelected, $scope.productsGrid);
                         });
 
+                        // On selection of item in grid we may enable or disable other items
                         $scope.productsGrid.on('afterSelect', function(event) {
                             var row = event.row;
                             if (event.selectionState === true) {
@@ -216,11 +232,10 @@ angular.module('productModule')
                             } else {
                                 $scope.configurable.removeOptionsCombination(row);
                                 $scope.configurable.removeProductIdFromOptions(row, $scope.superOptions);
-
                             }
 
                             _.forEach(this.rows, function(row) {
-                                $scope.configurable.validateRow(row, $scope.superOptions, true);
+                                $scope.configurable.validateRow(row, $scope.superOptions, true, $scope.productsGrid);
                             });
                         });
 
