@@ -20,7 +20,7 @@ angular.module('configModule')
 
                 tzPromise = configApiService.getPath(config).$promise
                     .then(function(response) {
-                        return response.result.substr(3);
+                        return response.result.substr(3) || '+0000';
                     });
             }
 

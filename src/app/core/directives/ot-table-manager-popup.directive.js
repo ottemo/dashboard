@@ -73,22 +73,11 @@ angular.module("coreModule")
                 $scope.sort = {};
 
                 initPaginator = function () {
-                    var limit, search, page, parts, countPerPage;
-
-                    page = 1;
-                    countPerPage = COUNT_ITEMS_PER_PAGE;
-                    search = $location.search();
-                    limit = search.limit;
-
-                    if (limit) {
-                        parts = limit.split(",");
-                        page = Math.floor(parts[0] / countPerPage) + 1;
-                    }
                     $scope.paginator = {
-                        "page": page,
+                        "page": 1,
                         "countItems": $scope.parent.count,
                         "countPages": 0,
-                        "countPerPage": countPerPage,
+                        "countPerPage": COUNT_ITEMS_PER_PAGE,
                         "limitStart": 0
                     };
 
