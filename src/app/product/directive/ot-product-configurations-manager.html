@@ -6,7 +6,7 @@
 
     <div class="panel-body">
         <div class="table-responsive">
-            <table class="table table-bordered">
+            <table class="table table-bordered table table-attributes-configurations">
                 <thead>
                 <tr>
                     <th></th>
@@ -19,7 +19,7 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="(key, attribute) in superAttributes">
-                    <td>
+                    <td class="selection">
                         <input ng-model="attribute.selected"
                                type="checkbox">
                     </td>

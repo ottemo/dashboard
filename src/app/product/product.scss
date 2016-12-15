@@ -28,6 +28,9 @@
 }
 
 .table-attributes-configurations {
+    td.selection {
+        text-align: center;
+    }
     tbody > tr > td {
         vertical-align: middle;
     }
@@ -51,6 +54,13 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
+    }
+
+    img {
+        width: 100px;
+        height: auto;
+        display: block;
+        margin: 0 auto;
     }
 
     .swatch-item-name {

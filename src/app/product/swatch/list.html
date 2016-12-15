@@ -41,12 +41,12 @@
 </div>
 
 <!-- List of media items -->
-<div class="col-xs-3 col-sm-3 col-md-2 swatch-item panel panel-default"
+<div class="col-xs-3 swatch-item panel panel-default"
      ng-repeat="swatch in swatches"
      ng-click="selectImage($index)"
      ng-class="{'selected': selectedItemIndex === $index}">
 
-    <img ng-src="{{swatch.url}}" class="img-responsive" />
+    <img ng-src="{{swatch.url}}"/>
     <a class="btn btn-danger btn-remove-swatch" ng-click="removeItem(swatch)" ng-show="selectedItemIndex === $index">Delete</a>
     <input class="form-control input-sm swatch-item-name" type="text" readonly value="{{swatch.name}}" />
 </div>
