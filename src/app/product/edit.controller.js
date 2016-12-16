@@ -1,32 +1,41 @@
 angular.module('productModule')
 
 .controller('productEditController', [
-'$scope', '$routeParams', '$location', '$q', '_', 'productApiService', 'coreImageService', 'dashboardUtilsService',
-function ($scope, $routeParams, $location, $q, _, productApiService, coreImageService, dashboardUtilsService) {
+    '$scope',
+    '$routeParams',
+    '$location',
+    '$q',
+    '_',
+    'productApiService',
+    'coreImageService',
+    'dashboardUtilsService',
+    function (
+        $scope,
+        $routeParams,
+        $location,
+        $q,
+        _,
+        productApiService,
+        coreImageService,
+        dashboardUtilsService
+    ) {
 
-    var productId = getProductID();
-    var isManagingStock = false;
-
-    $scope.product = getDefaultProduct();
-    $scope.clearForm = clearForm;
-    $scope.save = save;
-    $scope.back = back;
-
-    // Images
     $scope.addImage = addImage;
     $scope.getImage = coreImageService.getImage;
     $scope.reloadImages = reloadImages;
     $scope.removeImage = removeImage;
     $scope.setDefaultImage = setDefaultImage;
     $scope.getDefaultImage = getDefaultImage;
+    $scope.product = getDefaultProduct();
+    $scope.clearForm = clearForm;
+    $scope.save = save;
+    $scope.back = back;
 
     activate();
 
     ///////////////////////////////
 
     function activate() {
-
-
         // Initialize SEO
         if (typeof $scope.initSeo === 'function') {
             $scope.initSeo('product');
@@ -40,50 +49,56 @@ function ($scope, $routeParams, $location, $q, _, productApiService, coreImageSe
                 // Remove some fields
                 _.remove(attrs, {Attribute: 'default_image'});
                 var qtyAttr = _.remove(attrs, {Attribute: 'qty'});
+                var salePriceAttr = _.remove(attrs, { Attribute: 'sale_prices' });
 
                 // Set the global
-                isManagingStock = (qtyAttr.length > 0);
+                $scope.isManagingStock = (qtyAttr.length > 0);
 
                 // Add some tabs
                 addImageManagerAttribute(attrs);
-                if (isManagingStock) {
+                if ($scope.isManagingStock) {
                     addInventoryTab(attrs);
                 }
 
-                var salePriceAttr = _.remove(attrs, { Attribute: 'sale_prices' });
                 var isSalePricesEnabled = (salePriceAttr.length > 0);
                 if (isSalePricesEnabled) {
                     addSalePriceTab(attrs);
                 }
 
-                // Attach
-                $scope.attributes = attrs;
+                return attrs;
             });
 
         // Grab product data
-        var prodPromise = true;
+        var productId = getProductID();
         if (productId) {
             var params = {'productID': productId};
-            prodPromise = productApiService.getProduct(params).$promise
+            var prodPromise = productApiService.getProduct(params).$promise
                 .then(function (response) {
-
-                    var result = response.result || {};
-
-                    $scope.product = result;
-                    $scope.excludeItems = result._id;
-                    $scope.selectedImage = result.default_image;
-
-                    if (typeof $scope.product.options === 'undefined') {
-                        $scope.product.options = {};
-                    }
+                    return response.result || {};
                 });
         }
 
-        // Set the stock flag on the product
-        // we pass the product around so this is a way to consolidate
-        // variables being passed around.
-        $q.all([attrPromise, prodPromise]).then(function(/*resp*/){
-            $scope.product.isManagingStock = isManagingStock;
+        var promises = (productId) ? [attrPromise, prodPromise] : [attrPromise];
+        $q.all(promises).then(function(response){
+            var attrs = response[0];
+            var product = response[1];
+
+            $scope.attributes = attrs;
+
+            if (product) {
+                $scope.product = product;
+
+                $scope.excludeItems = product._id;
+                $scope.selectedImage = product.default_image;
+
+                if (product.options === 'undefined') {
+                    $scope.product.options = {};
+                }
+
+                if (product.type === 'configurable') {
+                    addProductConfigurationsTab($scope.attributes);
+                }
+            }
         });
 
         // NOTE: not sure why this is here
@@ -165,6 +180,22 @@ function ($scope, $routeParams, $location, $q, _, productApiService, coreImageSe
         };
     }
 
+    function addProductConfigurationsTab(attributes) {
+        attributes.push({
+            Attribute: 'product_configurations',
+            Collection: 'product',
+            Default: '',
+            Editors: 'product_configurations',
+            Group: 'Configurations',
+            IsRequired: false,
+            IsStatic: false,
+            Label: 'Product Configurations',
+            Model: 'Product',
+            Options: '',
+            Type: 'text'
+        });
+    }
+
     /**
      * Clears the form to create a new product
      */
@@ -190,7 +221,10 @@ function ($scope, $routeParams, $location, $q, _, productApiService, coreImageSe
 
             // Don't send images as product attribute
             delete $scope.product.images;
-            delete $scope.product.isManagingStock;
+        }
+
+        if ($scope.product.type === 'configurable') {
+            setConfigurableAttributesFromOptions($scope.product);
         }
 
         if (!id) {
@@ -213,10 +247,10 @@ function ($scope, $routeParams, $location, $q, _, productApiService, coreImageSe
                 $scope.product._id = response.result._id;
                 $scope.images = [];
                 $scope.message = dashboardUtilsService.getMessage(null, 'success', 'Product was created successfully');
-                addImageManagerAttribute();
 
-                // Reset stock management variable
-                $scope.product.isManagingStock = isManagingStock;
+                if ($scope.product.type === 'configurable') {
+                    addProductConfigurationsTab($scope.attributes);
+                }
 
                 defer.resolve($scope.product);
             } else {
@@ -226,7 +260,7 @@ function ($scope, $routeParams, $location, $q, _, productApiService, coreImageSe
         }
 
         function saveError() {
-            $scope.message = dashboardUtilsService.getMEssage(null, 'danger', 'Something went wrong');
+            $scope.message = dashboardUtilsService.getMessage(null, 'danger', 'Something went wrong');
             enableButton();
             defer.resolve(false);
         }
@@ -235,9 +269,6 @@ function ($scope, $routeParams, $location, $q, _, productApiService, coreImageSe
             if (response.error === null) {
                 var result = response.result || getDefaultProduct();
                 $scope.message = dashboardUtilsService.getMessage(null, 'success', 'Product was updated successfully');
-
-                // Reset stock management variable
-                $scope.product.isManagingStock = isManagingStock;
 
                 defer.resolve(result);
             } else {
@@ -258,6 +289,17 @@ function ($scope, $routeParams, $location, $q, _, productApiService, coreImageSe
 
     function back() {
         $location.path('/products');
+    }
+
+    // Synchronize configurable options and attributes
+    function setConfigurableAttributesFromOptions(product) {
+        var productOptions = product.options;
+        _.forEach(productOptions, function(option) {
+            if (option.has_associated_products && option.options) {
+                var selections = Object.keys(option.options);
+                product[option.key] = selections;
+            }
+        })
     }
 
     //-----------------

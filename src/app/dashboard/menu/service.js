@@ -31,6 +31,9 @@ angular.module('dashboardModule')
             }, {
                 title: 'Attributes',
                 link: '/attributes'
+            }, {
+                title: 'Swatches',
+                link: '/swatches'
             }]
         }, {
             title: 'Categories',

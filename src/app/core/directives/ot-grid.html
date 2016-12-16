@@ -1,0 +1,151 @@
+<div class="grid-heading">
+    <!-- Top pagination -->
+    <div class="text-center" ng-show="grid.pagination.count > grid.pagination.itemsPerPage">
+        <div class="grid-pagination"
+             uib-pagination
+             total-items="grid.pagination.count"
+             items-per-page="grid.pagination.itemsPerPage"
+             force-ellipses="true"
+             max-size="5"
+             boundary-link-numbers="true"
+             ng-model="page"
+             ng-change="pageChanged()">
+        </div>
+    </div><!--/end Top pagination-->
+</div>
+
+<!--Table-->
+<div class="grid-body">
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered">
+            <thead>
+                <!--Headings-->
+                <tr class="heading-titles">
+                    <th class="title-col-selection" ng-if="grid.multiSelect"></th>
+
+                    <th ng-repeat="column in grid.columns"
+                        ng-click="titleClick(column)"
+                        class="text-uppercase"
+                        ng-class="{'th-clickable': !column.unsortable}">
+
+                        {{column.label}}
+                        <span ng-class="{'fa-long-arrow-up': column.sort === 'ASC', 'fa-long-arrow-down': column.sort === 'DESC'}"
+                              class="fa"></span>
+                    </th>
+                </tr><!--/end Headings-->
+
+                <!--Filters-->
+                <tr class="heading-filters" ng-show="isFiltersOpen">
+
+                    <th ng-repeat="filter in grid.filters" ng-switch="filter.type" class="filter-title-{{filter.key}}">
+                        <!--Filter type select-->
+                        <ot-grid-filter-select
+                                ng-switch-when="select"
+                                options="filter.options"
+                                init-value="{{filter.value}}"
+                                on-apply="applyFilters"
+                                get-filter="filter.getFilter">
+                        </ot-grid-filter-select><!--/end Filter type select-->
+
+                        <!--Filter type text-->
+                        <ot-grid-filter-text
+                                ng-switch-when="text"
+                                init-value="{{filter.value}}"
+                                on-apply="applyFilters"
+                                label="{{filter.label}}"
+                                get-filter="filter.getFilter">
+                        </ot-grid-filter-text><!--/end Filter type text-->
+
+                        <!--Filter type text-strict-->
+                        <ot-grid-filter-text
+                                ng-switch-when="text-strict"
+                                strict-comparison
+                                init-value="{{filter.value}}"
+                                on-apply="applyFilters"
+                                label="{{filter.label}}"
+                                get-filter="filter.getFilter">
+                        </ot-grid-filter-text><!--/end Filter type text-strict-->
+
+                        <!--Filter type range-->
+                        <ot-grid-filter-range
+                                ng-switch-when="range"
+                                init-value="{{filter.value}}"
+                                on-apply="applyFilters"
+                                label="{{filter.label}}"
+                                get-filter="filter.getFilter">
+                        </ot-grid-filter-range><!--/end Filter type range-->
+
+                        <!--Filter default-->
+                        <div ng-switch-default>&nbsp;</div><!--/end Filter default-->
+                    </th>
+
+                </tr><!--/end Filters-->
+            </thead>
+
+            <!--Body-->
+            <tbody>
+                <tr ng-repeat="row in grid.rows track by $index"
+                    ng-click="rowClick(row, $index, $event)"
+                    ng-class="{'disabled': row._disabled}"
+                    class="grid-row">
+
+                    <td ng-if="grid.multiSelect && !rowl._not_selectable" class="row-col-_selection">
+                        <input type="checkbox" ng-checked="row._selected === true" ng-disabled="row._disabled">
+                    </td>
+
+                    <td ng-repeat="column in grid.columns">
+                        <ot-link-wrapper url="row._link" show-link="column.isLink && row._link && !row._disabled">
+                            <span ng-switch="column.type">
+
+                                <!-- images -->
+                                <span ng-switch-when="images">
+                                    <img class="media-object"
+                                         ng-src="{{ row.images[0].small }}"
+                                         style="width: 50px; height: 50px;">
+                                </span><!--/end images-->
+
+                                <!-- array -->
+                                <span ng-switch-when="array">
+                                    {{row[column.key] | otKeysToString:column.options}}
+                                </span><!--/end array-->
+
+                                <!-- price -->
+                                <span ng-switch-when="price">
+                                    {{row[column.key] | currency}}
+                                </span><!--/end array-->
+
+                                <!--default-->
+                                <span ng-switch-default="">{{row[column.key]}}</span><!--/end default-->
+                            </span>
+                        </ot-link-wrapper>
+                    </td>
+                </tr>
+            </tbody><!--/end Body-->
+
+            <!--Footer-->
+            <tfoot ng-if="grid.multiSelect">
+                <tr>
+                    <th colspan="{{(grid.multiSelect) ? grid.columns.length + 1 : grid.columns.length}}">
+                        Selected: {{grid.selectedIds.length}} item(s)
+                    </th>
+                </tr>
+            </tfoot><!--/end footer-->
+        </table>
+    </div>
+</div>
+
+<div class="grid-footer">
+    <!-- Bottom pagination -->
+    <div class="text-center" ng-show="grid.pagination.count > grid.pagination.itemsPerPage">
+        <div class="grid-pagination"
+             uib-pagination
+             total-items="grid.pagination.count"
+             items-per-page="grid.pagination.itemsPerPage"
+             force-ellipses="true"
+             max-size="5"
+             boundary-link-numbers="true"
+             ng-model="page"
+             ng-change="pageChanged()">
+        </div>
+    </div><!--/end Bottom pagination-->
+</div>

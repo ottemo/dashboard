@@ -60,7 +60,16 @@ angular.module("coreModule")
                 }
 
                 // Sort groups in alphabetical order
-                var sortedGroupNames = Object.keys(groups).sort();
+                // Make `General` the first group
+                var sortedGroupNames = Object.keys(groups).sort(),
+                    firstGroupName = 'General',
+                    firstGroupIndex = sortedGroupNames.indexOf(firstGroupName);
+
+                if (firstGroupIndex !== -1) {
+                    sortedGroupNames.splice(firstGroupIndex, 1);
+                    sortedGroupNames.unshift(firstGroupName);
+                }
+
                 var sortedGroups = {};
                 for (var i = 0; i < sortedGroupNames.length; i++) {
                     var groupName = sortedGroupNames[i];

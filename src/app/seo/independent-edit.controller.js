@@ -230,7 +230,7 @@ angular.module('seoModule')
                         break;
 
                     case 'product':
-                        $scope.attributes[seoRewriteNum]['Editors'] = 'products_selector';
+                        $scope.attributes[seoRewriteNum]['Editors'] = 'product_selector';
                         break;
 
                     case 'page':

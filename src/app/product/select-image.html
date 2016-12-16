@@ -1,0 +1,23 @@
+<div class="modal-header">
+    <h2>Select Image</h2>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="col-xs-12">
+                <div ng-repeat="mediaName in productScope.images track by $index"
+                     class="image-thumb"
+                     ng-class="{selected: $index == selectedMediaIndex}"
+                     style="background-image: url('{{getImagePath(mediaName)}}')"
+                     ng-click="selectImage($index)">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer center clearfix">
+    <button ng-click="$dismiss()" type="button" class="btn btn-default pull-left">Cancel</button>
+    <button ng-click="apply()" ng-disabled="selectedMediaIndex === undefined" class="btn btn-primary pull-right">Apply</button>
+</div>
+

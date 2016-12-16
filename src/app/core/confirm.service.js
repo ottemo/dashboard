@@ -1,28 +1,22 @@
 angular.module("coreModule")
 
-.service("coreConfirmService", [
-    '$uibModal',
-    function(
-        $uibModal
-    ) {
-        var modalMessage, getModalMessage, openModal;
+    .service("coreConfirmService", [
+        '$uibModal',
+        function ($uibModal) {
 
-        openModal = function(text){
-            modalMessage = text;
-            return $uibModal.open({
-                controller: 'coreConfirmController',
-                templateUrl: "/views/core/confirm.html",
-                size: 'md'
-            }).result;
-        }
+            function openModal(modalData) {
+                return $uibModal.open({
+                    controller: 'coreConfirmController',
+                    resolve: {
+                        modalData: function() { return modalData; }
+                    },
+                    templateUrl: "/views/core/confirm.html",
+                    size: 'md'
+                });
+            }
 
-        getModalMessage = function() {
-            return modalMessage;
+            return {
+                openModal: openModal
+            }
         }
-
-        return {
-            openModal: openModal,
-            getModalMessage: getModalMessage
-        }
-    }
-]);
+    ]);

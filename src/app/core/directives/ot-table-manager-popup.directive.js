@@ -148,14 +148,14 @@ angular.module("coreModule")
 
                         details = {
                             "options": parts === null ? {} : getOptions(parts[1]),
-                            "type": filterInfo.substr(0, (-1 !== filterInfo.indexOf("{") ? filterInfo.indexOf("{") : filterInfo.length)),
+                            "_type": filterInfo.substr(0, (-1 !== filterInfo.indexOf("{") ? filterInfo.indexOf("{") : filterInfo.length)),
                             "dataType": field.dataType,
                             "filterValue": field.filterValue,
                             "attribute": field.attribute,
                             "visible": field.visible
                         };
 
-                        if ("select" === details.type) {
+                        if ("select" === details._type) {
                             details.options[""] = "";
                         }
 
@@ -172,7 +172,7 @@ angular.module("coreModule")
                         filterDetails = getFilterDetails($scope.parent.fields[i]);
 
                         filter = {
-                            "type": filterDetails.type,
+                            "_type": filterDetails._type,
                             "dataType": filterDetails.dataType,
                             "visible": filterDetails.visible || false,
                             "attributes": {
@@ -273,6 +273,14 @@ angular.module("coreModule")
                         $scope.sort.currentValue = attr;
                     }
                     $scope.parent.search = getSearchObj();
+                };
+
+                $scope.rowClick = function(rowItem) {
+                    if ($scope.buttons.checkbox) {
+                        $scope.parent.selected[rowItem[$scope.map.id]] = !$scope.parent.selected[rowItem[$scope.map.id]];
+                    } else {
+                        $scope.parent.select(rowItem[$scope.map.id]);
+                    }
                 };
 
                 /** Sorting end*/
