@@ -20,6 +20,11 @@ angular.module("orderModule")
                 label: "Order ID",
                 filter: "text"
             },
+            increment_id: {
+                type: "text",
+                label: "Order #",
+                filter: "text"
+            },
             status: {},
             customer_email: {},
             customer_name: {},

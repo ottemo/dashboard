@@ -24,6 +24,7 @@ function ($scope, $routeParams, $location, $q, orderApiService, dashboardUtilsSe
     getDefaultOrder = function () {
         return {
             "id": "",
+            "increment_id": "",
             "url": "",
             "identifier": "",
             "title": "",

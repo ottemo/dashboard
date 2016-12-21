@@ -160,7 +160,7 @@ function (
 
     function fetchOrders(visitorId){
         var params = {
-            extra: ['_id', 'status', 'grand_total', 'created_at', 'visitor_id', 'notes'].join(','),
+            extra: ['_id', 'increment_id', 'status', 'grand_total', 'created_at', 'visitor_id', 'notes'].join(','),
             sort: '^created_at',
             visitor_id: visitorId
         };
