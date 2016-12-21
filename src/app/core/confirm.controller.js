@@ -4,17 +4,23 @@ angular.module('coreModule')
         '$scope',
         'coreConfirmService',
         '$uibModalInstance',
+        'modalData',
         function(
             $scope,
             coreConfirmService,
-            $uibModalInstance
+            $uibModalInstance,
+            modalData
         ) {
-
-            $scope.modalMessage = coreConfirmService.getModalMessage();
+            var defaultModalData = {
+                heading: '',
+                message: '',
+                cancel: 'Cancel',
+                confirm: 'Confirm'
+            };
+            $scope.modalData = $.extend({}, defaultModalData, modalData);
 
             $scope.confirm = function () {
-                $scope.confirmResp = true;
-                $uibModalInstance.close($scope.confirmResp);
+                $uibModalInstance.close(true);
             };
 
         }]);

@@ -41,7 +41,7 @@ angular.module("dashboardModule")
         function getFilter(attribute) {
             var editor = attribute.Editors;
 
-            if (isEditorSelect()) {
+            if (isEditorSelect(editor)) {
                 try {
                     JSON.parse(attribute.Options.replace(/'/g, '\"'));
                     return filters[editor] + attribute.Options;

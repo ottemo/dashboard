@@ -33,7 +33,7 @@
                     <!-- Filters row -->
                     <tr class=" " ng-hide="filters.length <= 1 && !filters[0].visible">
                         <th ng-if="buttons.checkbox">&nbsp;</th>
-                        <th ng-repeat="filter in filters" ng-switch="filter.type" ng-show="parent.fields[$index].visible">
+                        <th ng-repeat="filter in filters" ng-switch="filter._type" ng-show="parent.fields[$index].visible">
                             <div ng-switch-when="text">
                                 <ot-filter-text editor-scope="filter.attributes" item="filter" object="this"></ot-filter-text>
                             </div>
@@ -48,16 +48,22 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class=" " ng-repeat="_item in items">
+                    <tr class=" " ng-repeat="_item in items" ng-click="rowClick(_item)">
 
                         <!-- Checkboxes column -->
                         <td class="checkboxes-column" ng-if="buttons.checkbox">
-                            <input type="checkbox" ng-model="parent.selected[_item[map.id]]" ng-if="!_item.IsStatic">
+                            <input type="checkbox" ng-checked="parent.selected[_item[map.id]]" ng-if="!_item.IsStatic">
                         </td>
 
                         <!-- Other columns with ng-switcher -->
                         <td ng-repeat="field in parent.fields" ng-show="field.visible" ng-class="{'select-link': field.type ==='select-link'}">
                             <span ng-switch="field.type">
+                                <!-- Image -->
+                                <span ng-switch-when="image">
+                                    <img class="media-object"
+                                         ng-src="{{ _item.Images[0].thumb }}"
+                                         style="width: 50px; height: 50px;">
+                                </span>
 
                                 <!-- Currency -->
                                 <div ng-switch-when="price" class="text-right">{{_item[field.attribute] | currency}}</div>

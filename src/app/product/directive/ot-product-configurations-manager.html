@@ -1,0 +1,120 @@
+<div ng-form="attributesSettingsCtrl"
+     class="panel panel-default panel-configurations">
+    <div class="panel-heading">
+        Attributes used in product configurations
+    </div>
+
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table table-attributes-configurations">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>Attribute</th>
+                    <th>Label</th>
+                    <th>Display type</th>
+                    <th>Controls Image</th>
+                    <th>Sort</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="(key, attribute) in superAttributes">
+                    <td class="selection">
+                        <input ng-model="attribute.selected"
+                               type="checkbox">
+                    </td>
+                    <td>{{key}}</td>
+                    <td>
+                        <input ng-model="attribute.label"
+                               type="text" class="form-control input-sm"
+                               name="attribute[{{key}}]type"
+                               required>
+                    </td>
+                    <td>
+                        <select ng-model="attribute.type"
+                                ng-options="k as v for (k, v) in optionTypes"
+                                class="form-control input-sm">
+                        </select>
+                    </td>
+                    <td>
+                        <select ng-model="attribute.controls_image"
+                                ng-options="o as o for o in [true, false]"
+                                class="form-control input-sm">
+                        </select>
+                    </td>
+                    <td>
+                        <input ng-model="attribute.sort"
+                               type="text" class="form-control input-sm"
+                               name="attribute[{{key}}]sort"
+                               required>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="panel-footer text-right">
+        <button ng-disabled="!isValidAttributesSettings()"
+                ng-click="applySuperAttributesSettings(superAttributes)"
+                type="submit" class="btn btn-primary">
+            Aplly
+        </button>
+    </div>
+</div>
+
+<div ng-if="hasConfigurations">
+    <div class="panel panel-default panel-associated-products panel-configurations">
+        <div class="panel-heading">
+            Associated Products
+        </div>
+        <div class="panel-body">
+            <ot-grid grid="productsGrid" config="gridViewConfig"></ot-grid>
+        </div>
+    </div>
+
+    <div class="panel-group">
+        <div ng-repeat="option in superOptions"
+             class="panel panel-default panel-configurations">
+            <div class="panel-heading">
+                Configurations for {{option.label}}
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-attributes-configurations">
+                        <thead>
+                        <tr>
+                            <th ng-if="option.controls_image" class="table-heading-image">Image</th>
+                            <th>Label</th>
+                            <th>Sort</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="(key, selection) in option.options | toArray | getOrdered">
+                            <td ng-if="option.controls_image" ng-click="selectImage(selection)"
+                                class="table-cell-image">
+                                <img class="media-object"
+                                     ng-src="{{getImagePath(selection.image_name)}}"
+                                     style="width: 50px; height: 50px;">
+                            </td>
+                            <td>
+                                <input ng-model="selection.label"
+                                       class="form-control input-sm"
+                                       type="text"/>
+                            </td>
+                            <td>
+                                <input ng-model="selection.order"
+                                       class="form-control input-sm"
+                                       type="text"
+                                       size="2"/>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

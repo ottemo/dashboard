@@ -1,0 +1,15 @@
+.form-item:nth-child(2n + 1) {
+    clear: both;
+}
+
+.heading-filters .filter-title-_selection {
+    select {
+        padding-left: 2px;
+        padding-right: 2px;
+    }
+}
+
+.row-col-_selection {
+    text-align: center;
+    width: 80px !important;
+}

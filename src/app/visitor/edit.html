@@ -38,6 +38,7 @@
                     <tr>
                         <th>Order Date</th>
                         <th>ID</th>
+                        <th>Order #</th>
                         <th>Notes</th>
                         <th class="text-right">Total</th>
                         <th>Status</th>
@@ -47,6 +48,7 @@
                     <tr ng-repeat="order in orders">
                         <td><span ot-store-date date="order.Extra.created_at"></span></td>
                         <td><a ng-href="/orders/{{ order.ID }}">{{ order.ID }}</a></td>
+                        <td>{{ order.Extra.increment_id }}</td>
                         <td>
                             <div ng-if="order.Extra.notes">
                                 <div ng-repeat="note in order.Extra.notes">

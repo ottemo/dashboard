@@ -1,0 +1,52 @@
+<div class="page-header">
+    <h1><i class="fa fa-file-image-o"></i> Product / Swatches</h1>
+</div>
+
+<!-- Upload Area -->
+<div class="well">
+    <div class="row">
+        <div class="col-sm-7">
+            <h4>Uploading Images</h4>
+            <p>Accepted file formats: .jpg, .jpeg, .png, .gif</p>
+        </div>
+        <div class="col-sm-5">
+            <ot-message-manager item="upload.message"></ot-message-manager>
+
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="file form-control">
+                        <label>
+                            <input ot-bind-file="upload.files"
+                                   type="file"
+                                   multiple
+                                   accept=".jpg, .jpeg, .png, .gif" />
+                            <span class="file-text">{{upload.files.length ? upload.files.length + ' file(s) selected' : 'Select files...'}}</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <button class="btn btn-primary btn-block"
+                            ng-disabled="!upload.files.length || upload.isInProgress"
+                            ng-click="upload.upload()">
+                        <i class="fa fa-spin fa-circle-o-notch" ng-show="upload.isInProgress"></i>
+                        Upload
+                    </button>
+                </div>
+            </div>
+            <ul class="file-list" ng-show="upload.files.length">
+                <li ng-repeat="file in upload.files">{{file.name}}</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- List of media items -->
+<div class="col-xs-3 swatch-item panel panel-default"
+     ng-repeat="swatch in swatches"
+     ng-click="selectImage($index)"
+     ng-class="{'selected': selectedItemIndex === $index}">
+
+    <img ng-src="{{swatch.url}}"/>
+    <a class="btn btn-danger btn-remove-swatch" ng-click="removeItem(swatch)" ng-show="selectedItemIndex === $index">Delete</a>
+    <input class="form-control input-sm swatch-item-name" type="text" readonly value="{{swatch.name}}" />
+</div>
