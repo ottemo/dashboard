@@ -57,7 +57,7 @@
     <div class="row">
         <div class="col-sm-6">
             <h3>Order Details</h3>
-            <div>Order ID: {{order._id}}</div>
+            <div>Order ID: {{order.increment_id}</div>
             <div>Date: <span ot-store-date date="order.created_at"></span></div>
             <div>Payment Method: {{order.payment_info.payment_method_name}}</div>
         </div>
