@@ -42,6 +42,11 @@ angular.module('coreModule')
                             options = [];
                         }
 
+                        // Sort options by label
+                        options.sort(function(a, b) {
+                            return (a.label < b.label) ? -1 : 1;
+                        });
+
                         // Add <Any> option when filter is empty
                         options.unshift({ key: '', label: '<Any>'});
                         $scope.options = options;
