@@ -29,13 +29,14 @@ angular.module('dashboardModule')
                  * Grid columns
                  * Each columns is an object with properties:
                  *      key
-                 *      label         - column title,
-                 *      type          - value type,
-                 *      editor        - filter type,
-                 *      options       - {JSON} key-value pairs for filter type='select'
+                 *      label          - column title,
+                 *      type           - value type,
+                 *      editor         - filter type,
+                 *      options        - {JSON} key-value pairs for filter type='select'
                  *                          {"red": "Red", "blue": "Blue"}
-                 *      _not_sortable - {Boolean} forbid sorting for the column
-                 *      _link         - {Boolean} column value is wrapped with <a> element
+                 *      _not_sortable  - {Boolean} forbid sorting for the column
+                 *      _selected_only - {Boolean} show column value only for selected rows
+                 *      _link          - {Boolean} column value is wrapped with <a> element
                  *                              with 'href' = row._link
                  */
                 columns: [

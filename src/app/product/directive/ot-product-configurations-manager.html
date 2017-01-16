@@ -69,7 +69,10 @@
             Associated Products
         </div>
         <div class="panel-body">
-            <ot-grid grid="productsGrid" config="gridViewConfig"></ot-grid>
+            <ot-grid grid="configurationsGrid"
+                     ng-if="configurationsGrid"
+                     config="{ autoload: false, isFiltersOpen: true, forceSelection: true}">
+            </ot-grid>
         </div>
     </div>
 
