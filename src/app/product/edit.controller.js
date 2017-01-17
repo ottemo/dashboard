@@ -176,6 +176,7 @@ angular.module('productModule')
     }
 
     function addProductConfigurationsTab(attributes) {
+        _.remove(attributes, {Attribute: 'inventory'});
         attributes.push({
             Attribute: 'product_configurations',
             Collection: 'product',
