@@ -6,6 +6,7 @@ angular.module("visitorModule")
     "$location",
     "$q",
     "visitorApiService",
+    "productApiService",
     "dashboardUtilsService",
     function (
         $scope,
@@ -13,6 +14,7 @@ angular.module("visitorModule")
         $location,
         $q,
         visitorApiService,
+        productApiService,
         dashboardUtilsService
         ) {
 
@@ -24,117 +26,23 @@ angular.module("visitorModule")
             $location.path("/reviews");
         }
 
-        // Get review attributes
-        $scope.attributes = [
-            {
-                Attribute: "_id",
-                Collection:"review",
-                Default:"",
-                Editors:"not_editable",
-                Group:"General",
-                IsLayered:false,
-                IsPublic:false,
-                IsRequired:false,
-                IsStatic:true,
-                Label:"ID",
-                Model:"Review",
-                Options:"",
-                Type:"id",
-                Validators:"",
-                Value:""
-            },
-            {
-                Attribute:"approved",
-                Collection:"review",
-                Default:"",
-                Editors:"boolean",
-                Group:"General",
-                IsLayered:false,
-                IsPublic:false,
-                IsRequired:true,
-                IsStatic:true,
-                Label:"Is approved",
-                Model:"Review",
-                Options:"",
-                Type:"bool",
-                Validators:"",
-                Value:""
-            },
-            {
-                Attribute:"username",
-                Collection:"review",
-                Default:"",
-                Editors:"not_editable",
-                Group:"General",
-                IsLayered:false,
-                IsPublic:false,
-                IsRequired:false,
-                IsStatic:true,
-                Label:"User Name",
-                Model:"Review",
-                Options:"",
-                Type:"text",
-                Validators:"",
-                Value:""
-            },
-            {
-                Attribute:"rating",
-                Collection:"review",
-                Default:"",
-                Editors:"select",
-                Group:"General",
-                IsLayered:false,
-                IsPublic:false,
-                IsRequired:true,
-                IsStatic:true,
-                Label:"Rating",
-                Model:"Review",
-                Options:'{"1":"1","2":"2","3":"3","4":"4","5":"5"}',
-                Type:"text",
-                Validators:"",
-                Value:""
-            },
-            {
-                Attribute:"created_at",
-                Collection:"review",
-                Default:"",
-                Editors:"not_editable",
-                Group:"General",
-                IsLayered:false,
-                IsPublic:false,
-                IsRequired:false,
-                IsStatic:true,
-                Label:"Created at",
-                Model:"Review",
-                Options:"",
-                Type:"datetime",
-                Validators:"",
-                Value:""
-            },
-            {
-                Attribute:"review",
-                Collection:"review",
-                Default:"",
-                Editors:"html",
-                Group:"General",
-                IsLayered:false,
-                IsPublic:false,
-                IsRequired:true,
-                IsStatic:true,
-                Label:"Review",
-                Model:"Review",
-                Options:"",
-                Type:"text",
-                Validators:"",
-                Value:""
-            }
-        ];
-
 
         visitorApiService.getReview({"reviewID": reviewId}).$promise.then(
             function (response) {
-                $scope.review = response.result;
-                $scope.review.rating = $scope.review.rating.toString();
+                if (response.error === null) {
+                    $scope.review = response.result;
+                    $scope.review.rating = $scope.review.rating.toString();
+
+                    productApiService.getProduct({"productID": $scope.review.product_id}).$promise.then(
+                        function(response) {
+                            if (response.error === null) {
+                                $scope.productName = response.result.name;
+                            }
+                        }
+                    )
+                } else {
+                    $scope.message = dashboardUtilsService.getMessage(response);
+                }
             }
         );
 

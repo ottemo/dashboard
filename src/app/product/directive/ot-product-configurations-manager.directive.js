@@ -4,19 +4,15 @@ angular.module('productModule')
         '_',
         'productApiService',
         'coreParserService',
-        'coreGridService',
         'productConfigurableService',
         '$uibModal',
         'MEDIA_BASE_PATH',
-        function (
-            _,
+        function (_,
             productApiService,
             coreParserService,
-            coreGridService,
             productConfigurableService,
             $uibModal,
-            MEDIA_BASE_PATH
-        ) {
+            MEDIA_BASE_PATH) {
             return {
                 restrict: 'EA',
                 scope: {
@@ -25,7 +21,7 @@ angular.module('productModule')
                     attributes: '='
                 },
                 templateUrl: '/views/product/directive/ot-product-configurations-manager.html',
-                controller: function($scope) {
+                controller: function ($scope) {
 
                     // Possible types of options for displaying on frontend
                     $scope.optionTypes = {
@@ -40,14 +36,8 @@ angular.module('productModule')
                     $scope.selectImage = selectImage;
                     $scope.getImagePath = getImagePath;
 
-                    $scope.productsGrid = {};
-                    $scope.configurable = {};
                     $scope.configurationsSetup = {};
-                    $scope.gridViewConfig = {
-                        autoload: false,
-                        isFiltersOpen: true,
-                        forceSelection: true
-                    };
+                    //$scope.configurationsGrid = {};
 
                     activate();
 
@@ -60,7 +50,7 @@ angular.module('productModule')
                         var superAttributes = productConfigurableService.getSuperAttributes($scope.attributes);
 
                         // Initialize settings for super attributes
-                        _.forEach(superAttributes, function(attr, attrKey) {
+                        _.forEach(superAttributes, function (attr, attrKey) {
                             if (superOptionKeys.indexOf(attrKey) !== -1) {
                                 var superOption = $scope.product.options[attrKey];
                                 attr.type = superOption.type;
@@ -80,7 +70,7 @@ angular.module('productModule')
                         $scope.hasConfigurations = hasConfigurations;
 
                         $scope.superOptions = {};
-                        _.forEach(superOptionKeys, function(key) {
+                        _.forEach(superOptionKeys, function (key) {
                             $scope.superOptions[key] = $scope.product.options[key];
                         });
 
@@ -96,7 +86,7 @@ angular.module('productModule')
                         if ($scope.attributesSettingsCtrl.$invalid) return false;
 
                         var hasSelectedAttributes = false;
-                        _.forEach($scope.superAttributes, function(attr) {
+                        _.forEach($scope.superAttributes, function (attr) {
                             if (attr.selected) {
                                 hasSelectedAttributes = true;
                                 return false;
@@ -111,7 +101,7 @@ angular.module('productModule')
                      */
                     function getSuperOptionsKeys(options) {
                         var superOptionKeys = [];
-                        _.forEach(options, function(option, optionKey) {
+                        _.forEach(options, function (option, optionKey) {
                             if (option.has_associated_products) {
                                 superOptionKeys.push(optionKey);
                             }
@@ -126,7 +116,7 @@ angular.module('productModule')
                     function applySuperAttributesSettings(superAttributes) {
                         $scope.superOptions = {};
 
-                        _.forEach(superAttributes, function(attr, key) {
+                        _.forEach(superAttributes, function (attr, key) {
                             if (!attr.selected) {
                                 if ($scope.product.options[key] !== undefined) {
                                     delete $scope.product.options[key];
@@ -169,10 +159,10 @@ angular.module('productModule')
                             templateUrl: "/views/product/select-image.html",
                             size: 'lg',
                             resolve: {
-                                product: function() {
+                                product: function () {
                                     return $scope.product;
                                 },
-                                productScope: function() {
+                                productScope: function () {
                                     return $scope.productScope;
                                 }
                             }
@@ -193,54 +183,14 @@ angular.module('productModule')
                     }
 
                     function loadAssociatedProducts() {
-                        $scope.configurable = productConfigurableService.configurable($scope.attributes);
-                        $scope.configurable.init($scope.superOptions);
-                        initProductsGrid();
-                    }
+                        var configurable = productConfigurableService.configurable(
+                            $scope.attributes,
+                            $scope.product,
+                            $scope.superOptions
+                        );
 
-                    /**
-                     * Initialize associated products grid
-                     */
-                    function initProductsGrid() {
-                        var selectedIds = $scope.configurable.getProductIdsFromOptions($scope.superOptions);
-
-                        // Setup grid
-                        $scope.productsGrid = coreGridService.grid({
-                            collection: 'product',
-                            columns: $scope.configurable.getGridColumns(),
-                            mapping: $scope.configurable.getGridMapping(),
-                            multiSelect: true,
-                            searchParams: (selectedIds.length > 0) ? { _selection: 'yes' } : {},
-                            selectedIds: selectedIds,
-                            forcedFilters: { type: '!=configurable' }
-                        });
-
-                        // Validate each row on it's creation
-                        var skipSelected = false;
-                        $scope.productsGrid.on('rowCreated', function(event) {
-                            var row = event.row;
-                            row._link = 'products/' + row._id;
-                            $scope.configurable.validateRow(row, $scope.superOptions, skipSelected, $scope.productsGrid);
-                        });
-
-                        // On selection of item in grid we may enable or disable other items
-                        $scope.productsGrid.on('afterSelect', function(event) {
-                            var row = event.row;
-                            if (event.selectionState === true) {
-                                $scope.configurable.saveOptionsCombination(row);
-                                $scope.configurable.saveProductIdInSuperOptions(row, $scope.superOptions);
-                            } else {
-                                $scope.configurable.removeOptionsCombination(row);
-                                $scope.configurable.removeProductIdFromOptions(row, $scope.superOptions);
-                            }
-
-                            _.forEach(this.rows, function(row) {
-                                $scope.configurable.validateRow(row, $scope.superOptions, true, $scope.productsGrid);
-                            });
-                        });
-
-                        $scope.productsGrid.load({ getCount: true }).then(function() {
-                            skipSelected = true;
+                        configurable.getConfigurationsGrid().then(function (grid) {
+                            $scope.configurationsGrid = grid;
                         });
                     }
                 }

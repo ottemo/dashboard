@@ -21,12 +21,12 @@
             <thead>
                 <!--Headings-->
                 <tr class="heading-titles">
-                    <th class="title-col-selection" ng-if="grid.multiSelect"></th>
+                    <th class="title-col-selection text-uppercase" ng-if="grid.multiSelect">Selected</th>
 
                     <th ng-repeat="column in grid.columns"
                         ng-click="titleClick(column)"
                         class="text-uppercase"
-                        ng-class="{'th-clickable': !column.unsortable}">
+                        ng-class="{'th-clickable': !column._not_sortable}">
 
                         {{column.label}}
                         <span ng-class="{'fa-long-arrow-up': column.sort === 'ASC', 'fa-long-arrow-down': column.sort === 'DESC'}"
@@ -93,9 +93,9 @@
                         <input type="checkbox" ng-checked="row._selected === true" ng-disabled="row._disabled">
                     </td>
 
-                    <td ng-repeat="column in grid.columns">
+                    <td ng-repeat="column in grid.columns" class="row-col-{{column.type}}">
                         <ot-link-wrapper url="row._link" show-link="column.isLink && row._link && !row._disabled">
-                            <span ng-switch="column.type">
+                            <span ng-switch="column.type" ng-if="!(column._selected_only && !row._selected)">
 
                                 <!-- images -->
                                 <span ng-switch-when="images">
@@ -113,6 +113,14 @@
                                 <span ng-switch-when="price">
                                     {{row[column.key] | currency}}
                                 </span><!--/end array-->
+
+                                <span ng-switch-when="input-number">
+                                    <input ng-model="row[column.key]"
+                                           ng-blur="column.listeners.onBlur(row)"
+                                           ng-change="column.listeners.onChange(row)"
+                                           class="form-control input-sm"
+                                           type="number">
+                                </span>
 
                                 <!--default-->
                                 <span ng-switch-default="">{{row[column.key]}}</span><!--/end default-->

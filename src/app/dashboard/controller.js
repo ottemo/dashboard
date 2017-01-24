@@ -46,11 +46,11 @@ angular.module('dashboardModule')
 
         function activate() {
             // Referrers
-            $statistic.getReferrers().then(function(data) {
-                if (angular.isArray(data)) {
-                    $scope.referrers = data;
-                }
-            });
+            //$statistic.getReferrers().then(function(data) {
+            //    if (angular.isArray(data)) {
+            //        $scope.referrers = data;
+            //    }
+            //});
 
             // Conversions
             $statistic.getConversions().then(function(data) {

@@ -110,7 +110,7 @@ angular.module("coreModule")
                         if (-1 !== ['text', 'string', 'varchar', 'id'].indexOf(filterDetails.dataType)) {
                             activeFilters[filterDetails.attribute.toLowerCase()] = filterDetails.filterValue.replace(/~/g, "").split(",");
                         } else {
-                            activeFilters[filterDetails.attribute.toLowerCase()] = new Array(filterDetails.filterValue.replace(/~/g, ""));
+                            activeFilters[filterDetails.attribute.toLowerCase()] = filterDetails.filterValue.replace(/~/g, "");
                         }
                     }
                 };
@@ -186,7 +186,8 @@ angular.module("coreModule")
                     };
 
                     compareArrays = function (key) {
-                        if ($scope.newFilters[key] instanceof Array && typeof activeFilters[key] !== "undefined") {
+                        if ($scope.newFilters[key] instanceof Array && typeof activeFilters[key] !== "undefined"
+                            && activeFilters[key] instanceof Array) {
                             if ($scope.newFilters[key].sort().join() !== activeFilters[key].sort().join()) {
                                 return false;
                             }

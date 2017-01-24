@@ -55,6 +55,10 @@ angular.module("coreModule")
                     }
                 }
 
+                $scope.items.sort(function(a, b) {
+                    return (a.value < b.value) ? -1 : 1;
+                });
+
             }, true);
 
             $scope.remove = function (key) {

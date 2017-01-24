@@ -23,10 +23,12 @@ angular.module('coreModule')
             $scope.$watch('attribute', init);
 
             function init() {
-                if (typeof $scope.attribute === 'undefined' ||
-                    typeof $scope.item === 'undefined'
-                ) {
-                    return false;
+                if ($scope.attribute !== undefined && $scope.item !== undefined) {
+                    if ($scope.attribute.Default === 'true') {
+                        $scope.attribute.Default = true;
+                    } else if ($scope.attribute.Default === 'false') {
+                        $scope.attribute.Default = false;
+                    }
                 }
             }
 

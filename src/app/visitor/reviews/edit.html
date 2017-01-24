@@ -1,12 +1,86 @@
-<div class="page-header">
-    <h1>
-        <span class="fa fa-file-text-o"></span>
-        <a href="/reviews">Reviews</a> / {{review._id}}
-    </h1>
-</div>
+<form name="reviewForm">
 
-<!-- Error message -->
-<ot-message-manager item="message"></ot-message-manager>
+    <div class="page-header">
+        <h1>
+            <span class="fa fa-file-text-o"></span>
+            <a href="/reviews">Reviews</a> / {{ review._id }}
+        </h1>
+    </div>
 
-<!-- Tabs editor -->
-<ot-attributes-editor-form-tabs attributes-list="attributes" object="this" item="review"></ot-attributes-editor-form-tabs>
+    <ot-message-manager item="message"></ot-message-manager>
+
+    <div class="row">
+        <div class="form-group col-sm-6">
+            <label>Product</label>
+            <p class="form-control-static">
+                <a ng-href="/products/{{ review.product_id }}">{{productName}}</a>
+            </p>
+        </div>
+
+        <div class="form-group col-sm-6">
+            <label>
+                Is approved
+                    <span class="asterisk">*</span>
+            </label>
+
+            <select class="form-control"
+                    ng-model="review.approved"
+                    name="approved"
+                    ng-options="item for item in [true, false]">
+            </select>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-sm-6">
+            <label>User</label>
+            <p class="form-control-static">
+                <a ng-href="/visitors/{{ review.visitor_id }}">{{review.username}}</a>
+            </p>
+        </div>
+
+        <div class="form-group col-sm-6">
+            <label>
+                Rating
+                <span class="asterisk">*</span>
+            </label>
+
+            <select class="form-control"
+                    ng-model="review.rating"
+                    name="rating"
+                    ng-options="item for item in ['1', '2', '3', '4', '5']">
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-sm-6">
+            <label>Created at</label>
+            <p class="form-control-static">
+                <span ot-store-date date="review.created_at"></span>
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-sm-12">
+            <label>
+                Review
+                <span class="asterisk">*</span>
+            </label>
+            <textarea type="text"
+                      ng-if="!showEditor"
+                      class="form-control"
+                      style="resize:vertical;"
+                      rows="20"
+                      placeholder="Review"
+                      ng-required="true"
+                      ng-model="review.review">
+            </textarea>
+        </div>
+    </div>
+
+    <div class="text-center">
+        <button class="btn btn-default" ng-click="back()">Back</button>
+        <button class="btn btn-primary" ng-click="save()">Save</button>
+    </div>
+
+</form>

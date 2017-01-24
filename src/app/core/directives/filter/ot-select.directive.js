@@ -84,6 +84,11 @@ angular.module("coreModule")
                     }
                 }
 
+                // Sort options by Name
+                $scope.options.sort(function(a, b) {
+                    return (a.Name < b.Name) ? -1 : 1;
+                });
+
                 setNewFilterValues();
 
                 isInit = true;

@@ -44,28 +44,7 @@ angular.module('productModule')
         // Grab product attributes
         var attrPromise = productApiService.attributesInfo().$promise
             .then(function (response) {
-                var attrs = response.result || [];
-
-                // Remove some fields
-                _.remove(attrs, {Attribute: 'default_image'});
-                var qtyAttr = _.remove(attrs, {Attribute: 'qty'});
-                var salePriceAttr = _.remove(attrs, { Attribute: 'sale_prices' });
-
-                // Set the global
-                $scope.isManagingStock = (qtyAttr.length > 0);
-
-                // Add some tabs
-                addImageManagerAttribute(attrs);
-                if ($scope.isManagingStock) {
-                    addInventoryTab(attrs);
-                }
-
-                var isSalePricesEnabled = (salePriceAttr.length > 0);
-                if (isSalePricesEnabled) {
-                    addSalePriceTab(attrs);
-                }
-
-                return attrs;
+                return response.result || [];
             });
 
         // Grab product data
@@ -82,6 +61,22 @@ angular.module('productModule')
         $q.all(promises).then(function(response){
             var attrs = response[0];
             var product = response[1];
+
+            // Remove some fields
+            _.remove(attrs, { Attribute: 'default_image' });
+            var salePriceAttr = _.remove(attrs, { Attribute: 'sale_prices' });
+            var isSalePricesEnabled = (salePriceAttr.length > 0);
+            var qtyAttr = _.remove(attrs, {Attribute: 'qty'});
+            $scope.isManagingStock = (qtyAttr.length > 0);
+
+            // Add some tabs
+            addImageManagerAttribute(attrs);
+            if (isSalePricesEnabled) {
+                addSalePriceTab(attrs);
+            }
+            if ($scope.isManagingStock && !(product && product.type === 'configurable')) {
+                addInventoryTab(attrs);
+            }
 
             $scope.attributes = attrs;
 
@@ -181,6 +176,7 @@ angular.module('productModule')
     }
 
     function addProductConfigurationsTab(attributes) {
+        _.remove(attributes, {Attribute: 'inventory'});
         attributes.push({
             Attribute: 'product_configurations',
             Collection: 'product',
@@ -250,6 +246,7 @@ angular.module('productModule')
 
                 if ($scope.product.type === 'configurable') {
                     addProductConfigurationsTab($scope.attributes);
+                    _.remove($scope.attributes, {Attribute: 'inventory_manager'});
                 }
 
                 defer.resolve($scope.product);

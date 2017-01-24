@@ -1,5 +1,6 @@
 <select class="form-control" dynamic-name="attribute.Attribute" ng-required="attribute.IsRequired"
-        ng-init="attribute[attribute.Attribute] = attribute[attribute.Attribute] || options[0].Id"
+        ng-if="item && attribute"
+        ng-init="item[attribute.Attribute] = (item[attribute.Attribute] !== undefined) ? item[attribute.Attribute] : attribute.Default"
         ng-model="item[attribute.Attribute]" title="{{attribute.Description}}" ot-apply-validator="attribute.Validators"
         data-ng-options="choice.Id as choice.Name for choice in options">
 </select>

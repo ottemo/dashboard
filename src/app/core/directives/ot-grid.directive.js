@@ -103,8 +103,7 @@ angular.module('coreModule')
                         return;
                     }
 
-                    var isLink = isLinkClicked(event);
-                    if (isLink) {
+                    if (isLinkClicked(event) || isInputClicked(event)) {
                         return;
                     }
 
@@ -196,6 +195,22 @@ angular.module('coreModule')
             var target = $(event.target);
             while (true) {
                 if (target.is('.row-select-link')) {
+                    return true;
+                } else if (target.is('.grid-row')) {
+                    return false;
+                } else {
+                    target = target.parent();
+                }
+            }
+        }
+
+        /**
+         * Check if user clicked on select link in row
+         */
+        function isInputClicked(event) {
+            var target = $(event.target);
+            while (true) {
+                if (target.is('.row-col-input-number')) {
                     return true;
                 } else if (target.is('.grid-row')) {
                     return false;
