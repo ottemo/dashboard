@@ -313,7 +313,10 @@ angular.module('dashboardModule')
                     filters.push({
                         type: 'select',
                         key: '_selection',
-                        options: { yes: 'Yes', no: 'No' }
+                        options: {
+                            yes: 'Yes',
+                            // no: 'No'
+                        }
                     });
                 }
 
