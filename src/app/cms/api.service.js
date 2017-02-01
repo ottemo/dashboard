@@ -65,7 +65,7 @@ angular.module("cmsModule")
         },
         "imageRemove": {
             method: "DELETE",
-            url: REST_SERVER_URI + "/cms/media/:mediaName"
+            url: REST_SERVER_URI + "/cms/media/:mediaName/:mediaType"
         },
         "blogAdd": {
             method: "POST",

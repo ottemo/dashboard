@@ -77,20 +77,25 @@ angular.module('cmsModule')
                 }else {
                     return true;
                 }
-            }
+            };
 
             /**
              * Removes image by Name
              *
              */
             $scope.removeImage = function () {
+
                 if ($scope.selectedMediaIndex !== undefined) {
 
                     var modalMessage = 'Do you really want to remove this image?';
-                    var selectedMediaIndexName = $scope.mediaList[$scope.selectedMediaIndex].name;
+                    var selectedMediaIndexData = {
+                        mediaName: $scope.mediaList[$scope.selectedMediaIndex].name,
+                        mediaType: $scope.mediaList[$scope.selectedMediaIndex].type
+                    };
+
                     coreConfirmService.openModal({ message: modalMessage }).result
                         .then(function() {
-                            cmsApiService.imageRemove({"mediaName": selectedMediaIndexName}).$promise
+                            cmsApiService.imageRemove(selectedMediaIndexData).$promise
                                 .then(populateMediaList)
                                 .then(function() {
                                     $scope.up.message = {message: 'The image was removed!'};
