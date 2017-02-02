@@ -72,7 +72,7 @@ angular.module('dashboardModule')
                 title: 'Block',
                 link: '/cms/blocks'
             }, {
-                title: 'Images',
+                title: 'Media',
                 link: '/cms/media'
             }, {
                 title: 'Blog',

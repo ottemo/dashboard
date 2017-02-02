@@ -1,6 +1,6 @@
 {
   "name": "Dashboard",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Ottemo Administration Tool",
   "main": "gulpfile.js",
   "repository": {

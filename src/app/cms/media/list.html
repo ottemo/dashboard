@@ -1,5 +1,5 @@
 <div class="page-header">
-    <h1><i class="fa fa-file-image-o"></i> CMS / Images</h1>
+    <h1><i class="fa fa-file-image-o"></i> CMS / Media</h1>
 </div>
 
 
@@ -8,8 +8,8 @@
 <div class="well">
     <div class="row">
         <div class="col-sm-7">
-            <h4>Uploading Images</h4>
-            <p>Accepted file formats: .jpg, .jpeg, .png, .gif</p>
+            <h4>Uploading Media</h4>
+            <p>Accepted file formats: .jpg, .jpeg, .png, .gif, .pdf</p>
         </div>
         <div class="col-sm-5">
             <ot-message-manager item="up.message"></ot-message-manager>
@@ -48,7 +48,13 @@
          ng-repeat="img in mediaList"
          ng-click="selectImage($index)" ng-class="{'img-border': selectedMediaIndex === $index}">
         <div class="panel panel-default" >
-            <img ng-src="{{img.url}}"
+
+            <div class="text-xl img-responsive text-center">
+                <i ng-if="img.type === 'document' " class="fa fa-file-code-o"></i>
+            </div>
+
+            <img ng-if="img.type !== 'document'"
+                 ng-src="{{img.url}}"
                  class="img-responsive" />
             <a class="remove-btn" ng-click="removeImage()" ng-show="selectedMediaIndex === $index">Delete</a>
             <div class="panel-body">
