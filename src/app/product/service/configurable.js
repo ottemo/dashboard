@@ -432,7 +432,10 @@ angular.module('productModule')
                     var columns = [
                         { key: 'name', label: 'Name', type: 'text', editor: 'text', isLink: true},
                         { key: 'sku', label: 'SKU', type: 'text', editor: 'text' },
-                        { key: 'price', label: 'Price', type: 'price', editor: 'text' }
+                        { key: 'price', label: 'Price', type: 'price', editor: 'text' },
+                        { key: 'enabled', label: 'Enabled', type: 'text', editor: 'select',
+                            options: { 'true': 'True', 'false': 'False' }
+                        }
                     ];
 
                     _.forEach(this._superOptions, function(o, optionKey) {
@@ -454,7 +457,7 @@ angular.module('productModule')
                 */
                 _getGridMapping: function() {
                     var mapping = {
-                        extra: { name: 'name', sku: 'sku', price: 'price' }
+                        extra: { name: 'name', sku: 'sku', price: 'price', enabled: 'enabled' }
                     };
 
                     _.forEach(this._superOptions, function(option) {
