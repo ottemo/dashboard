@@ -27,9 +27,6 @@ $scope.init = function () {
 
         $scope.foundation_url = response.result.foundation_url;
         $scope.api_key = response.result.api_key;
-
-        $scope.foundation_url = response.result.foundation_url;
-        $scope.api_key = "";
     });
 
     $scope.$on('$destroy', function(){
