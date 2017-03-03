@@ -1,6 +1,6 @@
 {
     "useStrict"    : "use strict",
-    "apiUrl"       : "http://api.rk-stage.ks.ottemo.io",
+    "apiUrl"       : "https://api.rk-stage.ks.ottemo.io",
     "mediaPath"    : "http://rk-stage.ks.ottemo.io/media/",
     "itemsPerPage" : "15"
 }
