@@ -68,6 +68,10 @@ angular.module('reportsModule')
                             keys = ["email", "name", "total_sales", "total_orders", "avg_sales", "earliest_purchase", "latest_purchase"];
                             break;
 
+                        case 'giftcard':
+                            keys = ["code", "amount", "name", "date"];
+                            break;
+
                         default:
                             keys = Object.keys(data[0]);
                     }

@@ -12,6 +12,7 @@ angular.module('reportsModule')
             shippingMethod: getShippingMethod,
             locationUS: locationUS,
             locationCountry: locationCountry,
+            giftcard: getGiftcards
         };
 
         return service;
@@ -66,6 +67,13 @@ angular.module('reportsModule')
 
         function locationCountry(params) {
             var url = baseUrl + 'location-country';
+            var config = { params: params };
+
+            return $http.get(url, config).then(_getResult);
+        }
+
+        function getGiftcards(params) {
+            var url = baseUrl + 'gift-cards';
             var config = { params: params };
 
             return $http.get(url, config).then(_getResult);
