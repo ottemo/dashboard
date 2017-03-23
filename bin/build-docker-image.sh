@@ -8,6 +8,7 @@ cd $DASHREPO
 
 date=$(date +%Y%m%d-%H%M%S)
 branch=$(git branch| awk '{print $2}')
+branch=$(echo $branch|sed 's/ /_/g')
 IMAGE="gcr.io/ottemo-kube/dashboard:${branch}-${date}"
 
 echo "build alpine based dashboard container"
