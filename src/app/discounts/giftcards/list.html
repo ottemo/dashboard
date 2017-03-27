@@ -1,0 +1,50 @@
+<div class="page-header">
+    <a ng-href="/giftcards/new"
+        class="btn btn-primary pull-right">Add a giftcard</a>
+    <ul class="list-group pull-right" ng-if="giftcards">
+        <li class="list-group-item">
+            <span class="badge">{{total}}</span>
+            Total:
+        </li>
+    </ul>
+    <h1>
+        <span class="fa fa-scissors"></span>
+        Gift Cards
+    </h1>
+</div>
+<div class="table-responsive">
+    <table class="table table-hover table-bordered">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Initial Amount</th>
+                <th>Balance</th>
+                <th>Recipient Name</th>
+                <th>Recipient Email</th>
+                <th>Date Created</th>
+                <th>Delivery Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-if="!giftcards">
+                <td colspan="100"
+                    class="text-center">
+                    You don't have any giftcards <a href="/giftcards/new">create a giftcard</a> to get started.
+                </td>
+            </tr>
+            <tr ng-repeat="giftcard in giftcards track by giftcard._id">
+                <td>
+                    <a ng-href="/giftcards/{{giftcard._id}}">{{ giftcard.code }}</a>
+                </td>
+                <td>{{giftcard.initial_amount}}</td>
+                <td>{{giftcard.amount}}</td>
+                <td>{{giftcard.name}}</td>
+                <td>{{giftcard.recipient_mailbox}}</td>
+                <td><span ot-store-date date="giftcard.created_at"></span></td>
+                <td><span ot-store-date date="giftcard.delivery_date"></span></td>
+                <td>{{giftcard.status}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

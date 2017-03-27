@@ -38,11 +38,17 @@ angular.module('dashboardModule')
         }, {
             title: 'Categories',
             link: '/categories',
-            icon: 'fa-list'
+            icon: 'fa-scissors'
         }, {
             title: 'Discounts',
-            link: '/discounts',
-            icon: 'fa-scissors'
+            icon: 'fa-tags',
+            children: [{
+                title: 'Discounts',
+                link: '/discounts'
+            }, {
+                title: 'Gift Cards',
+                link: '/giftcards'
+            }]
         }, {
             title: 'Visitors',
             icon: 'fa-users',

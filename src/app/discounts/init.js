@@ -8,16 +8,28 @@ angular.module('discountsModule', ['ngRoute', 'coreModule'])
     function($routeProvider) {
         $routeProvider
             .when('/discounts', {
-                templateUrl: '/views/discounts/list.html',
-                controller: 'listController'
+                templateUrl: '/views/discounts/discounts/list.html',
+                controller: 'discountsListController'
             })
             .when('/discounts/new', {
-                templateUrl: '/views/discounts/edit.html',
-                controller: 'editController'
+                templateUrl: '/views/discounts/discounts/edit.html',
+                controller: 'discountsEditController'
             })
             .when('/discounts/:id', {
-                templateUrl: '/views/discounts/edit.html',
-                controller: 'editController'
+                templateUrl: '/views/discounts/discounts/edit.html',
+                controller: 'discountsEditController'
+            })
+            .when('/giftcards', {
+                templateUrl: '/views/discounts/giftcards/list.html',
+                controller: 'giftcardsListController'
+            })
+            .when('/giftcards/new', {
+                templateUrl: '/views/discounts/giftcards/edit.html',
+                controller: 'giftcardsEditController'
+            })
+            .when('/giftcards/:id', {
+                templateUrl: '/views/discounts/giftcards/edit.html',
+                controller: 'giftcardsEditController'
             });
     }
 ]);

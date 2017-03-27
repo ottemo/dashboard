@@ -1,6 +1,6 @@
 angular.module("discountsModule")
 
-.controller("editController", [
+.controller("discountsEditController", [
     "$scope",
     "discountsService",
     "$routeParams",
