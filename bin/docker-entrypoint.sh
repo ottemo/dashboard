@@ -17,6 +17,7 @@ if ! [ -n "$MEDIAPATH" ] ; then
   exit 2
 fi
 if [ -n "$MEDIAFOLDER" ] ; then
+  mkdir -p $MEDIAFOLDER
   ln -s $MEDIAFOLDER /home/ottemo/media
 fi
 
