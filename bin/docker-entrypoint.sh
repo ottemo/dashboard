@@ -16,6 +16,10 @@ if ! [ -n "$MEDIAPATH" ] ; then
   echo "you have to define MEDIAPATH environment parameter"
   exit 2
 fi
+if [ -n "$MEDIAFOLDER" ] ; then
+  ln -s $MEDIAFOLDER /home/ottemo/media
+fi
+
 ITEMSPERPAGE="${ITEMSPERPAGE:-15}"
 
 cat << EOF > config/current.json
