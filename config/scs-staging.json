@@ -1,6 +1,6 @@
 {
     "useStrict"    : "use strict",
-    "apiUrl"       : "https://api.scs.staging.ottemo.io",
-    "mediaPath"    : "https://scs.staging.ottemo.io/media/",
+    "apiUrl"       : "https://api.scs-stage.ks.ottemo.io",
+    "mediaPath"    : "http://scs-stage.ks.ottemo.io/media/",
     "itemsPerPage" : "15"
 }

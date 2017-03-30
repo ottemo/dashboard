@@ -1,6 +1,6 @@
 {
     "useStrict"    : "use strict",
-    "apiUrl"       : "https://api.gk.staging.ottemo.io",
-    "mediaPath"    : "https://gk.staging.ottemo.io/media/",
+    "apiUrl"       : "https://api.gk-stage.ks.ottemo.io",
+    "mediaPath"    : "http://gk-stage.ks.ottemo.io/media/",
     "itemsPerPage" : "15"
 }

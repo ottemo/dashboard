@@ -1,6 +1,6 @@
 angular.module("discountsModule")
 
-.controller("listController", [
+.controller("discountsListController", [
 	"$scope",
 	"discountsService",
 	function($scope, discountsService){

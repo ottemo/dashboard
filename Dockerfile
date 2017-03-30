@@ -1,26 +1,13 @@
-############################################################
-# Dockerfile to build Nginx Installed Containers
-# Based on Ubuntu
-############################################################
+FROM gcr.io/ottemo-kube/node:4.8.0-ottemo
 
-# Use the latest official ubuntu base image from docker hub
-FROM ubuntu:latest
+RUN mkdir -pv /home/ottemo/dash
 
-RUN apt-get update
-RUN apt-get install -y openssh-server nginx git curl python-software-properties python software-properties-common
-RUN add-apt-repository ppa:chris-lea/node.js
-RUN apt-get update
-RUN apt-get install -y nodejs
-RUN git clone https://github.com/ottemo/dash.git -b develop /opt/dashboard
-WORKDIR /opt/dashboard
-RUN npm update -g npm
+COPY . /home/ottemo/dash
+RUN rm -rf /home/ottemo/dash/.git
+WORKDIR /home/ottemo/dash
 RUN npm install
-RUN npm install -g bower
-RUN bower install --allow-root
-RUN npm install -g gulp
-RUN gulp build
-RUN rm -f /etc/nginx/sites-enabled/default
-ADD ./config/dashboard.conf /etc/nginx/conf.d/
-RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 
-EXPOSE 80
+COPY bin/docker-entrypoint.sh /home/ottemo/dash
+
+EXPOSE 9000
+CMD ./docker-entrypoint.sh

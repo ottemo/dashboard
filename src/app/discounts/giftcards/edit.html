@@ -1,0 +1,184 @@
+<form name="giftcardForm"
+    ng-submit="giftcardForm.$valid && save()">
+    <div class="page-header">
+        <button type="submit" class="btn btn-primary pull-right" ng-disabled="giftcartCancelled">Save</button>
+        <h1>
+            <span class="fa fa-scissors"></span>
+            <a href="/giftcards">giftcards</a> / {{ giftcard._id || 'New'}}
+        </h1>
+    </div>
+
+    <h2>Details</h2>
+    <div class="row">
+        <div class="col-sm-6" ng-show="isCodeValidated === true">
+            <div class="alert alert-dismissible alert-success"
+                 ng-show="isCodeValid">
+                <button type="button" class="close" ng-click="closeMessage()">×</button>
+                Your gift card code is valid.
+            </div>
+            <div class="alert alert-dismissible alert-danger"
+                 ng-show="!isCodeValid">
+                <button type="button" class="close" ng-click="closeMessage()">×</button>
+                Your gift card code isn't unique. Try again!
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>Code</label>
+
+                <div class="input-group">
+                    <input type="text"
+                           name="code"
+                           class="form-control"
+                           ng-model="giftcard.code"
+                           ng-change="onCodeChange()"
+                           ng-disabled="giftcartCancelled"
+                           required>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" ng-disabled="giftcartCancelled" ng-click="validateCode()">Validate</button>
+                        <button class="btn btn-primary" type="button" ng-disabled="giftcartCancelled" ng-click="generateCode()">Generate</button>
+                    </span>
+                </div>
+                <br>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>SKU</label>
+                <input type="text"
+                       class="form-control"
+                       name="sku"
+                       ng-model="giftcard.sku"
+                       required
+                       ng-disabled="giftcartCancelled">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>
+                    Amount
+                    <a uib-tooltip="Type only whole numbers, ie. 1,2,10,20,100">
+                        <i class="fa fa-info-circle"></i>
+                    </a>
+                </label>
+                <div class="input-group">
+                    <span class="input-group-addon">$</span>
+                    <input type="text"
+                           class="form-control"
+                           name="amount"
+                           ng-model="giftcard.amount"
+                           required
+                           ng-disabled="giftcartCancelled" >
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>
+                    Delivery Date
+                    <a uib-tooltip="Time is in a twenty-four hour format, ie. 13:00">
+                        <i class="fa fa-info-circle"></i>
+                    </a>
+                </label>
+                <input type="text"
+                       class="form-control"
+                       name="delivery_date"
+                       placeholder="yyyy-mm-dd hh:mm"
+                       ng-model="delivery_date_local"
+                       required
+                       ng-disabled="giftcartCancelled">
+
+            </div>
+        </div>
+        <div class="col-sm-6" ng-show="isEditPage">
+            <div class="form-group">
+                <label>
+                    Status
+                </label>
+                <select class="form-control"
+                        name="status"
+                        id="status"
+                        ng-model="giftcard.status"
+                        ng-disabled="giftcartCancelled" >
+                    <option
+                        ng-repeat="option in statuses"
+                        ng-disabled="option.isDisabled"
+                        ng-selected="giftcard.status === option.value"
+                        value="{{option.value}}">
+                        {{ option.label }}
+                    </option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <h2>Recipient</h2>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text"
+                       class="form-control"
+                       name="name"
+                       ng-model="giftcard.name"
+                       required
+                       ng-disabled="giftcartCancelled">
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>Email</label>
+                <input type="text"
+                       class="form-control"
+                       name="recipient_mailbox"
+                       ng-model="giftcard.recipient_mailbox"
+                       required
+                       ng-disabled="giftcartCancelled" >
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label>Message</label>
+                <textarea type="text"
+                       class="form-control"
+                       name="message"
+                       ng-model="giftcard.message"
+                       ng-disabled="giftcartCancelled" >
+                </textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" ng-show="giftcardHistory">
+        <div class="col-sm-12">
+            <h2>Transactions</h2>
+        </div>
+        <div class="col-sm-12">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in giftcardHistory">
+                            <td><a ng-href="/orders/{{item.order_id}}">{{item.order_id}}</a></td>
+                            <td>{{item.amount}}</td>
+                            <td ot-store-date date="item.transaction_date"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</form>
+
+
