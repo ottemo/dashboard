@@ -57,13 +57,6 @@ gulp.task('readArgs', function readArgs(cb) {
     config.isEnvLocal = (config.env === 'local');
 
     logHead('Argument Feedback');
-    if (config.isEnvProduction) {
-        if (config.configFile.indexOf('-prod') === -1) {
-            // making this blank causes @readConfig to bomb out, which is maybe good
-            logBody('--config argument must end in `-prod` when --env=prod', 1, 'red');
-            config.configFile = '';
-        }
-    }
 
     logBody([
         '--env=' + config.env,
