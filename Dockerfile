@@ -1,4 +1,4 @@
-FROM gcr.io/ottemo-kube/node:4.8.0-ottemo
+FROM gcr.io/ottemo-kube/node:7.8.0-ottemo
 
 RUN mkdir -pv /home/ottemo/dash
 
