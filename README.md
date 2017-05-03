@@ -1,6 +1,10 @@
 Dashboard
 =========
 
+## Docker image build status
+
+[![Build Status](http://jenkins.ottemo.io/buildStatus/icon?job=build_dashboard_docker_image)](http://jenkins.ottemo.io/job/build_dashboard_docker_image/)
+
 [![wercker status](https://app.wercker.com/status/0d1dbce7b17a8fc14016760e30709afc/m "wercker status")](https://app.wercker.com/project/bykey/0d1dbce7b17a8fc14016760e30709afc)
 
 [Link to our HipChat Room for Support](https://www.hipchat.com/g3BoK1Gqr) 
