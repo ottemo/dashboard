@@ -28,7 +28,7 @@ fi
 echo "use $IMAGE as image name"
 
 echo "build alpine based dashboard container"
-docker build -t $IMAGE .
+docker build -t $IMAGE -t gcr.io/ottemo-kube/dashboard .
 if [ $? -ne 0 ]; then
   echo "error in build dashboard alpine based container"
   exit 2
@@ -39,3 +39,10 @@ if [ $? -ne 0 ]; then
   echo "error in push image"
   exit 2
 fi
+
+gcloud docker -- push gcr.io/ottemo-kube/dashboard
+if [ $? -ne 0 ]; then
+  echo "error in push latest image tag"
+  exit 2
+fi
+
