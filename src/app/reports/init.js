@@ -33,6 +33,10 @@ angular.module('reportsModule', [
         .when('/reports/location-us', {
             templateUrl: '/views/reports/location-us.html',
             controller: 'reportsLocationUSController',
+        })
+        .when('/reports/gift-cards', {
+            templateUrl: '/views/reports/giftcard.html',
+            controller: 'reportsGiftcardController',
         });
 }]);
 
