@@ -105,6 +105,9 @@ angular.module('dashboardModule')
                 title: 'Shipping',
                 link: '/settings/shipping'
             }, {
+                title: 'Tax',
+                link: '/settings/tax'
+            }, {
                 title: 'Import / Export',
                 link: '/impex'
             }, {
