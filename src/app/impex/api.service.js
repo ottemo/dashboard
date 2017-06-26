@@ -38,6 +38,10 @@ angular.module("impexModule")
         url: REST_SERVER_URI + "/csv/coupons",
         headers: {"Content-Type": undefined },
         transformRequest: angular.identity
+      },
+      "magentoOptions": {
+          method: "GET",
+          url: REST_SERVER_URI + "/impex/magento/options"
       }
   });
 }]);

@@ -19,6 +19,16 @@ $scope.init = function () {
         }
     });
 
+    impexApiService.magentoOptions().$promise.then(function(response) {
+        console.log(response);
+        if (!response.result.foundation_url || !response.result.api_key) {
+            return;
+        }
+
+        $scope.foundation_url = response.result.foundation_url;
+        $scope.api_key = response.result.api_key;
+    });
+
     $scope.$on('$destroy', function(){
         $interval.cancel($scope.importTrackInterval);
         $timeout.cancel($scope.importTrackTimeout);
