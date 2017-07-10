@@ -5,10 +5,6 @@ Dashboard
 
 [![Build Status](http://jenkins.ottemo.io/buildStatus/icon?job=build_dashboard_docker_image)](http://jenkins.ottemo.io/job/build_dashboard_docker_image/)
 
-[![wercker status](https://app.wercker.com/status/0d1dbce7b17a8fc14016760e30709afc/m "wercker status")](https://app.wercker.com/project/bykey/0d1dbce7b17a8fc14016760e30709afc)
-
-[Link to our HipChat Room for Support](https://www.hipchat.com/g3BoK1Gqr) 
-
 ## Contribute to Ottemo Dashboard development
 Clone the repository and send us a Pull Request.  There is a mini quickstart if you are new to git-flow in [INSTALL.md](INSTALL.md)
 
@@ -22,7 +18,7 @@ There are several different ways to install and run Ottemo.
 
 ## License
 
-[MIT License](LICENSE.md) Copyright 2015, Ottemo, Inc
+[Mozilla Public License 2.0](LICENSE.md) Copyright 2017, Ottemo, Inc
 
 ## Terms and Conditions
 
