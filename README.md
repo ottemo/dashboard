@@ -18,7 +18,7 @@ There are several different ways to install and run Ottemo.
 
 ## License
 
-[Mozilla Public License 2.0](LICENSE.md) Copyright 2017, Ottemo, Inc
+[Mozilla Public License 2.0](LICENSE) Copyright 2017, Ottemo, Inc
 
 ## Terms and Conditions
 
