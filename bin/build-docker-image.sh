@@ -15,20 +15,21 @@ case $i in
 esac
 done
 
+DASHBOARDIMAGE="ottemo/dashboard"
 MYDIR=$(cd `dirname ${BASH_SOURCE[0]}` && pwd)
 DASHREPO="$MYDIR/.."
 cd $DASHREPO
 
 if ! [ -n "$version" ] ; then
   date=$(date +%Y%m%d-%H%M%S)
-  IMAGE="gcr.io/ottemo-kube/dashboard:${date}"
+  IMAGE="${DASHBOARDIMAGE}:${date}"
 else
-  IMAGE="gcr.io/ottemo-kube/dashboard:$version"
+  IMAGE="${DASHBOARDIMAGE}:$version"
 fi
 echo "use $IMAGE as image name"
 
 echo "build alpine based dashboard container"
-docker build -t $IMAGE -t gcr.io/ottemo-kube/dashboard .
+docker build -t $IMAGE -t ${DASHBOARDIMAGE} .
 if [ $? -ne 0 ]; then
   echo "error in build dashboard alpine based container"
   exit 2
@@ -40,9 +41,8 @@ if [ $? -ne 0 ]; then
   exit 2
 fi
 
-gcloud docker -- push gcr.io/ottemo-kube/dashboard
+gcloud docker -- push ${DASHBOARDIMAGE}
 if [ $? -ne 0 ]; then
   echo "error in push latest image tag"
   exit 2
 fi
-
