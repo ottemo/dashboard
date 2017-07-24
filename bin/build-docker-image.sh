@@ -20,9 +20,11 @@ MYDIR=$(cd `dirname ${BASH_SOURCE[0]}` && pwd)
 DASHREPO="$MYDIR/.."
 cd $DASHREPO
 
+BUILD=$(git rev-list origin/develop --count)
+
 if ! [ -n "$version" ] ; then
   date=$(date +%Y%m%d-%H%M%S)
-  IMAGE="${DASHBOARDIMAGE}:${date}"
+  IMAGE="${DASHBOARDIMAGE}:${date}-${BUILD}"
 else
   IMAGE="${DASHBOARDIMAGE}:$version"
 fi
