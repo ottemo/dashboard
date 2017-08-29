@@ -38,13 +38,28 @@ $scope.init = function () {
 $scope.startImportTrack = function() {
     $scope.isImportRun = true;
     $scope.importProgress = 0;
+    $scope.message = null;
 
     $scope.importTrackInterval = $interval(function() {
 
         impexApiService.importStatus().$promise.then(function(response) {
-            if (!response.result.position) return;
+            if (response.result.status === "idle") {
+                $scope.importMethod = null;
+                $scope.cancelImportTrack();
+                
+                if (response.result.importResult) {
+                    $scope.message = (response.result.importError === null) ?
+                        dashboardUtilsService.getMessage(null, "success", response.result.importResult) :
+                        dashboardUtilsService.getMessage({
+                            "result": response.result.importResult,
+                            "error": response.result.importError
+                        });
+                }
+            } else {
+                if (!response.result.position) return;
 
-            $scope.importProgress = Math.round(response.result.position / response.result.size * 100);
+                $scope.importProgress = Math.round(response.result.position / response.result.size * 100);
+            }
         });
 
     }, 1000);
@@ -95,12 +110,12 @@ $scope.import = function(method) {
 
     impexApiService[apiMethodName](methodOptions, postData).$promise
         .then(function(response) {
-            $scope.importMethod = null;
-            $scope.cancelImportTrack();
-
-            $scope.message = (response.error === null) ?
-                dashboardUtilsService.getMessage(null, 'success', response.result) :
-                dashboardUtilsService.getMessage(response);
+            // Process immediate error. If no error, result will be got async way by status check.
+            if (response.error !== null) {
+                $scope.importMethod = null;
+                $scope.cancelImportTrack();
+                $scope.message = dashboardUtilsService.getMessage(response);
+            }
     });
 };
 
