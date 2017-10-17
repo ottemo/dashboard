@@ -16,10 +16,6 @@ There are several different ways to install and run Ottemo.
 * Clone the repository, install gulp/bower, run in dev mode with `gulp serve`
 * Use our Vagrant & Docker files to build a development vm  
 
-## License
-
-[Mozilla Public License 2.0](LICENSE.md)
-
 ## Terms and Conditions
 
 All Submissions you make to Ottemo, Inc. (“Ottemo”) through GitHub are subject
